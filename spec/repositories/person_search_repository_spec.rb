@@ -28,6 +28,7 @@ describe PersonSearchRepository do
         'addresses.state_code',
         'addresses.zip',
         'addresses.type',
+        'addresses.legacy_descriptor',
         'phone_numbers.id',
         'phone_numbers.number',
         'phone_numbers.type',

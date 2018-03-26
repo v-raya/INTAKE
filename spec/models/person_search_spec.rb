@@ -80,7 +80,8 @@ describe PersonSearch do
           'zip' => '12345',
           'type' => 'Work',
           'legacy_id' => nil,
-          'legacy_source_table' => nil
+          'legacy_source_table' => nil,
+          'legacy_descriptor' => nil
         }, {
           'id' => '3',
           'street_address' => '711 capital mall',
@@ -89,7 +90,8 @@ describe PersonSearch do
           'zip' => '95822',
           'type' => 'Home',
           'legacy_id' => nil,
-          'legacy_source_table' => nil
+          'legacy_source_table' => nil,
+          'legacy_descriptor' => nil
         }],
         'phone_numbers' => [{
           'id' => '1',
