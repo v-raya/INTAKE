@@ -52,7 +52,7 @@ export class SnapshotPage extends React.Component {
         <div className='container'>
           <div className='row'>
             <SnapshotSideBar participants={participants} />
-            <div className='col-md-10'>
+            <div className='col-md-9 col-sm-8 col-lg-9'>
               <div className='row'>
                 <div className='card edit double-gap-bottom' id='snapshot-card'>
                   <div className='card-body'>
