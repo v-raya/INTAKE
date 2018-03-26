@@ -54,6 +54,11 @@ namespace :spec do # rubocop:disable BlockLength
         Rake::Task['spec:intake:parallel'].invoke
       end
     end
+
+    desc 'Run specs without recompiling webpack'
+    task :nopack do
+      system "#{run_in_intake_container('bundle exec rspec')} #{file_list}"
+    end
   end
 
   desc 'Run specs in api container'
