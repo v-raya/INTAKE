@@ -16,6 +16,7 @@ feature 'Adding and removing a person from a snapshot' do
       :participant,
       first_name: 'Marge',
       screening_id: snapshot.id,
+      legacy_id: 'ABCDEFGHIJ',
       phone_numbers: [FactoryBot.create(:phone_number, number: '9712876774')],
       languages: %w[French Italian],
       addresses: [FactoryBot.create(:address, state: 'CA')]
@@ -34,8 +35,14 @@ feature 'Adding and removing a person from a snapshot' do
     ).and_return(json_body({}.to_json, status: 200))
     stub_request(
       :get,
-      intake_api_url(
-        ExternalRoutes.intake_api_relationships_by_screening_path(snapshot.id)
+      ferb_api_url(
+        ExternalRoutes.ferb_api_relationships_path([person.legacy_id])
+      )
+    ).and_return(json_body([].to_json, status: 200))
+    stub_request(
+      :get,
+      ferb_api_url(
+        ExternalRoutes.ferb_api_relationships_path([])
       )
     ).and_return(json_body([].to_json, status: 200))
 
@@ -122,11 +129,20 @@ feature 'Adding and removing a person from a snapshot' do
     expect(
       a_request(
         :get,
-        intake_api_url(
-          ExternalRoutes.intake_api_relationships_by_screening_path(snapshot.id)
+        ferb_api_url(
+          ExternalRoutes.ferb_api_relationships_path([person.legacy_id])
         )
       )
-    ).to have_been_made.times(2)
+    ).to have_been_made.times(1)
+
+    expect(
+      a_request(
+        :get,
+        ferb_api_url(
+          ExternalRoutes.ferb_api_relationships_path([])
+        )
+      )
+    ).to have_been_made.times(1)
 
     expect(page).not_to have_content show_participant_card_selector(person.id)
     expect(page).not_to have_content(person.first_name)
