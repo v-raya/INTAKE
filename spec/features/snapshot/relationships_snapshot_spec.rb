@@ -28,7 +28,7 @@ feature 'Snapshot relationship card' do
     end
   end
 
-  context 'load relationships from intake api' do
+  context 'load relationships' do
     around do |example|
       Feature.run_with_activated(:release_two) do
         example.run
@@ -102,7 +102,7 @@ feature 'Snapshot relationship card' do
       stub_request(
         :get,
         intake_api_url(
-          ExternalRoutes.intake_api_relationships_by_screening_path(snapshot.id)
+          ExternalRoutes.ferb_api_relationships_path
         )
       ).and_return(json_body(relationships.to_json, status: 200))
 
@@ -130,7 +130,7 @@ feature 'Snapshot relationship card' do
         a_request(
           :get,
           intake_api_url(
-            ExternalRoutes.intake_api_relationships_by_screening_path(snapshot.id)
+            ExternalRoutes.ferb_api_relationships_path
           )
         )
       ).to have_been_made
