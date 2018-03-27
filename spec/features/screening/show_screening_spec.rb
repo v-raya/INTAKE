@@ -75,7 +75,7 @@ feature 'Show Screening' do
         .to include('#decision-card-anchor')
     end
 
-    within '.col-md-10' do
+    within '.col-md-9' do
       expect(page).to have_css('a.anchor#screening-information-card-anchor', visible: false)
       expect(page).to have_css('a.anchor#narrative-card-anchor', visible: false)
       expect(page).to have_css('a.anchor#incident-information-card-anchor', visible: false)
