@@ -13,6 +13,68 @@ feature 'Relationship card' do
       }
     }
   end
+  let(:participant) { FactoryBot.create(:participant) }
+  let(:participants_screening) do
+    FactoryBot.create(:screening, participants: [participant])
+  end
+  let(:relationships) do
+    [
+      {
+        id: participant.id.to_s,
+        first_name: participant.first_name,
+        last_name: participant.last_name,
+        relationships: [{
+          related_person_id: nil,
+          related_person_legacy_id: '277',
+          related_person_first_name: 'Jake',
+          related_person_last_name: 'Campbell',
+          relationship: 'Sister/Brother (Half)',
+          related_person_relationship: '18',
+          indexed_person_relationship: '277',
+          relationship_context: 'Half'
+        }, {
+          related_person_id: nil,
+          related_person_legacy_id: '280',
+          related_person_first_name: 'Jane',
+          related_person_last_name: 'Campbell',
+          relationship: 'Sister/Sister (Half)',
+          related_person_relationship: '280',
+          indexed_person_relationship: '280',
+          relationship_context: 'Half'
+        }]
+      }
+    ]
+  end
+  let(:new_participant ) do
+    FactoryBot.create(
+      :participant, :unpopulated,
+      screening_id: participants_screening.id
+    )
+  end
+  let(:new_relationships ) do
+    [
+      {
+        id: participant.id.to_s,
+        first_name: participant.first_name,
+        last_name: participant.last_name,
+        relationships: [{
+          related_person_first_name: 'Jake',
+          related_person_last_name: 'Campbell',
+          relationship: 'Sister/Brother (Half)',
+          related_person_relationship: '18',
+          indexed_person_relationship: '277',
+          relationship_context: 'Half',
+          related_person_id: '7'
+        }]
+      },
+      {
+        id: new_participant.id.to_s,
+        first_name: new_participant.first_name,
+        last_name: new_participant.last_name,
+        relationships: []
+      }
+    ]
+  end
 
   before do
     stub_system_codes
@@ -35,39 +97,6 @@ feature 'Relationship card' do
   end
 
   context 'a screening with participants' do
-    let(:participant) { FactoryBot.create(:participant) }
-    let(:participants_screening) do
-      FactoryBot.create(:screening, participants: [participant])
-    end
-    let(:relationships) do
-      [
-        {
-          id: participant.id.to_s,
-          first_name: participant.first_name,
-          last_name: participant.last_name,
-          relationships: [{
-            related_person_id: nil,
-            related_person_legacy_id: '277',
-            related_person_first_name: 'Jake',
-            related_person_last_name: 'Campbell',
-            relationship: 'Sister/Brother (Half)',
-            related_person_relationship: '18',
-            indexed_person_relationship: '277',
-            relationship_context: 'Half'
-          }, {
-            related_person_id: nil,
-            related_person_legacy_id: '280',
-            related_person_first_name: 'Jane',
-            related_person_last_name: 'Campbell',
-            relationship: 'Sister/Sister (Half)',
-            related_person_relationship: '280',
-            indexed_person_relationship: '280',
-            relationship_context: 'Half'
-          }]
-        }
-      ]
-    end
-
     before do
       stub_request(
         :get,
@@ -155,38 +184,11 @@ feature 'Relationship card' do
 
       scenario 'adding a new person fetches new relationships' do
         visit edit_screening_path(id: participants_screening.id)
-        new_participant = FactoryBot.create(
-          :participant, :unpopulated,
-          screening_id: participants_screening.id
-        )
         screening_id = participants_screening.id
 
         stub_request(:post,
           intake_api_url(ExternalRoutes.intake_api_screening_people_path(screening_id)))
           .and_return(json_body(new_participant.to_json, status: 201))
-
-        new_relationships = [
-          {
-            id: participant.id.to_s,
-            first_name: participant.first_name,
-            last_name: participant.last_name,
-            relationships: [{
-              related_person_first_name: 'Jake',
-              related_person_last_name: 'Campbell',
-              relationship: 'Sister/Brother (Half)',
-              related_person_relationship: '18',
-              indexed_person_relationship: '277',
-              relationship_context: 'Half',
-              related_person_id: '7'
-            }]
-          },
-          {
-            id: new_participant.id.to_s,
-            first_name: new_participant.first_name,
-            last_name: new_participant.last_name,
-            relationships: []
-          }
-        ]
 
         stub_request(
           :get,
@@ -256,6 +258,36 @@ feature 'Relationship card' do
             )
           )
         ).to have_been_made.times(2)
+      end
+
+      xdescribe '#relationships-card' do
+        scenario 'allows attachment of unassociated person.' do
+          it 'attached person should appear on the existing screening' do
+
+          end
+
+          it 'show existing relationships for the attached person.' do
+
+          end
+
+          it 'should display the newly added person' do
+
+          end
+        end
+
+        scenario 'does not allow attachment of associated person' do
+
+        end
+      end
+
+      xdescribe '#history-of-involvement' do
+        scenario 'allows attachment of unassociated person.' do
+          it 'should show any previous referral' do
+          end
+
+          it 'should show any previous case history' do
+          end
+        end
       end
     end
   end
