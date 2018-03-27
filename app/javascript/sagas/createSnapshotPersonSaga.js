@@ -1,4 +1,4 @@
-import {takeEvery, put, call} from 'redux-saga/effects'
+import {takeEvery, put, call, select} from 'redux-saga/effects'
 import {STATUS_CODES, post} from 'utils/http'
 import {
   CREATE_SNAPSHOT_PERSON,
@@ -6,7 +6,8 @@ import {
   createPersonFailure,
 } from 'actions/personCardActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
-import {fetchRelationships} from 'actions/relationshipsActions'
+import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
+import {getClientIdsSelector} from 'selectors/clientSelectors'
 
 export function* createSnapshotPerson({payload: {person}}) {
   try {
@@ -22,7 +23,8 @@ export function* createSnapshotPerson({payload: {person}}) {
       },
     })
     yield put(createPersonSuccess(response))
-    yield put(fetchRelationships('snapshots', snapshotId))
+    const clientIds = yield select(getClientIdsSelector)
+    yield put(fetchRelationshipsByClientIds(clientIds))
     yield put(fetchHistoryOfInvolvements('snapshots', snapshotId))
   } catch (error) {
     if (error.status === STATUS_CODES.forbidden) {
@@ -35,4 +37,3 @@ export function* createSnapshotPerson({payload: {person}}) {
 export function* createSnapshotPersonSaga() {
   yield takeEvery(CREATE_SNAPSHOT_PERSON, createSnapshotPerson)
 }
-
