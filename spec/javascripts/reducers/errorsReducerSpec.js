@@ -49,6 +49,16 @@ describe('errorsReducer', () => {
       )
     })
   })
+  it('resets the state to initial state if error store is empty/undefined', () => {
+    const state = fromJS({})
+    const action = {
+      payload: 'none',
+      type: 'FETCH_SCREENINGS',
+    }
+    expect(errorsReducer(state, action)).toEqualImmutable(
+      fromJS({})
+    )
+  })
   describe('generic action type', () => {
     describe('on error', () => {
       it('updates error store for the type', () => {

@@ -24,9 +24,14 @@ describe('HomePage', () => {
     })
 
     describe('#componentDidMount', () => {
+      const clearErrors = jasmine.createSpy('clearErrors')
+      const fetchScreenings = jasmine.createSpy('fetchScreenings')
+      it('fetches the clear Errors', () => {
+        renderHomePageWithLifecycle({actions: {clearErrors, fetchScreenings}})
+        expect(clearErrors).toHaveBeenCalled()
+      })
       it('fetches the screenings', () => {
-        const fetchScreenings = jasmine.createSpy('fetchScreenings')
-        renderHomePageWithLifecycle({actions: {fetchScreenings}})
+        renderHomePageWithLifecycle({actions: {clearErrors, fetchScreenings}})
         expect(fetchScreenings).toHaveBeenCalled()
       })
     })
@@ -83,9 +88,14 @@ describe('HomePage', () => {
     })
 
     describe('#componentDidMount', () => {
-      it('does not fetch screenings', () => {
-        const fetchScreenings = jasmine.createSpy('fetchScreenings')
-        renderHomePageWithLifecycle({actions: {fetchScreenings}})
+      const clearErrors = jasmine.createSpy('clearErrors')
+      const fetchScreenings = jasmine.createSpy('fetchScreenings')
+      it('fetches the clear Errors', () => {
+        renderHomePageWithLifecycle({actions: {clearErrors, fetchScreenings}})
+        expect(clearErrors).toHaveBeenCalled()
+      })
+      it('does not fetch the screenings', () => {
+        renderHomePageWithLifecycle({actions: {clearErrors, fetchScreenings}})
         expect(fetchScreenings).not.toHaveBeenCalled()
       })
     })
