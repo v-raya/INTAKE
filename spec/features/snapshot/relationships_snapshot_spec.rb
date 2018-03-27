@@ -91,7 +91,12 @@ feature 'Snapshot relationship card' do
           ]
         end
       end
-      person = FactoryBot.create(:participant, first_name: 'Marge', screening_id: snapshot.id)
+      person = FactoryBot.create(
+        :participant,
+        first_name: 'Marge',
+        legacy_id: participant.id.to_s,
+        screening_id: snapshot.id
+      )
 
       stub_person_search(search_term: 'Ma', person_response: search_response)
       stub_request(
@@ -101,8 +106,8 @@ feature 'Snapshot relationship card' do
 
       stub_request(
         :get,
-        intake_api_url(
-          ExternalRoutes.ferb_api_relationships_path
+        ferb_api_url(
+          ExternalRoutes.ferb_api_relationships_path + "?clientIds=#{participant.id}"
         )
       ).and_return(json_body(relationships.to_json, status: 200))
 
@@ -118,6 +123,15 @@ feature 'Snapshot relationship card' do
     end
 
     scenario 'should return the correct relationships' do
+      expect(
+        a_request(
+          :get,
+          ferb_api_url(
+            ExternalRoutes.ferb_api_relationships_path + "?clientIds=#{participant.id}"
+          )
+        )
+      ).to have_been_made
+
       within '#relationships-card.card.show', text: 'Relationships' do
         expect(page).to have_content(
           "#{relationships.first[:first_name]} #{relationships.first[:last_name]} is the.."
@@ -125,15 +139,6 @@ feature 'Snapshot relationship card' do
         expect(page).to have_content('Sister (Half) of Jake Campbell')
         expect(page).to have_content('Sister (Half) of Jane Campbell')
       end
-
-      expect(
-        a_request(
-          :get,
-          intake_api_url(
-            ExternalRoutes.ferb_api_relationships_path
-          )
-        )
-      ).to have_been_made
     end
 
     scenario 'clicking the Start Over button clears relationships card' do
