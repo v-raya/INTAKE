@@ -40,11 +40,11 @@ describe RelationshipsRepository do
           indexed_person_relationship: '300',
           legacy_descriptor: { legacy_id: 'EwsPYbG07n' }
         }],
-        legacy_descirptor: { legacy_id: 'EwsPYbG07n' }
+        legacy_descriptor: { legacy_id: 'EwsPYbG07n' }
       }, {
         id: 'ABCDEFGHIJ',
         relationship_to: [],
-        legacy_descirptor: { legacy_id: 'ABCDEFGHIJ' }
+        legacy_descriptor: { legacy_id: 'ABCDEFGHIJ' }
       }, {
         id: 'ZYXWVUTSRQ',
         first_name: 'Jon',
@@ -57,7 +57,7 @@ describe RelationshipsRepository do
           indexed_person_relationship: '280',
           legacy_descriptor: { legacy_id: 'ZYXWVUTSRQ' }
         }],
-        legacy_descirptor: { legacy_id: 'ZYXWVUTSRQ' }
+        legacy_descriptor: { legacy_id: 'ZYXWVUTSRQ' }
       }]
     end
 

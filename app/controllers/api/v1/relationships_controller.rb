@@ -13,7 +13,7 @@ module Api
       end
 
       def index
-        client_ids = params[:client_ids]
+        client_ids = params[:clientIds]&.split ','
         relationships = RelationshipsRepository.search(session[:security_token], client_ids)
         render json: relationships
       end

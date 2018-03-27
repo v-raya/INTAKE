@@ -16,15 +16,52 @@ describe('relationshipsReducer', () => {
 
   describe('on FETCH_RELATIONSHIPS_COMPLETE', () => {
     it('returns the relationships from the action on success', () => {
-      const relationships = fromJS([{id: 1}, {id: 2}])
+      const relationships = fromJS([
+        {id: 1, legacy_id: 'ABC', relationships: []},
+        {id: 2, legacy_id: 'DEF', relationsihps: []},
+      ])
       const action = fetchRelationshipsSuccess(relationships.toJS())
       expect(relationshipsReducer(List(), action)).toEqualImmutable(relationships)
     })
     it('returns the last state on failure', () => {
-      const oldState = fromJS([{id: 1}])
+      const oldState = fromJS([{id: 1, legacy_id: 'ABC'}])
       const action = fetchRelationshipsFailure()
       expect(relationshipsReducer(oldState, action))
         .toEqual(oldState)
+    })
+    it('sets legacy_id from descriptor', () => {
+      const relationships = [
+        {id: 1, legacy_id: 'ABC'},
+        {id: 2, legacy_descriptor: {legacy_id: 'DEF'}},
+      ]
+      const action = fetchRelationshipsSuccess(relationships)
+      expect(relationshipsReducer(List(), action)).toEqualImmutable(fromJS([
+        {id: 1, legacy_id: 'ABC'},
+        {id: 2, legacy_id: 'DEF', legacy_descriptor: {legacy_id: 'DEF'}},
+      ]))
+    })
+
+    // We need to support this for a little while due to a typo in Ferb
+    it('sets legacy_id from "descirptor"', () => {
+      const relationships = [
+        {id: 1, legacy_id: 'ABC'},
+        {id: 2, legacy_descirptor: {legacy_id: 'DEF'}},
+      ]
+      const action = fetchRelationshipsSuccess(relationships)
+      expect(relationshipsReducer(List(), action)).toEqualImmutable(fromJS([
+        {id: 1, legacy_id: 'ABC'},
+        {id: 2, legacy_id: 'DEF', legacy_descriptor: {legacy_id: 'DEF'}},
+      ]))
+    })
+
+    it('sets relationships from relationship_to', () => {
+      const relationships = [
+        {id: 1, relationship_to: ['ABC']},
+      ]
+      const action = fetchRelationshipsSuccess(relationships)
+      expect(relationshipsReducer(List(), action)).toEqualImmutable(fromJS([
+        {id: 1, relationships: ['ABC']},
+      ]))
     })
   })
 
@@ -44,7 +81,7 @@ describe('relationshipsReducer', () => {
 
   describe('on CLEAR_RELATIONSHIPS', () => {
     it('clears all the relationships from the relationships reducer', () => {
-      const oldState = fromJS([{id: 1}])
+      const oldState = fromJS([{id: 1, legacy_id: 'ABC'}])
       const action = clearRelationships()
       expect(relationshipsReducer(oldState, action).isEmpty()).toEqual(true)
     })

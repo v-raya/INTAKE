@@ -69,7 +69,7 @@ describe Api::V1::RelationshipsController do
     it 'responds with success' do
       process :index,
         method: :get,
-        params: { client_ids: client_ids },
+        params: { clientIds: client_ids.join(',') },
         session: session
       expect(JSON.parse(response.body)).to match array_including(
         a_hash_including(
