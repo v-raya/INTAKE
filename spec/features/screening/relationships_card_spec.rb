@@ -48,6 +48,8 @@ feature 'Relationship card' do
   let(:new_participant) do
     FactoryBot.create(
       :participant, :unpopulated,
+      first_name: 'Jane',
+      last_name: 'Campbell',
       screening_id: participants_screening.id
     )
   end
@@ -211,7 +213,7 @@ feature 'Relationship card' do
 
         within edit_participant_card_selector(new_participant.id) do
           within '.card-header' do
-            expect(page).to have_content 'Unknown Person'
+            expect(page).to have_content 'Jane Campbell'
           end
         end
 
@@ -265,30 +267,42 @@ feature 'Relationship card' do
         before(:each) do
           stub_empty_history_for_screening(participants_screening)
           visit edit_screening_path(id: participants_screening.id)
+
+          stub_request(:post,
+            intake_api_url(
+              ExternalRoutes.intake_api_screening_people_path(participants_screening.id)
+            )
+          ).and_return(json_body(new_participant.to_json, status: 201))
+
+          within '#relationships-card.card .relationships' do
+            find('li', text: 'Sister (Half) of Jake Campbell')
+              .find('a', ' Attach').click
+          end
         end
 
         describe  'unassociated person' do
           scenario 'allows attachment' do
-            stub_request(:post,
-              intake_api_url(ExternalRoutes.intake_api_screening_people_path(participants_screening.id)))
-              .and_return(json_body(new_participant.to_json, status: 201))
-
-            within '#relationships-card.card .relationships' do
-              find('li', text: 'Sister (Half) of Jake Campbell')
-                .find('a', ' Attach').click
-            end
+            expect(
+              a_request(
+                :post,
+                intake_api_url(
+                  ExternalRoutes.intake_api_screening_people_path(participants_screening.id)
+                )
+              )
+            ).to have_been_made.times(1)
           end
 
           scenario  'attached person should appear on the existing screening' do
-
+            expect(page).to have_css("div#participants-card-#{new_participant.id}")
           end
 
-          scenario  'show existing relationships for the attached person.' do
-
+          xscenario  'show existing relationships for the attached person.' do
           end
 
-          scenario  'should display the newly added person' do
-
+          scenario  'should display the newly added person in sidebar' do
+            within 'div.side-bar' do
+              expect(page).to have_content('Jane Campbell')
+            end
           end
         end
 
