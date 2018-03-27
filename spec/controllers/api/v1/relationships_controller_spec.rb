@@ -26,7 +26,6 @@ describe Api::V1::RelationshipsController do
   end
 
   describe '#by_screening_id' do
-
     before do
       expect(RelationshipsRepository).to receive(:find_by_screening_id)
         .with(security_token, screening_id)

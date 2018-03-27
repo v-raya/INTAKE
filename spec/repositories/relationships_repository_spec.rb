@@ -23,7 +23,6 @@ describe RelationshipsRepository do
   end
 
   describe '.search' do
-
     let(:empty_response) do
       double(:response, body: [], status: 200, headers: {})
     end
