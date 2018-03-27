@@ -18,7 +18,7 @@ class RelationshipsRepository
 
     FerbAPI.make_api_call(
       security_token,
-      ExternalRoutes.ferb_api_relationships_path + '?' + client_ids.join(','),
+      ExternalRoutes.ferb_api_relationships_path + '?clientIds=' + client_ids.join(','),
       :get
     ).body
   end

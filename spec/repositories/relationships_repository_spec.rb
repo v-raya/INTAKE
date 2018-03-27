@@ -78,7 +78,7 @@ describe RelationshipsRepository do
 
     it 'should return all relationships found for a single id' do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, '/clients/relationships?EwsPYbG07n', :get)
+        .with(security_token, '/clients/relationships?clientIds=EwsPYbG07n', :get)
         .and_return(single_response)
 
       relationships = described_class.search(security_token, ['EwsPYbG07n'])
@@ -88,8 +88,11 @@ describe RelationshipsRepository do
 
     it 'should return all relationships for multiple clients' do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, '/clients/relationships?EwsPYbG07n,ABCDEFGHIJ,ZYXWVUTSRQ', :get)
-        .and_return(full_response)
+        .with(
+          security_token,
+          '/clients/relationships?clientIds=EwsPYbG07n,ABCDEFGHIJ,ZYXWVUTSRQ',
+          :get
+        ).and_return(full_response)
 
       relationships = described_class.search(security_token, %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ])
 
