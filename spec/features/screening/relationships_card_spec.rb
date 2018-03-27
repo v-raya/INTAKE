@@ -45,13 +45,13 @@ feature 'Relationship card' do
       }
     ]
   end
-  let(:new_participant ) do
+  let(:new_participant) do
     FactoryBot.create(
       :participant, :unpopulated,
       screening_id: participants_screening.id
     )
   end
-  let(:new_relationships ) do
+  let(:new_relationships) do
     [
       {
         id: participant.id.to_s,
@@ -141,6 +141,7 @@ feature 'Relationship card' do
           expect(page).to have_content(
             "#{relationships.first[:first_name]} #{relationships.first[:last_name]} is the.."
           )
+
           expect(page).to have_content('Sister (Half) of Jake Campbell')
           expect(page).to have_content('Sister (Half) of Jane Campbell')
         end
@@ -260,32 +261,49 @@ feature 'Relationship card' do
         ).to have_been_made.times(2)
       end
 
-      xdescribe '#relationships-card' do
-        scenario 'allows attachment of unassociated person.' do
-          it 'attached person should appear on the existing screening' do
+      describe '#relationships-card' do
+        before(:each) do
+          stub_empty_history_for_screening(participants_screening)
+          visit edit_screening_path(id: participants_screening.id)
+        end
+
+        describe  'unassociated person' do
+          scenario 'allows attachment' do
+            stub_request(:post,
+              intake_api_url(ExternalRoutes.intake_api_screening_people_path(participants_screening.id)))
+              .and_return(json_body(new_participant.to_json, status: 201))
+
+            within '#relationships-card.card .relationships' do
+              find('li', text: 'Sister (Half) of Jake Campbell')
+                .find('a', ' Attach').click
+            end
+          end
+
+          scenario  'attached person should appear on the existing screening' do
 
           end
 
-          it 'show existing relationships for the attached person.' do
+          scenario  'show existing relationships for the attached person.' do
 
           end
 
-          it 'should display the newly added person' do
+          scenario  'should display the newly added person' do
 
           end
         end
 
-        scenario 'does not allow attachment of associated person' do
-
+        xdescribe  'associated person' do
+          scenario 'does not allow attachment' do
+          end
         end
       end
 
       xdescribe '#history-of-involvement' do
-        scenario 'allows attachment of unassociated person.' do
-          it 'should show any previous referral' do
+        describe 'associated person' do
+          scenario 'should show any previous referral' do
           end
 
-          it 'should show any previous case history' do
+          scenario 'should show any previous case history' do
           end
         end
       end
