@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable'
-import {FETCH_SCREENINGS} from 'actions/screeningsActions'
+import {CLEAR_ERRORS} from 'actions/clearErrors'
 
 const initialState = fromJS({})
 
@@ -12,7 +12,7 @@ export default function errorsReducer(state = initialState, action) {
     return state.set(type, fromJS(issue_details || payload))
   }
 
-  if (type === FETCH_SCREENINGS) {
+  if (type === CLEAR_ERRORS) {
     return initialState
   }
 
