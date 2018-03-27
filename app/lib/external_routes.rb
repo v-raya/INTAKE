@@ -79,8 +79,9 @@ class ExternalRoutes
       "/authorize/client/#{id}"
     end
 
-    def ferb_api_relationships_path
-      '/clients/relationships'
+    def ferb_api_relationships_path(ids)
+      csv_ids = ids.join(',')
+      "/clients/relationships?clientIds=#{csv_ids}"
     end
 
     def sdm_path

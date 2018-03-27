@@ -96,6 +96,20 @@ describe ExternalRoutes do
     end
   end
 
+  describe '.ferb_api_relationships_path' do
+    it 'builds a query with a single client ID' do
+      expect(described_class.ferb_api_relationships_path(['ABC'])).to eq(
+        '/clients/relationships?clientIds=ABC'
+      )
+    end
+
+    it 'builds a comma separated list of ids' do
+      expect(described_class.ferb_api_relationships_path(%w[ABC DEF])).to eq(
+        '/clients/relationships?clientIds=ABC,DEF'
+      )
+    end
+  end
+
   describe '.ferb_api_lov_path' do
     it 'returns /lov' do
       expect(described_class.ferb_api_lov_path).to eq('/lov')

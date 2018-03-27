@@ -107,7 +107,7 @@ feature 'Snapshot relationship card' do
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_relationships_path + "?clientIds=#{participant.id}"
+          ExternalRoutes.ferb_api_relationships_path([participant.id])
         )
       ).and_return(json_body(relationships.to_json, status: 200))
 
@@ -127,7 +127,7 @@ feature 'Snapshot relationship card' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_relationships_path + "?clientIds=#{participant.id}"
+            ExternalRoutes.ferb_api_relationships_path([participant.id])
           )
         )
       ).to have_been_made
