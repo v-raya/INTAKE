@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import nameFormatter from 'utils/nameFormatter'
 
 const SnapshotSideBar = (props) => (
-  <div className='col-md-3 col-sm-4 col-lg-3 hide-mobile'>
+  <div className='col-md-3 col-sm-4 hide-mobile'>
     <SideBar>
       <NavLinks>
         <NavLink key={1} text='People & Roles' href='#search-card-anchor' >

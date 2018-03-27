@@ -106,7 +106,7 @@ export class ScreeningPage extends React.Component {
       return (
         <div className='row'>
           <ScreeningSideBar participants={participants} />
-          <div className='col-sm-8 col-md-9 col-lg-9'>
+          <div className='col-sm-8 col-md-9'>
             <h1>{referralId && `Referral #${referralId}`}</h1>
             {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
             <CardContainer
