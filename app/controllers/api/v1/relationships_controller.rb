@@ -11,6 +11,12 @@ module Api
                                       .find_by_screening_id(session[:security_token], screening_id)
         render json: relationships_for_screening
       end
+
+      def index
+        client_ids = params[:client_ids]
+        relationships = RelationshipsRepository.search(session[:security_token], client_ids)
+        render json: relationships
+      end
     end
   end
 end
