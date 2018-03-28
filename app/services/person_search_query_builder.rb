@@ -44,7 +44,8 @@ class PersonSearchQueryBuilder
     {
       match: {
         field => {
-          query: term
+          query: term,
+          boost: 2
         }
       }
     }
@@ -53,6 +54,7 @@ class PersonSearchQueryBuilder
   def should
     term = formatted_search_term
     [
+      nonfuzzy_query,
       match_query(:first_name, term),
       match_query(:last_name, term),
       match_query(:'aka.first_name', term),
@@ -63,6 +65,18 @@ class PersonSearchQueryBuilder
   end
 
   def base_query
+    {
+      match: {
+        autocomplete_search_bar: {
+          query: formatted_search_term,
+          fuzziness: 'AUTO',
+          operator: 'and'
+        }
+      }
+    }
+  end
+
+  def nonfuzzy_query
     {
       match: {
         autocomplete_search_bar: {
@@ -93,7 +107,7 @@ class PersonSearchQueryBuilder
   def highlight
     {
       order: 'score',
-      number_of_fragments: 3,
+      number_of_fragments: 5,
       require_field_match: false,
       fields: {
         '*': {}
