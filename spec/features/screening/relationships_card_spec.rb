@@ -36,28 +36,32 @@ feature 'Relationship card' do
       screening_id: participants_screening.id,
     )
   end
-  let(:jake) {{
-    related_person_first_name: 'Jake',
-    related_person_last_name: 'Campbell',
-    relationship: 'Sister/Brother (Half)',
-    related_person_relationship: '18',
-    indexed_person_relationship: '277',
-    relationship_context: 'Half',
-    related_person_id: '7',
-  }}
-  let(:jane) {{
-    related_person_id: new_participant.id,
-    related_person_legacy_id: '280',
-    related_person_first_name: 'Jane',
-    related_person_last_name: 'Campbell',
-    relationship: 'Sister/Sister (Half)',
-    related_person_relationship: '280',
-    indexed_person_relationship: '280',
-    relationship_context: 'Half',
-    legacy_descriptor: {
-      legacy_id: 'jane_legacy_id',
+  let(:jake) do
+    {
+      related_person_first_name: 'Jake',
+      related_person_last_name: 'Campbell',
+      relationship: 'Sister/Brother (Half)',
+      related_person_relationship: '18',
+      indexed_person_relationship: '277',
+      relationship_context: 'Half',
+      related_person_id: '7',
     }
-  }}
+  end
+  let(:jane) do
+    {
+      related_person_id: new_participant.id,
+      related_person_legacy_id: '280',
+      related_person_first_name: 'Jane',
+      related_person_last_name: 'Campbell',
+      relationship: 'Sister/Sister (Half)',
+      related_person_relationship: '280',
+      indexed_person_relationship: '280',
+      relationship_context: 'Half',
+      legacy_descriptor: {
+        legacy_id: 'jane_legacy_id',
+      }
+    }
+  end
   let(:new_relationships) do
     [
       {
@@ -73,6 +77,37 @@ feature 'Relationship card' do
         relationships: [].push(jake),
       }
     ]
+  end
+  let(:hoi) do
+    {
+      id: participants_screening.id,
+      cases:[],
+      referrals:[],
+      screenings:[
+        {
+          id: '1',
+          start_date: '2018-02-26',
+          assigned_social_worker: {
+              id: '0X5',
+              first_name: 'Testing',
+              last_name: 'CWDS',
+              legacy_descriptor: {
+                  legacy_id: '0X5',
+              }
+          },
+          all_people: [
+            {
+              id: new_participant.id,
+              first_name: new_participant.first_name,
+              last_name: new_participant.last_name,
+              legacy_descriptor: {
+                legacy_id: 'jane_legacy_id',
+              }
+            },
+          ]
+        },
+      ]
+    }
   end
 
   before do
@@ -260,9 +295,9 @@ feature 'Relationship card' do
         ).to have_been_made.times(2)
       end
 
-      describe '#relationships-card' do
+      context '#attach-relationships' do
         before(:each) do
-          stub_empty_history_for_screening(participants_screening)
+          stub_empty_history_for_screening(participants_screening, response: hoi)
           visit edit_screening_path(id: participants_screening.id)
 
           stub_request(:post,
@@ -270,67 +305,76 @@ feature 'Relationship card' do
               ExternalRoutes.intake_api_screening_people_path(participants_screening.id)
             )
           ).and_return(json_body(new_participant.to_json, status: 201))
-
-          within '#relationships-card.card .relationships' do
-            find('li', text: 'Sister (Half) of Jake Campbell')
-              .find('a', ' Attach').click
-          end
         end
 
-        describe  'unassociated person' do
-          scenario 'allows attachment' do
-            expect(
-              a_request(
-                :post,
-                intake_api_url(
-                  ExternalRoutes.intake_api_screening_people_path(participants_screening.id)
+        describe '#relationships-card' do
+          describe  '.unassociated-person' do
+            scenario 'allows attachment' do
+              assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
+              expect(
+                a_request(
+                  :post,
+                  intake_api_url(
+                    ExternalRoutes.intake_api_screening_people_path(participants_screening.id)
+                  )
                 )
-              )
-            ).to have_been_made.times(1)
-          end
-
-          scenario  'attached person should appear on the existing screening' do
-            expect(page).to have_css("div#participants-card-#{new_participant.id}")
-          end
-
-          scenario  'show existing relationships for the attached person.' do
-            new_relationships.last[:relationships].push(jake)
-            stub_request(
-              :get,
-              intake_api_url(
-                ExternalRoutes.intake_api_relationships_by_screening_path(new_participant.screening_id)
-              )
-            ).and_return(json_body(new_relationships.to_json, status: 200))
-
-            within '#relationships-card.card .relationships' do
-              find('li', text: 'Sister (Half) of Jake Campbell')
-                .find('a', ' Attach').click
+              ).to have_been_made.times(1)
             end
-            expect(page).to have_content('Jane Campbell is the...')
-            expect(page).to have_content('Sister (Half)   of Jake Campbell')
+
+            scenario  'attached person should appear on the existing screening' do
+              assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
+              expect(page).to have_css("div#participants-card-#{new_participant.id}")
+            end
+
+            scenario  'show existing relationships for the attached person.' do
+              new_relationships.last[:relationships].push(jake)
+              stub_request(
+                :get,
+                intake_api_url(
+                  ExternalRoutes.intake_api_relationships_by_screening_path(new_participant.screening_id)
+                )
+              ).and_return(json_body(new_relationships.to_json, status: 200))
+
+              assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
+
+              expect(page).to have_content('Jane Campbell is the...')
+              expect(page).to have_content('Sister (Half)   of Jake Campbell')
+            end
+
+            scenario  'should display the newly added person in sidebar' do
+              assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
+              within 'div.side-bar' do
+                expect(page).to have_content('Jane Campbell')
+              end
+            end
           end
 
-          scenario  'should display the newly added person in sidebar' do
-            within 'div.side-bar' do
-              expect(page).to have_content('Jane Campbell')
+          describe  '.associated-person' do
+            scenario 'does not allow attachment' do
+              expect(page).not_to have_xpath(".//li[contains(., 'of Jane Campbell')]//a")
             end
           end
         end
 
-        describe  'associated person' do
-          scenario 'does not allow attachment' do
-            expect(page).not_to \
-              have_xpath(:xpath, ".//li[contains(., 'of Jane Campbell')]//a")
-          end
-        end
-      end
+        describe '#history-of-involvement' do
+          describe '.associated-person' do
+            before(:each) do
+              assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
+            end
 
-      xdescribe '#history-of-involvement' do
-        describe 'associated person' do
-          scenario 'should show any previous referral' do
-          end
+            scenario 'should show screening' do
+              within 'div#history-card' do
+                expect(page).to have_css('td', text: [new_participant.first_name,
+                                                      new_participant.last_name].join(' '))
+              end
+            end
 
-          scenario 'should show any previous case history' do
+            scenario 'does not duplicate screening' do
+              expect(page).to \
+                have_selector('td', text: [new_participant.first_name,
+                                           new_participant.last_name].join(' '),
+                                    count: 1)
+            end
           end
         end
       end
