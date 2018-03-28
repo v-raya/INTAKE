@@ -3,6 +3,8 @@
 # PeopleSearchQueryBuilder is a service class responsible for creation
 # of an elastic search person search query
 class PersonSearchQueryBuilder
+  NUMBER_OF_FRAGMENTS = 5
+  BOOSTING_FACTOR = 2
   attr_reader :search_after
 
   def initialize(search_term: '', search_after: nil)
@@ -45,7 +47,7 @@ class PersonSearchQueryBuilder
       match: {
         field => {
           query: term,
-          boost: 2
+          boost: BOOSTING_FACTOR
         }
       }
     }
@@ -107,7 +109,7 @@ class PersonSearchQueryBuilder
   def highlight
     {
       order: 'score',
-      number_of_fragments: 5,
+      number_of_fragments: NUMBER_OF_FRAGMENTS,
       require_field_match: false,
       fields: {
         '*': {}

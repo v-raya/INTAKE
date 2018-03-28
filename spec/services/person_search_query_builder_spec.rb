@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+NUMBER_OF_FRAGMENTS = 5
+BOOSTING_FACTOR = 2
 describe PersonSearchQueryBuilder do
   let(:search_term) { 'This is my search term' }
 
@@ -44,7 +46,7 @@ describe PersonSearchQueryBuilder do
           ],
           highlight: {
             order: 'score',
-            number_of_fragments: 5,
+            number_of_fragments:  NUMBER_OF_FRAGMENTS,
             require_field_match: false,
             fields: { '*': {} }
           },
@@ -78,7 +80,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     first_name: {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -86,7 +88,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     last_name: {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -94,7 +96,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     'aka.first_name': {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -102,7 +104,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     'aka.last_name': {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -110,7 +112,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     date_of_birth_as_text: {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -118,7 +120,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     ssn: {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 }
@@ -166,7 +168,7 @@ describe PersonSearchQueryBuilder do
           ],
           highlight: {
             order: 'score',
-            number_of_fragments: 5,
+            number_of_fragments:  NUMBER_OF_FRAGMENTS,
             require_field_match: false,
             fields: { '*': {} }
           },
@@ -199,7 +201,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     first_name: {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -207,7 +209,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     last_name: {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -215,7 +217,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     'aka.first_name': {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -223,7 +225,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     'aka.last_name': {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -231,7 +233,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     date_of_birth_as_text: {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
@@ -239,7 +241,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     ssn: {
                       query: 'this is my search term',
-                      boost: 2
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 }
@@ -301,7 +303,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         first_name: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -309,7 +311,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         last_name: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -317,7 +319,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         'aka.first_name': {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -325,7 +327,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         'aka.last_name': {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -333,7 +335,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         date_of_birth_as_text: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -341,7 +343,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         ssn: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     }
@@ -403,7 +405,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         first_name: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -411,7 +413,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         last_name: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -419,7 +421,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         'aka.first_name': {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -427,7 +429,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         'aka.last_name': {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -435,7 +437,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         date_of_birth_as_text: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -443,7 +445,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         ssn: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     }
@@ -489,7 +491,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       first_name: {
                         query: expected_search_term,
-                        boost: 2
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
@@ -497,7 +499,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       last_name: {
                         query: expected_search_term,
-                        boost: 2
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
@@ -505,7 +507,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       'aka.first_name': {
                         query: expected_search_term,
-                        boost: 2
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
@@ -513,7 +515,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       'aka.last_name': {
                         query: expected_search_term,
-                        boost: 2
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
@@ -521,7 +523,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       date_of_birth_as_text: {
                         query: expected_search_term,
-                        boost: 2
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
@@ -529,7 +531,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       ssn: {
                         query: expected_search_term,
-                        boost: 2
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   }
@@ -614,7 +616,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         first_name: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -622,7 +624,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         last_name: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -630,7 +632,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         'aka.first_name': {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -638,7 +640,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         'aka.last_name': {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -646,7 +648,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         date_of_birth_as_text: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
@@ -654,7 +656,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         ssn: {
                           query: expected_results[index],
-                          boost: 2
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     }
