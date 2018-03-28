@@ -39,12 +39,6 @@ feature 'Adding and removing a person from a snapshot' do
         ExternalRoutes.ferb_api_relationships_path([person.legacy_id])
       )
     ).and_return(json_body([].to_json, status: 200))
-    stub_request(
-      :get,
-      ferb_api_url(
-        ExternalRoutes.ferb_api_relationships_path([])
-      )
-    ).and_return(json_body([].to_json, status: 200))
 
     search_response = PersonSearchResponseBuilder.build do |response|
       response.with_total(1)
@@ -131,15 +125,6 @@ feature 'Adding and removing a person from a snapshot' do
         :get,
         ferb_api_url(
           ExternalRoutes.ferb_api_relationships_path([person.legacy_id])
-        )
-      )
-    ).to have_been_made.times(1)
-
-    expect(
-      a_request(
-        :get,
-        ferb_api_url(
-          ExternalRoutes.ferb_api_relationships_path([])
         )
       )
     ).to have_been_made.times(1)
