@@ -13,12 +13,14 @@ class JsonAPI # :nodoc:
   end
 
   # rubocop:disable MethodLength
-  def self.make_api_call(security_token, url, method, payload = nil)
+  def self.make_api_call(security_token, url, method, payload = nil, params = nil)
     connection.send(method) do |req|
       req.url url
       req.headers['Content-Type'] = CONTENT_TYPE unless method == :get
       req.headers['Authorization'] = security_token
       req.body = payload.to_json unless payload.nil?
+      req.options.params_encoder = Faraday::FlatParamsEncoder
+      req.params = params unless params.nil?
     end
   rescue Faraday::Error => e
     raise ApiError,

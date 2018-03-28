@@ -18,8 +18,10 @@ class RelationshipsRepository
 
     FerbAPI.make_api_call(
       security_token,
-      ExternalRoutes.ferb_api_relationships_path(client_ids),
-      :get
+      ExternalRoutes.ferb_api_relationships_path,
+      :get,
+      nil,
+      clientIds: client_ids
     ).body
   end
 end
