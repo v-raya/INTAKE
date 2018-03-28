@@ -81,7 +81,6 @@ describe RelationshipsRepository do
           security_token,
           '/clients/relationships',
           :get,
-          nil,
           clientIds: ['EwsPYbG07n']
         ).and_return(single_response)
 
@@ -96,7 +95,6 @@ describe RelationshipsRepository do
           security_token,
           '/clients/relationships',
           :get,
-          nil,
           clientIds: %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ]
         ).and_return(full_response)
 

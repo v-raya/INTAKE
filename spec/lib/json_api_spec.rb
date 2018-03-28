@@ -25,13 +25,12 @@ describe JsonAPI do
       ).to have_been_made
     end
 
-    it 'sends get requests with params to the JSON API' do
+    it 'sends get requests with params instead of a body' do
       stub_request(:get, 'http://api_url/api/v1/screening/1?foo=ABC&foo=DEF&bar=BAZ')
       api_class.make_api_call(
         security_token,
         '/api/v1/screening/1',
         :get,
-        nil,
         foo: %w[ABC DEF],
         bar: 'BAZ'
       )

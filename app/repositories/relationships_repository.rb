@@ -20,7 +20,6 @@ class RelationshipsRepository
       security_token,
       ExternalRoutes.ferb_api_relationships_path,
       :get,
-      nil,
       clientIds: client_ids
     ).body
   end
