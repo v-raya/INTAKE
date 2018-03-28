@@ -23,25 +23,8 @@ feature 'Relationship card' do
         id: participant.id.to_s,
         first_name: participant.first_name,
         last_name: participant.last_name,
-        relationships: [{
-          related_person_id: nil,
-          related_person_legacy_id: '277',
-          related_person_first_name: 'Jake',
-          related_person_last_name: 'Campbell',
-          relationship: 'Sister/Brother (Half)',
-          related_person_relationship: '18',
-          indexed_person_relationship: '277',
-          relationship_context: 'Half'
-        }, {
-          related_person_id: nil,
-          related_person_legacy_id: '280',
-          related_person_first_name: 'Jane',
-          related_person_last_name: 'Campbell',
-          relationship: 'Sister/Sister (Half)',
-          related_person_relationship: '280',
-          indexed_person_relationship: '280',
-          relationship_context: 'Half'
-        }]
+        relationships: [].push(jane, jake),
+        legacy_id: 'jane_legacy_id',
       }
     ]
   end
@@ -50,30 +33,44 @@ feature 'Relationship card' do
       :participant, :unpopulated,
       first_name: 'Jane',
       last_name: 'Campbell',
-      screening_id: participants_screening.id
+      screening_id: participants_screening.id,
     )
   end
+  let(:jake) {{
+    related_person_first_name: 'Jake',
+    related_person_last_name: 'Campbell',
+    relationship: 'Sister/Brother (Half)',
+    related_person_relationship: '18',
+    indexed_person_relationship: '277',
+    relationship_context: 'Half',
+    related_person_id: '7',
+  }}
+  let(:jane) {{
+    related_person_id: new_participant.id,
+    related_person_legacy_id: '280',
+    related_person_first_name: 'Jane',
+    related_person_last_name: 'Campbell',
+    relationship: 'Sister/Sister (Half)',
+    related_person_relationship: '280',
+    indexed_person_relationship: '280',
+    relationship_context: 'Half',
+    legacy_descriptor: {
+      legacy_id: 'jane_legacy_id',
+    }
+  }}
   let(:new_relationships) do
     [
       {
         id: participant.id.to_s,
         first_name: participant.first_name,
         last_name: participant.last_name,
-        relationships: [{
-          related_person_first_name: 'Jake',
-          related_person_last_name: 'Campbell',
-          relationship: 'Sister/Brother (Half)',
-          related_person_relationship: '18',
-          indexed_person_relationship: '277',
-          relationship_context: 'Half',
-          related_person_id: '7'
-        }]
+        relationships: [].push(jane, jake),
       },
       {
         id: new_participant.id.to_s,
         first_name: new_participant.first_name,
         last_name: new_participant.last_name,
-        relationships: []
+        relationships: [].push(jake),
       }
     ]
   end
@@ -232,7 +229,7 @@ feature 'Relationship card' do
           )
           expect(page).to have_content('Sister (Half) of Jake Campbell')
           expect(page).to have_content(
-            "#{new_participant.first_name} #{new_participant.last_name} has no known relationships"
+            "#{new_participant.first_name} #{new_participant.last_name} is the..."
           )
         end
       end
@@ -296,7 +293,21 @@ feature 'Relationship card' do
             expect(page).to have_css("div#participants-card-#{new_participant.id}")
           end
 
-          xscenario  'show existing relationships for the attached person.' do
+          scenario  'show existing relationships for the attached person.' do
+            new_relationships.last[:relationships].push(jake)
+            stub_request(
+              :get,
+              intake_api_url(
+                ExternalRoutes.intake_api_relationships_by_screening_path(new_participant.screening_id)
+              )
+            ).and_return(json_body(new_relationships.to_json, status: 200))
+
+            within '#relationships-card.card .relationships' do
+              find('li', text: 'Sister (Half) of Jake Campbell')
+                .find('a', ' Attach').click
+            end
+            expect(page).to have_content('Jane Campbell is the...')
+            expect(page).to have_content('Sister (Half)   of Jake Campbell')
           end
 
           scenario  'should display the newly added person in sidebar' do
@@ -306,8 +317,10 @@ feature 'Relationship card' do
           end
         end
 
-        xdescribe  'associated person' do
+        describe  'associated person' do
           scenario 'does not allow attachment' do
+            expect(page).not_to \
+              have_xpath(:xpath, ".//li[contains(., 'of Jane Campbell')]//a")
           end
         end
       end
