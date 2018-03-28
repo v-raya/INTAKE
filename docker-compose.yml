@@ -12,7 +12,7 @@ services:
       RAILS_ENV: ${RAILS_ENV:-development}
       API_URL: "http://api:3000"
       FERB_API_URL: "https://ferbapi.preint.cwds.io"
-      DORA_API_URL: "https://dora.preint.cwds.io"
+      DORA_API_URL: "https://doraapi.preint.cwds.io"
       NODE_ENV: development
       AUTHENTICATION_URL: ${AUTHENTICATION_URL:-https://web.preint.cwds.io/perry}
       AUTHENTICATION: ${AUTHENTICATION:-true}
@@ -39,7 +39,7 @@ services:
     environment:
       AUTHENTICATION_URL: ${AUTHENTICATION_URL:-https://web.preint.cwds.io/perry}
       AUTHENTICATION: ${AUTHENTICATION:-true}
-      DORA_URL: 'https://dora.preint.cwds.io/'
+      DORA_URL: 'https://doraapi.preint.cwds.io/'
       FERB_URL: 'https://ferbapi.preint.cwds.io'
     tty: true
     stdin_open: true
