@@ -74,7 +74,7 @@ feature 'Relationship card' do
         id: new_participant.id.to_s,
         first_name: new_participant.first_name,
         last_name: new_participant.last_name,
-        relationships: [].push(jake)
+        relationships: []
       }
     ]
   end
@@ -259,7 +259,7 @@ feature 'Relationship card' do
           )
           expect(page).to have_content('Sister (Half) of Jake Campbell')
           expect(page).to have_content(
-            "#{new_participant.first_name} #{new_participant.last_name} is the..."
+            "#{new_participant.first_name} #{new_participant.last_name} has no known relationships"
           )
         end
       end
