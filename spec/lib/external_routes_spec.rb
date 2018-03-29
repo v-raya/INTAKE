@@ -104,6 +104,14 @@ describe ExternalRoutes do
     end
   end
 
+  describe '.ferb_api_history_of_involvements_path' do
+    it 'returns the base path' do
+      expect(described_class.ferb_api_history_of_involvements_path).to eq(
+        '/clients/history_of_involvements'
+      )
+    end
+  end
+
   describe '.ferb_api_lov_path' do
     it 'returns /lov' do
       expect(described_class.ferb_api_lov_path).to eq('/lov')

@@ -83,6 +83,10 @@ class ExternalRoutes
       '/clients/relationships'
     end
 
+    def ferb_api_history_of_involvements_path
+      '/clients/history_of_involvements'
+    end
+
     def sdm_path
       'https://ca.sdmdata.org'
     end
