@@ -48,6 +48,7 @@ Rails.application.routes.draw do
         constraints: Routes::ActiveScreeningsConstraint
 
       resources :relationships, only: %i[index]
+      get :history_of_involvements, to: 'history_of_involvements#by_client_ids'
 
       resource :people, only: [:search] do
         collection do
