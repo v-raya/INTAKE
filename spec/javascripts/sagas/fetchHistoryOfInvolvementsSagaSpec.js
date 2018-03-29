@@ -22,7 +22,7 @@ describe('fetchHistoryOfInvolvements', () => {
   const type = 'bananas'
   const action = actions.fetchHistoryOfInvolvements(type, id)
 
-  it('fetches and puts involvements', () => {
+  it('should fetch and put involvements', () => {
     const gen = fetchHistoryOfInvolvements(action)
     expect(gen.next().value).toEqual(
       call(get, '/api/v1/bananas/123/history_of_involvements')
@@ -33,7 +33,7 @@ describe('fetchHistoryOfInvolvements', () => {
     )
   })
 
-  it('puts errors when errors are thrown', () => {
+  it('should put errors when errors are thrown', () => {
     const gen = fetchHistoryOfInvolvements(action)
     expect(gen.next().value).toEqual(
       call(get, '/api/v1/bananas/123/history_of_involvements')
@@ -41,6 +41,27 @@ describe('fetchHistoryOfInvolvements', () => {
     const error = {responseJSON: 'some error'}
     expect(gen.throw(error).value).toEqual(
       put(actions.fetchHistoryOfInvolvementsFailure('some error'))
+    )
+  })
+
+  it('should fetch by client_ids when provided', () => {
+    const action = {
+      type: 'FETCH_HISTORY_OF_INVOLVEMENTS',
+      payload: {
+        type: 'clients',
+        ids: ['ABC', '123'],
+      },
+    }
+
+    const gen = fetchHistoryOfInvolvements(action)
+
+    expect(gen.next().value).toEqual(
+      call(get, '/api/v1/history_of_involvements?clientIds=ABC,123')
+    )
+
+    const hoi = {cases: ['a'], referrals: ['b'], screenings: ['c']}
+    expect(gen.next(hoi).value).toEqual(
+      put(actions.fetchHistoryOfInvolvementsSuccess(hoi))
     )
   })
 })
