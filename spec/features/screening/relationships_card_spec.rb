@@ -24,7 +24,7 @@ feature 'Relationship card' do
         first_name: participant.first_name,
         last_name: participant.last_name,
         relationships: [].push(jane, jake),
-        legacy_id: 'jane_legacy_id',
+        legacy_id: 'jane_legacy_id'
       }
     ]
   end
@@ -33,7 +33,7 @@ feature 'Relationship card' do
       :participant, :unpopulated,
       first_name: 'Jane',
       last_name: 'Campbell',
-      screening_id: participants_screening.id,
+      screening_id: participants_screening.id
     )
   end
   let(:jake) do
@@ -44,7 +44,7 @@ feature 'Relationship card' do
       related_person_relationship: '18',
       indexed_person_relationship: '277',
       relationship_context: 'Half',
-      related_person_id: '7',
+      related_person_id: '7'
     }
   end
   let(:jane) do
@@ -58,7 +58,7 @@ feature 'Relationship card' do
       indexed_person_relationship: '280',
       relationship_context: 'Half',
       legacy_descriptor: {
-        legacy_id: 'jane_legacy_id',
+        legacy_id: 'jane_legacy_id'
       }
     }
   end
@@ -68,32 +68,32 @@ feature 'Relationship card' do
         id: participant.id.to_s,
         first_name: participant.first_name,
         last_name: participant.last_name,
-        relationships: [].push(jane, jake),
+        relationships: [].push(jane, jake)
       },
       {
         id: new_participant.id.to_s,
         first_name: new_participant.first_name,
         last_name: new_participant.last_name,
-        relationships: [].push(jake),
+        relationships: [].push(jake)
       }
     ]
   end
   let(:hoi) do
     {
       id: participants_screening.id,
-      cases:[],
-      referrals:[],
-      screenings:[
+      cases: [],
+      referrals: [],
+      screenings: [
         {
           id: '1',
           start_date: '2018-02-26',
           assigned_social_worker: {
-              id: '0X5',
-              first_name: 'Testing',
-              last_name: 'CWDS',
-              legacy_descriptor: {
-                  legacy_id: '0X5',
-              }
+            id: '0X5',
+            first_name: 'Testing',
+            last_name: 'CWDS',
+            legacy_descriptor: {
+              legacy_id: '0X5'
+            }
           },
           all_people: [
             {
@@ -101,11 +101,11 @@ feature 'Relationship card' do
               first_name: new_participant.first_name,
               last_name: new_participant.last_name,
               legacy_descriptor: {
-                legacy_id: 'jane_legacy_id',
+                legacy_id: 'jane_legacy_id'
               }
-            },
+            }
           ]
-        },
+        }
       ]
     }
   end
@@ -132,17 +132,17 @@ feature 'Relationship card' do
 
   context 'a screening with participants' do
     before do
-      stub_request(
-        :get,
-        intake_api_url(ExternalRoutes.intake_api_screening_path(participants_screening.id))
-      ).and_return(json_body(participants_screening.to_json))
-      stub_empty_history_for_screening(participants_screening)
-      stub_request(
-        :get,
+      stub_request(:get,
         intake_api_url(
-          ExternalRoutes.intake_api_relationships_by_screening_path(participants_screening.id)
-        )
-      ).and_return(json_body(relationships.to_json, status: 200))
+          ExternalRoutes.intake_api_screening_path(participants_screening.id)
+        )).and_return(json_body(participants_screening.to_json))
+      stub_empty_history_for_screening(participants_screening)
+
+      stub_request(:get,
+        intake_api_url(
+          ExternalRoutes
+            .intake_api_relationships_by_screening_path(participants_screening.id)
+        )).and_return(json_body(relationships.to_json, status: 200))
     end
 
     scenario 'viewing a screening' do
@@ -157,12 +157,11 @@ feature 'Relationship card' do
       end
 
       expect(
-        a_request(
-          :get,
+        a_request(:get,
           intake_api_url(
-            ExternalRoutes.intake_api_relationships_by_screening_path(participants_screening.id)
-          )
-        )
+            ExternalRoutes
+              .intake_api_relationships_by_screening_path(participants_screening.id)
+          ))
       ).to have_been_made
     end
 
@@ -181,12 +180,11 @@ feature 'Relationship card' do
         end
 
         expect(
-          a_request(
-            :get,
+          a_request(:get,
             intake_api_url(
-              ExternalRoutes.intake_api_relationships_by_screening_path(participants_screening.id)
-            )
-          )
+              ExternalRoutes
+                .intake_api_relationships_by_screening_path(participants_screening.id)
+            ))
         ).to have_been_made
       end
 
@@ -204,12 +202,11 @@ feature 'Relationship card' do
         end
 
         expect(
-          a_request(
-            :get,
+          a_request(:get,
             intake_api_url(
-              ExternalRoutes.intake_api_relationships_by_screening_path(participants_screening.id)
-            )
-          )
+              ExternalRoutes
+                .intake_api_relationships_by_screening_path(participants_screening.id)
+            ))
         ).to have_been_made.at_least_times(2)
 
         within '#relationships-card.card.show', text: 'Relationships' do
@@ -225,12 +222,11 @@ feature 'Relationship card' do
           intake_api_url(ExternalRoutes.intake_api_screening_people_path(screening_id)))
           .and_return(json_body(new_participant.to_json, status: 201))
 
-        stub_request(
-          :get,
+        stub_request(:get,
           intake_api_url(
-            ExternalRoutes.intake_api_relationships_by_screening_path(participants_screening.id)
-          )
-        ).and_return(json_body(new_relationships.to_json, status: 200))
+            ExternalRoutes
+              .intake_api_relationships_by_screening_path(participants_screening.id)
+          )).and_return(json_body(new_relationships.to_json, status: 200))
 
         stub_person_search(search_term: 'ma', person_response: empty_response)
         stub_person_search(search_term: 'undefined undefined', person_response: empty_response)
@@ -250,12 +246,11 @@ feature 'Relationship card' do
         end
 
         expect(
-          a_request(
-            :get,
+          a_request(:get,
             intake_api_url(
-              ExternalRoutes.intake_api_relationships_by_screening_path(participants_screening.id)
-            )
-          )
+              ExternalRoutes
+                .intake_api_relationships_by_screening_path(participants_screening.id)
+            ))
         ).to have_been_made.twice
 
         within '#relationships-card.card.show', text: 'Relationships' do
@@ -282,16 +277,17 @@ feature 'Relationship card' do
 
         expect(
           a_request(:put,
-            intake_api_url(ExternalRoutes.intake_api_participant_path(participant.id)))
+            intake_api_url(
+              ExternalRoutes.intake_api_participant_path(participant.id)
+            ))
         ).to have_been_made
 
         expect(
-          a_request(
-            :get,
+          a_request(:get,
             intake_api_url(
-              ExternalRoutes.intake_api_relationships_by_screening_path(participants_screening.id)
-            )
-          )
+              ExternalRoutes
+                .intake_api_relationships_by_screening_path(participants_screening.id)
+            ))
         ).to have_been_made.times(2)
       end
 
@@ -303,37 +299,34 @@ feature 'Relationship card' do
           stub_request(:post,
             intake_api_url(
               ExternalRoutes.intake_api_screening_people_path(participants_screening.id)
-            )
-          ).and_return(json_body(new_participant.to_json, status: 201))
+            )).and_return(json_body(new_participant.to_json, status: 201))
         end
 
         describe '#relationships-card' do
-          describe  '.unassociated-person' do
+          describe '.unassociated-person' do
             scenario 'allows attachment' do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
               expect(
-                a_request(
-                  :post,
+                a_request(:post,
                   intake_api_url(
-                    ExternalRoutes.intake_api_screening_people_path(participants_screening.id)
-                  )
-                )
+                    ExternalRoutes
+                      .intake_api_screening_people_path(participants_screening.id)
+                  ))
               ).to have_been_made.times(1)
             end
 
-            scenario  'attached person should appear on the existing screening' do
+            scenario 'attached person should appear on the existing screening' do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
               expect(page).to have_css("div#participants-card-#{new_participant.id}")
             end
 
-            scenario  'show existing relationships for the attached person.' do
+            scenario 'show existing relationships for the attached person.' do
               new_relationships.last[:relationships].push(jake)
-              stub_request(
-                :get,
+              stub_request(:get,
                 intake_api_url(
-                  ExternalRoutes.intake_api_relationships_by_screening_path(new_participant.screening_id)
-                )
-              ).and_return(json_body(new_relationships.to_json, status: 200))
+                  ExternalRoutes
+                    .intake_api_relationships_by_screening_path(new_participant.screening_id)
+                )).and_return(json_body(new_relationships.to_json, status: 200))
 
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
 
@@ -341,7 +334,7 @@ feature 'Relationship card' do
               expect(page).to have_content('Sister (Half)   of Jake Campbell')
             end
 
-            scenario  'should display the newly added person in sidebar' do
+            scenario 'should display the newly added person in sidebar' do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
               within 'div.side-bar' do
                 expect(page).to have_content('Jane Campbell')
@@ -349,7 +342,7 @@ feature 'Relationship card' do
             end
           end
 
-          describe  '.associated-person' do
+          describe '.associated-person' do
             scenario 'does not allow attachment' do
               expect(page).not_to have_xpath(".//li[contains(., 'of Jane Campbell')]//a")
             end
