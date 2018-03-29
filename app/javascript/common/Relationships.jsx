@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const attachLink = (onClick, realtionship, Id) => (
-  <a onClick = {() => { onClick(realtionship, Id) }}>&nbsp;Attach</a>
+const attachLink = (onClick, relationship, Id) => (
+  <a onClick = {() => { onClick(relationship, Id) }}>&nbsp;Attach</a>
 )
 
 export const Relationships = ({people, onClick, snapshotId, screeningId, isScreening}) => (
