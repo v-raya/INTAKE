@@ -117,16 +117,16 @@ feature 'Relationship card' do
   context 'a screening without participants' do
     scenario 'edit an existing screening' do
       stub_and_visit_edit_screening(existing_screening)
-      within '#relationships-card', text: 'Relationships' do
-        expect(page).to have_content('Search for people and add them to see their relationships.')
-      end
+
+      should_have_content('Search for people and add them to see their relationships.',
+        inside: '#relationships-card')
     end
 
     scenario 'view an existing screening' do
       stub_and_visit_show_screening(existing_screening)
-      within '#relationships-card', text: 'Relationships' do
-        expect(page).to have_content('Search for people and add them to see their relationships.')
-      end
+
+      should_have_content('Search for people and add them to see their relationships.',
+        inside: '#relationships-card')
     end
   end
 
@@ -209,9 +209,8 @@ feature 'Relationship card' do
             ))
         ).to have_been_made.at_least_times(2)
 
-        within '#relationships-card.card.show', text: 'Relationships' do
-          expect(page).to have_content('Search for people and add them to see their relationships.')
-        end
+        should_have_content('Search for people and add them to see their relationships.',
+          inside: '#relationships-card.card.show')
       end
 
       scenario 'adding a new person fetches new relationships' do
@@ -240,9 +239,7 @@ feature 'Relationship card' do
         end
 
         within edit_participant_card_selector(new_participant.id) do
-          within '.card-header' do
-            expect(page).to have_content 'Jane Campbell'
-          end
+          should_have_content('Jane Campbell', inside: '.card-header')
         end
 
         expect(
@@ -258,6 +255,7 @@ feature 'Relationship card' do
             "#{relationships.first[:first_name]} #{relationships.first[:last_name]} is the.."
           )
           expect(page).to have_content('Sister (Half) of Jake Campbell')
+
           expect(page).to have_content(
             "#{new_participant.first_name} #{new_participant.last_name} has no known relationships"
           )
@@ -293,6 +291,7 @@ feature 'Relationship card' do
 
       context '#attach-relationships' do
         before(:each) do
+          new_relationships.last[:relationships].push(jake)
           stub_empty_history_for_screening(participants_screening, response: hoi)
           visit edit_screening_path(id: participants_screening.id)
 
@@ -336,9 +335,7 @@ feature 'Relationship card' do
 
             scenario 'should display the name of the newly attached person in sidebar' do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
-              within 'div.side-bar' do
-                expect(page).to have_content('Jane Campbell')
-              end
+              should_have_content('Jane Campbell', inside: 'div.side-bar')
             end
           end
 
@@ -356,10 +353,9 @@ feature 'Relationship card' do
             end
 
             scenario 'should show existing screenings' do
-              within 'div#history-card' do
-                expect(page).to have_css('td', text: [new_participant.first_name,
-                                                      new_participant.last_name].join(' '))
-              end
+              text = [new_participant.first_name,
+                      new_participant.last_name].join(' ')
+              should_have_content(text, inside: 'div#history-card')
             end
 
             scenario 'does not show duplicated screenings' do
