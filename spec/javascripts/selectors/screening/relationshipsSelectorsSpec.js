@@ -48,7 +48,6 @@ describe('relationshipsViewSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '2',
               },
-              person_card_exists: true,
             },
             {
               related_person_first_name: 'Will',
