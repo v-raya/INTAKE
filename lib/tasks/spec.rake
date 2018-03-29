@@ -48,6 +48,12 @@ namespace :spec do # rubocop:disable BlockLength
       system "#{webpack?} #{run_in_intake_container(cmd)} #{file_list}"
     end
 
+    desc 'Run specs in parallel, and serialize the output'
+    task :verbose do
+      cmd = 'bundle exec parallel_rspec -m 2 --serialize-stdout -- -f documentation --'
+      system "#{webpack?} #{run_in_intake_container(cmd)} #{file_list}"
+    end
+
     desc 'Run ALL THE SPECS, LINT, & KARMA!!!'
     task :full do
       if system('bin/lint') && system('bin/karma')
