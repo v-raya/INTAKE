@@ -16,3 +16,6 @@ export function fetchRelationshipsFailure(error) {
 export function fetchRelationships(type, id) {
   return {type: FETCH_RELATIONSHIPS, payload: {type, id}}
 }
+export function fetchRelationshipsByClientIds(ids) {
+  return {type: FETCH_RELATIONSHIPS, payload: {type: 'clients', ids}}
+}

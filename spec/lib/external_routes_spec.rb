@@ -96,6 +96,14 @@ describe ExternalRoutes do
     end
   end
 
+  describe '.ferb_api_relationships_path' do
+    it 'returns the base path' do
+      expect(described_class.ferb_api_relationships_path).to eq(
+        '/clients/relationships'
+      )
+    end
+  end
+
   describe '.ferb_api_lov_path' do
     it 'returns /lov' do
       expect(described_class.ferb_api_lov_path).to eq('/lov')

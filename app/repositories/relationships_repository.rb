@@ -12,4 +12,15 @@ class RelationshipsRepository
     )
     response.body
   end
+
+  def self.search(security_token, client_ids)
+    return [] if client_ids.blank?
+
+    FerbAPI.make_api_call(
+      security_token,
+      ExternalRoutes.ferb_api_relationships_path,
+      :get,
+      clientIds: client_ids
+    ).body
+  end
 end

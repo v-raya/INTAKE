@@ -47,6 +47,8 @@ Rails.application.routes.draw do
         only: %i[update],
         constraints: Routes::ActiveScreeningsConstraint
 
+      resources :relationships, only: %i[index]
+
       resource :people, only: [:search] do
         collection do
           get 'search'

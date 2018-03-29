@@ -1,5 +1,5 @@
 import 'babel-polyfill'
-import {takeEvery, put, call} from 'redux-saga/effects'
+import {takeEvery, put, call, select} from 'redux-saga/effects'
 import {post} from 'utils/http'
 import {
   createSnapshotPerson,
@@ -8,7 +8,8 @@ import {
 import {CREATE_SNAPSHOT_PERSON} from 'actions/personCardActions'
 import * as personCardActions from 'actions/personCardActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
-import {fetchRelationships} from 'actions/relationshipsActions'
+import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
+import {getClientIdsSelector} from 'selectors/clientSelectors'
 
 describe('createSnapshotPersonSaga', () => {
   it('creates participant on CREATE_SNAPSHOT_PERSON', () => {
@@ -18,11 +19,11 @@ describe('createSnapshotPersonSaga', () => {
 })
 
 describe('createSnapshotPerson', () => {
-  const snapashotId = '444'
+  const snapshotId = '444'
   const legacy_descriptor = {legacy_id: '1', legacy_table_name: 'table'}
-  const params = {screening_id: snapashotId, legacy_descriptor}
+  const params = {screening_id: snapshotId, legacy_descriptor}
   const participant = {first_name: 'Michael', ...params}
-  const action = personCardActions.createSnapshotPerson({snapshotId: snapashotId, legacy_descriptor})
+  const action = personCardActions.createSnapshotPerson({snapshotId: snapshotId, legacy_descriptor})
 
   it('creates and puts participant and fetches relationships and history', () => {
     const gen = createSnapshotPerson(action)
@@ -30,11 +31,14 @@ describe('createSnapshotPerson', () => {
     expect(gen.next(participant).value).toEqual(
       put(personCardActions.createPersonSuccess(participant))
     )
-    expect(gen.next(snapashotId).value).toEqual(
-      put(fetchRelationships('snapshots', snapashotId))
+    expect(gen.next().value).toEqual(
+      select(getClientIdsSelector)
     )
-    expect(gen.next(snapashotId).value).toEqual(
-      put(fetchHistoryOfInvolvements('snapshots', snapashotId))
+    expect(gen.next(['1']).value).toEqual(
+      put(fetchRelationshipsByClientIds(['1']))
+    )
+    expect(gen.next(snapshotId).value).toEqual(
+      put(fetchHistoryOfInvolvements('snapshots', snapshotId))
     )
   })
 
