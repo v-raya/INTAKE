@@ -303,7 +303,7 @@ feature 'Relationship card' do
         end
 
         describe '#relationships-card' do
-          describe '.unassociated-person' do
+          describe '.unattached-person to screening' do
             scenario 'allows attachment' do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
               expect(
@@ -315,12 +315,12 @@ feature 'Relationship card' do
               ).to have_been_made.times(1)
             end
 
-            scenario 'attached person should appear on the existing screening' do
+            scenario 'attached person should appear on the current screening' do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
               expect(page).to have_css("div#participants-card-#{new_participant.id}")
             end
 
-            scenario 'show existing relationships for the attached person.' do
+            scenario 'show relationships for the newly attached person' do
               new_relationships.last[:relationships].push(jake)
               stub_request(:get,
                 intake_api_url(
@@ -334,7 +334,7 @@ feature 'Relationship card' do
               expect(page).to have_content('Sister (Half)   of Jake Campbell')
             end
 
-            scenario 'should display the newly added person in sidebar' do
+            scenario 'should display the name of the newly attached person in sidebar' do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
               within 'div.side-bar' do
                 expect(page).to have_content('Jane Campbell')
@@ -342,27 +342,27 @@ feature 'Relationship card' do
             end
           end
 
-          describe '.associated-person' do
-            scenario 'does not allow attachment' do
+          describe '.attached-person' do
+            scenario 'does not show "Attach" link' do
               expect(page).not_to have_xpath(".//li[contains(., 'of Jane Campbell')]//a")
             end
           end
         end
 
         describe '#history-of-involvement' do
-          describe '.associated-person' do
+          describe 'newly .attached-person to screening' do
             before(:each) do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
             end
 
-            scenario 'should show screening' do
+            scenario 'should show existing screenings' do
               within 'div#history-card' do
                 expect(page).to have_css('td', text: [new_participant.first_name,
                                                       new_participant.last_name].join(' '))
               end
             end
 
-            scenario 'does not duplicate screening' do
+            scenario 'does not show duplicated screenings' do
               expect(
                 a_request(:get,
                   ferb_api_url(
