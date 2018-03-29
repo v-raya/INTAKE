@@ -2,7 +2,8 @@
 
 require 'rails_helper'
 require 'feature/testing'
-
+NUMBER_OF_FRAGMENTS = 5
+BOOSTING_FACTOR = 2
 describe PersonSearchRepository do
   describe '.search' do
     let(:security_token) { 'my_security_token' }
@@ -41,7 +42,7 @@ describe PersonSearchRepository do
     let(:highlight) do
       {
         order: 'score',
-        number_of_fragments: 3,
+        number_of_fragments: NUMBER_OF_FRAGMENTS,
         require_field_match: false,
         fields: { :* => {} }
       }
@@ -53,17 +54,33 @@ describe PersonSearchRepository do
             match: {
               autocomplete_search_bar: {
                 query: 'robert barathian',
+                fuzziness: 'AUTO',
                 operator: 'and'
               }
             }
           }],
           should: [
-            { match: { first_name: { query: 'robert barathian' } } },
-            { match: { last_name: { query: 'robert barathian' } } },
-            { match: { 'aka.first_name': { query: 'robert barathian' } } },
-            { match: { 'aka.last_name': { query: 'robert barathian' } } },
-            { match: { date_of_birth_as_text: { query: 'robert barathian' } } },
-            { match: { ssn: { query: 'robert barathian' } } }
+
+            {
+              match: {
+                autocomplete_search_bar: {
+                  query: 'robert barathian',
+                  operator: 'and'
+                }
+              }
+            },
+            { match: { first_name: { query: 'robert barathian',
+                                     boost: BOOSTING_FACTOR } } },
+            { match: { last_name: { query: 'robert barathian',
+                                    boost: BOOSTING_FACTOR } } },
+            { match: { 'aka.first_name': { query: 'robert barathian',
+                                           boost: BOOSTING_FACTOR } } },
+            { match: { 'aka.last_name': { query: 'robert barathian',
+                                          boost: BOOSTING_FACTOR } } },
+            { match: { date_of_birth_as_text: { query: 'robert barathian',
+                                                boost: BOOSTING_FACTOR } } },
+            { match: { ssn: { query: 'robert barathian',
+                              boost: BOOSTING_FACTOR } } }
           ]
         }
       }

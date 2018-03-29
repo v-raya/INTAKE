@@ -23,6 +23,7 @@ module WebmockHelpers
               'match' => {
                 'autocomplete_search_bar' => {
                   'query' => search_term.downcase,
+                  'fuzziness' => 'AUTO',
                   'operator' => 'and'
                 }
               }
