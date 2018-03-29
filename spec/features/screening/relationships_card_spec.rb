@@ -370,6 +370,14 @@ feature 'Relationship card' do
             end
 
             scenario 'does not duplicate screening' do
+              expect(
+                a_request(:get,
+                  ferb_api_url(
+                    ExternalRoutes
+                      .ferb_api_screening_history_of_involvements_path(participants_screening.id)
+                  ))
+              ).to have_been_made.twice
+
               expect(page).to \
                 have_selector('td', text: [new_participant.first_name,
                                            new_participant.last_name].join(' '),
