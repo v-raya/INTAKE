@@ -45,12 +45,27 @@ module Capybara
       def modal_dialog_present?(driver)
         driver.browser.switch_to.alert
         true
-      rescue ::Selenium::WebDriver::Error::NoSuchAlertError, ::NoMethodError
+      rescue ::Selenium::WebDriver::Error::UnhandledAlertError,
+             ::Selenium::WebDriver::Error::NoSuchAlertError,
+             ::NoMethodError
         false
       end
     end
   end
 end
+
+# Hack to increase the timeout for launching firefox
+module Selenium
+  module WebDriver
+    module Firefox
+      class Launcher
+        remove_const(:SOCKET_LOCK_TIMEOUT)
+      end
+    end
+  end
+end
+
+::Selenium::WebDriver::Firefox::Launcher::SOCKET_LOCK_TIMEOUT = 90
 
 Capybara::Accessible::Auditor::Node.class_eval do
   SELECTORS_TO_IGNORE = <<-IGNORES
