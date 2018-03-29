@@ -150,11 +150,11 @@ input[type='radio']:disabled + label::before {
 }
 
 .input-no-header {
-  margin-top: 56px;
+  padding-top: 36px;
 }
 
 .text-between-inputs {
-  -webkit-margin-before: 65px;
+  padding-top: 50px;
   text-align: center;
 }
 
