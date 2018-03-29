@@ -79,6 +79,10 @@ class ExternalRoutes
       "/authorize/client/#{id}"
     end
 
+    def ferb_api_relationships_path
+      '/clients/relationships'
+    end
+
     def sdm_path
       'https://ca.sdmdata.org'
     end

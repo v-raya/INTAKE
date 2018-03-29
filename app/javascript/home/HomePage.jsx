@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import PageHeader from 'common/PageHeader'
 import {isFeatureActive} from 'common/config'
+import {clearErrors} from 'actions/clearErrors'
 
 export class HomePage extends React.Component {
   constructor() {
@@ -15,6 +16,7 @@ export class HomePage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.actions.clearErrors()
     if (isFeatureActive('screenings')) {
       this.props.actions.fetchScreenings()
     }
@@ -87,7 +89,7 @@ function mapStateToProps(state, _ownProps) {
 }
 
 function mapDispatchToProps(dispatch, _ownProps) {
-  const actions = {fetchScreenings, createScreening, createSnapshot, ...screeningActions}
+  const actions = {clearErrors, fetchScreenings, createScreening, createSnapshot, ...screeningActions}
   return {
     actions: bindActionCreators(actions, dispatch),
   }

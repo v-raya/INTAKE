@@ -25,7 +25,24 @@ module Api
         :ssn,
         :sealed,
         :sensitive,
-        addresses: %i[id legacy_id legacy_source_table street_address city state zip type],
+        addresses: [
+          :id,
+          :legacy_id,
+          :legacy_source_table,
+          :street_address,
+          :city,
+          :state,
+          :zip,
+          :type,
+          legacy_descriptor: %i[
+            id
+            legacy_id
+            legacy_last_updated
+            legacy_table_description
+            legacy_table_name
+            legacy_ui_id
+          ]
+        ],
         legacy_descriptor: %i[
           id
           legacy_id

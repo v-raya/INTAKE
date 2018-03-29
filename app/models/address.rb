@@ -9,6 +9,7 @@ class Address # :nodoc:
   attribute :id
   attribute :legacy_id
   attribute :legacy_source_table
+  attribute :legacy_descriptor, LegacyDescriptor
   attribute :state
   attribute :street_address
   attribute :zip

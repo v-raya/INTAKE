@@ -14,13 +14,14 @@ import {CREATE_PERSON_COMPLETE} from 'actions/personCardActions'
 
 const buildAddresses = (addresses) => {
   if (addresses) {
-    return addresses.map(({id, street_address, city, state, zip, type}) => ({
+    return addresses.map(({id, street_address, city, state, zip, type, legacy_descriptor}) => ({
       id,
       street: {value: street_address},
       city: {value: city},
       state: {value: state},
       zip: {value: zip},
       type: {value: type},
+      legacy_descriptor: {value: legacy_descriptor},
     }))
   } else {
     return []

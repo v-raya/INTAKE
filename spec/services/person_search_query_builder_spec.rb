@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+NUMBER_OF_FRAGMENTS = 5
+BOOSTING_FACTOR = 2
 describe PersonSearchQueryBuilder do
   let(:search_term) { 'This is my search term' }
 
@@ -33,6 +35,7 @@ describe PersonSearchQueryBuilder do
             'addresses.state_code',
             'addresses.zip',
             'addresses.type',
+            'addresses.legacy_descriptor',
             'phone_numbers.id',
             'phone_numbers.number',
             'phone_numbers.type',
@@ -43,7 +46,7 @@ describe PersonSearchQueryBuilder do
           ],
           highlight: {
             order: 'score',
-            number_of_fragments: 3,
+            number_of_fragments:  NUMBER_OF_FRAGMENTS,
             require_field_match: false,
             fields: { '*': {} }
           },
@@ -58,6 +61,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     autocomplete_search_bar: {
                       query: 'this is my search term',
+                      fuzziness: 'AUTO',
                       operator: 'and'
                     }
                   }
@@ -66,43 +70,57 @@ describe PersonSearchQueryBuilder do
               should: [
                 {
                   match: {
+                    autocomplete_search_bar: {
+                      query: 'this is my search term',
+                      operator: 'and'
+                    }
+                  }
+                },
+                {
+                  match: {
                     first_name: {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     last_name: {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     'aka.first_name': {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     'aka.last_name': {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     date_of_birth_as_text: {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     ssn: {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 }
@@ -139,6 +157,7 @@ describe PersonSearchQueryBuilder do
             'addresses.state_code',
             'addresses.zip',
             'addresses.type',
+            'addresses.legacy_descriptor',
             'phone_numbers.id',
             'phone_numbers.number',
             'phone_numbers.type',
@@ -149,7 +168,7 @@ describe PersonSearchQueryBuilder do
           ],
           highlight: {
             order: 'score',
-            number_of_fragments: 3,
+            number_of_fragments:  NUMBER_OF_FRAGMENTS,
             require_field_match: false,
             fields: { '*': {} }
           },
@@ -163,6 +182,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     autocomplete_search_bar: {
                       query: 'this is my search term',
+                      fuzziness: 'AUTO',
                       operator: 'and'
                     }
                   }
@@ -171,43 +191,57 @@ describe PersonSearchQueryBuilder do
               should: [
                 {
                   match: {
+                    autocomplete_search_bar: {
+                      query: 'this is my search term',
+                      operator: 'and'
+                    }
+                  }
+                },
+                {
+                  match: {
                     first_name: {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     last_name: {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     'aka.first_name': {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     'aka.last_name': {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     date_of_birth_as_text: {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 },
                 {
                   match: {
                     ssn: {
-                      query: 'this is my search term'
+                      query: 'this is my search term',
+                      boost: BOOSTING_FACTOR
                     }
                   }
                 }
@@ -250,6 +284,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         autocomplete_search_bar: {
                           query: expected_results[index],
+                          fuzziness: 'AUTO',
                           operator: 'and'
                         }
                       }
@@ -258,43 +293,57 @@ describe PersonSearchQueryBuilder do
                   should: [
                     {
                       match: {
+                        autocomplete_search_bar: {
+                          query: expected_results[index],
+                          operator: 'and'
+                        }
+                      }
+                    },
+                    {
+                      match: {
                         first_name: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         last_name: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         'aka.first_name': {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         'aka.last_name': {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         date_of_birth_as_text: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         ssn: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     }
@@ -337,6 +386,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         autocomplete_search_bar: {
                           query: expected_results[index],
+                          fuzziness: 'AUTO',
                           operator: 'and'
                         }
                       }
@@ -345,43 +395,57 @@ describe PersonSearchQueryBuilder do
                   should: [
                     {
                       match: {
+                        autocomplete_search_bar: {
+                          query: expected_results[index],
+                          operator: 'and'
+                        }
+                      }
+                    },
+                    {
+                      match: {
                         first_name: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         last_name: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         'aka.first_name': {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         'aka.last_name': {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         date_of_birth_as_text: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         ssn: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     }
@@ -407,6 +471,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       autocomplete_search_bar: {
                         query: expected_search_term,
+                        fuzziness: 'AUTO',
                         operator: 'and'
                       }
                     }
@@ -415,43 +480,58 @@ describe PersonSearchQueryBuilder do
                 should: [
                   {
                     match: {
+                      autocomplete_search_bar: {
+                        query: expected_search_term,
+                        operator: 'and'
+                      }
+                    }
+                  },
+
+                  {
+                    match: {
                       first_name: {
-                        query: expected_search_term
+                        query: expected_search_term,
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
                   {
                     match: {
                       last_name: {
-                        query: expected_search_term
+                        query: expected_search_term,
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
                   {
                     match: {
                       'aka.first_name': {
-                        query: expected_search_term
+                        query: expected_search_term,
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
                   {
                     match: {
                       'aka.last_name': {
-                        query: expected_search_term
+                        query: expected_search_term,
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
                   {
                     match: {
                       date_of_birth_as_text: {
-                        query: expected_search_term
+                        query: expected_search_term,
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   },
                   {
                     match: {
                       ssn: {
-                        query: expected_search_term
+                        query: expected_search_term,
+                        boost: BOOSTING_FACTOR
                       }
                     }
                   }
@@ -517,6 +597,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         autocomplete_search_bar: {
                           query: expected_results[index],
+                          fuzziness: 'AUTO',
                           operator: 'and'
                         }
                       }
@@ -525,43 +606,57 @@ describe PersonSearchQueryBuilder do
                   should: [
                     {
                       match: {
+                        autocomplete_search_bar: {
+                          query: expected_results[index],
+                          operator: 'and'
+                        }
+                      }
+                    },
+                    {
+                      match: {
                         first_name: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         last_name: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         'aka.first_name': {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         'aka.last_name': {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         date_of_birth_as_text: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     },
                     {
                       match: {
                         ssn: {
-                          query: expected_results[index]
+                          query: expected_results[index],
+                          boost: BOOSTING_FACTOR
                         }
                       }
                     }
