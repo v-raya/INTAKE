@@ -120,6 +120,18 @@
   }
 }
 
+.nested-block {
+  .navlink {
+    display: flex;
+    padding: 1rem;
+
+    .pre-icon {
+      margin-right: 1rem;
+      margin-top: .4rem;
+    }
+  }
+}
+
 @media (min-width: 992px){
   .container {
     width: 990px;
