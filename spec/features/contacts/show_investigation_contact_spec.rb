@@ -29,11 +29,11 @@ feature 'Show Investigation Contact' do
     }
   end
   let(:investigation_show_url) do
-    investigation_show_path = ExternalRoutes.ferb_api_investigation_path(investigation_id)
+    investigation_show_path = FerbRoutes.investigation_path(investigation_id)
     ferb_api_url(investigation_show_path)
   end
   let(:contact_show_url) do
-    contact_show_path = ExternalRoutes.ferb_api_investigations_contact_path(
+    contact_show_path = FerbRoutes.investigations_contact_path(
       investigation_id, contact_id
     )
     ferb_api_url(contact_show_path)

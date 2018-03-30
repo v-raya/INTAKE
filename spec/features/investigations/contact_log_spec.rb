@@ -49,7 +49,7 @@ feature 'Contact Log' do
     }
   end
   let(:investigation_show_url) do
-    ferb_api_url(ExternalRoutes.ferb_api_investigation_path(investigation_id))
+    ferb_api_url(FerbRoutes.investigation_path(investigation_id))
   end
   before do
     stub_request(:get, investigation_show_url)

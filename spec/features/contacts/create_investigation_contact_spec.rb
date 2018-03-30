@@ -20,7 +20,7 @@ feature 'Create Investigation Contact' do
 
   before do
     stub_request(
-      :get, ferb_api_url(ExternalRoutes.ferb_api_investigation_path(investigation_id))
+      :get, ferb_api_url(FerbRoutes.investigation_path(investigation_id))
     ).and_return(json_body({ people: people }.to_json, status: 200))
     visit new_investigation_contact_path(investigation_id: investigation_id)
   end
@@ -48,8 +48,8 @@ feature 'Create Investigation Contact' do
     expect(page).to have_select('Purpose', selected: 'Contact purpose 1')
 
     contact_id = 'new_contact_id'
-    show_path = ExternalRoutes.ferb_api_investigations_contact_path(investigation_id, contact_id)
-    create_path = ExternalRoutes.ferb_api_investigations_contacts_path(investigation_id)
+    show_path = FerbRoutes.investigations_contact_path(investigation_id, contact_id)
+    create_path = FerbRoutes.investigations_contacts_path(investigation_id)
     persisted_contact = { legacy_descriptor: { legacy_id: contact_id } }
     stub_request(:post, ferb_api_url(create_path)).and_return(
       json_body(persisted_contact.to_json, status: 201)
@@ -89,8 +89,8 @@ feature 'Create Investigation Contact' do
 
   scenario 'saving with communication method not set to in-person save location as office' do
     contact_id = 'new_contact_id'
-    show_path = ExternalRoutes.ferb_api_investigations_contact_path(investigation_id, contact_id)
-    create_path = ExternalRoutes.ferb_api_investigations_contacts_path(investigation_id)
+    show_path = FerbRoutes.investigations_contact_path(investigation_id, contact_id)
+    create_path = FerbRoutes.investigations_contacts_path(investigation_id)
     persisted_contact = { legacy_descriptor: { legacy_id: contact_id } }
     stub_request(:post, ferb_api_url(create_path)).and_return(
       json_body(persisted_contact.to_json, status: 201)
@@ -105,7 +105,7 @@ feature 'Create Investigation Contact' do
     fill_in 'Contact Notes', with: 'This was an attempted contact'
     click_button 'Save'
     expect(
-      a_request(:post, ferb_api_url(ExternalRoutes.ferb_api_investigations_contacts_path('123ABC')))
+      a_request(:post, ferb_api_url(FerbRoutes.investigations_contacts_path('123ABC')))
       .with(
         body: {
           started_at: '2016-08-17T10:00:00.000Z',

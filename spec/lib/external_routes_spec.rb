@@ -73,48 +73,4 @@ describe ExternalRoutes do
       )
     end
   end
-
-  describe '.ferb_api_staff_path' do
-    it 'returns /staffpersons/:id' do
-      expect(described_class.ferb_api_staff_path(24)).to eq('/staffpersons/24')
-    end
-  end
-
-  describe '.ferb_api_screening_history_of_involvements_path' do
-    it 'returns /screenings/:id/history_of_involvements' do
-      expect(described_class.ferb_api_screening_history_of_involvements_path(82)).to eq(
-        '/screenings/82/history_of_involvements'
-      )
-    end
-  end
-
-  describe '.ferb_api_investigations_contacts_path' do
-    it 'returns /investigations/:id/contacts' do
-      expect(described_class.ferb_api_investigations_contacts_path(33)).to eq(
-        '/investigations/33/contacts'
-      )
-    end
-  end
-
-  describe '.ferb_api_relationships_path' do
-    it 'returns the base path' do
-      expect(described_class.ferb_api_relationships_path).to eq(
-        '/clients/relationships'
-      )
-    end
-  end
-
-  describe '.ferb_api_history_of_involvements_path' do
-    it 'returns the base path' do
-      expect(described_class.ferb_api_history_of_involvements_path).to eq(
-        '/clients/history_of_involvements'
-      )
-    end
-  end
-
-  describe '.ferb_api_lov_path' do
-    it 'returns /lov' do
-      expect(described_class.ferb_api_lov_path).to eq('/lov')
-    end
-  end
 end

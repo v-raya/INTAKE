@@ -58,7 +58,7 @@ feature 'error pages' do
 
   context 'investigation does not exist' do
     scenario 'renders not found error page' do
-      stub_request(:get, ferb_api_url(ExternalRoutes.ferb_api_investigation_path(1)))
+      stub_request(:get, ferb_api_url(FerbRoutes.investigation_path(1)))
         .and_return(json_body('Investigation is not found!!', status: 404))
       stub_empty_history_for_screening(id: 1)
       visit investigation_path(id: 1)
@@ -72,7 +72,7 @@ feature 'error pages' do
 
   context 'contact does not exist' do
     scenario 'renders not found error page' do
-      stub_request(:get, ferb_api_url(ExternalRoutes.ferb_api_investigations_contact_path(1, 1)))
+      stub_request(:get, ferb_api_url(FerbRoutes.investigations_contact_path(1, 1)))
         .and_return(json_body('investigation contact is not found!!', status: 404))
       visit investigation_contact_path(investigation_id: 1, id: 1)
       expect(page).to have_text('Sorry, this is not the page you want.')

@@ -181,7 +181,7 @@ feature 'Snapshot History of Involvement' do
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_relationships_path
+          FerbRoutes.relationships_path
         ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       ).and_return(json_body([].to_json, status: 200))
 
@@ -198,7 +198,7 @@ feature 'Snapshot History of Involvement' do
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_history_of_involvements_path
+          FerbRoutes.history_of_involvements_path
         ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       ).and_return(json_body(history.to_json, status: 200))
 
@@ -354,7 +354,7 @@ feature 'Snapshot History of Involvement' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_history_of_involvements_path
+            FerbRoutes.history_of_involvements_path
           ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
         )
       ).to have_been_made
@@ -374,7 +374,7 @@ feature 'Snapshot History of Involvement' do
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_relationships_path
+          FerbRoutes.relationships_path
         ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       ).and_return(json_body([].to_json, status: 200))
 
@@ -391,7 +391,7 @@ feature 'Snapshot History of Involvement' do
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_history_of_involvements_path
+          FerbRoutes.history_of_involvements_path
         ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       ).and_return(json_body(history.to_json, status: 200))
 
@@ -415,7 +415,7 @@ feature 'Snapshot History of Involvement' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_history_of_involvements_path
+            FerbRoutes.history_of_involvements_path
           ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
         )
       ).to have_been_made

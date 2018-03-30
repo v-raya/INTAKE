@@ -254,7 +254,7 @@ feature 'History card' do
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_screening_history_of_involvements_path(existing_screening.id)
+          FerbRoutes.screening_history_of_involvements_path(existing_screening.id)
         )
       ).and_return(json_body(screening_involvement.to_json, status: 200))
       stub_empty_relationships_for_screening(existing_screening)
@@ -404,7 +404,7 @@ feature 'History card' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(existing_screening.id)
+            FerbRoutes.screening_history_of_involvements_path(existing_screening.id)
           )
         )
       ).to have_been_made
@@ -417,7 +417,7 @@ feature 'History card' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(existing_screening.id)
+            FerbRoutes.screening_history_of_involvements_path(existing_screening.id)
           )
         )
       ).to have_been_made

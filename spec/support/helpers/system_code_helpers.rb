@@ -181,7 +181,7 @@ module SystemCodeHelpers
   end
 
   def stub_system_codes
-    stub_request(:get, /#{ExternalRoutes.ferb_api_lov_path}/).and_return(
+    stub_request(:get, /#{FerbRoutes.lov_path}/).and_return(
       json_body(system_codes, status: 200)
     )
   end

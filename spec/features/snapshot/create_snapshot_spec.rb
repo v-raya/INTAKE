@@ -127,7 +127,7 @@ feature 'Create Snapshot' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(new_snapshot.id)
+            FerbRoutes.screening_history_of_involvements_path(new_snapshot.id)
           )
         )
       ).not_to have_been_made
@@ -153,7 +153,7 @@ feature 'Create Snapshot' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(second_snapshot.id)
+            FerbRoutes.screening_history_of_involvements_path(second_snapshot.id)
           )
         )
       ).not_to have_been_made

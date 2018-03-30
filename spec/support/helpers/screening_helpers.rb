@@ -38,7 +38,7 @@ module ScreeningHelpers
                    end
     stub_request(
       :get,
-      ferb_api_url(ExternalRoutes.ferb_api_screening_history_of_involvements_path(screening_id))
+      ferb_api_url(FerbRoutes.screening_history_of_involvements_path(screening_id))
     ).and_return(json_body(response.to_json, status: 200))
   end
 
@@ -47,7 +47,7 @@ module ScreeningHelpers
     stub_request(
       :get,
       ferb_api_url(
-        ExternalRoutes.ferb_api_history_of_involvements_path
+        FerbRoutes.history_of_involvements_path
       ) + "?#{params}"
     ).and_return(json_body({ cases: [], referrals: [], screenings: [] }.to_json, status: 200))
   end

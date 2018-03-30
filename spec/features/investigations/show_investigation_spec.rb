@@ -36,7 +36,7 @@ feature 'Show Investigation' do
         safety_information: 'Animal is a tiger'
       }
       stub_request(
-        :get, ferb_api_url(ExternalRoutes.ferb_api_investigation_path(investigation_id))
+        :get, ferb_api_url(FerbRoutes.investigation_path(investigation_id))
       ).and_return(json_body({ screening_summary: screening_summary }.to_json, status: 200))
       visit investigation_path(id: investigation_id)
       within '.page-header-mast' do
@@ -84,7 +84,7 @@ feature 'Show Investigation' do
       expect(
         a_request(
           :get,
-          intake_api_url(ExternalRoutes.ferb_api_investigation_path(investigation_id))
+          intake_api_url(FerbRoutes.investigation_path(investigation_id))
         )
       ).to_not have_been_made
       expect(page).to have_content('Sorry, this is not the page you want')

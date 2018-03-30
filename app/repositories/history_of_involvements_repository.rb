@@ -8,7 +8,7 @@ class HistoryOfInvolvementsRepository
 
     FerbAPI.make_api_call(
       security_token,
-      ExternalRoutes.ferb_api_history_of_involvements_path,
+      FerbRoutes.history_of_involvements_path,
       :get,
       clientIds: client_ids
     ).body
