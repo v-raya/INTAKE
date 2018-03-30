@@ -5,6 +5,146 @@ require 'feature/testing'
 
 feature 'Snapshot History of Involvement' do
   let(:snapshot) { FactoryBot.create(:screening) }
+  let(:person) { FactoryBot.create(:participant, first_name: 'Marge', screening_id: snapshot.id) }
+
+  let(:screenings) do
+    [
+      {
+        id: '1234',
+        start_date: '2016-09-10',
+        county_name: 'el_dorado',
+        assigned_social_worker: { first_name: nil, last_name: 'Bob Smith' },
+        reporter: { first_name: 'Alex', last_name: 'Hanson' },
+        all_people: [
+          { first_name: nil, last_name: 'Bob Smith', roles: ['Assigned Social Worker'] },
+          { first_name: 'Alex', last_name: 'Hanson', roles: ['Reporter'] },
+          { first_name: 'Sally', last_name: 'Johnson', roles: ['Victim'] },
+          { first_name: 'Sam', last_name: 'Anderson', roles: ['Perpetrator'] },
+          { first_name: 'James', last_name: 'Robinson', roles: [] }
+        ]
+      },
+      {
+        start_date: '2016-08-10',
+        end_date: '2016-11-12',
+        county_name: 'el_dorado',
+        reporter: { first_name: nil, last_name: nil },
+        assigned_social_worker: { first_name: nil, last_name: nil },
+        all_people: []
+      }
+    ]
+  end
+
+  let(:referrals) do
+    [
+      {
+        id: '1234',
+        start_date: '2016-11-14',
+        end_date: '2016-12-14',
+        county_name: 'Madera',
+        response_time: 'Immediate',
+        reporter: {
+          first_name: 'Reporter1',
+          last_name: 'r1LastName'
+        },
+        assigned_social_worker: {
+          first_name: 'Social1',
+          last_name: 's1LastName'
+        },
+        allegations: [{
+          allegation_description: 'General Neglect',
+          disposition_description: 'Entered in Error',
+          perpetrator_first_name: 'Perpetrator1',
+          perpetrator_last_name: 'p1LastName',
+          victim_first_name: 'Victim1',
+          victim_last_name: 'v1LastName'
+        }],
+        legacy_descriptor: {
+          legacy_ui_id: '0853-2115-5670-6000802'
+        },
+        access_limitation: { limited_access_code: 'R' }
+      },
+      {
+        start_date: '2016-05-06',
+        county_name: 'San Francisco',
+        reporter: {
+          first_name: 'Reporter2',
+          last_name: 'r2LastName'
+        },
+        assigned_social_worker: {
+          first_name: 'Social2',
+          last_name: 's2LastName'
+        },
+        allegations: [{
+          allegation_description: 'Severe Neglect',
+          perpetrator_first_name: 'Perpetrator2',
+          perpetrator_last_name: 'p2LastName',
+          victim_first_name: 'Victim2',
+          victim_last_name: 'v2LastName'
+        }],
+        legacy_descriptor: {
+          legacy_ui_id: '0202-9769-1248-2000283'
+        },
+        access_limitation: { limited_access_code: 'S' }
+      }
+    ]
+  end
+
+  let(:cases) do
+    [
+      {
+        start_date: '2016-01-01',
+        end_date: '2016-11-01',
+        focus_child: {
+          last_name: 'fc1Last',
+          id: '0rumtwQ0Bn',
+          first_name: 'fChild1'
+        },
+        county_name: 'El Dorado',
+        service_component: 'Family Reunification',
+        parents: [
+          { first_name: 'Parent1', last_name: 'p1Last', id: 'AbiQA5q0Bo' },
+          { first_name: 'Parent2', last_name: 'p2Last', id: 'CaTvuzq0Bo' }
+        ],
+        assigned_social_worker: {
+          last_name: 'sw1LastName',
+          first_name: 'SocialWorker1'
+        },
+        legacy_descriptor: {
+          legacy_ui_id: '0393-5909-1798-6027230'
+        },
+        access_limitation: { limited_access_code: 'R' }
+      },
+      {
+        start_date: '2016-02-03',
+        focus_child: {
+          last_name: 'fc2Last',
+          id: '1234567',
+          first_name: 'fChild2'
+        },
+        county_name: 'Plumas',
+        parents: [
+          { first_name: 'Parent3', last_name: 'p3Last', id: 'ABC123' },
+          { first_name: 'Parent4', last_name: 'p4Last', id: 'ABCDEFG' }
+        ],
+        assigned_social_worker: {
+          last_name: 'sw2LastName',
+          first_name: 'SocialWorker2'
+        },
+        legacy_descriptor: {
+          legacy_ui_id: '0208-9997-9274-0000863'
+        },
+        access_limitation: { limited_access_code: 'N' }
+      }
+    ]
+  end
+
+  let(:history) do
+    {
+      referrals: referrals,
+      screenings: screenings,
+      cases: cases
+    }
+  end
 
   before do
     stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
@@ -12,7 +152,7 @@ feature 'Snapshot History of Involvement' do
     stub_system_codes
   end
 
-  context 'with no history of envolvements' do
+  context 'with no history of involvements' do
     around do |example|
       Feature.run_with_activated(:release_two) do
         example.run
@@ -35,237 +175,14 @@ feature 'Snapshot History of Involvement' do
       end
     end
 
-    let(:screenings) do
-      [
-        {
-          id: '1234',
-          start_date: '2016-09-10',
-          county: {
-            id: '1101',
-            description: 'El Dorado'
-          },
-          assigned_social_worker: { id: 'wrk1234', first_name: 'Bob', last_name: 'Smith' },
-          reporter: { id: 'rpt1234', first_name: 'Alex', last_name: 'Hanson' },
-          all_people: [
-            { first_name: 'Bob', last_name: 'Smith', roles: ['Assigned Social Worker'] },
-            { first_name: 'Alex', last_name: 'Hanson', roles: ['Reporter'] },
-            { first_name: 'Sally', last_name: 'Johnson', roles: ['Victim'] },
-            { first_name: 'Sam', last_name: 'Anderson', roles: ['Perpetrator'] },
-            { first_name: 'James', last_name: 'Robinson', roles: [] }
-          ]
-        },
-        {
-          start_date: '2016-08-10',
-          end_date: '2016-11-12',
-          county: {
-            id: '1101',
-            description: 'El Dorado'
-          },
-          reporter: { first_name: nil, last_name: nil },
-          assigned_social_worker: { first_name: nil, last_name: nil },
-          all_people: []
-        }
-      ]
-    end
-
-    let(:referrals) do
-      [
-        {
-          id: '1234',
-          start_date: '2016-11-14',
-          end_date: '2016-12-14',
-          county: {
-            id: '1234',
-            description: 'Madera'
-          },
-          response_time: {
-            id: '1520'
-          },
-          reporter: {
-            first_name: 'Reporter1',
-            last_name: 'r1LastName'
-          },
-          assigned_social_worker: {
-            first_name: 'Social1',
-            last_name: 's1LastName'
-          },
-          allegations: [
-            {
-              type: { description: 'General Neglect' },
-              disposition: {
-                id: '45',
-                description: 'Entered in Error'
-              },
-              victim: {
-                first_name: 'Victim1',
-                last_name: 'v1LastName'
-              },
-              perpetrator: {
-                first_name: 'Perpetrator1',
-                last_name: 'p1LastName'
-              }
-            }
-          ],
-          legacy_descriptor: {
-            legacy_ui_id: '0853-2115-5670-6000802'
-          },
-          access_limitation: {
-            limited_access_code: 'SEALED'
-          }
-        },
-        {
-          start_date: '2016-05-06',
-          county: {
-            id: '415',
-            description: 'San Francisco'
-          },
-          reporter: {
-            first_name: 'Reporter2',
-            last_name: 'r2LastName'
-          },
-          assigned_social_worker: {
-            first_name: 'Social2',
-            last_name: 's2LastName'
-          },
-          allegations: [
-            {
-              type: { description: 'Severe Neglect' },
-              victim: {
-                first_name: 'Victim2',
-                last_name: 'v2LastName'
-              },
-              perpetrator: {
-                first_name: 'Perpetrator2',
-                last_name: 'p2LastName'
-              }
-            }
-          ],
-          legacy_descriptor: {
-            legacy_ui_id: '0202-9769-1248-2000283'
-          },
-          access_limitation: {
-            limited_access_code: 'SENSITIVE'
-          }
-        }
-      ]
-    end
-
-    let(:cases) do
-      [
-        {
-          start_date: '2016-01-01',
-          end_date: '2016-11-01',
-          focus_child: {
-            last_name: 'fc1Last',
-            id: '0rumtwQ0Bn',
-            first_name: 'fChild1'
-          },
-          county: {
-            id: '1101',
-            description: 'El Dorado'
-          },
-          service_component: {
-            id: '1695',
-            description: 'Family Reunification'
-          },
-          parents: [
-            {
-              last_name: 'p1Last',
-              id: 'AbiQA5q0Bo',
-              first_name: 'Parent1',
-              relationship: {
-                id: 'p1234',
-                description: 'Father/Son (Step)'
-              }
-            },
-            {
-              last_name: 'p2Last',
-              id: 'CaTvuzq0Bo',
-              first_name: 'Parent2',
-              relationship: {
-                id: 'p1234',
-                description: 'Mother/Son (Adoptive)'
-              }
-            }
-          ],
-          assigned_social_worker: {
-            last_name: 'sw1LastName',
-            first_name: 'SocialWorker1'
-          },
-          legacy_descriptor: {
-            legacy_ui_id: '0393-5909-1798-6027230'
-          },
-          access_limitation: {
-            limited_access_code: 'SEALED'
-          }
-        },
-        {
-          start_date: '2016-02-03',
-          focus_child: {
-            last_name: 'fc2Last',
-            id: '1234567',
-            first_name: 'fChild2'
-          },
-          county: {
-            id: 'p123',
-            description: 'Plumas'
-          },
-          parents: [
-            {
-              last_name: 'p3Last',
-              id: 'ABC123',
-              first_name: 'Parent3',
-              relationship: {
-                id: 'p1234',
-                description: 'Father/Son (Adoptive)'
-              }
-            },
-            {
-              last_name: 'p4Last',
-              id: 'ABCDEFG',
-              first_name: 'Parent4',
-              relationship: {
-                id: 'p1234',
-                description: 'Mother/Son (Adoptive)'
-              }
-            }
-          ],
-          assigned_social_worker: {
-            last_name: 'sw2LastName',
-            first_name: 'SocialWorker2'
-          },
-          legacy_descriptor: {
-            legacy_ui_id: '0208-9997-9274-0000863'
-          },
-          access_limitation: {
-            limited_access_code: 'NONE'
-          }
-        }
-      ]
-    end
-
-    let(:screening_involvement) do
-      {
-        referrals: referrals,
-        screenings: screenings,
-        cases: cases
-      }
-    end
-
     before do
       visit snapshot_path
+
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_screening_history_of_involvements_path(snapshot.id)
-        )
-      ).and_return(json_body(screening_involvement.to_json, status: 200))
-
-      stub_request(
-        :get,
-        intake_api_url(
-          ExternalRoutes.intake_api_relationships_by_screening_path(snapshot.id)
-        )
+          ExternalRoutes.ferb_api_relationships_path
+        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       ).and_return(json_body([].to_json, status: 200))
 
       search_response = PersonSearchResponseBuilder.build do |response|
@@ -278,7 +195,12 @@ feature 'Snapshot History of Involvement' do
           ]
         end
       end
-      person = FactoryBot.create(:participant, first_name: 'Marge', screening_id: snapshot.id)
+      stub_request(
+        :get,
+        ferb_api_url(
+          ExternalRoutes.ferb_api_history_of_involvements_path
+        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
+      ).and_return(json_body(history.to_json, status: 200))
 
       stub_person_search(search_term: 'Ma', person_response: search_response)
       stub_request(
@@ -299,7 +221,6 @@ feature 'Snapshot History of Involvement' do
       second_snapshot = FactoryBot.create(:screening)
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .and_return(json_body(second_snapshot.to_json, status: 201))
-
       within '#history-card.card.show' do
         expect(page).to have_content('Referral')
       end
@@ -433,153 +354,14 @@ feature 'Snapshot History of Involvement' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(snapshot.id)
-          )
+            ExternalRoutes.ferb_api_history_of_involvements_path
+          ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
         )
       ).to have_been_made
     end
   end
 
-  context 'HOI comes from the intake API' do
-    let(:screenings) do
-      [
-        {
-          id: '1234',
-          start_date: '2016-09-10',
-          county_name: 'el_dorado',
-          assigned_social_worker: { first_name: nil, last_name: 'Bob Smith' },
-          reporter: { first_name: 'Alex', last_name: 'Hanson' },
-          all_people: [
-            { first_name: nil, last_name: 'Bob Smith', roles: ['Assigned Social Worker'] },
-            { first_name: 'Alex', last_name: 'Hanson', roles: ['Reporter'] },
-            { first_name: 'Sally', last_name: 'Johnson', roles: ['Victim'] },
-            { first_name: 'Sam', last_name: 'Anderson', roles: ['Perpetrator'] },
-            { first_name: 'James', last_name: 'Robinson', roles: [] }
-          ]
-        },
-        {
-          start_date: '2016-08-10',
-          end_date: '2016-11-12',
-          county_name: 'el_dorado',
-          reporter: { first_name: nil, last_name: nil },
-          assigned_social_worker: { first_name: nil, last_name: nil },
-          all_people: []
-        }
-      ]
-    end
-
-    let(:referrals) do
-      [
-        {
-          id: '1234',
-          start_date: '2016-11-14',
-          end_date: '2016-12-14',
-          county_name: 'Madera',
-          response_time: 'Immediate',
-          reporter: {
-            first_name: 'Reporter1',
-            last_name: 'r1LastName'
-          },
-          assigned_social_worker: {
-            first_name: 'Social1',
-            last_name: 's1LastName'
-          },
-          allegations: [{
-            allegation_description: 'General Neglect',
-            disposition_description: 'Entered in Error',
-            perpetrator_first_name: 'Perpetrator1',
-            perpetrator_last_name: 'p1LastName',
-            victim_first_name: 'Victim1',
-            victim_last_name: 'v1LastName'
-          }],
-          legacy_descriptor: {
-            legacy_ui_id: '0853-2115-5670-6000802'
-          },
-          access_limitation: { limited_access_code: 'R' }
-        },
-        {
-          start_date: '2016-05-06',
-          county_name: 'San Francisco',
-          reporter: {
-            first_name: 'Reporter2',
-            last_name: 'r2LastName'
-          },
-          assigned_social_worker: {
-            first_name: 'Social2',
-            last_name: 's2LastName'
-          },
-          allegations: [{
-            allegation_description: 'Severe Neglect',
-            perpetrator_first_name: 'Perpetrator2',
-            perpetrator_last_name: 'p2LastName',
-            victim_first_name: 'Victim2',
-            victim_last_name: 'v2LastName'
-          }],
-          legacy_descriptor: {
-            legacy_ui_id: '0202-9769-1248-2000283'
-          },
-          access_limitation: { limited_access_code: 'S' }
-        }
-      ]
-    end
-
-    let(:cases) do
-      [
-        {
-          start_date: '2016-01-01',
-          end_date: '2016-11-01',
-          focus_child: {
-            last_name: 'fc1Last',
-            id: '0rumtwQ0Bn',
-            first_name: 'fChild1'
-          },
-          county_name: 'El Dorado',
-          service_component: 'Family Reunification',
-          parents: [
-            { first_name: 'Parent1', last_name: 'p1Last', id: 'AbiQA5q0Bo' },
-            { first_name: 'Parent2', last_name: 'p2Last', id: 'CaTvuzq0Bo' }
-          ],
-          assigned_social_worker: {
-            last_name: 'sw1LastName',
-            first_name: 'SocialWorker1'
-          },
-          legacy_descriptor: {
-            legacy_ui_id: '0393-5909-1798-6027230'
-          },
-          access_limitation: { limited_access_code: 'R' }
-        },
-        {
-          start_date: '2016-02-03',
-          focus_child: {
-            last_name: 'fc2Last',
-            id: '1234567',
-            first_name: 'fChild2'
-          },
-          county_name: 'Plumas',
-          parents: [
-            { first_name: 'Parent3', last_name: 'p3Last', id: 'ABC123' },
-            { first_name: 'Parent4', last_name: 'p4Last', id: 'ABCDEFG' }
-          ],
-          assigned_social_worker: {
-            last_name: 'sw2LastName',
-            first_name: 'SocialWorker2'
-          },
-          legacy_descriptor: {
-            legacy_ui_id: '0208-9997-9274-0000863'
-          },
-          access_limitation: { limited_access_code: 'N' }
-        }
-      ]
-    end
-
-    let(:screening_involvement) do
-      {
-        referrals: referrals,
-        screenings: screenings,
-        cases: cases
-      }
-    end
-
+  context 'Snapshot HOI comes from Ferb even when feature :hoi_from_intake_api is on' do
     around do |example|
       Feature.run_with_activated(:release_two, :hoi_from_intake_api) do
         example.run
@@ -588,18 +370,12 @@ feature 'Snapshot History of Involvement' do
 
     before do
       visit snapshot_path
-      stub_request(
-        :get,
-        intake_api_url(
-          ExternalRoutes.intake_api_history_of_involvements_path(snapshot.id)
-        )
-      ).and_return(json_body(screening_involvement.to_json, status: 200))
 
       stub_request(
         :get,
-        intake_api_url(
-          ExternalRoutes.intake_api_relationships_by_screening_path(snapshot.id)
-        )
+        ferb_api_url(
+          ExternalRoutes.ferb_api_relationships_path
+        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       ).and_return(json_body([].to_json, status: 200))
 
       search_response = PersonSearchResponseBuilder.build do |response|
@@ -612,7 +388,12 @@ feature 'Snapshot History of Involvement' do
           ]
         end
       end
-      person = FactoryBot.create(:participant, first_name: 'Marge', screening_id: snapshot.id)
+      stub_request(
+        :get,
+        ferb_api_url(
+          ExternalRoutes.ferb_api_history_of_involvements_path
+        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
+      ).and_return(json_body(history.to_json, status: 200))
 
       stub_person_search(search_term: 'Ma', person_response: search_response)
       stub_request(
@@ -633,9 +414,9 @@ feature 'Snapshot History of Involvement' do
       expect(
         a_request(
           :get,
-          intake_api_url(
-            ExternalRoutes.intake_api_history_of_involvements_path(snapshot.id)
-          )
+          ferb_api_url(
+            ExternalRoutes.ferb_api_history_of_involvements_path
+          ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
         )
       ).to have_been_made
 

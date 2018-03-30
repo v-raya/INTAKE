@@ -25,6 +25,19 @@ describe('clientSelectors', () => {
       expect(getClientIdsSelector(state)).toEqual(['DEF'])
     })
 
+    it('should bypass null legacy_ids', () => {
+      const state = fromJS({
+        participants: [{
+          legacy_id: null,
+          legacy_descriptor: {
+            legacy_id: 'DEF',
+          },
+        }],
+      })
+
+      expect(getClientIdsSelector(state)).toEqual(['DEF'])
+    })
+
     it('should select multiple clients', () => {
       const state = fromJS({
         participants: [{

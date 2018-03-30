@@ -543,9 +543,9 @@ feature 'History card' do
         Feature.run_with_activated(:hoi_from_intake_api) do
           screenings[0][:county_name] = 'el_dorado'
           screenings[0][:county] = nil
-          screenings[0][:assigned_social_worker] = { first_name: nil, last_name: 'Bob Smith' }
+          screenings[0][:assigned_social_worker] = { first_name: 'Bob', last_name: 'Smith' }
           screenings[0][:reporter] = { first_name: 'Alex', last_name: 'Hanson' }
-          screenings[0][:all_people][0][:last_name] = 'Bob Smith'
+          screenings[0][:all_people][0][:last_name] = 'Smith'
           screenings[1][:county_name] = 'el_dorado'
           screenings[1][:county] = nil
           referrals[0][:response_time] = 'Immediate'
