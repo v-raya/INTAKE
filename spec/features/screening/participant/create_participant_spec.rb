@@ -237,7 +237,6 @@ feature 'Create participant' do
         )
       )).and_return(status: 200)
 
-    puts created_participant_homer.to_json
     stub_request(:post,
       intake_api_url(ExternalRoutes.intake_api_screening_people_path(existing_screening.id)))
       .and_return(json_body(created_participant_homer.to_json, status: 201))

@@ -62,8 +62,6 @@ feature 'Create Snapshot' do
       visit root_path
       click_button 'Start Snapshot'
 
-      stub_empty_relationships_for_screening(new_snapshot)
-      stub_empty_history_for_clients []
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
         response.with_hits do
@@ -80,6 +78,13 @@ feature 'Create Snapshot' do
         :post,
         intake_api_url(ExternalRoutes.intake_api_screening_people_path(new_snapshot.id))
       ).and_return(json_body(person.to_json, status: 201))
+      stub_request(
+        :get,
+        ferb_api_url(
+          FerbRoutes.relationships_path
+        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
+      ).and_return(json_body([].to_json, status: 200))
+      stub_empty_history_for_clients [person.legacy_descriptor.legacy_id]
 
       within '#search-card', text: 'Search' do
         fill_in 'Search for clients', with: 'Ma'
