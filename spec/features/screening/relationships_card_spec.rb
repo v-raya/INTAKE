@@ -289,7 +289,7 @@ feature 'Relationship card' do
         ).to have_been_made.times(2)
       end
 
-      context '#attach-relationships' do
+      context '#attach-relationships to screening' do
         before(:each) do
           new_relationships.last[:relationships].push(jake)
           stub_empty_history_for_screening(participants_screening, response: hoi)
@@ -302,7 +302,7 @@ feature 'Relationship card' do
         end
 
         describe '#relationships-card' do
-          describe '.unattached-person to screening' do
+          describe '.unattached-person' do
             scenario 'allows attachment' do
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
               expect(
