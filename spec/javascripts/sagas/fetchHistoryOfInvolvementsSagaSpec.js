@@ -45,15 +45,9 @@ describe('fetchHistoryOfInvolvements', () => {
   })
 
   it('should fetch by client_ids when provided', () => {
-    const action = {
-      type: 'FETCH_HISTORY_OF_INVOLVEMENTS',
-      payload: {
-        type: 'clients',
-        ids: ['ABC', '123'],
-      },
-    }
-
-    const gen = fetchHistoryOfInvolvements(action)
+    const gen = fetchHistoryOfInvolvements(
+      actions.fetchHistoryOfInvolvementsByClientIds(['ABC', '123'])
+    )
 
     expect(gen.next().value).toEqual(
       call(get, '/api/v1/history_of_involvements?clientIds=ABC,123')
