@@ -27,12 +27,7 @@ feature 'Adding and removing a person from a snapshot' do
     stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
       .and_return(json_body(snapshot.to_json, status: 201))
     stub_system_codes
-    stub_request(
-      :get,
-      ferb_api_url(
-        ExternalRoutes.ferb_api_screening_history_of_involvements_path(snapshot.id)
-      )
-    ).and_return(json_body({}.to_json, status: 200))
+    stub_empty_history_for_clients [person.legacy_id]
     stub_request(
       :get,
       ferb_api_url(
@@ -115,10 +110,10 @@ feature 'Adding and removing a person from a snapshot' do
       a_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_screening_history_of_involvements_path(snapshot.id)
-        )
+          ExternalRoutes.ferb_api_history_of_involvements_path
+        ) + "?clientIds=#{person.legacy_id}"
       )
-    ).to have_been_made.times(2)
+    ).to have_been_made.times(1)
 
     expect(
       a_request(

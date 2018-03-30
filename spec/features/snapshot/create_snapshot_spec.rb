@@ -28,7 +28,6 @@ feature 'Create Snapshot' do
     end
 
     scenario 'via start snapshot link' do
-      stub_empty_history_for_screening(new_snapshot)
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .with(body: as_json_without_root_id(new_snapshot))
         .and_return(json_body(new_snapshot.to_json, status: 201))
@@ -64,7 +63,7 @@ feature 'Create Snapshot' do
       click_button 'Start Snapshot'
 
       stub_empty_relationships_for_screening(new_snapshot)
-      stub_empty_history_for_screening(new_snapshot)
+      stub_empty_history_for_clients []
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
         response.with_hits do
@@ -112,7 +111,6 @@ feature 'Create Snapshot' do
     end
 
     scenario 'a new snapshot is created if the user visits the snapshot page directly' do
-      stub_empty_history_for_screening(new_snapshot)
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .with(body: as_json_without_root_id(new_snapshot))
         .and_return(json_body(new_snapshot.to_json, status: 201))
@@ -136,7 +134,6 @@ feature 'Create Snapshot' do
     end
 
     scenario 'user creates a new snapshot by clicking the Start Over button' do
-      stub_empty_history_for_screening(new_snapshot)
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .and_return(json_body(new_snapshot.to_json, status: 201))
 

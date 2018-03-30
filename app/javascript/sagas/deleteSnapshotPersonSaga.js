@@ -6,9 +6,8 @@ import {
   deletePersonFailure,
 } from 'actions/personCardActions'
 import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
-import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
+import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
-import {getSnapshotIdValueSelector} from 'selectors/snapshotSelectors'
 
 export function* deleteSnapshotPerson({payload: {id}}) {
   try {
@@ -16,8 +15,7 @@ export function* deleteSnapshotPerson({payload: {id}}) {
     yield put(deletePersonSuccess(id))
     const clientIds = yield select(getClientIdsSelector)
     yield put(fetchRelationshipsByClientIds(clientIds))
-    const snapshotId = yield select(getSnapshotIdValueSelector)
-    yield put(fetchHistoryOfInvolvements('snapshots', snapshotId))
+    yield put(fetchHistoryOfInvolvementsByClientIds(clientIds))
   } catch (error) {
     yield put(deletePersonFailure(error.responseJSON))
   }

@@ -8,9 +8,8 @@ import {
 import {DELETE_SNAPSHOT_PERSON} from 'actions/personCardActions'
 import * as personCardActions from 'actions/personCardActions'
 import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
-import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
+import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
-import {getSnapshotIdValueSelector} from 'selectors/snapshotSelectors'
 
 describe('deleteParticipantSaga', () => {
   it('deletes participant on DELETE_PERSON', () => {
@@ -37,11 +36,7 @@ describe('deleteParticipant', () => {
       put(fetchRelationshipsByClientIds(clientIds))
     )
     expect(gen.next().value).toEqual(
-      select(getSnapshotIdValueSelector)
-    )
-    const snapshotId = '444'
-    expect(gen.next(snapshotId).value).toEqual(
-      put(fetchHistoryOfInvolvements('snapshots', snapshotId))
+      put(fetchHistoryOfInvolvementsByClientIds(clientIds))
     )
   })
 
