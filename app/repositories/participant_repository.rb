@@ -3,7 +3,7 @@
 # ParticipantRepository is a service class responsible for creation of a participant
 # resource via the API
 class ParticipantRepository
-  class AuthenticationError < StandardError; end
+  class AuthorizationError < StandardError; end
 
   def self.create(security_token, participant)
     legacy_id = participant.legacy_descriptor&.legacy_id
@@ -52,7 +52,7 @@ class ParticipantRepository
     participant.as_json.except('id')
   end
 
-  private_class_method def self.authorize(security_token, legacy_id)
+  def self.authorize(security_token, legacy_id)
     return if legacy_id.blank?
 
     route = FerbRoutes.client_authorization_path(legacy_id)
@@ -60,7 +60,7 @@ class ParticipantRepository
     begin
       FerbAPI.make_api_call(security_token, route, :get)
     rescue ApiError => e
-      raise AuthenticationError if e.api_error[:http_code] == 403
+      raise AuthorizationError if e.api_error[:http_code] == 403
       raise e
     end
   end

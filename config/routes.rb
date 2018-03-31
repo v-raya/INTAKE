@@ -42,10 +42,10 @@ Rails.application.routes.draw do
       end
 
       resources :participants, only: %i[create destroy]
-
       resources :participants,
         only: %i[update],
         constraints: Routes::ActiveScreeningsConstraint
+      get 'participants/authorize'
 
       resources :relationships, only: %i[index]
       get :history_of_involvements, to: 'history_of_involvements#by_client_ids'

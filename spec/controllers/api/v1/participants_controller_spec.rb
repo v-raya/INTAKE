@@ -83,7 +83,7 @@ describe Api::V1::ParticipantsController do
         .with(participant_params).and_return(participant)
       expect(ParticipantRepository).to receive(:create)
         .with(security_token, participant)
-        .and_raise(ParticipantRepository::AuthenticationError)
+        .and_raise(ParticipantRepository::AuthorizationError)
 
       process :create,
         method: :post,
@@ -141,6 +141,29 @@ describe Api::V1::ParticipantsController do
     it 'deletes an existing participant' do
       process :destroy, method: :delete, params: { id: participant_id }, session: session
       expect(response.body).to be_empty
+    end
+  end
+
+  describe '#authorize' do
+    let(:participant_id) { '1' }
+
+    it 'renders success if authorization passes' do
+      expect(ParticipantRepository).to receive(:authorize)
+        .with(security_token, participant_id)
+        .and_return ''
+
+      process :authorize, method: :get, params: { id: participant_id }, session: session
+      expect(response.body).to be_empty
+      expect(response.status).to eq(204)
+    end
+
+    it 'renders failure if authorization fails' do
+      expect(ParticipantRepository).to receive(:authorize)
+        .with(security_token, participant_id)
+        .and_raise ParticipantRepository::AuthorizationError
+
+      process :authorize, method: :get, params: { id: participant_id }, session: session
+      expect(response.status).to eq(403)
     end
   end
 end

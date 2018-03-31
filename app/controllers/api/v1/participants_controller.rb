@@ -64,7 +64,7 @@ module Api
         begin
           created_participant = ParticipantRepository.create(session[:security_token], participant)
           render json: created_participant
-        rescue ParticipantRepository::AuthenticationError
+        rescue ParticipantRepository::AuthorizationError
           render json: { status: 403 }, status: 403
         end
       end
@@ -80,6 +80,13 @@ module Api
 
       def destroy
         ParticipantRepository.delete(session[:security_token], params[:id])
+      end
+
+      def authorize
+        ParticipantRepository.authorize(session[:security_token], params[:id])
+        render json: '', status: 204
+      rescue ParticipantRepository::AuthorizationError
+        render json: { status: 403 }, status: 403
       end
 
       def participant_params
