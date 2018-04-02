@@ -21,7 +21,6 @@ const mapDispatchToProps = (dispatch) => ({
     }
     dispatch(createPerson(relationshipsPerson))
   },
-  dispatch,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Relationships)
