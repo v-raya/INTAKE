@@ -188,6 +188,55 @@ describe ParticipantRepository do
     end
   end
 
+  describe '.find' do
+    let(:participant_id) { '11' }
+
+    let(:participant_params) do
+      {
+        id: participant_id,
+        first_name: 'Found Participant'
+      }
+    end
+
+    let(:participant) { Participant.new(participant_params) }
+
+    let(:auth_url) { "/authorize/client/#{participant_id}" }
+
+    it 'should return a participant when authorization succeeds' do
+      expect(FerbAPI).to receive(:make_api_call)
+        .with(security_token, auth_url, :get)
+        .and_return(status: 200)
+      expect(PersonSearchRepository).to receive(:find)
+        .with(security_token: security_token, id: participant_id)
+        .and_return(participant_params)
+
+      found_participant = described_class.find(security_token, participant_id)
+      expect(found_participant.id).to eq(participant_id)
+      expect(found_participant.first_name).to eq('Found Participant')
+    end
+
+    it 'should raise an error when authorization fails' do
+      expect(FerbAPI).to receive(:make_api_call)
+        .with(security_token, auth_url, :get)
+        .and_raise(
+          ApiError.new(
+            message: 'Forbidden',
+            sent_attributes: '',
+            url: auth_url,
+            method: :get,
+            response: OpenStruct.new(
+              status: 403,
+              body: 'Forbidden'
+            )
+          )
+        )
+
+      expect do
+        described_class.find(security_token, participant_id)
+      end.to raise_error(described_class::AuthorizationError)
+    end
+  end
+
   describe '.authorize' do
     let(:participant_id) { '22' }
 

@@ -8,8 +8,9 @@ MEDIUM_BOOST = 3
 HIGH_BOOST = 7
 NO_BOOST = 1
 describe PersonSearchRepository do
+  let(:security_token) { 'my_security_token' }
+
   describe '.search' do
-    let(:security_token) { 'my_security_token' }
     let(:search_term) { 'Robert Barathian' }
     let(:source) do
       [
@@ -218,6 +219,73 @@ describe PersonSearchRepository do
             search_after: nil
           )
         end.to raise_error('Some error payload')
+      end
+    end
+  end
+
+  describe '.find' do
+    subject { described_class.find(security_token: security_token, id: id) }
+
+    context 'searching with no id' do
+      let(:id) { nil }
+
+      it 'raises an error' do
+        expect do
+          subject
+        end.to raise_error('id is required')
+      end
+    end
+
+    context 'searching with an id' do
+      let(:id) { '123456788' }
+      let(:hits) { [{ '_source' => { 'id' => '123456788' } }] }
+      let(:response_body) do
+        {
+          'took' => 1,
+          'timed_out' => false,
+          '_shards' => {
+            'total' => 5,
+            'successful' => 5,
+            'failed' => 0
+          },
+          'hits' => {
+            'total' => 0,
+            'max_score' => nil,
+            'hits' => hits
+          }
+        }
+      end
+      let(:response) { double(:response, body: response_body) }
+
+      before do
+        path = ExternalRoutes.dora_people_light_index_path
+        fields = %w[
+          id legacy_source_table first_name middle_name last_name name_suffix gender
+          date_of_birth ssn languages addresses phone_numbers legacy_descriptor
+          sensitivity_indicator race_ethnicity
+        ]
+        query = {
+          query: {
+            bool: {
+              must: [
+                {
+                  match: {
+                    id: '123456788'
+                  }
+                }
+              ]
+            }
+          },
+          _source: fields
+        }
+
+        expect(DoraAPI).to receive(:make_api_call)
+          .with(security_token, path, :post, query)
+          .and_return(response)
+      end
+
+      it 'returns the existing person' do
+        expect(subject['id']).to eq('123456788')
       end
     end
   end

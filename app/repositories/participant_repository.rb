@@ -48,6 +48,17 @@ class ParticipantRepository
     Participant.new(response.body)
   end
 
+  # We currently find people by fetching their summary out of Dora. This bypasses
+  # our Postgres instance. In the future, we should be fetching this from Ferb,
+  # and at that point having this method located in this repository (rather than
+  # PersonSearchRepository) will feel more natural.
+  def self.find(security_token, id)
+    authorize security_token, id
+
+    params = PersonSearchRepository.find(security_token: security_token, id: id)
+    Participant.new params
+  end
+
   def self.participant_json_without_root_id(participant)
     participant.as_json.except('id')
   end
