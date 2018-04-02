@@ -11,15 +11,9 @@ const mapStateToProps = (state, _ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onClick: (relationship, snapshotId) => {
-    const relationshipsPerson = {
-      snapshotId,
-      legacy_descriptor: {
-        legacy_id: relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id,
-        legacy_source_table: relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_table_name,
-      },
-    }
-    dispatch(createSnapshotPerson(relationshipsPerson))
+  onClick: (relationship) => {
+    const id = relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id
+    dispatch(createSnapshotPerson(id))
   },
 })
 

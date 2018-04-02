@@ -36,21 +36,14 @@ const mapDispatchToProps = (dispatch, _ownProps) => {
 const mergeProps = (stateProps, {dispatch, ...actions}) => {
   const {
     hasAddSensitivePerson,
-    snapshotId,
     ...props
   } = stateProps
   const isSelectable = ({isSensitive}) => (isSensitive === false || hasAddSensitivePerson)
   const onSelect = (person) => {
-    const personOnSnapshot = {
-      snapshotId,
-      legacy_descriptor: {
-        legacy_id: person.legacyDescriptor && person.legacyDescriptor.legacy_id,
-        legacy_source_table: person.legacyDescriptor && person.legacyDescriptor.legacy_table_name,
-      },
-    }
+    const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
     actions.onClear()
     actions.onChange('')
-    dispatch(createSnapshotPerson(personOnSnapshot))
+    dispatch(createSnapshotPerson(id))
   }
   return {
     ...actions,
@@ -61,4 +54,3 @@ const mergeProps = (stateProps, {dispatch, ...actions}) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(PersonSearchForm)
-

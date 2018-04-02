@@ -1,5 +1,5 @@
 import {takeEvery, put, call, select} from 'redux-saga/effects'
-import {STATUS_CODES, post} from 'utils/http'
+import {STATUS_CODES, get} from 'utils/http'
 import {
   CREATE_SNAPSHOT_PERSON,
   createPersonSuccess,
@@ -9,19 +9,9 @@ import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvemen
 import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 
-export function* createSnapshotPerson({payload: {person}}) {
+export function* createSnapshotPerson({payload: {id}}) {
   try {
-    const {snapshotId, legacy_descriptor} = person
-    const {legacy_id, legacy_table_name} = legacy_descriptor || {}
-    const response = yield call(post, '/api/v1/participants', {
-      participant: {
-        screening_id: snapshotId,
-        legacy_descriptor: {
-          legacy_id,
-          legacy_table_name,
-        },
-      },
-    })
+    const response = yield call(get, `/api/v1/participants/${id}`)
     yield put(createPersonSuccess(response))
     const clientIds = yield select(getClientIdsSelector)
     yield put(fetchRelationshipsByClientIds(clientIds))

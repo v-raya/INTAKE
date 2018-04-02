@@ -1,6 +1,6 @@
 import 'babel-polyfill'
 import {takeEvery, put, call, select} from 'redux-saga/effects'
-import {post} from 'utils/http'
+import {get} from 'utils/http'
 import {
   createSnapshotPerson,
   createSnapshotPersonSaga,
@@ -19,15 +19,15 @@ describe('createSnapshotPersonSaga', () => {
 })
 
 describe('createSnapshotPerson', () => {
-  const snapshotId = '444'
-  const legacy_descriptor = {legacy_id: '1', legacy_table_name: 'table'}
-  const params = {screening_id: snapshotId, legacy_descriptor}
+  const id = '1'
+  const legacy_descriptor = {legacy_id: id, legacy_table_name: 'table'}
+  const params = {screening_id: '444', legacy_descriptor}
   const participant = {first_name: 'Michael', ...params}
-  const action = personCardActions.createSnapshotPerson({snapshotId: snapshotId, legacy_descriptor})
+  const action = personCardActions.createSnapshotPerson(id)
 
-  it('creates and puts participant and fetches relationships and history', () => {
+  it('fetches participant, relationships, and history', () => {
     const gen = createSnapshotPerson(action)
-    expect(gen.next().value).toEqual(call(post, '/api/v1/participants', {participant: params}))
+    expect(gen.next().value).toEqual(call(get, `/api/v1/participants/${id}`))
     expect(gen.next(participant).value).toEqual(
       put(personCardActions.createPersonSuccess(participant))
     )
@@ -37,14 +37,14 @@ describe('createSnapshotPerson', () => {
     expect(gen.next(['1']).value).toEqual(
       put(fetchRelationshipsByClientIds(['1']))
     )
-    expect(gen.next(snapshotId).value).toEqual(
+    expect(gen.next().value).toEqual(
       put(fetchHistoryOfInvolvementsByClientIds(['1']))
     )
   })
 
   it('puts errors when non-403 errors are thrown', () => {
     const gen = createSnapshotPerson(action)
-    expect(gen.next().value).toEqual(call(post, '/api/v1/participants', {participant: params}))
+    expect(gen.next().value).toEqual(call(get, `/api/v1/participants/${id}`))
     const error = {responseJSON: 'some error'}
     expect(gen.throw(error).value).toEqual(
       put(personCardActions.createPersonFailure('some error'))
@@ -53,7 +53,7 @@ describe('createSnapshotPerson', () => {
 
   it('calls an alert when the error status is 403', () => {
     const gen = createSnapshotPerson(action)
-    expect(gen.next().value).toEqual(call(post, '/api/v1/participants', {participant: params}))
+    expect(gen.next().value).toEqual(call(get, `/api/v1/participants/${id}`))
     const error = {responseJSON: 'some error', status: 403}
     expect(gen.throw(error).value).toEqual(
       call(alert, 'You are not authorized to add this person.')
