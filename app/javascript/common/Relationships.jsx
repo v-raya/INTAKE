@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-export const Relationships = ({people}) => (
+const attachLink = (onClick, relationship, Id) => (
+  <a onClick = {() => { onClick(relationship, Id) }}>&nbsp;Attach</a>
+)
+
+export const Relationships = ({people, onClick, snapshotId, screeningId, isScreening}) => (
   <div className='card-body no-pad-top'>
     {
       people.map((person, index) => (
@@ -17,6 +21,9 @@ export const Relationships = ({people}) => (
                     person.relationships.map((relationship, index) => (
                       <li key={index}>
                         <strong>{ relationship.type }</strong> &nbsp; of { relationship.relatee }
+                        {relationship.person_card_exists &&
+                          (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship, snapshotId))
+                        }
                       </li>
                     ))
                   }
@@ -28,12 +35,15 @@ export const Relationships = ({people}) => (
               <strong className='relationships'> has no known relationships</strong>
             }
           </div>
-        </div>))
+        </div>
+      ))
     }
   </div>
 )
 
 Relationships.propTypes = {
+  isScreening: PropTypes.bool,
+  onClick: PropTypes.func,
   people: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     relationships: PropTypes.arrayOf(PropTypes.shape({
@@ -41,6 +51,8 @@ Relationships.propTypes = {
       type: PropTypes.string,
     })),
   })),
+  screeningId: PropTypes.string,
+  snapshotId: PropTypes.string,
 }
 
 export const EmptyRelationships = () => (

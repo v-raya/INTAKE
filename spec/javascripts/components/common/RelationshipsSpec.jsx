@@ -1,9 +1,10 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import {EmptyRelationships, Relationships} from 'investigations/Relationships'
+import {EmptyRelationships, Relationships} from 'common/Relationships'
 
 describe('Relationships', () => {
-  const renderRelationships = (props) => shallow(<Relationships {...props} />, {disableLifecycleMethods: true})
+  const onClick = jasmine.createSpy('onClick')
+  const renderRelationships = (props) => shallow(<Relationships {...props} onClick={onClick} />, {disableLifecycleMethods: true})
   it('renders people with no relationships', () => {
     const people = [
       {name: 'Sally Jones', relationships: []},
@@ -21,28 +22,43 @@ describe('Relationships', () => {
       {
         name: 'Sally Jones',
         relationships: [
-          {relatee: 'Jim Johnson', type: 'mother'},
+          {relatee: 'Jim Johnson', type: 'mother', person_card_exists: true},
         ],
       },
       {
         name: 'Nate Starbringer',
         relationships: [
-          {relatee: 'Jim Johnson', type: 'father'},
+          {relatee: 'Jim Johnson', type: 'father', person_card_exists: false},
         ],
       },
       {
         name: 'Jim Johnson',
         relationships: [
-          {relatee: 'Nate Starbringer', type: 'son'},
-          {relatee: 'Sally Jones', type: 'son'},
+          {relatee: 'Nate Starbringer', type: 'son', person_card_exists: true},
+          {relatee: 'Sally Jones', type: 'son', person_card_exists: true},
         ],
       },
     ]
     const component = renderRelationships({people})
-    expect(component.find('.relationships').at(0).find('li').at(0).text()).toEqual('mother of Jim Johnson')
+    expect(component.find('.relationships').at(0).find('li').at(0).text()).toEqual('mother of Jim Johnson Attach')
     expect(component.find('.relationships').at(1).find('li').at(0).text()).toEqual('father of Jim Johnson')
-    expect(component.find('.relationships').at(2).find('li').at(1).text()).toEqual('son of Sally Jones')
-    expect(component.find('.relationships').at(2).find('li').at(0).text()).toEqual('son of Nate Starbringer')
+    expect(component.find('.relationships').at(2).find('li').at(1).text()).toEqual('son of Sally Jones Attach')
+    expect(component.find('.relationships').at(2).find('li').at(0).text()).toEqual('son of Nate Starbringer Attach')
+  })
+
+  it('calls onClick when the Attach Link is clicked', () => {
+    const people = [
+      {
+        name: 'Goku',
+        relationships: [
+          {relatee: 'Gohan', type: 'son', person_card_exists: true},
+        ],
+      },
+    ]
+    const component = renderRelationships({people})
+    const attachLink = component.find('a').at(0)
+    attachLink.simulate('click')
+    expect(onClick).toHaveBeenCalled()
   })
 })
 

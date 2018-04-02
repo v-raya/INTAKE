@@ -39,36 +39,50 @@ describe('relationshipsViewSelectors', () => {
         {
           first_name: 'Ricky',
           last_name: 'Robinson',
+          legacy_id: '3',
           relationships: [
             {
               related_person_first_name: 'Johny',
               related_person_last_name: 'Robinson',
               related_person_relationship: '17',
               indexed_person_relationship: '17',
+              legacy_descriptor: {
+                legacy_id: '2',
+              },
             },
             {
               related_person_first_name: 'Will',
               related_person_last_name: 'Carlson',
               related_person_relationship: '297',
               indexed_person_relationship: '258',
+              legacy_descriptor: {
+                legacy_id: '1',
+              },
             },
           ],
         },
         {
           first_name: 'Johny',
           last_name: 'Robinson',
+          legacy_id: '2',
           relationships: [
             {
               related_person_first_name: 'Ricky',
               related_person_last_name: 'Robinson',
               related_person_relationship: '17',
               indexed_person_relationship: '17',
+              legacy_descriptor: {
+                legacy_id: '3',
+              },
             },
             {
               related_person_first_name: 'Will',
               related_person_last_name: 'Carlson',
               related_person_relationship: '297',
               indexed_person_relationship: '258',
+              legacy_descriptor: {
+                legacy_id: '1',
+              },
             },
           ],
         },
@@ -85,15 +99,15 @@ describe('relationshipsViewSelectors', () => {
         {
           name: 'Ricky Robinson',
           relationships: [
-            {relatee: 'Johny Robinson', type: 'Brother'},
-            {relatee: 'Will Carlson', type: 'Nephew (Paternal)'},
+            {relatee: 'Johny Robinson', legacy_descriptor: {legacy_id: '2'}, type: 'Brother', person_card_exists: false},
+            {relatee: 'Will Carlson', legacy_descriptor: {legacy_id: '1'}, type: 'Nephew (Paternal)', person_card_exists: true},
           ],
         },
         {
           name: 'Johny Robinson',
           relationships: [
-            {relatee: 'Ricky Robinson', type: 'Brother'},
-            {relatee: 'Will Carlson', type: 'Nephew (Paternal)'},
+            {relatee: 'Ricky Robinson', legacy_descriptor: {legacy_id: '3'}, type: 'Brother', person_card_exists: false},
+            {relatee: 'Will Carlson', legacy_descriptor: {legacy_id: '1'}, type: 'Nephew (Paternal)', person_card_exists: true},
           ],
         },
       ]))

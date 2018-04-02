@@ -5,6 +5,14 @@ import {systemCodeDisplayValue, getRelationshipTypesSelector} from 'selectors/sy
 
 export const getScreeningRelationships = (state) => (state.get('relationships', List()))
 
+const isPersonCardExists = (people, relationship) => {
+  if (people && people.size > 0 && relationship.legacy_descriptor) {
+    const isLegacyIdSame = people.some((person) => person.get('legacy_id') === relationship.legacy_descriptor.legacy_id)
+    return !isLegacyIdSame
+  }
+  return true
+}
+
 export const getPeopleSelector = createSelector(
   getScreeningRelationships,
   getRelationshipTypesSelector,
@@ -18,7 +26,9 @@ export const getPeopleSelector = createSelector(
           middle_name: relationship.get('related_person_middle_name'),
           name_suffix: relationship.get('related_person_name_suffix'),
         }),
+        legacy_descriptor: relationship.get('legacy_descriptor'),
         type: systemCodeDisplayValue(relationship.get('indexed_person_relationship'), relationshipTypes),
+        person_card_exists: isPersonCardExists(people, relationship.toJS()),
       })
     )),
   }))
