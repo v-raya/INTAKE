@@ -28,7 +28,9 @@ module ScreeningHelpers
     ).and_return(json_body([].to_json, status: 200))
   end
 
-  def stub_empty_history_for_screening(screening)
+  def stub_empty_history_for_screening(screening, response: { cases: [],
+                                                              referrals: [],
+                                                              screenings: [] })
     screening_id = if screening.is_a?(Hash)
                      screening[:id]
                    else
@@ -37,7 +39,7 @@ module ScreeningHelpers
     stub_request(
       :get,
       ferb_api_url(ExternalRoutes.ferb_api_screening_history_of_involvements_path(screening_id))
-    ).and_return(json_body({ cases: [], referrals: [], screenings: [] }.to_json, status: 200))
+    ).and_return(json_body(response.to_json, status: 200))
   end
 
   def stub_and_visit_edit_screening(screening)
@@ -82,6 +84,13 @@ module ScreeningHelpers
     within('.card', text: 'Worker Safety') { click_button 'Cancel' }
     within('.card', text: 'Cross Report') { click_button 'Cancel' }
     within('.card', text: 'Decision') { click_button 'Cancel' }
+  end
+end
+
+def assign_relationship(tag:, element_text:, link_text: ' Attach')
+  within '#relationships-card.card .relationships' do
+    find(tag, text: element_text)
+      .find('a', link_text).click
   end
 end
 
