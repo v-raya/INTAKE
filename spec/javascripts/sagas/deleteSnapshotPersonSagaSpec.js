@@ -1,6 +1,5 @@
 import 'babel-polyfill'
-import {takeEvery, put, call, select} from 'redux-saga/effects'
-import {destroy} from 'utils/http'
+import {takeEvery, put, select} from 'redux-saga/effects'
 import {
   deleteSnapshotPersonSaga,
   deleteSnapshotPerson,
@@ -22,9 +21,8 @@ describe('deleteParticipant', () => {
   const id = '123'
   const action = personCardActions.deleteSnapshotPerson(id)
 
-  it('deletes and puts participant, fetches a screening, relationships, and history_of_involvements', () => {
+  it('fetches relationships and history_of_involvements', () => {
     const gen = deleteSnapshotPerson(action)
-    expect(gen.next().value).toEqual(call(destroy, '/api/v1/participants/123'))
     expect(gen.next().value).toEqual(
       put(personCardActions.deletePersonSuccess(id))
     )
@@ -37,15 +35,6 @@ describe('deleteParticipant', () => {
     )
     expect(gen.next().value).toEqual(
       put(fetchHistoryOfInvolvementsByClientIds(clientIds))
-    )
-  })
-
-  it('puts errors when errors are thrown', () => {
-    const error = {responseJSON: 'some error'}
-    const gen = deleteSnapshotPerson(action)
-    expect(gen.next().value).toEqual(call(destroy, '/api/v1/participants/123'))
-    expect(gen.throw(error).value).toEqual(
-      put(personCardActions.deletePersonFailure('some error'))
     )
   })
 })
