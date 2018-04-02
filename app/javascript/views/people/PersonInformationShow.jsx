@@ -36,16 +36,12 @@ const PersonInformationShow = ({
               }
             </ShowField>
           </div>
-        </div>
-        <div className='row'>
           <div className='col-md-6'>
             <ShowField label='Gender'>{gender}</ShowField>
           </div>
           <div className='col-md-6'>
             <ShowField label='Language(s) (Primary First)'>{languages}</ShowField>
           </div>
-        </div>
-        <div className='row'>
           <div className='col-md-6'>
             {dateOfBirth && <ShowField label='Date of birth'>{dateOfBirth}</ShowField>}
             {approximateAge && <ShowField label='Approximate Age'>{approximateAge}</ShowField>}

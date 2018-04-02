@@ -6,7 +6,7 @@ const ShowField = ({gridClassName, labelClassName, label, children, required, er
   <FormField label={label} labelClassName={labelClassName} gridClassName={gridClassName}
     errors={errors} required={required}
   >
-    <span>{children}</span>
+    <span>{children || '\u00A0'}</span>
   </FormField>
 )
 
