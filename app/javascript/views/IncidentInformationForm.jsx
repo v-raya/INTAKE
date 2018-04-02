@@ -82,7 +82,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         >
           <option key='' />
           {locationTypes.map((locationType) =>
-            <optgroup key={locationType.name} value={locationType.name}>
+            <optgroup label={locationType.name} key={locationType.name} value={locationType.name}>
               {locationType.locations.map((location) =>
                 <option key={location} value={location}>{location}</option>)
               }

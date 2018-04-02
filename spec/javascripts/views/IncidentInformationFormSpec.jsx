@@ -181,7 +181,7 @@ describe('IncidentInformationForm', () => {
           },
         ],
       })
-      expect(component.find('SelectField[label="Location Type"] optgroup[value="location name"]').exists()).toEqual(true)
+      expect(component.find('SelectField[label="Location Type"] optgroup[label="location name"] optgroup[value="location name"]').exists()).toEqual(true)
       expect(component.find('optgroup[value="location name"] option[value="location one"]').text()).toEqual('location one')
       expect(component.find('optgroup[value="location name"] option[value="location two"]').text()).toEqual('location two')
     })

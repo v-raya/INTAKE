@@ -13,7 +13,6 @@ const LOCATION_TYPE = Object.freeze({
     'Camp',
     'Juvenile Detention',
     'BDDS',
-    'Other',
   ],
   Other: [
     'In Public',
