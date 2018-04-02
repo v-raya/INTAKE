@@ -4,13 +4,13 @@ import SnapshotSideBar from 'snapshots/SnapshotSideBar'
 
 describe('SnapshotSideBar', () => {
   let component
-  const participants = [{id: '23', first_name: 'Ultra', last_name: 'Goku', middle_name: 'Instinct', name_suffix: ''}]
+  const participants = [{id: '23', first_name: 'Ultra', last_name: 'Goku', middle_name: '', name_suffix: ''}]
   beforeEach(() => {
     component = shallow(<SnapshotSideBar participants={participants} />)
   })
 
   it('renders the div wrapper', () => {
-    expect(component.find('div.col-md-2').exists()).toBe(true)
+    expect(component.find('div.col-md-3 div.col-xs-4').exists()).toBe(true)
   })
 
   it('renders the SideBar component', () => {
@@ -24,8 +24,8 @@ describe('SnapshotSideBar', () => {
     })
 
     it('renders a link to the People selected from search', () => {
-      expect(component.find('NavLink[text="Ultra Instinct Goku"]').exists()).toBe(true)
-      expect(component.find('NavLink[text="Ultra Instinct Goku"]').props().href
+      expect(component.find('NavLink[text="Ultra Goku"]').exists()).toBe(true)
+      expect(component.find('NavLink[text="Ultra Goku"]').props().href
       ).toBe('#participants-card-23')
     })
   })
