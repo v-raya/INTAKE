@@ -10,7 +10,7 @@ module Api
       def show
         investigation = FerbAPI.make_api_call(
           session['security_token'],
-          ExternalRoutes.ferb_api_investigation_path(params[:id]),
+          FerbRoutes.investigation_path(params[:id]),
           :get
         )
         render json: investigation.body, status: investigation.status

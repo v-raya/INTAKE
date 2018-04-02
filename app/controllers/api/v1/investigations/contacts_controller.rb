@@ -21,7 +21,7 @@ module Api
         def create
           contact = FerbAPI.make_api_call(
             session['security_token'],
-            ExternalRoutes.ferb_api_investigations_contacts_path(investigation_id),
+            FerbRoutes.investigations_contacts_path(investigation_id),
             :post,
             contact_params.as_json
           )
@@ -31,7 +31,7 @@ module Api
         def show
           contact = FerbAPI.make_api_call(
             session['security_token'],
-            ExternalRoutes.ferb_api_investigations_contact_path(investigation_id, params[:id]),
+            FerbRoutes.investigations_contact_path(investigation_id, params[:id]),
             :get
           )
           render json: contact.body, status: contact.status
@@ -40,7 +40,7 @@ module Api
         def update
           contact = FerbAPI.make_api_call(
             session['security_token'],
-            ExternalRoutes.ferb_api_investigations_contact_path(investigation_id, params[:id]),
+            FerbRoutes.investigations_contact_path(investigation_id, params[:id]),
             :put,
             contact_params.as_json
           )

@@ -20,7 +20,7 @@ feature 'Validate Investigation Contact' do
   before do
     investigation_id = '123ABC'
     stub_request(
-      :get, ferb_api_url(ExternalRoutes.ferb_api_investigation_path(investigation_id))
+      :get, ferb_api_url(FerbRoutes.investigation_path(investigation_id))
     ).and_return(
       json_body(
         {

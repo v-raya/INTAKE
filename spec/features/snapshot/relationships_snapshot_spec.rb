@@ -74,12 +74,7 @@ feature 'Snapshot relationship card' do
         intake_api_url(ExternalRoutes.intake_api_screening_path(participants_screening.id))
       ).and_return(json_body(participants_screening.to_json))
 
-      stub_request(
-        :get,
-        ferb_api_url(
-          ExternalRoutes.ferb_api_screening_history_of_involvements_path(snapshot.id)
-        )
-      ).and_return(json_body([].to_json, status: 200))
+      stub_empty_history_for_clients([participant.id])
 
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
@@ -107,7 +102,7 @@ feature 'Snapshot relationship card' do
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_relationships_path
+          FerbRoutes.relationships_path
         ) + "?clientIds=#{participant.id}"
       ).and_return(json_body(relationships.to_json, status: 200))
 
@@ -127,7 +122,7 @@ feature 'Snapshot relationship card' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_relationships_path
+            FerbRoutes.relationships_path
           ) + "?clientIds=#{participant.id}"
         )
       ).to have_been_made

@@ -7,7 +7,7 @@ import {
 } from 'sagas/createSnapshotPersonSaga'
 import {CREATE_SNAPSHOT_PERSON} from 'actions/personCardActions'
 import * as personCardActions from 'actions/personCardActions'
-import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
+import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 
@@ -38,7 +38,7 @@ describe('createSnapshotPerson', () => {
       put(fetchRelationshipsByClientIds(['1']))
     )
     expect(gen.next(snapshotId).value).toEqual(
-      put(fetchHistoryOfInvolvements('snapshots', snapshotId))
+      put(fetchHistoryOfInvolvementsByClientIds(['1']))
     )
   })
 

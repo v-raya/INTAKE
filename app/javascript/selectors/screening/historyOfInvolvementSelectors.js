@@ -6,7 +6,6 @@ import {dateRangeFormatter} from 'utils/dateFormatter'
 import {ROLE_TYPE_NON_REPORTER} from 'enums/RoleType'
 import COUNTIES from 'enums/Counties'
 import {systemCodeDisplayValue, getScreenResponseTimesSelector} from 'selectors/systemCodeSelectors'
-import * as IntakeConfig from 'common/config'
 
 const getHistoryOfInvolvementsSelector = (state) => state.get('involvements', Map())
 
@@ -22,18 +21,15 @@ const formatDisposition = (disposition) => {
 
 const getCaseCountyAndStatus = (hoiCase) => {
   const status = hoiCase.get('end_date') ? 'Closed' : 'Open'
-  if (IntakeConfig.isFeatureActive('hoi_from_intake_api')) {
-    const serviceComponent = hoiCase.get('service_component')
-    return {
-      county: hoiCase.get('county_name'),
-      status: [status, serviceComponent].filter((n) => n).join(' - '),
-    }
-  } else {
-    const serviceComponent = hoiCase.getIn(['service_component', 'description'])
-    return {
-      county: hoiCase.getIn(['county', 'description']),
-      status: [status, serviceComponent].filter((n) => n).join(' - '),
-    }
+  const serviceComponent = hoiCase.getIn(['service_component', 'description']) ||
+    hoiCase.get('service_component')
+
+  const county = hoiCase.getIn(['county', 'description']) ||
+    hoiCase.get('county_name')
+
+  return {
+    county,
+    status: [status, serviceComponent].filter((n) => n).join(' - '),
   }
 }
 
@@ -62,66 +58,57 @@ const getReferralsSelector = createSelector(
 
 const getReferralCountyAndStatus = (referral, responseTimes) => {
   const status = referral.get('end_date') ? 'Closed' : 'Open'
-  if (IntakeConfig.isFeatureActive('hoi_from_intake_api')) {
-    const responseTime = referral.get('response_time')
-    return {
-      county: referral.get('county_name'),
-      status: [status, responseTime].filter((n) => n).join(' - '),
-    }
-  } else {
-    const responseTimeID = referral.getIn(['response_time', 'id'])
-    const responseTime = systemCodeDisplayValue(responseTimeID, responseTimes)
-    return {
-      county: referral.getIn(['county', 'description']),
-      status: [status, responseTime].filter((n) => n).join(' - '),
-    }
+  const maybeResponseTimeID = referral.getIn(['response_time', 'id'])
+  const responseTime = maybeResponseTimeID ?
+    systemCodeDisplayValue(maybeResponseTimeID, responseTimes) :
+    referral.get('response_time')
+
+  const county = referral.get('county_name') ||
+    referral.getIn(['county', 'description'])
+
+  return {
+    county,
+    status: [status, responseTime].filter((n) => n).join(' - '),
   }
 }
 
-const getIntakeReferralAllegations = (allegation) => Map({
+const getMixedReferralAllegations = (allegation) => Map({
   victim: nameFormatter({
-    first_name: allegation.get('victim_first_name'),
-    middle_name: allegation.get('victim_middle_name'),
-    last_name: allegation.get('victim_last_name'),
-    name_suffix: allegation.get('victim_name_suffix'),
+    first_name: allegation.get('victim_first_name') ||
+      allegation.getIn(['victim', 'first_name']),
+    middle_name: allegation.get('victim_middle_name') ||
+      allegation.getIn(['victim', 'middle_name']),
+    last_name: allegation.get('victim_last_name') ||
+      allegation.getIn(['victim', 'last_name']),
+    name_suffix: allegation.get('victim_name_suffix') ||
+      allegation.getIn(['victim', 'name_suffix']),
     name_default: ''}),
   perpetrator: nameFormatter({
-    first_name: allegation.get('perpetrator_first_name'),
-    middle_name: allegation.get('perpetrator_middle_name'),
-    last_name: allegation.get('perpetrator_last_name'),
-    name_suffix: allegation.get('perpetrator_name_suffix'),
+    first_name: allegation.get('perpetrator_first_name') ||
+      allegation.getIn(['perpetrator', 'first_name']),
+    middle_name: allegation.get('perpetrator_middle_name') ||
+      allegation.getIn(['perpetrator', 'middle_name']),
+    last_name: allegation.get('perpetrator_last_name') ||
+      allegation.getIn(['perpetrator', 'last_name']),
+    name_suffix: allegation.get('perpetrator_name_suffix') ||
+      allegation.getIn(['perpetrator', 'name_suffix']),
     name_default: ''}),
-  allegations: allegation.get('allegation_description', ''),
-  disposition: formatDisposition(allegation.get('disposition_description')),
-})
-const getFerbReferralAllegations = (allegation) => Map({
-  victim: nameFormatter({
-    first_name: allegation.getIn(['victim', 'first_name']),
-    middle_name: allegation.getIn(['victim', 'middle_name']),
-    last_name: allegation.getIn(['victim', 'last_name']),
-    name_suffix: allegation.getIn(['victim', 'name_suffix']),
-    name_default: ''}),
-  perpetrator: nameFormatter({
-    first_name: allegation.getIn(['perpetrator', 'first_name']),
-    middle_name: allegation.getIn(['perpetrator', 'middle_name']),
-    last_name: allegation.getIn(['perpetrator', 'last_name']),
-    name_suffix: allegation.getIn(['perpetrator', 'name_suffix']),
-    name_default: ''}),
-  allegations: allegation.getIn(['type', 'description'], ''),
-  disposition: formatDisposition(allegation.getIn(['disposition', 'description'])),
+  allegations: allegation.get('allegation_description') ||
+    allegation.getIn(['type', 'description'], ''),
+  disposition: formatDisposition(
+    allegation.get('disposition_description') ||
+    allegation.getIn(['disposition', 'description'])
+  ),
 })
 
 export const getFormattedReferralsSelector = createSelector(
   getReferralsSelector,
   getScreenResponseTimesSelector,
   (referrals, responseTimes) => referrals.map((referral) => {
-    const hoiFromIntakeAPI = IntakeConfig.isFeatureActive('hoi_from_intake_api')
     const {county, status} = getReferralCountyAndStatus(referral, responseTimes)
     const limitedAccessCode = referral.getIn(['access_limitation', 'limited_access_code'], 'NONE')
     const peopleAndRoles = referral.get('allegations', List())
-      .map((allegation) => ((hoiFromIntakeAPI) ?
-        getIntakeReferralAllegations(allegation) :
-        getFerbReferralAllegations(allegation)))
+      .map(getMixedReferralAllegations)
     return fromJS({
       county: county,
       dateRange: dateRangeFormatter(referral.toJS()),
@@ -140,19 +127,11 @@ const getScreeningsSelector = createSelector(
   (hoi) => hoi.get('screenings', List())
 )
 
-const getScreeningCountyAndWorker = (screening) => {
-  if (IntakeConfig.isFeatureActive('hoi_from_intake_api')) {
-    return {
-      county: COUNTIES[screening.get('county_name')] || '',
-      worker: screening.getIn(['assigned_social_worker', 'last_name'], ''),
-    }
-  } else {
-    return {
-      county: screening.getIn(['county', 'description'], ''),
-      worker: nameFormatter({name_default: '', ...screening.get('assigned_social_worker', Map()).toJS()}),
-    }
-  }
-}
+const getScreeningCountyAndWorker = (screening) => ({
+  county: COUNTIES[screening.get('county_name')] ||
+    screening.getIn(['county', 'description'], ''),
+  worker: nameFormatter({name_default: '', ...screening.get('assigned_social_worker', Map()).toJS()}),
+})
 
 export const getFormattedScreeningsSelector = createSelector(
   getScreeningsSelector,

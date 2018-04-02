@@ -16,3 +16,6 @@ export function fetchHistoryOfInvolvementsFailure(error) {
 export function fetchHistoryOfInvolvements(type, id) {
   return {type: FETCH_HISTORY_OF_INVOLVEMENTS, payload: {type, id}}
 }
+export function fetchHistoryOfInvolvementsByClientIds(ids) {
+  return {type: FETCH_HISTORY_OF_INVOLVEMENTS, payload: {type: 'clients', ids}}
+}

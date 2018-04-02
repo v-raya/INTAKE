@@ -5,7 +5,7 @@ import {
   createPersonSuccess,
   createPersonFailure,
 } from 'actions/personCardActions'
-import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
+import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 
@@ -25,7 +25,7 @@ export function* createSnapshotPerson({payload: {person}}) {
     yield put(createPersonSuccess(response))
     const clientIds = yield select(getClientIdsSelector)
     yield put(fetchRelationshipsByClientIds(clientIds))
-    yield put(fetchHistoryOfInvolvements('snapshots', snapshotId))
+    yield put(fetchHistoryOfInvolvementsByClientIds(clientIds))
   } catch (error) {
     if (error.status === STATUS_CODES.forbidden) {
       yield call(alert, 'You are not authorized to add this person.')

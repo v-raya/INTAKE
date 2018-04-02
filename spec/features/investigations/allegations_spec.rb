@@ -19,7 +19,7 @@ feature 'Show Investigation' do
       }
     ]
     stub_request(
-      :get, ferb_api_url(ExternalRoutes.ferb_api_investigation_path(investigation_id))
+      :get, ferb_api_url(FerbRoutes.investigation_path(investigation_id))
     ).and_return(json_body({ allegations: allegations }.to_json, status: 200))
     visit investigation_path(id: investigation_id)
 

@@ -254,7 +254,7 @@ feature 'History card' do
       stub_request(
         :get,
         ferb_api_url(
-          ExternalRoutes.ferb_api_screening_history_of_involvements_path(existing_screening.id)
+          FerbRoutes.screening_history_of_involvements_path(existing_screening.id)
         )
       ).and_return(json_body(screening_involvement.to_json, status: 200))
       stub_empty_relationships_for_screening(existing_screening)
@@ -404,7 +404,7 @@ feature 'History card' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(existing_screening.id)
+            FerbRoutes.screening_history_of_involvements_path(existing_screening.id)
           )
         )
       ).to have_been_made
@@ -417,7 +417,7 @@ feature 'History card' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(existing_screening.id)
+            FerbRoutes.screening_history_of_involvements_path(existing_screening.id)
           )
         )
       ).to have_been_made
@@ -543,9 +543,9 @@ feature 'History card' do
         Feature.run_with_activated(:hoi_from_intake_api) do
           screenings[0][:county_name] = 'el_dorado'
           screenings[0][:county] = nil
-          screenings[0][:assigned_social_worker] = { first_name: nil, last_name: 'Bob Smith' }
+          screenings[0][:assigned_social_worker] = { first_name: 'Bob', last_name: 'Smith' }
           screenings[0][:reporter] = { first_name: 'Alex', last_name: 'Hanson' }
-          screenings[0][:all_people][0][:last_name] = 'Bob Smith'
+          screenings[0][:all_people][0][:last_name] = 'Smith'
           screenings[1][:county_name] = 'el_dorado'
           screenings[1][:county] = nil
           referrals[0][:response_time] = 'Immediate'

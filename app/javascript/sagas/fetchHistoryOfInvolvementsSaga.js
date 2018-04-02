@@ -8,13 +8,29 @@ import {
   FETCH_HISTORY_OF_INVOLVEMENTS,
 } from 'actions/actionTypes'
 
-export function* fetchHistoryOfInvolvements({payload: {id, type}}) {
+function* fetchHistoryForUnitOfWork(type, id) {
   try {
     const response = yield call(get, `/api/v1/${type}/${id}/history_of_involvements`)
     yield put(fetchHistoryOfInvolvementsSuccess(response))
   } catch (error) {
     yield put(fetchHistoryOfInvolvementsFailure(error.responseJSON))
   }
+}
+
+function* fetchHistoryForClients(ids) {
+  try {
+    const response = yield call(get, `/api/v1/history_of_involvements?clientIds=${ids.join(',')}`)
+    yield put(fetchHistoryOfInvolvementsSuccess(response))
+  } catch (error) {
+    yield put(fetchHistoryOfInvolvementsFailure(error.responseJSON))
+  }
+}
+
+export function fetchHistoryOfInvolvements({payload: {type, id, ids}}) {
+  if (type === 'clients') {
+    return fetchHistoryForClients(ids)
+  }
+  return fetchHistoryForUnitOfWork(type, id)
 }
 export function* fetchHistoryOfInvolvementsSaga() {
   yield takeEvery(FETCH_HISTORY_OF_INVOLVEMENTS, fetchHistoryOfInvolvements)

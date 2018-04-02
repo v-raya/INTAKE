@@ -55,7 +55,7 @@ class ParticipantRepository
   private_class_method def self.authorize(security_token, legacy_id)
     return if legacy_id.blank?
 
-    route = ExternalRoutes.ferb_api_client_authorization_path(legacy_id)
+    route = FerbRoutes.client_authorization_path(legacy_id)
 
     begin
       FerbAPI.make_api_call(security_token, route, :get)

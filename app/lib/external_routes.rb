@@ -47,42 +47,6 @@ class ExternalRoutes
       '/dora/people-summary/person-summary/_search'
     end
 
-    def ferb_api_investigation_path(id)
-      "/investigations/#{id}"
-    end
-
-    def ferb_api_investigations_contacts_path(id)
-      "/investigations/#{id}/contacts"
-    end
-
-    def ferb_api_investigations_contact_path(investigation_id, contact_id)
-      "/investigations/#{investigation_id}/contacts/#{contact_id}"
-    end
-
-    def ferb_api_screening_history_of_involvements_path(id)
-      "/screenings/#{id}/history_of_involvements"
-    end
-
-    def ferb_api_lov_path
-      '/lov'
-    end
-
-    def ferb_api_cross_report_agency
-      '/cross_report_agency'
-    end
-
-    def ferb_api_staff_path(id)
-      "/staffpersons/#{id}"
-    end
-
-    def ferb_api_client_authorization_path(id)
-      "/authorize/client/#{id}"
-    end
-
-    def ferb_api_relationships_path
-      '/clients/relationships'
-    end
-
     def sdm_path
       'https://ca.sdmdata.org'
     end

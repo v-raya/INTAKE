@@ -232,12 +232,11 @@ feature 'Create participant' do
     created_participant_homer = FactoryBot.create(:participant, participant_homer.as_json)
     stub_request(:get,
       ferb_api_url(
-        ExternalRoutes.ferb_api_client_authorization_path(
+        FerbRoutes.client_authorization_path(
           created_participant_homer.legacy_descriptor.legacy_id
         )
       )).and_return(status: 200)
 
-    puts created_participant_homer.to_json
     stub_request(:post,
       intake_api_url(ExternalRoutes.intake_api_screening_people_path(existing_screening.id)))
       .and_return(json_body(created_participant_homer.to_json, status: 201))
@@ -250,7 +249,7 @@ feature 'Create participant' do
     end
     expect(a_request(:get,
       ferb_api_url(
-        ExternalRoutes.ferb_api_client_authorization_path(
+        FerbRoutes.client_authorization_path(
           created_participant_homer.legacy_descriptor.legacy_id
         )
       )))
@@ -318,7 +317,7 @@ feature 'Create participant' do
                     body: { staffId: '123', privileges: ['Sensitive Persons'] }.to_json)
       stub_request(:get, %r{https?://.*/authn/validate\?token=#{insensitive_token}})
         .and_return(status: 200, body: { staffId: '123', privileges: [] }.to_json)
-      stub_request(:get, ferb_api_url(ExternalRoutes.ferb_api_staff_path('123')))
+      stub_request(:get, ferb_api_url(FerbRoutes.staff_path('123')))
         .and_return(json_body({ staffId: '123', first_name: 'Bob', last_name: 'Boberson',
                                 county: 'San Francisco' }.to_json, status: 200))
     end
@@ -360,7 +359,7 @@ feature 'Create participant' do
           )
           stub_request(:get,
             ferb_api_url(
-              ExternalRoutes.ferb_api_client_authorization_path(
+              FerbRoutes.client_authorization_path(
                 participant_homer.legacy_descriptor.legacy_id
               )
             )).and_return(status: 200)
@@ -435,7 +434,7 @@ feature 'Create participant' do
           )
           stub_request(:get,
             ferb_api_url(
-              ExternalRoutes.ferb_api_client_authorization_path(
+              FerbRoutes.client_authorization_path(
                 participant_homer.legacy_descriptor.legacy_id
               )
             )).and_return(status: 200)

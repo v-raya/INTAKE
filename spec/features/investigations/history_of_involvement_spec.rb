@@ -8,7 +8,7 @@ feature 'Investigation History of Involvement' do
 
   before do
     stub_request(
-      :get, ferb_api_url(ExternalRoutes.ferb_api_investigation_path(investigation_id))
+      :get, ferb_api_url(FerbRoutes.investigation_path(investigation_id))
     ).and_return(json_body({ history_of_involvement: hoi }.to_json, status: 200))
   end
 

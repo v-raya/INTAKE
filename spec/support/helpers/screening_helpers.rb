@@ -38,8 +38,18 @@ module ScreeningHelpers
                    end
     stub_request(
       :get,
-      ferb_api_url(ExternalRoutes.ferb_api_screening_history_of_involvements_path(screening_id))
+      ferb_api_url(FerbRoutes.screening_history_of_involvements_path(screening_id))
     ).and_return(json_body(response.to_json, status: 200))
+  end
+
+  def stub_empty_history_for_clients(ids)
+    params = ids.map { |id| "clientIds=#{id}" }.join '&'
+    stub_request(
+      :get,
+      ferb_api_url(
+        FerbRoutes.history_of_involvements_path
+      ) + "?#{params}"
+    ).and_return(json_body({ cases: [], referrals: [], screenings: [] }.to_json, status: 200))
   end
 
   def stub_and_visit_edit_screening(screening)

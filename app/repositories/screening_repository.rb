@@ -50,7 +50,7 @@ class ScreeningRepository
       path = ExternalRoutes.intake_api_history_of_involvements_path(id)
     else
       api = FerbAPI
-      path = ExternalRoutes.ferb_api_screening_history_of_involvements_path(id)
+      path = FerbRoutes.screening_history_of_involvements_path(id)
     end
     response = api.make_api_call(security_token, path, :get)
     response.body

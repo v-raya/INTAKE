@@ -28,7 +28,6 @@ feature 'Create Snapshot' do
     end
 
     scenario 'via start snapshot link' do
-      stub_empty_history_for_screening(new_snapshot)
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .with(body: as_json_without_root_id(new_snapshot))
         .and_return(json_body(new_snapshot.to_json, status: 201))
@@ -63,8 +62,6 @@ feature 'Create Snapshot' do
       visit root_path
       click_button 'Start Snapshot'
 
-      stub_empty_relationships_for_screening(new_snapshot)
-      stub_empty_history_for_screening(new_snapshot)
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
         response.with_hits do
@@ -81,6 +78,13 @@ feature 'Create Snapshot' do
         :post,
         intake_api_url(ExternalRoutes.intake_api_screening_people_path(new_snapshot.id))
       ).and_return(json_body(person.to_json, status: 201))
+      stub_request(
+        :get,
+        ferb_api_url(
+          FerbRoutes.relationships_path
+        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
+      ).and_return(json_body([].to_json, status: 200))
+      stub_empty_history_for_clients [person.legacy_descriptor.legacy_id]
 
       within '#search-card', text: 'Search' do
         fill_in 'Search for clients', with: 'Ma'
@@ -112,7 +116,6 @@ feature 'Create Snapshot' do
     end
 
     scenario 'a new snapshot is created if the user visits the snapshot page directly' do
-      stub_empty_history_for_screening(new_snapshot)
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .with(body: as_json_without_root_id(new_snapshot))
         .and_return(json_body(new_snapshot.to_json, status: 201))
@@ -129,14 +132,13 @@ feature 'Create Snapshot' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(new_snapshot.id)
+            FerbRoutes.screening_history_of_involvements_path(new_snapshot.id)
           )
         )
       ).not_to have_been_made
     end
 
     scenario 'user creates a new snapshot by clicking the Start Over button' do
-      stub_empty_history_for_screening(new_snapshot)
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .and_return(json_body(new_snapshot.to_json, status: 201))
 
@@ -156,7 +158,7 @@ feature 'Create Snapshot' do
         a_request(
           :get,
           ferb_api_url(
-            ExternalRoutes.ferb_api_screening_history_of_involvements_path(second_snapshot.id)
+            FerbRoutes.screening_history_of_involvements_path(second_snapshot.id)
           )
         )
       ).not_to have_been_made

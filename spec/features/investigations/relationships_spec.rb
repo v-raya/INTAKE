@@ -10,7 +10,7 @@ feature 'Investigation Relationship Card' do
   before do
     stub_request(
       :get,
-      ferb_api_url(ExternalRoutes.ferb_api_investigation_path(investigation_id))
+      ferb_api_url(FerbRoutes.investigation_path(investigation_id))
     ).and_return(json_body({ relationships: relationships }.to_json), status: 200)
   end
 
