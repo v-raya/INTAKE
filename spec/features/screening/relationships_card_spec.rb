@@ -362,8 +362,7 @@ feature 'Relationship card' do
               expect(
                 a_request(:get,
                   ferb_api_url(
-                    ExternalRoutes
-                      .ferb_api_screening_history_of_involvements_path(participants_screening.id)
+                    FerbRoutes.screening_history_of_involvements_path(participants_screening.id)
                   ))
               ).to have_been_made.twice
 
