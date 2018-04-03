@@ -26,23 +26,27 @@ const PersonInformationShow = ({
             <div className='row'><div className='col-md-12'><span>{legacySource}</span></div></div>
         }
         <div className='row'>
-          <div className='col-md-5'>
+          <div className='col-md-6'>
             <ShowField errors={name.errors} required={name.required} label='Name'>{name.value}</ShowField>
-            <ShowField label='Gender'>{gender}</ShowField>
           </div>
-          <div className='col-md-5'>
+          <div className='col-md-6'>
             <ShowField label='Role(s)' errors={roles.errors}>
               {roles.value.length > 0 &&
                   <ul>{roles.value.map((role, index) => (<li key={`role-${index}`}>{role}</li>))}</ul>
               }
             </ShowField>
           </div>
-          <div className='col-md-5'>
+          <div className='col-md-6'>
+            <ShowField label='Gender'>{gender}</ShowField>
+          </div>
+          <div className='col-md-6'>
             <ShowField label='Language(s) (Primary First)'>{languages}</ShowField>
           </div>
-          <div className='col-md-5'>
+          <div className='col-md-6'>
             {dateOfBirth && <ShowField label='Date of birth'>{dateOfBirth}</ShowField>}
             {approximateAge && <ShowField label='Approximate Age'>{approximateAge}</ShowField>}
+          </div>
+          <div className='col-md-6'>
             <ShowField label='Social security number' errors={ssn.errors}>{ssn.value}</ShowField>
           </div>
         </div>
