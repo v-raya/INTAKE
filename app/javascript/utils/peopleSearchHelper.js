@@ -7,7 +7,7 @@ export const mapLanguages = (state, result) => buildSelector(
   () => (result.get('languages') || List()),
   (statusCodes, languages) => (
     languages
-      .sort((item) => item.get('primary'))
+      .sort((first, second) => second.get('primary') - first.get('primary'))
       .map((language) => (
         systemCodeDisplayValue(language.get('id'), statusCodes))
       )
@@ -69,3 +69,24 @@ export const mapAddress = (state, result) => buildSelector(
     }
   }
 )(state)
+
+export const mapDoraPersonToParticipant = (state, person) => Map({
+  date_of_birth: person.get('date_of_birth'),
+  approximate_age: null,
+  approximate_age_units: null,
+  first_name: person.get('first_name'),
+  middle_name: person.get('middle_name'),
+  last_name: person.get('last_name'),
+  gender: person.get('gender'),
+  ssn: person.get('ssn'),
+  sealed: mapIsSealed(person),
+  sensitive: mapIsSensitive(person),
+  phone_numbers: person.get('phone_numbers'),
+  addresses: List([mapAddress(state, person)
+    .mapKeys((k) => (k === 'streetAddress' ? 'street_address' : k))]),
+  legacy_id: person.get('id'),
+  roles: List(),
+  languages: mapLanguages(state, person),
+  races: mapRaces(state, person),
+  ethnicity: mapEthnicities(state, person),
+})
