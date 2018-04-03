@@ -41,7 +41,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :participants, only: %i[create destroy show]
+      resources :participants, only: %i[create destroy]
       resources :participants,
         only: %i[update],
         constraints: Routes::ActiveScreeningsConstraint
@@ -49,11 +49,12 @@ Rails.application.routes.draw do
       resources :relationships, only: %i[index]
       get :history_of_involvements, to: 'history_of_involvements#by_client_ids'
 
-      resource :people, only: [:search] do
+      resource :people, only: %i[search] do
         collection do
           get 'search'
         end
       end
+      get 'people/:id', to: 'people#show'
 
       resources :investigations,
         only: %i[show],

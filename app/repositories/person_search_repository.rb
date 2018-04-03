@@ -11,9 +11,7 @@ class PersonSearchRepository
         :post,
         search_query(search_term: search_term, search_after: search_after)
       )
-      search_body = response.body
-      raise search_body unless response.status == 200
-      search_body
+      body response
     end
 
     def find(security_token:, id:)
@@ -24,10 +22,16 @@ class PersonSearchRepository
         :post,
         find_query(id)
       )
-      Participant.new(response.body.dig('hits', 'hits', 0, '_source'))
+      body(response).dig('hits', 'hits', 0, '_source')
     end
 
     private
+
+    def body(response)
+      search_body = response.body
+      raise search_body unless response.status == 200
+      search_body
+    end
 
     def find_query(id)
       {

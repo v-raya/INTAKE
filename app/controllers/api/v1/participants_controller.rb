@@ -89,11 +89,6 @@ module Api
         render json: { status: 403 }, status: 403
       end
 
-      def show
-        participant = ParticipantRepository.find(session[:security_token], params[:id])
-        render json: participant.to_json, status: 200
-      end
-
       def participant_params
         params.require(:participant).permit(*PERMITTED_PARAMS)
       end

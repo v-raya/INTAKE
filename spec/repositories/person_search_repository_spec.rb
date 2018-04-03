@@ -255,7 +255,7 @@ describe PersonSearchRepository do
           }
         }
       end
-      let(:response) { double(:response, body: response_body) }
+      let(:response) { double(:response, body: response_body, status: 200) }
 
       before do
         path = ExternalRoutes.dora_people_light_index_path

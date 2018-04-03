@@ -15,6 +15,14 @@ module Api
         )
         render json: search_response
       end
+
+      def show
+        search_response = PersonSearchRepository.find(
+          security_token: session[:security_token],
+          id: params[:id]
+        )
+        render json: search_response.to_json, status: 200
+      end
     end
   end
 end

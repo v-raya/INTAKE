@@ -143,31 +143,4 @@ describe Api::V1::ParticipantsController do
       expect(response.body).to be_empty
     end
   end
-
-  describe '#show' do
-    let(:participant_id) { '1' }
-    let(:participant_params) do
-      {
-        id: participant_id,
-        first_name: 'Margie',
-        last_name: 'Simpson',
-        ethnicity: { hispanic_latino_origin: 'Yes', ethnicity_detail: ['Central American'] },
-        roles: ['Victim'],
-        races: [
-          { race: 'White', race_detail: 'Middle Eastern' },
-          { race: 'Asian', race_detail: 'Chinese' }
-        ]
-      }
-    end
-    let(:participant) { double(:participant, as_json: participant_params) }
-
-    it 'renders participant as json' do
-      expect(ParticipantRepository).to receive(:find)
-        .with(security_token, participant_params[:id])
-        .and_return(participant)
-      process :show, method: :get, params: { id: participant_id }, session: session
-      expect(response).to be_successful
-      expect(JSON.parse(response.body)).to eq(participant_params.as_json)
-    end
-  end
 end
