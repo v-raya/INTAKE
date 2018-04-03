@@ -6,6 +6,7 @@ NUMBER_OF_FRAGMENTS = 5
 LOW_BOOST = 2
 MEDIUM_BOOST = 3
 HIGH_BOOST = 5
+NO_BOOST = 1
 describe PersonSearchRepository do
   describe '.search' do
     let(:security_token) { 'my_security_token' }
@@ -69,7 +70,8 @@ describe PersonSearchRepository do
                   match: {
                     'autocomplete_search_bar.diminutive': {
                       query: 'robert barathian',
-                      operator: 'and'
+                      operator: 'and',
+                      boost: NO_BOOST
                     }
                   }
                 },
@@ -77,7 +79,8 @@ describe PersonSearchRepository do
                   match: {
                     'autocomplete_search_bar.phonetic': {
                       query: 'robert barathian',
-                      operator: 'and'
+                      operator: 'and',
+                      boost: NO_BOOST
                     }
                   }
                 }

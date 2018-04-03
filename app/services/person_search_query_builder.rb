@@ -7,6 +7,7 @@ class PersonSearchQueryBuilder
   LOW_BOOST = 2
   MEDIUM_BOOST = 3
   HIGH_BOOST = 5
+  NO_BOOST = 1
   attr_reader :search_after
 
   def initialize(search_term: '', search_after: nil)
@@ -40,39 +41,15 @@ class PersonSearchQueryBuilder
   end
 
   def base_query
-    { bool: { should: search_bar } }
-  end
-
-  def search_bar
-    term = formatted_search_term
-    [
+    { bool: { should: [
       fuzzy_query,
-      nonboost_query(:'autocomplete_search_bar.diminutive', term),
-      nonboost_query(:'autocomplete_search_bar.phonetic', term)
-    ]
+      and_query(:'autocomplete_search_bar.diminutive', formatted_search_term, NO_BOOST),
+      and_query(:'autocomplete_search_bar.phonetic', formatted_search_term, NO_BOOST)
+    ] } }
   end
 
   def and_query(field, term, boost)
-    {
-      match: {
-        field => {
-          query: term,
-          operator: 'and',
-          boost: boost
-        }
-      }
-    }
-  end
-
-  def nonboost_query(field, term)
-    {
-      match: {
-        field => {
-          query: term,
-          operator: 'and'
-        }
-      }
-    }
+    { match: { field => { query: term, operator: 'and', boost: boost } } }
   end
 
   def must
@@ -81,14 +58,7 @@ class PersonSearchQueryBuilder
   end
 
   def match_query(field, term, boost)
-    {
-      match: {
-        field => {
-          query: term,
-          boost: boost
-        }
-      }
-    }
+    { match: { field => { query: term, boost: boost } } }
   end
 
   def should

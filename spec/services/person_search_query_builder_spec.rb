@@ -6,6 +6,7 @@ NUMBER_OF_FRAGMENTS = 5
 LOW_BOOST = 2
 MEDIUM_BOOST = 3
 HIGH_BOOST = 5
+NO_BOOST = 1
 describe PersonSearchQueryBuilder do
   let(:search_term) { 'This is my search term' }
 
@@ -76,7 +77,8 @@ describe PersonSearchQueryBuilder do
                         match: {
                           'autocomplete_search_bar.diminutive': {
                             query: 'this is my search term',
-                            operator: 'and'
+                            operator: 'and',
+                            boost: NO_BOOST
                           }
                         }
                       },
@@ -84,7 +86,8 @@ describe PersonSearchQueryBuilder do
                         match: {
                           'autocomplete_search_bar.phonetic': {
                             query: 'this is my search term',
-                            operator: 'and'
+                            operator: 'and',
+                            boost: NO_BOOST
                           }
                         }
                       }
@@ -223,7 +226,8 @@ describe PersonSearchQueryBuilder do
                         match: {
                           'autocomplete_search_bar.diminutive': {
                             query: 'this is my search term',
-                            operator: 'and'
+                            operator: 'and',
+                            boost: NO_BOOST
                           }
                         }
                       },
@@ -231,7 +235,8 @@ describe PersonSearchQueryBuilder do
                         match: {
                           'autocomplete_search_bar.phonetic': {
                             query: 'this is my search term',
-                            operator: 'and'
+                            operator: 'and',
+                            boost: NO_BOOST
                           }
                         }
                       }
@@ -351,7 +356,8 @@ describe PersonSearchQueryBuilder do
                             match: {
                               'autocomplete_search_bar.diminutive': {
                                 query: expected_results[index],
-                                operator: 'and'
+                                operator: 'and',
+                                boost: NO_BOOST
                               }
                             }
                           },
@@ -359,7 +365,8 @@ describe PersonSearchQueryBuilder do
                             match: {
                               'autocomplete_search_bar.phonetic': {
                                 query: expected_results[index],
-                                operator: 'and'
+                                operator: 'and',
+                                boost: NO_BOOST
                               }
                             }
                           }
@@ -479,7 +486,8 @@ describe PersonSearchQueryBuilder do
                             match: {
                               'autocomplete_search_bar.diminutive': {
                                 query: expected_results[index],
-                                operator: 'and'
+                                operator: 'and',
+                                boost: NO_BOOST
                               }
                             }
                           },
@@ -487,7 +495,8 @@ describe PersonSearchQueryBuilder do
                             match: {
                               'autocomplete_search_bar.phonetic': {
                                 query: expected_results[index],
-                                operator: 'and'
+                                operator: 'and',
+                                boost: NO_BOOST
                               }
                             }
                           }
@@ -590,7 +599,8 @@ describe PersonSearchQueryBuilder do
                           match: {
                             'autocomplete_search_bar.diminutive': {
                               query: expected_search_term,
-                              operator: 'and'
+                              operator: 'and',
+                              boost: NO_BOOST
                             }
                           }
                         },
@@ -598,7 +608,8 @@ describe PersonSearchQueryBuilder do
                           match: {
                             'autocomplete_search_bar.phonetic': {
                               query: expected_search_term,
-                              operator: 'and'
+                              operator: 'and',
+                              boost: NO_BOOST
                             }
                           }
                         }
@@ -741,7 +752,8 @@ describe PersonSearchQueryBuilder do
                             match: {
                               'autocomplete_search_bar.diminutive': {
                                 query: expected_results[index],
-                                operator: 'and'
+                                operator: 'and',
+                                boost: NO_BOOST
                               }
                             }
                           },
@@ -749,7 +761,8 @@ describe PersonSearchQueryBuilder do
                             match: {
                               'autocomplete_search_bar.phonetic': {
                                 query: expected_results[index],
-                                operator: 'and'
+                                operator: 'and',
+                                boost: NO_BOOST
                               }
                             }
                           }

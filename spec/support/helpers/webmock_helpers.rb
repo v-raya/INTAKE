@@ -2,6 +2,7 @@
 
 module WebmockHelpers
   LOW_BOOST = 2
+  NO_BOOST = 1
   def stub_screening_put_request_with_anything_and_return(
     screening,
     with_updated_attributes: {}
@@ -38,7 +39,8 @@ module WebmockHelpers
                       'match' => {
                         'autocomplete_search_bar.diminutive' => {
                           'query' => search_term.downcase,
-                          'operator' =>  'and'
+                          'operator' =>  'and',
+                          'boost' => NO_BOOST
                         }
                       }
                     },
@@ -46,7 +48,8 @@ module WebmockHelpers
                       'match' =>  {
                         'autocomplete_search_bar.phonetic' => {
                           query: search_term.downcase,
-                          'operator' =>  'and'
+                          'operator' =>  'and',
+                          'boost' => NO_BOOST
                         }
                       }
                     }
