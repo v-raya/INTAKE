@@ -4,7 +4,9 @@
 # of an elastic search person search query
 class PersonSearchQueryBuilder
   NUMBER_OF_FRAGMENTS = 5
-  BOOSTING_FACTOR = 2
+  LOW_BOOST = 2
+  MEDIUM_BOOST = 3
+  HIGH_BOOST = 5
   attr_reader :search_after
 
   def initialize(search_term: '', search_after: nil)
@@ -37,17 +39,53 @@ class PersonSearchQueryBuilder
     { bool: { must: must, should: should } }
   end
 
+  def base_query
+    { bool: { should: search_bar } }
+  end
+
+  def search_bar
+    term = formatted_search_term
+    [
+      fuzzy_query,
+      nonboost_query(:'autocomplete_search_bar.diminutive', term),
+      nonboost_query(:'autocomplete_search_bar.phonetic', term)
+    ]
+  end
+
+  def and_query(field, term, boost)
+    {
+      match: {
+        field => {
+          query: term,
+          operator: 'and',
+          boost: boost
+        }
+      }
+    }
+  end
+
+  def nonboost_query(field, term)
+    {
+      match: {
+        field => {
+          query: term,
+          operator: 'and'
+        }
+      }
+    }
+  end
+
   def must
     return [base_query] unless Rails.configuration.intake[:client_only_search]
     [base_query, client_only]
   end
 
-  def match_query(field, term)
+  def match_query(field, term, boost)
     {
       match: {
         field => {
           query: term,
-          boost: BOOSTING_FACTOR
+          boost: boost
         }
       }
     }
@@ -56,34 +94,24 @@ class PersonSearchQueryBuilder
   def should
     term = formatted_search_term
     [
-      nonfuzzy_query,
-      match_query(:first_name, term),
-      match_query(:last_name, term),
-      match_query(:'aka.first_name', term),
-      match_query(:'aka.last_name', term),
-      match_query(:date_of_birth_as_text, term),
-      match_query(:ssn, term)
+      and_query(:autocomplete_search_bar, term, MEDIUM_BOOST),
+      match_query(:first_name, term, HIGH_BOOST),
+      match_query(:last_name, term, HIGH_BOOST),
+      match_query(:'first_name.phonetic', term, LOW_BOOST),
+      match_query(:'last_name.phonetic', term, LOW_BOOST),
+      match_query(:date_of_birth_as_text, term, HIGH_BOOST),
+      match_query(:ssn, term, HIGH_BOOST)
     ]
   end
 
-  def base_query
+  def fuzzy_query
     {
       match: {
         autocomplete_search_bar: {
           query: formatted_search_term,
           fuzziness: 'AUTO',
-          operator: 'and'
-        }
-      }
-    }
-  end
-
-  def nonfuzzy_query
-    {
-      match: {
-        autocomplete_search_bar: {
-          query: formatted_search_term,
-          operator: 'and'
+          operator: 'and',
+          boost: LOW_BOOST
         }
       }
     }

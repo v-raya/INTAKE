@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 NUMBER_OF_FRAGMENTS = 5
-BOOSTING_FACTOR = 2
+LOW_BOOST = 2
+MEDIUM_BOOST = 3
+HIGH_BOOST = 5
 describe PersonSearchQueryBuilder do
   let(:search_term) { 'This is my search term' }
 
@@ -58,21 +60,47 @@ describe PersonSearchQueryBuilder do
             bool: {
               must: [
                 {
-                  match: {
-                    autocomplete_search_bar: {
-                      query: 'this is my search term',
-                      fuzziness: 'AUTO',
-                      operator: 'and'
-                    }
+                  bool: {
+                    should: [
+                      {
+                        match: {
+                          autocomplete_search_bar: {
+                            query: 'this is my search term',
+                            fuzziness: 'AUTO',
+                            operator: 'and',
+                            boost: LOW_BOOST
+                          }
+                        }
+                      },
+                      {
+                        match: {
+                          'autocomplete_search_bar.diminutive': {
+                            query: 'this is my search term',
+                            operator: 'and'
+                          }
+                        }
+                      },
+                      {
+                        match: {
+                          'autocomplete_search_bar.phonetic': {
+                            query: 'this is my search term',
+                            operator: 'and'
+                          }
+                        }
+                      }
+                    ]
                   }
+
                 }
+
               ],
               should: [
                 {
                   match: {
                     autocomplete_search_bar: {
                       query: 'this is my search term',
-                      operator: 'and'
+                      operator: 'and',
+                      boost: MEDIUM_BOOST
                     }
                   }
                 },
@@ -80,7 +108,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     first_name: {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: HIGH_BOOST
                     }
                   }
                 },
@@ -88,23 +116,23 @@ describe PersonSearchQueryBuilder do
                   match: {
                     last_name: {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: HIGH_BOOST
                     }
                   }
                 },
                 {
                   match: {
-                    'aka.first_name': {
+                    'first_name.phonetic': {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: LOW_BOOST
                     }
                   }
                 },
                 {
                   match: {
-                    'aka.last_name': {
+                    'last_name.phonetic': {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: LOW_BOOST
                     }
                   }
                 },
@@ -112,7 +140,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     date_of_birth_as_text: {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: HIGH_BOOST
                     }
                   }
                 },
@@ -120,7 +148,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     ssn: {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: HIGH_BOOST
                     }
                   }
                 }
@@ -179,21 +207,47 @@ describe PersonSearchQueryBuilder do
             bool: {
               must: [
                 {
-                  match: {
-                    autocomplete_search_bar: {
-                      query: 'this is my search term',
-                      fuzziness: 'AUTO',
-                      operator: 'and'
-                    }
+                  bool: {
+                    should: [
+                      {
+                        match: {
+                          autocomplete_search_bar: {
+                            query: 'this is my search term',
+                            fuzziness: 'AUTO',
+                            operator: 'and',
+                            boost: LOW_BOOST
+                          }
+                        }
+                      },
+                      {
+                        match: {
+                          'autocomplete_search_bar.diminutive': {
+                            query: 'this is my search term',
+                            operator: 'and'
+                          }
+                        }
+                      },
+                      {
+                        match: {
+                          'autocomplete_search_bar.phonetic': {
+                            query: 'this is my search term',
+                            operator: 'and'
+                          }
+                        }
+                      }
+                    ]
                   }
+
                 }
+
               ],
               should: [
                 {
                   match: {
                     autocomplete_search_bar: {
                       query: 'this is my search term',
-                      operator: 'and'
+                      operator: 'and',
+                      boost: MEDIUM_BOOST
                     }
                   }
                 },
@@ -201,7 +255,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     first_name: {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: HIGH_BOOST
                     }
                   }
                 },
@@ -209,23 +263,23 @@ describe PersonSearchQueryBuilder do
                   match: {
                     last_name: {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: HIGH_BOOST
                     }
                   }
                 },
                 {
                   match: {
-                    'aka.first_name': {
+                    'first_name.phonetic': {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: LOW_BOOST
                     }
                   }
                 },
                 {
                   match: {
-                    'aka.last_name': {
+                    'last_name.phonetic': {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: LOW_BOOST
                     }
                   }
                 },
@@ -233,7 +287,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     date_of_birth_as_text: {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: HIGH_BOOST
                     }
                   }
                 },
@@ -241,7 +295,7 @@ describe PersonSearchQueryBuilder do
                   match: {
                     ssn: {
                       query: 'this is my search term',
-                      boost: BOOSTING_FACTOR
+                      boost: HIGH_BOOST
                     }
                   }
                 }
@@ -281,21 +335,47 @@ describe PersonSearchQueryBuilder do
                 bool: {
                   must: [
                     {
-                      match: {
-                        autocomplete_search_bar: {
-                          query: expected_results[index],
-                          fuzziness: 'AUTO',
-                          operator: 'and'
-                        }
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              autocomplete_search_bar: {
+                                query: expected_results[index],
+                                fuzziness: 'AUTO',
+                                operator: 'and',
+                                boost:  LOW_BOOST
+                              }
+                            }
+                          },
+                          {
+                            match: {
+                              'autocomplete_search_bar.diminutive': {
+                                query: expected_results[index],
+                                operator: 'and'
+                              }
+                            }
+                          },
+                          {
+                            match: {
+                              'autocomplete_search_bar.phonetic': {
+                                query: expected_results[index],
+                                operator: 'and'
+                              }
+                            }
+                          }
+                        ]
                       }
+
                     }
+
                   ],
                   should: [
                     {
                       match: {
                         autocomplete_search_bar: {
                           query: expected_results[index],
-                          operator: 'and'
+                          operator: 'and',
+                          boost: MEDIUM_BOOST
                         }
                       }
                     },
@@ -303,7 +383,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         first_name: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
@@ -311,23 +391,23 @@ describe PersonSearchQueryBuilder do
                       match: {
                         last_name: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
                     {
                       match: {
-                        'aka.first_name': {
+                        'first_name.phonetic': {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: LOW_BOOST
                         }
                       }
                     },
                     {
                       match: {
-                        'aka.last_name': {
+                        'last_name.phonetic': {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: LOW_BOOST
                         }
                       }
                     },
@@ -335,7 +415,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         date_of_birth_as_text: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
@@ -343,7 +423,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         ssn: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     }
@@ -383,21 +463,47 @@ describe PersonSearchQueryBuilder do
                 bool: {
                   must: [
                     {
-                      match: {
-                        autocomplete_search_bar: {
-                          query: expected_results[index],
-                          fuzziness: 'AUTO',
-                          operator: 'and'
-                        }
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              autocomplete_search_bar: {
+                                query: expected_results[index],
+                                fuzziness: 'AUTO',
+                                operator: 'and',
+                                boost: LOW_BOOST
+                              }
+                            }
+                          },
+                          {
+                            match: {
+                              'autocomplete_search_bar.diminutive': {
+                                query: expected_results[index],
+                                operator: 'and'
+                              }
+                            }
+                          },
+                          {
+                            match: {
+                              'autocomplete_search_bar.phonetic': {
+                                query: expected_results[index],
+                                operator: 'and'
+                              }
+                            }
+                          }
+                        ]
                       }
+
                     }
+
                   ],
                   should: [
                     {
                       match: {
                         autocomplete_search_bar: {
                           query: expected_results[index],
-                          operator: 'and'
+                          operator: 'and',
+                          boost: MEDIUM_BOOST
                         }
                       }
                     },
@@ -405,7 +511,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         first_name: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
@@ -413,23 +519,23 @@ describe PersonSearchQueryBuilder do
                       match: {
                         last_name: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
                     {
                       match: {
-                        'aka.first_name': {
+                        'first_name.phonetic': {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: LOW_BOOST
                         }
                       }
                     },
                     {
                       match: {
-                        'aka.last_name': {
+                        'last_name.phonetic': {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: LOW_BOOST
                         }
                       }
                     },
@@ -437,7 +543,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         date_of_birth_as_text: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
@@ -445,7 +551,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         ssn: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     }
@@ -468,30 +574,55 @@ describe PersonSearchQueryBuilder do
               bool: {
                 must: [
                   {
-                    match: {
-                      autocomplete_search_bar: {
-                        query: expected_search_term,
-                        fuzziness: 'AUTO',
-                        operator: 'and'
-                      }
+                    bool: {
+                      should: [
+                        {
+                          match: {
+                            autocomplete_search_bar: {
+                              query: expected_search_term,
+                              fuzziness: 'AUTO',
+                              operator: 'and',
+                              boost: LOW_BOOST
+                            }
+                          }
+                        },
+                        {
+                          match: {
+                            'autocomplete_search_bar.diminutive': {
+                              query: expected_search_term,
+                              operator: 'and'
+                            }
+                          }
+                        },
+                        {
+                          match: {
+                            'autocomplete_search_bar.phonetic': {
+                              query: expected_search_term,
+                              operator: 'and'
+                            }
+                          }
+                        }
+                      ]
                     }
+
                   }
+
                 ],
                 should: [
                   {
                     match: {
                       autocomplete_search_bar: {
                         query: expected_search_term,
-                        operator: 'and'
+                        operator: 'and',
+                        boost: MEDIUM_BOOST
                       }
                     }
                   },
-
                   {
                     match: {
                       first_name: {
                         query: expected_search_term,
-                        boost: BOOSTING_FACTOR
+                        boost: HIGH_BOOST
                       }
                     }
                   },
@@ -499,23 +630,23 @@ describe PersonSearchQueryBuilder do
                     match: {
                       last_name: {
                         query: expected_search_term,
-                        boost: BOOSTING_FACTOR
+                        boost: HIGH_BOOST
                       }
                     }
                   },
                   {
                     match: {
-                      'aka.first_name': {
+                      'first_name.phonetic': {
                         query: expected_search_term,
-                        boost: BOOSTING_FACTOR
+                        boost: LOW_BOOST
                       }
                     }
                   },
                   {
                     match: {
-                      'aka.last_name': {
+                      'last_name.phonetic': {
                         query: expected_search_term,
-                        boost: BOOSTING_FACTOR
+                        boost: LOW_BOOST
                       }
                     }
                   },
@@ -523,7 +654,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       date_of_birth_as_text: {
                         query: expected_search_term,
-                        boost: BOOSTING_FACTOR
+                        boost: HIGH_BOOST
                       }
                     }
                   },
@@ -531,7 +662,7 @@ describe PersonSearchQueryBuilder do
                     match: {
                       ssn: {
                         query: expected_search_term,
-                        boost: BOOSTING_FACTOR
+                        boost: HIGH_BOOST
                       }
                     }
                   }
@@ -594,21 +725,47 @@ describe PersonSearchQueryBuilder do
                 bool: {
                   must: [
                     {
-                      match: {
-                        autocomplete_search_bar: {
-                          query: expected_results[index],
-                          fuzziness: 'AUTO',
-                          operator: 'and'
-                        }
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              autocomplete_search_bar: {
+                                query: expected_results[index],
+                                fuzziness: 'AUTO',
+                                operator: 'and',
+                                boost: LOW_BOOST
+                              }
+                            }
+                          },
+                          {
+                            match: {
+                              'autocomplete_search_bar.diminutive': {
+                                query: expected_results[index],
+                                operator: 'and'
+                              }
+                            }
+                          },
+                          {
+                            match: {
+                              'autocomplete_search_bar.phonetic': {
+                                query: expected_results[index],
+                                operator: 'and'
+                              }
+                            }
+                          }
+                        ]
                       }
+
                     }
+
                   ],
                   should: [
                     {
                       match: {
                         autocomplete_search_bar: {
                           query: expected_results[index],
-                          operator: 'and'
+                          operator: 'and',
+                          boost: MEDIUM_BOOST
                         }
                       }
                     },
@@ -616,7 +773,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         first_name: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
@@ -624,23 +781,23 @@ describe PersonSearchQueryBuilder do
                       match: {
                         last_name: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
                     {
                       match: {
-                        'aka.first_name': {
+                        'first_name.phonetic': {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: LOW_BOOST
                         }
                       }
                     },
                     {
                       match: {
-                        'aka.last_name': {
+                        'last_name.phonetic': {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: LOW_BOOST
                         }
                       }
                     },
@@ -648,7 +805,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         date_of_birth_as_text: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     },
@@ -656,7 +813,7 @@ describe PersonSearchQueryBuilder do
                       match: {
                         ssn: {
                           query: expected_results[index],
-                          boost: BOOSTING_FACTOR
+                          boost: HIGH_BOOST
                         }
                       }
                     }

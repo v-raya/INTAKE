@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module WebmockHelpers
+  LOW_BOOST = 2
   def stub_screening_put_request_with_anything_and_return(
     screening,
     with_updated_attributes: {}
@@ -19,15 +20,43 @@ module WebmockHelpers
         'sort' => [{ '_score' => 'desc', '_uid' => 'desc' }],
         'query' => {
           'bool' => {
-            'must' => array_including(
-              'match' => {
-                'autocomplete_search_bar' => {
-                  'query' => search_term.downcase,
-                  'fuzziness' => 'AUTO',
-                  'operator' => 'and'
+            'must' => [
+              {
+                'bool' => {
+                  'should' => [
+                    {
+                      'match': {
+                        'autocomplete_search_bar' => {
+                          'query' => search_term.downcase,
+                          'fuzziness' => 'AUTO',
+                          'operator' => 'and',
+                          'boost' => LOW_BOOST
+                        }
+                      }
+                    },
+                    {
+                      'match' => {
+                        'autocomplete_search_bar.diminutive' => {
+                          'query' => search_term.downcase,
+                          'operator' =>  'and'
+                        }
+                      }
+                    },
+                    {
+                      'match' =>  {
+                        'autocomplete_search_bar.phonetic' => {
+                          query: search_term.downcase,
+                          'operator' =>  'and'
+                        }
+                      }
+                    }
+                  ]
                 }
+
               }
-            ),
+
+            ],
+
             'should' => anything
           }
         },
