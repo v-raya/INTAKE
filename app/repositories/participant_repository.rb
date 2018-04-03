@@ -6,9 +6,7 @@ class ParticipantRepository
   class AuthorizationError < StandardError; end
 
   def self.create(security_token, participant)
-    legacy_id = participant.legacy_descriptor&.legacy_id
-
-    authorize security_token, legacy_id
+    authorize security_token, participant.legacy_descriptor&.legacy_id
 
     response = IntakeAPI.make_api_call(
       security_token,
@@ -63,10 +61,10 @@ class ParticipantRepository
     participant.as_json.except('id')
   end
 
-  def self.authorize(security_token, legacy_id)
-    return if legacy_id.blank?
+  def self.authorize(security_token, id)
+    return if id.blank?
 
-    route = FerbRoutes.client_authorization_path(legacy_id)
+    route = FerbRoutes.client_authorization_path(id)
 
     begin
       FerbAPI.make_api_call(security_token, route, :get)
