@@ -3,7 +3,10 @@
 require 'rails_helper'
 require 'feature/testing'
 NUMBER_OF_FRAGMENTS = 5
-BOOSTING_FACTOR = 2
+LOW_BOOST = 2
+MEDIUM_BOOST = 3
+HIGH_BOOST = 5
+NO_BOOST = 1
 describe PersonSearchRepository do
   describe '.search' do
     let(:security_token) { 'my_security_token' }
@@ -51,13 +54,39 @@ describe PersonSearchRepository do
       {
         bool: {
           must: [{
-            match: {
-              autocomplete_search_bar: {
-                query: 'robert barathian',
-                fuzziness: 'AUTO',
-                operator: 'and'
-              }
+            bool: {
+              should: [
+                {
+                  match: {
+                    autocomplete_search_bar: {
+                      query: 'robert barathian',
+                      fuzziness: 'AUTO',
+                      operator: 'and',
+                      boost: LOW_BOOST
+                    }
+                  }
+                },
+                {
+                  match: {
+                    'autocomplete_search_bar.diminutive': {
+                      query: 'robert barathian',
+                      operator: 'and',
+                      boost: NO_BOOST
+                    }
+                  }
+                },
+                {
+                  match: {
+                    'autocomplete_search_bar.phonetic': {
+                      query: 'robert barathian',
+                      operator: 'and',
+                      boost: NO_BOOST
+                    }
+                  }
+                }
+              ]
             }
+
           }],
           should: [
 
@@ -65,22 +94,23 @@ describe PersonSearchRepository do
               match: {
                 autocomplete_search_bar: {
                   query: 'robert barathian',
-                  operator: 'and'
+                  operator: 'and',
+                  boost: MEDIUM_BOOST
                 }
               }
             },
             { match: { first_name: { query: 'robert barathian',
-                                     boost: BOOSTING_FACTOR } } },
+                                     boost: HIGH_BOOST } } },
             { match: { last_name: { query: 'robert barathian',
-                                    boost: BOOSTING_FACTOR } } },
-            { match: { 'aka.first_name': { query: 'robert barathian',
-                                           boost: BOOSTING_FACTOR } } },
-            { match: { 'aka.last_name': { query: 'robert barathian',
-                                          boost: BOOSTING_FACTOR } } },
+                                    boost: HIGH_BOOST } } },
+            { match: { 'first_name.phonetic': { query: 'robert barathian',
+                                                boost: LOW_BOOST } } },
+            { match: { 'last_name.phonetic': { query: 'robert barathian',
+                                               boost: LOW_BOOST } } },
             { match: { date_of_birth_as_text: { query: 'robert barathian',
-                                                boost: BOOSTING_FACTOR } } },
+                                                boost: HIGH_BOOST } } },
             { match: { ssn: { query: 'robert barathian',
-                              boost: BOOSTING_FACTOR } } }
+                              boost: HIGH_BOOST } } }
           ]
         }
       }
