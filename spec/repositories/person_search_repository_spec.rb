@@ -5,7 +5,7 @@ require 'feature/testing'
 NUMBER_OF_FRAGMENTS = 5
 LOW_BOOST = 2
 MEDIUM_BOOST = 3
-HIGH_BOOST = 5
+HIGH_BOOST = 7
 NO_BOOST = 1
 describe PersonSearchRepository do
   describe '.search' do
