@@ -82,6 +82,7 @@ describe('createSnapshotPerson', () => {
       zip: '99999',
       type: 'address type',
     }],
+    id: id,
     legacy_id: id,
     roles: [],
     languages: ['French', 'English'],

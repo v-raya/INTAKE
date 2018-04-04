@@ -21,7 +21,6 @@ export function* createSnapshotPerson({payload: {id}}) {
     yield put(fetchRelationshipsByClientIds(clientIds))
     yield put(fetchHistoryOfInvolvementsByClientIds(clientIds))
   } catch (error) {
-    console.log('Error', error)
     if (error.status === STATUS_CODES.forbidden) {
       yield call(alert, 'You are not authorized to add this person.')
     } else {

@@ -74,7 +74,7 @@ feature 'Snapshot relationship card' do
         intake_api_url(ExternalRoutes.intake_api_screening_path(participants_screening.id))
       ).and_return(json_body(participants_screening.to_json))
 
-      stub_empty_history_for_clients([participant.id])
+      stub_empty_history_for_clients([participant.legacy_descriptor.legacy_id])
 
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
@@ -82,28 +82,27 @@ feature 'Snapshot relationship card' do
           [
             PersonSearchResultBuilder.build do |builder|
               builder.with_first_name('Marge')
+              builder.with_legacy_descriptor(participant.legacy_descriptor)
             end
           ]
         end
       end
-      person = FactoryBot.create(
-        :participant,
-        first_name: 'Marge',
-        legacy_id: participant.id.to_s,
-        screening_id: snapshot.id
-      )
 
       stub_person_search(search_term: 'Ma', person_response: search_response)
       stub_request(
-        :post,
-        intake_api_url(ExternalRoutes.intake_api_screening_people_path(snapshot.id))
-      ).and_return(json_body(person.to_json, status: 201))
+        :get,
+        ferb_api_url(FerbRoutes.client_authorization_path(participant.legacy_descriptor.legacy_id))
+      ).and_return(json_body('', status: 200))
+      stub_person_find(
+        id: participant.legacy_descriptor.legacy_id,
+        person_response: search_response
+      )
 
       stub_request(
         :get,
         ferb_api_url(
           FerbRoutes.relationships_path
-        ) + "?clientIds=#{participant.id}"
+        ) + "?clientIds=#{participant.legacy_descriptor.legacy_id}"
       ).and_return(json_body(relationships.to_json, status: 200))
 
       visit snapshot_path(id: participants_screening.id)
@@ -123,7 +122,7 @@ feature 'Snapshot relationship card' do
           :get,
           ferb_api_url(
             FerbRoutes.relationships_path
-          ) + "?clientIds=#{participant.id}"
+          ) + "?clientIds=#{participant.legacy_descriptor.legacy_id}"
         )
       ).to have_been_made
 

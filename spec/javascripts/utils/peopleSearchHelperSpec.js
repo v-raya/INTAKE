@@ -104,6 +104,7 @@ describe('peopleSearchHelper', () => {
           zip: '99999',
           type: 'address type',
         }],
+        id: 'OkMXEhe083',
         legacy_id: 'OkMXEhe083',
         roles: [],
         languages: ['French', 'English'],

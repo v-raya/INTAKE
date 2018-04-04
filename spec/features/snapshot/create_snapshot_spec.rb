@@ -62,22 +62,24 @@ feature 'Create Snapshot' do
       visit root_path
       click_button 'Start Snapshot'
 
+      person = FactoryBot.create(:participant, first_name: 'Marge', screening_id: new_snapshot.id)
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
         response.with_hits do
           [
             PersonSearchResultBuilder.build do |builder|
               builder.with_first_name('Marge')
+              builder.with_legacy_descriptor(person.legacy_descriptor)
             end
           ]
         end
       end
       stub_person_search(search_term: 'Ma', person_response: search_response)
-      person = FactoryBot.create(:participant, first_name: 'Marge', screening_id: new_snapshot.id)
       stub_request(
-        :post,
-        intake_api_url(ExternalRoutes.intake_api_screening_people_path(new_snapshot.id))
-      ).and_return(json_body(person.to_json, status: 201))
+        :get,
+        ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))
+      ).and_return(json_body('', status: 200))
+      stub_person_find(id: person.legacy_descriptor.legacy_id, person_response: search_response)
       stub_request(
         :get,
         ferb_api_url(
@@ -91,7 +93,7 @@ feature 'Create Snapshot' do
         page.find('strong', text: 'Marge').click
       end
 
-      within show_participant_card_selector(person.id) do
+      within show_participant_card_selector(person.legacy_descriptor.legacy_id) do
         within '.card-body' do
           expect(page).to have_content(person.first_name)
         end
@@ -112,7 +114,9 @@ feature 'Create Snapshot' do
         .and_return(json_body(other_snapshot.to_json, status: 201))
       click_button 'Start Snapshot'
 
-      expect(page).not_to have_css show_participant_card_selector(person.id)
+      expect(page).not_to have_css(
+        show_participant_card_selector(person.legacy_descriptor.legacy_id)
+      )
     end
 
     scenario 'a new snapshot is created if the user visits the snapshot page directly' do
@@ -261,7 +265,9 @@ feature 'Create Snapshot' do
           'The Child Welfare History Snapshot allows you to search CWS/CMS for people and their'
         )
       end
-      expect(page).not_to have_css show_participant_card_selector(person.id)
+      expect(page).not_to have_css(
+        show_participant_card_selector(person.legacy_descriptor.legacy_id)
+      )
     end
   end
 end

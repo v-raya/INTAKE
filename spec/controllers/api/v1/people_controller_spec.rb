@@ -60,6 +60,9 @@ describe Api::V1::PeopleController do
     let(:id) { '1' }
 
     before do
+      allow(ParticipantRepository).to receive(:authorize)
+        .with(security_token, id)
+        .and_return
       allow(PersonSearchRepository).to receive(:find)
         .with(security_token: security_token, id: id)
         .and_return(person)

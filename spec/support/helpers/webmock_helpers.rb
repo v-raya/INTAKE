@@ -12,6 +12,22 @@ module WebmockHelpers
       .and_return(json_body(screening.to_json))
   end
 
+  def stub_person_find(id:, person_response:)
+    request_path = dora_api_url(ExternalRoutes.dora_people_light_index_path)
+    request_payload = {
+      'body' => {
+        'query' => {
+          'bool' => {
+            'must' => [{ 'match' => { 'id' => id } }]
+          }
+        },
+        '_source' => anything
+      }
+    }
+    response_payload = json_body(person_response.to_json, status: 200)
+    stub_request(:post, request_path).with(request_payload).to_return(response_payload)
+  end
+
   def stub_person_search(search_term:, person_response:, search_after: nil)
     request_path = dora_api_url(ExternalRoutes.dora_people_light_index_path)
     request_payload = {

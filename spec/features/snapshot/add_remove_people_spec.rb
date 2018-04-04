@@ -16,7 +16,6 @@ feature 'Adding and removing a person from a snapshot' do
       :participant,
       first_name: 'Marge',
       screening_id: snapshot.id,
-      legacy_id: 'ABCDEFGHIJ',
       phone_numbers: [FactoryBot.create(:phone_number, number: '9712876774')],
       languages: %w[French Italian],
       addresses: [FactoryBot.create(:address, state: 'CA')]
@@ -27,12 +26,12 @@ feature 'Adding and removing a person from a snapshot' do
     stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
       .and_return(json_body(snapshot.to_json, status: 201))
     stub_system_codes
-    stub_empty_history_for_clients [person.legacy_id]
+    stub_empty_history_for_clients [person.legacy_descriptor.legacy_id]
     stub_request(
       :get,
       ferb_api_url(
         FerbRoutes.relationships_path
-      ) + "?clientIds=#{person.legacy_id}"
+      ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
     ).and_return(json_body([].to_json, status: 200))
 
     search_response = PersonSearchResponseBuilder.build do |response|
@@ -41,6 +40,12 @@ feature 'Adding and removing a person from a snapshot' do
         [
           PersonSearchResultBuilder.build do |builder|
             builder.with_first_name('Marge')
+            builder.with_legacy_descriptor(person.legacy_descriptor)
+            builder.with_last_name(person.last_name)
+            builder.with_phone_number(person.phone_numbers.first)
+            builder.with_gender(person.gender)
+            builder.with_date_of_birth(person.date_of_birth)
+            builder.with_ssn(person.ssn)
           end
         ]
       end
@@ -48,13 +53,10 @@ feature 'Adding and removing a person from a snapshot' do
 
     stub_person_search(search_term: 'Ma', person_response: search_response)
     stub_request(
-      :post,
-      intake_api_url(ExternalRoutes.intake_api_screening_people_path(snapshot.id))
-    ).and_return(json_body(person.to_json, status: 201))
-    stub_request(
-      :delete,
-      intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
-    ).and_return(json_body(nil, status: 204))
+      :get,
+      ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))
+    ).and_return(json_body('', status: 200))
+    stub_person_find(id: person.legacy_descriptor.legacy_id, person_response: search_response)
   end
 
   scenario 'User can add and remove users on snapshot' do
@@ -71,25 +73,19 @@ feature 'Adding and removing a person from a snapshot' do
 
     expect(
       a_request(
-        :post, intake_api_url(ExternalRoutes.intake_api_screening_people_path(snapshot.id))
+        :get, ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))
       )
     ).to have_been_made
 
-    within show_participant_card_selector(person.id) do
+    within show_participant_card_selector(person.legacy_descriptor.legacy_id) do
       within '.card-body' do
         expect(page).to have_content(person.first_name)
         expect(page).to have_content(person.last_name)
         expect(page).to have_content('(971) 287-6774')
         expect(page).to have_content(person.phone_numbers.first.type)
         expect(page).to have_content(person.gender.capitalize)
-        expect(page).to have_content('French (Primary), Italian')
         expect(page).to have_content(Date.parse(person.date_of_birth).strftime('%m/%d/%Y'))
         expect(page).to have_content(person.ssn)
-        expect(page).to have_content(person.addresses.first.street_address)
-        expect(page).to have_content(person.addresses.first.city)
-        expect(page).to have_content('California')
-        expect(page).to have_content(person.addresses.first.zip)
-        expect(page).to have_content(person.addresses.first.type)
       end
 
       within '.card-header' do
@@ -102,16 +98,10 @@ feature 'Adding and removing a person from a snapshot' do
 
     expect(
       a_request(
-        :delete, intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
-      )
-    ).to have_been_made
-
-    expect(
-      a_request(
         :get,
         ferb_api_url(
           FerbRoutes.history_of_involvements_path
-        ) + "?clientIds=#{person.legacy_id}"
+        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       )
     ).to have_been_made.times(1)
 
@@ -120,7 +110,7 @@ feature 'Adding and removing a person from a snapshot' do
         :get,
         ferb_api_url(
           FerbRoutes.relationships_path
-        ) + "?clientIds=#{person.legacy_id}"
+        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       )
     ).to have_been_made.times(1)
 
@@ -142,11 +132,11 @@ feature 'Adding and removing a person from a snapshot' do
 
     expect(
       a_request(
-        :post, intake_api_url(ExternalRoutes.intake_api_screening_people_path(snapshot.id))
+        :get, ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))
       )
     ).to have_been_made
 
-    within show_participant_card_selector(person.id) do
+    within show_participant_card_selector(person.legacy_descriptor.legacy_id) do
       within '.card-header' do
         expect(page).to have_content("#{person.first_name} #{person.last_name}")
       end
@@ -154,7 +144,9 @@ feature 'Adding and removing a person from a snapshot' do
 
     click_button 'Start Over'
 
-    expect(page).not_to have_content show_participant_card_selector(person.id)
+    expect(page).not_to have_content(
+      show_participant_card_selector(person.legacy_descriptor.legacy_id)
+    )
     expect(page).not_to have_content(person.first_name)
   end
 end

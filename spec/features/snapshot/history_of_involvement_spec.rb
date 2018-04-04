@@ -191,6 +191,7 @@ feature 'Snapshot History of Involvement' do
           [
             PersonSearchResultBuilder.build do |builder|
               builder.with_first_name('Marge')
+              builder.with_legacy_descriptor(person.legacy_descriptor)
             end
           ]
         end
@@ -204,9 +205,10 @@ feature 'Snapshot History of Involvement' do
 
       stub_person_search(search_term: 'Ma', person_response: search_response)
       stub_request(
-        :post,
-        intake_api_url(ExternalRoutes.intake_api_screening_people_path(snapshot.id))
-      ).and_return(json_body(person.to_json, status: 201))
+        :get,
+        ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))
+      ).and_return(json_body('', status: 200))
+      stub_person_find(id: person.legacy_descriptor.legacy_id, person_response: search_response)
 
       within '#search-card', text: 'Search' do
         fill_in 'Search for clients', with: 'Ma'
@@ -254,6 +256,15 @@ feature 'Snapshot History of Involvement' do
     end
 
     scenario 'viewing a snapshot displays HOI without screenings' do
+      expect(
+        a_request(
+          :get,
+          ferb_api_url(
+            FerbRoutes.history_of_involvements_path
+          ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
+        )
+      ).to have_been_made
+
       within '#history-card.card.show' do
         within first('tbody') do
           expect(page).to have_no_content('Screening (In Progress)')
@@ -349,15 +360,6 @@ feature 'Snapshot History of Involvement' do
           end
         end
       end
-
-      expect(
-        a_request(
-          :get,
-          ferb_api_url(
-            FerbRoutes.history_of_involvements_path
-          ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
-        )
-      ).to have_been_made
     end
   end
 
@@ -384,6 +386,7 @@ feature 'Snapshot History of Involvement' do
           [
             PersonSearchResultBuilder.build do |builder|
               builder.with_first_name('Marge')
+              builder.with_legacy_descriptor(person.legacy_descriptor)
             end
           ]
         end
@@ -397,9 +400,10 @@ feature 'Snapshot History of Involvement' do
 
       stub_person_search(search_term: 'Ma', person_response: search_response)
       stub_request(
-        :post,
-        intake_api_url(ExternalRoutes.intake_api_screening_people_path(snapshot.id))
-      ).and_return(json_body(person.to_json, status: 201))
+        :get,
+        ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))
+      ).and_return(json_body('', status: 200))
+      stub_person_find(id: person.legacy_descriptor.legacy_id, person_response: search_response)
 
       within '#search-card', text: 'Search' do
         fill_in 'Search for clients', with: 'Ma'
