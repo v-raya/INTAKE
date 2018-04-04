@@ -82,13 +82,6 @@ module Api
         ParticipantRepository.delete(session[:security_token], params[:id])
       end
 
-      def authorize
-        ParticipantRepository.authorize(session[:security_token], params[:id])
-        render json: '', status: 204
-      rescue ParticipantRepository::AuthorizationError
-        render json: { status: 403 }, status: 403
-      end
-
       def participant_params
         params.require(:participant).permit(*PERMITTED_PARAMS)
       end

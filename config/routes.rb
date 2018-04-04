@@ -2,7 +2,6 @@
 
 require File.join(File.dirname(__FILE__), 'routes/active_investigations_constraint')
 require File.join(File.dirname(__FILE__), 'routes/active_screenings_constraint')
-require File.join(File.dirname(__FILE__), 'routes/active_snapshot_constraint')
 
 Rails.application.routes.draw do
   root 'home#index'
@@ -21,15 +20,6 @@ Rails.application.routes.draw do
     namespace :v1 do
       get '/security/check_permission' => 'security#check_permission'
       get '/user_info' => 'user#user_info'
-
-      resources :snapshots,
-        only: %i[create],
-        constraints: Routes::ActiveSnapshotConstraint do
-        member do
-          get 'history_of_involvements'
-          get 'relationships'
-        end
-      end
 
       resources :screenings,
         only: %i[index update show create],
