@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const attachLink = (onClick, relationship, Id) => (
-  <a onClick = {() => { onClick(relationship, Id) }}>&nbsp;Attach</a>
+const attachLink = (onClick, relationship, maybeId) => (
+  <a onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>
 )
 
-export const Relationships = ({people, onClick, snapshotId, screeningId, isScreening}) => (
+export const Relationships = ({people, onClick, screeningId, isScreening}) => (
   <div className='card-body no-pad-top'>
     {
       people.map((person, index) => (
@@ -22,7 +22,7 @@ export const Relationships = ({people, onClick, snapshotId, screeningId, isScree
                       <li key={index}>
                         <strong>{ relationship.type }</strong> &nbsp; of { relationship.relatee }
                         {relationship.person_card_exists &&
-                          (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship, snapshotId))
+                          (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship))
                         }
                       </li>
                     ))
@@ -52,7 +52,6 @@ Relationships.propTypes = {
     })),
   })),
   screeningId: PropTypes.string,
-  snapshotId: PropTypes.string,
 }
 
 export const EmptyRelationships = () => (

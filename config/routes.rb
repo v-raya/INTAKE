@@ -2,7 +2,6 @@
 
 require File.join(File.dirname(__FILE__), 'routes/active_investigations_constraint')
 require File.join(File.dirname(__FILE__), 'routes/active_screenings_constraint')
-require File.join(File.dirname(__FILE__), 'routes/active_snapshot_constraint')
 
 Rails.application.routes.draw do
   root 'home#index'
@@ -22,15 +21,6 @@ Rails.application.routes.draw do
       get '/security/check_permission' => 'security#check_permission'
       get '/user_info' => 'user#user_info'
 
-      resources :snapshots,
-        only: %i[create],
-        constraints: Routes::ActiveSnapshotConstraint do
-        member do
-          get 'history_of_involvements'
-          get 'relationships'
-        end
-      end
-
       resources :screenings,
         only: %i[index update show create],
         constraints: Routes::ActiveScreeningsConstraint do
@@ -42,7 +32,6 @@ Rails.application.routes.draw do
       end
 
       resources :participants, only: %i[create destroy]
-
       resources :participants,
         only: %i[update],
         constraints: Routes::ActiveScreeningsConstraint
@@ -50,11 +39,12 @@ Rails.application.routes.draw do
       resources :relationships, only: %i[index]
       get :history_of_involvements, to: 'history_of_involvements#by_client_ids'
 
-      resource :people, only: [:search] do
+      resource :people, only: %i[search] do
         collection do
           get 'search'
         end
       end
+      get 'people/:id', to: 'people#show'
 
       resources :investigations,
         only: %i[show],

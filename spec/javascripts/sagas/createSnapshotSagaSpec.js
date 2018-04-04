@@ -1,14 +1,12 @@
 import 'babel-polyfill'
-import {takeEvery, put, call} from 'redux-saga/effects'
-import {post} from 'utils/http'
+import {takeEvery, put} from 'redux-saga/effects'
 import {
   createSnapshotSaga,
   createSnapshot,
 } from 'sagas/createSnapshotSaga'
 import {CREATE_SNAPSHOT} from 'actions/actionTypes'
 import {
-  createSnapshotSuccess,
-  createSnapshotFailure,
+  clearSnapshot,
 } from 'actions/snapshotActions'
 import {push} from 'react-router-redux'
 
@@ -21,23 +19,12 @@ describe('createSnapshotSaga', () => {
 
 describe('createSnapshot', () => {
   it('creates and puts snapshot', () => {
-    const snapshot = {id: '123'}
     const gen = createSnapshot()
-    expect(gen.next().value).toEqual(call(post, '/api/v1/snapshots'))
-    expect(gen.next(snapshot).value).toEqual(
-      put(createSnapshotSuccess(snapshot))
+    expect(gen.next().value).toEqual(
+      put(clearSnapshot())
     )
     expect(gen.next().value).toEqual(
       put(push('/snapshot'))
-    )
-  })
-
-  it('puts errors when errors are thrown', () => {
-    const error = {responseJSON: 'some error'}
-    const gen = createSnapshot()
-    expect(gen.next().value).toEqual(call(post, '/api/v1/snapshots'))
-    expect(gen.throw(error).value).toEqual(
-      put(createSnapshotFailure(error))
     )
   })
 })

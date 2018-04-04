@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
-import {getSnapshotIdValueSelector} from 'selectors/snapshotSelectors'
 import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
 import {clearPeople} from 'actions/personCardActions'
 import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
@@ -17,10 +16,7 @@ import SnapshotSideBar from 'snapshots/SnapshotSideBar'
 
 export class SnapshotPage extends React.Component {
   componentDidMount() {
-    const {id, createSnapshot} = this.props
-    if (!id) {
-      createSnapshot()
-    }
+    this.props.createSnapshot()
   }
 
   componentWillUnmount() {
@@ -84,14 +80,12 @@ export class SnapshotPage extends React.Component {
 
 SnapshotPage.propTypes = {
   createSnapshot: PropTypes.func,
-  id: PropTypes.string,
   participants: PropTypes.array,
   startOver: PropTypes.func,
   unmount: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
-  id: getSnapshotIdValueSelector(state),
   participants: state.get('participants').toJS(),
 })
 
@@ -112,4 +106,3 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SnapshotPage)
-

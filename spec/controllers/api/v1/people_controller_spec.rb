@@ -54,4 +54,24 @@ describe Api::V1::PeopleController do
       end
     end
   end
+
+  describe '#show' do
+    let(:person) { double(:search_response, as_json: 'search response') }
+    let(:id) { '1' }
+
+    before do
+      allow(ParticipantRepository).to receive(:authorize)
+        .with(security_token, id)
+        .and_return(nil)
+      allow(PersonSearchRepository).to receive(:find)
+        .with(security_token: security_token, id: id)
+        .and_return(person)
+    end
+
+    it 'searches for a person and renders a json with person attributes' do
+      process :show, method: :get, params: { id: id }, session: session
+      expect(response).to be_successful
+      expect(response.body).to eq('"search response"')
+    end
+  end
 end

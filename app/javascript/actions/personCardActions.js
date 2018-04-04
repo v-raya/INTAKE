@@ -35,8 +35,8 @@ export function deletePersonFailure(error) {
 export function deletePerson(id) {
   return {type: DELETE_PERSON, payload: {id}}
 }
-export function createSnapshotPerson(person) {
-  return {type: CREATE_SNAPSHOT_PERSON, payload: {person}}
+export function createSnapshotPerson(id) {
+  return {type: CREATE_SNAPSHOT_PERSON, payload: {id}}
 }
 export function deleteSnapshotPerson(id) {
   return {type: DELETE_SNAPSHOT_PERSON, payload: {id}}

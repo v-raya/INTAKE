@@ -1,5 +1,6 @@
+import {fromJS} from 'immutable'
 import {takeEvery, put, call, select} from 'redux-saga/effects'
-import {STATUS_CODES, post} from 'utils/http'
+import {STATUS_CODES, get} from 'utils/http'
 import {
   CREATE_SNAPSHOT_PERSON,
   createPersonSuccess,
@@ -8,21 +9,14 @@ import {
 import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
+import {mapDoraPersonToParticipant} from 'utils/peopleSearchHelper'
 
-export function* createSnapshotPerson({payload: {person}}) {
+export function* createSnapshotPerson({payload: {id}}) {
   try {
-    const {snapshotId, legacy_descriptor} = person
-    const {legacy_id, legacy_table_name} = legacy_descriptor || {}
-    const response = yield call(post, '/api/v1/participants', {
-      participant: {
-        screening_id: snapshotId,
-        legacy_descriptor: {
-          legacy_id,
-          legacy_table_name,
-        },
-      },
-    })
-    yield put(createPersonSuccess(response))
+    const response = yield call(get, `/api/v1/people/${id}`)
+    const state = yield select()
+    const participant = mapDoraPersonToParticipant(state, fromJS(response)).toJS()
+    yield put(createPersonSuccess(participant))
     const clientIds = yield select(getClientIdsSelector)
     yield put(fetchRelationshipsByClientIds(clientIds))
     yield put(fetchHistoryOfInvolvementsByClientIds(clientIds))

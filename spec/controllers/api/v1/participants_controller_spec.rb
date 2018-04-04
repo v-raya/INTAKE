@@ -83,7 +83,7 @@ describe Api::V1::ParticipantsController do
         .with(participant_params).and_return(participant)
       expect(ParticipantRepository).to receive(:create)
         .with(security_token, participant)
-        .and_raise(ParticipantRepository::AuthenticationError)
+        .and_raise(ParticipantRepository::AuthorizationError)
 
       process :create,
         method: :post,
