@@ -4,11 +4,7 @@ require 'rails_helper'
 require 'feature/testing'
 
 feature 'Snapshot relationship card' do
-  let(:snapshot) { FactoryBot.create(:screening) }
-
   before do
-    stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-      .and_return(json_body(snapshot.to_json, status: 201))
     stub_system_codes
   end
 
@@ -36,9 +32,6 @@ feature 'Snapshot relationship card' do
     end
 
     let(:participant) { FactoryBot.create(:participant) }
-    let(:participants_screening) do
-      FactoryBot.create(:screening, participants: [participant])
-    end
     let(:relationships) do
       [
         {
@@ -69,11 +62,6 @@ feature 'Snapshot relationship card' do
     end
 
     before do
-      stub_request(
-        :get,
-        intake_api_url(ExternalRoutes.intake_api_screening_path(participants_screening.id))
-      ).and_return(json_body(participants_screening.to_json))
-
       stub_empty_history_for_clients([participant.legacy_descriptor.legacy_id])
 
       search_response = PersonSearchResponseBuilder.build do |response|
@@ -105,7 +93,7 @@ feature 'Snapshot relationship card' do
         ) + "?clientIds=#{participant.legacy_descriptor.legacy_id}"
       ).and_return(json_body(relationships.to_json, status: 200))
 
-      visit snapshot_path(id: participants_screening.id)
+      visit snapshot_path
 
       within '#search-card', text: 'Search' do
         fill_in 'Search for clients', with: 'Ma'

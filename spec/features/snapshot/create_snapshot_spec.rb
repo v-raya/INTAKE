@@ -11,35 +11,9 @@ feature 'Create Snapshot' do
       end
     end
 
-    let(:new_snapshot) do
-      FactoryBot.create(
-        :screening,
-        indexable: false,
-        reference: 'DQJIYK',
-        safety_alerts: [],
-        safety_information: nil,
-        address: { city: nil },
-        assignee: nil
-      )
-    end
-
-    before do
-      allow(LUID).to receive(:generate).and_return(['DQJIYK'])
-    end
-
     scenario 'via start snapshot link' do
-      stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-        .with(body: as_json_without_root_id(new_snapshot))
-        .and_return(json_body(new_snapshot.to_json, status: 201))
-
       visit root_path
       click_button 'Start Snapshot'
-
-      expect(
-        a_request(
-          :post, intake_api_url(ExternalRoutes.intake_api_screenings_path)
-        ).with(body: as_json_without_root_id(new_snapshot))
-      ).to have_been_made
 
       expect(page.current_url).to match 'snapshot'
 
@@ -56,13 +30,10 @@ feature 'Create Snapshot' do
     end
 
     scenario 'user starts a snapshot, goes back to the home page, and starts another snapshot' do
-      stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-        .and_return(json_body(new_snapshot.to_json, status: 201))
-
       visit root_path
       click_button 'Start Snapshot'
 
-      person = FactoryBot.create(:participant, first_name: 'Marge', screening_id: new_snapshot.id)
+      person = FactoryBot.create(:participant, first_name: 'Marge')
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
         response.with_hits do
@@ -101,17 +72,6 @@ feature 'Create Snapshot' do
 
       page.driver.go_back
 
-      other_snapshot = FactoryBot.create(
-        :screening,
-        indexable: false,
-        reference: 'DQJIYK',
-        safety_alerts: [],
-        safety_information: nil,
-        address: { city: nil },
-        assignee: nil
-      )
-      stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-        .and_return(json_body(other_snapshot.to_json, status: 201))
       click_button 'Start Snapshot'
 
       expect(page).not_to have_css(
@@ -120,52 +80,8 @@ feature 'Create Snapshot' do
     end
 
     scenario 'a new snapshot is created if the user visits the snapshot page directly' do
-      stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-        .with(body: as_json_without_root_id(new_snapshot))
-        .and_return(json_body(new_snapshot.to_json, status: 201))
-
       visit snapshot_path
       expect(page).to have_content('The Child Welfare History Snapshot allows you to search')
-
-      expect(
-        a_request(
-          :post, intake_api_url(ExternalRoutes.intake_api_screenings_path)
-        ).with(body: as_json_without_root_id(new_snapshot))
-      ).to have_been_made
-      expect(
-        a_request(
-          :get,
-          ferb_api_url(
-            FerbRoutes.screening_history_of_involvements_path(new_snapshot.id)
-          )
-        )
-      ).not_to have_been_made
-    end
-
-    scenario 'user creates a new snapshot by clicking the Start Over button' do
-      stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-        .and_return(json_body(new_snapshot.to_json, status: 201))
-
-      visit snapshot_path
-      expect(page).to have_content('The Child Welfare History Snapshot allows you to search')
-
-      second_snapshot = FactoryBot.create(:screening)
-      stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-        .and_return(json_body(second_snapshot.to_json, status: 201))
-
-      click_button 'Start Over'
-
-      expect(
-        a_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-      ).to have_been_made.times(2)
-      expect(
-        a_request(
-          :get,
-          ferb_api_url(
-            FerbRoutes.screening_history_of_involvements_path(second_snapshot.id)
-          )
-        )
-      ).not_to have_been_made
     end
   end
 
@@ -187,18 +103,6 @@ feature 'Create Snapshot' do
       FactoryBot.create(
         :screening,
         indexable: true,
-        reference: 'DQJIYK',
-        safety_alerts: [],
-        safety_information: nil,
-        address: { city: nil },
-        assignee: nil
-      )
-    end
-
-    let(:new_snapshot) do
-      FactoryBot.create(
-        :screening,
-        indexable: false,
         reference: 'DQJIYK',
         safety_alerts: [],
         safety_information: nil,
@@ -256,8 +160,6 @@ feature 'Create Snapshot' do
 
       page.driver.go_back
 
-      stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-        .and_return(json_body(new_snapshot.to_json, status: 201))
       click_button 'Start Snapshot'
 
       within '#snapshot-card' do

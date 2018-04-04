@@ -1,6 +1,5 @@
 import {connect} from 'react-redux'
 import PersonSearchForm from 'views/people/PersonSearchForm'
-import {getSnapshotIdValueSelector} from 'selectors/snapshotSelectors'
 import {
   getPeopleResultsSelector,
   getResultsTotalValueSelector,
@@ -10,7 +9,6 @@ import {createSnapshotPerson} from 'actions/personCardActions'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
 
 const mapStateToProps = (state) => ({
-  snapshotId: getSnapshotIdValueSelector(state),
   canCreateNewPerson: false,
   hasAddSensitivePerson: state.getIn(['staff', 'add_sensitive_people']),
   results: getPeopleResultsSelector(state).toJS(),

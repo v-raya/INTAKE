@@ -4,8 +4,7 @@ require 'rails_helper'
 require 'feature/testing'
 
 feature 'Snapshot History of Involvement' do
-  let(:snapshot) { FactoryBot.create(:screening) }
-  let(:person) { FactoryBot.create(:participant, first_name: 'Marge', screening_id: snapshot.id) }
+  let(:person) { FactoryBot.create(:participant, first_name: 'Marge') }
 
   let(:screenings) do
     [
@@ -147,8 +146,6 @@ feature 'Snapshot History of Involvement' do
   end
 
   before do
-    stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-      .and_return(json_body(snapshot.to_json, status: 201))
     stub_system_codes
   end
 

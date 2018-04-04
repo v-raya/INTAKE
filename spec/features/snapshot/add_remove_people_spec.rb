@@ -10,12 +10,10 @@ feature 'Adding and removing a person from a snapshot' do
     end
   end
 
-  let(:snapshot) { FactoryBot.create(:screening) }
   let(:person) do
     FactoryBot.create(
       :participant,
       first_name: 'Marge',
-      screening_id: snapshot.id,
       phone_numbers: [FactoryBot.create(:phone_number, number: '9712876774')],
       languages: %w[French Italian],
       addresses: [FactoryBot.create(:address, state: 'CA')]
@@ -23,8 +21,6 @@ feature 'Adding and removing a person from a snapshot' do
   end
 
   before do
-    stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-      .and_return(json_body(snapshot.to_json, status: 201))
     stub_system_codes
     stub_empty_history_for_clients [person.legacy_descriptor.legacy_id]
     stub_request(
