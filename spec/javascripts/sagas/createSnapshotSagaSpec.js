@@ -6,7 +6,7 @@ import {
 } from 'sagas/createSnapshotSaga'
 import {CREATE_SNAPSHOT} from 'actions/actionTypes'
 import {
-  createSnapshotSuccess,
+  clearSnapshot,
 } from 'actions/snapshotActions'
 import {push} from 'react-router-redux'
 
@@ -21,7 +21,7 @@ describe('createSnapshot', () => {
   it('creates and puts snapshot', () => {
     const gen = createSnapshot()
     expect(gen.next().value).toEqual(
-      put(createSnapshotSuccess())
+      put(clearSnapshot())
     )
     expect(gen.next().value).toEqual(
       put(push('/snapshot'))
