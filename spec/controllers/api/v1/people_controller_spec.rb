@@ -62,7 +62,7 @@ describe Api::V1::PeopleController do
     before do
       allow(ParticipantRepository).to receive(:authorize)
         .with(security_token, id)
-        .and_return
+        .and_return(nil)
       allow(PersonSearchRepository).to receive(:find)
         .with(security_token: security_token, id: id)
         .and_return(person)
