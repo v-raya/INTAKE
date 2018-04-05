@@ -14,9 +14,8 @@ import {mapDoraPersonToParticipant} from 'utils/peopleSearchHelper'
 
 export function* createSnapshotPerson({payload: {id, delayed = 0}}) {
   try {
-    const TIME_TO_DEBOUNCE = delayed
     if (delayed !== 0) {
-      yield call(delay, TIME_TO_DEBOUNCE)
+      yield call(delay, delayed)
     }
     const response = yield call(get, `/api/v1/people/${id}`)
     const state = yield select()

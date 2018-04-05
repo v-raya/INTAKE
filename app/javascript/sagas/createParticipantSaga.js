@@ -14,9 +14,8 @@ export function* createParticipant({payload: {person, delayed = 0}}) {
   try {
     const {screening_id, legacy_descriptor} = person
     const {legacy_id, legacy_table_name} = legacy_descriptor || {}
-    const TIME_TO_DEBOUNCE = delayed
     if (delayed !== 0) {
-      yield call(delay, TIME_TO_DEBOUNCE)
+      yield call(delay, delayed)
     }
     const response = yield call(post, '/api/v1/participants', {
       participant: {
