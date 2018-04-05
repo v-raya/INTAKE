@@ -14,6 +14,7 @@ export function* createParticipant({payload: {person, delayed = 0}}) {
   try {
     const {screening_id, legacy_descriptor} = person
     const {legacy_id, legacy_table_name} = legacy_descriptor || {}
+    // The delay is quick fix for now but ideally we don't want this to be the solution. Will be resolved in near future with redux state.
     if (delayed !== 0) {
       yield call(delay, delayed)
     }
