@@ -10,7 +10,7 @@ import {createPerson} from 'actions/personCardActions'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
 
 const isDuplicatePerson = (participants, personOnScreening) => (
-  participants.findIndex((x) => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
+  participants.some((x) => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
 )
 
 const mapStateToProps = (state) => ({
@@ -59,7 +59,7 @@ const mergeProps = (stateProps, {onSearch, onClear, onChange, onLoadMoreResults,
     }
     onClear()
     onChange('')
-    if (isDuplicatePerson(stateProps.participants, personOnScreening)) {
+    if (!isDuplicatePerson(stateProps.participants, personOnScreening)) {
       dispatch(createPerson(personOnScreening))
     }
   }

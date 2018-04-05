@@ -9,7 +9,7 @@ import {createSnapshotPerson} from 'actions/personCardActions'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
 
 const isDuplicatePerson = (participants, id) => (
-  participants.findIndex((x) => x.legacy_id === id)
+  participants.some((x) => x.legacy_id === id)
 )
 
 const mapStateToProps = (state) => ({
@@ -46,7 +46,7 @@ const mergeProps = (stateProps, {dispatch, ...actions}) => {
     const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
     actions.onClear()
     actions.onChange('')
-    if (isDuplicatePerson(stateProps.participants, id)) {
+    if (!isDuplicatePerson(stateProps.participants, id)) {
       dispatch(createSnapshotPerson(id))
     }
   }
