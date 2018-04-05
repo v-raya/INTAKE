@@ -1,6 +1,6 @@
 import selectOptions from 'utils/selectHelper'
 import APPROXIMATE_AGE_UNITS from 'enums/ApproximateAgeUnits'
-import Genders from 'enums/Genders'
+import GENDERS from 'enums/Genders'
 import LANGUAGES from 'enums/Languages'
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
@@ -294,7 +294,7 @@ export const getIsApproximateAgeDisabledSelector = (state, personId) => (
 
 export const getApproximateAgeUnitOptionsSelector = () => fromJS(formatEnums(APPROXIMATE_AGE_UNITS))
 export const getLanguageOptionsSelector = () => fromJS(selectOptions(LANGUAGES))
-export const getGenderOptionsSelector = () => fromJS(formatEnums(Genders))
+export const getGenderOptionsSelector = () => fromJS(formatEnums(GENDERS).filter((opt) => opt.value !== 'intersex'))
 
 export const getPersonDemographicsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId], Map())

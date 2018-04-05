@@ -10,7 +10,7 @@ FactoryBot.define do
 
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
-    gender { %w[male female].sample }
+    gender { %w[male female intersex].sample }
     ssn { "#{rand(9)}#{FFaker.numerify('##-##-####')}" }
     sealed { false }
     sensitive { false }
