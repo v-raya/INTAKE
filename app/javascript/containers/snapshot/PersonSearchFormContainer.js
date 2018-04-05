@@ -8,6 +8,10 @@ import {
 import {createSnapshotPerson} from 'actions/personCardActions'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
 
+const isDuplicatePerson = (participants, id) => (
+  participants.findIndex((x) => x.legacy_id === id)
+)
+
 const mapStateToProps = (state) => ({
   canCreateNewPerson: false,
   hasAddSensitivePerson: state.getIn(['staff', 'add_sensitive_people']),
@@ -15,6 +19,7 @@ const mapStateToProps = (state) => ({
   total: getResultsTotalValueSelector(state),
   searchPrompt: 'Search for clients',
   searchTerm: getSearchTermValueSelector(state),
+  participants: state.get('participants').toJS(),
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => {
@@ -41,7 +46,9 @@ const mergeProps = (stateProps, {dispatch, ...actions}) => {
     const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
     actions.onClear()
     actions.onChange('')
-    dispatch(createSnapshotPerson(id))
+    if (isDuplicatePerson(stateProps.participants, id)) {
+      dispatch(createSnapshotPerson(id))
+    }
   }
   return {
     ...actions,
