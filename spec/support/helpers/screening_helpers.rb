@@ -97,10 +97,10 @@ module ScreeningHelpers
   end
 end
 
-def assign_relationship(tag:, element_text:, link_text: ' Attach')
+def assign_relationship(tag:, element_text:, link_text: 'Attach')
   within '#relationships-card.card .relationships' do
     find(tag, text: element_text)
-      .find('a', link_text).click
+      .find('a', text: link_text).click
   end
 end
 

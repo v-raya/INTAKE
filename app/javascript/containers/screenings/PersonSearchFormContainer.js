@@ -9,6 +9,10 @@ import {
 import {createPerson} from 'actions/personCardActions'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
 
+const isDuplicatePerson = (participants, personOnScreening) => (
+  participants.some((x) => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
+)
+
 const mapStateToProps = (state) => ({
   screeningId: getScreeningIdValueSelector(state),
   canCreateNewPerson: true,
@@ -17,6 +21,7 @@ const mapStateToProps = (state) => ({
   total: getResultsTotalValueSelector(state),
   searchPrompt: 'Search for any person (Children, parents, collaterals, reporters, alleged perpetrators...)',
   searchTerm: getSearchTermValueSelector(state),
+  participants: state.get('participants').toJS(),
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => {
@@ -54,7 +59,9 @@ const mergeProps = (stateProps, {onSearch, onClear, onChange, onLoadMoreResults,
     }
     onClear()
     onChange('')
-    dispatch(createPerson(personOnScreening))
+    if (!isDuplicatePerson(stateProps.participants, personOnScreening)) {
+      dispatch(createPerson(personOnScreening))
+    }
   }
   return {
     canCreateNewPerson,

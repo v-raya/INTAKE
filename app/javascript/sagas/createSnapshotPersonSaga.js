@@ -1,5 +1,6 @@
 import {fromJS} from 'immutable'
-import {takeEvery, put, call, select} from 'redux-saga/effects'
+import {delay} from 'redux-saga'
+import {takeLatest, put, call, select} from 'redux-saga/effects'
 import {STATUS_CODES, get} from 'utils/http'
 import {
   CREATE_SNAPSHOT_PERSON,
@@ -11,8 +12,11 @@ import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {mapDoraPersonToParticipant} from 'utils/peopleSearchHelper'
 
-export function* createSnapshotPerson({payload: {id}}) {
+export function* createSnapshotPerson({payload: {id, delayed = 0}}) {
   try {
+    if (delayed !== 0) {
+      yield call(delay, delayed)
+    }
     const response = yield call(get, `/api/v1/people/${id}`)
     const state = yield select()
     const participant = mapDoraPersonToParticipant(state, fromJS(response)).toJS()
@@ -29,5 +33,5 @@ export function* createSnapshotPerson({payload: {id}}) {
   }
 }
 export function* createSnapshotPersonSaga() {
-  yield takeEvery(CREATE_SNAPSHOT_PERSON, createSnapshotPerson)
+  yield takeLatest(CREATE_SNAPSHOT_PERSON, createSnapshotPerson)
 }

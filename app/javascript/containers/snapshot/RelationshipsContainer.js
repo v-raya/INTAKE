@@ -8,10 +8,11 @@ const mapStateToProps = (state, _ownProps) => ({
   isScreening: false,
 })
 
+const delayed = 400
 const mapDispatchToProps = (dispatch) => ({
   onClick: (relationship) => {
     const id = relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id
-    dispatch(createSnapshotPerson(id))
+    dispatch(createSnapshotPerson(id, delayed))
   },
 })
 

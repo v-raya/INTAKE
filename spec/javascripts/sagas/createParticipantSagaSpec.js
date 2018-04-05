@@ -1,5 +1,5 @@
 import 'babel-polyfill'
-import {takeEvery, put, call, select} from 'redux-saga/effects'
+import {takeLatest, put, call, select} from 'redux-saga/effects'
 import {post} from 'utils/http'
 import {
   createParticipant,
@@ -14,7 +14,7 @@ import {fetchRelationships} from 'actions/relationshipsActions'
 describe('createParticipantSaga', () => {
   it('creates participant on CREATE_PERSON', () => {
     const gen = createParticipantSaga()
-    expect(gen.next().value).toEqual(takeEvery(CREATE_PERSON, createParticipant))
+    expect(gen.next().value).toEqual(takeLatest(CREATE_PERSON, createParticipant))
   })
 })
 

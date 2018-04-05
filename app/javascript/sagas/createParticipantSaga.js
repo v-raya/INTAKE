@@ -1,4 +1,5 @@
-import {takeEvery, put, call, select} from 'redux-saga/effects'
+import {takeLatest, put, call, select} from 'redux-saga/effects'
+import {delay} from 'redux-saga'
 import {STATUS_CODES, post} from 'utils/http'
 import {
   CREATE_PERSON,
@@ -9,10 +10,14 @@ import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 
-export function* createParticipant({payload: {person}}) {
+export function* createParticipant({payload: {person, delayed = 0}}) {
   try {
     const {screening_id, legacy_descriptor} = person
     const {legacy_id, legacy_table_name} = legacy_descriptor || {}
+    // The delay is quick fix for now but ideally we don't want this to be the solution. Will be resolved in near future with redux state.
+    if (delayed !== 0) {
+      yield call(delay, delayed)
+    }
     const response = yield call(post, '/api/v1/participants', {
       participant: {
         screening_id,
@@ -35,5 +40,5 @@ export function* createParticipant({payload: {person}}) {
   }
 }
 export function* createParticipantSaga() {
-  yield takeEvery(CREATE_PERSON, createParticipant)
+  yield takeLatest(CREATE_PERSON, createParticipant)
 }
