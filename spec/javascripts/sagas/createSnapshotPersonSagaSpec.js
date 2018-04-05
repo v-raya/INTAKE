@@ -1,6 +1,6 @@
 import 'babel-polyfill'
 import {fromJS} from 'immutable'
-import {takeEvery, put, call, select} from 'redux-saga/effects'
+import {takeLatest, put, call, select} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {
   createSnapshotPerson,
@@ -15,7 +15,7 @@ import {getClientIdsSelector} from 'selectors/clientSelectors'
 describe('createSnapshotPersonSaga', () => {
   it('creates participant on CREATE_SNAPSHOT_PERSON', () => {
     const gen = createSnapshotPersonSaga()
-    expect(gen.next().value).toEqual(takeEvery(CREATE_SNAPSHOT_PERSON, createSnapshotPerson))
+    expect(gen.next().value).toEqual(takeLatest(CREATE_SNAPSHOT_PERSON, createSnapshotPerson))
   })
 })
 
