@@ -21,6 +21,7 @@ import hispanicOriginCodes from 'reducers/systemCodes/hispanicOriginCodesReducer
 import ethnicityTypes from 'reducers/systemCodes/ethnicityTypesReducer'
 import raceTypes from 'reducers/systemCodes/raceTypesReducer'
 import narrativeForm from 'reducers/narrativeFormReducer'
+import pendingParticipants from 'reducers/pendingParticipantsReducer'
 import participants from 'reducers/participantsReducer'
 import peopleForm from 'reducers/peopleFormReducer'
 import peopleSearch from 'reducers/peopleSearchReducer'
@@ -65,6 +66,7 @@ const rootReducer = combineReducers({
   hispanicOriginCodes,
   narrativeForm,
   participants,
+  pendingParticipants,
   peopleForm,
   peopleSearch,
   relationships,

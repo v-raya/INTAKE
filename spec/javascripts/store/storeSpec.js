@@ -43,6 +43,7 @@ describe('Store', () => {
       involvements: {},
       locations: [],
       narrativeForm: {},
+      pendingParticipants: [],
       participants: [],
       peopleForm: {},
       peopleSearch: {
