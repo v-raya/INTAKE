@@ -35,6 +35,7 @@ describe('PersonDemographicsFormContainer', () => {
       genderOptions: [
         {label: 'Male', value: 'male'},
         {label: 'Female', value: 'female'},
+        {label: 'Intersex', value: 'intersex'},
         {label: 'Unknown', value: 'unknown'},
       ],
       languageOptions: jasmine.any(Array),

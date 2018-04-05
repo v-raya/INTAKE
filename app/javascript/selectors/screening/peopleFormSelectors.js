@@ -294,7 +294,7 @@ export const getIsApproximateAgeDisabledSelector = (state, personId) => (
 
 export const getApproximateAgeUnitOptionsSelector = () => fromJS(formatEnums(APPROXIMATE_AGE_UNITS))
 export const getLanguageOptionsSelector = () => fromJS(selectOptions(LANGUAGES))
-export const getGenderOptionsSelector = () => fromJS(formatEnums(GENDERS).filter((opt) => opt.value !== 'intersex'))
+export const getGenderOptionsSelector = () => fromJS(formatEnums(GENDERS))
 
 export const getPersonDemographicsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId], Map())
