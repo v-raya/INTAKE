@@ -9,7 +9,7 @@ const mapStateToProps = (state, _ownProps) => ({
   screeningId: getScreeningIdValueSelector(state),
   isScreening: true,
 })
-
+const delayed = 400
 const mapDispatchToProps = (dispatch) => ({
   onClick: (relationship, screeningId) => {
     const relationshipsPerson = {
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
         legacy_source_table: relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_table_name,
       },
     }
-    dispatch(createPerson(relationshipsPerson))
+    dispatch(createPerson(relationshipsPerson, delayed))
   },
 })
 
