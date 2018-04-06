@@ -212,7 +212,7 @@ feature 'Edit Person' do
           expect(page).to have_field('Date of birth', with: dob)
           expect(page).to have_field('Approximate Age', disabled: true)
           expect(page).to have_field('Approximate Age Units', disabled: true)
-          expect(page).to have_field('Gender', with: marge.gender)
+          expect(page).to have_field('Sex at Birth', with: marge.gender)
           expect(page).to have_react_select_field(
             'Language(s) (Primary First)', with: marge.languages
           )
@@ -278,7 +278,7 @@ feature 'Edit Person' do
         expect(page).to have_content("#{table_description} ID #{ui_id} in CWS-CMS")
         expect(page).to have_field('Phone Number', with: '(123)456-7890')
         expect(page).to have_field('Phone Number Type', with: 'Work')
-        expect(page).to have_field('Gender', with: marge.gender)
+        expect(page).to have_field('Sex at Birth', with: marge.gender)
         expect(page).to have_react_select_field(
           'Language(s) (Primary First)', with: marge.languages
         )
