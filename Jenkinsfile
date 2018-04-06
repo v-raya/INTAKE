@@ -38,6 +38,16 @@ node('intake-slave') {
                     sh 'make release'
                 }
             }
+            stage('Acceptance test Bubble'){
+                sh "git clone git@github.com:ca-cwds/integrated-test-environment.git"
+                    dir('integrated-test-environment'){
+                        sh "docker-compose -f docker-compose.bubble.yml up -d nginx intake"
+                        sh "docker-compose -f docker-compose.bubble.yml build acceptance_testing"
+                        sh "docker-compose -f docker-compose.bubble.yml up acceptance_testing"
+                    }
+                }
+            }
+
             stage('Publish') {
                 withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
                 curStage = 'Publish'
@@ -89,7 +99,7 @@ node('intake-slave') {
               slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' in stage '${curStage}' for branch '${branch}' (${env.BUILD_URL})"
             }
 
-            slackSend channel: "#tech-intake", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: slackAlertColor, message: slackMessage 
+            slackSend channel: "#tech-intake", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: slackAlertColor, message: slackMessage
 
             stage('Deploy Preint') {
               sh "curl -v http://${JENKINS_USER}:${JENKINS_API_TOKEN}@jenkins.mgmt.cwds.io:8080/job/preint/job/deploy-intake/buildWithParameters?token=${JENKINS_TRIGGER_TOKEN}&cause=Caused%20by%20Build%20${env.BUILD_ID}"
