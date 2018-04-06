@@ -26,7 +26,7 @@ feature 'screening incident information card' do
     stub_request(
       :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).and_return(json_body(existing_screening.to_json))
-    stub_empty_relationships_for_screening(existing_screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
     visit edit_screening_path(id: existing_screening.id)
   end
@@ -39,7 +39,7 @@ feature 'screening incident information card' do
       :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).with(json_body(as_json_without_root_id(existing_screening)))
       .and_return(json_body(existing_screening.to_json))
-    stub_empty_relationships_for_screening(existing_screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
     within '#incident-information-card.edit' do
       fill_in 'Address', with: '33 Whatever'
@@ -82,7 +82,7 @@ feature 'screening incident information card' do
       :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).with(json_body(as_json_without_root_id(existing_screening)))
       .and_return(json_body(existing_screening.to_json))
-    stub_empty_relationships_for_screening(existing_screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
 
     within '#incident-information-card.edit' do

@@ -30,7 +30,7 @@ feature 'Relationship card' do
   end
   let(:new_participant) do
     FactoryBot.create(
-      :participant, :unpopulated,
+      :participant,
       first_name: 'Jane',
       last_name: 'Campbell',
       screening_id: participants_screening.id
@@ -138,11 +138,10 @@ feature 'Relationship card' do
         )).and_return(json_body(participants_screening.to_json))
       stub_empty_history_for_screening(participants_screening)
 
-      stub_request(:get,
-        intake_api_url(
-          ExternalRoutes
-            .intake_api_relationships_by_screening_path(participants_screening.id)
-        )).and_return(json_body(relationships.to_json, status: 200))
+      stub_request(
+        :get,
+        ferb_api_url(FerbRoutes.relationships_path)
+      ).with(query: hash_including({})).and_return(json_body(relationships.to_json, status: 200))
     end
 
     scenario 'viewing a screening' do
@@ -157,11 +156,10 @@ feature 'Relationship card' do
       end
 
       expect(
-        a_request(:get,
-          intake_api_url(
-            ExternalRoutes
-              .intake_api_relationships_by_screening_path(participants_screening.id)
-          ))
+        a_request(
+          :get,
+          ferb_api_url(FerbRoutes.relationships_path)
+        ).with(query: { 'clientIds' => participant.legacy_descriptor.legacy_id })
       ).to have_been_made
     end
 
@@ -180,37 +178,11 @@ feature 'Relationship card' do
         end
 
         expect(
-          a_request(:get,
-            intake_api_url(
-              ExternalRoutes
-                .intake_api_relationships_by_screening_path(participants_screening.id)
-            ))
+          a_request(
+            :get,
+            ferb_api_url(FerbRoutes.relationships_path)
+          ).with(query: { 'clientIds' => participant.legacy_descriptor.legacy_id })
         ).to have_been_made
-      end
-
-      scenario 'removing a person updates relationships' do
-        stub_empty_relationships_for_screening(participants_screening)
-        stub_request(
-          :delete, intake_api_url(ExternalRoutes.intake_api_participant_path(participant.id))
-        )
-
-        visit edit_screening_path(id: participants_screening.id)
-        within edit_participant_card_selector(participant.id) do
-          within '.card-header' do
-            click_button 'Remove person'
-          end
-        end
-
-        expect(
-          a_request(:get,
-            intake_api_url(
-              ExternalRoutes
-                .intake_api_relationships_by_screening_path(participants_screening.id)
-            ))
-        ).to have_been_made.at_least_times(2)
-
-        should_have_content('Search for people and add them to see their relationships.',
-          inside: '#relationships-card.card.show')
       end
 
       scenario 'adding a new person fetches new relationships' do
@@ -221,11 +193,11 @@ feature 'Relationship card' do
           intake_api_url(ExternalRoutes.intake_api_screening_people_path(screening_id)))
           .and_return(json_body(new_participant.to_json, status: 201))
 
-        stub_request(:get,
-          intake_api_url(
-            ExternalRoutes
-              .intake_api_relationships_by_screening_path(participants_screening.id)
-          )).and_return(json_body(new_relationships.to_json, status: 200))
+        stub_request(
+          :get,
+          ferb_api_url(FerbRoutes.relationships_path)
+        ).with(query: hash_including({}))
+          .and_return(json_body(new_relationships.to_json, status: 200))
 
         stub_person_search(search_term: 'ma', person_response: empty_response)
         stub_person_search(search_term: 'undefined undefined', person_response: empty_response)
@@ -243,11 +215,10 @@ feature 'Relationship card' do
         end
 
         expect(
-          a_request(:get,
-            intake_api_url(
-              ExternalRoutes
-                .intake_api_relationships_by_screening_path(participants_screening.id)
-            ))
+          a_request(
+            :get,
+            ferb_api_url(FerbRoutes.relationships_path)
+          ).with(query: { 'clientIds' => participant.legacy_descriptor.legacy_id })
         ).to have_been_made.twice
 
         within '#relationships-card.card.show', text: 'Relationships' do
@@ -281,11 +252,10 @@ feature 'Relationship card' do
         ).to have_been_made
 
         expect(
-          a_request(:get,
-            intake_api_url(
-              ExternalRoutes
-                .intake_api_relationships_by_screening_path(participants_screening.id)
-            ))
+          a_request(
+            :get,
+            ferb_api_url(FerbRoutes.relationships_path)
+          ).with(query: { 'clientIds' => participant.legacy_descriptor.legacy_id })
         ).to have_been_made.times(2)
       end
 
@@ -321,11 +291,11 @@ feature 'Relationship card' do
 
             scenario 'show relationships for the newly attached person' do
               new_relationships.last[:relationships].push(jake)
-              stub_request(:get,
-                intake_api_url(
-                  ExternalRoutes
-                    .intake_api_relationships_by_screening_path(new_participant.screening_id)
-                )).and_return(json_body(new_relationships.to_json, status: 200))
+              stub_request(
+                :get,
+                ferb_api_url(FerbRoutes.relationships_path)
+              ).with(query: hash_including({}))
+                .and_return(json_body(new_relationships.to_json, status: 200))
 
               assign_relationship(tag: 'li', element_text: 'Sister (Half) of Jake Campbell')
 

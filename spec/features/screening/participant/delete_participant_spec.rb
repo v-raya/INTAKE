@@ -14,7 +14,7 @@ feature 'Delete Participant' do
     stub_request(
       :delete, intake_api_url(ExternalRoutes.intake_api_participant_path(participant.id))
     ).and_return(json_body(nil, status: 204))
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(screening)
   end
 

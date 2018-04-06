@@ -20,7 +20,9 @@ export function* fetchScreening({payload: {id}}) {
       }
     }
     yield put(fetchScreeningSuccess(response))
-    const clientIds = response.participants && response.participants.map((p) => p.legacy_id)
+    const clientIds = response.participants && response.participants.map(
+      (p) => (p.legacy_id || p.legacy_descriptor && p.legacy_descriptor.legacy_id)
+    )
     yield put(fetchRelationshipsByClientIds(clientIds))
   } catch (error) {
     switch (error.status) {

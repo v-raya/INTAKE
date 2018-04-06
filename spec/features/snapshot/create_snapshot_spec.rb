@@ -122,7 +122,7 @@ feature 'Create Snapshot' do
       visit root_path
 
       stub_empty_history_for_screening(new_screening)
-      stub_empty_relationships_for_screening(new_screening)
+      stub_empty_relationships
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .and_return(json_body(new_screening.to_json, status: 201))
       stub_request(
