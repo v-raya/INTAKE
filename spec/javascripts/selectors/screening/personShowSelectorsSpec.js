@@ -54,9 +54,9 @@ describe('personShowSelectors', () => {
     })
 
     it('includes the gender for the given person', () => {
-      const participants = [{id: '1', gender: 'female'}]
+      const participants = [{id: '1', gender: 'intersex'}]
       const state = fromJS({participants})
-      expect(getFormattedPersonInformationSelector(state, '1').get('gender')).toEqual('Female')
+      expect(getFormattedPersonInformationSelector(state, '1').get('gender')).toEqual('Intersex')
     })
 
     it('includes the roles for the given person as is', () => {

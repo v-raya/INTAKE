@@ -53,4 +53,14 @@ describe('gender,race and ethnicity', () => {
       '<div>Female, White, American Indian or Alaska Native</div>'
     )
   })
+
+  it('renders intersex gender (sex at birth)', () => {
+    const props = {
+      gender: 'intersex',
+      races: [],
+      ethnicity: {},
+    }
+    const component = shallow(<GenderRaceAndEthnicity {...props} />, {disableLifecycleMethods: true})
+    expect(component.html()).toContain('<div>Intersex</div>')
+  })
 })
