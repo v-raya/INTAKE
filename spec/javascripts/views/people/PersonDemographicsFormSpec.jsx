@@ -62,7 +62,7 @@ describe('PersonDemographicsForm', () => {
   it('renders the gender field and its options', () => {
     const field = renderPersonDemographicsForm({
       gender: '0', genderOptions: [{value: '1'}, {value: '2'}],
-    }).find('SelectField[label="Gender"]')
+    }).find('SelectField[label="Sex at Birth"]')
     expect(field.props().value).toEqual('0')
     expect(field.childAt(0).props().value).toEqual('')
     expect(field.childAt(1).props().value).toEqual('1')
@@ -104,7 +104,7 @@ describe('PersonDemographicsForm', () => {
     })
 
     it('is fired when gender changes', () => {
-      renderPersonDemographicsForm({gender: '0', onChange}).find('SelectField[label="Gender"]')
+      renderPersonDemographicsForm({gender: '0', onChange}).find('SelectField[label="Sex at Birth"]')
         .simulate('change', {target: {value: '1'}})
       expect(onChange).toHaveBeenCalledWith('gender', '1')
     })

@@ -37,7 +37,7 @@ const PersonInformationShow = ({
             </ShowField>
           </div>
           <div className='col-md-6'>
-            <ShowField label='Gender'>{gender}</ShowField>
+            <ShowField label='Sex at Birth'>{gender}</ShowField>
           </div>
           <div className='col-md-6'>
             <ShowField label='Language(s) (Primary First)'>{languages}</ShowField>

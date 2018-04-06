@@ -38,7 +38,7 @@ describe('PersonInformationShow', () => {
 
   it('renders the gender of the person', () => {
     const view = renderPersonShow({gender: 'decline to answer'})
-    expect(view.find('ShowField[label="Gender"]').html()).toContain('decline to answer')
+    expect(view.find('ShowField[label="Sex at Birth"]').html()).toContain('decline to answer')
   })
 
   it('renders the roles of the person', () => {

@@ -58,7 +58,7 @@ const PersonDemographicsForm = ({
       <SelectField
         gridClassName='col-md-3'
         id='gender'
-        label='Gender'
+        label='Sex at Birth'
         value={gender}
         onChange={({target: {value}}) => onChange('gender', value)}
       >
