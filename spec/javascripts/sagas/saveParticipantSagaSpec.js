@@ -10,8 +10,9 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {fetch as fetchAllegations} from 'actions/screeningAllegationsActions'
 import * as personCardActions from 'actions/personCardActions'
 import {fromJS} from 'immutable'
+import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {getPeopleWithEditsSelector} from 'selectors/screening/peopleFormSelectors'
-import {fetchRelationships} from 'actions/relationshipsActions'
+import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 
 describe('saveParticipantSaga', () => {
@@ -38,10 +39,12 @@ describe('saveParticipant', () => {
     expect(gen.next(participant).value).toEqual(
       put(personCardActions.updatePersonSuccess(participant))
     )
-    expect(gen.next().value).toEqual(select(getScreeningIdValueSelector))
-    expect(gen.next('444').value).toEqual(
-      put(fetchRelationships('screenings', '444'))
+    expect(gen.next().value).toEqual(select(getClientIdsSelector))
+    const clientIds = ['123', '456']
+    expect(gen.next(clientIds).value).toEqual(
+      put(fetchRelationshipsByClientIds(clientIds))
     )
+    expect(gen.next().value).toEqual(select(getScreeningIdValueSelector))
     expect(gen.next('444').value).toEqual(
       put(fetchHistoryOfInvolvements('screenings', '444'))
     )

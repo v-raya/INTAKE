@@ -6,6 +6,7 @@ import {
   fetchScreeningFailure,
 } from 'actions/screeningActions'
 import {fetch as fetchCountyAgencies} from 'actions/countyAgenciesActions'
+import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
 import {FETCH_SCREENING} from 'actions/actionTypes'
 
 export function* fetchScreening({payload: {id}}) {
@@ -19,6 +20,8 @@ export function* fetchScreening({payload: {id}}) {
       }
     }
     yield put(fetchScreeningSuccess(response))
+    const clientIds = response.participants && response.participants.map((p) => p.legacy_id)
+    yield put(fetchRelationshipsByClientIds(clientIds))
   } catch (error) {
     switch (error.status) {
       case STATUS_CODES.forbidden: {

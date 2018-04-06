@@ -39,7 +39,6 @@ describe('ScreeningPage', () => {
     actions: {
       setPageMode = () => null,
       fetchScreening = () => null,
-      fetchRelationships = () => null,
       fetchHistoryOfInvolvements = () => null,
     },
     participants = [],
@@ -51,7 +50,6 @@ describe('ScreeningPage', () => {
       actions: {
         setPageMode,
         fetchScreening,
-        fetchRelationships,
         fetchHistoryOfInvolvements,
       },
       params,
@@ -86,24 +84,18 @@ describe('ScreeningPage', () => {
     describe('when the screening page URL ID is present', () => {
       const id = '222'
       let fetchScreening
-      let fetchRelationships
       let fetchHistoryOfInvolvements
       beforeEach(() => {
         fetchScreening = jasmine.createSpy('fetchScreening')
-        fetchRelationships = jasmine.createSpy('fetchRelationships')
         fetchHistoryOfInvolvements = jasmine.createSpy('fetchHistoryOfInvolvements')
         renderScreeningPageWithLifecycle({
-          actions: {fetchScreening, fetchRelationships, fetchHistoryOfInvolvements},
+          actions: {fetchScreening, fetchHistoryOfInvolvements},
           params: {id},
         })
       })
 
       it('fetches screening from the url ID', () => {
         expect(fetchScreening).toHaveBeenCalledWith(id)
-      })
-
-      it('fetches relationships for the screening from the url ID', () => {
-        expect(fetchRelationships).toHaveBeenCalledWith('screenings', id)
       })
 
       it('fetches HOI for the screening from the url ID', () => {
