@@ -6,6 +6,7 @@ import {createSnapshotPerson} from 'actions/personCardActions'
 const mapStateToProps = (state, _ownProps) => ({
   people: getPeopleSelector(state).toJS(),
   isScreening: false,
+  pendingPeople: state.get('pendingParticipants').toJS(),
 })
 
 const delayed = 400

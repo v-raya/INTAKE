@@ -6,6 +6,7 @@ import {
 
 const mapStateToProps = (state, _ownProps) => ({
   people: getPeopleSelector(state).toJS(),
+  pendingPeople: state.get('pendingParticipants').toJS(),
 })
 
 export default connect(mapStateToProps)(Relationships)
