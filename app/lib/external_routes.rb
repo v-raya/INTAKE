@@ -39,10 +39,6 @@ class ExternalRoutes
       "/api/v1/screenings/#{id}/people"
     end
 
-    def intake_api_relationships_by_screening_path(id)
-      "/api/v1/screenings/#{id}/relationships"
-    end
-
     def dora_people_light_index_path
       '/dora/people-summary/person-summary/_search'
     end
