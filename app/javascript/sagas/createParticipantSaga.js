@@ -7,7 +7,7 @@ import {
   createPersonFailure,
 } from 'actions/personCardActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
-import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
+import {fetchRelationships} from 'actions/relationshipsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 
@@ -30,7 +30,7 @@ export function* createParticipant({payload: {person, delayed = 0}}) {
     })
     yield put(createPersonSuccess(response))
     const clientIds = yield select(getClientIdsSelector)
-    yield put(fetchRelationshipsByClientIds(clientIds))
+    yield put(fetchRelationships(clientIds))
     const screeningId = yield select(getScreeningIdValueSelector)
     yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {

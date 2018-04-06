@@ -9,7 +9,7 @@ import {fetch as fetchAllegations} from 'actions/screeningAllegationsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getPeopleWithEditsSelector} from 'selectors/screening/peopleFormSelectors'
-import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
+import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 
 export function* saveParticipant({payload: {personId}}) {
@@ -19,7 +19,7 @@ export function* saveParticipant({payload: {personId}}) {
     const response = yield call(Utils.put, `/api/v1/participants/${personId}`, person)
     yield put(updatePersonSuccess(response))
     const clientIds = yield select(getClientIdsSelector)
-    yield put(fetchRelationshipsByClientIds(clientIds))
+    yield put(fetchRelationships(clientIds))
     const screeningId = yield select(getScreeningIdValueSelector)
     yield put(fetchHistoryOfInvolvements('screenings', screeningId))
     yield put(fetchAllegations(screeningId))

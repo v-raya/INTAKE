@@ -18,35 +18,11 @@ describe('fetchRelationshipsSaga', () => {
 })
 
 describe('fetchRelationships', () => {
-  const id = '123'
-  const type = 'bananas'
-  const action = actions.fetchRelationships(type, id)
+  const ids = ['a', 'b', 'c']
+  const action = actions.fetchRelationships(ids)
 
   it('should fetch and put relationships', () => {
     const gen = fetchRelationships(action)
-    expect(gen.next().value).toEqual(
-      call(get, '/api/v1/bananas/123/relationships')
-    )
-    const relationships = [{id: '2'}]
-    expect(gen.next(relationships).value).toEqual(
-      put(actions.fetchRelationshipsSuccess(relationships))
-    )
-  })
-
-  it('should put errors when errors are thrown', () => {
-    const gen = fetchRelationships(action)
-    expect(gen.next().value).toEqual(
-      call(get, '/api/v1/bananas/123/relationships')
-    )
-    const error = {responseJSON: 'some error'}
-    expect(gen.throw(error).value).toEqual(
-      put(actions.fetchRelationshipsFailure('some error'))
-    )
-  })
-
-  it('should fetch by client_ids when provided', () => {
-    const gen = fetchRelationships(
-      actions.fetchRelationshipsByClientIds(['a', 'b', 'c']))
 
     expect(gen.next().value).toEqual(
       call(get, '/api/v1/relationships?clientIds=a,b,c')
@@ -55,6 +31,17 @@ describe('fetchRelationships', () => {
     const relationships = [{id: 'a'}, {id: 'b'}, {id: 'c'}]
     expect(gen.next(relationships).value).toEqual(
       put(actions.fetchRelationshipsSuccess(relationships))
+    )
+  })
+
+  it('should put errors when errors are thrown', () => {
+    const gen = fetchRelationships(action)
+    expect(gen.next().value).toEqual(
+      call(get, '/api/v1/relationships?clientIds=a,b,c')
+    )
+    const error = {responseJSON: 'some error'}
+    expect(gen.throw(error).value).toEqual(
+      put(actions.fetchRelationshipsFailure('some error'))
     )
   })
 })

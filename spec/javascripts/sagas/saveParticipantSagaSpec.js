@@ -12,7 +12,7 @@ import * as personCardActions from 'actions/personCardActions'
 import {fromJS} from 'immutable'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {getPeopleWithEditsSelector} from 'selectors/screening/peopleFormSelectors'
-import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
+import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 
 describe('saveParticipantSaga', () => {
@@ -42,7 +42,7 @@ describe('saveParticipant', () => {
     expect(gen.next().value).toEqual(select(getClientIdsSelector))
     const clientIds = ['123', '456']
     expect(gen.next(clientIds).value).toEqual(
-      put(fetchRelationshipsByClientIds(clientIds))
+      put(fetchRelationships(clientIds))
     )
     expect(gen.next().value).toEqual(select(getScreeningIdValueSelector))
     expect(gen.next('444').value).toEqual(

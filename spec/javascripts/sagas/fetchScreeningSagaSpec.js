@@ -5,7 +5,7 @@ import {fetchScreeningSaga, fetchScreening} from 'sagas/fetchScreeningSaga'
 import {FETCH_SCREENING} from 'actions/actionTypes'
 import * as actions from 'actions/screeningActions'
 import {fetch as fetchCountyAgencies} from 'actions/countyAgenciesActions'
-import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
+import {fetchRelationships} from 'actions/relationshipsActions'
 import {replace} from 'react-router-redux'
 
 describe('fetchScreeningSaga', () => {
@@ -60,7 +60,7 @@ describe('fetchScreening', () => {
         put(actions.fetchScreeningSuccess(screening))
       )
       expect(gen.next().value).toEqual(
-        put(fetchRelationshipsByClientIds(['ABC', 'DEF']))
+        put(fetchRelationships(['ABC', 'DEF']))
       )
     })
   })
