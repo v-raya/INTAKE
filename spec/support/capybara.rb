@@ -25,6 +25,15 @@ Capybara.register_driver :accessible_selenium do |app|
   Capybara::Accessible.setup(driver, adaptor)
 end
 
+Capybara.register_driver :accessible_selenium_chrome do |app|
+  driver = Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+  )
+  adaptor = Capybara::Accessible::SeleniumDriverAdapter.new
+  Capybara::Accessible.setup(driver, adaptor)
+end
+
 Capybara.register_driver :accessible_poltergeist do |app|
   driver = Capybara::Poltergeist::Driver.new(app, js_errors: false, inspector: true)
   adaptor = Capybara::Accessible::PoltergeistDriverAdapter.new
