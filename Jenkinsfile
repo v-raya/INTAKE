@@ -17,14 +17,8 @@ node('intake-slave') {
         }
 
         if (branch == 'master') {
-            // Set an offset for the version number
-            int offset = VERSION_STRATEGY.split(':')[1]
-            int buildNumber = (BUILD_NUMBER.toInteger() - offset).toString()
             echo "The build number is ${buildNumber}"
-            VERSION = sh(
-                script: 'git describe --tags $(git rev-list --tags --max-count=1)',
-                returnStdout: true
-            )
+            VERSION = sh(returnStdout: true, script: './scripts/ci/compute_version.rb').trim()
             VCS_REF = sh(
                 script: 'git rev-parse --short HEAD',
                 returnStdout: true
@@ -50,7 +44,7 @@ node('intake-slave') {
             }
 
             stage('Acceptance test Bubble'){
-                sh "./scripts/ci/acceptance_test.rb"
+                sh './scripts/ci/acceptance_test.rb'
             }
 
             stage('Publish') {
