@@ -149,6 +149,11 @@ input[type='radio']:disabled + label::before {
   cursor: not-allowed;
 }
 
+.input-error-message:first-of-type {
+  padding-left: 1.5em;
+  text-indent: -1.3em;
+}
+
 .input-no-header {
   padding-top: 36px;
 }
