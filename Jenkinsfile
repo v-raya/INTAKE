@@ -17,8 +17,9 @@ node('intake-slave') {
         }
 
         if (branch == 'master') {
-            echo "The build number is ${buildNumber}"
             VERSION = sh(returnStdout: true, script: './scripts/ci/compute_version.rb').trim()
+            echo "The build version is ${VERSION}"
+
             VCS_REF = sh(
                 script: 'git rev-parse --short HEAD',
                 returnStdout: true
@@ -33,14 +34,7 @@ node('intake-slave') {
                     sh 'make release'
                 }
 
-                IMAGE_TAG = 'latest'
-                if(VERSION_STRATEGY.startsWith('CALCULATE')){
-                  IMAGE_TAG = "\$(git describe --tags \$(git rev-list --tags --max-count=1)).${buildNumber}"
-                } else {
-                  IMAGE_TAG = "\$(git describe --tags \$(git rev-list --tags --max-count=1)"
-                }
-                echo "The tag is ${IMAGE_TAG}"
-                sh "make tag latest ${IMAGE_TAG}"
+                sh "make tag latest ${VERSION}"
             }
 
             stage('Acceptance test Bubble'){
