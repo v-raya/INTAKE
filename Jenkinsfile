@@ -48,15 +48,9 @@ node('intake-slave') {
                 echo "The tag is ${IMAGE_TAG}"
                 sh "make tag latest ${IMAGE_TAG}"
             }
+
             stage('Acceptance test Bubble'){
-                sh "git clone git@github.com:ca-cwds/integrated-test-environment.git"
-                dir('integrated-test-environment'){
-                    withEnv("INTAKE_IMAGE_VERSION=${IMAGE_TAG}"){
-                        sh "docker-compose -f docker-compose.bubble.yml up -d nginx intake"
-                        sh "docker-compose -f docker-compose.bubble.yml build acceptance_testing"
-                        sh "docker-compose -f docker-compose.bubble.yml up acceptance_testing"
-                    }
-                }
+                sh "./scripts/ci/acceptance_test.rb"
             }
 
             stage('Publish') {
