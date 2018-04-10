@@ -20,6 +20,7 @@ node('intake-slave') {
             // Set an offset for the version number
             int offset = VERSION_STRATEGY.split(':')[1]
             int buildNumber = (BUILD_NUMBER.toInteger() - offset).toString()
+            echo "The build number is ${buildNumber}"
             VERSION = sh(
                 script: 'git describe --tags $(git rev-list --tags --max-count=1)',
                 returnStdout: true
@@ -37,10 +38,20 @@ node('intake-slave') {
                 withEnv(["BUILD_DATE=${buildDate}","BUILD_NUMBER=${BUILD_NUMBER}","VERSION=${VERSION}","VCS_REF=${VCS_REF}"]) {
                     sh 'make release'
                 }
+
+                IMAGE_TAG = 'latest'
+                if(VERSION_STRATEGY.startsWith('CALCULATE')){
+                  IMAGE_TAG = "\$(git describe --tags \$(git rev-list --tags --max-count=1)).${buildNumber}"
+                } else {
+                  IMAGE_TAG = "\$(git describe --tags \$(git rev-list --tags --max-count=1)"
+                }
+                echo "The tag is ${IMAGE_TAG}"
+                sh "make tag latest ${IMAGE_TAG}"
             }
             stage('Acceptance test Bubble'){
                 sh "git clone git@github.com:ca-cwds/integrated-test-environment.git"
-                    dir('integrated-test-environment'){
+                dir('integrated-test-environment'){
+                    withEnv("INTAKE_IMAGE_VERSION=${IMAGE_TAG}"){
                         sh "docker-compose -f docker-compose.bubble.yml up -d nginx intake"
                         sh "docker-compose -f docker-compose.bubble.yml build acceptance_testing"
                         sh "docker-compose -f docker-compose.bubble.yml up acceptance_testing"
@@ -51,11 +62,6 @@ node('intake-slave') {
             stage('Publish') {
                 withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
                 curStage = 'Publish'
-                if(VERSION_STRATEGY.startsWith('CALCULATE')) {
-                    sh "make tag latest \$(git describe --tags \$(git rev-list --tags --max-count=1)).${buildNumber}"
-                } else {
-                    sh 'make tag latest $(git describe --tags $(git rev-list --tags --max-count=1))'
-                }
                 sh "make publish"
                 }
             }
