@@ -46,8 +46,11 @@ RSpec.configure do |config|
   end
 
   config.after :suite do
-    display = 100 + ENV['TEST_ENV_NUMBER'].to_i
-    Headless.new(display: display, reuse: true, destroy_at_exit: false).destroy
+    if ENV['USE_XVFB'] == 'true'
+      require 'headless'
+      display = 100 + ENV['TEST_ENV_NUMBER'].to_i
+      Headless.new(display: display, reuse: true, destroy_at_exit: false).destroy
+    end
   end
 
   # rspec-expectations config goes here. You can use an alternate
