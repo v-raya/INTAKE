@@ -5,7 +5,7 @@ import {accessDescription} from 'utils/accessIndicator'
 import {dateRangeFormatter} from 'utils/dateFormatter'
 import {ROLE_TYPE_NON_REPORTER} from 'enums/RoleType'
 import COUNTIES from 'enums/Counties'
-import {systemCodeDisplayValue, getScreenResponseTimesSelector} from 'selectors/systemCodeSelectors'
+import {systemCodeDisplayValue, getScreenResponseTimesSelector, getRelationshipTypesSelector} from 'selectors/systemCodeSelectors'
 
 const getHistoryOfInvolvementsSelector = (state) => state.get('involvements', Map())
 
@@ -33,9 +33,22 @@ const getCaseCountyAndStatus = (hoiCase) => {
   }
 }
 
+const getParentsNames = (hoiCase, relationshipTypes) => {
+  const parentTypeRegExp = new RegExp('\\(.*?\\)')
+  return hoiCase.get('parents', List()).map((parent) => {
+    var fullName = nameFormatter(parent.toJS())
+    const parentType = parentTypeRegExp[Symbol.match](systemCodeDisplayValue(parent.getIn(['relationship', 'id']), relationshipTypes))
+    if (parentType) {
+      fullName = fullName.concat(' ', parentType)
+    }
+    return fullName
+  }).join(', ')
+}
+
 export const getFormattedCasesSelector = createSelector(
   getCasesSelector,
-  (cases) => cases.map((hoiCase) => {
+  getRelationshipTypesSelector,
+  (cases, relationshipTypes) => cases.map((hoiCase) => {
     const {county, status} = getCaseCountyAndStatus(hoiCase)
     const limitedAccessCode = hoiCase.getIn(['access_limitation', 'limited_access_code'], 'NONE')
     return fromJS({
@@ -43,7 +56,7 @@ export const getFormattedCasesSelector = createSelector(
       county: county,
       dateRange: dateRangeFormatter(hoiCase.toJS()),
       focusChild: nameFormatter(hoiCase.get('focus_child', Map()).toJS()),
-      parents: hoiCase.get('parents', List()).map((parent) => nameFormatter(parent.toJS())).join(', '),
+      parents: getParentsNames(hoiCase, relationshipTypes),
       restrictedAccessStatus: accessDescription(limitedAccessCode),
       status: status,
       worker: nameFormatter({name_default: '', ...hoiCase.get('assigned_social_worker', Map()).toJS()}),

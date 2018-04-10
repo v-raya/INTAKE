@@ -7,6 +7,10 @@ import * as IntakeConfig from 'common/config'
 
 describe('HistoryTableContainer', () => {
   const state = fromJS({
+    relationshipTypes: [
+      {code: '250', value: 'Mother', category: 'relationship_type'},
+      {code: '214', value: 'Father (Step)', category: 'relationship_type'},
+    ],
     screenResponseTimes: [{code: '1518', value: 'Immediate'}],
     involvements: {
       screenings: [
@@ -290,7 +294,7 @@ describe('HistoryTableContainer', () => {
       county: 'Sacramento',
       dateRange: '12/02/2017 - 12/02/2017',
       focusChild: 'Victim First Name Victim Last Name',
-      parents: 'Father First Name Father Last Name, Mother First Name Mother Last Name',
+      parents: 'Father First Name Father Last Name (Step), Mother First Name Mother Last Name',
       restrictedAccessStatus: 'Sealed',
       status: 'Closed - Permanent Placement',
       worker: 'Worker First Name Worker Last Name'},
