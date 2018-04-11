@@ -23,8 +23,8 @@ export function createPersonSuccess(person) {
 export function createPersonFailure(error) {
   return {type: CREATE_PERSON_COMPLETE, payload: {error}, error: true}
 }
-export function createPerson(person, delayed) {
-  return {type: CREATE_PERSON, payload: {person, delayed}}
+export function createPerson(person) {
+  return {type: CREATE_PERSON, payload: {person}}
 }
 export function deletePersonSuccess(id) {
   return {type: DELETE_PERSON_COMPLETE, payload: {id}}
@@ -35,8 +35,8 @@ export function deletePersonFailure(error) {
 export function deletePerson(id) {
   return {type: DELETE_PERSON, payload: {id}}
 }
-export function createSnapshotPerson(id, delayed) {
-  return {type: CREATE_SNAPSHOT_PERSON, payload: {id, delayed}}
+export function createSnapshotPerson(id) {
+  return {type: CREATE_SNAPSHOT_PERSON, payload: {id}}
 }
 export function deleteSnapshotPerson(id) {
   return {type: DELETE_SNAPSHOT_PERSON, payload: {id}}

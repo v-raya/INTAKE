@@ -12,11 +12,8 @@ import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {mapDoraPersonToParticipant} from 'utils/peopleSearchHelper'
 
-export function* createSnapshotPerson({payload: {id, delayed = 0}}) {
+export function* createSnapshotPerson({payload: {id}}) {
   try {
-    if (delayed !== 0) {
-      yield call(delay, delayed)
-    }
     const response = yield call(get, `/api/v1/people/${id}`)
     const state = yield select()
     const participant = mapDoraPersonToParticipant(state, fromJS(response)).toJS()

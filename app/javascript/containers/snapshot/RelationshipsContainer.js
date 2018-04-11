@@ -9,11 +9,10 @@ const mapStateToProps = (state, _ownProps) => ({
   pendingPeople: state.get('pendingParticipants').toJS(),
 })
 
-const delayed = 400
 const mapDispatchToProps = (dispatch) => ({
   onClick: (relationship) => {
     const id = relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id
-    dispatch(createSnapshotPerson(id, delayed))
+    dispatch(createSnapshotPerson(id))
   },
 })
 
