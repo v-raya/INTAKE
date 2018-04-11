@@ -1,5 +1,4 @@
 import {takeLatest, put, call, select} from 'redux-saga/effects'
-import {delay} from 'redux-saga'
 import {STATUS_CODES, post} from 'utils/http'
 import {
   CREATE_PERSON,

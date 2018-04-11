@@ -1,5 +1,4 @@
 import {fromJS} from 'immutable'
-import {delay} from 'redux-saga'
 import {takeLatest, put, call, select} from 'redux-saga/effects'
 import {STATUS_CODES, get} from 'utils/http'
 import {
