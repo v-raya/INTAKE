@@ -150,8 +150,12 @@ input[type='radio']:disabled + label::before {
 }
 
 .input-error-message:first-of-type {
-  padding-left: 1.5em;
+  padding-left: 1.3em;
   text-indent: -1.3em;
+}
+
+.input-error-message:not(:first-child) {
+  padding-left: 2.1rem;
 }
 
 .input-no-header {
