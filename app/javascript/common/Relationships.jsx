@@ -5,7 +5,10 @@ const attachLink = (onClick, relationship, maybeId) => (
   <a onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>
 )
 
-export const Relationships = ({people, onClick, screeningId, isScreening}) => (
+const isPending = (relationship, pendingPeople) =>
+  pendingPeople.some((id) => id === (relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id))
+
+export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
   <div className='card-body no-pad-top'>
     {
       people.map((person, index) => (
@@ -21,7 +24,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening}) => (
                     person.relationships.map((relationship, index) => (
                       <li key={index}>
                         <strong>{ relationship.type }</strong> &nbsp; of { relationship.relatee }
-                        {relationship.person_card_exists &&
+                        {relationship.person_card_exists && !isPending(relationship, pendingPeople) &&
                           (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship))
                         }
                       </li>
@@ -44,6 +47,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening}) => (
 Relationships.propTypes = {
   isScreening: PropTypes.bool,
   onClick: PropTypes.func,
+  pendingPeople: PropTypes.arrayOf(PropTypes.string),
   people: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     relationships: PropTypes.arrayOf(PropTypes.shape({

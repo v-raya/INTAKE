@@ -46,6 +46,29 @@ describe('Relationships', () => {
     expect(component.find('.relationships').at(2).find('li').at(0).text()).toEqual('son of Nate Starbringer Attach')
   })
 
+  it('hides Attach link for people in the pending list', () => {
+    const people = [
+      {
+        name: 'Sally Jones',
+        relationships: [
+          {relatee: 'Jim Johnson', type: 'mother', person_card_exists: true, legacy_descriptor: {legacy_id: '1'}},
+        ],
+      },
+      {
+        name: 'Nate Starbringer',
+        relationships: [
+          {relatee: 'Jim Johnson', type: 'father', person_card_exists: true},
+        ],
+      },
+    ]
+
+    const pendingPeople = ['1']
+
+    const component = renderRelationships({people, pendingPeople})
+    expect(component.find('.relationships').at(0).find('li').at(0).text()).toEqual('mother of Jim Johnson')
+    expect(component.find('.relationships').at(1).find('li').at(0).text()).toEqual('father of Jim Johnson Attach')
+  })
+
   it('calls onClick when the Attach Link is clicked', () => {
     const people = [
       {
