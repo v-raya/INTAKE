@@ -31,22 +31,20 @@ const ScreeningInformationForm = ({
         onBlur={() => onBlur('name')}
         onChange={({target: {value}}) => onChange('name', value)}
       />
-      <div className='social-worker'>
-        <InputField
-          allowCharacters={/[a-zA-Z\s]/}
-          disabled={assigneeDisabled}
-          errors={errors.assignee}
-          gridClassName='col-md-4'
-          id='assignee'
-          label='Assigned Social Worker'
-          maxLength='64'
-          placeholder='Enter the name of the worker screening report'
-          required
-          value={assignee || ''}
-          onBlur={() => onBlur('assignee')}
-          onChange={({target: {value}}) => onChange('assignee', value)}
-        />
-      </div>
+      <InputField
+        allowCharacters={/[a-zA-Z\s]/}
+        disabled={assigneeDisabled}
+        errors={errors.assignee}
+        gridClassName='social-worker col-md-4'
+        id='assignee'
+        label='Assigned Social Worker'
+        maxLength='64'
+        placeholder='Enter the name of the worker screening report'
+        required
+        value={assignee || ''}
+        onBlur={() => onBlur('assignee')}
+        onChange={({target: {value}}) => onChange('assignee', value)}
+      />
     </div>
     <div className='row'>
       <DateField
@@ -59,17 +57,15 @@ const ScreeningInformationForm = ({
         onBlur={() => onBlur('started_at')}
         onChange={(value) => onChange('started_at', value)}
       />
-      <div className='screening-endtime'>
-        <DateField
-          gridClassName='col-md-4'
-          id='ended_at'
-          label='Screening End Date/Time'
-          value={endedAt}
-          errors={errors.ended_at}
-          onBlur={() => onBlur('ended_at')}
-          onChange={(value) => onChange('ended_at', value)}
-        />
-      </div>
+      <DateField
+        gridClassName='screening-endtime col-md-4'
+        id='ended_at'
+        label='Screening End Date/Time'
+        value={endedAt}
+        errors={errors.ended_at}
+        onBlur={() => onBlur('ended_at')}
+        onChange={(value) => onChange('ended_at', value)}
+      />
       <SelectField
         gridClassName='col-md-4'
         id='communication_method'
