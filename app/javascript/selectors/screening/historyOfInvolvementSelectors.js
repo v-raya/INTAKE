@@ -36,7 +36,7 @@ const getCaseCountyAndStatus = (hoiCase) => {
 const getParentsNames = (hoiCase, relationshipTypes) => {
   const parentTypeRegExp = new RegExp('\\(.*?\\)')
   return hoiCase.get('parents', List()).map((parent) => {
-    var fullName = nameFormatter(parent.toJS())
+    let fullName = nameFormatter(parent.toJS())
     const parentType = parentTypeRegExp[Symbol.match](systemCodeDisplayValue(parent.getIn(['relationship', 'id']), relationshipTypes))
     if (parentType) {
       fullName = fullName.concat(' ', parentType)
