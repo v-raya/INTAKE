@@ -126,14 +126,14 @@
     padding: 1rem;
 
     .pre-icon {
+      margin-left: 0;
       margin-right: 1rem;
       margin-top: .4rem;
     }
   }
 }
 
-@media (min-width: 992px){
-  .container {
-    width: 990px;
-  }
+.social-worker {
+  overflow: visible;
+  white-space: nowrap;
 }

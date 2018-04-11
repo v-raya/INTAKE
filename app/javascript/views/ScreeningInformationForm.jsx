@@ -35,7 +35,7 @@ const ScreeningInformationForm = ({
         allowCharacters={/[a-zA-Z\s]/}
         disabled={assigneeDisabled}
         errors={errors.assignee}
-        gridClassName='col-md-4'
+        gridClassName='social-worker col-md-4'
         id='assignee'
         label='Assigned Social Worker'
         maxLength='64'
@@ -58,7 +58,7 @@ const ScreeningInformationForm = ({
         onChange={(value) => onChange('started_at', value)}
       />
       <DateField
-        gridClassName='col-md-4'
+        gridClassName='screening-endtime col-md-4'
         id='ended_at'
         label='Screening End Date/Time'
         value={endedAt}
