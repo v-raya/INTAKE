@@ -26,7 +26,7 @@ describe('pendingParticipantsReducer', () => {
       const secondId = '3'
       const oldState = fromJS([firstId, secondId])
       const action = createPersonSuccess({id: secondId})
-      const expectedState = fromJS([firstId])
+      const expectedState = fromJS([firstId, secondId])
       expect(pendingParticipantsReducer(oldState, action)).toEqualImmutable(expectedState)
     })
     it('returns the last state on failure', () => {
