@@ -48,7 +48,7 @@ feature 'Show Screening' do
       :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_history_for_screening(existing_screening)
-    stub_empty_relationships_for_screening(existing_screening)
+    stub_empty_relationships
   end
 
   scenario 'showing existing participant' do
@@ -100,7 +100,7 @@ feature 'Show Screening' do
         :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
       ).and_return(json_body(existing_screening.to_json, status: 200))
       stub_empty_history_for_screening(existing_screening)
-      stub_empty_relationships_for_screening(existing_screening)
+      stub_empty_relationships
     end
 
     scenario('display only hispanic/latino origin') do
@@ -131,7 +131,7 @@ feature 'Show Screening' do
         :get, intake_api_url(ExternalRoutes.intake_api_screening_path(approximate_screening.id))
       ).and_return(json_body(approximate_screening.to_json, status: 200))
       stub_empty_history_for_screening(approximate_screening)
-      stub_empty_relationships_for_screening(approximate_screening)
+      stub_empty_relationships
     end
 
     scenario 'shows approximate age and hides date of birth' do

@@ -26,7 +26,6 @@ Rails.application.routes.draw do
         constraints: Routes::ActiveScreeningsConstraint do
         member do
           get 'history_of_involvements'
-          get 'relationships' => 'relationships#by_screening_id'
           post 'submit'
         end
       end

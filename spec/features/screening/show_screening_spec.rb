@@ -49,7 +49,7 @@ feature 'Show Screening' do
     stub_request(
       :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).and_return(json_body(existing_screening.to_json))
-    stub_empty_relationships_for_screening(existing_screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
 
     visit screening_path(id: existing_screening.id)
@@ -99,7 +99,7 @@ feature 'Show Screening' do
     stub_request(
       :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).and_return(json_body(existing_screening.to_json))
-    stub_empty_relationships_for_screening(existing_screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
 
     visit screening_path(id: existing_screening.id)
@@ -180,7 +180,7 @@ feature 'Show Screening' do
       stub_request(
         :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
       ).and_return(json_body(existing_screening.to_json))
-      stub_empty_relationships_for_screening(existing_screening)
+      stub_empty_relationships
       stub_empty_history_for_screening(existing_screening)
       visit screening_path(id: existing_screening.id)
 
@@ -225,7 +225,7 @@ feature 'Show Screening' do
         :get,
         intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
       ).and_return(json_body(existing_screening.to_json))
-      stub_empty_relationships_for_screening(existing_screening)
+      stub_empty_relationships
       stub_empty_history_for_screening(existing_screening)
 
       visit screening_path(id: existing_screening.id)

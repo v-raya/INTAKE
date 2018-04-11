@@ -9,7 +9,7 @@ import {
 import {CREATE_SNAPSHOT_PERSON} from 'actions/personCardActions'
 import * as personCardActions from 'actions/personCardActions'
 import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
-import {fetchRelationshipsByClientIds} from 'actions/relationshipsActions'
+import {fetchRelationships} from 'actions/relationshipsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 
 describe('createSnapshotPersonSaga', () => {
@@ -146,7 +146,7 @@ describe('createSnapshotPerson', () => {
       select(getClientIdsSelector)
     )
     expect(gen.next(['1']).value).toEqual(
-      put(fetchRelationshipsByClientIds(['1']))
+      put(fetchRelationships(['1']))
     )
     expect(gen.next().value).toEqual(
       put(fetchHistoryOfInvolvementsByClientIds(['1']))

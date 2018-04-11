@@ -8,16 +8,7 @@ import {
   FETCH_RELATIONSHIPS,
 } from 'actions/actionTypes'
 
-function* fetchRelationshipsForUnitOfWork(type, id) {
-  try {
-    const response = yield call(get, `/api/v1/${type}/${id}/relationships`)
-    yield put(fetchRelationshipsSuccess(response))
-  } catch (error) {
-    yield put(fetchRelationshipsFailure(error.responseJSON))
-  }
-}
-
-function* fetchRelationshipsForClients(ids) {
+export function* fetchRelationships({payload: {ids}}) {
   try {
     const response = yield call(get, `/api/v1/relationships?clientIds=${ids.join(',')}`)
     yield put(fetchRelationshipsSuccess(response))
@@ -26,12 +17,6 @@ function* fetchRelationshipsForClients(ids) {
   }
 }
 
-export function fetchRelationships({payload: {type, id, ids}}) {
-  if (type === 'clients') {
-    return fetchRelationshipsForClients(ids)
-  }
-  return fetchRelationshipsForUnitOfWork(type, id)
-}
 export function* fetchRelationshipsSaga() {
   yield takeEvery(FETCH_RELATIONSHIPS, fetchRelationships)
 }

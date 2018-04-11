@@ -10,7 +10,7 @@ feature 'searching a participant in autocompleter' do
     stub_request(
       :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).and_return(json_body(existing_screening.to_json, status: 200))
-    stub_empty_relationships_for_screening(existing_screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
     stub_system_codes
     visit edit_screening_path(id: existing_screening.id)
@@ -422,7 +422,7 @@ feature 'searching a participant in autocompleter' do
         indexable: true
       )
       stub_empty_history_for_screening(new_screening)
-      stub_empty_relationships_for_screening(new_screening)
+      stub_empty_relationships
       stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
         .with(body: as_json_without_root_id(new_screening))
         .and_return(json_body(new_screening.to_json, status: 201))
@@ -447,7 +447,7 @@ feature 'searching a participant in autocompleter' do
       page.go_back
 
       stub_empty_history_for_screening(new_screening)
-      stub_empty_relationships_for_screening(new_screening)
+      stub_empty_relationships
       stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(new_screening.id)))
         .and_return(json_body(new_screening.to_json, status: 200))
 

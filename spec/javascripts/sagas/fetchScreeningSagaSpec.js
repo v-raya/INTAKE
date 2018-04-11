@@ -5,6 +5,7 @@ import {fetchScreeningSaga, fetchScreening} from 'sagas/fetchScreeningSaga'
 import {FETCH_SCREENING} from 'actions/actionTypes'
 import * as actions from 'actions/screeningActions'
 import {fetch as fetchCountyAgencies} from 'actions/countyAgenciesActions'
+import {fetchRelationships} from 'actions/relationshipsActions'
 import {replace} from 'react-router-redux'
 
 describe('fetchScreeningSaga', () => {
@@ -49,6 +50,17 @@ describe('fetchScreening', () => {
       const screening = {id}
       expect(gen.next(screening).value).toEqual(
         put(actions.fetchScreeningSuccess(screening))
+      )
+    })
+    it('fetches relationships as well', () => {
+      const gen = fetchScreening(action)
+      expect(gen.next().value).toEqual(call(get, '/api/v1/screenings/123'))
+      const screening = {id, participants: [{legacy_id: 'ABC'}, {legacy_id: 'DEF'}]}
+      expect(gen.next(screening).value).toEqual(
+        put(actions.fetchScreeningSuccess(screening))
+      )
+      expect(gen.next().value).toEqual(
+        put(fetchRelationships(['ABC', 'DEF']))
       )
     })
   })

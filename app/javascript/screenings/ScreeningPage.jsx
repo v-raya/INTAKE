@@ -5,10 +5,7 @@ import {
   fetchHistoryOfInvolvements,
   clearHistoryOfInvolvement,
 } from 'actions/historyOfInvolvementActions'
-import {
-  fetchRelationships,
-  clearRelationships,
-} from 'actions/relationshipsActions'
+import {clearRelationships} from 'actions/relationshipsActions'
 import PersonCardView from 'screenings/PersonCardView'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -56,14 +53,12 @@ export class ScreeningPage extends React.Component {
       actions: {
         setPageMode,
         fetchScreening,
-        fetchRelationships,
         fetchHistoryOfInvolvements,
       },
       params: {mode, id},
     } = this.props
     setPageMode(mode || 'show')
     fetchScreening(id)
-    fetchRelationships('screenings', id)
     fetchHistoryOfInvolvements('screenings', id)
   }
 
@@ -226,7 +221,6 @@ function mapDispatchToProps(dispatch, _ownProps) {
     setPageMode,
     fetchHistoryOfInvolvements,
     clearHistoryOfInvolvement,
-    fetchRelationships,
     clearRelationships,
     ...personCardActions,
     ...screeningActions,

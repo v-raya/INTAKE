@@ -34,7 +34,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -98,7 +98,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -172,7 +172,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -206,7 +206,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     within edit_participant_card_selector(lisa.id) do
       fill_in_react_select('Role', with: 'Victim')
@@ -228,7 +228,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -265,7 +265,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -321,7 +321,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -356,7 +356,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -390,7 +390,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -426,7 +426,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -478,7 +478,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
     allegation_attributes = {
@@ -575,7 +575,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
     allegation_attributes = {
@@ -666,7 +666,7 @@ feature 'edit allegations' do
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
 
     visit edit_screening_path(id: screening.id)
 
@@ -708,7 +708,7 @@ feature 'edit allegations' do
       .and_return(json_body(screening.to_json, status: 200))
     stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
       .and_return(json_body({}.to_json, status: 200))
-    stub_empty_relationships_for_screening(screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(screening)
 
     visit edit_screening_path(id: screening.id)

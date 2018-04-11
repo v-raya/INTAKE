@@ -257,7 +257,7 @@ feature 'History card' do
           FerbRoutes.screening_history_of_involvements_path(existing_screening.id)
         )
       ).and_return(json_body(screening_involvement.to_json, status: 200))
-      stub_empty_relationships_for_screening(existing_screening)
+      stub_empty_relationships
     end
 
     scenario 'copy button' do

@@ -7,6 +7,7 @@ import {
 } from 'actions/personCardActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
+import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 
 export function* createParticipant({payload: {person}}) {
@@ -23,8 +24,9 @@ export function* createParticipant({payload: {person}}) {
       },
     })
     yield put(createPersonSuccess(response))
+    const clientIds = yield select(getClientIdsSelector)
+    yield put(fetchRelationships(clientIds))
     const screeningId = yield select(getScreeningIdValueSelector)
-    yield put(fetchRelationships('screenings', screeningId))
     yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {
     if (error.status === STATUS_CODES.forbidden) {

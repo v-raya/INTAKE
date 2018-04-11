@@ -33,7 +33,7 @@ feature 'error pages' do
     before(:each) do
       stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
         .and_return(json_body('Screening is not found!!', status: 404))
-      stub_empty_relationships_for_screening(screening)
+      stub_empty_relationships
       stub_empty_history_for_screening(screening)
       visit edit_screening_path(id: screening.id)
     end
@@ -87,7 +87,7 @@ feature 'error pages' do
     scenario 'renders 403 page' do
       stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
         .and_return(json_body('Forbidden!!', status: 403))
-      stub_empty_relationships_for_screening(screening)
+      stub_empty_relationships
       stub_empty_history_for_screening(screening)
       visit edit_screening_path(id: screening.id)
       expect(page).to have_current_path('/forbidden')
@@ -118,7 +118,7 @@ feature 'error banner' do
       stub_request(
         :get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id))
       ).and_return(json_body(screening.to_json, status: 200))
-      stub_empty_relationships_for_screening(screening)
+      stub_empty_relationships
       stub_empty_history_for_screening(screening)
       visit edit_screening_path(id: screening.id)
       stub_request(

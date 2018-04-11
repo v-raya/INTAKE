@@ -8,6 +8,7 @@ import {
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetch as fetchAllegations} from 'actions/screeningAllegationsActions'
+import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 
 export function* deleteParticipant({payload: {id}}) {
@@ -16,7 +17,8 @@ export function* deleteParticipant({payload: {id}}) {
     yield put(deletePersonSuccess(id))
     const screeningId = yield select(getScreeningIdValueSelector)
     yield put(fetchAllegations(screeningId))
-    yield put(fetchRelationships('screenings', screeningId))
+    const clientIds = yield select(getClientIdsSelector)
+    yield put(fetchRelationships(clientIds))
     yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {
     yield put(deletePersonFailure(error.responseJSON))

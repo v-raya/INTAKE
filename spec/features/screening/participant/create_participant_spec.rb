@@ -147,7 +147,7 @@ feature 'Create participant' do
     %w[ho hom home homer].each do |search_text|
       stub_person_search(search_term: search_text, person_response: homer_response)
     end
-    stub_empty_relationships_for_screening(existing_screening)
+    stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
   end
 

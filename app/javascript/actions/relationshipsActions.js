@@ -13,9 +13,6 @@ export function fetchRelationshipsSuccess(relationships) {
 export function fetchRelationshipsFailure(error) {
   return {type: FETCH_RELATIONSHIPS_COMPLETE, payload: {error}, error: true}
 }
-export function fetchRelationships(type, id) {
-  return {type: FETCH_RELATIONSHIPS, payload: {type, id}}
-}
-export function fetchRelationshipsByClientIds(ids) {
-  return {type: FETCH_RELATIONSHIPS, payload: {type: 'clients', ids}}
+export function fetchRelationships(ids) {
+  return {type: FETCH_RELATIONSHIPS, payload: {ids}}
 }
