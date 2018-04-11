@@ -26,9 +26,19 @@ Capybara.register_driver :accessible_selenium do |app|
 end
 
 Capybara.register_driver :accessible_selenium_chrome do |app|
+  redux_devtools = ENV.fetch('REDUX_DEVTOOLS', false)
+  react_devtools = ENV.fetch('REACT_DEVTOOLS', false)
+  redux_devtools_location = redux_devtools ? '../redux-devtools-extension/build/extension' : nil
+  react_devtools_location = react_devtools ? '../react-devtools/shells/chrome/build/unpacked' : nil
+  extensions = []
+  extensions << redux_devtools_location if redux_devtools_location
+  extensions << react_devtools_location if react_devtools_location
   driver = Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
+    switches: [
+      '--load-extension=' + extensions.join(',')
+    ]
   )
   adaptor = Capybara::Accessible::SeleniumDriverAdapter.new
   Capybara::Accessible.setup(driver, adaptor)
@@ -40,7 +50,7 @@ Capybara.register_driver :accessible_poltergeist do |app|
   Capybara::Accessible.setup(driver, adaptor)
 end
 
-Capybara.default_driver = :accessible_selenium
+Capybara.default_driver = ENV.fetch('DEFAULT_DRIVER', :accessible_selenium).to_sym
 
 Capybara.server_port = 8889 + ENV['TEST_ENV_NUMBER'].to_i
 Capybara.raise_server_errors = true
