@@ -91,9 +91,7 @@ node('intake-slave') {
     finally {
         try {
             stage('Clean') {
-                retry(2) {
-                    sh 'make clean'
-                }
+                sh './scripts/ci/clean.rb'
             }
         } catch(e) {
             pipelineStatus = 'FAILED'
