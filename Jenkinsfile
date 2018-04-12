@@ -35,7 +35,7 @@ node('intake-slave') {
                 withEnv(["BUILD_DATE=${buildDate}","VERSION=${VERSION}","VCS_REF=${VCS_REF}"]) {
                     sh 'make release'
                 }
-           }
+            }
 
             stage('Acceptance test Bubble'){
                 withEnv(["INTAKE_IMAGE_VERSION=intakeaccelerator${BUILD_NUMBER}_app"]) {
@@ -46,7 +46,9 @@ node('intake-slave') {
             stage('Publish') {
                 withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
                     curStage = 'Publish'
-                    sh "make publish"
+                    withEnv(["VERSION=${VERSION}"]){
+                        sh './scripts/ci/publish.rb'
+                    }
                 }
             }
 
