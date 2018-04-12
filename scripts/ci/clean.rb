@@ -20,5 +20,5 @@ puts '==> Removing test artifacts'
 `docker-compose #{test_args} down --volumes --remove-orphans --rmi all`
 
 puts '==> Removing generated images'
-docker_images = `docker images -q -f label=application=intake_accelerator`
+docker_images = `docker images -q -f label=application=intake_accelerator`.tr("\n", ' ')
 `docker rmi #{docker_images} -f` unless docker_images.empty?
