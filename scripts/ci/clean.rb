@@ -6,7 +6,7 @@ release_args = "-p #{project_name} -f docker/release/docker-compose.yml"
 test_args = "-p #{project_name}_test -f docker/test/docker-compose.yml"
 bubble_args = '-f integrated-test-environment/docker-compose.bubble.yml'
 
-if ENV['BRANCH_NAME'] == 'master'
+if ENV['GIT_BRANCH'] == 'master'
   puts '==> Tearing down the bubble'
   `docker-compose #{bubble_args} down`
   `rm -rf integrated-test-environment`
@@ -20,5 +20,5 @@ puts '==> Removing test artifacts'
 `docker-compose #{test_args} down --volumes --remove-orphans --rmi all`
 
 puts '==> Removing generated images'
-docker_images = `docker images -q -f label=application=intake_accelerator`
+docker_images = `docker images -q -f label=application=intake_accelerator`.tr("\n", ' ')
 `docker rmi #{docker_images} -f` unless docker_images.empty?

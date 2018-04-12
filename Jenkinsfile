@@ -91,7 +91,9 @@ node('intake-slave') {
     finally {
         try {
             stage('Clean') {
-                sh './scripts/ci/clean.rb'
+                withEnv(["GIT_BRANCH=${branch}"]){
+                    sh './scripts/ci/clean.rb'
+                }
             }
         } catch(e) {
             pipelineStatus = 'FAILED'
