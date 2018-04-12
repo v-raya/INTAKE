@@ -10,12 +10,6 @@ Rails.application.routes.draw do
     only: %i[edit show],
     to: 'home#index'
 
-  resources :investigations,
-    only: [:show],
-    to: 'home#index' do
-    resources :contacts, only: %i[new show edit], to: 'home#index'
-  end
-
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get '/security/check_permission' => 'security#check_permission'
@@ -44,12 +38,6 @@ Rails.application.routes.draw do
         end
       end
       get 'people/:id', to: 'people#show'
-
-      resources :investigations,
-        only: %i[show],
-        constraints: Routes::ActiveInvestigationsConstraint do
-        resources :contacts, only: %i[create show update], module: :investigations
-      end
 
       resources :system_codes,
         only: [:index]
