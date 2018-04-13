@@ -30,8 +30,7 @@ feature 'Edit Person' do
     )
   end
   let(:marge_formatted_name) do
-    name_suffix = marge.name_suffix.capitalize
-    "#{marge.first_name} #{marge.middle_name} #{marge.last_name}, #{name_suffix}"
+    "#{marge.first_name} #{marge.middle_name} #{marge.last_name}, #{marge.name_suffix}"
   end
   let(:homer) { FactoryBot.create(:participant, :with_complete_address, ssn: nil) }
   let(:screening) { FactoryBot.create(:screening, participants: [marge, homer]) }
