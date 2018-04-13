@@ -1,7 +1,7 @@
 version: '2.1'
 
 services:
-  rspec_test:
+  run_tests:
     build:
       context: ../../
       dockerfile: docker/test/Dockerfile
@@ -15,32 +15,10 @@ services:
       GENERATE_TEST_REPORTS: 'yes'
       USE_XVFB: 'true'
       REDIS_HOST: 'redis'
+      TZ: US/Pacific
       REDIS_PORT: 6379
     links:
       - redis
-  lint:
-    build:
-      context: ../../
-      dockerfile: docker/test/Dockerfile
-    command: bin/lint
-    environment:
-      RAILS_ENV: test
-      CI_REPORTS: /reports
-      GENERATE_TEST_REPORTS: 'yes'
-  javascript_test:
-    build:
-      context: ../../
-      dockerfile: docker/test/Dockerfile
-    command: bin/ci-javascript
-    environment:
-      # Tests must be run in the correct timezone because
-      # of UTC converstion and explicit expectations.
-      # Sincerely,
-      # The Time Lords
-      TZ: US/Pacific
-      RAILS_ENV: test
-      CI_REPORTS: /reports
-      GENERATE_TEST_REPORTS: 'yes'
   builder:
     build:
       context: ../../
