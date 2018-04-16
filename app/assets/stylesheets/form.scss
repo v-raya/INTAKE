@@ -167,6 +167,10 @@ input[type='radio']:disabled + label::before {
   text-align: center;
 }
 
+input.rw-input {
+  height: 2.7em;
+}
+
 .unstyled-list {
   list-style-type: none;
   margin: 0;
