@@ -167,6 +167,14 @@ input[type='radio']:disabled + label::before {
   text-align: center;
 }
 
+.align-dob {
+  margin-top: 1px;
+}
+
+.align-communciation-method {
+  margin-top: -2px;
+}
+
 input.rw-input {
   height: 2.7em;
 }

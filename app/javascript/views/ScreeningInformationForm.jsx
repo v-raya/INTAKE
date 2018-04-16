@@ -67,7 +67,7 @@ const ScreeningInformationForm = ({
         onChange={(value) => onChange('ended_at', value)}
       />
       <SelectField
-        gridClassName='col-md-4'
+        gridClassName='col-md-4 align-communciation-method'
         id='communication_method'
         label='Communication Method'
         required

@@ -25,7 +25,7 @@ const PersonDemographicsForm = ({
     </div>
     <div className='row'>
       <DateField
-        gridClassName='col-md-3'
+        gridClassName='col-md-3 align-dob'
         id='date_of_birth'
         label='Date of birth'
         hasTime={false}
