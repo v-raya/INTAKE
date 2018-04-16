@@ -21,7 +21,7 @@ feature 'Show Screening' do
     date_of_birth: date_of_birth.to_s(:db),
     gender: 'male',
     middle_name: 'Jay',
-    name_suffix: 'esq',
+    name_suffix: 'Esq',
     ssn: '123-__-____',
     sealed: false,
     sensitive: true,

@@ -78,7 +78,7 @@ describe('nameFormatter', () => {
         first_name: 'Bill',
         middle_name: 'S.',
         last_name: 'Preston',
-        name_suffix: 'esq',
+        name_suffix: 'Esq',
       })).toEqual('Bill S. Preston, Esq')
     })
 
@@ -118,7 +118,7 @@ describe('nameFormatter', () => {
         first_name: null,
         last_name: null,
         middle_name: 'S.',
-        name_suffix: 'esq',
+        name_suffix: 'Esq',
       })).toEqual('Unknown S., Esq')
     })
 
@@ -146,7 +146,7 @@ describe('nameFormatter', () => {
         last_name: null,
         middle_name: null,
         name_suffix: 'esq',
-      })).toEqual('Bill (Unknown last name), Esq')
+      })).toEqual('Bill (Unknown last name), esq')
     })
 
     it('renders with a only last name and suffix', () => {
@@ -155,7 +155,7 @@ describe('nameFormatter', () => {
         last_name: 'Preston',
         middle_name: null,
         name_suffix: 'esq',
-      })).toEqual('(Unknown first name) Preston, Esq')
+      })).toEqual('(Unknown first name) Preston, esq')
     })
 
     it('renders with a only first name, middle name, and suffix', () => {
@@ -164,7 +164,7 @@ describe('nameFormatter', () => {
         last_name: null,
         middle_name: 'S.',
         name_suffix: 'esq',
-      })).toEqual('Bill S. (Unknown last name), Esq')
+      })).toEqual('Bill S. (Unknown last name), esq')
     })
 
     it('renders with a only last name, middle name, and suffix', () => {
@@ -173,7 +173,7 @@ describe('nameFormatter', () => {
         last_name: 'Preston',
         middle_name: 'S.',
         name_suffix: 'esq',
-      })).toEqual('(Unknown first name) S. Preston, Esq')
+      })).toEqual('(Unknown first name) S. Preston, esq')
     })
   })
 })

@@ -4,7 +4,7 @@ const addSuffix = (name, suffix) => {
   if (['ii', 'iii', 'iv'].includes(suffix)) {
     return `${name} ${NAME_SUFFIXES[suffix]}`
   } else if (suffix) {
-    return `${name}, ${NAME_SUFFIXES[suffix]}`
+    return `${name}, ${suffix}`
   } else {
     return name
   }
