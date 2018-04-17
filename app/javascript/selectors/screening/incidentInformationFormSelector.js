@@ -42,7 +42,7 @@ export const getScreeningWithEditsSelector = createSelector(
   (screening, incidentDate, incidentCounty, address, locationType) => (
     screening.set('incident_date', incidentDate)
       .set('incident_county', incidentCounty)
-      .set('address', (screening.get('address') || Map()).map((value, key) => (address.get(key) || value)))
+      .set('address', (screening.get('address') || Map()).map((value, key) => (address.get(key) || null)))
       .set('location_type', locationType)
   )
 )
