@@ -14,7 +14,7 @@ const ScreeningDecisionShow = ({
   <div className='card-body'>
     <div className='row'>
       <div className='col-md-6'>
-        <ShowField label='Screening decision' errors={decision.errors} required>
+        <ShowField label='Screening Decision' errors={decision.errors} required>
           {decision.value}
         </ShowField>
         <ShowField
@@ -33,16 +33,16 @@ const ScreeningDecisionShow = ({
     </div>
     <div className='row'>
       <div className='col-md-12'>
-        <ShowField label='Additional information' errors={additionalInformation.errors} required={isAdditionalInfoRequired}>
+        <ShowField label='Additional Information' errors={additionalInformation.errors} required={isAdditionalInfoRequired}>
           {additionalInformation.value}
         </ShowField>
         {accessRestriction.value &&
-          <ShowField label='Access restrictions'>
+          <ShowField label='Access Restrictions'>
             {accessRestriction.value}
           </ShowField>
         }
         {(accessRestriction.value || restrictionRationale.value) &&
-          <ShowField label='Restrictions rationale' errors={restrictionRationale.errors} required>
+          <ShowField label='Restrictions Rationale' errors={restrictionRationale.errors} required>
             {restrictionRationale.value}
           </ShowField>
         }

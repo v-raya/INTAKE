@@ -60,7 +60,7 @@ describe('allegationShowSelectors', () => {
         screening_decision_detai: '',
       }
       const state = fromJS({screening})
-      expect(getDecisionDetailSelector(state).get('label')).toEqual('Response time')
+      expect(getDecisionDetailSelector(state).get('label')).toEqual('Response Time')
     })
 
     it('returns an empty label if screening_decision is empty', () => {

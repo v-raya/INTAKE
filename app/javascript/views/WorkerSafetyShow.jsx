@@ -5,7 +5,7 @@ import ShowField from 'common/ShowField'
 const WorkerSafetyShow = ({safetyAlerts, safetyInformation}) => (
   <div className='card-body'>
     <div className='row'>
-      <ShowField gridClassName='col-md-12' label='Worker safety alerts'>
+      <ShowField gridClassName='col-md-12' label='Worker Safety Alerts'>
         {safetyAlerts &&
           <ul>{
             safetyAlerts.map((alert_label, index) =>
@@ -17,7 +17,7 @@ const WorkerSafetyShow = ({safetyAlerts, safetyInformation}) => (
       </ShowField>
     </div>
     <div className='row'>
-      <ShowField gridClassName='col-md-6' labelClassName='no-gap' label='Additional safety information'>
+      <ShowField gridClassName='col-md-6' labelClassName='no-gap' label='Additional Safety Information'>
         {safetyInformation || ''}
       </ShowField>
     </div>

@@ -46,7 +46,7 @@ feature 'Allegations Validations' do
     end
 
     within '#decision-card.edit' do
-      select '', from: 'Screening decision'
+      select '', from: 'Screening Decision'
     end
 
     within '.card.edit', text: 'Allegations' do

@@ -1,15 +1,15 @@
 const SCREENING_DECISION_OPTIONS = Object.freeze({
   differential_response: {
     type: 'text',
-    label: 'Service name',
+    label: 'Service Name',
   },
   information_to_child_welfare_services: {
     type: 'text',
-    label: 'Staff name',
+    label: 'Staff Name',
   },
   promote_to_referral: {
     type: 'select',
-    label: 'Response time',
+    label: 'Response Time',
     values: {
       immediate: 'Immediate',
       '3_days': '3 days',

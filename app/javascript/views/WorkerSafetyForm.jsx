@@ -13,7 +13,7 @@ const WorkerSafetyForm = ({
   <div className='card-body'>
     <div className='row'>
       <div className='col-md-12'>
-        <label htmlFor='safety_alerts'>Worker safety alerts</label>
+        <label htmlFor='safety_alerts'>Worker Safety Alerts</label>
         <Select
           multi
           tabSelectsValue={false}
@@ -29,7 +29,7 @@ const WorkerSafetyForm = ({
     </div>
     <div className='row'>
       <div className='col-md-12'>
-        <label className='no-gap' htmlFor='safety_information'>Additional safety information</label>
+        <label className='no-gap' htmlFor='safety_information'>Additional Safety Information</label>
         <textarea
           id='safety_information'
           onChange={({target: {value}}) => onChange('safety_information', value || null)}

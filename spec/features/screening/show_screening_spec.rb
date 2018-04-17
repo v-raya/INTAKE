@@ -134,7 +134,7 @@ feature 'Show Screening' do
     end
 
     within '#decision-card.show', text: 'Decision' do
-      expect(page.find('label', text: 'Screening decision')[:class]).to include('required')
+      expect(page.find('label', text: 'Screening Decision')[:class]).to include('required')
       expect(page).to have_content 'Screen out'
       expect(page).to have_content 'Category'
       expect(page).to have_content 'Consultation'
@@ -149,8 +149,8 @@ feature 'Show Screening' do
 
     within '#worker-safety-card', text: 'Worker Safety' do
       expect(page).to have_link('Edit')
-      expect(page).to have_content('Worker safety alerts')
-      expect(page).to have_content('Additional safety information')
+      expect(page).to have_content('Worker Safety Alerts')
+      expect(page).to have_content('Additional Safety Information')
     end
 
     expect(page).to have_css('#history-card.show', text: 'History')

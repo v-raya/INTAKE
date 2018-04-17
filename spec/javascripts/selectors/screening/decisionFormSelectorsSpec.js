@@ -93,7 +93,7 @@ describe('screeningDecisionFormSelectors', () => {
     it('returns the proper label based on screening decision', () => {
       const screeningDecisionForm = {screening_decision: {value: 'promote_to_referral'}}
       const state = fromJS({screeningDecisionForm})
-      expect(getDecisionDetailSelector(state).get('label')).toEqual('Response time')
+      expect(getDecisionDetailSelector(state).get('label')).toEqual('Response Time')
     })
 
     it('returns an empty string if no valid label is found', () => {
