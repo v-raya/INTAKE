@@ -5,7 +5,8 @@ services:
     build:
       context: ../../
       dockerfile: docker/test/Dockerfile
-    command: bin/ci
+    volumes:
+      - ../../reports:/reports
     environment:
       API_URL: "http://api"
       FERB_API_URL: "https://ferbapi.preint.cwds.io"
