@@ -79,6 +79,7 @@ describe('peopleSearchHelper', () => {
         },
         last_name: 'John',
         middle_name: '',
+        name_suffix: 'jr',
         ssn: '996005129',
         phone_numbers: [{number: '9660007290'}],
         id: 'OkMXEhe083',
@@ -97,6 +98,7 @@ describe('peopleSearchHelper', () => {
         sealed: false,
         sensitive: false,
         phone_numbers: [{number: '9660007290'}],
+        name_suffix: 'jr',
         addresses: [{
           city: 'Al Haad',
           state: 'CA',
