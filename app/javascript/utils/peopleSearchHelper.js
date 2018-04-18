@@ -82,6 +82,7 @@ export const mapDoraPersonToParticipant = (state, person) => Map({
   sealed: mapIsSealed(person),
   sensitive: mapIsSensitive(person),
   phone_numbers: person.get('phone_numbers'),
+  name_suffix: person.get('name_suffix'),
   addresses: List([(mapAddress(state, person) || Map())
     .mapKeys((k) => (k === 'streetAddress' ? 'street_address' : k))]),
   legacy_id: person.get('id') || person.getIn(['legacy_descriptor', 'legacy_id']),
