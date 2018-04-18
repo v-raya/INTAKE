@@ -13,9 +13,21 @@ node('intake-slave') {
 
     try {
 
-        stage('Test') {
-            curStage = 'Test'
-            sh 'make test'
+        stage('Building testing bench') {
+            curStage = 'Building testing bench'
+            sh './scripts/ci/build_testing_bench.rb'
+        }
+        stage('Lint test') {
+            curStage = 'Lint test'
+            sh './scripts/ci/lint_test.rb'
+        }
+        stage('Karma tests') {
+            curStage = 'Karma tests'
+            sh './scripts/ci/karma_test.rb'
+        }
+        stage('Rspec tests') {
+            curStage = 'Rspec tests'
+            sh './scripts/ci/rspec_test.rb'
         }
 
         if (branch == 'master') {
