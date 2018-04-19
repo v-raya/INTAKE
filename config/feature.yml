@@ -5,7 +5,6 @@ development:
     perry_version_two: true
     centralized_sessions: true
     hoi_from_intake_api: false
-    investigations: true
     snapshot: true
     screenings: true
 
@@ -15,7 +14,6 @@ test:
     perry_version_two: false
     centralized_sessions: true
     hoi_from_intake_api: false
-    investigations: true
     snapshot: true
     screenings: true
 
@@ -25,6 +23,5 @@ production:
     perry_version_two: <%= ENV.fetch('PERRY_VERSION_TWO', true) %>
     centralized_sessions: <%= ENV.fetch('CENTRALIZED_SESSIONS', false) %>
     hoi_from_intake_api: <%= ENV.fetch('HOI_FROM_INTAKE_API', false) %>
-    investigations: <%= ENV.fetch('INVESTIGATIONS', true) %>
     snapshot: <%= ENV.fetch('SNAPSHOT', true) %>
     screenings: <%= ENV.fetch('SCREENINGS', true) %>
