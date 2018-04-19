@@ -39,7 +39,6 @@ describe('Store', () => {
       crossReportForm: {},
       errors: {},
       incidentInformationForm: {},
-      investigation: {},
       involvements: {},
       locations: [],
       narrativeForm: {},
