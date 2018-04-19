@@ -25,11 +25,7 @@ const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, 
     }
   }
   const linkPath = (id, referralId) => {
-    if (referralId && isFeatureActive('investigations')) {
-      return `/investigations/${referralId}`
-    } else {
-      return `/screenings/${id}`
-    }
+    return `/screenings/${id}`
   }
   return (
     <tr>
