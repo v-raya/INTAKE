@@ -4,7 +4,6 @@ import SCREENING_DECISION from '../enums/ScreeningDecision'
 import SCREENING_DECISION_OPTIONS from '../enums/ScreeningDecisionOptions'
 import moment from 'moment'
 import {Link} from 'react-router'
-import {isFeatureActive} from 'common/config'
 
 const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, referralId}) => {
   const screeningStatus = (decision, decisionDetail) => {
@@ -24,12 +23,9 @@ const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, 
       return id
     }
   }
-  const linkPath = (id, referralId) => {
-    return `/screenings/${id}`
-  }
   return (
     <tr>
-      <td><Link to={linkPath(id, referralId)}>{linkName(id, referralId, name)}</Link></td>
+      <td><Link to={`/screenings/${id}`}>{linkName(id, referralId, name)}</Link></td>
       <td>{screeningStatus(decision, decisionDetail)}</td>
       <td>&nbsp;</td>
       <td>{assignee}</td>

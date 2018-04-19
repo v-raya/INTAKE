@@ -1,8 +1,6 @@
 import React from 'react'
 import ScreeningRow from 'screenings/ScreeningRow'
-import moment from 'moment'
 import {shallow} from 'enzyme'
-import * as IntakeConfig from 'common/config'
 
 describe('ScreeningRow', () => {
   describe('when referral id is present', () => {
