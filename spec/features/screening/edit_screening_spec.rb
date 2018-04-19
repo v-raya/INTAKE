@@ -319,6 +319,7 @@ feature 'individual card save' do
 
   scenario 'unchanged attributes are not blanked' do
     within '#incident-information-card', text: 'Incident Information' do
+      existing_screening.address.assign_attributes(id: nil)
       updated_screening = as_json_without_root_id(
         existing_screening
       ).merge(incident_date: '1996-02-12')
@@ -461,7 +462,8 @@ feature 'individual card save' do
         city: 'Modesto',
         state: 'TX',
         zip: '57575',
-        type: nil
+        type: nil,
+        id: nil
       )
       existing_screening.incident_date = '1996-02-12'
 

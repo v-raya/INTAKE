@@ -32,9 +32,8 @@ feature 'screening incident information card' do
   end
 
   scenario 'screening<->address edit merging should not override unchanged values' do
-    existing_screening.address.assign_attributes(
-      street_address: '33 Whatever'
-    )
+    existing_screening.address.assign_attributes(street_address: '33 Whatever',
+                                                 id: nil)
     stub_request(
       :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).with(json_body(as_json_without_root_id(existing_screening)))
@@ -78,6 +77,7 @@ feature 'screening incident information card' do
     end
 
     existing_screening.assign_attributes(incident_date: '2015-10-05')
+    existing_screening.address.assign_attributes(id: nil)
     stub_request(
       :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).with(json_body(as_json_without_root_id(existing_screening)))
