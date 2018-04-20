@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require File.join(File.dirname(__FILE__), 'routes/active_investigations_constraint')
 require File.join(File.dirname(__FILE__), 'routes/active_screenings_constraint')
 
 Rails.application.routes.draw do
@@ -9,12 +8,6 @@ Rails.application.routes.draw do
   resources :screenings,
     only: %i[edit show],
     to: 'home#index'
-
-  resources :investigations,
-    only: [:show],
-    to: 'home#index' do
-    resources :contacts, only: %i[new show edit], to: 'home#index'
-  end
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
@@ -44,12 +37,6 @@ Rails.application.routes.draw do
         end
       end
       get 'people/:id', to: 'people#show'
-
-      resources :investigations,
-        only: %i[show],
-        constraints: Routes::ActiveInvestigationsConstraint do
-        resources :contacts, only: %i[create show update], module: :investigations
-      end
 
       resources :system_codes,
         only: [:index]

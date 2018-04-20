@@ -17,14 +17,6 @@ describe FerbRoutes do
     end
   end
 
-  describe '.investigations_contacts_path' do
-    it 'returns /investigations/:id/contacts' do
-      expect(described_class.investigations_contacts_path(33)).to eq(
-        '/investigations/33/contacts'
-      )
-    end
-  end
-
   describe '.relationships_path' do
     it 'returns the base path' do
       expect(described_class.relationships_path).to eq(

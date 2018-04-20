@@ -2,17 +2,12 @@ import addressTypes from 'reducers/systemCodes/addressTypesReducer'
 import allegationsForm from 'reducers/allegationsFormReducer'
 import allegationTypes from 'reducers/systemCodes/allegationTypesReducer'
 import communicationMethods from 'reducers/systemCodes/communicationMethodsReducer'
-import contact from 'reducers/contactReducer'
-import contactForm from 'reducers/contactFormReducer'
-import contactPurposes from 'reducers/systemCodes/contactPurposesReducer'
-import contactStatuses from 'reducers/systemCodes/contactStatusesReducer'
 import counties from 'reducers/systemCodes/countiesReducer'
 import addressCounties from 'reducers/systemCodes/addressCountiesReducer'
 import countyAgencies from 'reducers/systemCodes/countyAgenciesReducer'
 import crossReportForm from 'reducers/crossReportFormReducer'
 import errors from 'reducers/errorsReducer'
 import incidentInformationForm from 'reducers/incidentInformationFormReducer'
-import investigation from 'reducers/investigationReducer'
 import involvements from 'reducers/involvementsReducer'
 import languages from 'reducers/systemCodes/languagesReducer'
 import locations from 'reducers/systemCodes/locationsReducer'
@@ -46,10 +41,6 @@ const rootReducer = combineReducers({
   allegationsForm,
   allegationTypes,
   communicationMethods,
-  contact,
-  contactForm,
-  contactPurposes,
-  contactStatuses,
   counties,
   addressCounties,
   countyAgencies,
@@ -58,7 +49,6 @@ const rootReducer = combineReducers({
   ethnicityTypes,
   raceTypes,
   incidentInformationForm,
-  investigation,
   involvements,
   languages,
   locations,

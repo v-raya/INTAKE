@@ -3,18 +3,6 @@
 # The external Ferb routes will be accessible from here.
 class FerbRoutes
   class << self
-    def investigation_path(id)
-      "/investigations/#{id}"
-    end
-
-    def investigations_contacts_path(id)
-      "/investigations/#{id}/contacts"
-    end
-
-    def investigations_contact_path(investigation_id, contact_id)
-      "/investigations/#{investigation_id}/contacts/#{contact_id}"
-    end
-
     def screening_history_of_involvements_path(id)
       "/screenings/#{id}/history_of_involvements"
     end
