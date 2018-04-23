@@ -1,7 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ReferralView = ({dateRange, index, referralId, status, notification, county, peopleAndRoles, reporter, worker}) => (
+const ReferralView = ({
+  county,
+  dateRange,
+  index,
+  notification,
+  peopleAndRoles,
+  referralId,
+  reporter,
+  status,
+  worker,
+}) => (
   <tr>
     <td><span>{index ? `${index}.` : ''}</span></td>
     <td>{dateRange}</td>
