@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ScreeningView = ({dateRange, status, county, people, reporter, worker}) => (
+const ScreeningView = ({dateRange, index, status, county, people, reporter, worker}) => (
   <tr>
+    <td><span>{index ? `${index}.` : ''}</span></td>
     <td>{dateRange}</td>
     <td>
       <div className='semibold'>Screening</div>
@@ -20,6 +21,7 @@ const ScreeningView = ({dateRange, status, county, people, reporter, worker}) =>
 ScreeningView.propTypes = {
   county: PropTypes.string,
   dateRange: PropTypes.string,
+  index: PropTypes.number,
   people: PropTypes.string,
   reporter: PropTypes.string,
   status: PropTypes.string,

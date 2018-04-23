@@ -6,12 +6,14 @@ const CaseView = ({
   county,
   dateRange,
   focusChild,
+  index,
   parents,
   restrictedAccessStatus,
   status,
   worker,
 }) => (
   <tr>
+    <td><span>{index ? `${index}.` : ''}</span></td>
     <td>{dateRange}</td>
     <td>
       <div className='semibold'>Case</div>
@@ -36,6 +38,7 @@ CaseView.propTypes = {
   county: PropTypes.string,
   dateRange: PropTypes.string,
   focusChild: PropTypes.string,
+  index: PropTypes.number,
   parents: PropTypes.string,
   restrictedAccessStatus: PropTypes.string,
   status: PropTypes.string,

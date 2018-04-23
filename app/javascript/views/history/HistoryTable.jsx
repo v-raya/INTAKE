@@ -12,6 +12,7 @@ export default class HistoryTable extends React.Component {
       <div className='table-responsive' ref={(history) => { this.historyTable = history }}>
         <table className='table history-table'>
           <colgroup>
+            <col/>
             <col className='col-md-2'/>
             <col className='col-md-2'/>
             <col className='col-md-1'/>
@@ -19,6 +20,7 @@ export default class HistoryTable extends React.Component {
           </colgroup>
           <thead>
             <tr>
+              <th scope='col'/>
               <th scope='col'>Date</th>
               <th scope='col'>Type/Status</th>
               <th scope='col'>County/Office</th>
@@ -26,9 +28,9 @@ export default class HistoryTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {screenings.map((screening, index) => <ScreeningView {...screening} key={index} />)}
-            {referrals.map((referral, index) => <ReferralView {...referral} key={index} />)}
-            {cases.map((hoiCase, index) => <CaseView {...hoiCase} key={index} />)}
+            {screenings.map((screening, index) => <ScreeningView {...screening} index={index + 1} key={index} />)}
+            {referrals.map((referral, index) => <ReferralView {...referral} index={index + 1} key={index} />)}
+            {cases.map((hoiCase, index) => <CaseView {...hoiCase} index={index + 1} key={index} />)}
           </tbody>
         </table>
       </div>
