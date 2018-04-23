@@ -92,6 +92,33 @@ describe('nameFormatter', () => {
         })).toEqual(`Bill S. Preston ${suffix.toUpperCase()}`)
       })
     })
+
+    it('returns II for suffix name 2', () => {
+      expect(nameFormatter({
+        first_name: 'Bill',
+        middle_name: 'S.',
+        last_name: 'Preston',
+        name_suffix: '2',
+      })).toEqual('Bill S. Preston II')
+    })
+
+    it('returns III for suffix name 3', () => {
+      expect(nameFormatter({
+        first_name: 'Bill',
+        middle_name: 'S.',
+        last_name: 'Preston',
+        name_suffix: '3',
+      })).toEqual('Bill S. Preston III')
+    })
+
+    it('returns IV for suffix name 4', () => {
+      expect(nameFormatter({
+        first_name: 'Bill',
+        middle_name: 'S.',
+        last_name: 'Preston',
+        name_suffix: '4',
+      })).toEqual('Bill S. Preston IV')
+    })
   })
 
   describe('edge cases', () => {
