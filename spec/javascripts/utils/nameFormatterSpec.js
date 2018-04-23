@@ -93,6 +93,17 @@ describe('nameFormatter', () => {
       })
     })
 
+    it('renders name only if suffix_name is 0 or 1', () => {
+      ['0', '1'].map((suffix) => {
+        expect(nameFormatter({
+          first_name: 'Bill',
+          middle_name: 'S.',
+          last_name: 'Preston',
+          name_suffix: suffix,
+        })).toEqual('Bill S. Preston')
+      })
+    })
+
     it('returns II for suffix name 2', () => {
       expect(nameFormatter({
         first_name: 'Bill',

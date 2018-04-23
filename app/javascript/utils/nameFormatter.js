@@ -3,6 +3,8 @@ import NAME_SUFFIXES from 'enums/NameSuffixes'
 const addSuffix = (name, suffix) => {
   if (['ii', 'iii', 'iv', '2', '3', '4'].includes(suffix)) {
     return `${name} ${NAME_SUFFIXES[suffix]}`
+  } else if (['0', '1'].includes(suffix)) {
+    return name
   } else if (suffix) {
     return `${name}, ${suffix}`
   } else {
