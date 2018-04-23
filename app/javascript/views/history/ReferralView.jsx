@@ -1,8 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ReferralView = ({dateRange, referralId, status, notification, county, peopleAndRoles, reporter, worker}) => (
+const ReferralView = ({
+  county,
+  dateRange,
+  index,
+  notification,
+  peopleAndRoles,
+  referralId,
+  reporter,
+  status,
+  worker,
+}) => (
   <tr>
+    <td className='ordered-table__index-row'><span>{index ? `${index}.` : ''}</span></td>
     <td>{dateRange}</td>
     <td>
       <div className='referral'>Referral</div>
@@ -52,6 +63,7 @@ const ReferralView = ({dateRange, referralId, status, notification, county, peop
 ReferralView.propTypes = {
   county: PropTypes.string,
   dateRange: PropTypes.string,
+  index: PropTypes.number,
   notification: PropTypes.string,
   peopleAndRoles: PropTypes.arrayOf(PropTypes.shape({
     allegations: PropTypes.string,

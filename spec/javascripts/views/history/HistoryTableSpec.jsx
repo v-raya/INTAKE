@@ -16,10 +16,11 @@ describe('HistoryTable', () => {
     it('displays column headings', () => {
       const component = renderHistoryTable({})
       const columnHeadings = component.find('table').find('thead').find('tr').find('th')
-      expect(columnHeadings.at(0).text()).toEqual('Date')
-      expect(columnHeadings.at(1).text()).toEqual('Type/Status')
-      expect(columnHeadings.at(2).text()).toEqual('County/Office')
-      expect(columnHeadings.at(3).text()).toEqual('People and Roles')
+      expect(columnHeadings.at(0).text()).toEqual('') // Empty label for indices
+      expect(columnHeadings.at(1).text()).toEqual('Date')
+      expect(columnHeadings.at(2).text()).toEqual('Type/Status')
+      expect(columnHeadings.at(3).text()).toEqual('County/Office')
+      expect(columnHeadings.at(4).text()).toEqual('People and Roles')
     })
 
     it('displays a table body', () => {
@@ -32,14 +33,49 @@ describe('HistoryTable', () => {
       expect(component.find('ScreeningView').length).toEqual(1)
     })
 
+    it('assigns indices to screening children', () => {
+      const component = renderHistoryTable({screenings: [{}, {}, {}]})
+      const children = component.find('ScreeningView')
+      expect(children.at(0).prop('index')).toEqual(1)
+      expect(children.at(1).prop('index')).toEqual(2)
+      expect(children.at(2).prop('index')).toEqual(3)
+    })
+
     it('renders a view for every referral', () => {
       const component = renderHistoryTable({referrals: [{}, {}]})
       expect(component.find('ReferralView').length).toEqual(2)
     })
 
+    it('assigns indices to referral children', () => {
+      const component = renderHistoryTable({referrals: [{}, {}, {}]})
+      const children = component.find('ReferralView')
+      expect(children.at(0).prop('index')).toEqual(1)
+      expect(children.at(1).prop('index')).toEqual(2)
+      expect(children.at(2).prop('index')).toEqual(3)
+    })
+
     it('renders a view for every case', () => {
       const component = renderHistoryTable({cases: [{}, {}, {}]})
       expect(component.find('CaseView').length).toEqual(3)
+    })
+
+    it('assigns indices to case children', () => {
+      const component = renderHistoryTable({cases: [{}, {}, {}]})
+      const children = component.find('CaseView')
+      expect(children.at(0).prop('index')).toEqual(1)
+      expect(children.at(1).prop('index')).toEqual(2)
+      expect(children.at(2).prop('index')).toEqual(3)
+    })
+
+    it('resets indices for different types of children', () => {
+      const component = renderHistoryTable({
+        screenings: [{}],
+        referrals: [{}],
+        cases: [{}],
+      })
+      expect(component.find('CaseView').prop('index')).toEqual(1)
+      expect(component.find('ScreeningView').prop('index')).toEqual(1)
+      expect(component.find('ReferralView').prop('index')).toEqual(1)
     })
 
     describe('copy button', () => {
