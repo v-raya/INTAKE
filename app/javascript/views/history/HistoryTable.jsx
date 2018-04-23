@@ -5,6 +5,9 @@ import ReferralView from 'views/history/ReferralView'
 import ScreeningView from 'views/history/ScreeningView'
 import Clipboard from 'react-clipboard.js'
 
+const offset = 1
+const toOneBasedNumbering = (i) => i + offset
+
 export default class HistoryTable extends React.Component {
   render() {
     const {cases, onCopy, onError, onSuccess, referrals, screenings} = this.props
@@ -28,9 +31,9 @@ export default class HistoryTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {screenings.map((screening, index) => <ScreeningView {...screening} index={index + 1} key={index} />)}
-            {referrals.map((referral, index) => <ReferralView {...referral} index={index + 1} key={index} />)}
-            {cases.map((hoiCase, index) => <CaseView {...hoiCase} index={index + 1} key={index} />)}
+            {screenings.map((screening, index) => <ScreeningView {...screening} index={toOneBasedNumbering(index)} key={index} />)}
+            {referrals.map((referral, index) => <ReferralView {...referral} index={toOneBasedNumbering(index)} key={index} />)}
+            {cases.map((hoiCase, index) => <CaseView {...hoiCase} index={toOneBasedNumbering(index)} key={index} />)}
           </tbody>
         </table>
       </div>
