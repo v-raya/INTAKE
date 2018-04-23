@@ -1,0 +1,21 @@
+@import 'constants';
+/////////////////////////////////////////
+
+// - Tables - //
+
+/////////////////////////////////////////
+
+/* A table where the first column is a floating row index number */
+.ordered-table {
+
+  .ordered-table__index-row {
+    padding-left: 0;
+    padding-right: 0;
+
+    > * {
+      position: absolute;
+      top: auto; /* preserve height alongside the row */
+      left: $half-spacing;
+    }
+  }
+}

@@ -11,7 +11,7 @@ const ScreeningView = ({
   worker,
 }) => (
   <tr>
-    <td><span>{index ? `${index}.` : ''}</span></td>
+    <td className='ordered-table__index-row'><span>{index ? `${index}.` : ''}</span></td>
     <td>{dateRange}</td>
     <td>
       <div className='semibold'>Screening</div>
