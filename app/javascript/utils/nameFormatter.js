@@ -5,6 +5,8 @@ import {fromRoman} from 'utils/fromRoman'
 const addSuffix = (name, suffix) => {
   if (['0', '1', 'i'].includes(suffix)) {
     return name
+  } else if (Object.keys(NAME_SUFFIXES).includes(suffix)) {
+    return `${name}, ${NAME_SUFFIXES[suffix]}`
   } else if (toRoman(suffix) !== '') {
     return `${name} ${toRoman(suffix)}`
   } else if (fromRoman(suffix) > 0) {
