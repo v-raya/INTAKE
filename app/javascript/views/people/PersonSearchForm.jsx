@@ -10,17 +10,8 @@ export class PersonSearchForm extends React.Component {
 
   render() {
     const {
-      canCreateNewPerson,
-      isSelectable,
-      onChange,
-      onClear,
-      onLoadMoreResults,
-      onSearch,
-      onSelect,
-      results,
       searchPrompt,
-      searchTerm,
-      total,
+      ...autocompleterProps
     } = this.props
 
     return (
@@ -34,19 +25,7 @@ export class PersonSearchForm extends React.Component {
             <div className='row'>
               <div className='col-md-12'>
                 <label className='pull-left' htmlFor='screening_participants'>{searchPrompt}</label>
-                <Autocompleter
-                  id='screening_participants'
-                  onSelect={onSelect}
-                  isSelectable={isSelectable}
-                  onClear={onClear}
-                  onSearch={onSearch}
-                  onChange={onChange}
-                  searchTerm={searchTerm}
-                  total={total}
-                  results={results}
-                  canCreateNewPerson={canCreateNewPerson}
-                  onLoadMoreResults={onLoadMoreResults}
-                />
+                <Autocompleter id='screening_participants' {...autocompleterProps} />
               </div>
             </div>
           </div>
