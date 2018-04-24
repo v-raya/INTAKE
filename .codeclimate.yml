@@ -32,6 +32,7 @@ exclude_paths:
 - legal/
 - lib/tasks/
 - log/
+- node_modules/
 - public/
 - spec/
 - vendor/
