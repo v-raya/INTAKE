@@ -9,34 +9,35 @@ const offset = 1
 const toOneBasedNumbering = (i) => i + offset
 
 export default class HistoryTable extends React.Component {
-  render() {
-    const {cases, onCopy, onError, onSuccess, referrals, screenings} = this.props
-    return (<div className='card-body no-pad-top'>
-      <div className='table-responsive' ref={(history) => { this.historyTable = history }}>
-        <table className='table history-table ordered-table'>
-          <colgroup>
-            <col/>
-            <col className='col-md-2'/>
-            <col className='col-md-2'/>
-            <col className='col-md-1'/>
-            <col className='col-md-7'/>
-          </colgroup>
-          <thead>
-            <tr>
-              <th scope='col'/>
-              <th scope='col'>Date</th>
-              <th scope='col'>Type/Status</th>
-              <th scope='col'>County/Office</th>
-              <th scope='col'>People and Roles</th>
-            </tr>
-          </thead>
-          <tbody>
-            {screenings.map((screening, index) => <ScreeningView {...screening} index={toOneBasedNumbering(index)} key={index} />)}
-            {referrals.map((referral, index) => <ReferralView {...referral} index={toOneBasedNumbering(index)} key={index} />)}
-            {cases.map((hoiCase, index) => <CaseView {...hoiCase} index={toOneBasedNumbering(index)} key={index} />)}
-          </tbody>
-        </table>
-      </div>
+  renderColGroup() {
+    return (
+      <colgroup>
+        <col/>
+        <col className='col-md-2'/>
+        <col className='col-md-2'/>
+        <col className='col-md-1'/>
+        <col className='col-md-7'/>
+      </colgroup>
+    )
+  }
+
+  renderTHead() {
+    return (
+      <thead>
+        <tr>
+          <th scope='col'/>
+          <th scope='col'>Date</th>
+          <th scope='col'>Type/Status</th>
+          <th scope='col'>County/Office</th>
+          <th scope='col'>People and Roles</th>
+        </tr>
+      </thead>
+    )
+  }
+
+  renderButtonRow() {
+    const {onCopy, onError, onSuccess} = this.props
+    return (
       <div className='row'>
         <div className='centered'>
           <Clipboard
@@ -49,6 +50,24 @@ export default class HistoryTable extends React.Component {
           </Clipboard>
         </div>
       </div>
+    )
+  }
+
+  render() {
+    const {cases, referrals, screenings} = this.props
+    return (<div className='card-body no-pad-top'>
+      <div className='table-responsive' ref={(history) => { this.historyTable = history }}>
+        <table className='table history-table ordered-table'>
+          {this.renderColGroup()}
+          {this.renderTHead()}
+          <tbody>
+            {screenings.map((screening, index) => <ScreeningView {...screening} index={toOneBasedNumbering(index)} key={index} />)}
+            {referrals.map((referral, index) => <ReferralView {...referral} index={toOneBasedNumbering(index)} key={index} />)}
+            {cases.map((hoiCase, index) => <CaseView {...hoiCase} index={toOneBasedNumbering(index)} key={index} />)}
+          </tbody>
+        </table>
+      </div>
+      {this.renderButtonRow()}
     </div>
     )
   }
