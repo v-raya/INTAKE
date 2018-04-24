@@ -1,12 +1,11 @@
 import NAME_SUFFIXES from 'enums/NameSuffixes'
+import {toRoman} from 'utils/toRoman'
 
 const addSuffix = (name, suffix) => {
-  if (['ii', 'iii', 'iv', '2', '3', '4'].includes(suffix)) {
-    return `${name} ${NAME_SUFFIXES[suffix]}`
-  } else if (['0', '1'].includes(suffix)) {
+  if (['0', '1', 'i'].includes(suffix)) {
     return name
-  } else if (suffix) {
-    return `${name}, ${suffix}`
+  } else if (toRoman(suffix) !== '') {
+    return `${name} ${toRoman(suffix)}`
   } else {
     return name
   }
