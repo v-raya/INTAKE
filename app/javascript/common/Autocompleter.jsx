@@ -102,12 +102,9 @@ export class Autocompleter extends Component {
 
   renderItem(item, isHighlighted, _styles) {
     const key = item.legacyDescriptor.legacy_id
+    const style = isHighlighted ? resultStyleHighlighted : resultStyle
     return (
-      <div
-        id={`search-result-${key}`}
-        key={key}
-        style={isHighlighted ? resultStyleHighlighted : resultStyle}
-      >
+      <div id={`search-result-${key}`} key={key} style={style}>
         <PersonSuggestion
           address={item.address}
           dateOfBirth={item.dateOfBirth}
