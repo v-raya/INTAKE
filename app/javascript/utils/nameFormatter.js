@@ -18,17 +18,21 @@ const nameFormatter = ({
   name_default = 'Unknown Person',
 }) => {
   if (first_name || last_name) {
-    const names = [first_name || '(Unknown first name)']
-    if (middle_name) { names.push(middle_name) }
-    names.push(last_name || '(Unknown last name)')
-    const name = names.join(' ')
+    const name = [
+      first_name || '(Unknown first name)',
+      middle_name,
+      last_name || '(Unknown last name)',
+    ].filter(Boolean).join(' ')
+
     return addSuffix(name, name_suffix)
-  } else if (middle_name) {
+  }
+
+  if (middle_name) {
     const name = `Unknown ${middle_name}`
     return addSuffix(name, name_suffix)
-  } else {
-    return name_default
   }
+
+  return name_default
 }
 
 export default nameFormatter
