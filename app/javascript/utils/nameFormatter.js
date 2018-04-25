@@ -3,17 +3,19 @@ import {toRoman} from 'utils/toRoman'
 import {fromRoman} from 'utils/fromRoman'
 
 const addSuffix = (name, suffix) => {
+  let fullName = ''
   if (['0', '1', 'i'].includes(suffix)) {
-    return name
+    fullName = name
   } else if (Object.keys(NAME_SUFFIXES).includes(suffix)) {
-    return `${name}, ${NAME_SUFFIXES[suffix]}`
+    fullName = `${name}, ${NAME_SUFFIXES[suffix]}`
   } else if (toRoman(suffix) !== '') {
-    return `${name} ${toRoman(suffix)}`
+    fullName = `${name} ${toRoman(suffix)}`
   } else if (fromRoman(suffix) > 0) {
-    return `${name} ${suffix.toUpperCase()}`
+    fullName = `${name} ${suffix.toUpperCase()}`
   } else {
-    return name
+    fullName = name
   }
+  return fullName
 }
 
 const nameFormatter = ({
