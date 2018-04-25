@@ -2,19 +2,24 @@ import AddressInfo from 'common/AddressInfo'
 import AgeInfo from 'common/AgeInfo'
 import GenderRaceAndEthnicity from 'common/GenderRaceAndEthnicity'
 import Languages from 'common/LanguageInfo'
-import NAME_SUFFIXES from 'enums/NameSuffixes'
 import PropTypes from 'prop-types'
 import React from 'react'
 import PhoneNumberInfo from 'common/PhoneNumberInfo'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
 import sanitizeHtml from 'sanitize-html'
 import AvatarImg from '../../assets/images/default-profile.svg'
+import nameFormatter from 'utils/nameFormatter'
 
 const PersonSuggestion = ({
   firstName, lastName, middleName, nameSuffix, dateOfBirth, gender, languages, races,
   ethnicity, ssn, address, phoneNumber, legacyDescriptor, isSensitive, isSealed,
 }) => {
-  const fullName = [firstName, middleName, lastName, NAME_SUFFIXES[nameSuffix]].filter(Boolean).join(' ')
+  const fullName = nameFormatter({
+    first_name: firstName,
+    middle_name: middleName,
+    last_name: lastName,
+    name_suffix: nameSuffix,
+  })
   const sanitizedField = (field) => ({
     dangerouslySetInnerHTML: {
       __html: sanitizeHtml(field, {allowedTags: ['em']}),
