@@ -5,37 +5,28 @@ import SCREENING_DECISION_OPTIONS from '../enums/ScreeningDecisionOptions'
 import moment from 'moment'
 import {Link} from 'react-router'
 
-const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, referralId}) => {
-  const screeningStatus = (decision, decisionDetail) => {
-    if (['promote_to_referral', 'screen_out'].includes(decision)) {
-      const responseTimes = SCREENING_DECISION_OPTIONS[decision]
-      return responseTimes.values[decisionDetail]
-    } else {
-      return SCREENING_DECISION[decision]
-    }
+const screeningStatus = (decision, decisionDetail) => {
+  if (['promote_to_referral', 'screen_out'].includes(decision)) {
+    const responseTimes = SCREENING_DECISION_OPTIONS[decision]
+    return responseTimes.values[decisionDetail]
   }
-  const linkName = (id, referralId, name) => {
-    if (name) {
-      return name
-    } else if (referralId) {
-      return referralId
-    } else {
-      return id
-    }
-  }
-  return (
-    <tr>
-      <td><Link to={`/screenings/${id}`}>{linkName(id, referralId, name)}</Link></td>
-      <td>{screeningStatus(decision, decisionDetail)}</td>
-      <td>&nbsp;</td>
-      <td>{assignee}</td>
-      <td>
-        {moment(startedAt).format('L LT')} <br/>
-        <em className='text-muted'>({moment(startedAt).fromNow()})</em>
-      </td>
-    </tr>
-  )
+  return SCREENING_DECISION[decision]
 }
+
+const linkName = (id, referralId, name) => (name || referralId || id)
+
+const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, referralId}) => (
+  <tr>
+    <td><Link to={`/screenings/${id}`}>{linkName(id, referralId, name)}</Link></td>
+    <td>{screeningStatus(decision, decisionDetail)}</td>
+    <td>&nbsp;</td>
+    <td>{assignee}</td>
+    <td>
+      {moment(startedAt).format('L LT')} <br/>
+      <em className='text-muted'>({moment(startedAt).fromNow()})</em>
+    </td>
+  </tr>
+)
 
 ScreeningRow.propTypes = {
   assignee: PropTypes.string,
