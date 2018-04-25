@@ -94,8 +94,79 @@ export class ScreeningPage extends React.Component {
     }
   }
 
+  renderCard(title, id, edit, show) {
+    const props = {title, id, edit, show}
+    return (<CardContainer {...props} />)
+  }
+
+  renderScreeningInformationCard() {
+    return this.renderCard(
+      'Screening Information',
+      'screening-information-card',
+      <ScreeningInformationFormContainer />,
+      <ScreeningInformationShowContainer />)
+  }
+
+  renderNarrativeCard() {
+    return this.renderCard(
+      'Narrative',
+      'narrative-card',
+      <NarrativeFormContainer />,
+      <NarrativeShowContainer />)
+  }
+
+  renderIncidentInformationCard() {
+    return this.renderCard(
+      'Incident Information',
+      'incident-information-card',
+      <IncidentInformationFormContainer />,
+      <IncidentInformationShowContainer />)
+  }
+
+  renderAllegationsCard() {
+    return this.renderCard(
+      'Allegations',
+      'allegations-card',
+      <AllegationsFormContainer />,
+      <AllegationsShowContainer />)
+  }
+
+  renderWorkerSafetyCard() {
+    return this.renderCard(
+      'Worker Safety',
+      'worker-safety-card',
+      <WorkerSafetyFormContainer />,
+      <WorkerSafetyShowContainer />)
+  }
+
+  renderCrossReportCard() {
+    return this.renderCard(
+      'Cross Report',
+      'cross-report-card',
+      <CrossReportFormContainer />,
+      <CrossReportShowContainer />)
+  }
+
+  renderDecisionCard() {
+    return this.renderCard(
+      'Decision',
+      'decision-card',
+      <DecisionFormContainer />,
+      <DecisionShowContainer />)
+  }
+
+  renderScreeningFooter() {
+    const {mode, editable} = this.props
+    return mode === 'show' && (
+      <div>
+        <Link to='/' className='gap-right'>Home</Link>
+        {editable && <Link to={`/screenings/${this.props.params.id}/edit`}>Edit</Link>}
+      </div>
+    )
+  }
+
   renderScreening() {
-    const {referralId, editable, mode, loaded, hasApiValidationErrors, submitReferralErrors, participants} = this.props
+    const {referralId, editable, loaded, hasApiValidationErrors, submitReferralErrors, participants} = this.props
 
     if (loaded) {
       return (
@@ -104,66 +175,23 @@ export class ScreeningPage extends React.Component {
           <div className='col-xs-8 col-md-9'>
             <h1>{referralId && `Referral #${referralId}`}</h1>
             {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
-            <CardContainer
-              title='Screening Information'
-              id='screening-information-card'
-              edit={<ScreeningInformationFormContainer />}
-              show={<ScreeningInformationShowContainer />}
-            />
+            {this.renderScreeningInformationCard()}
             {editable && <PersonSearchFormContainer />}
-            {this.props.participants.map(({id}) =>
-              <PersonCardView key={id} personId={id} />
-            )}
-            <CardContainer
-              title='Narrative'
-              id='narrative-card'
-              edit={<NarrativeFormContainer />}
-              show={<NarrativeShowContainer />}
-            />
-            <CardContainer
-              title='Incident Information'
-              id='incident-information-card'
-              edit={<IncidentInformationFormContainer />}
-              show={<IncidentInformationShowContainer />}
-            />
-            <CardContainer
-              title='Allegations'
-              id='allegations-card'
-              edit={<AllegationsFormContainer />}
-              show={<AllegationsShowContainer />}
-            />
+            {this.props.participants.map(({id}) => <PersonCardView key={id} personId={id} />)}
+            {this.renderNarrativeCard()}
+            {this.renderIncidentInformationCard()}
+            {this.renderAllegationsCard()}
             <RelationshipsCardContainer />
-            <CardContainer
-              title='Worker Safety'
-              id='worker-safety-card'
-              edit={<WorkerSafetyFormContainer />}
-              show={<WorkerSafetyShowContainer />}
-            />
+            {this.renderWorkerSafetyCard()}
             <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer />} />
-            <CardContainer
-              title='Cross Report'
-              id='cross-report-card'
-              edit={<CrossReportFormContainer />}
-              show={<CrossReportShowContainer />}
-            />
-            <CardContainer
-              title='Decision'
-              id='decision-card'
-              edit={<DecisionFormContainer />}
-              show={<DecisionShowContainer />}
-            />
-            { mode === 'show' &&
-              <div>
-                <Link to='/' className='gap-right'>Home</Link>
-                {editable && <Link to={`/screenings/${this.props.params.id}/edit`}>Edit</Link>}
-              </div>
-            }
+            {this.renderCrossReportCard()}
+            {this.renderDecisionCard()}
+            {this.renderScreeningFooter()}
           </div>
         </div>
       )
-    } else {
-      return (<div />)
     }
+    return (<div />)
   }
 
   render() {
