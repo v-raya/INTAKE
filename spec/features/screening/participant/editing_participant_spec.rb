@@ -30,7 +30,7 @@ feature 'Edit Person' do
     )
   end
   let(:marge_formatted_name) do
-    "#{marge.first_name} #{marge.middle_name} #{marge.last_name}, #{marge.name_suffix}"
+    "#{marge.first_name} #{marge.middle_name} #{marge.last_name}, #{marge.name_suffix.humanize}"
   end
   let(:homer) { FactoryBot.create(:participant, :with_complete_address, ssn: nil) }
   let(:screening) { FactoryBot.create(:screening, participants: [marge, homer]) }
@@ -73,7 +73,7 @@ feature 'Edit Person' do
           expect(page).to have_field('First Name', with: marge.first_name)
           expect(page).to have_field('Middle Name', with: marge.middle_name)
           expect(page).to have_field('Last Name', with: marge.last_name)
-          expect(page).to have_field('Suffix', with: marge.name_suffix)
+          expect(page).to have_field('Suffix', with: marge.name_suffix.humanize)
           expect(page).to have_field('Social security number', with: marge.ssn)
 
           fill_in 'First Name', with: 'new first name'
