@@ -9,35 +9,47 @@ import {fetch as fetchCountyAgencies} from 'actions/countyAgenciesActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {FETCH_SCREENING} from 'actions/actionTypes'
 
+function* fetchCrossReports(cross_reports) {
+  if (cross_reports && cross_reports.length > 0) {
+    const {county_id} = cross_reports[0]
+    if (county_id) {
+      yield put(fetchCountyAgencies(county_id))
+    }
+  }
+}
+
+function* tryToFetchScreening(id) {
+  const response = yield call(get, `/api/v1/screenings/${id}`)
+  const {cross_reports} = response
+  yield* fetchCrossReports(cross_reports)
+  yield put(fetchScreeningSuccess(response))
+  const clientIds = response.participants && response.participants.map(
+    (p) => (p.legacy_id || p.legacy_descriptor && p.legacy_descriptor.legacy_id)
+  )
+  yield put(fetchRelationships(clientIds))
+}
+
+function* redirectOrFail(error) {
+  switch (error.status) {
+    case STATUS_CODES.forbidden: {
+      yield put(replace('/forbidden'))
+      break
+    }
+    case STATUS_CODES.notFound: {
+      yield put(replace('/notFound'))
+      break
+    }
+    default: {
+      yield put(fetchScreeningFailure(error.responseJSON))
+    }
+  }
+}
+
 export function* fetchScreening({payload: {id}}) {
   try {
-    const response = yield call(get, `/api/v1/screenings/${id}`)
-    const {cross_reports} = response
-    if (cross_reports && cross_reports.length > 0) {
-      const {county_id} = cross_reports[0]
-      if (county_id && county_id !== '') {
-        yield put(fetchCountyAgencies(county_id))
-      }
-    }
-    yield put(fetchScreeningSuccess(response))
-    const clientIds = response.participants && response.participants.map(
-      (p) => (p.legacy_id || p.legacy_descriptor && p.legacy_descriptor.legacy_id)
-    )
-    yield put(fetchRelationships(clientIds))
+    yield* tryToFetchScreening(id)
   } catch (error) {
-    switch (error.status) {
-      case STATUS_CODES.forbidden: {
-        yield put(replace('/forbidden'))
-        break
-      }
-      case STATUS_CODES.notFound: {
-        yield put(replace('/notFound'))
-        break
-      }
-      default: {
-        yield put(fetchScreeningFailure(error.responseJSON))
-      }
-    }
+    yield* redirectOrFail(error)
   }
 }
 export function* fetchScreeningSaga() {
