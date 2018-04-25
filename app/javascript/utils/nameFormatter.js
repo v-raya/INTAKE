@@ -3,7 +3,7 @@ import {toRoman} from 'utils/toRoman'
 import {fromRoman} from 'utils/fromRoman'
 
 const addSuffix = (name, suffix) => {
-  let fullName = ''
+  let fullName = name
   if (['0', '1', 'i'].includes(suffix)) {
     fullName = name
   } else if (Object.keys(NAME_SUFFIXES).includes(suffix)) {
@@ -12,8 +12,6 @@ const addSuffix = (name, suffix) => {
     fullName = `${name} ${toRoman(suffix)}`
   } else if (fromRoman(suffix) > 0) {
     fullName = `${name} ${suffix.toUpperCase()}`
-  } else {
-    fullName = name
   }
   return fullName
 }

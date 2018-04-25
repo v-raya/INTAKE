@@ -77,7 +77,7 @@ feature 'searching a participant in autocompleter' do
         fill_in 'Search for any person', with: 'Ma'
       end
 
-      within_person_search_result(name: 'Marge Jacqueline Simpson MD') do
+      within_person_search_result(name: 'Marge Jacqueline Simpson, MD') do
         expect(page).to have_content date_of_birth.strftime('%-m/%-d/%Y')
         expect(page).to have_content '15 yrs old'
         expect(page).to have_content 'Female, White, American Indian or Alaska Native'
@@ -220,7 +220,7 @@ feature 'searching a participant in autocompleter' do
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
       end
-      within_person_search_result(name: 'Marge Jacqueline Simpson MD') do
+      within_person_search_result(name: 'Marge Jacqueline Simpson, MD') do
         expect(page).to_not have_css 'fa-phone'
       end
     end
@@ -244,7 +244,7 @@ feature 'searching a participant in autocompleter' do
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
       end
-      within_person_search_result(name: 'Marge Jacqueline Simpson MD') do
+      within_person_search_result(name: 'Marge Jacqueline Simpson, MD') do
         expect(page).to_not have_css 'fa-map-marker'
       end
     end
