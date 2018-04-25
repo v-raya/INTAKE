@@ -22,16 +22,16 @@ const mapStateToProps = (state, {personId}) => {
   }
 }
 
+const isRaceKnown = (race) => race !== 'Unknown' && race !== 'Abandoned' && race !== 'Declined to answer'
+
 const mapDispatchToProps = (dispatch, {personId}) => ({
   onRaceChange: (changedRace, value) => {
     dispatch(setField(personId, ['races', changedRace], value))
-    if (changedRace === 'Unknown' || changedRace === 'Abandoned' || changedRace === 'Declined to answer') {
-      Object.keys(RACE_DETAILS).forEach((race) => {
-        if (race !== changedRace) {
-          dispatch(setField(personId, ['races', race], false))
-        }
-      })
-    }
+    if (isRaceKnown(changedRace)) { return }
+
+    Object.keys(RACE_DETAILS)
+      .filter((race) => race !== changedRace)
+      .forEach((race) => dispatch(setField(personId, ['races', race], false)))
   },
   onRaceDetailChange: (changedRace, value) => {
     dispatch(setField(personId, ['race_details', changedRace], value))
