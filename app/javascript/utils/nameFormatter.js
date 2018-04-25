@@ -1,19 +1,14 @@
 import NAME_SUFFIXES from 'enums/NameSuffixes'
-import {toRoman} from 'utils/toRoman'
-import {fromRoman} from 'utils/fromRoman'
+import NUMBER_SUFFIXES from 'enums/NumberSuffixes'
 
 const addSuffix = (name, suffix) => {
-  let fullName = name
-  if (['0', '1', 'i'].includes(suffix)) {
-    fullName = name
-  } else if (Object.keys(NAME_SUFFIXES).includes(suffix)) {
-    fullName = `${name}, ${NAME_SUFFIXES[suffix]}`
-  } else if (toRoman(suffix) !== '') {
-    fullName = `${name} ${toRoman(suffix)}`
-  } else if (fromRoman(suffix) > 0) {
-    fullName = `${name} ${suffix.toUpperCase()}`
+  if (NAME_SUFFIXES[suffix]) {
+    return `${name}, ${NAME_SUFFIXES[suffix]}`
+  } else if (NUMBER_SUFFIXES[suffix]) {
+    return `${name} ${NUMBER_SUFFIXES[suffix]}`
+  } else {
+    return name
   }
-  return fullName
 }
 
 const nameFormatter = ({
