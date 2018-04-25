@@ -11,8 +11,11 @@ import {getAddressTypes, systemCodeDisplayValue} from 'selectors/systemCodeSelec
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import moment from 'moment'
 
+const getPersonSelector = (state, personId) =>
+  state.get('participants').find((person) => person.get('id') === personId) || Map()
+
 export const getNamesRequiredSelector = (state, personId) => {
-  const person = state.get('participants').find((person) => person.get('id') === personId) || Map()
+  const person = getPersonSelector(state, personId)
   const roles = person.get('roles', List())
   return (roles.includes('Victim') || roles.includes('Collateral'))
 }
@@ -28,7 +31,7 @@ const getAlertMessageByRole = (roles) => {
 
 export const getPersonAlertErrorMessageSelector = (state, personId) => {
   const required = getNamesRequiredSelector(state, personId)
-  const person = state.get('participants').find((person) => person.get('id') === personId) || Map()
+  const person = getPersonSelector(state, personId)
   const lastName = person.get('last_name')
   const firstName = person.get('first_name')
   const roles = person.get('roles', List())
@@ -44,7 +47,7 @@ const SSN_MIDDLE_SECTION_END = 5
 
 const calculateAgeFromScreeningDate = (state, personId) => {
   const screeningStartDate = moment(state.getIn(['screeningInformationForm', 'started_at', 'value']))
-  const person = state.get('participants').find((person) => person.get('id') === personId) || Map()
+  const person = getPersonSelector(state, personId)
   const dateOfBirth = person.get('date_of_birth') || ''
   const approximateAge = parseInt(person.get('approximate_age'), 10)
   const approximateAgeUnit = person.get('approximate_age_units')
@@ -71,83 +74,91 @@ const isOver18YearsOfAgeAtScreeningDate = (state, personId) => {
   return ageFromScreeningDate && ageFromScreeningDate >= ageLimit
 }
 
+const getNameErrors = (firstName, lastName, roles) => combineCompact(
+  isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim') || roles.includes('Collateral'))),
+  isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim') || roles.includes('Collateral')))
+)
+
+const getRoleErrors = (state, personId, roles) => combineCompact(
+  () => {
+    if (roles.includes('Victim') && (ageFromScreeningDateIsEmpty(state, personId) || isOver18YearsOfAgeAtScreeningDate(state, personId))) {
+      return 'Alleged victims must be under 18 years old.'
+    } else {
+      return undefined
+    }
+  }
+)
+
+const validateSSNLength = (ssnWithoutHyphens) => (
+  (ssnWithoutHyphens.length > 0 && ssnWithoutHyphens.length < VALID_SSN_LENGTH) ?
+    'Social security number must be 9 digits long.' : undefined
+)
+
+const validateSSNPrefix = (ssnWithoutHyphens) => (
+  ssnWithoutHyphens.startsWith('9') ? 'Social security number cannot begin with 9.' : undefined
+)
+
+const validateSSNBeast = (ssnWithoutHyphens) => (
+  ssnWithoutHyphens.startsWith('666') ? 'Social security number cannot begin with 666.' : undefined
+)
+
+const validateSSNZeroes = (ssnWithoutHyphens) => (
+  (
+    ssnWithoutHyphens.startsWith('000') ||
+    ssnWithoutHyphens.endsWith('0000') ||
+    ssnWithoutHyphens.substring(SSN_MIDDLE_SECTION_START, SSN_MIDDLE_SECTION_END) === '00'
+  ) ? 'Social security number cannot contain all 0s in a group.' : undefined
+)
+
+const getSSNErrors = (ssnWithoutHyphens) => combineCompact(
+  () => validateSSNLength(ssnWithoutHyphens),
+  () => validateSSNPrefix(ssnWithoutHyphens),
+  () => validateSSNBeast(ssnWithoutHyphens),
+  () => validateSSNZeroes(ssnWithoutHyphens)
+)
+
 export const getErrorsSelector = (state, personId) => {
-  const person = state.get('participants').find((person) => person.get('id') === personId) || Map()
+  const person = getPersonSelector(state, personId)
   const ssn = person.get('ssn') || ''
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   const lastName = person.get('last_name')
   const firstName = person.get('first_name')
   const roles = person.get('roles', List())
   return fromJS({
-    name: combineCompact(
-      isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim') || roles.includes('Collateral'))),
-      isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim') || roles.includes('Collateral')))
-    ),
-    roles: combineCompact(
-      () => {
-        if (roles.includes('Victim') && (ageFromScreeningDateIsEmpty(state, personId) || isOver18YearsOfAgeAtScreeningDate(state, personId))) {
-          return 'Alleged victims must be under 18 years old.'
-        } else {
-          return undefined
-        }
-      }
-    ),
-    ssn: combineCompact(
-      () => {
-        if (ssnWithoutHyphens.length > 0 && ssnWithoutHyphens.length < VALID_SSN_LENGTH) {
-          return 'Social security number must be 9 digits long.'
-        } else {
-          return undefined
-        }
-      },
-      () => {
-        if (ssnWithoutHyphens.startsWith('9')) {
-          return 'Social security number cannot begin with 9.'
-        } else {
-          return undefined
-        }
-      },
-      () => {
-        if (ssnWithoutHyphens.startsWith('666')) {
-          return 'Social security number cannot begin with 666.'
-        } else {
-          return undefined
-        }
-      },
-      () => {
-        if (
-          ssnWithoutHyphens.startsWith('000') ||
-          ssnWithoutHyphens.endsWith('0000') ||
-          ssnWithoutHyphens.substring(SSN_MIDDLE_SECTION_START, SSN_MIDDLE_SECTION_END) === '00'
-        ) {
-          return 'Social security number cannot contain all 0s in a group.'
-        } else {
-          return undefined
-        }
-      }
-    ),
+    name: getNameErrors(firstName, lastName, roles),
+    roles: getRoleErrors(state, personId, roles),
+    ssn: getSSNErrors(ssnWithoutHyphens),
   })
 }
 
+const getRaces = (person) => person.get('races') && person.get('races').map((raceInformation) => {
+  const race = raceInformation.get('race')
+  const raceDetail = raceInformation.get('race_detail')
+  const raceDetailText = raceDetail ? ` - ${raceDetail}` : ''
+  return `${race}${raceDetailText}`
+}).join(', ')
+
+const getEthnicity = (person) => {
+  const {hispanic_latino_origin: hispanicLatinoOrigin, ethnicity_detail} = person.toJS().ethnicity || {}
+
+  if (!hispanicLatinoOrigin) { return undefined }
+
+  const ethnicityText = ethnicity_detail.length > 0 ? ` - ${ethnicity_detail}` : ''
+  return `${hispanicLatinoOrigin}${ethnicityText}`
+}
+
 export const getFormattedPersonInformationSelector = (state, personId) => {
-  const person = state.get('participants').find((person) => person.get('id') === personId) || Map()
+  const person = getPersonSelector(state, personId)
   const legacyDescriptor = person.get('legacy_descriptor')
   const showApproximateAge = !person.get('date_of_birth') && person.get('approximate_age')
   const approximateAge = showApproximateAge ?
     [person.get('approximate_age'), person.get('approximate_age_units')].join(' ') : undefined
   const dateOfBirth = person.get('date_of_birth') && dateFormatter(person.get('date_of_birth'))
 
-  const races = person.get('races') && person.get('races').map((raceInformation) => {
-    const race = raceInformation.get('race')
-    const raceDetail = raceInformation.get('race_detail')
-    const raceDetailText = (raceDetail && ` - ${raceDetail}`) || ''
-    return `${race}${raceDetailText}`
-  }).join(', ')
-  const {hispanic_latino_origin, ethnicity_detail} = person.toJS().ethnicity || {}
   return fromJS({
     approximateAge: approximateAge,
     dateOfBirth: dateOfBirth,
-    ethnicity: hispanic_latino_origin && `${hispanic_latino_origin}${(ethnicity_detail.length > 0 && ` - ${ethnicity_detail}`) || ''}`,
+    ethnicity: getEthnicity(person),
     gender: GENDERS[person.get('gender')],
     languages: person.get('languages') && flagPrimaryLanguage((person.toJS().languages) || []).join(', '),
     legacySource: legacyDescriptor && legacySourceFormatter(legacyDescriptor.toJS()),
@@ -156,7 +167,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
       errors: [],
       required: false,
     },
-    races: races,
+    races: getRaces(person),
     roles: {value: person.get('roles', List()), errors: []},
     ssn: {value: ssnFormatter(person.get('ssn')), errors: []},
     alertErrorMessage: getPersonAlertErrorMessageSelector(state, personId),
