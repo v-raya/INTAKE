@@ -16,23 +16,14 @@ export const getErrorsSelector = createSelector(
     fromJS({
       screening_decision: combineCompact(
         isRequiredCreate(decision, 'Please enter a decision'),
-        () => {
-          if (decision === 'promote_to_referral' &&
-            allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) {
-            return 'Please enter at least one allegation to promote to referral.'
-          } else {
-            return undefined
-          }
-        }
+        () => (
+          (decision === 'promote_to_referral' &&
+            allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
+            'Please enter at least one allegation to promote to referral.' : undefined
+        )
       ),
       screening_decision_detail: combineCompact(
-        () => {
-          if (decision === 'promote_to_referral' && !decisionDetail) {
-            return 'Please enter a response time'
-          } else {
-            return undefined
-          }
-        }
+        () => ((decision === 'promote_to_referral' && !decisionDetail) ? 'Please enter a response time' : undefined)
       ),
       additional_information: combineCompact(
         isRequiredIfCreate(additionalInformation, 'Please enter additional information', () => (
