@@ -6,43 +6,27 @@ import {
 } from 'actions/screeningDecisionFormActions'
 import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {createReducer} from 'utils/createReducer'
+import {untouched} from 'utils/formTouch'
 import {Map, fromJS} from 'immutable'
 
 export default createReducer(Map(), {
   [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
-    if (error) {
-      return state
-    } else {
-      const {
-        screening_decision,
-        screening_decision_detail,
-        access_restrictions,
-        restrictions_rationale,
-        additional_information,
-      } = screening
-      return fromJS({
-        screening_decision: {
-          value: screening_decision,
-          touched: false,
-        },
-        screening_decision_detail: {
-          value: screening_decision_detail,
-          touched: false,
-        },
-        access_restrictions: {
-          value: access_restrictions,
-          touched: false,
-        },
-        restrictions_rationale: {
-          value: restrictions_rationale,
-          touched: false,
-        },
-        additional_information: {
-          value: additional_information,
-          touched: false,
-        },
-      })
-    }
+    if (error) { return state }
+
+    const {
+      screening_decision,
+      screening_decision_detail,
+      access_restrictions,
+      restrictions_rationale,
+      additional_information,
+    } = screening
+    return fromJS({
+      screening_decision: untouched(screening_decision),
+      screening_decision_detail: untouched(screening_decision_detail),
+      access_restrictions: untouched(access_restrictions),
+      restrictions_rationale: untouched(restrictions_rationale),
+      additional_information: untouched(additional_information),
+    })
   },
   [RESET_SCREENING_DECISION_FIELD_VALUES](state, {payload: {
     screening_decision,
@@ -74,4 +58,3 @@ export default createReducer(Map(), {
     return fieldsWithTouch.reduce((newState, field) => newState.setIn([field, 'touched'], true), state)
   },
 })
-
