@@ -2,7 +2,7 @@ import {fromRoman} from 'utils/fromRoman'
 
 describe('fromRoman ', () => {
   it('should return an empty string for no prop', () => {
-    expect(fromRoman()).toEqual(undefined)
+    expect(fromRoman()).toEqual('')
   })
   it('should return an empty string for empty string prop', () => {
     expect(fromRoman('')).toEqual(0)
