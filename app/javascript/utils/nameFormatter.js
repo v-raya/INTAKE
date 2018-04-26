@@ -1,7 +1,7 @@
 import NAME_SUFFIXES from 'enums/NameSuffixes'
 import NUMBER_SUFFIXES from 'enums/NumberSuffixes'
 
-const addSuffix = (name, suffix) => {
+export const addSuffix = (name, suffix) => {
   if (NAME_SUFFIXES[suffix]) {
     return `${name}, ${NAME_SUFFIXES[suffix]}`
   } else if (NUMBER_SUFFIXES[suffix]) {
