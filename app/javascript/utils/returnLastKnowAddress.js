@@ -1,11 +1,9 @@
 export const returnLastKnowAddress = (data) => {
   if (data) {
-    const legacyLastUpdated = ['legacy_descriptor', 'legacy_last_updated']
     return (
-      data.reduce((latest, current) => (!latest || current.getIn(legacyLastUpdated) >
-      latest.getIn(legacyLastUpdated) ? current : latest))
+      data.reduce((latest, current) => (!latest || current.get('effective_start_date') >
+      latest.get('effective_start_date') ? current : latest))
     )
-  } else {
-    return null
   }
+  return null
 }

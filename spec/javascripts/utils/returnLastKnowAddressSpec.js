@@ -3,7 +3,7 @@ import {List, fromJS} from 'immutable'
 import {returnLastKnowAddress} from 'utils/returnLastKnowAddress'
 
 describe('returnLastKnowAddress', () => {
-  it('returns the last know address', () => {
+  it('returns the last know address with most recent effective start date', () => {
     const addresses = Immutable.fromJS([
       {
         zip: '34567',
@@ -42,7 +42,7 @@ describe('returnLastKnowAddress', () => {
           description: 'Santa Cruz',
           id: '1111',
         },
-        effective_start_date: '2001-02-07',
+        effective_start_date: '2005-02-07',
         legacy_descriptor: {
           legacy_last_updated: '2007-02-23T10:22:53.067-0800',
           legacy_id: 'JAWH3I50Ht',
@@ -85,7 +85,7 @@ describe('returnLastKnowAddress', () => {
         street_name: 'Anniversary Parkway',
         state_name: 'California',
         street_number: '4451',
-        effective_start_date: '2001-01-03',
+        effective_start_date: '2003-01-03',
         id: '8Uywd2T0Ht',
         state: {
           description: 'California',
@@ -102,7 +102,7 @@ describe('returnLastKnowAddress', () => {
         description: 'Santa Cruz',
         id: '1111',
       },
-      effective_start_date: '2001-02-07',
+      effective_start_date: '2005-02-07',
       legacy_descriptor: {
         legacy_last_updated: '2007-02-23T10:22:53.067-0800',
         legacy_id: 'JAWH3I50Ht',
