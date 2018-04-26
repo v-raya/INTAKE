@@ -7,6 +7,7 @@ import {
 } from 'selectors/peopleSearchSelectors'
 import {createSnapshotPerson} from 'actions/personCardActions'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
+import {canUserAddClient} from 'utils/authorization'
 
 const isDuplicatePerson = (participants, id) => (
   participants.some((x) => x.legacy_id === id)
@@ -20,6 +21,7 @@ const mapStateToProps = (state) => ({
   searchPrompt: 'Search for clients',
   searchTerm: getSearchTermValueSelector(state),
   participants: state.get('participants').toJS(),
+  userInfo: state.get('userInfo').toJS(),
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => {
@@ -39,9 +41,10 @@ const mapDispatchToProps = (dispatch, _ownProps) => {
 const mergeProps = (stateProps, {dispatch, ...actions}) => {
   const {
     hasAddSensitivePerson,
+    userInfo,
     ...props
   } = stateProps
-  const isSelectable = ({isSensitive}) => (isSensitive === false || hasAddSensitivePerson)
+  const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person)
   const onSelect = (person) => {
     const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
     actions.onClear()
