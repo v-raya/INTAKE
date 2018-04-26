@@ -103,19 +103,18 @@ export const getVisibleErrorsSelector = createSelector(
   getTouchedFieldsSelector,
   getTouchedAgenciesSelector,
   (state) => state.get('allegationsForm'),
-  (errors, touchedFields, touchedAgencies, allegations) => errors.reduce(
-    (filteredErrors, fieldErrors, field) => {
-      if (touchedAgencies.includes(field)) {
-        return filteredErrors.set(field, fieldErrors)
-      } else if (AGENCY_TYPES[field]) {
-        if (areCrossReportsRequired(allegations) && touchedFields.includes(field)) {
-          return filteredErrors.set(field, fieldErrors)
-        }
-      } else if (touchedFields.includes(field)) {
+  (errors, touchedFields, touchedAgencies, allegations) => {
+    const needsCrossReports = areCrossReportsRequired(allegations)
+
+    return errors.reduce((filteredErrors, fieldErrors, field) => {
+      const isTouchedAgency = touchedAgencies.includes(field)
+      const isTouchedField = touchedFields.includes(field)
+      if (isTouchedAgency || (isTouchedField && (needsCrossReports || !AGENCY_TYPES[field]))) {
         return filteredErrors.set(field, fieldErrors)
       }
       return filteredErrors.set(field, List())
     }, Map())
+  }
 )
 
 export const getAllegationsRequireCrossReportsValueSelector = createSelector(

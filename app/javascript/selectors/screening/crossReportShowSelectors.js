@@ -25,14 +25,11 @@ export const getAgencyCodeToNameSelector = createSelector(
   (agencies, countyAgencies) => agencies.reduce((agencyCodeToName, agency) => {
     const agencyTypeName = AGENCY_TYPES[agency.get('type')]
     const agencyCode = agency.get('id')
-    if (agencyCode) {
-      const agencyData = countyAgencies.find((countyAgency) => countyAgency.get('id') === agencyCode)
-      if (agencyData && agencyData.get('name')) {
-        agencyCodeToName[agencyCode] = `${agencyTypeName} - ${agencyData.get('name')}`
-      } else {
-        agencyCodeToName[agencyCode] = `${agencyTypeName} - ${agencyCode}`
-      }
-    }
+
+    if (!agencyCode) { return agencyCodeToName }
+
+    const agencyData = countyAgencies.find((countyAgency) => countyAgency.get('id') === agencyCode)
+    agencyCodeToName[agencyCode] = `${agencyTypeName} - ${agencyData && agencyData.get('name') || agencyCode}`
     return agencyCodeToName
   }, {})
 )
@@ -103,9 +100,8 @@ export const getCommunityCareLicensingErrors = (agencies) => {
 export const getAllegationsRequireCrossReportsValueSelector = createSelector(
   getCrossReportAgenciesSelector,
   (state) => state.get('allegationsForm'),
-  (agencies, allegations) => areCrossReportsRequired(allegations) && !CROSS_REPORTS_REQUIRED_FOR_ALLEGATIONS.reduce((hasRequiredAgencies, requiredAgencyType) => hasRequiredAgencies && Boolean(agencies.find((agency) => (
-    agency.get('type') === requiredAgencyType
-  ))), true)
+  (agencies, allegations) => areCrossReportsRequired(allegations) &&
+    CROSS_REPORTS_REQUIRED_FOR_ALLEGATIONS.some((requiredAgencyType) => agencies.every((agency) => agency.get('type') !== requiredAgencyType))
 )
 
 export const getErrorsSelector = createSelector(
@@ -120,20 +116,8 @@ export const getErrorsSelector = createSelector(
     [DISTRICT_ATTORNEY]: combineCompact(() => (getDistrictAttorneyErrors(agencies))),
     [LAW_ENFORCEMENT]: combineCompact(() => (getLawEnforcementErrors(agencies))),
     agencyRequired: combineCompact(
-      () => {
-        if (getDistrictAttorneyErrors(agencies)) {
-          return undefined
-        } else {
-          return getAgencyRequiredErrors(DISTRICT_ATTORNEY, agencies, allegations)
-        }
-      },
-      () => {
-        if (getLawEnforcementErrors(agencies)) {
-          return undefined
-        } else {
-          return getAgencyRequiredErrors(LAW_ENFORCEMENT, agencies, allegations)
-        }
-      }
+      () => (getDistrictAttorneyErrors(agencies) ? undefined : getAgencyRequiredErrors(DISTRICT_ATTORNEY, agencies, allegations)),
+      () => (getLawEnforcementErrors(agencies) ? undefined : getAgencyRequiredErrors(LAW_ENFORCEMENT, agencies, allegations))
     ),
   })
 )
