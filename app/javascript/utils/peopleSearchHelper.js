@@ -48,38 +48,25 @@ export const mapEthnicities = (state, result) => buildSelector(
   })
 )(state)
 
+const buildAddressMap = (addressTypes, address) => {
+  const typeId = address.getIn(['type', 'id'])
+  const type = systemCodeDisplayValue(typeId, addressTypes)
+  return Map({
+    city: address.get('city'),
+    state: address.get('state_code'),
+    zip: address.get('zip'),
+    type: type ? type : '',
+    streetAddress: `${address.get('street_number') || ''} ${address.get('street_name')}`,
+  })
+}
+
 export const mapAddress = (state, result) => buildSelector(
   (state) => state.get('addressTypes'),
   () => result.get('addresses') || List(),
-  () => result.getIn(['addresses', 0, 'city']),
-  () => result.getIn(['addresses', 0, 'state_code']),
-  () => result.getIn(['addresses', 0, 'zip']),
-  () => result.getIn(['addresses', 0, 'type', 'id']),
-  () => result.getIn(['addresses', 0, 'street_number']),
-  () => result.getIn(['addresses', 0, 'street_name']),
-  (addressTypes, addresses, city, stateCode, zip, typeId, streetNumber, streetName) => {
+  (addressTypes, addresses) => {
     if (addresses.isEmpty()) { return null }
-    if (addresses.toJS().some((x) => x.hasOwnProperty('effective_start_date'))) {
-      const lastKnownAddress = returnLastKnownAddress(addresses)
-      const typeId = lastKnownAddress.getIn(['type', 'id'])
-      const type = systemCodeDisplayValue(typeId, addressTypes)
-      return Map({
-        city: lastKnownAddress.get('city'),
-        state: lastKnownAddress.get('state_code'),
-        zip: lastKnownAddress.get('zip'),
-        type: type ? type : '',
-        streetAddress: `${lastKnownAddress.get('street_number') || ''} ${lastKnownAddress.get('street_name')}`,
-      })
-    } else {
-      const type = systemCodeDisplayValue(typeId, addressTypes)
-      return Map({
-        city: city,
-        state: stateCode,
-        zip: zip,
-        type: type ? type : '',
-        streetAddress: `${streetNumber} ${streetName}`,
-      })
-    }
+    const address = returnLastKnownAddress(addresses) || addresses.get(0)
+    return buildAddressMap(addressTypes, address)
   }
 )(state)
 
