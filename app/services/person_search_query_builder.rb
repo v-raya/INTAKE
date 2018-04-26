@@ -98,7 +98,7 @@ class PersonSearchQueryBuilder
   def fields
     %w[id legacy_source_table first_name middle_name last_name name_suffix gender
        date_of_birth ssn languages races ethnicity
-       addresses.id addresses.street_name addresses.street_number
+       addresses.id addresses.effective_start_date addresses.street_name addresses.street_number
        addresses.city addresses.state_code addresses.zip addresses.type addresses.legacy_descriptor
        phone_numbers.id phone_numbers.number phone_numbers.type
        highlight legacy_descriptor sensitivity_indicator race_ethnicity]
