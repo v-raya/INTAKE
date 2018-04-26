@@ -2,10 +2,16 @@ import NAME_SUFFIXES from 'enums/NameSuffixes'
 import NUMBER_SUFFIXES from 'enums/NumberSuffixes'
 
 export const addSuffix = (name, suffix) => {
-  if (NAME_SUFFIXES[suffix]) {
-    return `${name}, ${NAME_SUFFIXES[suffix]}`
-  } else if (NUMBER_SUFFIXES[suffix]) {
-    return `${name} ${NUMBER_SUFFIXES[suffix]}`
+  if (suffix === undefined || suffix === null) return name
+
+  const nameSuffix = suffix
+  const stringSuffix = nameSuffix.toString()
+  const downCaseSuffix = stringSuffix.toLowerCase()
+
+  if (NAME_SUFFIXES[downCaseSuffix]) {
+    return `${name}, ${NAME_SUFFIXES[downCaseSuffix]}`
+  } else if (NUMBER_SUFFIXES[downCaseSuffix]) {
+    return `${name} ${NUMBER_SUFFIXES[downCaseSuffix]}`
   } else {
     return name
   }
