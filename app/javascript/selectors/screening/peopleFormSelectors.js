@@ -5,13 +5,11 @@ import LANGUAGES from 'enums/Languages'
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
+import {getSSNErrors} from 'utils/ssnValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {getAddressTypes} from 'selectors/systemCodeSelectors'
 import moment from 'moment'
 
-const VALID_SSN_LENGTH = 9
-const SSN_MIDDLE_SECTION_START = 3
-const SSN_MIDDLE_SECTION_END = 5
 const formatEnums = (enumObject) =>
   Object.keys(enumObject).map((item) => ({label: enumObject[item], value: item}))
 
@@ -30,15 +28,13 @@ const calculateAgeFromScreeningDate = (state, personId) => {
   const approximateAge = parseInt(person.getIn(['approximate_age', 'value']), 10)
   const approximateAgeUnit = person.getIn(['approximate_age_units', 'value'])
 
-  let ageFromScreeningDate
-
   if (dateOfBirth) {
-    ageFromScreeningDate = screeningStartDate.diff(moment(dateOfBirth, 'MM/DD/YYYY'), 'years')
-  } else if (approximateAge && approximateAgeUnit) {
-    ageFromScreeningDate = moment().diff(screeningStartDate, 'years') + moment.duration(approximateAge, approximateAgeUnit).asYears()
+    return screeningStartDate.diff(moment(dateOfBirth, 'MM/DD/YYYY'), 'years')
   }
-
-  return ageFromScreeningDate
+  if (approximateAge && approximateAgeUnit) {
+    return moment().diff(screeningStartDate, 'years') + moment.duration(approximateAge, approximateAgeUnit).asYears()
+  }
+  return undefined
 }
 
 const ageFromScreeningDateIsEmpty = (state, personId) => {
@@ -53,6 +49,13 @@ const isOver18YearsOfAgeAtScreeningDate = (state, personId) => {
   return ageFromScreeningDate && ageFromScreeningDate >= ageLimit
 }
 
+const getRoleErrors = (state, personId, roles) => combineCompact(() => {
+  if (roles.includes('Victim') && (ageFromScreeningDateIsEmpty(state, personId) || isOver18YearsOfAgeAtScreeningDate(state, personId))) {
+    return 'Alleged victims must be under 18 years old.'
+  }
+  return undefined
+})
+
 export const getErrorsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId]) || Map()
   const firstName = person.getIn(['first_name', 'value'])
@@ -63,49 +66,8 @@ export const getErrorsSelector = (state, personId) => {
   return fromJS({
     first_name: combineCompact(isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim') || roles.includes('Collateral')))),
     last_name: combineCompact(isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim') || roles.includes('Collateral')))),
-    roles: combineCompact(
-      () => {
-        if (roles.includes('Victim') && (ageFromScreeningDateIsEmpty(state, personId) || isOver18YearsOfAgeAtScreeningDate(state, personId))) {
-          return 'Alleged victims must be under 18 years old.'
-        } else {
-          return undefined
-        }
-      }
-    ),
-    ssn: combineCompact(
-      () => {
-        if (ssnWithoutHyphens.length > 0 && ssnWithoutHyphens.length < VALID_SSN_LENGTH) {
-          return 'Social security number must be 9 digits long.'
-        } else {
-          return undefined
-        }
-      },
-      () => {
-        if (ssnWithoutHyphens.startsWith('9')) {
-          return 'Social security number cannot begin with 9.'
-        } else {
-          return undefined
-        }
-      },
-      () => {
-        if (ssnWithoutHyphens.startsWith('666')) {
-          return 'Social security number cannot begin with 666.'
-        } else {
-          return undefined
-        }
-      },
-      () => {
-        if (
-          ssnWithoutHyphens.startsWith('000') ||
-          ssnWithoutHyphens.endsWith('0000') ||
-          ssnWithoutHyphens.substring(SSN_MIDDLE_SECTION_START, SSN_MIDDLE_SECTION_END) === '00'
-        ) {
-          return 'Social security number cannot contain all 0s in a group.'
-        } else {
-          return undefined
-        }
-      }
-    ),
+    roles: getRoleErrors(state, personId, roles),
+    ssn: getSSNErrors(ssnWithoutHyphens),
   })
 }
 
@@ -118,14 +80,9 @@ export const getVisibleErrorsSelector = (state, personId) => {
   const touchedFields = getTouchedFieldsForPersonSelector(state, personId)
   const errors = getErrorsSelector(state, personId)
   return errors.reduce(
-    (filteredErrors, fieldErrors, field) => {
-      if (touchedFields.includes(field)) {
-        return filteredErrors.set(field, fieldErrors)
-      } else {
-        return filteredErrors.set(field, List())
-      }
-    },
-    Map())
+    (filteredErrors, fieldErrors, field) => (
+      filteredErrors.set(field, touchedFields.includes(field) ? fieldErrors : List())
+    ), Map())
 }
 
 export const getNamesRequiredSelector = (state, personId) => {
@@ -171,18 +128,38 @@ export const getSocialSecurityNumberSelector = (state, personId) => (
   })
 )
 
+const getPhoneNumbers = (person) => person.get('phone_numbers', List()).map((phoneNumber) => Map({
+  id: phoneNumber.get('id'),
+  number: phoneNumber.getIn(['number', 'value']),
+  type: phoneNumber.getIn(['type', 'value']),
+}))
+
+const getAddresses = (person) => person.get('addresses', List()).map((address) => Map({
+  id: address.get('id'),
+  street_address: address.getIn(['street', 'value']),
+  city: address.getIn(['city', 'value']),
+  state: address.getIn(['state', 'value']),
+  zip: address.getIn(['zip', 'value']),
+  type: address.getIn(['type', 'value']),
+}))
+
+const getEthnicity = (person) => {
+  const hispanic_latino_origin = person.getIn(['ethnicity', 'hispanic_latino_origin', 'value'])
+  const ethnicity_detail = (hispanic_latino_origin === 'Yes') ?
+    person.getIn(['ethnicity', 'ethnicity_detail', 'value']) : []
+  return {hispanic_latino_origin, ethnicity_detail}
+}
+
+const getRaces = (person) => person.get('races', Map()).reduce((races, raceValue, raceKey) => {
+  const raceDetails = person.getIn(['race_details', raceKey, 'value'], null)
+  return (raceValue.get('value')) ? [...races, {race: raceKey, race_detail: raceDetails}] : races
+}, [])
+
 export const getPeopleWithEditsSelector = createSelector(
   getPeopleSelector,
   getScreeningIdValueSelector,
   (people, screeningId) => people.map((person, personId) => {
     const isAgeDisabled = Boolean(person.getIn(['date_of_birth', 'value']))
-    const hispanic_latino_origin = person.getIn(['ethnicity', 'hispanic_latino_origin', 'value'])
-    let ethnicity_detail
-    if (hispanic_latino_origin === 'Yes') {
-      ethnicity_detail = person.getIn(['ethnicity', 'ethnicity_detail', 'value'])
-    } else {
-      ethnicity_detail = []
-    }
     return fromJS({
       screening_id: screeningId,
       id: personId,
@@ -196,32 +173,14 @@ export const getPeopleWithEditsSelector = createSelector(
       middle_name: person.getIn(['middle_name', 'value']),
       last_name: person.getIn(['last_name', 'value']),
       name_suffix: person.getIn(['name_suffix', 'value']),
-      phone_numbers: person.get('phone_numbers', List()).map((phoneNumber) => Map({
-        id: phoneNumber.get('id'),
-        number: phoneNumber.getIn(['number', 'value']),
-        type: phoneNumber.getIn(['type', 'value']),
-      })),
-      addresses: person.get('addresses', List()).map((address) => Map({
-        id: address.get('id'),
-        street_address: address.getIn(['street', 'value']),
-        city: address.getIn(['city', 'value']),
-        state: address.getIn(['state', 'value']),
-        zip: address.getIn(['zip', 'value']),
-        type: address.getIn(['type', 'value']),
-      })),
+      phone_numbers: getPhoneNumbers(person),
+      addresses: getAddresses(person),
       roles: person.getIn(['roles', 'value']),
       ssn: person.getIn(['ssn', 'value']),
       sensitive: person.getIn(['sensitive', 'value']),
       sealed: person.getIn(['sealed', 'value']),
-      ethnicity: {hispanic_latino_origin, ethnicity_detail},
-      races: person.get('races', Map()).reduce((races, raceValue, raceKey) => {
-        const raceDetails = person.getIn(['race_details', raceKey, 'value'], null)
-        if (raceValue.get('value')) {
-          return [...races, {race: raceKey, race_detail: raceDetails}]
-        } else {
-          return races
-        }
-      }, []),
+      ethnicity: getEthnicity(person),
+      races: getRaces(person),
     })
   })
 )
@@ -265,28 +224,15 @@ export const getFilteredPersonRolesSelector = (state, personId) => {
   ])
 }
 
-export const getAddressTypeOptionsSelector = (state) => (
-  getAddressTypes(state).map((addressType) => (
-    Map({
-      value: addressType.get('code'),
-      label: addressType.get('value'),
-    })
-  ))
-)
+export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).map((addressType) => Map({
+  value: addressType.get('code'),
+  label: addressType.get('value'),
+}))
 
 export const getStateOptionsSelector = () => fromJS(US_STATE.map(({code, name}) => ({value: code, label: name})))
 
-export const getPersonAddressesSelector = (state, personId) => (
-  state.get('peopleForm', Map()).get(personId).get('addresses', List()).map((address) => (
-    Map({
-      street: address.getIn(['street', 'value']) || '',
-      city: address.getIn(['city', 'value']) || '',
-      state: address.getIn(['state', 'value']) || '',
-      zip: address.getIn(['zip', 'value']) || '',
-      type: address.getIn(['type', 'value']) || '',
-    })
-  ))
-)
+export const getPersonAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
+  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id'))
 
 export const getIsApproximateAgeDisabledSelector = (state, personId) => (
   Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))
@@ -309,17 +255,11 @@ export const getPersonDemographicsSelector = (state, personId) => {
 
 export const getPersonRacesSelector = (state, personId) => {
   const personRaces = state.getIn(['peopleForm', personId, 'races'])
-  return Object.keys(RACE_DETAILS).reduce(
-    (races, race) => races.set(race, personRaces.getIn([race, 'value'], false)),
-    Map()
-  )
+  return Object.keys(RACE_DETAILS).reduce((races, race) => races.set(race, personRaces.getIn([race, 'value'], false)), Map())
 }
 export const getPersonRaceDetailsSelector = (state, personId) => {
   const personRaces = state.getIn(['peopleForm', personId, 'race_details'])
-  return Object.keys(RACE_DETAILS).reduce(
-    (races, race) => races.set(race, personRaces.getIn([race, 'value'], '')),
-    Map()
-  )
+  return Object.keys(RACE_DETAILS).reduce((races, race) => races.set(race, personRaces.getIn([race, 'value'], '')), Map())
 }
 
 export const getAreEthnicityFieldsDisabledForPersonSelector = (state, personId) => (
@@ -338,12 +278,9 @@ export const getPersonEthnicityDetaiValueSelector = (state, personId) => (
   state.getIn(['peopleForm', personId, 'ethnicity', 'ethnicity_detail', 'value', 0])
 )
 export const getIsRaceIndeterminateValueSelector = (state, personId) => {
-  const isUnknown =
-    state.getIn(['peopleForm', personId, 'races', 'Unknown', 'value'])
-  const isAbandoned =
-    state.getIn(['peopleForm', personId, 'races', 'Abandoned', 'value'])
-  const isDeclinedToAnswer =
-    state.getIn(['peopleForm', personId, 'races', 'Declined to answer', 'value'])
+  const isUnknown = state.getIn(['peopleForm', personId, 'races', 'Unknown', 'value'])
+  const isAbandoned = state.getIn(['peopleForm', personId, 'races', 'Abandoned', 'value'])
+  const isDeclinedToAnswer = state.getIn(['peopleForm', personId, 'races', 'Declined to answer', 'value'])
 
   return Boolean(isUnknown || isAbandoned || isDeclinedToAnswer)
 }

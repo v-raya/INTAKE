@@ -9,6 +9,7 @@ import US_STATE from 'enums/USState'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {getAddressTypes, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
+import {getSSNErrors} from 'utils/ssnValidator'
 import moment from 'moment'
 
 const getPersonSelector = (state, personId) =>
@@ -40,10 +41,6 @@ export const getPersonAlertErrorMessageSelector = (state, personId) => {
   }
   return undefined
 }
-
-const VALID_SSN_LENGTH = 9
-const SSN_MIDDLE_SECTION_START = 3
-const SSN_MIDDLE_SECTION_END = 5
 
 const calculateAgeFromScreeningDate = (state, personId) => {
   const screeningStartDate = moment(state.getIn(['screeningInformationForm', 'started_at', 'value']))
@@ -87,34 +84,6 @@ const getRoleErrors = (state, personId, roles) => combineCompact(
       return undefined
     }
   }
-)
-
-const validateSSNLength = (ssnWithoutHyphens) => (
-  (ssnWithoutHyphens.length > 0 && ssnWithoutHyphens.length < VALID_SSN_LENGTH) ?
-    'Social security number must be 9 digits long.' : undefined
-)
-
-const validateSSNPrefix = (ssnWithoutHyphens) => (
-  ssnWithoutHyphens.startsWith('9') ? 'Social security number cannot begin with 9.' : undefined
-)
-
-const validateSSNBeast = (ssnWithoutHyphens) => (
-  ssnWithoutHyphens.startsWith('666') ? 'Social security number cannot begin with 666.' : undefined
-)
-
-const validateSSNZeroes = (ssnWithoutHyphens) => (
-  (
-    ssnWithoutHyphens.startsWith('000') ||
-    ssnWithoutHyphens.endsWith('0000') ||
-    ssnWithoutHyphens.substring(SSN_MIDDLE_SECTION_START, SSN_MIDDLE_SECTION_END) === '00'
-  ) ? 'Social security number cannot contain all 0s in a group.' : undefined
-)
-
-const getSSNErrors = (ssnWithoutHyphens) => combineCompact(
-  () => validateSSNLength(ssnWithoutHyphens),
-  () => validateSSNPrefix(ssnWithoutHyphens),
-  () => validateSSNBeast(ssnWithoutHyphens),
-  () => validateSSNZeroes(ssnWithoutHyphens)
 )
 
 export const getErrorsSelector = (state, personId) => {
