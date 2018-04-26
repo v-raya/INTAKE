@@ -8,18 +8,14 @@ import PhoneNumberInfo from 'common/PhoneNumberInfo'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
 import sanitizeHtml from 'sanitize-html'
 import AvatarImg from '../../assets/images/default-profile.svg'
-import nameFormatter from 'utils/nameFormatter'
+import {addSuffix} from 'utils/nameFormatter'
 
 const PersonSuggestion = ({
   firstName, lastName, middleName, nameSuffix, dateOfBirth, gender, languages, races,
   ethnicity, ssn, address, phoneNumber, legacyDescriptor, isSensitive, isSealed,
 }) => {
-  const fullName = nameFormatter({
-    first_name: firstName,
-    middle_name: middleName,
-    last_name: lastName,
-    name_suffix: nameSuffix,
-  })
+  const name = [firstName, middleName, lastName].filter(Boolean).join(' ')
+  const fullName = addSuffix(name, nameSuffix)
   const sanitizedField = (field) => ({
     dangerouslySetInnerHTML: {
       __html: sanitizeHtml(field, {allowedTags: ['em']}),
