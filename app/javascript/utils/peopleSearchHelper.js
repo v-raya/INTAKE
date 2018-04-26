@@ -51,22 +51,35 @@ export const mapEthnicities = (state, result) => buildSelector(
 export const mapAddress = (state, result) => buildSelector(
   (state) => state.get('addressTypes'),
   () => result.get('addresses') || List(),
-  (addressTypes, addresses) => {
+  () => result.getIn(['addresses', 0, 'city']),
+  () => result.getIn(['addresses', 0, 'state_code']),
+  () => result.getIn(['addresses', 0, 'zip']),
+  () => result.getIn(['addresses', 0, 'type', 'id']),
+  () => result.getIn(['addresses', 0, 'street_number']),
+  () => result.getIn(['addresses', 0, 'street_name']),
+  (addressTypes, addresses, city, stateCode, zip, typeId, streetNumber, streetName) => {
     if (addresses.isEmpty()) { return null }
-    const lastKnownAddress = returnLastKnownAddress(addresses)
-    const city = lastKnownAddress.get('city')
-    const state = lastKnownAddress.get('state_code')
-    const zip = lastKnownAddress.get('zip')
-    const typeId = lastKnownAddress.getIn(['type', 'id'])
-    const type = systemCodeDisplayValue(typeId, addressTypes)
-    const streetAddress = `${lastKnownAddress.get('street_number') || ''} ${lastKnownAddress.get('street_name')}`
-    return Map({
-      city: city,
-      state: state,
-      zip: zip,
-      type: type ? type : '',
-      streetAddress: streetAddress,
-    })
+    if (addresses.toJS().some((x) => x.hasOwnProperty('effective_start_date'))) {
+      const lastKnownAddress = returnLastKnownAddress(addresses)
+      const typeId = lastKnownAddress.getIn(['type', 'id'])
+      const type = systemCodeDisplayValue(typeId, addressTypes)
+      return Map({
+        city: lastKnownAddress.get('city'),
+        state: lastKnownAddress.get('state_code'),
+        zip: lastKnownAddress.get('zip'),
+        type: type ? type : '',
+        streetAddress: `${lastKnownAddress.get('street_number') || ''} ${lastKnownAddress.get('street_name')}`,
+      })
+    } else {
+      const type = systemCodeDisplayValue(typeId, addressTypes)
+      return Map({
+        city: city,
+        state: stateCode,
+        zip: zip,
+        type: type ? type : '',
+        streetAddress: `${streetNumber} ${streetName}`,
+      })
+    }
   }
 )(state)
 
