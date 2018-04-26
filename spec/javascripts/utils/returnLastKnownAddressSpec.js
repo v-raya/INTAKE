@@ -1,8 +1,8 @@
 import Immutable from 'immutable'
 import {List, fromJS} from 'immutable'
-import {returnLastKnowAddress} from 'utils/returnLastKnowAddress'
+import {returnLastKnownAddress} from 'utils/returnLastKnownAddress'
 
-describe('returnLastKnowAddress', () => {
+describe('returnLastKnownAddress', () => {
   it('returns the last know address with most recent effective start date', () => {
     const addresses = Immutable.fromJS([
       {
@@ -94,7 +94,7 @@ describe('returnLastKnowAddress', () => {
         state_code: 'CA',
       },
     ])
-    expect(returnLastKnowAddress(addresses)).toEqual(fromJS({
+    expect(returnLastKnownAddress(addresses)).toEqual(fromJS({
       zip: '12345',
       city: 'California',
       state_name: 'California',
@@ -125,27 +125,27 @@ describe('returnLastKnowAddress', () => {
     }))
 
     it('return null when null is passed', () => {
-      expect(returnLastKnowAddress(null)).toEqual(null)
+      expect(returnLastKnownAddress(null)).toEqual(null)
     })
 
     it('return null when undefined is passed', () => {
-      expect(returnLastKnowAddress(undefined)).toEqual(null)
+      expect(returnLastKnownAddress(undefined)).toEqual(null)
     })
 
     it('return null when emtpy string is passed', () => {
-      expect(returnLastKnowAddress('')).toEqual(null)
+      expect(returnLastKnownAddress('')).toEqual(null)
     })
 
     it('return null when 0 is passed', () => {
-      expect(returnLastKnowAddress(0)).toEqual(null)
+      expect(returnLastKnownAddress(0)).toEqual(null)
     })
 
     it('return null when false is passed', () => {
-      expect(returnLastKnowAddress(false)).toEqual(null)
+      expect(returnLastKnownAddress(false)).toEqual(null)
     })
 
     it('return undefined when empty List is passed', () => {
-      expect(returnLastKnowAddress(List())).toEqual(undefined)
+      expect(returnLastKnownAddress(List())).toEqual(undefined)
     })
   })
 })

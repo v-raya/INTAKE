@@ -1,4 +1,4 @@
-export const returnLastKnowAddress = (data) => {
+export const returnLastKnownAddress = (data) => {
   if (data) {
     return (
       data.reduce((latest, current) => (!latest || current.get('effective_start_date') >
