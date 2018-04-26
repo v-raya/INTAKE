@@ -59,6 +59,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       ethnicity: mapEthnicities(state, result),
       dateOfBirth: formatDOB(result.get('date_of_birth'), highlight.has('searchable_date_of_birth')),
       ssn: formatSSN(highlight.getIn(['ssn', 0], result.get('ssn'))),
+      clientCountyCode: result.getIn(['client_county', 'id']),
       address: mapAddress(state, result),
       phoneNumber: formatPhoneNumber(result.getIn(['phone_numbers', 0], null)),
       isSensitive: mapIsSensitive(result),

@@ -77,6 +77,10 @@ describe('peopleSearchSelectors', () => {
             },
             date_of_birth: '1990-02-13',
             ssn: '123456789',
+            client_county: {
+              description: 'Nowhere',
+              id: '999',
+            },
             addresses: [{
               id: '1',
               street_number: '234',
@@ -132,6 +136,7 @@ describe('peopleSearchSelectors', () => {
           },
           dateOfBirth: '1990-02-13',
           ssn: '123-45-6789',
+          clientCountyCode: '999',
           address: {
             city: 'Flushing',
             state: 'state',

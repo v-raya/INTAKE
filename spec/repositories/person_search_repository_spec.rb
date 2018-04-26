@@ -26,6 +26,7 @@ describe PersonSearchRepository do
         'languages',
         'races',
         'ethnicity',
+        'client_county',
         'addresses.id',
         'addresses.effective_start_date',
         'addresses.street_name',
