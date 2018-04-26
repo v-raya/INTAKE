@@ -70,7 +70,7 @@ node('intake-slave') {
       }
 
       stage('Deploy Preint') {
-        sh "curl -v 'http://${JENKINS_USER}:${JENKINS_API_TOKEN}@jenkins.mgmt.cwds.io:8080/job/preint/job/deploy-intake/buildWithParameters" +
+        sh "curl -v 'http://${JENKINS_USER}:${JENKINS_API_TOKEN}@jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
           "?token=${JENKINS_TRIGGER_TOKEN}" +
           "&cause=Caused%20by%20Build%20${env.BUILD_ID}" +
           "&INTAKE_APP_VERSION=${VERSION}'"
