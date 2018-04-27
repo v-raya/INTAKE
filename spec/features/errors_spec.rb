@@ -47,7 +47,7 @@ feature 'error pages' do
     end
 
     scenario 'does not display "Something went wrong, sorry! Please try your last action again."' do
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path)).and_return(
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path)).and_return(
         json_body([], status: 200)
       )
       click_link 'return to your dashboard'

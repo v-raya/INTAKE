@@ -13,7 +13,7 @@ feature 'home page' do
     scenario 'hide list of screenings' do
       visit root_path
       expect(
-        a_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+        a_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       ).to_not have_been_made
       expect(page).not_to have_button 'Start Screening'
       expect(page).not_to have_css 'table'
@@ -28,7 +28,7 @@ feature 'home page' do
     end
 
     scenario 'hide start snapshot button' do
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path)).and_return(
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path)).and_return(
         json_body([], status: 200)
       )
       visit root_path
@@ -38,7 +38,7 @@ feature 'home page' do
 
   context 'when both screenings and snapshot are enabled' do
     scenario 'includes title and navigation links' do
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path)).and_return(
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path)).and_return(
         json_body([], status: 200)
       )
       visit root_path
@@ -47,37 +47,37 @@ feature 'home page' do
     end
 
     scenario 'includes a list of saved screenings' do
-      screening_one = FactoryBot.create(
-        :screening_search,
+      screening_one = {
+        id: 1,
         name: 'Little Shop of Horrors',
         assignee: 'Melody Pond',
         started_at: '2016-08-11T18:24:22.157Z',
         screening_decision: 'differential_response'
-      )
-      screening_two = FactoryBot.create(
-        :screening_search,
+      }
+      screening_two = {
+        id: 2,
         name: 'The Shining',
         assignee: 'Sarah Jane Smith',
         started_at: '2016-08-12T12:12:22.157Z',
         screening_decision: 'information_to_child_welfare_services'
-      )
-      screening_without_name = FactoryBot.create(
-        :screening_search,
+      }
+      screening_without_name = {
+        id: 3,
         assignee: 'Rory Williams',
         started_at: '2016-08-17T01:24:22.157Z',
         screening_decision: 'differential_response'
-      )
-      screening_without_decision = FactoryBot.create(
-        :screening_search,
+      }
+      screening_without_decision = {
+        id: 4,
         name: 'Elm Street',
         assignee: 'Freddy Krueger',
         started_at: '2017-10-13T00:24:22.157Z',
         screening_decision: nil
-      )
+      }
       screenings =
         [screening_one, screening_two, screening_without_name, screening_without_decision]
 
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body(screenings.to_json, status: 200))
 
       visit root_path
@@ -93,20 +93,23 @@ feature 'home page' do
         expect(page).to have_css('tr', count: 4)
         rows = all('tr')
         within rows[0] do
-          expect(page).to have_link(screening_one.name, href: screening_path(id: screening_one.id))
+          expect(page).to have_link(screening_one[:name],
+            href: screening_path(id: screening_one[:id]))
           expect(page).to have_text(
             'Little Shop of Horrors Differential response Melody Pond 08/11/2016 11:24 AM'
           )
         end
         within rows[1] do
-          expect(page).to have_link(screening_two.name, href: screening_path(id: screening_two.id))
+          expect(page).to have_link(screening_two[:name],
+            href: screening_path(id: screening_two[:id]))
           expect(page).to have_text(
             'The Shining Information to child welfare services Sarah Jane Smith 08/12/2016 5:12 AM'
           )
         end
         within rows[2] do
           expect(page).to have_link(
-            screening_without_name.id, href: screening_path(id: screening_without_name.id)
+            screening_without_name[:id],
+            href: screening_path(id: screening_without_name[:id])
           )
           expect(page).to have_text(
             'Differential response Rory Williams 08/16/2016 6:24 PM'
@@ -114,7 +117,8 @@ feature 'home page' do
         end
         within rows[3] do
           expect(page).to have_link(
-            screening_without_decision.name, href: screening_path(id: screening_without_decision.id)
+            screening_without_decision[:name],
+            href: screening_path(id: screening_without_decision[:id])
           )
           expect(page).to have_text('Elm Street Freddy Krueger 10/12/2017 5:24 PM')
         end
@@ -123,36 +127,36 @@ feature 'home page' do
 
     scenario 'screenings display response time if decision is promote to referral' do
       screenings = [
-        FactoryBot.create(
-          :screening_search,
+        {
+          id: 1,
           name: "It's bigger on the inside",
           assignee: 'Clara Oswald',
           started_at: '2016-08-12T00:00:00.157Z',
           screening_decision: 'promote_to_referral',
           screening_decision_detail: nil
-        ),
-        FactoryBot.create(
-          :screening_search,
+        },
+        {
+          id: 2,
           screening_decision: 'promote_to_referral',
           screening_decision_detail: 'immediate'
-        ),
-        FactoryBot.create(
-          :screening_search,
+        },
+        {
+          id: 3,
           screening_decision: 'promote_to_referral',
           screening_decision_detail: '3_days'
-        ),
-        FactoryBot.create(
-          :screening_search,
+        },
+        {
+          id: 4,
           screening_decision: 'promote_to_referral',
           screening_decision_detail: '5_days'
-        ),
-        FactoryBot.create(
-          :screening_search,
+        },
+        {
+          id: 5,
           screening_decision: 'promote_to_referral',
           screening_decision_detail: '10_days'
-        )
+        }
       ]
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body(screenings.to_json, status: 200))
 
       visit root_path
@@ -178,36 +182,36 @@ feature 'home page' do
 
     scenario 'screenings display category if decision is screen out' do
       screenings = [
-        FactoryBot.create(
-          :screening_search,
+        {
+          id: 1,
           name: "It's bigger on the inside",
           assignee: 'Clara Oswald',
           started_at: '2016-08-12T00:00:00.157Z',
           screening_decision: 'screen_out',
           screening_decision_detail: nil
-        ),
-        FactoryBot.create(
-          :screening_search,
+        },
+        {
+          id: 2,
           screening_decision: 'screen_out',
           screening_decision_detail: 'evaluate_out'
-        ),
-        FactoryBot.create(
-          :screening_search,
+        },
+        {
+          id: 3,
           screening_decision: 'screen_out',
           screening_decision_detail: 'information_request'
-        ),
-        FactoryBot.create(
-          :screening_search,
+        },
+        {
+          id: 4,
           screening_decision: 'screen_out',
           screening_decision_detail: 'consultation'
-        ),
-        FactoryBot.create(
-          :screening_search,
+        },
+        {
+          id: 5,
           screening_decision: 'screen_out',
           screening_decision_detail: 'other'
-        )
+        }
       ]
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body(screenings.to_json, status: 200))
 
       visit root_path
@@ -232,11 +236,11 @@ feature 'home page' do
     end
 
     scenario 'screenings display reported date time time from now' do
-      screening = FactoryBot.create(
-        :screening_search,
+      screening = {
+        id: 1,
         started_at: 1.year.ago.strftime('%FT%T.%LZ')
-      )
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+      }
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body([screening].to_json, status: 200))
 
       visit root_path
