@@ -90,20 +90,17 @@ describe ScreeningRepository do
   describe '.search' do
     let(:results) { [{ id: '1' }, { id: '2' }] }
     let(:response) { double(:response, body: results) }
-    let(:search_terms) do
-      { screening_decisions: %w[promote_to_referral screen_out] }
-    end
 
     before do
-      expect(IntakeAPI).to receive(:make_api_call)
-        .with(security_token, "/api/v1/screenings?#{search_terms.to_query}", :get)
+      expect(FerbAPI).to receive(:make_api_call)
+        .with(security_token, '/screenings', :get)
         .and_return(response)
     end
 
     it 'returns the screening results' do
-      screening_results = described_class.search(security_token, search_terms)
-      expect(screening_results.first.id).to eq('1')
-      expect(screening_results.last.id).to eq('2')
+      screening_results = JSON.parse(described_class.search(security_token))
+      expect(screening_results.first['id']).to eq('1')
+      expect(screening_results.last['id']).to eq('2')
     end
   end
 

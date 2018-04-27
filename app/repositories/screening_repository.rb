@@ -33,15 +33,13 @@ class ScreeningRepository
     Screening.new(response.body)
   end
 
-  def self.search(security_token, search_terms)
-    response = IntakeAPI.make_api_call(
+  def self.search(security_token)
+    response = FerbAPI.make_api_call(
       security_token,
-      ExternalRoutes.intake_api_screenings_path(search_terms),
+      FerbRoutes.screenings_path,
       :get
     )
-    response.body.map do |result_attributes|
-      ScreeningSearch.new(result_attributes)
-    end
+    response.body.to_json
   end
 
   def self.history_of_involvements(security_token, id)
