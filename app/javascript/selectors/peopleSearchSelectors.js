@@ -26,6 +26,7 @@ export const getLastResultsSortValueSelector = (state) => {
 
 const formatSSN = (ssn) => ssn && ssn.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3')
 const formatDOB = (dob, highlight) => (highlight ? '<em>'.concat(dob, '</em>') : dob)
+const formatSuffix = (suffix, highlight) => (highlight ? 'e'.concat(suffix) : suffix)
 const formatPhoneNumber = (phoneNumber) => phoneNumber && Map({
   number: phoneNumberFormatter(phoneNumber.get('number')),
   type: phoneNumber.get('type'),
@@ -50,8 +51,8 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       legacy_id: result.get('id'),
       firstName: maybeHighlightedField(result, highlight, 'first_name'),
       lastName: maybeHighlightedField(result, highlight, 'last_name'),
-      middleName: result.get('middle_name'),
-      nameSuffix: result.get('name_suffix'),
+      middleName: maybeHighlightedField(result, highlight, 'middle_name'),
+      nameSuffix: formatSuffix(result.get('name_suffix'), highlight.has('name_suffix')),
       legacyDescriptor: result.get('legacy_descriptor'),
       gender: result.get('gender'),
       languages: mapLanguages(state, result),
