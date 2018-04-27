@@ -1,10 +1,17 @@
 import NAME_SUFFIXES from 'enums/NameSuffixes'
+import NUMBER_SUFFIXES from 'enums/NumberSuffixes'
 
-const addSuffix = (name, suffix) => {
-  if (['ii', 'iii', 'iv'].includes(suffix)) {
-    return `${name} ${NAME_SUFFIXES[suffix]}`
-  } else if (suffix) {
-    return `${name}, ${suffix}`
+export const addSuffix = (name, suffix) => {
+  if (suffix === undefined || suffix === null) return name
+
+  const nameSuffix = suffix
+  const stringSuffix = nameSuffix.toString()
+  const downCaseSuffix = stringSuffix.toLowerCase()
+
+  if (NAME_SUFFIXES[downCaseSuffix]) {
+    return `${name}, ${NAME_SUFFIXES[downCaseSuffix]}`
+  } else if (NUMBER_SUFFIXES[downCaseSuffix]) {
+    return `${name} ${NUMBER_SUFFIXES[downCaseSuffix]}`
   } else {
     return name
   }

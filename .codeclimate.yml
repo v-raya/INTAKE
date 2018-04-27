@@ -13,6 +13,8 @@ engines:
     channel: eslint-3
   fixme:
     enabled: true
+    exclude_patterns:
+    - "app/javascript/enums/NumberSuffixes.js"
   rubocop:
     enabled: true
     channel: rubocop-0-48

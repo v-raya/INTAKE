@@ -6,7 +6,7 @@ describe('PersonSuggestion', () => {
   it('renders first, last name, middle name and suffix', () => {
     const props = {firstName: 'Bart', lastName: 'Simpson', middleName: 'Jacqueline', nameSuffix: 'md'}
     const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
-    expect(component.html()).toContain('<strong class="highlighted">Bart Jacqueline Simpson MD</strong>')
+    expect(component.html()).toContain('<strong class="highlighted">Bart Jacqueline Simpson, MD</strong>')
   })
 
   it('renders legacy source table and id', () => {
@@ -24,7 +24,7 @@ describe('PersonSuggestion', () => {
   it('renders html sanitized first, last name, middle name and suffix', () => {
     const props = {firstName: '<h3>Bart</h3>', lastName: '<strong>Simpson</strong>', middleName: 'Jacqueline', nameSuffix: 'md'}
     const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
-    expect(component.html()).toContain('<strong class="highlighted">Bart Jacqueline Simpson MD</strong>')
+    expect(component.html()).toContain('<strong class="highlighted">Bart Jacqueline Simpson, MD</strong>')
   })
 
   describe('sensitive', () => {
