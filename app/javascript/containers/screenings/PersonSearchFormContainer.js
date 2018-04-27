@@ -41,17 +41,13 @@ const mapDispatchToProps = (dispatch, _ownProps) => {
   }
 }
 
-const mergeProps = (stateProps, {onSearch, onClear, onChange, onLoadMoreResults, dispatch}) => {
+const mergeProps = (stateProps, {dispatch, ...actions}) => {
   const {
-    canCreateNewPerson,
     hasAddSensitivePerson,
     hasOverride,
-    results,
     screeningId,
-    searchPrompt,
-    searchTerm,
-    total,
     userInfo,
+    ...props
   } = stateProps
   const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride)
   const onSelect = (person) => {
@@ -62,24 +58,17 @@ const mergeProps = (stateProps, {onSearch, onClear, onChange, onLoadMoreResults,
         legacy_source_table: person.legacyDescriptor && person.legacyDescriptor.legacy_table_name,
       },
     }
-    onClear()
-    onChange('')
+    actions.onClear()
+    actions.onChange('')
     if (!isDuplicatePerson(stateProps.participants, personOnScreening)) {
       dispatch(createPerson(personOnScreening))
     }
   }
   return {
-    canCreateNewPerson,
+    ...actions,
+    ...props,
     isSelectable,
-    onChange,
-    onClear,
-    onLoadMoreResults,
-    onSearch,
     onSelect,
-    results,
-    searchPrompt,
-    searchTerm,
-    total,
   }
 }
 
