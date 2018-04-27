@@ -177,7 +177,7 @@ export const getPersonFormattedAddressesSelector = (state, personId) => (
         city: address.get('city'),
         state: formattedState(address.get('state')),
         zip: address.get('zip'),
-        type: systemCodeDisplayValue(address.get('type'), getAddressTypes(state)),
+        type: systemCodeDisplayValue(address.get('type'), getAddressTypes(state)) || address.get('type'),
       })
     )
     )
