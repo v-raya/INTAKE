@@ -27,6 +27,7 @@ describe PersonSearchRepository do
         'races',
         'ethnicity',
         'addresses.id',
+        'addresses.effective_start_date',
         'addresses.street_name',
         'addresses.street_number',
         'addresses.city',
