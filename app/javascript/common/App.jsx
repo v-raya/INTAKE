@@ -17,6 +17,7 @@ export class App extends React.Component {
     fetchUserInfoAction()
     fetchSystemCodesAction()
     checkStaffPermission('add_sensitive_people')
+    checkStaffPermission('has_override')
   }
 
   render() {

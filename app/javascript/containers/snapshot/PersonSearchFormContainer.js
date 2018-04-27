@@ -16,6 +16,7 @@ const isDuplicatePerson = (participants, id) => (
 const mapStateToProps = (state) => ({
   canCreateNewPerson: false,
   hasAddSensitivePerson: state.getIn(['staff', 'add_sensitive_people']),
+  hasOverride: state.getIn(['staff', 'has_override']),
   results: getPeopleResultsSelector(state).toJS(),
   total: getResultsTotalValueSelector(state),
   searchPrompt: 'Search for clients',
@@ -41,10 +42,11 @@ const mapDispatchToProps = (dispatch, _ownProps) => {
 const mergeProps = (stateProps, {dispatch, ...actions}) => {
   const {
     hasAddSensitivePerson,
+    hasOverride,
     userInfo,
     ...props
   } = stateProps
-  const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person)
+  const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride)
   const onSelect = (person) => {
     const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
     actions.onClear()

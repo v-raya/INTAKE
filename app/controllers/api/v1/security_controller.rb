@@ -14,6 +14,14 @@ module Api
         elsif permission == :add_sensitive_people &&
               session[:user_details]['privileges'].include?('Sensitive Persons')
           render json: true
+        elsif permission == :has_override &&
+              (session[:user_details]['privileges'].include?('Statewide Read') ||
+              session[:user_details]['privileges'].include?('Countywide Read') ||
+              session[:user_details]['privileges'].include?('Countywide Read/Write') ||
+              session[:user_details]['privileges'].include?('State Read Assignment') ||
+              session[:user_details]['privileges'].include?('Officewide Read') ||
+              session[:user_details]['privileges'].include?('Officewide Read/Write'))
+          render json: true
         else
           render json: false
         end

@@ -7,7 +7,7 @@ export default createReducer(Map(), {
     if (error) {
       return state
     } else {
-      return fromJS({[permission]: hasPermission})
+      return state.set(permission, hasPermission)
     }
   },
 })

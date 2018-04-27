@@ -1,5 +1,5 @@
 import 'babel-polyfill'
-import {takeLatest, put, call} from 'redux-saga/effects'
+import {takeEvery, put, call} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {
   checkStaffPermissionSaga,
@@ -10,7 +10,7 @@ import * as actions from 'actions/staffActions'
 describe('checkStaffPermissionSaga', () => {
   it('checks staff permission on CHECK_STAFF_PERMISSION', () => {
     const gen = checkStaffPermissionSaga()
-    expect(gen.next().value).toEqual(takeLatest(actions.CHECK_STAFF_PERMISSION, checkStaffPermission))
+    expect(gen.next().value).toEqual(takeEvery(actions.CHECK_STAFF_PERMISSION, checkStaffPermission))
   })
 })
 

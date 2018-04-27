@@ -18,6 +18,7 @@ const mapStateToProps = (state) => ({
   screeningId: getScreeningIdValueSelector(state),
   canCreateNewPerson: true,
   hasAddSensitivePerson: state.getIn(['staff', 'add_sensitive_people']),
+  hasOverride: state.getIn(['staff', 'has_override']),
   results: getPeopleResultsSelector(state).toJS(),
   total: getResultsTotalValueSelector(state),
   searchPrompt: 'Search for any person (Children, parents, collaterals, reporters, alleged perpetrators...)',
@@ -44,6 +45,7 @@ const mergeProps = (stateProps, {onSearch, onClear, onChange, onLoadMoreResults,
   const {
     canCreateNewPerson,
     hasAddSensitivePerson,
+    hasOverride,
     results,
     screeningId,
     searchPrompt,
@@ -51,7 +53,7 @@ const mergeProps = (stateProps, {onSearch, onClear, onChange, onLoadMoreResults,
     total,
     userInfo,
   } = stateProps
-  const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person)
+  const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride)
   const onSelect = (person) => {
     const personOnScreening = {
       screening_id: screeningId,

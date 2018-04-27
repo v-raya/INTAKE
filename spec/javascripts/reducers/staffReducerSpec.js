@@ -24,5 +24,27 @@ describe('staffReducer', () => {
         Map()
       )
     })
+
+    it('can handle multiple different permissions checks', () => {
+      const hasPermission = true
+      const action = checkStaffPermissionSuccess('mypermission', hasPermission)
+      const firstState = staffReducer(Map(), action)
+
+      const anotherAction = checkStaffPermissionSuccess('anotherpermission', hasPermission)
+      expect(staffReducer(firstState, anotherAction)).toEqualImmutable(
+        Map({mypermission: true, anotherpermission: true})
+      )
+    })
+
+    it('overrides the previous setting if it gets the same permission', () => {
+      const hasPermission = true
+      const action = checkStaffPermissionSuccess('mypermission', hasPermission)
+      const firstState = staffReducer(Map(), action)
+
+      const anotherAction = checkStaffPermissionSuccess('mypermission', false)
+      expect(staffReducer(firstState, anotherAction)).toEqualImmutable(
+        Map({mypermission: false})
+      )
+    })
   })
 })

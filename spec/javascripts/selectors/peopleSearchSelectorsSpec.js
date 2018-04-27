@@ -40,6 +40,10 @@ describe('peopleSearchSelectors', () => {
     {code: '1', value: 'address type'},
   ]
 
+  const counties = [
+    {code: '999', value: 'Nowhere'},
+  ]
+
   describe('getLastResultsSortValueSelector', () => {
     it('returns the last results sort attribute', () => {
       const peopleSearch = {
@@ -112,6 +116,7 @@ describe('peopleSearchSelectors', () => {
         usStates,
         peopleSearch,
         addressTypes,
+        counties,
       })
       const peopleResults = getPeopleResultsSelector(state)
       expect(peopleResults).toEqualImmutable(
@@ -136,7 +141,7 @@ describe('peopleSearchSelectors', () => {
           },
           dateOfBirth: '1990-02-13',
           ssn: '123-45-6789',
-          clientCountyCode: '999',
+          clientCounty: 'Nowhere',
           address: {
             city: 'Flushing',
             state: 'state',

@@ -65,4 +65,44 @@ describe Api::V1::SecurityController do
       end
     end
   end
+
+  context 'with override authority' do
+    let(:session) do
+      {
+        security_token: security_token,
+        user_details: {
+          'privileges' => ['Sensitive Persons', 'Statewide Read']
+        }
+      }
+    end
+
+    it 'returns true' do
+      process :check_permission,
+        method: :get,
+        params: { permission: :has_override },
+        session: session
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('true')
+    end
+  end
+
+  context 'without override authority' do
+    let(:session) do
+      {
+        security_token: security_token,
+        user_details: {
+          'privileges' => ['Sensitive Persons', 'Sealed']
+        }
+      }
+    end
+
+    it 'returns false' do
+      process :check_permission,
+        method: :get,
+        params: { permission: :has_override },
+        session: session
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('false')
+    end
+  end
 end
