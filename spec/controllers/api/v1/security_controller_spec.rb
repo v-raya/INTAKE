@@ -79,7 +79,7 @@ describe Api::V1::SecurityController do
     it 'returns true' do
       process :check_permission,
         method: :get,
-        params: { permission: :has_override },
+        params: { permission: :has_state_override },
         session: session
       expect(response.status).to eq(200)
       expect(response.body).to eq('true')
@@ -99,7 +99,27 @@ describe Api::V1::SecurityController do
     it 'returns false' do
       process :check_permission,
         method: :get,
-        params: { permission: :has_override },
+        params: { permission: :has_state_override },
+        session: session
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('false')
+    end
+  end
+
+  context 'with a county override' do
+    let(:session) do
+      {
+        security_token: security_token,
+        user_details: {
+          'privileges' => ['Sensitive Persons', 'Countywide Read']
+        }
+      }
+    end
+
+    it 'returns false' do
+      process :check_permission,
+        method: :get,
+        params: { permission: :has_state_override },
         session: session
       expect(response.status).to eq(200)
       expect(response.body).to eq('false')

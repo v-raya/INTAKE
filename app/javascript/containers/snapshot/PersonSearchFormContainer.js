@@ -16,7 +16,7 @@ const isDuplicatePerson = (participants, id) => (
 const mapStateToProps = (state) => ({
   canCreateNewPerson: false,
   hasAddSensitivePerson: state.getIn(['staff', 'add_sensitive_people']),
-  hasOverride: state.getIn(['staff', 'has_override']),
+  hasOverride: state.getIn(['staff', 'has_state_override']),
   results: getPeopleResultsSelector(state).toJS(),
   total: getResultsTotalValueSelector(state),
   searchPrompt: 'Search for clients',

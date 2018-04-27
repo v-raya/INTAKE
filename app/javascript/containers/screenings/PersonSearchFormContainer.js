@@ -18,7 +18,7 @@ const mapStateToProps = (state) => ({
   screeningId: getScreeningIdValueSelector(state),
   canCreateNewPerson: true,
   hasAddSensitivePerson: state.getIn(['staff', 'add_sensitive_people']),
-  hasOverride: state.getIn(['staff', 'has_override']),
+  hasOverride: state.getIn(['staff', 'has_state_override']),
   results: getPeopleResultsSelector(state).toJS(),
   total: getResultsTotalValueSelector(state),
   searchPrompt: 'Search for any person (Children, parents, collaterals, reporters, alleged perpetrators...)',
