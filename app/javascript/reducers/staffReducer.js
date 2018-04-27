@@ -1,5 +1,5 @@
 import {CHECK_STAFF_PERMISSION_COMPLETE} from 'actions/staffActions'
-import {Map, fromJS} from 'immutable'
+import {Map} from 'immutable'
 import {createReducer} from 'utils/createReducer'
 
 export default createReducer(Map(), {

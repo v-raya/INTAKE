@@ -31,7 +31,7 @@ describe('createSnapshotPerson', () => {
     },
     client_county: {
       description: 'Nowhere',
-      id: '999'
+      id: '999',
     },
     addresses: [{
       zip: '99999',
