@@ -390,7 +390,7 @@ describe('returnLastKnownAddress', () => {
     expect(returnLastKnownAddress(false)).toEqual(null)
   })
 
-  it('return null when empty List is passed', () => {
+  it('return undefined when empty List is passed', () => {
     expect(returnLastKnownAddress(List())).toEqual(undefined)
   })
 })

@@ -65,7 +65,7 @@ export const mapAddress = (state, result) => buildSelector(
   () => result.get('addresses') || List(),
   (addressTypes, addresses) => {
     if (addresses.isEmpty()) { return null }
-    const address = returnLastKnownAddress(addresses) || addresses.get(0)
+    const address = returnLastKnownAddress(addresses) || addresses.first()
     return buildAddressMap(addressTypes, address)
   }
 )(state)
