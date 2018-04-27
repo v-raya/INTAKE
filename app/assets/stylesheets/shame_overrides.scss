@@ -94,3 +94,14 @@
     }
   }
 }
+
+@media print {
+  .btn,
+  header {
+    display: none;
+  }
+
+  .col-xs-8 {
+    width: 100%;
+  }
+}

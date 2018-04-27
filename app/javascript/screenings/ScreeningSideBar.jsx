@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import nameFormatter from 'utils/nameFormatter'
 
 const ScreeningSideBar = (props) => (
-  <div className='col-xs-4 col-md-3 hide-mobile'>
+  <div className='col-xs-4 col-md-3 hide-mobile hidden-print'>
     <SideBar>
       <NavLinks>
         <NavLink text='Screening Information' href='#screening-information-card-anchor' />
