@@ -8,6 +8,31 @@ import momentLocalizer from 'react-widgets/lib/localizers/moment'
 
 momentLocalizer(moment)
 
+const parseDate = (date) => (
+  moment(date, ['YYYY-MM-DD', 'MM/DD/YYYY h:mm A', moment.ISO_8601])
+)
+
+const proxyOnChange = (onChange, hasTime) => ((date) => {
+  if (date === null) {
+    onChange(null)
+    return
+  }
+  const parsedDate = parseDate(date)
+  const dateOrDatetime = hasTime ? parsedDate.toISOString() : parsedDate.format('YYYY-MM-DD')
+  onChange(dateOrDatetime)
+})
+
+const proxyOnBlur = (onBlur) => ((event) => {
+  if (!onBlur) { return }
+
+  const date = event.target.value
+  if (_.isEmpty(date)) {
+    onBlur(null)
+    return
+  }
+  onBlur(parseDate(date).toISOString())
+})
+
 const DateField = ({
   errors,
   gridClassName,
@@ -23,39 +48,9 @@ const DateField = ({
   required,
   value,
 }) => {
-  const parseDate = (date) => (
-    moment(date, ['YYYY-MM-DD', 'MM/DD/YYYY h:mm A', moment.ISO_8601])
-  )
-
-  let dateValue
-  if (_.isEmpty(value)) {
-    dateValue = null
-  } else {
-    dateValue = parseDate(value).toDate()
-  }
-
-  const format = (hasTime === true) ? 'MM/DD/YYYY h:mm A' : 'MM/DD/YYYY'
-  const placeholder = (hasTime === true) ? 'MM/DD/YYYY HH:MM AM/PM' : 'MM/DD/YYYY'
-
-  const proxyOnChange = (date, _) => {
-    if (date === null) {
-      onChange(null)
-    } else {
-      const dateOrDatetime = (hasTime === true) ? parseDate(date).toISOString() : parseDate(date).format('YYYY-MM-DD')
-      onChange(dateOrDatetime)
-    }
-  }
-
-  const proxyOnBlur = (event) => {
-    if (onBlur) {
-      const rawDate = event.target.value
-      if (_.isEmpty(rawDate)) {
-        onBlur(null)
-      } else {
-        onBlur(parseDate(rawDate).toISOString())
-      }
-    }
-  }
+  const dateValue = _.isEmpty(value) ? null : parseDate(value).toDate()
+  const format = hasTime ? 'MM/DD/YYYY h:mm A' : 'MM/DD/YYYY'
+  const placeholder = hasTime ? 'MM/DD/YYYY HH:MM AM/PM' : 'MM/DD/YYYY'
 
   return (
     <FormField htmlFor={`${id}_input`} label={label} gridClassName={gridClassName} labelClassName={labelClassName}
@@ -67,8 +62,8 @@ const DateField = ({
         value={dateValue}
         format={format}
         id={id}
-        onBlur={proxyOnBlur}
-        onChange={proxyOnChange}
+        onBlur={proxyOnBlur(onBlur)}
+        onChange={proxyOnChange(onChange, hasTime)}
         placeholder={placeholder}
         required={required}
         time={hasTime}

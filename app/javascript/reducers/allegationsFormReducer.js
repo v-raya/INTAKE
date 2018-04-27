@@ -48,23 +48,19 @@ export default createReducer(List(), {
     }
   },
   [UPDATE_PERSON_COMPLETE](state, {payload: {person = {}}, error}) {
-    if (error) {
-      return state
-    } else {
-      const {id, roles} = person
-      let updatedAllegations = state
-      if (!roles.includes('Victim')) {
-        updatedAllegations = updatedAllegations.filterNot((allegation) => (
-          allegation.get('victimId') === id
-        ))
-      }
-      if (!roles.includes('Perpetrator')) {
-        updatedAllegations = updatedAllegations.filterNot((allegation) => (
-          allegation.get('perpetratorId') === id
-        ))
-      }
-      return updatedAllegations
+    if (error) { return state }
+    const {id, roles} = person
+    let updatedAllegations = state
+    if (!roles.includes('Victim')) {
+      updatedAllegations = updatedAllegations.filterNot((allegation) => (
+        allegation.get('victimId') === id
+      ))
     }
+    if (!roles.includes('Perpetrator')) {
+      updatedAllegations = updatedAllegations.filterNot((allegation) => (
+        allegation.get('perpetratorId') === id
+      ))
+    }
+    return updatedAllegations
   },
 })
-

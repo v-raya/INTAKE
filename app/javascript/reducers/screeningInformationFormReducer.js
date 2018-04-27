@@ -6,43 +6,26 @@ import {
 } from 'actions/screeningInformationFormActions'
 import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {createReducer} from 'utils/createReducer'
+import {untouched} from 'utils/formTouch'
 import {Map, fromJS} from 'immutable'
 
 export default createReducer(Map(), {
   [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
-    if (error) {
-      return state
-    } else {
-      const {
-        name,
-        assignee,
-        started_at,
-        ended_at,
-        communication_method,
-      } = screening
-      return fromJS({
-        name: {
-          value: name,
-          touched: false,
-        },
-        assignee: {
-          value: assignee,
-          touched: false,
-        },
-        started_at: {
-          value: started_at,
-          touched: false,
-        },
-        ended_at: {
-          value: ended_at,
-          touched: false,
-        },
-        communication_method: {
-          value: communication_method,
-          touched: false,
-        },
-      })
-    }
+    if (error) { return state }
+    const {
+      name,
+      assignee,
+      started_at,
+      ended_at,
+      communication_method,
+    } = screening
+    return fromJS({
+      name: untouched(name),
+      assignee: untouched(assignee),
+      started_at: untouched(started_at),
+      ended_at: untouched(ended_at),
+      communication_method: untouched(communication_method),
+    })
   },
   [RESET_SCREENING_INFORMATION_FORM_FIELD_VALUES](state, {payload: {name, assignee, started_at, ended_at, communication_method}}) {
     return state.setIn(['name', 'value'], name)

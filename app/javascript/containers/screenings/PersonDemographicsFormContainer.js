@@ -23,21 +23,18 @@ const mapStateToProps = (state, {personId}) => (
 const mapDispatchToProps = (dispatch, {personId}) => ({
   onChange: (field, value) => {
     switch (field) {
-      case 'languages':
-      {
+      case 'languages': {
         const trimmedLanguages = value.slice(0, MAX_LANGUAGES).map((languages) => languages.value) || []
         dispatch(setField(personId, ['languages'], trimmedLanguages))
         break
       }
-      case 'date_of_birth':
-      {
+      case 'date_of_birth': {
         dispatch(setField(personId, [field], value))
         dispatch(setField(personId, ['approximate_age'], null))
         dispatch(setField(personId, ['approximate_age_units'], null))
         break
       }
-      default:
-      {
+      default: {
         dispatch(setField(personId, [field], value))
       }
     }
