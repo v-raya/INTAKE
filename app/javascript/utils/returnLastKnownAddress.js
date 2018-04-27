@@ -1,16 +1,7 @@
 export const returnLastKnownAddress = (data) => {
-  if (data) {
-    return (
-      data.reduce((latest, current) => {
-        if (current.has('effective_start_date')) {
-          if (latest) {
-            return current.get('effective_start_date') > latest.get('effective_start_date') ? current : latest
-          }
-          return current
-        }
-        return latest
-      }, null)
-    )
-  }
-  return null
+  if (!data) { return null }
+  return data
+    .filter((address) => address.get('effective_start_date'))
+    .sort((a, b) => new Date(b.get('effective_start_date')) - new Date(a.get('effective_start_date')))
+    .first()
 }
