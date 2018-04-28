@@ -113,10 +113,7 @@ describe('peopleSearchSelectors', () => {
       expect(peopleResults).toEqualImmutable(
         fromJS([{
           legacy_id: '1',
-          firstName: 'Bart',
-          lastName: 'Simpson',
-          middleName: 'Jacqueline',
-          nameSuffix: 'md',
+          fullName: 'Bart Jacqueline Simpson, MD',
           gender: 'female',
           legacyDescriptor: {
             legacy_ui_id: '123-456-789',
@@ -274,8 +271,7 @@ describe('peopleSearchSelectors', () => {
           addressTypes,
         })
         const peopleResults = getPeopleResultsSelector(state)
-        expect(peopleResults.getIn([0, 'firstName'])).toEqual('<em>Bar</em>t')
-        expect(peopleResults.getIn([0, 'lastName'])).toEqual('Sim<em>pson</em>')
+        expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
         expect(peopleResults.getIn([0, 'ssn'])).toEqual('<em>123-45-6789</em>')
         expect(peopleResults.getIn([0, 'dateOfBirth'])).toEqual('<em>1990-02-13</em>')
       })
@@ -305,7 +301,7 @@ describe('peopleSearchSelectors', () => {
           addressTypes,
         })
         const peopleResults = getPeopleResultsSelector(state)
-        expect(peopleResults.getIn([0, 'firstName'])).toEqual('<em>Bar</em>t')
+        expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
       })
 
       it('should check autocomplete_search_bar if no exact last_name', () => {
@@ -333,7 +329,7 @@ describe('peopleSearchSelectors', () => {
           addressTypes,
         })
         const peopleResults = getPeopleResultsSelector(state)
-        expect(peopleResults.getIn([0, 'lastName'])).toEqual('Sim<em>pson</em>')
+        expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
       })
 
       it('should find autocomplete fields in any order', () => {
@@ -361,8 +357,7 @@ describe('peopleSearchSelectors', () => {
           addressTypes,
         })
         const peopleResults = getPeopleResultsSelector(state)
-        expect(peopleResults.getIn([0, 'firstName'])).toEqual('<em>Bar</em>t')
-        expect(peopleResults.getIn([0, 'lastName'])).toEqual('Sim<em>pson</em>')
+        expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
       })
 
       it('should use exact names if no highlight', () => {
@@ -389,8 +384,7 @@ describe('peopleSearchSelectors', () => {
           addressTypes,
         })
         const peopleResults = getPeopleResultsSelector(state)
-        expect(peopleResults.getIn([0, 'firstName'])).toEqual('Bart')
-        expect(peopleResults.getIn([0, 'lastName'])).toEqual('Simpson')
+        expect(peopleResults.getIn([0, 'fullName'])).toEqual('Bart Simpson')
       })
     })
 

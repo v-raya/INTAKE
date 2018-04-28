@@ -10,6 +10,7 @@ import {
   mapEthnicities,
   mapAddress,
 } from 'utils/peopleSearchHelper'
+import {isCommaSuffix, formatNameSuffix} from 'utils/nameFormatter'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 
 const getPeopleSearchSelector = (state) => state.get('peopleSearch')
@@ -26,7 +27,6 @@ export const getLastResultsSortValueSelector = (state) => {
 
 const formatSSN = (ssn) => ssn && ssn.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3')
 const formatDOB = (dob, highlight) => (highlight ? '<em>'.concat(dob, '</em>') : dob)
-const formatSuffix = (suffix, highlight) => (highlight ? 'e'.concat(suffix) : suffix)
 const formatPhoneNumber = (phoneNumber) => phoneNumber && Map({
   number: phoneNumberFormatter(phoneNumber.get('number')),
   type: phoneNumber.get('type'),
@@ -35,11 +35,32 @@ const formatPhoneNumber = (phoneNumber) => phoneNumber && Map({
 // Try to find a match from a list of highlights by stripping out <em> tags
 const highlightNameField = (exactName, highlights) => (highlights.find(
   (highlight) => highlight.replace(/<(\/)?em>/g, '') === exactName
-) || exactName)
+))
 
 const maybeHighlightedField = (result, highlight, key) => highlight.getIn(
   [key, 0],
-  highlightNameField(result.get(key), highlight.get('autocomplete_search_bar', List()))
+  highlightNameField(
+    result.get(key),
+    highlight.get('autocomplete_search_bar', List())
+  )
+)
+
+const combineFullName = (firstName, middleName, lastName, nameSuffix, isCommaSuffix) => {
+  const nameStem = [firstName, middleName, lastName].filter(Boolean).join(' ')
+
+  if (nameSuffix) {
+    return `${nameStem}${isCommaSuffix ? ',' : ''} ${nameSuffix}`
+  }
+
+  return nameStem
+}
+
+const formatFullName = (result, highlight) => combineFullName(
+  maybeHighlightedField(result, highlight, 'first_name') || result.get('first_name'),
+  maybeHighlightedField(result, highlight, 'middle_name') || result.get('middle_name'),
+  maybeHighlightedField(result, highlight, 'last_name') || result.get('last_name'),
+  maybeHighlightedField(result, highlight, 'name_suffix') || formatNameSuffix(result.get('name_suffix')),
+  isCommaSuffix(result.get('name_suffix'))
 )
 
 export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state)
@@ -49,10 +70,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
     const highlight = fullResult.get('highlight', Map())
     return Map({
       legacy_id: result.get('id'),
-      firstName: maybeHighlightedField(result, highlight, 'first_name'),
-      lastName: maybeHighlightedField(result, highlight, 'last_name'),
-      middleName: maybeHighlightedField(result, highlight, 'middle_name'),
-      nameSuffix: formatSuffix(result.get('name_suffix'), highlight.has('name_suffix')),
+      fullName: formatFullName(result, highlight),
       legacyDescriptor: result.get('legacy_descriptor'),
       gender: result.get('gender'),
       languages: mapLanguages(state, result),

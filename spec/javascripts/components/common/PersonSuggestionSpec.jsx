@@ -3,8 +3,8 @@ import React from 'react'
 import {shallow} from 'enzyme'
 
 describe('PersonSuggestion', () => {
-  it('renders first, last name, middle name and suffix', () => {
-    const props = {firstName: 'Bart', lastName: 'Simpson', middleName: 'Jacqueline', nameSuffix: 'md'}
+  it('renders full name', () => {
+    const props = {fullName: 'Bart Jacqueline Simpson, MD'}
     const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
     expect(component.html()).toContain('<strong class="highlighted">Bart Jacqueline Simpson, MD</strong>')
   })
@@ -21,10 +21,10 @@ describe('PersonSuggestion', () => {
     expect(component.html()).toContain('<span>Client in CWS-CMS</span>')
   })
 
-  it('renders html sanitized first, last name, middle name and suffix', () => {
-    const props = {firstName: '<h3>Bart</h3>', lastName: '<strong>Simpson</strong>', middleName: 'Jacqueline', nameSuffix: 'md'}
+  it('renders html sanitized full name', () => {
+    const props = {fullName: '<h3>Bart</h3> <em>Jacqueline</em> <strong>Simpson</strong>, MD'}
     const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
-    expect(component.html()).toContain('<strong class="highlighted">Bart Jacqueline Simpson, MD</strong>')
+    expect(component.html()).toContain('<strong class="highlighted">Bart <em>Jacqueline</em> Simpson, MD</strong>')
   })
 
   describe('sensitive', () => {

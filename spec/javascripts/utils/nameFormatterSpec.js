@@ -1,4 +1,36 @@
-import nameFormatter from 'utils/nameFormatter'
+import {isCommaSuffix, default as nameFormatter} from 'utils/nameFormatter'
+
+describe('isCommaSuffix', () => {
+  it('should be true for name suffixes', () => {
+    expect(isCommaSuffix('jr')).toEqual(true)
+    expect(isCommaSuffix('jd')).toEqual(true)
+    expect(isCommaSuffix('md')).toEqual(true)
+    expect(isCommaSuffix('phd')).toEqual(true)
+  })
+
+  it('should be false for number suffixes', () => {
+    expect(isCommaSuffix('ii')).toEqual(false)
+    expect(isCommaSuffix('iii')).toEqual(false)
+    expect(isCommaSuffix('ix')).toEqual(false)
+    expect(isCommaSuffix('2')).toEqual(false)
+    expect(isCommaSuffix('3')).toEqual(false)
+    expect(isCommaSuffix('9')).toEqual(false)
+  })
+
+  it('should downcase the suffix', () => {
+    expect(isCommaSuffix('Jr')).toEqual(true)
+    expect(isCommaSuffix('PhD')).toEqual(true)
+    expect(isCommaSuffix('III')).toEqual(false)
+    expect(isCommaSuffix('iIi')).toEqual(false)
+  })
+
+  it('should be false for unknown values', () => {
+    expect(isCommaSuffix('OFM')).toEqual(false)
+    expect(isCommaSuffix('Primate of Italy')).toEqual(false)
+    expect(isCommaSuffix(null)).toEqual(false)
+    expect(isCommaSuffix(3)).toEqual(false)
+  })
+})
 
 describe('nameFormatter', () => {
   it('renders a full name', () => {

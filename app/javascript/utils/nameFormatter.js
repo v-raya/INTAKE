@@ -1,20 +1,21 @@
 import NAME_SUFFIXES from 'enums/NameSuffixes'
 import NUMBER_SUFFIXES from 'enums/NumberSuffixes'
 
+export const isCommaSuffix = (suffix) => Boolean(
+  (typeof suffix === 'string') && NAME_SUFFIXES[suffix.toLowerCase()]
+)
+
+export const formatNameSuffix = (suffix) => {
+  const downCaseSuffix = (typeof suffix === 'string') && suffix.toLowerCase()
+  return NAME_SUFFIXES[downCaseSuffix] || NUMBER_SUFFIXES[downCaseSuffix]
+}
+
 export const addSuffix = (name, suffix) => {
-  if (suffix === undefined || suffix === null) return name
+  const validSuffix = formatNameSuffix(suffix)
 
-  const nameSuffix = suffix
-  const stringSuffix = nameSuffix.toString()
-  const downCaseSuffix = stringSuffix.toLowerCase()
+  if (!validSuffix) { return name }
 
-  if (NAME_SUFFIXES[downCaseSuffix]) {
-    return `${name}, ${NAME_SUFFIXES[downCaseSuffix]}`
-  } else if (NUMBER_SUFFIXES[downCaseSuffix]) {
-    return `${name} ${NUMBER_SUFFIXES[downCaseSuffix]}`
-  } else {
-    return name
-  }
+  return `${name}${isCommaSuffix(suffix) ? ',' : ''} ${validSuffix}`
 }
 
 const nameFormatter = ({
