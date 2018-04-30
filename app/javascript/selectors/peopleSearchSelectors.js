@@ -10,7 +10,7 @@ import {
   mapEthnicities,
   mapAddress,
 } from 'utils/peopleSearchHelper'
-import {isCommaSuffix, formatNameSuffix} from 'utils/nameFormatter'
+import {isCommaSuffix, formatHighlightedSuffix} from 'utils/nameFormatter'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 
 const getPeopleSearchSelector = (state) => state.get('peopleSearch')
@@ -59,7 +59,7 @@ const formatFullName = (result, highlight) => combineFullName(
   maybeHighlightedField(result, highlight, 'first_name') || result.get('first_name'),
   maybeHighlightedField(result, highlight, 'middle_name') || result.get('middle_name'),
   maybeHighlightedField(result, highlight, 'last_name') || result.get('last_name'),
-  maybeHighlightedField(result, highlight, 'name_suffix') || formatNameSuffix(result.get('name_suffix')),
+  formatHighlightedSuffix(maybeHighlightedField(result, highlight, 'name_suffix') || result.get('name_suffix')),
   isCommaSuffix(result.get('name_suffix'))
 )
 

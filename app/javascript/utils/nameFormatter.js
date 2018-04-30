@@ -10,6 +10,17 @@ export const formatNameSuffix = (suffix) => {
   return NAME_SUFFIXES[downCaseSuffix] || NUMBER_SUFFIXES[downCaseSuffix]
 }
 
+export const formatHighlightedSuffix = (highlightedSuffix) => {
+  if (typeof highlightedSuffix !== 'string') { return null }
+
+  const suffix = highlightedSuffix.replace(/<\/?em>/gi, '')
+  const formattedSuffix = formatNameSuffix(suffix)
+  const rehighlightedSuffix = suffix === highlightedSuffix ?
+    formattedSuffix : `<em>${formattedSuffix}</em>`
+
+  return rehighlightedSuffix
+}
+
 export const addSuffix = (name, suffix) => {
   const validSuffix = formatNameSuffix(suffix)
 
