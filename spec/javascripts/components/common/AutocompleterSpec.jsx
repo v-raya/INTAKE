@@ -212,14 +212,12 @@ describe('<Autocompleter />', () => {
         address,
         dateOfBirth: 'test date of birth',
         ethnicity,
-        firstName: 'test first name',
+        fullName: 'test full name',
         gender: 'male',
         isSealed: false,
         isSensitive: false,
         languages,
-        lastName: 'test last name',
         legacyDescriptor,
-        middleName: 'test middle name',
         phoneNumber,
         races,
         ssn: 'test ssn',
@@ -253,14 +251,12 @@ describe('<Autocompleter />', () => {
         expect(suggestion.props().address).toEqual(address)
         expect(suggestion.props().dateOfBirth).toEqual('test date of birth')
         expect(suggestion.props().ethnicity).toEqual(ethnicity)
-        expect(suggestion.props().firstName).toEqual('test first name')
+        expect(suggestion.props().fullName).toEqual('test full name')
         expect(suggestion.props().gender).toEqual('male')
         expect(suggestion.props().isSealed).toEqual(false)
         expect(suggestion.props().isSensitive).toEqual(false)
         expect(suggestion.props().languages).toEqual(languages)
-        expect(suggestion.props().lastName).toEqual('test last name')
         expect(suggestion.props().legacyDescriptor).toEqual(legacyDescriptor)
-        expect(suggestion.props().middleName).toEqual('test middle name')
         expect(suggestion.props().phoneNumber).toEqual(phoneNumber)
         expect(suggestion.props().races).toEqual(races)
         expect(suggestion.props().ssn).toEqual('test ssn')

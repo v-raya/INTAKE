@@ -109,15 +109,12 @@ export class Autocompleter extends Component {
           address={item.address}
           dateOfBirth={item.dateOfBirth}
           ethnicity={item.ethnicity}
-          firstName={item.firstName}
+          fullName={item.fullName}
           gender={item.gender}
           isSealed={item.isSealed}
           isSensitive={item.isSensitive}
           languages={item.languages}
-          lastName={item.lastName}
           legacyDescriptor={item.legacyDescriptor}
-          middleName={item.middleName}
-          nameSuffix={item.nameSuffix}
           phoneNumber={item.phoneNumber}
           races={item.races}
           ssn={item.ssn}
