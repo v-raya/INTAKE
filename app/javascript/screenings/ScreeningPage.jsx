@@ -17,7 +17,7 @@ import {connect} from 'react-redux'
 import HistoryOfInvolvementContainer from 'containers/screenings/HistoryOfInvolvementContainer'
 import HistoryTableContainer from 'containers/screenings/HistoryTableContainer'
 import EmptyHistory from 'views/history/EmptyHistory'
-import PersonSearchFormContainer from 'containers/screenings/PersonSearchFormContainer'
+import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
 import ErrorDetail from 'common/ErrorDetail'
 import ScreeningInformationFormContainer from 'containers/screenings/ScreeningInformationFormContainer'
 import ScreeningInformationShowContainer from 'containers/screenings/ScreeningInformationShowContainer'
@@ -42,6 +42,10 @@ import {
   getScreeningHasErrorsSelector,
   getPeopleHaveErrorsSelector,
 } from 'selectors/screening/screeningPageSelectors'
+
+const isDuplicatePerson = (participants, personOnScreening) => (
+  participants.some((x) => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
+)
 
 export class ScreeningPage extends React.Component {
   constructor(props, context) {
@@ -75,6 +79,20 @@ export class ScreeningPage extends React.Component {
     clearRelationships()
     clearPeople()
     clearScreening()
+  }
+
+  onSelectPerson(person) {
+    const {participants, params: {id}, actions: {createPerson}} = this.props
+    const personOnScreening = {
+      screening_id: id,
+      legacy_descriptor: {
+        legacy_id: person.legacyDescriptor && person.legacyDescriptor.legacy_id,
+        legacy_source_table: person.legacyDescriptor && person.legacyDescriptor.legacy_table_name,
+      },
+    }
+    if (!isDuplicatePerson(participants, personOnScreening)) {
+      createPerson(personOnScreening)
+    }
   }
 
   submitButton() {
@@ -176,7 +194,13 @@ export class ScreeningPage extends React.Component {
             <h1>{referralId && `Referral #${referralId}`}</h1>
             {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
             {this.renderScreeningInformationCard()}
-            {editable && <PersonSearchFormContainer />}
+            {editable &&
+              <PersonSearchFormContainer
+                onSelect={(person) => this.onSelectPerson(person)}
+                searchPrompt='Search for any person (Children, parents, collaterals, reporters, alleged perpetrators...)'
+                canCreateNewPerson={true}
+              />
+            }
             {this.props.participants.map(({id}) => <PersonCardView key={id} personId={id} />)}
             {this.renderNarrativeCard()}
             {this.renderIncidentInformationCard()}

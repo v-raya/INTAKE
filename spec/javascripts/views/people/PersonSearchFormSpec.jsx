@@ -13,9 +13,12 @@ describe('PersonSearchForm', () => {
     onSelect = () => null,
     onChange = () => null,
     onClear = () => null,
+    onSearch = () => null,
+    searchPrompt = '',
+    canCreateNewPerson = false,
     ...args
   }) {
-    const props = {onSelect, onChange, onClear, ...args}
+    const props = {onSelect, onChange, onClear, onSearch, searchPrompt, canCreateNewPerson, ...args}
     return shallow(<PersonSearchForm {...props}/>, {disableLifecycleMethods: true})
   }
 

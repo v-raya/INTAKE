@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
 import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
-import {clearPeople} from 'actions/personCardActions'
+import {clearPeople, createSnapshotPerson} from 'actions/personCardActions'
 import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
-import PersonSearchFormContainer from 'containers/snapshot/PersonSearchFormContainer'
+import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
 import PersonCardView from 'snapshots/PersonCardView'
 import HistoryOfInvolvementContainer from 'containers/snapshot/HistoryOfInvolvementContainer'
 import HistoryTableContainer from 'containers/snapshot/HistoryTableContainer'
@@ -13,6 +13,10 @@ import EmptyHistory from 'views/history/EmptyHistory'
 import RelationshipsCardContainer from 'containers/snapshot/RelationshipsCardContainer'
 import PageHeader from 'common/PageHeader'
 import SnapshotSideBar from 'snapshots/SnapshotSideBar'
+
+const isDuplicatePerson = (participants, id) => (
+  participants.some((x) => x.legacy_id === id)
+)
 
 export class SnapshotPage extends React.Component {
   componentDidMount() {
@@ -34,6 +38,13 @@ export class SnapshotPage extends React.Component {
         Start Over
       </button>
     )
+  }
+
+  onSelectPerson(person) {
+    const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
+    if (!isDuplicatePerson(this.props.participants, id)) {
+      this.props.createSnapshotPerson(id)
+    }
   }
 
   renderSnapshotCard() {
@@ -61,7 +72,11 @@ export class SnapshotPage extends React.Component {
       <div className='col-md-9 col-xs-8 '>
         <div className='row'>
           {this.renderSnapshotCard()}
-          <PersonSearchFormContainer />
+          <PersonSearchFormContainer
+            onSelect={(person) => this.onSelectPerson(person)}
+            searchPrompt='Search for clients'
+            canCreateNewPerson={false}
+          />
           {participants.map(({id}) =>
             <PersonCardView key={id} personId={id} />
           )}
@@ -92,6 +107,7 @@ export class SnapshotPage extends React.Component {
 
 SnapshotPage.propTypes = {
   createSnapshot: PropTypes.func,
+  createSnapshotPerson: PropTypes.func,
   participants: PropTypes.array,
   startOver: PropTypes.func,
   unmount: PropTypes.func,
@@ -103,6 +119,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createSnapshot: () => dispatch(createSnapshot()),
+  createSnapshotPerson: (id) => dispatch(createSnapshotPerson(id)),
   startOver: () => {
     dispatch(createSnapshot())
     dispatch(clearPeople())

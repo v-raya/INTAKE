@@ -5,7 +5,7 @@ import {shallow, mount} from 'enzyme'
 describe('<Autocompleter />', () => {
   function mountAutocompleter({
     canCreateNewPerson,
-    onLoadMoreResults,
+    onLoadMoreResults = () => null,
     isSelectable = () => true,
     onChange = () => null,
     onClear = () => null,
