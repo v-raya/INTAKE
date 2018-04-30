@@ -1,4 +1,4 @@
-import {takeLatest, put, call} from 'redux-saga/effects'
+import {takeEvery, put, call} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {
   checkStaffPermissionSuccess,
@@ -15,5 +15,5 @@ export function* checkStaffPermission({payload: {permission}}) {
   }
 }
 export function* checkStaffPermissionSaga() {
-  yield takeLatest(CHECK_STAFF_PERMISSION, checkStaffPermission)
+  yield takeEvery(CHECK_STAFF_PERMISSION, checkStaffPermission)
 }

@@ -8,6 +8,7 @@ import {
 } from 'selectors/peopleSearchSelectors'
 import {createPerson} from 'actions/personCardActions'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
+import {canUserAddClient} from 'utils/authorization'
 
 const isDuplicatePerson = (participants, personOnScreening) => (
   participants.some((x) => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
@@ -17,11 +18,13 @@ const mapStateToProps = (state) => ({
   screeningId: getScreeningIdValueSelector(state),
   canCreateNewPerson: true,
   hasAddSensitivePerson: state.getIn(['staff', 'add_sensitive_people']),
+  hasOverride: state.getIn(['staff', 'has_state_override']),
   results: getPeopleResultsSelector(state).toJS(),
   total: getResultsTotalValueSelector(state),
   searchPrompt: 'Search for any person (Children, parents, collaterals, reporters, alleged perpetrators...)',
   searchTerm: getSearchTermValueSelector(state),
   participants: state.get('participants').toJS(),
+  userInfo: state.get('userInfo').toJS(),
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => {
@@ -38,17 +41,15 @@ const mapDispatchToProps = (dispatch, _ownProps) => {
   }
 }
 
-const mergeProps = (stateProps, {onSearch, onClear, onChange, onLoadMoreResults, dispatch}) => {
+const mergeProps = (stateProps, {dispatch, ...actions}) => {
   const {
-    canCreateNewPerson,
     hasAddSensitivePerson,
-    results,
+    hasOverride,
     screeningId,
-    searchPrompt,
-    searchTerm,
-    total,
+    userInfo,
+    ...props
   } = stateProps
-  const isSelectable = ({isSensitive}) => (isSensitive === false || hasAddSensitivePerson)
+  const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride)
   const onSelect = (person) => {
     const personOnScreening = {
       screening_id: screeningId,
@@ -57,24 +58,17 @@ const mergeProps = (stateProps, {onSearch, onClear, onChange, onLoadMoreResults,
         legacy_source_table: person.legacyDescriptor && person.legacyDescriptor.legacy_table_name,
       },
     }
-    onClear()
-    onChange('')
+    actions.onClear()
+    actions.onChange('')
     if (!isDuplicatePerson(stateProps.participants, personOnScreening)) {
       dispatch(createPerson(personOnScreening))
     }
   }
   return {
-    canCreateNewPerson,
+    ...actions,
+    ...props,
     isSelectable,
-    onChange,
-    onClear,
-    onLoadMoreResults,
-    onSearch,
     onSelect,
-    results,
-    searchPrompt,
-    searchTerm,
-    total,
   }
 }
 

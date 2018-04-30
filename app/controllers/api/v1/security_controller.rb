@@ -9,17 +9,29 @@ module Api
 
       def check_permission
         permission = params[:permission].to_sym
-        if permissions_set?(permission)
-          render json: false
-        elsif permission == :add_sensitive_people &&
-              session[:user_details]['privileges'].include?('Sensitive Persons')
-          render json: true
-        else
-          render json: false
-        end
+
+        result = !permissions_set?(permission) && (
+          add_sensitive_people?(permission) ||
+          state_override?(permission)
+        )
+
+        render json: result
       end
 
       private
+
+      def add_sensitive_people?(permission)
+        privileges = session[:user_details]['privileges']
+        permission == :add_sensitive_people && privileges.include?('Sensitive Persons')
+      end
+
+      def state_override?(permission)
+        privileges = session[:user_details]['privileges']
+        permission == :has_state_override && (
+          privileges.include?('Statewide Read') ||
+          privileges.include?('State Read Assignment')
+        )
+      end
 
       def permissions_set?(permission)
         permission.blank? ||
