@@ -125,52 +125,37 @@ export class ScreeningPage extends React.Component {
       <ScreeningInformationShowContainer />)
   }
 
+  renderPersonSearchForm() {
+    return (
+      <PersonSearchFormContainer
+        onSelect={(person) => this.onSelectPerson(person)}
+        searchPrompt='Search for any person (Children, parents, collaterals, reporters, alleged perpetrators...)'
+        canCreateNewPerson={true}
+      />)
+  }
+
   renderNarrativeCard() {
-    return this.renderCard(
-      'Narrative',
-      'narrative-card',
-      <NarrativeFormContainer />,
-      <NarrativeShowContainer />)
+    return this.renderCard('Narrative', 'narrative-card', <NarrativeFormContainer/>, <NarrativeShowContainer/>)
   }
 
   renderIncidentInformationCard() {
-    return this.renderCard(
-      'Incident Information',
-      'incident-information-card',
-      <IncidentInformationFormContainer />,
-      <IncidentInformationShowContainer />)
+    return this.renderCard('Incident Information', 'incident-information-card', <IncidentInformationFormContainer/>, <IncidentInformationShowContainer/>)
   }
 
   renderAllegationsCard() {
-    return this.renderCard(
-      'Allegations',
-      'allegations-card',
-      <AllegationsFormContainer />,
-      <AllegationsShowContainer />)
+    return this.renderCard('Allegations', 'allegations-card', <AllegationsFormContainer/>, <AllegationsShowContainer/>)
   }
 
   renderWorkerSafetyCard() {
-    return this.renderCard(
-      'Worker Safety',
-      'worker-safety-card',
-      <WorkerSafetyFormContainer />,
-      <WorkerSafetyShowContainer />)
+    return this.renderCard('Worker Safety', 'worker-safety-card', <WorkerSafetyFormContainer/>, <WorkerSafetyShowContainer/>)
   }
 
   renderCrossReportCard() {
-    return this.renderCard(
-      'Cross Report',
-      'cross-report-card',
-      <CrossReportFormContainer />,
-      <CrossReportShowContainer />)
+    return this.renderCard('Cross Report', 'cross-report-card', <CrossReportFormContainer/>, <CrossReportShowContainer/>)
   }
 
   renderDecisionCard() {
-    return this.renderCard(
-      'Decision',
-      'decision-card',
-      <DecisionFormContainer />,
-      <DecisionShowContainer />)
+    return this.renderCard('Decision', 'decision-card', <DecisionFormContainer/>, <DecisionShowContainer/>)
   }
 
   renderScreeningFooter() {
@@ -183,35 +168,38 @@ export class ScreeningPage extends React.Component {
     )
   }
 
+  renderBody() {
+    const {referralId, editable, hasApiValidationErrors, submitReferralErrors} = this.props
+    return (
+      <div className='col-xs-8 col-md-9'>
+        {this.renderCards()}
+        <h1>{referralId && `Referral #${referralId}`}</h1>
+        {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
+        {this.renderCards}
+        {this.renderScreeningInformationCard()}
+        {editable && this.renderPersonSearchForm()}
+        {this.props.participants.map(({id}) => <PersonCardView key={id} personId={id} />)}
+        {this.renderNarrativeCard()}
+        {this.renderIncidentInformationCard()}
+        {this.renderAllegationsCard()}
+        <RelationshipsCardContainer />
+        {this.renderWorkerSafetyCard()}
+        <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer />} />
+        {this.renderCrossReportCard()}
+        {this.renderDecisionCard()}
+        {this.renderScreeningFooter()}
+      </div>
+    )
+  }
+
   renderScreening() {
-    const {referralId, editable, loaded, hasApiValidationErrors, submitReferralErrors, participants} = this.props
+    const {loaded, participants} = this.props
 
     if (loaded) {
       return (
         <div className='row'>
           <ScreeningSideBar participants={participants} />
-          <div className='col-xs-8 col-md-9'>
-            <h1>{referralId && `Referral #${referralId}`}</h1>
-            {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
-            {this.renderScreeningInformationCard()}
-            {editable &&
-              <PersonSearchFormContainer
-                onSelect={(person) => this.onSelectPerson(person)}
-                searchPrompt='Search for any person (Children, parents, collaterals, reporters, alleged perpetrators...)'
-                canCreateNewPerson={true}
-              />
-            }
-            {this.props.participants.map(({id}) => <PersonCardView key={id} personId={id} />)}
-            {this.renderNarrativeCard()}
-            {this.renderIncidentInformationCard()}
-            {this.renderAllegationsCard()}
-            <RelationshipsCardContainer />
-            {this.renderWorkerSafetyCard()}
-            <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer />} />
-            {this.renderCrossReportCard()}
-            {this.renderDecisionCard()}
-            {this.renderScreeningFooter()}
-          </div>
+          {this.renderBody()}
         </div>
       )
     }
