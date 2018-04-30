@@ -116,7 +116,7 @@ feature 'Create Snapshot' do
     end
 
     scenario 'user starts a screening, goes back to the home page, and starts a snapshot' do
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path)).and_return(
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path)).and_return(
         json_body([], status: 200)
       )
       visit root_path

@@ -50,7 +50,7 @@ feature 'Create Screening' do
           .with(body: as_json_without_root_id(new_screening))
           .and_return(json_body(new_screening.to_json, status: 201))
 
-        stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+        stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
           .and_return(json_body([].to_json, status: 200))
 
         stub_request(
@@ -112,7 +112,7 @@ feature 'Create Screening' do
           .with(body: as_json_without_root_id(new_screening))
           .and_return(json_body(new_screening.to_json, status: 201))
 
-        stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+        stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
           .and_return(json_body([].to_json, status: 200))
 
         stub_request(
@@ -171,7 +171,7 @@ feature 'Create Screening' do
           .with(body: as_json_without_root_id(new_screening))
           .and_return(json_body(new_screening.to_json, status: 201))
 
-        stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+        stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
           .and_return(json_body([].to_json, status: 200))
 
         stub_request(
@@ -216,7 +216,7 @@ feature 'Create Screening' do
           .with(body: as_json_without_root_id(new_screening))
           .and_return(json_body(new_screening.to_json, status: 201))
 
-        stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+        stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
           .and_return(json_body([].to_json, status: 200))
 
         stub_request(
@@ -255,7 +255,7 @@ feature 'Create Screening' do
       .with(body: as_json_without_root_id(new_screening))
       .and_return(json_body(new_screening.to_json, status: 201))
 
-    stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+    stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       .and_return(json_body([].to_json, status: 200))
 
     stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(new_screening.id)))

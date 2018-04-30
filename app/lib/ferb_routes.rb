@@ -3,6 +3,10 @@
 # The external Ferb routes will be accessible from here.
 class FerbRoutes
   class << self
+    def screenings_path
+      '/screenings'
+    end
+
     def screening_history_of_involvements_path(id)
       "/screenings/#{id}/history_of_involvements"
     end

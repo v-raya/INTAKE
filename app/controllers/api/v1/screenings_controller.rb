@@ -66,10 +66,7 @@ module Api
       end
 
       def index
-        screenings = ScreeningRepository.search(
-          session[:security_token],
-          screening_index_params.to_h
-        )
+        screenings = ScreeningRepository.search(session[:security_token])
         render json: screenings
       end
 
@@ -85,10 +82,6 @@ module Api
       end
 
       private
-
-      def screening_index_params
-        params.permit(screening_decisions: [])
-      end
 
       def screening_params
         params.require(:screening).permit(*PERMITTED_PARAMS)

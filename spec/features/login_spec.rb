@@ -38,7 +38,7 @@ feature 'login' do
   context 'user provides valid security access code', browser: :poltergeist do
     let(:staff_url) { ferb_api_url(FerbRoutes.staff_path(1234)) }
     before do
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body(screening_results, status: 200))
     end
 
@@ -136,7 +136,7 @@ feature 'login' do
   end
 
   scenario 'user has already logged in', browser: :poltergeist do
-    stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+    stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       .and_return(json_body(screening_results, status: 200))
     stub_request(:get, auth_access_code_url).and_return(json_body('123', status: 200))
     stub_request(:get, auth_validation_url).and_return(status: 200)
@@ -146,7 +146,7 @@ feature 'login' do
     WebMock.reset!
 
     stub_system_codes
-    stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+    stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       .and_return(json_body(screening_results, status: 200))
     visit root_path
     expect(a_request(:get, %r{http://www.example.com})).to_not have_been_made
@@ -159,7 +159,7 @@ feature 'login' do
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
     stub_empty_relationships
-    stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+    stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       .and_return(json_body([].to_json, status: 200))
     stub_empty_history_for_screening(screening)
 
@@ -234,7 +234,7 @@ feature 'login perry v1' do
   context 'user provides valid security token', browser: :poltergeist do
     let(:staff_url) { ferb_api_url(FerbRoutes.staff_path(1234)) }
     before do
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body(screening_results, status: 200))
     end
 
@@ -291,7 +291,7 @@ feature 'login perry v1' do
   end
 
   scenario 'user has already logged in', browser: :poltergeist do
-    stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+    stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       .and_return(json_body(screening_results, status: 200))
     stub_request(:get, auth_validation_url).and_return(status: 200)
     visit root_path(token: 123)
@@ -299,7 +299,7 @@ feature 'login perry v1' do
     WebMock.reset!
 
     stub_system_codes
-    stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+    stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       .and_return(json_body(screening_results, status: 200))
     visit root_path
     expect(a_request(:get, %r{http://www.example.com})).to_not have_been_made
@@ -311,7 +311,7 @@ feature 'login perry v1' do
       screening = FactoryBot.create(:screening, name: 'My Screening')
       stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(screening.id)))
         .and_return(json_body(screening.to_json, status: 200))
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screenings_path))
+      stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body([].to_json, status: 200))
       stub_request(:get, auth_validation_url)
         .and_return(json_body(auth_artifact.to_json, status: 200))
