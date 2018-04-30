@@ -172,10 +172,8 @@ export class ScreeningPage extends React.Component {
     const {referralId, editable, hasApiValidationErrors, submitReferralErrors} = this.props
     return (
       <div className='col-xs-8 col-md-9'>
-        {this.renderCards()}
         <h1>{referralId && `Referral #${referralId}`}</h1>
         {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
-        {this.renderCards}
         {this.renderScreeningInformationCard()}
         {editable && this.renderPersonSearchForm()}
         {this.props.participants.map(({id}) => <PersonCardView key={id} personId={id} />)}
