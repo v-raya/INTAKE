@@ -3,7 +3,7 @@ import {List, fromJS} from 'immutable'
 import {returnLastKnownAddress} from 'utils/returnLastKnownAddress'
 
 describe('returnLastKnownAddress', () => {
-  it('returns the last know address with most recent effective start date', () => {
+  it('returns the last know residence address', () => {
     const addresses = Immutable.fromJS([
       {
         zip: '34567',
@@ -95,279 +95,35 @@ describe('returnLastKnownAddress', () => {
       },
     ])
     expect(returnLastKnownAddress(addresses)).toEqual(fromJS({
-      zip: '12345',
-      city: 'California',
-      state_name: 'California',
+      zip: '92530',
+      city: 'Lake Elsinore',
       county: {
-        description: 'Santa Cruz',
-        id: '1111',
+        description: 'Riverside',
+        id: '1100',
       },
-      effective_start_date: '2005-02-07',
       legacy_descriptor: {
-        legacy_last_updated: '2007-02-23T10:22:53.067-0800',
-        legacy_id: 'JAWH3I50Ht',
-        legacy_ui_id: '1088-8427-1139-7001109',
+        legacy_last_updated: '2003-01-20T08:55:28.320-0800',
+        legacy_id: '8Uywd2T0Ht',
+        legacy_ui_id: '0482-7864-2288-5001109',
         legacy_table_name: 'ADDRS_T',
         legacy_table_description: 'Address',
       },
       active: 'true',
-      id: 'JAWH3I50Ht',
+      type: {
+        description: 'Residence',
+        id: '32',
+      },
+      street_name: 'Anniversary Parkway',
+      state_name: 'California',
+      street_number: '4451',
+      effective_start_date: '2003-01-03',
+      id: '8Uywd2T0Ht',
       state: {
         description: 'California',
         id: '1828',
       },
       state_code: 'CA',
-      type: {
-        description: 'Business',
-        id: '27',
-      },
-      street_name: 'Lyons Junction',
     }))
-  })
-
-  it('returns the effective start date address if the collection has one effective start date address', () => {
-    const addresses = Immutable.fromJS([
-      {
-        zip: '34567',
-        city: 'San Francisco',
-        state_name: 'California',
-        county: {
-          description: 'Santa Cruz',
-          id: '1111',
-        },
-        legacy_descriptor: {
-          legacy_last_updated: '2004-02-15T10:55:53.067-0800',
-          legacy_id: 'BfDkTjB0Ht',
-          legacy_ui_id: '0662-5672-0726-9001109',
-          legacy_table_name: 'ADDRS_T',
-          legacy_table_description: 'Address',
-        },
-        active: 'true',
-        id: 'BfDkTjB0Ht',
-        state: {
-          description: 'California',
-          id: '1828',
-        },
-        state_code: 'CA',
-        type: {
-          description: 'Permanent Mailing Address',
-          id: '31',
-        },
-        street_name: 'Menomonie Trail',
-      },
-      {
-        zip: '12345',
-        city: 'California',
-        state_name: 'California',
-        county: {
-          description: 'Santa Cruz',
-          id: '1111',
-        },
-        effective_start_date: '2005-02-07',
-        legacy_descriptor: {
-          legacy_last_updated: '2007-02-23T10:22:53.067-0800',
-          legacy_id: 'JAWH3I50Ht',
-          legacy_ui_id: '1088-8427-1139-7001109',
-          legacy_table_name: 'ADDRS_T',
-          legacy_table_description: 'Address',
-        },
-        active: 'true',
-        id: 'JAWH3I50Ht',
-        state: {
-          description: 'California',
-          id: '1828',
-        },
-        state_code: 'CA',
-        type: {
-          description: 'Business',
-          id: '27',
-        },
-        street_name: 'Lyons Junction',
-      },
-      {
-        zip: '92530',
-        city: 'Lake Elsinore',
-        county: {
-          description: 'Riverside',
-          id: '1100',
-        },
-        legacy_descriptor: {
-          legacy_last_updated: '2003-01-20T08:55:28.320-0800',
-          legacy_id: '8Uywd2T0Ht',
-          legacy_ui_id: '0482-7864-2288-5001109',
-          legacy_table_name: 'ADDRS_T',
-          legacy_table_description: 'Address',
-        },
-        active: 'true',
-        type: {
-          description: 'Residence',
-          id: '32',
-        },
-        street_name: 'Anniversary Parkway',
-        state_name: 'California',
-        street_number: '4451',
-        id: '8Uywd2T0Ht',
-        state: {
-          description: 'California',
-          id: '1828',
-        },
-        state_code: 'CA',
-      },
-    ])
-    expect(returnLastKnownAddress(addresses)).toEqual(fromJS({
-      zip: '12345',
-      city: 'California',
-      state_name: 'California',
-      county: {
-        description: 'Santa Cruz',
-        id: '1111',
-      },
-      effective_start_date: '2005-02-07',
-      legacy_descriptor: {
-        legacy_last_updated: '2007-02-23T10:22:53.067-0800',
-        legacy_id: 'JAWH3I50Ht',
-        legacy_ui_id: '1088-8427-1139-7001109',
-        legacy_table_name: 'ADDRS_T',
-        legacy_table_description: 'Address',
-      },
-      active: 'true',
-      id: 'JAWH3I50Ht',
-      state: {
-        description: 'California',
-        id: '1828',
-      },
-      state_code: 'CA',
-      type: {
-        description: 'Business',
-        id: '27',
-      },
-      street_name: 'Lyons Junction',
-    }))
-  })
-
-  it('returns undefined when addresses doesnot have effective start date', () => {
-    const addresses = Immutable.fromJS([
-      {
-        zip: '34567',
-        city: 'San Francisco',
-        state_name: 'California',
-        county: {
-          description: 'Santa Cruz',
-          id: '1111',
-        },
-        legacy_descriptor: {
-          legacy_last_updated: '2004-02-15T10:55:53.067-0800',
-          legacy_id: 'BfDkTjB0Ht',
-          legacy_ui_id: '0662-5672-0726-9001109',
-          legacy_table_name: 'ADDRS_T',
-          legacy_table_description: 'Address',
-        },
-        active: 'true',
-        id: 'BfDkTjB0Ht',
-        state: {
-          description: 'California',
-          id: '1828',
-        },
-        state_code: 'CA',
-        type: {
-          description: 'Permanent Mailing Address',
-          id: '31',
-        },
-        street_name: 'Menomonie Trail',
-      },
-      {
-        zip: '12345',
-        city: 'California',
-        state_name: 'California',
-        county: {
-          description: 'Santa Cruz',
-          id: '1111',
-        },
-        legacy_descriptor: {
-          legacy_last_updated: '2007-02-23T10:22:53.067-0800',
-          legacy_id: 'JAWH3I50Ht',
-          legacy_ui_id: '1088-8427-1139-7001109',
-          legacy_table_name: 'ADDRS_T',
-          legacy_table_description: 'Address',
-        },
-        active: 'true',
-        id: 'JAWH3I50Ht',
-        state: {
-          description: 'California',
-          id: '1828',
-        },
-        state_code: 'CA',
-        type: {
-          description: 'Business',
-          id: '27',
-        },
-        street_name: 'Lyons Junction',
-      },
-      {
-        zip: '92530',
-        city: 'Lake Elsinore',
-        county: {
-          description: 'Riverside',
-          id: '1100',
-        },
-        legacy_descriptor: {
-          legacy_last_updated: '2003-01-20T08:55:28.320-0800',
-          legacy_id: '8Uywd2T0Ht',
-          legacy_ui_id: '0482-7864-2288-5001109',
-          legacy_table_name: 'ADDRS_T',
-          legacy_table_description: 'Address',
-        },
-        active: 'true',
-        type: {
-          description: 'Residence',
-          id: '32',
-        },
-        street_name: 'Anniversary Parkway',
-        state_name: 'California',
-        street_number: '4451',
-        id: '8Uywd2T0Ht',
-        state: {
-          description: 'California',
-          id: '1828',
-        },
-        state_code: 'CA',
-      },
-    ])
-    expect(returnLastKnownAddress(addresses)).toEqual(undefined)
-  })
-
-  it('returns undefined when one address doesnot have effective start date', () => {
-    const addresses = Immutable.fromJS([
-      {
-        zip: '34567',
-        city: 'San Francisco',
-        state_name: 'California',
-        county: {
-          description: 'Santa Cruz',
-          id: '1111',
-        },
-        legacy_descriptor: {
-          legacy_last_updated: '2004-02-15T10:55:53.067-0800',
-          legacy_id: 'BfDkTjB0Ht',
-          legacy_ui_id: '0662-5672-0726-9001109',
-          legacy_table_name: 'ADDRS_T',
-          legacy_table_description: 'Address',
-        },
-        active: 'true',
-        id: 'BfDkTjB0Ht',
-        state: {
-          description: 'California',
-          id: '1828',
-        },
-        state_code: 'CA',
-        type: {
-          description: 'Permanent Mailing Address',
-          id: '31',
-        },
-        street_name: 'Menomonie Trail',
-      },
-    ])
-    expect(returnLastKnownAddress(addresses)).toEqual(undefined)
   })
 
   it('return null when null is passed', () => {
