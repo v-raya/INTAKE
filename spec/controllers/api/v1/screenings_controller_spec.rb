@@ -294,31 +294,13 @@ describe Api::V1::ScreeningsController do
       let(:screenings) { double(:screenings, as_json: [{ id: '1' }]) }
       before do
         allow(ScreeningRepository).to receive(:search)
-          .with(security_token, {})
+          .with(security_token)
           .and_return(screenings)
       end
 
       it 'renders screenings as json' do
         process :index, method: :get, session: session
         expect(JSON.parse(response.body)).to eq([{ 'id' => '1' }])
-      end
-    end
-
-    context 'with screening_decisions' do
-      let(:screenings) { double(:screenings, as_json: []) }
-      let(:params) do
-        { screening_decisions: %w[screen_out promote_to_referral] }
-      end
-
-      before do
-        expect(ScreeningRepository).to receive(:search)
-          .with(security_token, 'screening_decisions' => %w[screen_out promote_to_referral])
-          .and_return(screenings)
-      end
-
-      it 'renders screenings returned from screening repository' do
-        process :index, method: :get, params: params, session: session
-        expect(JSON.parse(response.body)).to eq([])
       end
     end
   end
