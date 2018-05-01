@@ -25,7 +25,7 @@ const ScreeningDecisionForm = ({
       <div className='col-md-6'>
         <SelectField
           id='screening_decision'
-          label='Screening decision'
+          label='Screening Decision'
           required
           value={decision.value}
           errors={decision.errors}
@@ -68,7 +68,7 @@ const ScreeningDecisionForm = ({
         <div>
           <FormField
             htmlFor='additional_information'
-            label='Additional information'
+            label='Additional Information'
             errors={additionalInformation.errors}
             required = {isAdditionalInfoRequired}
           >

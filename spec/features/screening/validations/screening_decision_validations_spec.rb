@@ -45,7 +45,7 @@ feature 'Screening Decision Validations' do
           screening_updates: { screening_decision: 'screen_out' }
         ) do
           within '#decision-card.edit' do
-            select 'Screen out', from: 'Screening decision'
+            select 'Screen out', from: 'Screening Decision'
           end
         end
       end
@@ -67,7 +67,7 @@ feature 'Screening Decision Validations' do
         )
 
         within '#decision-card.edit' do
-          select 'Promote to referral', from: 'Screening decision'
+          select 'Promote to referral', from: 'Screening Decision'
           blur_field
           expect(page).to have_content(error_message)
           click_button 'Save'
@@ -80,10 +80,10 @@ feature 'Screening Decision Validations' do
 
       scenario 'Clearing promote to referral decision removes error message' do
         within '#decision-card.edit' do
-          select 'Promote to referral', from: 'Screening decision'
+          select 'Promote to referral', from: 'Screening Decision'
           blur_field
           expect(page).to have_content(error_message)
-          select 'Screen out', from: 'Screening decision'
+          select 'Screen out', from: 'Screening Decision'
           blur_field
           expect(page).not_to have_content(error_message)
         end
@@ -91,7 +91,7 @@ feature 'Screening Decision Validations' do
 
       scenario 'Adding and removing allegations shows or hides error message' do
         within '#decision-card.edit' do
-          select 'Promote to referral', from: 'Screening decision'
+          select 'Promote to referral', from: 'Screening Decision'
           blur_field
           expect(page).to have_content(error_message)
         end
@@ -120,7 +120,7 @@ feature 'Screening Decision Validations' do
       scenario 'Error message does not display until user has interacted with the field' do
         within '#decision-card.edit' do
           expect(page).not_to have_content(error_message)
-          select 'Promote to referral', from: 'Screening decision'
+          select 'Promote to referral', from: 'Screening Decision'
           blur_field
           expect(page).to have_content(error_message)
         end
@@ -134,7 +134,7 @@ feature 'Screening Decision Validations' do
           screening_updates: { screening_decision_detail: '3_days' }
         ) do
           within '#decision-card.edit' do
-            select '3 days', from: 'Response time'
+            select '3 days', from: 'Response Time'
           end
         end
       end
@@ -157,14 +157,14 @@ feature 'Screening Decision Validations' do
           screening_updates: { additional_information: 'My reason for evaluating out' }
         ) do
           within '.card', text: 'Decision' do
-            fill_in 'Additional information', with: 'My reason for evaluating out'
+            fill_in 'Additional Information', with: 'My reason for evaluating out'
           end
         end
       end
 
       scenario 'additional information is required' do
         within '.card', text: 'Decision' do
-          expect(page).to have_css 'label.required', text: 'Additional information'
+          expect(page).to have_css 'label.required', text: 'Additional Information'
         end
       end
     end

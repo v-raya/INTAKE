@@ -35,9 +35,9 @@ describe('ScreeningDecisionShow', () => {
         errors: ['This is not ok!'],
       },
     })
-    const decision = component.find('ShowField[label="Screening decision"]')
+    const decision = component.find('ShowField[label="Screening Decision"]')
     expect(decision.exists()).toEqual(true)
-    expect(decision.props().label).toEqual('Screening decision')
+    expect(decision.props().label).toEqual('Screening Decision')
     expect(decision.props().required).toEqual(true)
     expect(decision.props().errors).toEqual(['This is not ok!'])
     expect(decision.children().text()).toEqual('Promote to referral')
@@ -48,13 +48,13 @@ describe('ScreeningDecisionShow', () => {
       decisionDetail: {
         value: '3 days',
         errors: ['This is not ok!'],
-        label: 'Response time',
+        label: 'Response Time',
         required: true,
       },
     })
-    const decisionDetail = component.find('ShowField[label="Response time"]')
+    const decisionDetail = component.find('ShowField[label="Response Time"]')
     expect(decisionDetail.exists()).toEqual(true)
-    expect(decisionDetail.props().label).toEqual('Response time')
+    expect(decisionDetail.props().label).toEqual('Response Time')
     expect(decisionDetail.props().required).toEqual(true)
     expect(decisionDetail.props().errors).toEqual(['This is not ok!'])
     expect(decisionDetail.children().text()).toEqual('3 days')
@@ -63,11 +63,11 @@ describe('ScreeningDecisionShow', () => {
   it('does not require decision detail if required is false', () => {
     const component = renderScreeningDecisionShow({
       decisionDetail: {
-        label: 'Response time',
+        label: 'Response Time',
         required: false,
       },
     })
-    const decisionDetail = component.find('ShowField[label="Response time"]')
+    const decisionDetail = component.find('ShowField[label="Response Time"]')
     expect(decisionDetail.props().required).toEqual(false)
   })
 
@@ -86,21 +86,21 @@ describe('ScreeningDecisionShow', () => {
     const component = renderScreeningDecisionShow({
       additionalInformation: {value: 'My additional information'},
     })
-    const additionalInformation = component.find('ShowField[label="Additional information"]')
+    const additionalInformation = component.find('ShowField[label="Additional Information"]')
     expect(additionalInformation.exists()).toEqual(true)
-    expect(additionalInformation.props().label).toEqual('Additional information')
+    expect(additionalInformation.props().label).toEqual('Additional Information')
     expect(additionalInformation.children().text()).toEqual('My additional information')
   })
 
   it('renders the additional information label with required', () => {
     const component = renderScreeningDecisionShow({isAdditionalInfoRequired: true})
-    const additionalInformationLabel = component.find('ShowField[label="Additional information"]')
+    const additionalInformationLabel = component.find('ShowField[label="Additional Information"]')
     expect(additionalInformationLabel.props().required).toEqual(true)
   })
 
   it('renders the additional information label without required', () => {
     const component = renderScreeningDecisionShow({isAdditionalInfoRequired: false})
-    const additionalInformationLabel = component.find('ShowField[label="Additional information"]')
+    const additionalInformationLabel = component.find('ShowField[label="Additional Information"]')
     expect(additionalInformationLabel.props().required).toEqual(false)
   })
 
@@ -108,9 +108,9 @@ describe('ScreeningDecisionShow', () => {
     const component = renderScreeningDecisionShow({
       accessRestriction: {value: 'Sealed'},
     })
-    const accessRestriction = component.find('ShowField[label="Access restrictions"]')
+    const accessRestriction = component.find('ShowField[label="Access Restrictions"]')
     expect(accessRestriction.exists()).toEqual(true)
-    expect(accessRestriction.props().label).toEqual('Access restrictions')
+    expect(accessRestriction.props().label).toEqual('Access Restrictions')
     expect(accessRestriction.children().text()).toEqual('Sealed')
   })
 
@@ -118,7 +118,7 @@ describe('ScreeningDecisionShow', () => {
     const component = renderScreeningDecisionShow({
       accessRestriction: {value: null},
     })
-    const accessRestriction = component.find('ShowField[label="Access restrictions"]')
+    const accessRestriction = component.find('ShowField[label="Access Restrictions"]')
     expect(accessRestriction.exists()).toEqual(false)
   })
 
@@ -126,7 +126,7 @@ describe('ScreeningDecisionShow', () => {
     const component = renderScreeningDecisionShow({
       accessRestriction: {value: null},
     })
-    const restrictionRationale = component.find('ShowField[label="Restrictions rationale"]')
+    const restrictionRationale = component.find('ShowField[label="Restrictions Rationale"]')
     expect(restrictionRationale.exists()).toEqual(false)
   })
 
@@ -134,15 +134,15 @@ describe('ScreeningDecisionShow', () => {
     const component = renderScreeningDecisionShow({
       restrictionRationale: {value: 'This person needs to be protected'},
     })
-    const restrictionRationale = component.find('ShowField[label="Restrictions rationale"]')
+    const restrictionRationale = component.find('ShowField[label="Restrictions Rationale"]')
     expect(restrictionRationale.exists()).toEqual(true)
-    expect(restrictionRationale.props().label).toEqual('Restrictions rationale')
+    expect(restrictionRationale.props().label).toEqual('Restrictions Rationale')
     expect(restrictionRationale.children().text()).toEqual('This person needs to be protected')
   })
 
   it('does not render restriction rationale when no value is present', () => {
     const component = renderScreeningDecisionShow({value: ''})
-    const restrictionRationale = component.find('ShowField[label="Restriction rationale"]')
+    const restrictionRationale = component.find('ShowField[label="Restriction Rationale"]')
     expect(restrictionRationale.exists()).toEqual(false)
   })
 })

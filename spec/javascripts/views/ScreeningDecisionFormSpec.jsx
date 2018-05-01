@@ -76,7 +76,7 @@ describe('ScreeningDecisionForm', () => {
   describe('decision select field', () => {
     it('renders a select dropdown for the decision', () => {
       const component = renderScreeningDecisionForm({})
-      const decisionSelect = component.find('SelectField[label="Screening decision"]')
+      const decisionSelect = component.find('SelectField[label="Screening Decision"]')
       expect(decisionSelect.exists()).toEqual(true)
       expect(decisionSelect.props().id).toEqual('screening_decision')
       expect(decisionSelect.props().required).toEqual(true)
@@ -85,7 +85,7 @@ describe('ScreeningDecisionForm', () => {
     it('calls the onBlur function when decision is blurred', () => {
       const onBlur = jasmine.createSpy('onBlur')
       const component = renderScreeningDecisionForm({onBlur})
-      const decisionSelect = component.find('SelectField[label="Screening decision"]')
+      const decisionSelect = component.find('SelectField[label="Screening Decision"]')
       decisionSelect.simulate('blur')
       expect(onBlur).toHaveBeenCalledWith('screening_decision')
     })
@@ -93,7 +93,7 @@ describe('ScreeningDecisionForm', () => {
     it('calls onChange when decision is changed', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = renderScreeningDecisionForm({onChange})
-      const decisionSelect = component.find('SelectField[label="Screening decision"]')
+      const decisionSelect = component.find('SelectField[label="Screening Decision"]')
       decisionSelect.simulate('change', {target: {value: 'promote_to_referral'}})
       expect(onChange).toHaveBeenCalledWith('screening_decision', 'promote_to_referral')
     })
@@ -104,7 +104,7 @@ describe('ScreeningDecisionForm', () => {
         {value: 'screen_out', label: 'Screen out'},
       ]
       const component = renderScreeningDecisionForm({decisionOptions})
-      const decisionSelect = component.find('SelectField[label="Screening decision"]')
+      const decisionSelect = component.find('SelectField[label="Screening Decision"]')
       const options = decisionSelect.children()
       expect(options.at(0).props().value).toEqual(undefined) //empty first option
       expect(options.at(1).props().value).toEqual('promote_to_referral')
@@ -116,14 +116,14 @@ describe('ScreeningDecisionForm', () => {
     it('passes decision errors to the select field', () => {
       const decision = {errors: ['This is wrong!']}
       const component = renderScreeningDecisionForm({decision})
-      const decisionSelect = component.find('SelectField[label="Screening decision"]')
+      const decisionSelect = component.find('SelectField[label="Screening Decision"]')
       expect(decisionSelect.props().errors).toEqual(['This is wrong!'])
     })
 
     it('passes decision value to the select field', () => {
       const decision = {value: 'promote_to_referral'}
       const component = renderScreeningDecisionForm({decision})
-      const decisionSelect = component.find('SelectField[label="Screening decision"]')
+      const decisionSelect = component.find('SelectField[label="Screening Decision"]')
       expect(decisionSelect.props().value).toEqual('promote_to_referral')
     })
   })

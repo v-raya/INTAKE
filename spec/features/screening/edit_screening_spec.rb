@@ -96,25 +96,25 @@ feature 'Edit Screening' do
 
       within '#worker-safety-card', text: 'Worker Safety' do
         expect(page).to have_react_select_field(
-          'Worker safety alerts', with: existing_screening.safety_alerts
+          'Worker Safety Alerts', with: existing_screening.safety_alerts
         )
         expect(page).to have_field(
-          'Additional safety information', with: existing_screening.safety_information
+          'Additional Safety Information', with: existing_screening.safety_information
         )
         expect(page).to have_button('Save')
         expect(page).to have_button('Cancel')
-        remove_react_select_option('Worker safety alerts', existing_screening.safety_alerts.first)
+        remove_react_select_option('Worker Safety Alerts', existing_screening.safety_alerts.first)
         expect(page).to have_no_content(existing_screening.safety_alerts.first)
       end
 
       expect(page).to have_css('#history-card.show', text: 'History')
 
       within '#decision-card.edit', text: 'Decision ' do
-        expect(page.find('label', text: 'Screening decision')[:class]).to include('required')
-        expect(page).to have_field('Screening decision', with: 'screen_out')
+        expect(page.find('label', text: 'Screening Decision')[:class]).to include('required')
+        expect(page).to have_field('Screening Decision', with: 'screen_out')
         expect(page).to have_select('Category', selected: 'Information request')
         expect(page).to have_field(
-          'Additional information', with: 'This is why I decided what I did'
+          'Additional Information', with: 'This is why I decided what I did'
         )
       end
 
@@ -135,10 +135,10 @@ feature 'Edit Screening' do
     scenario 'aborting changes in Worker Saftey Card' do
       within '#worker-safety-card', text: 'Worker Safety' do
         fill_in_react_select(
-          'Worker safety alerts', with: 'Hostile, Aggressive Client'
+          'Worker Safety Alerts', with: 'Hostile, Aggressive Client'
         )
         expect(page).to have_react_select_field(
-          'Worker safety alerts',
+          'Worker Safety Alerts',
           with: ['Dangerous Animal on Premises', 'Firearms in Home', 'Hostile, Aggressive Client']
         )
         click_button 'Cancel'
@@ -163,19 +163,19 @@ feature 'Edit Screening' do
       )
       within '#worker-safety-card', text: 'Worker Safety' do
         expect(page).to have_react_select_field(
-          'Worker safety alerts',
+          'Worker Safety Alerts',
           with: ['Dangerous Animal on Premises', 'Firearms in Home']
         )
         fill_in_react_select(
-          'Worker safety alerts',
+          'Worker Safety Alerts',
           with: 'Hostile, Aggressive Client'
         )
         fill_in_react_select(
-          'Worker safety alerts',
+          'Worker Safety Alerts',
           with: 'Severe Mental Health Status'
         )
         expect(page).to have_react_select_field(
-          'Worker safety alerts',
+          'Worker Safety Alerts',
           with: ['Dangerous Animal on Premises', 'Firearms in Home',
                  'Hostile, Aggressive Client', 'Severe Mental Health Status']
         )
@@ -444,7 +444,7 @@ feature 'individual card save' do
     stub_empty_history_for_screening(existing_screening)
 
     within '#worker-safety-card' do
-      fill_in_react_select 'Worker safety alerts', with: 'Dangerous Animal on Premises'
+      fill_in_react_select 'Worker Safety Alerts', with: 'Dangerous Animal on Premises'
       fill_in 'safety_information', with: 'Important information!'
       click_button 'Save'
     end

@@ -15,12 +15,12 @@ feature 'worker safety card' do
     click_link 'Edit worker safety'
 
     within '#worker-safety-card.edit' do
-      expect(page).to have_field('Additional safety information', with: 'Important safety stuff')
+      expect(page).to have_field('Additional Safety Information', with: 'Important safety stuff')
       expect(page).to have_react_select_field(
-        'Worker safety alerts', with: ['Dangerous Environment']
+        'Worker Safety Alerts', with: ['Dangerous Environment']
       )
-      fill_in 'Additional safety information', with: 'Something else'
-      fill_in_react_select 'Worker safety alerts', with: ['Firearms in Home']
+      fill_in 'Additional Safety Information', with: 'Something else'
+      fill_in_react_select 'Worker Safety Alerts', with: ['Firearms in Home']
       click_button 'Cancel'
     end
 
@@ -33,7 +33,7 @@ feature 'worker safety card' do
     click_link 'Edit worker safety'
 
     within '#worker-safety-card.edit' do
-      expect(page).to have_field('Additional safety information', with: 'Important safety stuff')
+      expect(page).to have_field('Additional Safety Information', with: 'Important safety stuff')
     end
   end
 
@@ -46,12 +46,12 @@ feature 'worker safety card' do
     stub_and_visit_edit_screening(existing_screening)
 
     within '#worker-safety-card.edit' do
-      expect(page).to have_field('Additional safety information', with: 'Important safety stuff')
+      expect(page).to have_field('Additional Safety Information', with: 'Important safety stuff')
       expect(page).to have_react_select_field(
-        'Worker safety alerts', with: ['Dangerous Environment']
+        'Worker Safety Alerts', with: ['Dangerous Environment']
       )
-      fill_in 'Additional safety information', with: 'Something else'
-      fill_in_react_select 'Worker safety alerts', with: ['Firearms in Home']
+      fill_in 'Additional Safety Information', with: 'Something else'
+      fill_in_react_select 'Worker Safety Alerts', with: ['Firearms in Home']
       click_button 'Cancel'
     end
 
@@ -72,12 +72,12 @@ feature 'worker safety card' do
     click_link 'Edit worker safety'
 
     within '#worker-safety-card.edit' do
-      expect(page).to have_field('Additional safety information', with: 'Important safety stuff')
+      expect(page).to have_field('Additional Safety Information', with: 'Important safety stuff')
       expect(page).to have_react_select_field(
-        'Worker safety alerts', with: ['Dangerous Environment']
+        'Worker Safety Alerts', with: ['Dangerous Environment']
       )
-      fill_in 'Additional safety information', with: 'Something else'
-      fill_in_react_select 'Worker safety alerts', with: ['Firearms in Home']
+      fill_in 'Additional Safety Information', with: 'Something else'
+      fill_in_react_select 'Worker Safety Alerts', with: ['Firearms in Home']
     end
 
     existing_screening.safety_information = 'Something else'
@@ -113,13 +113,13 @@ feature 'worker safety card' do
     stub_and_visit_edit_screening(existing_screening)
 
     within '#worker-safety-card.edit' do
-      expect(page).to have_field('Additional safety information', with: 'Important safety stuff')
+      expect(page).to have_field('Additional Safety Information', with: 'Important safety stuff')
       expect(page).to have_react_select_field(
-        'Worker safety alerts', with: ['Dangerous Environment']
+        'Worker Safety Alerts', with: ['Dangerous Environment']
       )
-      fill_in 'Additional safety information', with: 'Something else'
-      fill_in_react_select 'Worker safety alerts', with: ['Firearms in Home']
-      fill_in_react_select 'Worker safety alerts',
+      fill_in 'Additional Safety Information', with: 'Something else'
+      fill_in_react_select 'Worker Safety Alerts', with: ['Firearms in Home']
+      fill_in_react_select 'Worker Safety Alerts',
         with: ['Severe Mental Health Status'], exit_key: :tab
     end
 
