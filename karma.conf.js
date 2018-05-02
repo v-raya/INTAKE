@@ -26,7 +26,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome_no_sandbox', 'Firefox', 'MSEdge - Win10', 'IE11 - Win7'],
+    browsers: ['Chrome_no_sandbox', 'Firefox'],
     customLaunchers: {
       Chrome_no_sandbox: {
         base: 'Chrome',
