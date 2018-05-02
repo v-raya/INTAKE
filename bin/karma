@@ -27,11 +27,7 @@ if compile_assets
   end
 
   newenv  = { 'NODE_PATH' => NODE_MODULES_PATH.shellescape }
-  if ENV.fetch('CI', false)
-    cmdline = ['./node_modules/.bin/karma', 'start', './karma.conf.js', '--browsers Chrome_no_sandbox,Firefox']
-  else
-    cmdline = ['./node_modules/.bin/karma', 'start', './karma.conf.js']
-  end
+  cmdline = ['./node_modules/.bin/karma', 'start', './karma.conf.js']
   cmdline << '--reporters junit,dots,coverage-istanbul' if generate_test_reports
   cmdline << ARGV
 
