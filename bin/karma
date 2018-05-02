@@ -27,7 +27,7 @@ if compile_assets
   end
 
   newenv  = { 'NODE_PATH' => NODE_MODULES_PATH.shellescape }
-  cmdline = ['./node_modules/.bin/karma', 'start', './karma.conf.js ']
+  cmdline = ['./node_modules/.bin/karma', 'start', './karma.conf.js']
   cmdline << '--reporters junit,dots,coverage-istanbul' if generate_test_reports
   cmdline << ARGV
 
