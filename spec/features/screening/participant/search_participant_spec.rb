@@ -412,25 +412,29 @@ feature 'searching a participant in autocompleter' do
 
     scenario 'clear search input on navigation' do
       allow(LUID).to receive(:generate).and_return(['DQJIYK'])
-      new_screening = FactoryBot.create(
-        :screening,
+      new_screening = {
+        id: '1',
         reference: 'DQJIYK',
-        safety_alerts: [],
-        safety_information: nil,
-        address: { city: nil },
         assignee: nil,
-        indexable: true
-      )
+        assignee_staff_id: nil,
+        incident_county: nil,
+        indexable: true,
+        addresses: [],
+        cross_reports: [],
+        participants: [],
+        allegations: []
+      }
       stub_empty_history_for_screening(new_screening)
       stub_empty_relationships
-      stub_request(:post, intake_api_url(ExternalRoutes.intake_api_screenings_path))
-        .with(body: as_json_without_root_id(new_screening))
+      stub_request(:post, ferb_api_url(FerbRoutes.intake_screenings_path))
+        .with(body: new_screening.merge(incident_address: {}).as_json(except: :id))
         .and_return(json_body(new_screening.to_json, status: 201))
 
       stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body([].to_json, status: 200))
 
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(new_screening.id)))
+      stub_request(:get,
+        intake_api_url(ExternalRoutes.intake_api_screening_path(new_screening[:id])))
         .and_return(json_body(new_screening.to_json, status: 200))
 
       visit root_path
@@ -448,7 +452,8 @@ feature 'searching a participant in autocompleter' do
 
       stub_empty_history_for_screening(new_screening)
       stub_empty_relationships
-      stub_request(:get, intake_api_url(ExternalRoutes.intake_api_screening_path(new_screening.id)))
+      stub_request(:get,
+        intake_api_url(ExternalRoutes.intake_api_screening_path(new_screening[:id])))
         .and_return(json_body(new_screening.to_json, status: 200))
 
       page.go_forward
