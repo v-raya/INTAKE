@@ -74,7 +74,7 @@ export class Autocompleter extends Component {
   }
 
   renderMenu(items, searchTerm, _style) {
-    const {canCreateNewPerson, onLoadMoreResults, onSelect, total} = this.props
+    const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, onSelect, total} = this.props
     return (
       <div style={menuStyle} className='autocomplete-menu'>
         <SuggestionHeader
@@ -88,6 +88,8 @@ export class Autocompleter extends Component {
           canLoadMoreResults={items && total !== items.length}
           onLoadMoreResults={onLoadMoreResults}
           onCreateNewPerson={() => {
+            onClear()
+            onChange('')
             onSelect({id: null})
             this.setState({menuVisible: false})
             // This is required because react-autcompleter onMouseLeave event is never fired.
@@ -159,11 +161,11 @@ Autocompleter.propTypes = {
   canCreateNewPerson: PropTypes.bool,
   id: PropTypes.string,
   isSelectable: PropTypes.func,
-  onChange: PropTypes.func,
-  onClear: PropTypes.func,
-  onLoadMoreResults: PropTypes.func,
-  onSearch: PropTypes.func,
-  onSelect: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
+  onLoadMoreResults: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
   results: PropTypes.array,
   searchTerm: PropTypes.string,
   total: PropTypes.number,

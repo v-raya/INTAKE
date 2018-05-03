@@ -36,15 +36,15 @@ export class PersonSearchForm extends React.Component {
 }
 
 PersonSearchForm.propTypes = {
-  canCreateNewPerson: PropTypes.bool,
+  canCreateNewPerson: PropTypes.bool.isRequired,
   isSelectable: PropTypes.func,
-  onChange: PropTypes.func,
-  onClear: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func,
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
   results: PropTypes.array,
-  searchPrompt: PropTypes.string,
+  searchPrompt: PropTypes.string.isRequired,
   searchTerm: PropTypes.string,
   total: PropTypes.number,
 }
