@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 feature 'Participant Address' do
-  let(:marge) { FactoryBot.create(:participant) }
+  let(:marge) { FactoryBot.create(:participant, :with_legacy_address) }
   let(:screening) do
     {
       id: '1',
@@ -25,8 +25,9 @@ feature 'Participant Address' do
     stub_empty_history_for_screening(screening)
   end
 
-  scenario 'adding a new address to a participant' do
+  scenario 'has read only addresses ' do
     visit edit_screening_path(id: screening[:id])
+    expect(page).to_not have_field('Address', with: marge.addresses.first.street_address)
 
     within edit_participant_card_selector(marge.id) do
       click_button 'Add new address'
@@ -51,10 +52,17 @@ feature 'Participant Address' do
                      'city' => 'Someplace',
                      'state' => 'CA',
                      'zip' => '55555',
-                     'type' => '32'
+                     'type' => '32',
+                     'legacy_id' => nil
                    )
                  )
                ))).to have_been_made
+
+    within show_participant_card_selector(marge.id) do
+      click_link 'Edit'
+      expect(page).to_not have_field('Address', with: marge.addresses.first.street_address)
+      expect(page).to have_field('Address', with: '1234 Some Lane')
+    end
   end
 
   scenario 'list of address types is correct' do
