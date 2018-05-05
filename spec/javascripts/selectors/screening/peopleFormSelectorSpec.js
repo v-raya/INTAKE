@@ -5,7 +5,8 @@ import {
   getPersonPhoneNumbersSelector,
   getPhoneNumberTypeOptions,
   getAddressTypeOptionsSelector,
-  getPersonAddressesSelector,
+  getPersonReadOnlyAddressesSelector,
+  getPersonEditableAddressesSelector,
   getStateOptionsSelector,
   getPersonDemographicsSelector,
   getPersonRacesSelector,
@@ -34,7 +35,7 @@ import * as matchers from 'jasmine-immutable-matchers'
 describe('peopleFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('getPeopleWithEditsSelector', () => {
+  fdescribe('getPeopleWithEditsSelector', () => {
     it('returns formatted people object map', () => {
       const screening = {id: '123456'}
       const peopleForm = {
@@ -61,6 +62,7 @@ describe('peopleFormSelectors', () => {
               state: {value: 'CA'},
               zip: {value: '55555'},
               type: {value: 'Home'},
+              legacy_descriptor: {value: {legacy_id: 'A2'}},
             }, {
               id: null,
               street: {value: '9674 Somewhere Street'},
@@ -166,8 +168,8 @@ describe('peopleFormSelectors', () => {
             {id: null, number: '0987654321', type: 'Cell'},
           ],
           addresses: [
-            {id: 'ABC', street_address: '1234 Nowhere Lane', city: 'Somewhereville', state: 'CA', zip: '55555', type: 'Home'},
-            {id: null, street_address: '9674 Somewhere Street', city: 'Nowhereville', state: 'CA', zip: '55555', type: 'Cell'},
+            {id: 'ABC', street: '1234 Nowhere Lane', city: 'Somewhereville', state: 'CA', zip: '55555', type: 'Home', legacy_id: 'A2'},
+            {id: null, street: '9674 Somewhere Street', city: 'Nowhereville', state: 'CA', zip: '55555', type: 'Cell', legacy_id: null},
           ],
           roles: ['a', 'b'],
           ssn: '321456789',
@@ -195,7 +197,7 @@ describe('peopleFormSelectors', () => {
           last_name: 'last two',
           name_suffix: 'suffix two',
           phone_numbers: [{id: null, number: null, type: null}],
-          addresses: [{id: null, street_address: null, city: null, state: null, zip: null, type: null}],
+          addresses: [{id: null, street: null, city: null, state: null, zip: null, type: null, legacy_id: null}],
           roles: ['c'],
           ssn: '321456789',
           sensitive: false,
@@ -401,16 +403,27 @@ describe('peopleFormSelectors', () => {
     })
   })
 
-  describe('getPersonAddressesSelector', () => {
-    it('returns the addresses for the person with the passed id', () => {
+  describe('getPersonEditableAddressesSelector', () => {
+    it('returns the editable addresses for the person with the passed id', () => {
       const peopleForm = {
         one: {addresses: [{
+          id: 2212,
           street: {value: '1234 Nowhere Lane'},
           city: {value: 'Somewhereville'},
           state: {value: 'CA'},
           zip: {value: '55555'},
           type: {value: 'Home'},
-        }]},
+          legacy_descriptor: {value: { legacy_id: 'xyz122'}},
+        },
+        {
+          id: 3,
+          street: {value: '223 Van der Burgh Ave'},
+          city: {value: 'Calistoga'},
+          state: {value: 'CA'},
+          zip: {value: '839893'},
+          type: {value: 'Home'},
+        },
+        ]},
         two: {addresses: [{
           street: {value: '9674 Somewhere Street'},
           city: {value: 'Nowhereville'},
@@ -420,12 +433,13 @@ describe('peopleFormSelectors', () => {
         }]},
       }
       const state = fromJS({peopleForm})
-      expect(getPersonAddressesSelector(state, 'one')).toEqualImmutable(fromJS(
+      expect(getPersonEditableAddressesSelector(state, 'one')).toEqualImmutable(fromJS(
         [{
-          street: '1234 Nowhere Lane',
-          city: 'Somewhereville',
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
           state: 'CA',
-          zip: '55555',
+          zip: '839893',
           type: 'Home',
           zipError: List(),
         }]

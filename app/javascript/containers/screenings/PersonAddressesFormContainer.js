@@ -2,13 +2,13 @@ import {connect} from 'react-redux'
 import {setField, addAddress, deleteAddress, touchField} from 'actions/peopleFormActions'
 import AddressesForm from 'views/people/AddressesForm'
 import {
-  getPersonAddressesSelector,
+  getPersonEditableAddressesSelector,
   getAddressTypeOptionsSelector,
   getStateOptionsSelector,
 } from 'selectors/screening/peopleFormSelectors'
 
 const mapStateToProps = (state, {personId}) => ({
-  addresses: getPersonAddressesSelector(state, personId).toJS(),
+  addresses: getPersonEditableAddressesSelector(state, personId).toJS(),
   addressTypeOptions: getAddressTypeOptionsSelector(state).toJS(),
   stateOptions: getStateOptionsSelector().toJS(),
 })

@@ -137,12 +137,17 @@ const getPhoneNumbers = (person) => person.get('phone_numbers', List()).map((pho
 
 const getAddresses = (person) => person.get('addresses', List()).map((address) => Map({
   id: address.get('id'),
-  street_address: address.getIn(['street', 'value']),
+  street: address.getIn(['street', 'value']),
   city: address.getIn(['city', 'value']),
   state: address.getIn(['state', 'value']),
   zip: address.getIn(['zip', 'value']),
   type: address.getIn(['type', 'value']),
+  legacy_id: address.getIn(['legacy_descriptor', 'value', 'legacy_id'], null),
 }))
+
+export const getPersonEditableAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
+  .filter((address) => !address.get('legacy_id'))
+  .map((address) => address.delete('legacy_id'))
 
 const getEthnicity = (person) => {
   const hispanic_latino_origin = person.getIn(['ethnicity', 'hispanic_latino_origin', 'value'])
@@ -231,9 +236,6 @@ export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).m
 }))
 
 export const getStateOptionsSelector = () => fromJS(US_STATE.map(({code, name}) => ({value: code, label: name})))
-
-export const getPersonAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
-  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id').set('zipError', getZIPErrors(address.get('zip'))))
 
 export const getIsApproximateAgeDisabledSelector = (state, personId) => (
   Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))
