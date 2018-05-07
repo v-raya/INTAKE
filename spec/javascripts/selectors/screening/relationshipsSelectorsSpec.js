@@ -99,14 +99,14 @@ describe('relationshipsViewSelectors', () => {
         {
           name: 'Ricky Robinson',
           relationships: [
-            {relatee: 'Johny Robinson', legacy_descriptor: {legacy_id: '2'}, type: 'Brother', person_card_exists: false},
+            {relatee: 'Johny Robinson', legacy_descriptor: {legacy_id: '2'}, type: 'Brother', person_card_exists: true},
             {relatee: 'Will Carlson', legacy_descriptor: {legacy_id: '1'}, type: 'Nephew (Paternal)', person_card_exists: true},
           ],
         },
         {
           name: 'Johny Robinson',
           relationships: [
-            {relatee: 'Ricky Robinson', legacy_descriptor: {legacy_id: '3'}, type: 'Brother', person_card_exists: false},
+            {relatee: 'Ricky Robinson', legacy_descriptor: {legacy_id: '3'}, type: 'Brother', person_card_exists: true},
             {relatee: 'Will Carlson', legacy_descriptor: {legacy_id: '1'}, type: 'Nephew (Paternal)', person_card_exists: true},
           ],
         },
