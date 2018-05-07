@@ -690,7 +690,7 @@ describe('crossReportFormSelectors', () => {
         ],
       })
 
-      expect(getUserCountySelector(state)).toEqual(null)
+      expect(getUserCountySelector(state)).toBeNull()
     })
   })
 })
