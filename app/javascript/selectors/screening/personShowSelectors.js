@@ -168,7 +168,7 @@ const formattedState = (stateCode) => {
   return state ? state.name : ''
 }
 
-export const getPersonFormattedAddressesSelector = (state, personId) => (
+export const getAllPersonFormattedAddressesSelector = (state, personId) => (
   state.get('participants', List()).find((person) => person.get('id') === personId)
     .get('addresses', List()).map((address) => (
       Map({
@@ -178,7 +178,12 @@ export const getPersonFormattedAddressesSelector = (state, personId) => (
         zip: address.get('zip'),
         zipError: getZIPErrors(address.get('zip')),
         type: systemCodeDisplayValue(address.get('type'), getAddressTypes(state)) || address.get('type'),
+        legacy_id: address.get('legacy_id'),
       })
     )
     )
 )
+
+export const getReadOnlyPersonFormattedAddressesSelector = (state, personId) => (
+  getAllPersonFormattedAddressesSelector(state, personId)
+).filter((address) => address.get('legacy_id'))

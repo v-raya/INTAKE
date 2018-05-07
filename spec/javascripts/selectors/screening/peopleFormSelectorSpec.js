@@ -5,7 +5,6 @@ import {
   getPersonPhoneNumbersSelector,
   getPhoneNumberTypeOptions,
   getAddressTypeOptionsSelector,
-  getPersonReadOnlyAddressesSelector,
   getPersonEditableAddressesSelector,
   getStateOptionsSelector,
   getPersonDemographicsSelector,
@@ -35,7 +34,7 @@ import * as matchers from 'jasmine-immutable-matchers'
 describe('peopleFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  fdescribe('getPeopleWithEditsSelector', () => {
+  describe('getPeopleWithEditsSelector', () => {
     it('returns formatted people object map', () => {
       const screening = {id: '123456'}
       const peopleForm = {
@@ -413,7 +412,7 @@ describe('peopleFormSelectors', () => {
           state: {value: 'CA'},
           zip: {value: '55555'},
           type: {value: 'Home'},
-          legacy_descriptor: {value: { legacy_id: 'xyz122'}},
+          legacy_descriptor: {value: {legacy_id: 'xyz122'}},
         },
         {
           id: 3,
