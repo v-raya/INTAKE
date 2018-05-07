@@ -30,7 +30,13 @@ const CrossReportAgencyField = ({
       onChange={({target: {checked}}) => {
         setAgencyTypeField(type, checked)
         touchField(type)
-        clearAllAgencyFields(type)
+        if (checked) {
+          const agency = value || (countyAgencies[0] && countyAgencies[0].id)
+          setAgencyField(type, agency)
+          touchAgencyField(type)
+        } else {
+          clearAllAgencyFields(type)
+        }
       }}
       required={required}
       value={type}
@@ -49,7 +55,6 @@ const CrossReportAgencyField = ({
           onBlur={() => touchAgencyField(type)}
           value={value}
         >
-          <option key='' />
           {countyAgencies.map((agency) => <option key={agency.id} value={agency.id}>{agency.name}</option>)}
         </SelectField>
     }

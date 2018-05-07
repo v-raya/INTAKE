@@ -161,8 +161,6 @@ feature 'Show Screening' do
       expect(page).to have_content 'County licensing'
       click_link 'Edit cross report'
       expect(page).to have_select('District attorney agency name', selected: 'LA District Attorney')
-      select '', from: 'District attorney agency name'
-      expect(page).to have_select('District attorney agency name', selected: '')
     end
 
     expect(page).to have_link('Home', href: root_path)
