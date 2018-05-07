@@ -126,7 +126,7 @@ feature 'Edit Screening' do
           selected: 'LA District Attorney'
         )
         expect(page.find('input[value="LAW_ENFORCEMENT"]')).to be_checked
-        expect(page).to have_select('Law enforcement agency name', selected: '')
+        expect(page).to have_select('Law enforcement agency name', selected: 'The Sheriff')
         expect(page).to have_button 'Save'
         expect(page).to have_button 'Cancel'
       end

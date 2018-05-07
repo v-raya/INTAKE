@@ -138,6 +138,7 @@ feature 'Create participant' do
     stub_request(
       :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
     ).and_return(json_body(existing_screening.to_json, status: 200))
+    stub_county_agencies('c40')
     %w[ma mar marg marge marge\ simpson].each do |search_text|
       stub_person_search(search_term: search_text, person_response: marge_response)
     end
@@ -320,6 +321,7 @@ feature 'Create participant' do
       stub_request(:get, ferb_api_url(FerbRoutes.staff_path('123')))
         .and_return(json_body({ staffId: '123', first_name: 'Bob', last_name: 'Boberson',
                                 county: 'San Francisco' }.to_json, status: 200))
+      stub_county_agencies('c40')
     end
 
     context 'with NO privileges to add sensitive' do
