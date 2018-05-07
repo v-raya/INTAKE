@@ -3,6 +3,8 @@ import {
   createPersonSuccess,
   createPersonFailure,
   createSnapshotPerson,
+  deletePersonSuccess,
+  deletePersonFailure,
 } from 'actions/personCardActions'
 import pendingParticipantsReducer from 'reducers/pendingParticipantsReducer'
 import {List, fromJS} from 'immutable'
@@ -31,6 +33,20 @@ describe('pendingParticipantsReducer', () => {
     })
     it('returns the last state on failure', () => {
       const action = createPersonFailure()
+      expect(pendingParticipantsReducer(List(), action)).toEqual(List())
+    })
+  })
+  describe('on DELETE_PERSON_COMPLETE', () => {
+    it('removes the existing person from the pending participants list', () => {
+      const firstId = '2'
+      const secondId = '3'
+      const oldState = fromJS([firstId, secondId])
+      const action = deletePersonSuccess(firstId)
+      const pendingParticipants = fromJS([secondId])
+      expect(pendingParticipantsReducer(oldState, action)).toEqualImmutable(pendingParticipants)
+    })
+    it('returns the last state on failure', () => {
+      const action = deletePersonFailure()
       expect(pendingParticipantsReducer(List(), action)).toEqual(List())
     })
   })
