@@ -2,6 +2,7 @@ import {
   CREATE_SNAPSHOT_PERSON,
   CREATE_PERSON_COMPLETE,
   CREATE_PERSON,
+  DELETE_PERSON_COMPLETE,
   CLEAR_PEOPLE,
 } from 'actions/personCardActions'
 import {createReducer} from 'utils/createReducer'
@@ -20,6 +21,13 @@ export default createReducer(List(), {
       return List()
     } else {
       return state
+    }
+  },
+  [DELETE_PERSON_COMPLETE](state, {payload: {id}, error}) {
+    if (error) {
+      return state
+    } else {
+      return state.filterNot((x) => x === id)
     }
   },
   [CLEAR_PEOPLE]() {
