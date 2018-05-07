@@ -124,3 +124,10 @@ export const getAllegationsRequireCrossReportsValueSelector = createSelector(
     agency.get('type') === requiredAgencyType
   ))), true)
 )
+
+export const getUserCountySelector = (state) => {
+  const userCountyName = state.getIn(['userInfo', 'county'])
+  const counties = state.get('counties', List())
+  const foundCounty = counties.find((county) => county.get('value') === userCountyName)
+  return foundCounty ? foundCounty.get('code') : null
+}

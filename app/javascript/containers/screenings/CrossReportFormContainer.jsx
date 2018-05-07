@@ -36,16 +36,10 @@ import {
   getLawEnforcementFormSelector,
   getCountyLicensingFormSelector,
   getCommunityCareLicensingFormSelector,
+  getUserCountySelector,
 } from 'selectors/screening/crossReportFormSelectors'
 
 export const cardName = 'cross-report-card'
-
-const getUserCounty = (state) => {
-  const userCountyName = state.getIn(['userInfo', 'county'])
-  const counties = state.get('counties')
-  const foundCounty = counties.find((county) => county.get('value') === userCountyName)
-  return foundCounty ? foundCounty.get('code') : null
-}
 
 const mapStateToProps = (state) => ({
   allegationsRequireCrossReports: getAllegationsRequireCrossReportsValueSelector(state),
@@ -68,7 +62,7 @@ const mapStateToProps = (state) => ({
   lawEnforcement: getLawEnforcementFormSelector(state).toJS(),
   method: state.getIn(['crossReportForm', 'method', 'value']) || '',
   screeningWithEdits: getScreeningWithEditsSelector(state).toJS(),
-  userCounty: getUserCounty(state),
+  userCounty: getUserCountySelector(state),
 })
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
