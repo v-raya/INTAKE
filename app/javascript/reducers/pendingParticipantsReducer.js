@@ -2,7 +2,6 @@ import {
   CREATE_SNAPSHOT_PERSON,
   CREATE_PERSON_COMPLETE,
   CREATE_PERSON,
-  DELETE_PERSON_COMPLETE,
   CLEAR_PEOPLE,
 } from 'actions/personCardActions'
 import {createReducer} from 'utils/createReducer'
@@ -16,18 +15,11 @@ export default createReducer(List(), {
     const id = person.legacy_descriptor && person.legacy_descriptor.legacy_id
     return state.unshift(id)
   },
-  [CREATE_PERSON_COMPLETE](state, {error}) {
+  [CREATE_PERSON_COMPLETE](state, {payload: {person}, error}) {
     if (error) {
       return List()
     } else {
-      return state
-    }
-  },
-  [DELETE_PERSON_COMPLETE](state, {payload: {id}, error}) {
-    if (error) {
-      return state
-    } else {
-      return state.filterNot((x) => x === id)
+      return state.filter((id) => id !== person.id)
     }
   },
   [CLEAR_PEOPLE]() {

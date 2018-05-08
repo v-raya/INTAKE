@@ -35,6 +35,18 @@ describe('relationshipsViewSelectors', () => {
     })
 
     it('returns a list of relationships for each person', () => {
+      const participants = [
+        {
+          first_name: 'Ricky',
+          last_name: 'Robinson',
+          legacy_id: '3',
+        },
+        {
+          first_name: 'Johny',
+          last_name: 'Robinson',
+          legacy_id: '2',
+        },
+      ]
       const relationships = [
         {
           first_name: 'Ricky',
@@ -93,7 +105,7 @@ describe('relationshipsViewSelectors', () => {
         {code: '258', value: 'Nephew (Paternal)'},
         {code: '297', value: 'Uncle (Paternal)'},
       ]
-      const state = fromJS({relationships, relationshipTypes})
+      const state = fromJS({relationships, relationshipTypes, participants})
 
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
         {

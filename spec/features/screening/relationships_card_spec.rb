@@ -311,7 +311,8 @@ feature 'Relationship card' do
 
           describe '.attached-person' do
             scenario 'does not show "Attach" link' do
-              expect(page).not_to have_xpath(".//li[contains(., 'of Jane Campbell')]//a")
+              find(:xpath, ".//li[contains(., 'of Jake Campbell')]//a").click
+              expect(page).not_to have_xpath(".//li[contains(., 'of Jake Campbell')]//a")
             end
           end
         end
