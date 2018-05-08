@@ -115,7 +115,7 @@ feature 'cross reports' do
               'county_id' => 'c40',
               'agencies' => array_including(
                 hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
-                hash_including('id' => '', 'type' => 'DISTRICT_ATTORNEY')
+                hash_including('id' => '45Hvp7x00F', 'type' => 'DISTRICT_ATTORNEY')
               ),
               'inform_date' => reported_on.to_s(:db),
               'method' => communication_method
@@ -222,7 +222,7 @@ feature 'cross reports' do
           'cross_reports' => array_including(
             hash_including(
               'agencies' => array_including(
-                hash_including('id' => '', 'type' => 'LAW_ENFORCEMENT')
+                hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT')
               ),
               'inform_date' => reported_on.to_s(:db),
               'method' => communication_method
@@ -273,7 +273,7 @@ feature 'cross reports' do
           'cross_reports' => array_including(
             hash_including(
               'agencies' => array_including(
-                hash_including('id' => '', 'type' => 'LAW_ENFORCEMENT')
+                hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT')
               ),
               'inform_date' => nil,
               'method' => nil

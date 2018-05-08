@@ -40,7 +40,7 @@ describe('CrossReportAgencyField', () => {
     expect(checkbox.props().label).toEqual('District attorney')
     expect(checkbox.props().value).toEqual('DISTRICT_ATTORNEY')
   })
-  it('checkbox enalbed when agencies exist', () => {
+  it('checkbox enabled when agencies exist', () => {
     const component = renderAgencyField({
       type: 'DISTRICT_ATTORNEY',
       countyAgencies: [{id: '1234', value: 'DA Criminal Dept'}],
@@ -49,17 +49,49 @@ describe('CrossReportAgencyField', () => {
     expect(checkbox.exists()).toEqual(true)
     expect(checkbox.props().disabled).toEqual(false)
   })
-  it('triggers the appropriate actions on change', () => {
+
+  it('triggers the appropriate actions on change to selected', () => {
     const setAgencyTypeField = jasmine.createSpy('setAgencyTypeField')
     const touchField = jasmine.createSpy('touchField')
     const clearAllAgencyFields = jasmine.createSpy('clearAllAgencyFields')
-    const actions = {clearAllAgencyFields, touchField, setAgencyTypeField}
-    const component = renderAgencyField({type: 'DISTRICT_ATTORNEY', actions})
-    component.find('CheckboxField[id="type-DISTRICT_ATTORNEY"]').simulate('change', {target: {checked: true}})
+    const setAgencyField = jasmine.createSpy('setAgencyField')
+    const touchAgencyField = jasmine.createSpy('touchAgencyField')
+    const actions = {clearAllAgencyFields, touchField, setAgencyTypeField, setAgencyField, touchAgencyField}
+    const component = renderAgencyField({type: 'DISTRICT_ATTORNEY', actions, countyAgencies: [{id: 'ABC123'}]})
+    const checkbox = component.find('CheckboxField[id="type-DISTRICT_ATTORNEY"]')
+
+    checkbox.simulate('change', {target: {checked: true}})
     expect(setAgencyTypeField).toHaveBeenCalledWith('DISTRICT_ATTORNEY', true)
     expect(touchField).toHaveBeenCalledWith('DISTRICT_ATTORNEY')
-    expect(clearAllAgencyFields).toHaveBeenCalledWith('DISTRICT_ATTORNEY')
+    expect(setAgencyField).toHaveBeenCalledWith('DISTRICT_ATTORNEY', 'ABC123')
+    expect(touchAgencyField).toHaveBeenCalledWith('DISTRICT_ATTORNEY')
+    expect(clearAllAgencyFields).not.toHaveBeenCalled()
   })
+
+  it('triggers the appropriate actions on change to deselected', () => {
+    const setAgencyTypeField = jasmine.createSpy('setAgencyTypeField')
+    const touchField = jasmine.createSpy('touchField')
+    const clearAllAgencyFields = jasmine.createSpy('clearAllAgencyFields')
+    const setAgencyField = jasmine.createSpy('setAgencyField')
+    const touchAgencyField = jasmine.createSpy('touchAgencyField')
+    const actions = {clearAllAgencyFields, touchField, setAgencyTypeField, setAgencyField, touchAgencyField}
+    const component = renderAgencyField({type: 'DISTRICT_ATTORNEY', actions})
+    const checkbox = component.find('CheckboxField[id="type-DISTRICT_ATTORNEY"]')
+
+    checkbox.simulate('change', {target: {checked: true}})
+    setAgencyTypeField.calls.reset()
+    touchField.calls.reset()
+    setAgencyField.calls.reset()
+    touchAgencyField.calls.reset()
+
+    checkbox.simulate('change', {target: {checked: false}})
+    expect(setAgencyTypeField).toHaveBeenCalledWith('DISTRICT_ATTORNEY', false)
+    expect(touchField).toHaveBeenCalledWith('DISTRICT_ATTORNEY')
+    expect(clearAllAgencyFields).toHaveBeenCalledWith('DISTRICT_ATTORNEY')
+    expect(setAgencyField).not.toHaveBeenCalled()
+    expect(touchAgencyField).not.toHaveBeenCalled()
+  })
+
   it('does not render the select field by default', () => {
     const component = renderAgencyField({type: 'DISTRICT_ATTORNEY'})
     expect(component.find('SelectField[id="DISTRICT_ATTORNEY-agency-code"]').exists()).toEqual(false)
@@ -125,7 +157,7 @@ describe('CrossReportAgencyField', () => {
       expect(selectField.props().required).toEqual(true)
       expect(selectField.props().value).toEqual('12345')
       expect(selectField.props().gridClassName).toEqual('input-error')
-      const children = selectField.props().children[1]
+      const children = selectField.props().children
       expect(children[0].key).toEqual('1')
       expect(children[0].props.value).toEqual('1')
       expect(children[0].props.children).toEqual('Agency 1')

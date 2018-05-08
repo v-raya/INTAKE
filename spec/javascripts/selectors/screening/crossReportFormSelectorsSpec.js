@@ -10,6 +10,7 @@ import {
   getLawEnforcementFormSelector,
   getCountyLicensingFormSelector,
   getCommunityCareLicensingFormSelector,
+  getUserCountySelector,
 } from 'selectors/screening/crossReportFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -629,6 +630,67 @@ describe('crossReportFormSelectors', () => {
             },
           ],
         }))
+    })
+  })
+
+  describe('getUserCounty', () => {
+    it('returns the county code if a match is found', () => {
+      const state = fromJS({
+        userInfo: {county: 'Dorne'},
+        counties: [
+          {code: '1111', value: 'Stormlands'},
+          {code: '2222', value: 'Dorne'},
+          {code: '3333', value: 'Dragonstone'},
+        ],
+      })
+
+      expect(getUserCountySelector(state)).toEqual('2222')
+    })
+
+    it('returns null if the userInfo is not populated', () => {
+      const state = fromJS({
+        userInfo: {},
+        counties: [
+          {code: '1111', value: 'Stormlands'},
+          {code: '2222', value: 'Dorne'},
+          {code: '3333', value: 'Dragonstone'},
+        ],
+      })
+
+      expect(getUserCountySelector(state)).toBeNull()
+    })
+
+    it('returns null if there is no userInfo at all', () => {
+      const state = fromJS({
+        counties: [
+          {code: '1111', value: 'Stormlands'},
+          {code: '2222', value: 'Dorne'},
+          {code: '3333', value: 'Dragonstone'},
+        ],
+      })
+
+      expect(getUserCountySelector(state)).toBeNull()
+    })
+
+    it('returns null if the counties are not populated', () => {
+      const state = fromJS({
+        userInfo: {county: 'Dorne'},
+      })
+
+      expect(getUserCountySelector(state)).toBeNull()
+    })
+
+    it('returns null if the user is from an unknown county', () => {
+      const state = fromJS({
+        userInfo: {county: 'Pentos'},
+        counties: [
+          {code: '1111', value: 'Stormlands'},
+          {code: '2222', value: 'Dorne'},
+          {code: '3333', value: 'Dragonstone'},
+        ],
+      })
+
+      expect(getUserCountySelector(state)).toBeNull()
     })
   })
 })

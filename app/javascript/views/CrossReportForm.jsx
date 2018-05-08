@@ -32,6 +32,7 @@ const CrossReportForm = ({
   lawEnforcement,
   method,
   screeningWithEdits,
+  userCounty,
   actions: {
     clearAllAgencyFields,
     clearAllFields,
@@ -65,6 +66,12 @@ const CrossReportForm = ({
     touchField,
     touchAgencyField,
   }
+
+  if (county_id === '' && counties.some((county) => county.code === userCounty)) {
+    fetchCountyAgencies(userCounty)
+    setField('county_id', userCounty)
+  }
+
   return (
     <div className='card-body no-pad-top'>
       { areCrossReportsRequired && <AlertInfoMessage message={ALLEGATIONS_REQUIRE_CROSS_REPORTS_MESSAGE} /> }
@@ -84,7 +91,7 @@ const CrossReportForm = ({
           }}
           onBlur={() => touchField('county_id')}
           counties={counties}
-          value={county_id}
+          value={county_id === '' ? userCounty : county_id}
         />
       </div>
       {
@@ -207,6 +214,7 @@ CrossReportForm.propTypes = {
   lawEnforcement: PropTypes.object.isRequired,
   method: PropTypes.string,
   screeningWithEdits: PropTypes.object,
+  userCounty: PropTypes.string,
 }
 
 export default CrossReportForm

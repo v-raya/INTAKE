@@ -36,6 +36,7 @@ import {
   getLawEnforcementFormSelector,
   getCountyLicensingFormSelector,
   getCommunityCareLicensingFormSelector,
+  getUserCountySelector,
 } from 'selectors/screening/crossReportFormSelectors'
 
 export const cardName = 'cross-report-card'
@@ -61,6 +62,7 @@ const mapStateToProps = (state) => ({
   lawEnforcement: getLawEnforcementFormSelector(state).toJS(),
   method: state.getIn(['crossReportForm', 'method', 'value']) || '',
   screeningWithEdits: getScreeningWithEditsSelector(state).toJS(),
+  userCounty: getUserCountySelector(state),
 })
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({

@@ -32,6 +32,7 @@ describe('<Autocompleter />', () => {
   }
   function renderAutocompleter({
     onSelect = () => null,
+    onLoadMoreResults = () => null,
     onClear = () => null,
     isSelectable = () => true,
     onSearch = () => null,
@@ -45,6 +46,7 @@ describe('<Autocompleter />', () => {
       <Autocompleter
         id={id}
         onSelect={onSelect}
+        onLoadMoreResults={onLoadMoreResults}
         onClear={onClear}
         onChange={onChange}
         isSelectable={isSelectable}

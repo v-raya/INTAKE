@@ -11,6 +11,7 @@ describe('PersonSearchForm', () => {
 
   function renderPersonSearchForm({
     onSelect = () => null,
+    onLoadMoreResults = () => null,
     onChange = () => null,
     onClear = () => null,
     onSearch = () => null,
@@ -18,7 +19,7 @@ describe('PersonSearchForm', () => {
     canCreateNewPerson = false,
     ...args
   }) {
-    const props = {onSelect, onChange, onClear, onSearch, searchPrompt, canCreateNewPerson, ...args}
+    const props = {onSelect, onLoadMoreResults, onChange, onClear, onSearch, searchPrompt, canCreateNewPerson, ...args}
     return shallow(<PersonSearchForm {...props}/>, {disableLifecycleMethods: true})
   }
 
