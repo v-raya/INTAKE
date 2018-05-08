@@ -237,6 +237,35 @@ describe('peopleSearchHelper', () => {
         streetAddress: '123 C Street',
       }))
     })
+
+    it('returns the first address from addresses object', () => {
+      const result = fromJS({
+        addresses: [{
+          city: 'city',
+          state_code: 'state',
+          zip: 'zip',
+          type: {id: '1'},
+          street_number: '123',
+          street_name: 'C Street',
+        }, {
+          city: 'city2',
+          state_code: 'state2',
+          zip: 'zip2',
+          type: {id: '1'},
+          street_number: '12345',
+          street_name: 'K Street',
+        }],
+      })
+      const state = fromJS({addressTypes})
+      const addressResult = mapAddress(state, result)
+      expect(addressResult).toEqualImmutable(fromJS({
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        type: 'address type',
+        streetAddress: '123 C Street',
+      }))
+    })
   })
 
   describe('mapRaces', () => {
