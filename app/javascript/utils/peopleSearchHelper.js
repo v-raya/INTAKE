@@ -1,7 +1,6 @@
 import {Map, List, fromJS} from 'immutable'
 import {buildSelector} from 'selectors'
 import {systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
-import {returnLastKnownAddress} from './returnLastKnownAddress'
 import {zipFormatter} from '../utils/zipFormatter'
 
 export const mapLanguages = (state, result) => buildSelector(
@@ -49,25 +48,21 @@ export const mapEthnicities = (state, result) => buildSelector(
   })
 )(state)
 
-const buildAddressMap = (addressTypes, address) => {
-  const typeId = address.getIn(['type', 'id'])
-  const type = systemCodeDisplayValue(typeId, addressTypes)
-  return Map({
-    city: address.get('city'),
-    state: address.get('state_code'),
-    zip: zipFormatter(address.get('zip')),
-    type: type ? type : '',
-    streetAddress: `${address.get('street_number') || ''} ${address.get('street_name')}`,
-  })
-}
-
 export const mapAddress = (state, result) => buildSelector(
   (state) => state.get('addressTypes'),
-  () => result.get('addresses') || List(),
+  () => (result.get('addresses') || List()),
   (addressTypes, addresses) => {
     if (addresses.isEmpty()) { return null }
-    const address = returnLastKnownAddress(addresses) || addresses.first()
-    return buildAddressMap(addressTypes, address)
+    const address = addresses.first()
+    const typeId = address.getIn(['type', 'id'])
+    const type = systemCodeDisplayValue(typeId, addressTypes)
+    return Map({
+      city: address.get('city'),
+      state: address.get('state_code'),
+      zip: zipFormatter(address.get('zip')),
+      type: type ? type : '',
+      streetAddress: `${address.get('street_number') || ''} ${address.get('street_name') || ''}`,
+    })
   }
 )(state)
 
