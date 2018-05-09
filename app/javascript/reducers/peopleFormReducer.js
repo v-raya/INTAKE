@@ -16,19 +16,18 @@ import {
 } from 'actions/personCardActions'
 
 const buildAddresses = (addresses) => {
-  if (addresses) {
-    return addresses.map(({id, street_address, city, state, zip, type, legacy_descriptor}) => ({
-      id,
-      street: {value: street_address},
-      city: {value: city},
-      state: {value: state},
-      zip: {value: zip},
-      type: {value: type},
-      legacy_descriptor: {value: legacy_descriptor},
-    }))
-  } else {
-    return []
-  }
+  if (!addresses) { return [] }
+
+  return addresses.map(({id, street_address, city, state, zip, type, legacy_descriptor, legacy_id}) => ({
+    id,
+    street: {value: street_address},
+    city: {value: city},
+    state: {value: state},
+    zip: {value: zip},
+    type: {value: type},
+    legacy_id: {value: legacy_id},
+    legacy_descriptor: {value: legacy_descriptor},
+  })).filter((address) => !address.legacy_id.value)
 }
 
 const buildPhoneNumbers = (phoneNumbers) => {
