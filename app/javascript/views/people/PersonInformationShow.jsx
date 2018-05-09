@@ -20,7 +20,7 @@ const PersonInformationShow = ({
   <div>
     { alertErrorMessage && <AlertErrorMessage message={alertErrorMessage} /> }
     <div className='row'>
-      <div className='col-md-2'><img src={AvatarImg}/></div>
+      <div className='col-md-2 avatar-picture'><img src={AvatarImg}/></div>
       <div className='col-md-10'>
         {legacySource &&
             <div className='row'><div className='col-md-12'><span>{legacySource}</span></div></div>

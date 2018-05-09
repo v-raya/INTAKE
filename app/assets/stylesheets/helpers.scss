@@ -208,6 +208,11 @@
   .profile-picture .image-caption {
     position: relative;
   }
+
+  .avatar-picture {
+    max-height: 15rem;
+    max-width: 15rem;
+  }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
