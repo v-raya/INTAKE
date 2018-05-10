@@ -161,10 +161,26 @@ const getRaces = (person) => person.get('races', Map()).reduce((races, raceValue
   return (raceValue.get('value')) ? [...races, {race: raceKey, race_detail: raceDetails}] : races
 }, [])
 
+const getAllReadOnlyAddresses = (state) => (state.get('participants') === undefined ? List() : state.get('participants').map((person) => Map({
+  personId: person.get('id'),
+  addresses: person.get('addresses').filter((address) => address.get('legacy_id')),
+})))
+
+const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
+  if (allReadOnlyAddresses.isEmpty()) { return List() }
+  return allReadOnlyAddresses.find((personAddresses) => personAddresses.get('personId') === personId).get('addresses')
+}
+
+const combineAddresses = (person, personId, allReadOnlyAddresses) => [
+  ...filterLegacyAddresses(personId, allReadOnlyAddresses),
+  ...getAddresses(person),
+]
+
 export const getPeopleWithEditsSelector = createSelector(
   getPeopleSelector,
   getScreeningIdValueSelector,
-  (people, screeningId) => people.map((person, personId) => {
+  getAllReadOnlyAddresses,
+  (people, screeningId, allReadOnlyAddresses) => people.map((person, personId) => {
     const isAgeDisabled = Boolean(person.getIn(['date_of_birth', 'value']))
     return fromJS({
       screening_id: screeningId,
@@ -180,7 +196,7 @@ export const getPeopleWithEditsSelector = createSelector(
       last_name: person.getIn(['last_name', 'value']),
       name_suffix: person.getIn(['name_suffix', 'value']),
       phone_numbers: getPhoneNumbers(person),
-      addresses: getAddresses(person),
+      addresses: combineAddresses(person, personId, allReadOnlyAddresses),
       roles: person.getIn(['roles', 'value']),
       ssn: person.getIn(['ssn', 'value']),
       sensitive: person.getIn(['sensitive', 'value']),

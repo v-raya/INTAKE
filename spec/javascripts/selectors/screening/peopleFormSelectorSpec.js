@@ -238,6 +238,134 @@ describe('peopleFormSelectors', () => {
       }))
     })
 
+    it('it combines read only and editable addresses', () => {
+      const screening = {id: '123456'}
+      const participants = [
+        {
+          legacy_source_table: null,
+          gender: 'male',
+          addresses: [
+            {
+              legacy_source_table: null,
+              zip: '95616',
+              legacy_descriptor: null,
+              city: 'Davis',
+              state: 'CA',
+              legacy_id: '65TT6lc0Qc',
+              street_address: '123 Delaware Crossing',
+              type: '31',
+              id: '1782',
+            },
+          ],
+          id: 'one',
+        },
+        {
+          legacy_source_table: null,
+          gender: 'female',
+          addresses: [
+            {
+              legacy_source_table: null,
+              zip: '00000',
+              legacy_descriptor: null,
+              city: 'Springston',
+              state: 'CA',
+              legacy_id: 'AAAi88',
+              street_address: '227 fairway heavens',
+              type: '99',
+              id: '9999',
+            },
+          ],
+          id: '9928',
+        },
+      ]
+
+      const peopleForm = {
+        one: {
+          id: 'one',
+          approximate_age: {value: '1'},
+          approximate_age_units: {value: 'years'},
+          date_of_birth: {value: '13/0/-514'},
+          first_name: {value: ''},
+          gender: {value: ''},
+          languages: {value: []},
+          legacy_descriptor: {value: 'a legacy_descriptor'},
+          middle_name: {value: ''},
+          last_name: {value: ''},
+          name_suffix: {value: ''},
+          phone_numbers: [],
+          addresses: [
+            {
+              id: '3',
+              street: {value: '223 Van der Burgh Ave'},
+              city: {value: 'Calistoga'},
+              state: {value: 'CA'},
+              zip: {value: '839893'},
+              type: {value: 'Home'},
+            },
+          ],
+          roles: {value: []},
+          ssn: {value: ''},
+          sensitive: {value: true},
+          sealed: {value: true},
+          ethnicity: {
+            hispanic_latino_origin: {value: null},
+            ethnicity_detail: {value: []},
+          },
+          races: {},
+          race_details: {},
+        },
+      }
+      const state = fromJS({peopleForm, screening, participants})
+      expect(getPeopleWithEditsSelector(state)).toEqualImmutable(fromJS({
+        one: {
+          id: 'one',
+          screening_id: '123456',
+          approximate_age: null,
+          approximate_age_units: null,
+          date_of_birth: '13/0/-514',
+          first_name: '',
+          gender: '',
+          languages: [],
+          legacy_descriptor: 'a legacy_descriptor',
+          middle_name: '',
+          last_name: '',
+          name_suffix: '',
+          phone_numbers: [],
+          addresses: [
+            {
+              legacy_source_table: null,
+              zip: '95616',
+              legacy_descriptor: null,
+              city: 'Davis',
+              state: 'CA',
+              legacy_id: '65TT6lc0Qc',
+              street_address: '123 Delaware Crossing',
+              type: '31',
+              id: '1782',
+            },
+            {
+              id: '3',
+              street: '223 Van der Burgh Ave',
+              city: 'Calistoga',
+              state: 'CA',
+              zip: '839893',
+              type: 'Home',
+              legacy_id: null,
+            },
+          ],
+          roles: [],
+          ssn: '',
+          sensitive: true,
+          sealed: true,
+          ethnicity: {
+            hispanic_latino_origin: null,
+            ethnicity_detail: [],
+          },
+          races: [],
+        },
+      }))
+    })
+
     it('it clears aproximate age fields when date of birth is set', () => {
       const screening = {id: '123456'}
       const peopleForm = {
