@@ -4,7 +4,17 @@ require 'rails_helper'
 require 'spec_helper'
 
 feature 'cross reports' do
-  let(:existing_screening) { FactoryBot.create(:screening) }
+  let(:existing_screening) do
+    {
+      id: '1',
+      incident_address: {},
+      addresses: [],
+      cross_reports: [],
+      participants: [],
+      allegations: [],
+      safety_alerts: []
+    }
+  end
 
   before do
     stub_county_agencies('c40')
@@ -14,14 +24,14 @@ feature 'cross reports' do
 
   scenario 'adding cross reports to an existing screening' do
     stub_request(
-      :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
-    visit edit_screening_path(id: existing_screening.id)
+    visit edit_screening_path(id: existing_screening[:id])
 
     reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     communication_method = 'Electronic Report'
@@ -44,7 +54,7 @@ feature 'cross reports' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
       ).with(
         body: hash_including(
           'cross_reports' => array_including(
@@ -67,26 +77,24 @@ feature 'cross reports' do
     reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     communication_method = 'Child Abuse Form'
 
-    existing_screening.cross_reports = [
-      CrossReport.new(
-        county_id: 'c42',
-        agencies: [
-          { id: 'GPumYGQ00F', type: 'COUNTY_LICENSING' },
-          { id: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
-        ],
-        method: communication_method,
-        inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
-      )
-    ]
+    existing_screening[:cross_reports] = [{
+      county_id: 'c42',
+      agencies: [
+        { id: 'GPumYGQ00F', type: 'COUNTY_LICENSING' },
+        { id: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
+      ],
+      method: communication_method,
+      inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
+    }]
     stub_request(
-      :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
-    visit edit_screening_path(id: existing_screening.id)
+    visit edit_screening_path(id: existing_screening[:id])
 
     within '#cross-report-card' do
       expect(page).to have_select('County', selected: 'Sacramento')
@@ -109,7 +117,7 @@ feature 'cross reports' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
       ).with(
         body: hash_including(
           'cross_reports' => array_including(
@@ -130,23 +138,21 @@ feature 'cross reports' do
 
   scenario 'viewing cross reports on an existing screening' do
     reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
-    existing_screening.cross_reports = [
-      CrossReport.new(
-        county_id: 'c42',
-        agencies: [
-          { id: 'LsUFj7O00E', type: 'COMMUNITY_CARE_LICENSING' },
-          { id: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
-        ],
-        method: 'Child Abuse Form',
-        inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
-      )
-    ]
+    existing_screening[:cross_reports] = [{
+      county_id: 'c42',
+      agencies: [
+        { id: 'LsUFj7O00E', type: 'COMMUNITY_CARE_LICENSING' },
+        { id: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
+      ],
+      method: 'Child Abuse Form',
+      inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
+    }]
     stub_request(
-      :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
-    visit screening_path(id: existing_screening.id)
+    visit screening_path(id: existing_screening[:id])
 
     within '#cross-report-card', text: 'Cross Report' do
       expect(page).to_not have_content 'County'
@@ -177,11 +183,11 @@ feature 'cross reports' do
   scenario 'viewing empty cross reports on an existing screening' do
     stub_request(
       :get,
-      intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
-    visit screening_path(id: existing_screening.id)
+    visit screening_path(id: existing_screening[:id])
 
     within '#cross-report-card', text: 'Cross Report' do
       expect(page).to_not have_content 'County'
@@ -193,14 +199,14 @@ feature 'cross reports' do
 
   scenario 'communication method and time fields are cached' do
     stub_request(
-      :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
-    visit edit_screening_path(id: existing_screening.id)
+    visit edit_screening_path(id: existing_screening[:id])
 
     reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     communication_method = 'Child Abuse Form'
@@ -221,7 +227,7 @@ feature 'cross reports' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
       ).with(
         body: hash_including(
           'cross_reports' => array_including(
@@ -240,14 +246,14 @@ feature 'cross reports' do
 
   scenario 'communication method and time fields are cleared after county change' do
     stub_request(
-      :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
-    visit edit_screening_path(id: existing_screening.id)
+    visit edit_screening_path(id: existing_screening[:id])
 
     reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     communication_method = 'Child Abuse Form'
@@ -273,7 +279,7 @@ feature 'cross reports' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
       ).with(
         body: hash_including(
           'cross_reports' => array_including(
@@ -292,14 +298,14 @@ feature 'cross reports' do
 
   scenario 'communication method and time fields are cleared from cache after save' do
     stub_request(
-      :get, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening.id))
+      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
-    visit edit_screening_path(id: existing_screening.id)
+    visit edit_screening_path(id: existing_screening[:id])
 
     reported_on = Date.today
     communication_method = 'Child Abuse Form'
