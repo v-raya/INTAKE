@@ -158,7 +158,6 @@ const CrossReportForm = ({
               gridClassName='col-md-6'
               id='cross_report_inform_date'
               label='Cross Reported on Date'
-              hasTime={false}
               errors={errors.inform_date}
               onChange={(value) => {
                 setField('inform_date', value)
