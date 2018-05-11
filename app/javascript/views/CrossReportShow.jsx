@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ShowField from 'common/ShowField'
 import AlertInfoMessage from 'common/AlertInfoMessage'
 import ErrorMessages from 'common/ErrorMessages'
-import {dateFormatter} from 'utils/dateFormatter'
+import {dateTimeFormatter} from 'utils/dateFormatter'
 import {ALLEGATIONS_REQUIRE_CROSS_REPORTS_MESSAGE} from 'enums/CrossReport'
 
 const CrossReportShow = ({
@@ -43,7 +43,7 @@ const CrossReportShow = ({
           required={hasCrossReport}
           errors={errors.informDate}
         >
-          {dateFormatter(reportedOn)}
+          {dateTimeFormatter(reportedOn)}
         </ShowField>
         <ShowField
           gridClassName='col-md-6'
