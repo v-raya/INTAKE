@@ -64,23 +64,23 @@ describe('isPlacementHome ', () => {
   })
 
   it('returns true if legacy table name is PLC_HM_T', () => {
-    expect(isPlacementHome(addressWithPlacementHome)).toEqual('Placement Home')
+    expect(isPlacementHome(addressWithPlacementHome)).toEqual(true)
   })
 
   it('returns false if legacy table name is not PLC_HM_T', () => {
     expect(isPlacementHome(addressWithoutPlacementHome)).toEqual(false)
   })
 
-  it('returns null when false is passed', () => {
-    expect(isPlacementHome(false)).toEqual(null)
+  it('returns false when false is passed', () => {
+    expect(isPlacementHome(false)).toEqual(false)
   })
 
-  it('returns null when null is passed', () => {
-    expect(isPlacementHome(null)).toEqual(null)
+  it('returns false when null is passed', () => {
+    expect(isPlacementHome(null)).toEqual(false)
   })
 
-  it('returns null when undefined is passed', () => {
-    expect(isPlacementHome(undefined)).toEqual(null)
+  it('returns false when undefined is passed', () => {
+    expect(isPlacementHome(undefined)).toEqual(false)
   })
 
   it('returns false when empty List is passed', () => {

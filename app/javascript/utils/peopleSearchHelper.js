@@ -55,14 +55,13 @@ export const mapAddress = (state, result) => buildSelector(
   (addressTypes, addresses) => {
     if (addresses.isEmpty()) { return null }
     const address = addresses.first()
-    const placementAddress = isPlacementHome(address)
     const typeId = address.getIn(['type', 'id'])
-    const type = placementAddress || systemCodeDisplayValue(typeId, addressTypes)
+    const type = isPlacementHome(address) ? 'Placement Home' : systemCodeDisplayValue(typeId, addressTypes)
     return Map({
       city: address.get('city'),
       state: address.get('state_code'),
       zip: zipFormatter(address.get('zip')),
-      type: type ? type : '',
+      type: type || '',
       streetAddress: `${address.get('street_number') || ''} ${address.get('street_name') || ''}`,
     })
   }

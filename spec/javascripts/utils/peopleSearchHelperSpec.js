@@ -266,6 +266,35 @@ describe('peopleSearchHelper', () => {
         streetAddress: '123 C Street',
       }))
     })
+
+    it('returns address type Placement Home if the legacy table name is PLC_HM_T', () => {
+      const result = fromJS({
+        addresses: [{
+          city: 'city',
+          state_code: 'state',
+          zip: 'zip',
+          type: {id: '1'},
+          street_number: '123',
+          street_name: 'C Street',
+          legacy_descriptor: {
+            legacy_id: 'TSWY42i0V4',
+            legacy_ui_id: '1673-3395-1268-0001926',
+            legacy_last_updated: '2004-11-16T17:25:53.407-0800',
+            legacy_table_name: 'PLC_HM_T',
+            legacy_table_description: 'Placement Home',
+          },
+        }],
+      })
+      const state = fromJS({addressTypes})
+      const addressResult = mapAddress(state, result)
+      expect(addressResult).toEqualImmutable(fromJS({
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        type: 'Placement Home',
+        streetAddress: '123 C Street',
+      }))
+    })
   })
 
   describe('mapRaces', () => {
