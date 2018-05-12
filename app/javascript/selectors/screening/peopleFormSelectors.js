@@ -174,7 +174,8 @@ const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
 const combineAddresses = (person, personId, allReadOnlyAddresses) => [
   ...filterLegacyAddresses(personId, allReadOnlyAddresses),
   ...getAddresses(person),
-]
+].map(((address) => address['street_address'] = address['street'])
+// API EXPECTS street_address instead of street
 
 export const getPeopleWithEditsSelector = createSelector(
   getPeopleSelector,
