@@ -248,6 +248,13 @@ describe('personShowSelectors', () => {
         .toEqual('12345')
     })
 
+    it('returns the zip errors for an address', () => {
+      const people = [{id: '1', addresses: [{zip: '1234'}]}]
+      const state = fromJS({participants: people})
+      expect(getPersonFormattedAddressesSelector(state, '1').first().get('zipError'))
+        .toEqual(['zip code should be 5 digits'])
+    })
+
     it('returns the type for an address', () => {
       const people = [{id: '1', addresses: [{type: '32'}]}]
       const state = fromJS({participants: people, addressTypes: [{code: '32', value: 'Residence'}]})
@@ -414,16 +421,6 @@ describe('personShowSelectors', () => {
           .toEqualImmutable(List())
       })
     })
-    // describe('getErrorsSelector', () => {
-    //   describe('zip number', () => {
-    //     it('must be 5 digits long', () => {
-    //       const people = [{id: 'one', zip: '88751'}]
-    //       const state = fromJS({participants: people})
-    //       expect(getErrorsSelector(state, 'one').getIn(['addresses', 'zip']))
-    //         .toEqualImmutable(List(['zip must be 5 digits long.']))
-    //     })
-    //   })
-    // })
 
     describe('roles in getErrorsSelector', () => {
       it('returns roles error if role includes Victim and date of birth or approximate age is empty', () => {

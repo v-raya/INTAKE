@@ -81,11 +81,10 @@ export const getTouchedFieldsForPersonSelector = (state, personId) => {
 export const getVisibleErrorsSelector = (state, personId) => {
   const touchedFields = getTouchedFieldsForPersonSelector(state, personId)
   const errors = getErrorsSelector(state, personId)
-  const result = errors.reduce(
+  return errors.reduce(
     (filteredErrors, fieldErrors, field) => (
       filteredErrors.set(field, touchedFields.includes(field) ? fieldErrors : List())
     ), Map())
-  return result
 }
 
 export const getNamesRequiredSelector = (state, personId) => {
