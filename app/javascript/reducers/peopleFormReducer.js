@@ -10,7 +10,10 @@ import {
   DELETE_PEOPLE_FORM_PHONE_NUMBER,
   TOUCH_ALL_PEOPLE_FORM_FIELDS,
 } from 'actions/peopleFormActions'
-import {CREATE_PERSON_COMPLETE} from 'actions/personCardActions'
+import {
+  CREATE_PERSON_COMPLETE,
+  UPDATE_PERSON_COMPLETE,
+} from 'actions/personCardActions'
 
 const buildAddresses = (addresses) => {
   if (addresses) {
@@ -96,14 +99,17 @@ const buildPerson = ({
   race_details: buildRaceDetails(races),
   ethnicity: buildEthnicity(ethnicity),
 })
+
+const loadPeopleFormPerson = (state, {payload: {person}, error}) => {
+  if (error) {
+    return state
+  } else {
+    return state.set(person.id, buildPerson(person))
+  }
+}
 export default createReducer(Map(), {
-  [CREATE_PERSON_COMPLETE]: (state, {payload: {person}, error}) => {
-    if (error) {
-      return state
-    } else {
-      return state.set(person.id, buildPerson(person))
-    }
-  },
+  [CREATE_PERSON_COMPLETE]: loadPeopleFormPerson,
+  [UPDATE_PERSON_COMPLETE]: loadPeopleFormPerson,
   [FETCH_SCREENING_COMPLETE]: (state, {payload: {screening}, error}) => {
     if (error) {
       return state

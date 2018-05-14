@@ -1,6 +1,6 @@
 import * as matchers from 'jasmine-immutable-matchers'
 import {fetchScreeningSuccess, fetchScreeningFailure} from 'actions/screeningActions'
-import {createPersonSuccess, createPersonFailure} from 'actions/personCardActions'
+import {createPersonSuccess, createPersonFailure, updatePersonSuccess} from 'actions/personCardActions'
 import {
   setField,
   touchField,
@@ -412,6 +412,105 @@ describe('peopleFormReducer', () => {
     it('returns the last person form state on failure', () => {
       const action = createPersonFailure()
       expect(peopleFormReducer(lastState, action)).toEqualImmutable(lastState)
+    })
+  })
+
+  describe('on UPDATE_PERSON_COMPLETE', () => {
+    const lastState = fromJS({
+      participant_one: {
+        approximate_age: {value: '19'},
+        approximate_age_units: {value: 'years'},
+        date_of_birth: {value: '9/9/1999'},
+        gender: {value: 'male'},
+        languages: {value: ['English']},
+        roles: {value: ['c']},
+        legacy_descriptor: {value: 'legacy descriptor one'},
+        first_name: {value: 'first name one'},
+        middle_name: {value: 'middle name one'},
+        last_name: {value: 'last name one'},
+        name_suffix: {value: 'name suffix one'},
+        ssn: {value: 'ssn one', touched: true},
+        sensitive: {value: false},
+        sealed: {value: false},
+        phone_numbers: [],
+        addresses: [],
+        races: [],
+        race_details: {},
+        ethnicity: {
+          hispanic_latino_origin: 'Yes',
+          ethnicity_detail: ['Mexican'],
+        },
+      },
+    })
+    it('returns people form with the added person on success', () => {
+      const modified_person = {
+        approximate_age: '19',
+        approximate_age_units: 'years',
+        date_of_birth: '9/9/1999',
+        gender: 'male',
+        languages: ['English'],
+        id: 'participant_one',
+        roles: ['c'],
+        legacy_descriptor: 'legacy descriptor one',
+        first_name: 'first name two',
+        middle_name: 'middle name two',
+        last_name: 'last name two',
+        name_suffix: 'name suffix two',
+        ssn: 'ssn two',
+        sensitive: false,
+        sealed: false,
+        phone_numbers: [],
+        addresses: [{
+          id: 'ABC123',
+          street_address: '1234 Some Lane',
+          city: 'Somewhere',
+          state: 'CA',
+          zip: '55555',
+          type: 'Home',
+          legacy_descriptor: 'address legacy descriptor',
+        }],
+        races: [],
+        race_details: {},
+        ethnicity: {
+          hispanic_latino_origin: 'Yes',
+          ethnicity_detail: ['Mexican'],
+        },
+      }
+      const action = updatePersonSuccess(modified_person)
+      expect(peopleFormReducer(lastState, action)).toEqualImmutable(fromJS({
+        participant_one: {
+          approximate_age: {value: '19'},
+          approximate_age_units: {value: 'years'},
+          date_of_birth: {value: '9/9/1999'},
+          gender: {value: 'male'},
+          languages: {value: ['English']},
+          roles: {value: ['c']},
+          legacy_descriptor: {value: 'legacy descriptor one'},
+          first_name: {value: 'first name two', touched: false},
+          middle_name: {value: 'middle name two'},
+          last_name: {value: 'last name two', touched: false},
+          name_suffix: {value: 'name suffix two'},
+          ssn: {value: 'ssn two', touched: false},
+          sensitive: {value: false},
+          sealed: {value: false},
+          phone_numbers: [],
+          addresses: [{
+            id: 'ABC123',
+            street: {value: '1234 Some Lane'},
+            city: {value: 'Somewhere'},
+            state: {value: 'CA'},
+            zip: {value: '55555'},
+            type: {value: 'Home'},
+            legacy_descriptor: {value: 'address legacy descriptor'},
+          }],
+          races: {},
+          race_details: {},
+          ethnicity: {
+            hispanic_latino_origin: {value: 'Yes'},
+            ethnicity_detail: {value: ['Mexican']},
+          },
+        },
+      }))
     })
   })
 

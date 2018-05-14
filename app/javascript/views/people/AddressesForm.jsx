@@ -67,7 +67,7 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
           <i className='fa fa-times' />
         </a>
       </div>
-    ))}
+    )).reverse()}
     <div className='row'>
       <div className='col-md-12'>
         <button
