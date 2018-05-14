@@ -6,7 +6,6 @@ import {
   getPersonFormattedAddressesSelector,
   getNamesRequiredSelector,
   getPersonAlertErrorMessageSelector,
-  getAddressErrorSelector,
   getErrorsSelector,
 } from 'selectors/screening/personShowSelectors'
 import * as matchers from 'jasmine-immutable-matchers'

@@ -62,7 +62,6 @@ export const getErrorsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId]) || Map()
   const firstName = person.getIn(['first_name', 'value'])
   const lastName = person.getIn(['last_name', 'value'])
-  const addressesZip = person.getIn(['addresses', 0, 'zip', 'value']) || Map()
   const roles = person.getIn(['roles', 'value'], List())
   const ssn = person.getIn(['ssn', 'value']) || ''
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
@@ -71,7 +70,6 @@ export const getErrorsSelector = (state, personId) => {
     last_name: combineCompact(isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim') || roles.includes('Collateral')))),
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
-    zip: getZIPErrors(addressesZip),
   })
 }
 
@@ -133,11 +131,6 @@ export const getSocialSecurityNumberSelector = (state, personId) => (
   })
 )
 
-export const getZipSelector = (state, personId) => (
-  fromJS({
-    errors: getVisibleErrorsSelector(state, personId).get('zip'),
-  })
-)
 const getPhoneNumbers = (person) => person.get('phone_numbers', List()).map((phoneNumber) => Map({
   id: phoneNumber.get('id'),
   number: phoneNumber.getIn(['number', 'value']),
@@ -242,7 +235,7 @@ export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).m
 export const getStateOptionsSelector = () => fromJS(US_STATE.map(({code, name}) => ({value: code, label: name})))
 
 export const getPersonAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
-  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id'))
+  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id').set('errors', getZIPErrors(address.get('zip'))))
 
 export const getIsApproximateAgeDisabledSelector = (state, personId) => (
   Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))
