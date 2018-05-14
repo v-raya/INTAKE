@@ -5,6 +5,7 @@ import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly'
 import {createStore, applyMiddleware} from 'redux'
 import {routerMiddleware} from 'react-router-redux'
 import {routerHistory} from 'common/history'
+import {fromJS} from 'immutable'
 
 function configureStore(initialState) {
   const sagaMiddleware = createSagaMiddleware()
@@ -19,4 +20,8 @@ function configureStore(initialState) {
   return store
 }
 
-export const store = configureStore()
+export const store = configureStore(fromJS({
+  userInfo: {
+    privileges: window.org.privileges || [],
+  },
+}))
