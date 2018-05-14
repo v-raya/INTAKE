@@ -110,7 +110,6 @@ describe('CrossReportForm', () => {
     it('passes the inform_date to DateField', () => {
       const component = renderCrossReportForm({hasAgencies: true, inform_date: '2017-02-20'})
       expect(component.find('DateField[id="cross_report_inform_date"]').props().value).toEqual('2017-02-20')
-      expect(component.find('DateField[id="cross_report_inform_date"]').props().hasTime).toEqual(false)
       expect(component.find('DateField[id="cross_report_inform_date"]').props().required).toEqual(true)
       expect(component.find('DateField[id="cross_report_inform_date"]').props().label).toEqual('Cross Reported on Date')
     })

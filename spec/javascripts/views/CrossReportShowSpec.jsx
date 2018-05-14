@@ -38,13 +38,13 @@ describe('CrossReportShow', () => {
       const agencies = {
         DISTRICT_ATTORNEY: 'District attorney',
       }
-      const reportedOn = '2017-01-15'
+      const reportedOn = '2018-05-11T10:00:00.000Z'
       const errors = {informDate: ['Please enter a cross-report date.']}
       const hasCrossReport = true
       const hasAgencies = true
       const component = renderCrossReportShow({agencies, hasAgencies, hasCrossReport, reportedOn, errors})
       const field = component.find('ShowField[label="Cross Reported on Date"]')
-      expect(field.props().children).toEqual('01/15/2017')
+      expect(field.props().children).toEqual('05/11/2018 3:00 AM')
       expect(field.props().required).toEqual(true)
       expect(field.props().errors).toEqual(errors.informDate)
     })

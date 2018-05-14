@@ -23,7 +23,7 @@ feature 'cross reports' do
     stub_empty_history_for_screening(existing_screening)
     visit edit_screening_path(id: existing_screening.id)
 
-    reported_on = Date.today
+    reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     communication_method = 'Electronic Report'
 
     within '#cross-report-card' do
@@ -35,8 +35,9 @@ feature 'cross reports' do
       find('label', text: /\ALaw enforcement\z/).click
       select 'The Sheriff', from: 'Law enforcement agency name'
       expect(page).to have_content 'Communication Time and Method'
-      fill_in_datepicker 'Cross Reported on Date', with: reported_on
-      expect(find_field('Cross Reported on Date').value).to eq(reported_on.strftime('%m/%d/%Y'))
+      fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
+      expect(find_field('Cross Reported on Date').value).to \
+        eq(reported_on.strftime('%m/%d/%Y %l:%M %p'))
       select communication_method, from: 'Communication Method'
       click_button 'Save'
     end
@@ -53,7 +54,7 @@ feature 'cross reports' do
                 hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
                 hash_including('id' => 'GPumYGQ00F', 'type' => 'COUNTY_LICENSING')
               ),
-              'inform_date' => reported_on.to_s(:db),
+              'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
             )
           )
@@ -63,7 +64,7 @@ feature 'cross reports' do
   end
 
   scenario 'editing cross reports to an existing screening' do
-    reported_on = Date.today
+    reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     communication_method = 'Child Abuse Form'
 
     existing_screening.cross_reports = [
@@ -74,7 +75,7 @@ feature 'cross reports' do
           { id: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
         ],
         method: communication_method,
-        inform_date: reported_on.to_s(:db)
+        inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
       )
     ]
     stub_request(
@@ -99,8 +100,9 @@ feature 'cross reports' do
 
       select 'The Sheriff', from: 'Law enforcement agency name'
       find('label', text: /\ADistrict attorney\z/).click
-      fill_in_datepicker 'Cross Reported on Date', with: reported_on
-      expect(page).to have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y'))
+      fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
+      expect(find_field('Cross Reported on Date').value).to \
+        eq(reported_on.strftime('%m/%d/%Y %l:%M %p'))
       select communication_method, from: 'Communication Method'
       click_button 'Save'
     end
@@ -117,7 +119,7 @@ feature 'cross reports' do
                 hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
                 hash_including('id' => '45Hvp7x00F', 'type' => 'DISTRICT_ATTORNEY')
               ),
-              'inform_date' => reported_on.to_s(:db),
+              'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
             )
           )
@@ -127,6 +129,7 @@ feature 'cross reports' do
   end
 
   scenario 'viewing cross reports on an existing screening' do
+    reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     existing_screening.cross_reports = [
       CrossReport.new(
         county_id: 'c42',
@@ -135,7 +138,7 @@ feature 'cross reports' do
           { id: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
         ],
         method: 'Child Abuse Form',
-        inform_date: Date.today.to_s(:db)
+        inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
       )
     ]
     stub_request(
@@ -152,7 +155,7 @@ feature 'cross reports' do
       expect(page).to have_content "Daisie's Preschool"
       expect(page).to have_content 'Law enforcement'
       expect(page).to have_content 'The Sheriff'
-      expect(page).to have_content Date.today.strftime('%m/%d/%Y')
+      expect(page).to have_content reported_on.strftime('%m/%d/%Y %l:%M %p')
       expect(page).to have_content 'Child Abuse Form'
     end
 
@@ -166,7 +169,8 @@ feature 'cross reports' do
       expect(page).to have_select('Community care licensing agency name',
         selected: "Daisie's Preschool")
       expect(page).to have_field('Communication Method', with: 'Child Abuse Form')
-      expect(page).to have_field('Cross Reported on Date', with: Date.today.strftime('%m/%d/%Y'))
+      expect(page).to \
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
     end
   end
 
@@ -198,17 +202,18 @@ feature 'cross reports' do
     stub_empty_history_for_screening(existing_screening)
     visit edit_screening_path(id: existing_screening.id)
 
-    reported_on = Date.today
+    reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     communication_method = 'Child Abuse Form'
 
     within '#cross-report-card' do
       select 'State of California', from: 'County'
       find('label', text: /\ACounty licensing\z/).click
-      fill_in_datepicker 'Cross Reported on Date', with: reported_on
+      fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
       select communication_method, from: 'Communication Method'
       find('label', text: /\ACounty licensing\z/).click
       find('label', text: /\ALaw enforcement\z/).click
-      expect(page).to have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y'))
+      expect(page).to \
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to have_field('Communication Method', with: communication_method)
 
       click_button 'Save'
@@ -224,7 +229,7 @@ feature 'cross reports' do
               'agencies' => array_including(
                 hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT')
               ),
-              'inform_date' => reported_on.to_s(:db),
+              'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
             )
           )
@@ -244,22 +249,23 @@ feature 'cross reports' do
     stub_empty_history_for_screening(existing_screening)
     visit edit_screening_path(id: existing_screening.id)
 
-    reported_on = Date.today
+    reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
     communication_method = 'Child Abuse Form'
 
     within '#cross-report-card' do
       select 'San Francisco', from: 'County'
       find('label', text: /\ACounty licensing\z/).click
-      fill_in_datepicker 'Cross Reported on Date', with: reported_on
+      fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
       select communication_method, from: 'Communication Method'
       find('label', text: /\ACounty licensing\z/).click
       find('label', text: /\ALaw enforcement\z/).click
-      expect(page).to have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y'))
+      expect(page).to \
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to have_field('Communication Method', with: communication_method)
       select 'State of California', from: 'County'
       find('label', text: /\ALaw enforcement\z/).click
-      expect(page)
-        .to_not have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y'))
+      expect(page).to_not \
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to_not have_field('Communication Method', with: communication_method)
 
       click_button 'Save'
