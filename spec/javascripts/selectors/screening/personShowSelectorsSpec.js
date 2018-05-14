@@ -6,6 +6,7 @@ import {
   getPersonFormattedAddressesSelector,
   getNamesRequiredSelector,
   getPersonAlertErrorMessageSelector,
+  getAddressErrorSelector,
   getErrorsSelector,
 } from 'selectors/screening/personShowSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
@@ -325,7 +326,6 @@ describe('personShowSelectors', () => {
         expect(getErrorsSelector(state, 'one').get('ssn'))
           .toEqualImmutable(List(['Social security number must be 9 digits long.']))
       })
-
       it('does not count hyphens as part of the number length', () => {
         const people = [{id: 'one', ssn: '887-56-123'}]
         const state = fromJS({participants: people})
@@ -415,6 +415,16 @@ describe('personShowSelectors', () => {
           .toEqualImmutable(List())
       })
     })
+    // describe('getErrorsSelector', () => {
+    //   describe('zip number', () => {
+    //     it('must be 5 digits long', () => {
+    //       const people = [{id: 'one', zip: '88751'}]
+    //       const state = fromJS({participants: people})
+    //       expect(getErrorsSelector(state, 'one').getIn(['addresses', 'zip']))
+    //         .toEqualImmutable(List(['zip must be 5 digits long.']))
+    //     })
+    //   })
+    // })
 
     describe('roles in getErrorsSelector', () => {
       it('returns roles error if role includes Victim and date of birth or approximate age is empty', () => {

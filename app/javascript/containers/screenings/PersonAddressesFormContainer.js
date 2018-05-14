@@ -3,14 +3,12 @@ import {setField, addAddress, deleteAddress, touchField} from 'actions/peopleFor
 import AddressesForm from 'views/people/AddressesForm'
 import {
   getPersonAddressesSelector,
-  getZipSelector,
   getAddressTypeOptionsSelector,
   getStateOptionsSelector,
 } from 'selectors/screening/peopleFormSelectors'
 
 const mapStateToProps = (state, {personId}) => ({
   addresses: getPersonAddressesSelector(state, personId).toJS(),
-  addressErrors: getZipSelector(state, personId).toJS(),
   addressTypeOptions: getAddressTypeOptionsSelector(state).toJS(),
   stateOptions: getStateOptionsSelector().toJS(),
 })
