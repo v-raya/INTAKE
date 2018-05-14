@@ -2,6 +2,7 @@ import {Map, List, fromJS} from 'immutable'
 import {buildSelector} from 'selectors'
 import {systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {zipFormatter} from '../utils/zipFormatter'
+import {isPlacementHome} from './isPlacementHome'
 
 export const mapLanguages = (state, result) => buildSelector(
   (state) => state.get('languages'),
@@ -55,12 +56,12 @@ export const mapAddress = (state, result) => buildSelector(
     if (addresses.isEmpty()) { return null }
     const address = addresses.first()
     const typeId = address.getIn(['type', 'id'])
-    const type = systemCodeDisplayValue(typeId, addressTypes)
+    const type = isPlacementHome(address) ? 'Placement Home' : systemCodeDisplayValue(typeId, addressTypes)
     return Map({
       city: address.get('city'),
       state: address.get('state_code'),
       zip: zipFormatter(address.get('zip')),
-      type: type ? type : '',
+      type: type || '',
       streetAddress: `${address.get('street_number') || ''} ${address.get('street_name') || ''}`,
     })
   }
