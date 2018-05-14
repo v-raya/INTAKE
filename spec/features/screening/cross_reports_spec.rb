@@ -36,7 +36,8 @@ feature 'cross reports' do
       select 'The Sheriff', from: 'Law enforcement agency name'
       expect(page).to have_content 'Communication Time and Method'
       fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
-      expect(find_field('Cross Reported on Date').value).to eq(reported_on.strftime('%m/%d/%Y %l:%M %p'))
+      expect(find_field('Cross Reported on Date').value).to \
+        eq(reported_on.strftime('%m/%d/%Y %l:%M %p'))
       select communication_method, from: 'Communication Method'
       click_button 'Save'
     end
@@ -53,7 +54,7 @@ feature 'cross reports' do
                 hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
                 hash_including('id' => 'GPumYGQ00F', 'type' => 'COUNTY_LICENSING')
               ),
-              'inform_date' => "2018-05-11T18:10:00.000Z",
+              'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
             )
           )
@@ -100,7 +101,8 @@ feature 'cross reports' do
       select 'The Sheriff', from: 'Law enforcement agency name'
       find('label', text: /\ADistrict attorney\z/).click
       fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
-      expect(find_field('Cross Reported on Date').value).to eq(reported_on.strftime('%m/%d/%Y %l:%M %p'))
+      expect(find_field('Cross Reported on Date').value).to \
+        eq(reported_on.strftime('%m/%d/%Y %l:%M %p'))
       select communication_method, from: 'Communication Method'
       click_button 'Save'
     end
@@ -117,7 +119,7 @@ feature 'cross reports' do
                 hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
                 hash_including('id' => '45Hvp7x00F', 'type' => 'DISTRICT_ATTORNEY')
               ),
-              'inform_date' => "2018-05-11T18:10:00.000Z",
+              'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
             )
           )
@@ -167,7 +169,8 @@ feature 'cross reports' do
       expect(page).to have_select('Community care licensing agency name',
         selected: "Daisie's Preschool")
       expect(page).to have_field('Communication Method', with: 'Child Abuse Form')
-      expect(page).to have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
+      expect(page).to \
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
     end
   end
 
@@ -209,7 +212,8 @@ feature 'cross reports' do
       select communication_method, from: 'Communication Method'
       find('label', text: /\ACounty licensing\z/).click
       find('label', text: /\ALaw enforcement\z/).click
-      expect(page).to have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
+      expect(page).to \
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to have_field('Communication Method', with: communication_method)
 
       click_button 'Save'
@@ -225,7 +229,7 @@ feature 'cross reports' do
               'agencies' => array_including(
                 hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT')
               ),
-              'inform_date' => "2018-05-11T18:10:00.000Z",
+              'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
             )
           )
@@ -255,12 +259,13 @@ feature 'cross reports' do
       select communication_method, from: 'Communication Method'
       find('label', text: /\ACounty licensing\z/).click
       find('label', text: /\ALaw enforcement\z/).click
-      expect(page).to have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
+      expect(page).to \
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to have_field('Communication Method', with: communication_method)
       select 'State of California', from: 'County'
       find('label', text: /\ALaw enforcement\z/).click
-      expect(page)
-        .to_not have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
+      expect(page).to_not \
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to_not have_field('Communication Method', with: communication_method)
 
       click_button 'Save'
