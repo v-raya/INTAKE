@@ -1,12 +1,9 @@
-import {combineCompact} from 'utils/validator'
+import {List} from 'immutable'
 
 const VALID_ZIP_LENGTH = 5
-
-const validateZIPLength = (zip) => (
-  zip.length > VALID_ZIP_LENGTH || zip.length < VALID_ZIP_LENGTH ?
-    'zip code should be 5 digits' : undefined
-)
-
-export const getZIPErrors = (zip) => combineCompact(
-  () => validateZIPLength(zip)
-)
+export const getZIPErrors = (zip) => {
+  if (zip && zip.length === VALID_ZIP_LENGTH) {
+    return List()
+  }
+  return ['zip code should be 5 digits']
+}
