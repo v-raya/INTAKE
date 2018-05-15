@@ -3,6 +3,7 @@ import {buildSelector} from 'selectors'
 import {systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {zipFormatter} from '../utils/zipFormatter'
 import {isPlacementHome} from './isPlacementHome'
+import {RESIDENCE_TYPE} from 'enums/AddressType'
 
 export const mapLanguages = (state, result) => buildSelector(
   (state) => state.get('languages'),
@@ -49,20 +50,32 @@ export const mapEthnicities = (state, result) => buildSelector(
   })
 )(state)
 
+const getStreetAddress = (address) =>
+  `${address.get('street_number') || ''} ${address.get('street_name') || ''}`
+
+const getDisplayType = (address, addressTypes) => {
+  if (isPlacementHome(address)) {
+    return 'Placement Home'
+  } else {
+    return systemCodeDisplayValue(address.getIn(['type', 'id']), addressTypes) || ''
+  }
+}
+
 export const mapAddress = (state, result) => buildSelector(
   (state) => state.get('addressTypes'),
-  () => (result.get('addresses') || List()),
-  (addressTypes, addresses) => {
-    if (addresses.isEmpty()) { return null }
-    const address = addresses.first()
-    const typeId = address.getIn(['type', 'id'])
-    const type = isPlacementHome(address) ? 'Placement Home' : systemCodeDisplayValue(typeId, addressTypes)
+  () => (result.get('addresses') || List()).first(),
+  (addressTypes, address) => {
+    if (address === undefined) { return null }
+
+    const type = getDisplayType(address, addressTypes)
+    if (address.getIn(['type', 'id']) !== RESIDENCE_TYPE) { return null }
+
     return Map({
       city: address.get('city'),
       state: address.get('state_code'),
       zip: zipFormatter(address.get('zip')),
-      type: type || '',
-      streetAddress: `${address.get('street_number') || ''} ${address.get('street_name') || ''}`,
+      streetAddress: getStreetAddress(address),
+      type,
     })
   }
 )(state)
