@@ -9,6 +9,7 @@ import {
   mapIsSealed,
   mapAddress,
 } from 'utils/peopleSearchHelper'
+import {RESIDENCE_TYPE} from 'enums/AddressType'
 
 describe('peopleSearchHelper', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -39,7 +40,7 @@ describe('peopleSearchHelper', () => {
   ]
 
   const addressTypes = [
-    {code: '32', value: 'address type'},
+    {code: RESIDENCE_TYPE, value: 'address type'},
   ]
 
   describe('mapDoraPersonToParticipant', () => {
@@ -55,7 +56,7 @@ describe('peopleSearchHelper', () => {
         addresses: [{
           zip: '99999',
           city: 'Al Haad',
-          type: {id: '32'},
+          type: {id: RESIDENCE_TYPE},
           street_name: 'Canary Alley',
           state_name: 'California',
           street_number: '15',
@@ -198,7 +199,7 @@ describe('peopleSearchHelper', () => {
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: '32'},
+          type: {id: RESIDENCE_TYPE},
           street_number: '123',
           street_name: 'C Street',
 
@@ -238,14 +239,14 @@ describe('peopleSearchHelper', () => {
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: '32'},
+          type: {id: RESIDENCE_TYPE},
           street_number: '123',
           street_name: 'C Street',
         }, {
           city: 'city2',
           state_code: 'state2',
           zip: 'zip2',
-          type: {id: '32'},
+          type: {id: RESIDENCE_TYPE},
           street_number: '12345',
           street_name: 'K Street',
         }],
@@ -267,7 +268,7 @@ describe('peopleSearchHelper', () => {
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: '32'},
+          type: {id: RESIDENCE_TYPE},
           street_number: '123',
           street_name: 'C Street',
           legacy_descriptor: {
