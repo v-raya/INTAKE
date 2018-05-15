@@ -6,7 +6,6 @@ import {
   getPhoneNumberTypeOptions,
   getAddressTypeOptionsSelector,
   getPersonEditableAddressesSelector,
-  getStateOptionsSelector,
   getPersonDemographicsSelector,
   getPersonRacesSelector,
   getPersonRaceDetailsSelector,
@@ -523,13 +522,6 @@ describe('peopleFormSelectors', () => {
     })
   })
 
-  describe('getStateOptionsSelector', () => {
-    it('returns formatted options for phone types', () => {
-      expect(getStateOptionsSelector().first()).toEqualImmutable(Map({value: 'AL', label: 'Alabama'}))
-      expect(getStateOptionsSelector().last()).toEqualImmutable(Map({value: 'WY', label: 'Wyoming'}))
-    })
-  })
-
   describe('getPersonEditableAddressesSelector', () => {
     it('returns the editable addresses for the person with the passed id', () => {
       const peopleForm = {
@@ -585,43 +577,6 @@ describe('peopleFormSelectors', () => {
       const peopleForm = {1: {date_of_birth: {value: '13/0/-514'}}}
       const state = fromJS({peopleForm})
       expect(getIsApproximateAgeDisabledSelector(state, '1')).toBe(true)
-    })
-  })
-
-  describe('getApproximateAgeUnitOptionsSelector', () => {
-    it('includes the approximate age unit options', () => {
-      const peopleForm = {}
-      const state = fromJS({peopleForm})
-      expect(getApproximateAgeUnitOptionsSelector(state, '1'))
-        .toEqualImmutable(fromJS([
-          {label: 'Days', value: 'days'},
-          {label: 'Weeks', value: 'weeks'},
-          {label: 'Months', value: 'months'},
-          {label: 'Years', value: 'years'},
-        ]))
-    })
-  })
-
-  describe('getLanguageOptionsSelector', () => {
-    it('includes the languages options', () => {
-      const peopleForm = {}
-      const state = fromJS({peopleForm})
-      expect(getLanguageOptionsSelector(state, '1').toJS())
-        .toContain({label: 'English', value: 'English'})
-    })
-  })
-
-  describe('getGenderOptionsSelector', () => {
-    it('includes the gender options', () => {
-      const peopleForm = {}
-      const state = fromJS({peopleForm})
-      expect(getGenderOptionsSelector(state, '1'))
-        .toEqualImmutable(fromJS([
-          {label: 'Male', value: 'male'},
-          {label: 'Female', value: 'female'},
-          {label: 'Intersex', value: 'intersex'},
-          {label: 'Unknown', value: 'unknown'},
-        ]))
     })
   })
 
@@ -750,17 +705,6 @@ describe('peopleFormSelectors', () => {
       }
       const state = fromJS({peopleForm})
       expect(getPersonHispanicLatinoOriginValueSelector(state, 'two')).toEqual('Yes')
-    })
-  })
-
-  describe('getEthnicityDetailOptionsSelector', () => {
-    it('returns a value and label for ethnicity options', () => {
-      expect(getEthnicityDetailOptionsSelector()).toEqualImmutable(fromJS([
-        {value: 'Hispanic', label: 'Hispanic'},
-        {value: 'Mexican', label: 'Mexican'},
-        {value: 'Central American', label: 'Central American'},
-        {value: 'South American', label: 'South American'},
-      ]))
     })
   })
 

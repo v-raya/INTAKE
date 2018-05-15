@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import SelectField from 'common/SelectField'
+import {ETHNICITY_DETAILS} from 'enums/ETHNICITY'
 
 const PersonEthnicityForm = ({
   disableFields,
   ethnicityDetail,
-  ethnicityDetailOptions,
   latinoOrigin,
   onChange,
   personId,
@@ -42,7 +42,7 @@ const PersonEthnicityForm = ({
                     onChange={({target: {value}}) => onChange('ethnicity_detail', [value])}
                   >
                     <option key='' value='' />
-                    {ethnicityDetailOptions.map(({value, label}) => <option key={value} value={value}>{label}</option>)}
+                    {ETHNICITY_DETAILS.map((ethnicity) => <option key={ethnicity} value={ethnicity}>{ethnicity}</option>)}
                   </SelectField>
                 }
               </div>
@@ -125,10 +125,6 @@ const PersonEthnicityForm = ({
 PersonEthnicityForm.propTypes = {
   disableFields: PropTypes.bool,
   ethnicityDetail: PropTypes.string,
-  ethnicityDetailOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string,
-  })),
   latinoOrigin: PropTypes.string,
   onChange: PropTypes.func,
   personId: PropTypes.string,

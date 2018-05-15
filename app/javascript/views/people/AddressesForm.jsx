@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
+import US_STATE from 'enums/USState'
 
-const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress, onChange, onBlur, stateOptions}) => (
+const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress, onChange, onBlur}) => (
   <div>
     {addresses.map(({city, state, street, type, zip, zipError}, index) => (
       <div key={index} className='row list-item'>
@@ -31,7 +32,7 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
           value={state}
         >
           <option key='' value='' />
-          {stateOptions.map(({value, label}) => <option key={value} value={value}>{label}</option>)}
+          {US_STATE.map(({code, name}) => <option key={code} value={code}>{name}</option>)}
         </SelectField>
         <InputField
           allowCharacters={/[0-9-]/}
@@ -100,10 +101,6 @@ AddressesForm.propTypes = {
   deleteAddress: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
-  stateOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string,
-  })),
 }
 
 export default AddressesForm

@@ -4,13 +4,11 @@ import AddressesForm from 'views/people/AddressesForm'
 import {
   getPersonEditableAddressesSelector,
   getAddressTypeOptionsSelector,
-  getStateOptionsSelector,
 } from 'selectors/screening/peopleFormSelectors'
 
 const mapStateToProps = (state, {personId}) => ({
   addresses: getPersonEditableAddressesSelector(state, personId).toJS(),
   addressTypeOptions: getAddressTypeOptionsSelector(state).toJS(),
-  stateOptions: getStateOptionsSelector().toJS(),
 })
 
 const mapDispatchToProps = (dispatch, {personId}) => ({
@@ -23,4 +21,3 @@ const mapDispatchToProps = (dispatch, {personId}) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressesForm)
-

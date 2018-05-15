@@ -1,7 +1,3 @@
-import selectOptions from 'utils/selectHelper'
-import APPROXIMATE_AGE_UNITS from 'enums/ApproximateAgeUnits'
-import GENDERS from 'enums/Genders'
-import LANGUAGES from 'enums/Languages'
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
@@ -10,17 +6,11 @@ import {getZIPErrors} from 'utils/zipValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {getAddressTypes} from 'selectors/systemCodeSelectors'
 import moment from 'moment'
-
-const formatEnums = (enumObject) =>
-  Object.keys(enumObject).map((item) => ({label: enumObject[item], value: item}))
-
-export const getPeopleSelector = (state) => state.get('peopleForm')
-
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import PHONE_NUMBER_TYPE from 'enums/PhoneNumberType'
-import US_STATE from 'enums/USState'
 import {RACE_DETAILS} from 'enums/Races'
-import {ETHNICITY_DETAILS} from 'enums/Ethnicity'
+
+export const getPeopleSelector = (state) => state.get('peopleForm')
 
 const calculateAgeFromScreeningDate = (state, personId) => {
   const screeningStartDate = moment(state.getIn(['screeningInformationForm', 'started_at', 'value']))
@@ -251,15 +241,9 @@ export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).m
   label: addressType.get('value'),
 }))
 
-export const getStateOptionsSelector = () => fromJS(US_STATE.map(({code, name}) => ({value: code, label: name})))
-
 export const getIsApproximateAgeDisabledSelector = (state, personId) => (
   Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))
 )
-
-export const getApproximateAgeUnitOptionsSelector = () => fromJS(formatEnums(APPROXIMATE_AGE_UNITS))
-export const getLanguageOptionsSelector = () => fromJS(selectOptions(LANGUAGES))
-export const getGenderOptionsSelector = () => fromJS(formatEnums(GENDERS))
 
 export const getPersonDemographicsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId], Map())
@@ -287,10 +271,6 @@ export const getAreEthnicityFieldsDisabledForPersonSelector = (state, personId) 
 
 export const getPersonHispanicLatinoOriginValueSelector = (state, personId) => (
   state.getIn(['peopleForm', personId, 'ethnicity', 'hispanic_latino_origin', 'value'])
-)
-
-export const getEthnicityDetailOptionsSelector = () => (
-  fromJS(ETHNICITY_DETAILS.map((detail) => ({value: detail, label: detail})))
 )
 
 export const getPersonEthnicityDetaiValueSelector = (state, personId) => (

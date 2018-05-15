@@ -1,6 +1,9 @@
 import DateField from 'common/DateField'
 import InlineHeader from 'common/InlineHeader'
 import InputField from 'common/InputField'
+import APPROXIMATE_AGE_UNITS from 'enums/ApproximateAgeUnits'
+import GENDERS from 'enums/Genders'
+import LANGUAGES from 'enums/Languages'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Select from 'react-select'
@@ -10,11 +13,8 @@ const PersonDemographicsForm = ({
   approximateAge,
   approximateAgeIsDisabled,
   approximateAgeUnit,
-  approximateAgeUnitOptions,
   dateOfBirth,
   gender,
-  genderOptions,
-  languageOptions,
   languages,
   onChange,
   personId,
@@ -52,7 +52,7 @@ const PersonDemographicsForm = ({
           onChange={({target: {value}}) => onChange('approximate_age_units', value)}
           disabled={approximateAgeIsDisabled}
         >
-          {approximateAgeUnitOptions.map(({label, value}) => <option key={value} value={value}>{label}</option>)}
+          {Object.keys(APPROXIMATE_AGE_UNITS).map((unit) => <option key={unit} value={unit}>{APPROXIMATE_AGE_UNITS[unit]}</option>)}
         </select>
       </div>
       <SelectField
@@ -63,7 +63,7 @@ const PersonDemographicsForm = ({
         onChange={({target: {value}}) => onChange('gender', value)}
       >
         <option key='' value='' />
-        {genderOptions.map(({label, value}) => <option key={value} value={value}>{label}</option>)}
+        {Object.keys(GENDERS).map((gender) => <option key={gender} value={gender}>{GENDERS[gender]}</option>)}
       </SelectField>
     </div>
     <div className='row'>
@@ -73,7 +73,7 @@ const PersonDemographicsForm = ({
           multi
           tabSelectsValue={false}
           inputProps={{id: `languages_${personId}`}}
-          options={languageOptions}
+          options={LANGUAGES.map((language) => ({value: language}))}
           value={languages}
           onChange={(languages) => onChange('languages', languages)}
         />
@@ -85,11 +85,8 @@ PersonDemographicsForm.propTypes = {
   approximateAge: PropTypes.string,
   approximateAgeIsDisabled: PropTypes.bool,
   approximateAgeUnit: PropTypes.string,
-  approximateAgeUnitOptions: PropTypes.array,
   dateOfBirth: PropTypes.string,
   gender: PropTypes.string,
-  genderOptions: PropTypes.array,
-  languageOptions: PropTypes.array,
   languages: PropTypes.array,
   onChange: PropTypes.func,
   personId: PropTypes.string,
