@@ -48,7 +48,7 @@ feature 'Edit Person' do
     visit edit_screening_path(id: screening.id)
     within edit_participant_card_selector(marge.id) do
       fill_in 'Zip', with: '9i5%6Y1 8-_3.6+9*7='
-      expect(page).to have_field('Zip', with: '95618-3697')
+      expect(page).to have_field('Zip', with: '95618')
       fill_in 'Zip', with: '9i5%6Y1 8'
       expect(page).to have_field('Zip', with: '95618')
     end

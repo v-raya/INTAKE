@@ -5,7 +5,7 @@ import SelectField from 'common/SelectField'
 
 const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress, onChange, onBlur, stateOptions}) => (
   <div>
-    {addresses.map(({city, state, street, type, zip, errors}, index) => (
+    {addresses.map(({city, state, street, type, zip, zipError}, index) => (
       <div key={index} className='row list-item'>
         <InputField
           gridClassName='col-md-6'
@@ -38,11 +38,11 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
           gridClassName='col-md-2'
           id='zip'
           label='Zip'
-          maxLength='10'
+          maxLength='5'
           onChange={({target: {value}}) => onChange(index, 'zip', value)}
           onBlur={() => onBlur('zip')}
           value={zip}
-          errors={errors}
+          errors={zipError}
         />
         <SelectField
           gridClassName='col-md-6'

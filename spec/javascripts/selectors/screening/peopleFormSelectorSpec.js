@@ -427,7 +427,7 @@ describe('peopleFormSelectors', () => {
           state: 'CA',
           zip: '55555',
           type: 'Home',
-          errors: List(),
+          zipError: List(),
         }]
       ))
     })

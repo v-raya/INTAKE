@@ -234,7 +234,7 @@ export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).m
 export const getStateOptionsSelector = () => fromJS(US_STATE.map(({code, name}) => ({value: code, label: name})))
 
 export const getPersonAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
-  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id').set('errors', getZIPErrors(address.get('zip'))))
+  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id').set('zipError', getZIPErrors(address.get('zip'))))
 
 export const getIsApproximateAgeDisabledSelector = (state, personId) => (
   Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))

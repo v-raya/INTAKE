@@ -6,5 +6,5 @@ const mapStateToProps = (state, {personId}) => (
   {addresses: getPersonFormattedAddressesSelector(state, personId).toJS()}
 )
 
-export default connect(mapStateToProps, {})(AddressesShow)
+export default connect(mapStateToProps)(AddressesShow)
 

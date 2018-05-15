@@ -45,6 +45,12 @@ describe('AddressesShow', () => {
     expect(zipField.exists()).toEqual(true)
     expect(zipField.children().text()).toEqual('12345')
   })
+  it('renders errors for zip in the show mode', () => {
+    const addresses = [{zipError: ['zip code should be 5']}]
+    const view = renderAddressesShow({addresses})
+    const zipField = view.find('ShowField[label="Zip"]')
+    expect(zipField.html()).toContain(['zip code should be 5'])
+  })
 
   it('renders the address type', () => {
     const addresses = [{type: 'Home'}]
