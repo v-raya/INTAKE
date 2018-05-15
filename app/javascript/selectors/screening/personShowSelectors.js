@@ -170,7 +170,7 @@ const formattedState = (stateCode) => {
 
 export const getAllPersonFormattedAddressesSelector = (state, personId) => (
   state.get('participants', List()).find((person) => person.get('id') === personId)
-    .get('addresses', List()).map((address) => (
+    .get('addresses', List()).map((address) =>
       Map({
         street: address.get('street_address'),
         city: address.get('city'),
@@ -180,7 +180,6 @@ export const getAllPersonFormattedAddressesSelector = (state, personId) => (
         type: systemCodeDisplayValue(address.get('type'), getAddressTypes(state)) || address.get('type'),
         legacy_id: address.get('legacy_id'),
       })
-    )
     )
 )
 

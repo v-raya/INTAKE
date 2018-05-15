@@ -168,14 +168,13 @@ const getAllReadOnlyAddresses = (state) => (state.get('participants') === undefi
 
 const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
   if (allReadOnlyAddresses.isEmpty()) { return List() }
-  return allReadOnlyAddresses.find((personAddresses) => personAddresses.get('personId') === personId).get('addresses')
+  return allReadOnlyAddresses.filter((personAddresses) => personAddresses.get('personId') === personId).map((obj) => obj.get('addresses')).first()
 }
 
 const combineAddresses = (person, personId, allReadOnlyAddresses) => [
   ...filterLegacyAddresses(personId, allReadOnlyAddresses),
   ...getAddresses(person),
-].map(((address) => address['street_address'] = address['street'])
-// API EXPECTS street_address instead of street
+].map((address) => address.set('street_address', address.get('street', address.get('street_address'))).delete('street'))
 
 export const getPeopleWithEditsSelector = createSelector(
   getPeopleSelector,

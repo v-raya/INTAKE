@@ -167,8 +167,8 @@ describe('peopleFormSelectors', () => {
             {id: null, number: '0987654321', type: 'Cell'},
           ],
           addresses: [
-            {id: 'ABC', street: '1234 Nowhere Lane', city: 'Somewhereville', state: 'CA', zip: '55555', type: 'Home', legacy_id: 'A2'},
-            {id: null, street: '9674 Somewhere Street', city: 'Nowhereville', state: 'CA', zip: '55555', type: 'Cell', legacy_id: null},
+            {id: 'ABC', street_address: '1234 Nowhere Lane', city: 'Somewhereville', state: 'CA', zip: '55555', type: 'Home', legacy_id: 'A2'},
+            {id: null, street_address: '9674 Somewhere Street', city: 'Nowhereville', state: 'CA', zip: '55555', type: 'Cell', legacy_id: null},
           ],
           roles: ['a', 'b'],
           ssn: '321456789',
@@ -196,7 +196,7 @@ describe('peopleFormSelectors', () => {
           last_name: 'last two',
           name_suffix: 'suffix two',
           phone_numbers: [{id: null, number: null, type: null}],
-          addresses: [{id: null, street: null, city: null, state: null, zip: null, type: null, legacy_id: null}],
+          addresses: [{id: null, street_address: null, city: null, state: null, zip: null, type: null, legacy_id: null}],
           roles: ['c'],
           ssn: '321456789',
           sensitive: false,
@@ -345,7 +345,7 @@ describe('peopleFormSelectors', () => {
             },
             {
               id: '3',
-              street: '223 Van der Burgh Ave',
+              street_address: '223 Van der Burgh Ave',
               city: 'Calistoga',
               state: 'CA',
               zip: '839893',
