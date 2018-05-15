@@ -1,4 +1,4 @@
-import {fromJS, List, Map, Seq} from 'immutable'
+import {fromJS, List, Seq} from 'immutable'
 import {
   getFilteredPersonRolesSelector,
   getPeopleWithEditsSelector,
@@ -10,12 +10,8 @@ import {
   getPersonRacesSelector,
   getPersonRaceDetailsSelector,
   getIsApproximateAgeDisabledSelector,
-  getApproximateAgeUnitOptionsSelector,
-  getLanguageOptionsSelector,
-  getGenderOptionsSelector,
   getAreEthnicityFieldsDisabledForPersonSelector,
   getPersonHispanicLatinoOriginValueSelector,
-  getEthnicityDetailOptionsSelector,
   getPersonEthnicityDetaiValueSelector,
   getIsRaceIndeterminateValueSelector,
   getErrorsSelector,

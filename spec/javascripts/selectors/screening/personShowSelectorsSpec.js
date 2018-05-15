@@ -263,7 +263,7 @@ describe('personShowSelectors', () => {
     it('returns the zip errors for an address', () => {
       const people = [{id: '1', addresses: [{zip: '1234'}]}]
       const state = fromJS({participants: people})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('zipError'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('zipError'))
         .toEqual(['zip code should be 5 digits'])
     })
 
