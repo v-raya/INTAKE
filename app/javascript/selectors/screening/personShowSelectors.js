@@ -11,7 +11,6 @@ import {getAddressTypes, systemCodeDisplayValue} from 'selectors/systemCodeSelec
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
-import {zipFormatter} from '../../utils/zipFormatter'
 import moment from 'moment'
 
 const getPersonSelector = (state, personId) =>
@@ -176,7 +175,7 @@ export const getPersonFormattedAddressesSelector = (state, personId) => (
         street: address.get('street_address'),
         city: address.get('city'),
         state: formattedState(address.get('state')),
-        zip: zipFormatter(address.get('zip')),
+        zip: address.get('zip'),
         zipError: getZIPErrors(address.get('zip')),
         type: systemCodeDisplayValue(address.get('type'), getAddressTypes(state)) || address.get('type'),
       })

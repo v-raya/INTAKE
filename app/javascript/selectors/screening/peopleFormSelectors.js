@@ -7,7 +7,6 @@ import {fromJS, List, Map} from 'immutable'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
-import {zipFormatter} from 'utils/zipFormatter'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {getAddressTypes} from 'selectors/systemCodeSelectors'
 import moment from 'moment'
@@ -141,7 +140,7 @@ const getAddresses = (person) => person.get('addresses', List()).map((address) =
   street_address: address.getIn(['street', 'value']),
   city: address.getIn(['city', 'value']),
   state: address.getIn(['state', 'value']),
-  zip: zipFormatter(address.getIn(['zip', 'value'])),
+  zip: address.getIn(['zip', 'value']),
   type: address.getIn(['type', 'value']),
 }))
 
