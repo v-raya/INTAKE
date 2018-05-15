@@ -31,7 +31,7 @@ feature 'Participant Address' do
     within edit_participant_card_selector(marge.id) do
       click_button 'Add new address'
 
-      within all('.row.list-item').last do
+      within all('.row.list-item').first do
         fill_in 'Address', with: '1234 Some Lane'
         fill_in 'City', with: 'Someplace'
         select 'California', from: 'State'
