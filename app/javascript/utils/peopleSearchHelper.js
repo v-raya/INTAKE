@@ -57,13 +57,16 @@ export const mapAddress = (state, result) => buildSelector(
     const address = addresses.first()
     const typeId = address.getIn(['type', 'id'])
     const type = isPlacementHome(address) ? 'Placement Home' : systemCodeDisplayValue(typeId, addressTypes)
-    return Map({
-      city: address.get('city'),
-      state: address.get('state_code'),
-      zip: zipFormatter(address.get('zip')),
-      type: type || '',
-      streetAddress: `${address.get('street_number') || ''} ${address.get('street_name') || ''}`,
-    })
+    if (typeId === '32') {
+      return Map({
+        city: address.get('city'),
+        state: address.get('state_code'),
+        zip: zipFormatter(address.get('zip')),
+        type: type || '',
+        streetAddress: `${address.get('street_number') || ''} ${address.get('street_name') || ''}`,
+      })
+    }
+    return null
   }
 )(state)
 

@@ -36,7 +36,7 @@ describe('createSnapshotPerson', () => {
     addresses: [{
       zip: '99999',
       city: 'Al Haad',
-      type: {id: '1'},
+      type: {id: '32'},
       street_name: 'Canary Alley',
       state_name: 'California',
       street_number: '15',
@@ -129,7 +129,7 @@ describe('createSnapshotPerson', () => {
   ]
 
   const addressTypes = [
-    {code: '1', value: 'address type'},
+    {code: '32', value: 'address type'},
   ]
 
   const state = fromJS({

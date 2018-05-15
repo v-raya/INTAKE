@@ -37,7 +37,7 @@ describe('peopleSearchSelectors', () => {
   ]
 
   const addressTypes = [
-    {code: '1', value: 'address type'},
+    {code: '32', value: 'address type'},
   ]
 
   const counties = [
@@ -92,7 +92,7 @@ describe('peopleSearchSelectors', () => {
               city: 'Flushing',
               state_code: 'state',
               zip: '11344',
-              type: {id: '1'},
+              type: {id: '32'},
             }],
             phone_numbers: [{
               id: '2',
@@ -167,7 +167,7 @@ describe('peopleSearchSelectors', () => {
               city: 'Flushing',
               state_code: 'state',
               zip: '11344',
-              type: {id: '1'},
+              type: {id: '32'},
             }, {
               id: '2',
               street_number: '2',
@@ -175,7 +175,7 @@ describe('peopleSearchSelectors', () => {
               city: 'Flushing',
               state_code: 'state',
               zip: '11222',
-              type: {id: '1'},
+              type: {id: '32'},
             }],
             phone_numbers: [{
               number: '9949076774',

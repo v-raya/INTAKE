@@ -39,7 +39,7 @@ describe('peopleSearchHelper', () => {
   ]
 
   const addressTypes = [
-    {code: '1', value: 'address type'},
+    {code: '32', value: 'address type'},
   ]
 
   describe('mapDoraPersonToParticipant', () => {
@@ -55,7 +55,7 @@ describe('peopleSearchHelper', () => {
         addresses: [{
           zip: '99999',
           city: 'Al Haad',
-          type: {id: '1'},
+          type: {id: '32'},
           street_name: 'Canary Alley',
           state_name: 'California',
           street_number: '15',
@@ -198,7 +198,7 @@ describe('peopleSearchHelper', () => {
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: '1'},
+          type: {id: '32'},
           street_number: '123',
           street_name: 'C Street',
 
@@ -215,13 +215,13 @@ describe('peopleSearchHelper', () => {
       }))
     })
 
-    it('returns city state, zip, a joined street address, and empty string when type is undefined', () => {
+    it('returns null when typeId is not 32', () => {
       const result = fromJS({
         addresses: [{
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: 'not a value to be found'},
+          type: {id: '5'},
           street_number: '123',
           street_name: 'C Street',
 
@@ -229,13 +229,7 @@ describe('peopleSearchHelper', () => {
       })
       const state = fromJS({addressTypes})
       const addressResult = mapAddress(state, result)
-      expect(addressResult).toEqualImmutable(fromJS({
-        city: 'city',
-        state: 'state',
-        zip: 'zip',
-        type: '',
-        streetAddress: '123 C Street',
-      }))
+      expect(addressResult).toEqual(null)
     })
 
     it('returns the first address from addresses object', () => {
@@ -244,14 +238,14 @@ describe('peopleSearchHelper', () => {
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: '1'},
+          type: {id: '32'},
           street_number: '123',
           street_name: 'C Street',
         }, {
           city: 'city2',
           state_code: 'state2',
           zip: 'zip2',
-          type: {id: '1'},
+          type: {id: '32'},
           street_number: '12345',
           street_name: 'K Street',
         }],
@@ -273,7 +267,7 @@ describe('peopleSearchHelper', () => {
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: '1'},
+          type: {id: '32'},
           street_number: '123',
           street_name: 'C Street',
           legacy_descriptor: {
