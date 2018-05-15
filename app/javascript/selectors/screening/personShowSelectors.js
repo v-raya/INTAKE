@@ -10,6 +10,7 @@ import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {getAddressTypes, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {getSSNErrors} from 'utils/ssnValidator'
+import {getZIPErrors} from 'utils/zipValidator'
 import {zipFormatter} from '../../utils/zipFormatter'
 import moment from 'moment'
 
@@ -152,7 +153,6 @@ export const getFormattedPersonWithErrorsSelector = (state, personId) => {
     .setIn(['name', 'required'], getNamesRequiredSelector(state, personId))
     .setIn(['roles', 'errors'], errors.get('roles'))
 }
-
 export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
   state.get('participants', List()).find((person) => person.get('id') === personId)
     .get('phone_numbers', List()).map((phoneNumber) => (
@@ -170,7 +170,6 @@ const formattedState = (stateCode) => {
 }
 
 export const getPersonFormattedAddressesSelector = (state, personId) => (
-
   state.get('participants', List()).find((person) => person.get('id') === personId)
     .get('addresses', List()).map((address) => (
       Map({
@@ -178,6 +177,7 @@ export const getPersonFormattedAddressesSelector = (state, personId) => (
         city: address.get('city'),
         state: formattedState(address.get('state')),
         zip: zipFormatter(address.get('zip')),
+        zipError: getZIPErrors(address.get('zip')),
         type: systemCodeDisplayValue(address.get('type'), getAddressTypes(state)) || address.get('type'),
       })
     )

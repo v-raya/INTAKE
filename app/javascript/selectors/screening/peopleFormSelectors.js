@@ -6,6 +6,8 @@ import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
+import {getZIPErrors} from 'utils/zipValidator'
+import {zipFormatter} from 'utils/zipFormatter'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {getAddressTypes} from 'selectors/systemCodeSelectors'
 import moment from 'moment'
@@ -139,7 +141,7 @@ const getAddresses = (person) => person.get('addresses', List()).map((address) =
   street_address: address.getIn(['street', 'value']),
   city: address.getIn(['city', 'value']),
   state: address.getIn(['state', 'value']),
-  zip: address.getIn(['zip', 'value']),
+  zip: zipFormatter(address.getIn(['zip', 'value'])),
   type: address.getIn(['type', 'value']),
 }))
 
@@ -232,7 +234,7 @@ export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).m
 export const getStateOptionsSelector = () => fromJS(US_STATE.map(({code, name}) => ({value: code, label: name})))
 
 export const getPersonAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
-  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id'))
+  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id').set('zipError', getZIPErrors(address.get('zip'))))
 
 export const getIsApproximateAgeDisabledSelector = (state, personId) => (
   Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))

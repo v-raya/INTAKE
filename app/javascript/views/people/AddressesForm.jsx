@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
 
-const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress, onChange, stateOptions}) => (
+const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress, onChange, onBlur, stateOptions}) => (
   <div>
-    {addresses.map(({city, state, street, type, zip}, index) => (
+    {addresses.map(({city, state, street, type, zip, zipError}, index) => (
       <div key={index} className='row list-item'>
         <InputField
           gridClassName='col-md-6'
@@ -38,9 +38,11 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
           gridClassName='col-md-2'
           id='zip'
           label='Zip'
-          maxLength='10'
+          maxLength='5'
           onChange={({target: {value}}) => onChange(index, 'zip', value)}
+          onBlur={() => onBlur('zip')}
           value={zip}
+          errors={zipError}
         />
         <SelectField
           gridClassName='col-md-6'
@@ -93,8 +95,10 @@ AddressesForm.propTypes = {
     street: PropTypes.string,
     type: PropTypes.string,
     zip: PropTypes.string,
+    addressErrors: PropTypes.string,
   })),
   deleteAddress: PropTypes.func,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
   stateOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,

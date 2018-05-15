@@ -248,6 +248,13 @@ describe('personShowSelectors', () => {
         .toEqual('12345')
     })
 
+    it('returns the zip errors for an address', () => {
+      const people = [{id: '1', addresses: [{zip: '1234'}]}]
+      const state = fromJS({participants: people})
+      expect(getPersonFormattedAddressesSelector(state, '1').first().get('zipError'))
+        .toEqual(['zip code should be 5 digits'])
+    })
+
     it('returns the type for an address', () => {
       const people = [{id: '1', addresses: [{type: '32'}]}]
       const state = fromJS({participants: people, addressTypes: [{code: '32', value: 'Residence'}]})
@@ -325,7 +332,6 @@ describe('personShowSelectors', () => {
         expect(getErrorsSelector(state, 'one').get('ssn'))
           .toEqualImmutable(List(['Social security number must be 9 digits long.']))
       })
-
       it('does not count hyphens as part of the number length', () => {
         const people = [{id: 'one', ssn: '887-56-123'}]
         const state = fromJS({participants: people})

@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {setField, addAddress, deleteAddress} from 'actions/peopleFormActions'
+import {setField, addAddress, deleteAddress, touchField} from 'actions/peopleFormActions'
 import AddressesForm from 'views/people/AddressesForm'
 import {
   getPersonAddressesSelector,
@@ -16,6 +16,7 @@ const mapStateToProps = (state, {personId}) => ({
 const mapDispatchToProps = (dispatch, {personId}) => ({
   addAddress: () => dispatch(addAddress(personId)),
   deleteAddress: (addressIndex) => dispatch(deleteAddress(personId, addressIndex)),
+  onBlur: (field) => dispatch(touchField(personId, [field])),
   onChange: (addressIndex, field, value) => {
     dispatch(setField(personId, ['addresses', addressIndex, field], value))
   },

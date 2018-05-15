@@ -117,11 +117,10 @@ describe('AddressForm', () => {
     const addresses = [{zip: '55555'}]
     const component = renderAddressesForm({addresses})
     const streetInput = component.find('InputField[label="Zip"]')
-    expect(streetInput.props().maxLength).toEqual('10')
+    expect(streetInput.props().maxLength).toEqual('5')
     expect(streetInput.props().value).toEqual('55555')
     expect(streetInput.props().allowCharacters).toEqual(/[0-9-]/)
   })
-
   it('calls onChange when the zip is updated', () => {
     const onChange = jasmine.createSpy('onChange')
     const addresses = [{}]
@@ -129,6 +128,12 @@ describe('AddressForm', () => {
     const zipInput = component.find('InputField[label="Zip"]')
     zipInput.simulate('change', {target: {value: '55555'}})
     expect(onChange).toHaveBeenCalledWith(0, 'zip', '55555')
+  })
+  it('renders errors for the zip field', () => {
+    const addresses = [{zipError: ['zip code should be 5']}]
+    const field = renderAddressesForm({addresses}).find('InputField[label="Zip"]')
+    expect(field.exists()).toEqual(true)
+    expect(field.props().errors).toEqual(['zip code should be 5'])
   })
 
   it('renders a type select field with proper value', () => {
