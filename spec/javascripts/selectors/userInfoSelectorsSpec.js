@@ -1,5 +1,5 @@
-import {fromJS} from 'immutable'
-import {getUserNameSelector} from 'selectors/userInfoSelectors'
+import {fromJS, List} from 'immutable'
+import {getUserNameSelector, userPrivilegesSelector} from 'selectors/userInfoSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
 describe('userInfoSelectors', () => {
@@ -16,6 +16,18 @@ describe('userInfoSelectors', () => {
       const userInfo = {}
       const state = fromJS({userInfo})
       expect(getUserNameSelector(state)).toEqual({})
+    })
+  })
+
+  describe('userPrivilegesSelector', () => {
+    it('returns the list of privileges', () => {
+      const userInfo = {privileges: ['one', 'two']}
+      const state = fromJS({userInfo})
+      expect(userPrivilegesSelector(state)).toEqual(List(['one', 'two']))
+    })
+    it('returns an empty list when there are no privileges', () => {
+      const state = fromJS({userInfo: {}})
+      expect(userPrivilegesSelector(state)).toEqual(List())
     })
   })
 })
