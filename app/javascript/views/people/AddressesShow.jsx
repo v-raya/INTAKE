@@ -17,7 +17,7 @@ const AddressesShow = ({addresses}) => (
           <ShowField gridClassName='col-md-6' label='Address Type'>{type}</ShowField>
         </div>
       </div>
-    )).reverse()}
+    ))}
   </div>
 )
 
