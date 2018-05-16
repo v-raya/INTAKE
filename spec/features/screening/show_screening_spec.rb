@@ -157,11 +157,11 @@ feature 'Show Screening' do
     expect(page).to have_css('#history-card.show', text: 'History')
 
     within '#cross-report-card', text: 'Cross Report' do
-      expect(page).to have_content 'District attorney'
+      expect(page).to have_content 'District Attorney'
       expect(page).to have_content 'LA District Attorney'
-      expect(page).to have_content 'County licensing'
+      expect(page).to have_content 'County Licensing'
       click_link 'Edit cross report'
-      expect(page).to have_select('District attorney agency name', selected: 'LA District Attorney')
+      expect(page).to have_select('District Attorney Agency Name', selected: 'LA District Attorney')
     end
 
     expect(page).to have_link('Home', href: root_path)

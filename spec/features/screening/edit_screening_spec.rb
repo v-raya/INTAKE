@@ -120,11 +120,11 @@ feature 'Edit Screening' do
         expect(page).to have_content('This report has cross reported to:')
         expect(page.find('input[value="DISTRICT_ATTORNEY"]')).to be_checked
         expect(page).to have_select(
-          'District attorney agency name',
+          'District Attorney Agency Name',
           selected: 'LA District Attorney'
         )
         expect(page.find('input[value="LAW_ENFORCEMENT"]')).to be_checked
-        expect(page).to have_select('Law enforcement agency name', selected: 'The Sheriff')
+        expect(page).to have_select('Law Enforcement Agency Name', selected: 'The Sheriff')
         expect(page).to have_button 'Save'
         expect(page).to have_button 'Cancel'
       end
@@ -394,8 +394,8 @@ feature 'individual card save' do
 
     within '#cross-report-card' do
       select 'State of California', from: 'County'
-      find('label', text: 'District attorney').click
-      select 'LA District Attorney - Criminal Division', from: 'District attorney agency name'
+      find('label', text: 'District Attorney').click
+      select 'LA District Attorney - Criminal Division', from: 'District Attorney Agency Name'
       click_button 'Save'
     end
 
@@ -408,13 +408,13 @@ feature 'individual card save' do
     within '#cross-report-card' do
       click_link 'Edit cross report'
       expect(page).to have_select(
-        'District attorney agency name',
+        'District Attorney Agency Name',
         selected: 'LA District Attorney - Criminal Division'
       )
-      select 'LA District Attorney', from: 'District attorney agency name'
+      select 'LA District Attorney', from: 'District Attorney Agency Name'
       blur_field
       expect(page).to have_select(
-        'District attorney agency name',
+        'District Attorney Agency Name',
         selected: 'LA District Attorney'
       )
     end

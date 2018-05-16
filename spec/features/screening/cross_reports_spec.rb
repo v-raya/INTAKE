@@ -40,10 +40,10 @@ feature 'cross reports' do
       expect(page).to_not have_content 'Communication Time and Method'
       expect(page).to have_content 'County'
       select 'Sacramento', from: 'County'
-      find('label', text: /\ACounty licensing\z/).click
-      select 'Hoverment Agency', from: 'County licensing agency name'
-      find('label', text: /\ALaw enforcement\z/).click
-      select 'The Sheriff', from: 'Law enforcement agency name'
+      find('label', text: /\ACounty Licensing\z/).click
+      select 'Hoverment Agency', from: 'County Licensing Agency Name'
+      find('label', text: /\ALaw Enforcement\z/).click
+      select 'The Sheriff', from: 'Law Enforcement Agency Name'
       expect(page).to have_content 'Communication Time and Method'
       fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
       expect(find_field('Cross Reported on Date').value).to \
@@ -101,13 +101,13 @@ feature 'cross reports' do
       select 'San Francisco', from: 'County'
       expect(page).to have_select('County', selected: 'San Francisco')
 
-      expect(find(:checkbox, 'County licensing')).to_not be_checked
+      expect(find(:checkbox, 'County Licensing')).to_not be_checked
 
-      find('label', text: /\ALaw enforcement\z/).click
-      expect(find(:checkbox, 'Law enforcement')).to be_checked
+      find('label', text: /\ALaw Enforcement\z/).click
+      expect(find(:checkbox, 'Law Enforcement')).to be_checked
 
-      select 'The Sheriff', from: 'Law enforcement agency name'
-      find('label', text: /\ADistrict attorney\z/).click
+      select 'The Sheriff', from: 'Law Enforcement Agency Name'
+      find('label', text: /\ADistrict Attorney\z/).click
       fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
       expect(find_field('Cross Reported on Date').value).to \
         eq(reported_on.strftime('%m/%d/%Y %l:%M %p'))
@@ -157,9 +157,9 @@ feature 'cross reports' do
     within '#cross-report-card', text: 'Cross Report' do
       expect(page).to_not have_content 'County'
       expect(page).to_not have_content 'Sacramento'
-      expect(page).to have_content 'Community care licensing'
+      expect(page).to have_content 'Community Care Licensing'
       expect(page).to have_content "Daisie's Preschool"
-      expect(page).to have_content 'Law enforcement'
+      expect(page).to have_content 'Law Enforcement'
       expect(page).to have_content 'The Sheriff'
       expect(page).to have_content reported_on.strftime('%m/%d/%Y %l:%M %p')
       expect(page).to have_content 'Child Abuse Form'
@@ -169,10 +169,10 @@ feature 'cross reports' do
 
     within '#cross-report-card', text: 'Cross Report' do
       expect(page).to have_select('County', selected: 'Sacramento')
-      expect(find(:checkbox, 'Law enforcement')).to be_checked
-      expect(page).to have_select('Law enforcement agency name', selected: 'The Sheriff')
-      expect(find(:checkbox, 'Community care licensing')).to be_checked
-      expect(page).to have_select('Community care licensing agency name',
+      expect(find(:checkbox, 'Law Enforcement')).to be_checked
+      expect(page).to have_select('Law Enforcement Agency Name', selected: 'The Sheriff')
+      expect(find(:checkbox, 'Community Care Licensing')).to be_checked
+      expect(page).to have_select('Community Care Licensing Agency Name',
         selected: "Daisie's Preschool")
       expect(page).to have_field('Communication Method', with: 'Child Abuse Form')
       expect(page).to \
@@ -213,11 +213,11 @@ feature 'cross reports' do
 
     within '#cross-report-card' do
       select 'State of California', from: 'County'
-      find('label', text: /\ACounty licensing\z/).click
+      find('label', text: /\ACounty Licensing\z/).click
       fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
       select communication_method, from: 'Communication Method'
-      find('label', text: /\ACounty licensing\z/).click
-      find('label', text: /\ALaw enforcement\z/).click
+      find('label', text: /\ACounty Licensing\z/).click
+      find('label', text: /\ALaw Enforcement\z/).click
       expect(page).to \
         have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to have_field('Communication Method', with: communication_method)
@@ -260,16 +260,16 @@ feature 'cross reports' do
 
     within '#cross-report-card' do
       select 'San Francisco', from: 'County'
-      find('label', text: /\ACounty licensing\z/).click
+      find('label', text: /\ACounty Licensing\z/).click
       fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
       select communication_method, from: 'Communication Method'
-      find('label', text: /\ACounty licensing\z/).click
-      find('label', text: /\ALaw enforcement\z/).click
+      find('label', text: /\ACounty Licensing\z/).click
+      find('label', text: /\ALaw Enforcement\z/).click
       expect(page).to \
         have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to have_field('Communication Method', with: communication_method)
       select 'State of California', from: 'County'
-      find('label', text: /\ALaw enforcement\z/).click
+      find('label', text: /\ALaw Enforcement\z/).click
       expect(page).to_not \
         have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to_not have_field('Communication Method', with: communication_method)
@@ -312,10 +312,10 @@ feature 'cross reports' do
 
     within '#cross-report-card' do
       select 'State of California', from: 'County'
-      find('label', text: /\ACounty licensing\z/).click
+      find('label', text: /\ACounty Licensing\z/).click
       fill_in_datepicker 'Cross Reported on Date', with: reported_on
       select communication_method, from: 'Communication Method'
-      find('label', text: /\ACounty licensing\z/).click
+      find('label', text: /\ACounty Licensing\z/).click
       click_button 'Save'
     end
 
@@ -323,7 +323,7 @@ feature 'cross reports' do
 
     within '#cross-report-card' do
       select 'State of California', from: 'County'
-      find('label', text: /\ACounty licensing\z/).click
+      find('label', text: /\ACounty Licensing\z/).click
       expect(page).to have_field('Cross Reported on Date', with: '')
       expect(page).to have_field('Communication Method', with: '')
     end
