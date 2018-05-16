@@ -4,7 +4,7 @@ import AddressesForm from 'views/people/AddressesForm'
 import {
   getPersonEditableAddressesSelector,
   getAddressTypeOptionsSelector,
-} from 'selectors/screening/peopleFormSelectors'
+} from 'selectors/screening/personAddressesFormSelectors'
 
 const mapStateToProps = (state, {personId}) => ({
   addresses: getPersonEditableAddressesSelector(state, personId).toJS(),

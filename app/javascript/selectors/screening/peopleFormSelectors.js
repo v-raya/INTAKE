@@ -2,9 +2,7 @@ import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
-import {getZIPErrors} from 'utils/zipValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
-import {getAddressTypes} from 'selectors/systemCodeSelectors'
 import moment from 'moment'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import PHONE_NUMBER_TYPE from 'enums/PhoneNumberType'
@@ -135,11 +133,6 @@ const getAddresses = (person) => person.get('addresses', List()).map((address) =
   legacy_id: address.getIn(['legacy_descriptor', 'value', 'legacy_id'], null),
 }))
 
-export const getPersonEditableAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
-  .filter((address) => !address.get('legacy_id'))
-  .map((address) => address.delete('legacy_id'))
-  .map((address) => address.set('zipError', getZIPErrors(address.get('zip'))))
-
 const getEthnicity = (person) => {
   const hispanic_latino_origin = person.getIn(['ethnicity', 'hispanic_latino_origin', 'value'])
   const ethnicity_detail = (hispanic_latino_origin === 'Yes') ?
@@ -236,11 +229,6 @@ export const getFilteredPersonRolesSelector = (state, personId) => {
     ...ROLE_TYPE_REPORTER.map((value) => ({label: value, value, disabled: hasReporterRole})),
   ])
 }
-
-export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).map((addressType) => Map({
-  value: addressType.get('code'),
-  label: addressType.get('value'),
-}))
 
 export const getIsApproximateAgeDisabledSelector = (state, personId) => (
   Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))
