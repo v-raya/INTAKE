@@ -253,18 +253,6 @@ export const getPersonRaceDetailsSelector = (state, personId) => {
   const personRaces = state.getIn(['peopleForm', personId, 'race_details'])
   return Object.keys(RACE_DETAILS).reduce((races, race) => races.set(race, personRaces.getIn([race, 'value'], '')), Map())
 }
-
-export const getAreEthnicityFieldsDisabledForPersonSelector = (state, personId) => (
-  Boolean(state.getIn(['peopleForm', personId, 'ethnicity', 'hispanic_latino_origin', 'value']))
-)
-
-export const getPersonHispanicLatinoOriginValueSelector = (state, personId) => (
-  state.getIn(['peopleForm', personId, 'ethnicity', 'hispanic_latino_origin', 'value'])
-)
-
-export const getPersonEthnicityDetaiValueSelector = (state, personId) => (
-  state.getIn(['peopleForm', personId, 'ethnicity', 'ethnicity_detail', 'value', 0])
-)
 export const getIsRaceIndeterminateValueSelector = (state, personId) => {
   const isUnknown = state.getIn(['peopleForm', personId, 'races', 'Unknown', 'value'])
   const isAbandoned = state.getIn(['peopleForm', personId, 'races', 'Abandoned', 'value'])

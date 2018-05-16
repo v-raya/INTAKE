@@ -8,9 +8,6 @@ import {
   getPersonRacesSelector,
   getPersonRaceDetailsSelector,
   getIsApproximateAgeDisabledSelector,
-  getAreEthnicityFieldsDisabledForPersonSelector,
-  getPersonHispanicLatinoOriginValueSelector,
-  getPersonEthnicityDetaiValueSelector,
   getIsRaceIndeterminateValueSelector,
   getErrorsSelector,
   getNamesRequiredSelector,
@@ -594,48 +591,6 @@ describe('peopleFormSelectors', () => {
         Abandoned: '',
         'Declined to answer': '',
       }))
-    })
-  })
-
-  describe('getAreEthnicityFieldsDisabledForPersonSelector', () => {
-    it('returns true if hispanic_latino_origin is set for the person passed', () => {
-      const peopleForm = {
-        one: {ethnicity: {hispanic_latino_origin: {value: null}}},
-        two: {ethnicity: {hispanic_latino_origin: {value: 'Yes'}}},
-      }
-      const state = fromJS({peopleForm})
-      expect(getAreEthnicityFieldsDisabledForPersonSelector(state, 'two')).toEqual(true)
-    })
-
-    it('returns false if hispanic_latino_origin is set for the person passed', () => {
-      const peopleForm = {
-        one: {ethnicity: {hispanic_latino_origin: {value: null}}},
-        two: {ethnicity: {hispanic_latino_origin: {value: 'Yes'}}},
-      }
-      const state = fromJS({peopleForm})
-      expect(getAreEthnicityFieldsDisabledForPersonSelector(state, 'one')).toEqual(false)
-    })
-  })
-
-  describe('getPersonHispanicLatinoOriginValueSelector', () => {
-    it('returns the value of hispanic_latino_origin for the person passed', () => {
-      const peopleForm = {
-        one: {ethnicity: {hispanic_latino_origin: {value: null}}},
-        two: {ethnicity: {hispanic_latino_origin: {value: 'Yes'}}},
-      }
-      const state = fromJS({peopleForm})
-      expect(getPersonHispanicLatinoOriginValueSelector(state, 'two')).toEqual('Yes')
-    })
-  })
-
-  describe('getPersonEthnicityDetaiValueSelector', () => {
-    it('returns the first value of ethnicity_detail for the person passed', () => {
-      const peopleForm = {
-        one: {ethnicity: {ethnicity_detail: {value: ['Hispanic']}}},
-        two: {ethnicity: {ethnicity_detail: {value: ['Mexican']}}},
-      }
-      const state = fromJS({peopleForm})
-      expect(getPersonEthnicityDetaiValueSelector(state, 'one')).toEqual('Hispanic')
     })
   })
 

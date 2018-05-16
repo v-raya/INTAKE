@@ -4,13 +4,13 @@ import {setField} from 'actions/peopleFormActions'
 import {
   getAreEthnicityFieldsDisabledForPersonSelector,
   getPersonHispanicLatinoOriginValueSelector,
-  getPersonEthnicityDetaiValueSelector,
-} from 'selectors/screening/peopleFormSelectors'
+  getPersonEthnicityDetailValueSelector,
+} from 'selectors/screening/personEthnicityFormSelectors'
 
 const mapStateToProps = (state, {personId}) => (
   {
     disableFields: getAreEthnicityFieldsDisabledForPersonSelector(state, personId),
-    ethnicityDetail: getPersonEthnicityDetaiValueSelector(state, personId),
+    ethnicityDetail: getPersonEthnicityDetailValueSelector(state, personId),
     latinoOrigin: getPersonHispanicLatinoOriginValueSelector(state, personId),
     personId,
   }
