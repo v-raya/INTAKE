@@ -9,7 +9,6 @@ module.exports = function(config) {
   config.set({
     frameworks: ['jasmine-ajax', 'jasmine'],
     files: [
-      //'./public/packs-test/.js',
       'spec/karma_tests.js'
     ],
     preprocessors: {

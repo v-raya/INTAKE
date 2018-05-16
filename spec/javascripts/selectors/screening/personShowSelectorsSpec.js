@@ -3,7 +3,8 @@ import {
   getFormattedPersonInformationSelector,
   getFormattedPersonWithErrorsSelector,
   getPersonFormattedPhoneNumbersSelector,
-  getPersonFormattedAddressesSelector,
+  getAllPersonFormattedAddressesSelector,
+  getReadOnlyPersonFormattedAddressesSelector,
   getNamesRequiredSelector,
   getPersonAlertErrorMessageSelector,
   getErrorsSelector,
@@ -196,69 +197,80 @@ describe('personShowSelectors', () => {
     })
   })
 
-  describe('getPersonFormattedAddressesSelector', () => {
+  describe('getReadOnlyPersonFormattedAddressesSelector', () => {
+    it('returns info for the person with the passed id', () => {
+      const people = [
+        {id: '1', addresses: [{type: '32', legacy_id: '23'}, {type: 'Cell'}]},
+        {id: '2', addresses: [{type: 'Cell', legacy_id: '33'}]},
+      ]
+      const state = fromJS({participants: people, addressTypes: [{code: '32', value: 'Residence'}]})
+      expect(getReadOnlyPersonFormattedAddressesSelector(state, '1').size).toEqual(1)
+    })
+  })
+
+  describe('getAllPersonFormattedAddressesSelector', () => {
     it('returns info for the person with the passed id', () => {
       const people = [
         {id: '1', addresses: [{type: '32'}]},
         {id: '2', addresses: [{type: 'Cell'}]},
       ]
       const state = fromJS({participants: people, addressTypes: [{code: '32', value: 'Residence'}]})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('type'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('type'))
         .toEqual('Residence')
     })
 
     it('returns an empty array if no addresses exists for the person', () => {
       const people = [{id: '1'}]
       const state = fromJS({participants: people})
-      expect(getPersonFormattedAddressesSelector(state, '1')).toEqualImmutable(List())
+      expect(getAllPersonFormattedAddressesSelector(state, '1')).toEqualImmutable(List())
     })
 
     it('returns the street for an address', () => {
       const people = [{id: '1', addresses: [{street_address: '1234 Nowhere Lane'}]}]
       const state = fromJS({participants: people})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('street'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('street'))
         .toEqual('1234 Nowhere Lane')
     })
 
     it('returns the city for an address', () => {
       const people = [{id: '1', addresses: [{city: 'Somewhereville'}]}]
       const state = fromJS({participants: people})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('city'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('city'))
         .toEqual('Somewhereville')
     })
 
     it('returns the formatted state for an address', () => {
       const people = [{id: '1', addresses: [{state: 'CA'}]}]
       const state = fromJS({participants: people})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('state'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('state'))
         .toEqual('California')
     })
 
     it('returns an empty string for an invalid state', () => {
       const people = [{id: '1', addresses: [{state: ''}]}]
       const state = fromJS({participants: people})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('state'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('state'))
         .toEqual('')
     })
 
     it('returns the zip for an address', () => {
       const people = [{id: '1', addresses: [{zip: '12345'}]}]
       const state = fromJS({participants: people})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('zip'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('zip'))
         .toEqual('12345')
     })
 
     it('returns the zip errors for an address', () => {
       const people = [{id: '1', addresses: [{zip: '1234'}]}]
       const state = fromJS({participants: people})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('zipError'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('zipError'))
         .toEqual(['zip code should be 5 digits'])
     })
 
     it('returns the type for an address', () => {
       const people = [{id: '1', addresses: [{type: '32'}]}]
       const state = fromJS({participants: people, addressTypes: [{code: '32', value: 'Residence'}]})
-      expect(getPersonFormattedAddressesSelector(state, '1').first().get('type'))
+      expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('type'))
         .toEqual('Residence')
     })
   })

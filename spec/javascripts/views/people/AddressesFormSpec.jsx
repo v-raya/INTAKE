@@ -3,8 +3,8 @@ import {shallow} from 'enzyme'
 import AddressesForm from 'views/people/AddressesForm'
 
 describe('AddressForm', () => {
-  const renderAddressesForm = ({addresses = [], addressTypeOptions = [], stateOptions = [], ...options}) => {
-    const props = {addresses, addressTypeOptions, stateOptions, ...options}
+  const renderAddressesForm = ({addresses = [], addressTypeOptions = [], ...options}) => {
+    const props = {addresses, addressTypeOptions, ...options}
     return shallow(<AddressesForm {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -92,16 +92,17 @@ describe('AddressForm', () => {
   })
 
   it('renders stateOptions for the state select field', () => {
-    const stateOptions = [{value: 'CA', label: 'California'}, {value: 'AZ', label: 'Arizona'}]
     const addresses = [{}]
-    const component = renderAddressesForm({stateOptions, addresses})
+    const component = renderAddressesForm({addresses})
     const stateSelect = component.find('SelectField[label="State"]')
     const stateSelectOptions = stateSelect.children()
     expect(stateSelectOptions.at(0).text()).toEqual('')
-    expect(stateSelectOptions.at(1).props().value).toEqual('CA')
-    expect(stateSelectOptions.at(1).children().text()).toEqual('California')
-    expect(stateSelectOptions.at(2).props().value).toEqual('AZ')
-    expect(stateSelectOptions.at(2).children().text()).toEqual('Arizona')
+    expect(stateSelectOptions.at(1).props().value).toEqual('AL')
+    expect(stateSelectOptions.at(1).children().text()).toEqual('Alabama')
+    expect(stateSelectOptions.at(2).props().value).toEqual('AK')
+    expect(stateSelectOptions.at(2).children().text()).toEqual('Alaska')
+    expect(stateSelectOptions.at(6).props().value).toEqual('CA')
+    expect(stateSelectOptions.at(6).children().text()).toEqual('California')
   })
 
   it('calls onChange when the state is updated', () => {

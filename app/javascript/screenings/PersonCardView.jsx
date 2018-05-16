@@ -6,6 +6,7 @@ import PersonPhoneNumbersContainer from 'containers/screenings/PersonPhoneNumber
 import PersonPhoneNumbersFormContainer from 'containers/screenings/PersonPhoneNumbersFormContainer'
 import PersonShowContainer from 'containers/screenings/PersonShowContainer'
 import PersonAddressesContainer from 'containers/screenings/PersonAddressesContainer'
+import PersonReadOnlyAddressesContainer from 'containers/screenings/PersonReadOnlyAddressesContainer'
 import PersonAddressesFormContainer from 'containers/screenings/PersonAddressesFormContainer'
 import PersonFormContainer from 'containers/screenings/PersonFormContainer'
 import PropTypes from 'prop-types'
@@ -21,6 +22,7 @@ const PersonCardView = ({personId}) => (
         <PersonRaceFormContainer personId={personId} />
         <PersonEthnicityFormContainer personId={personId} />
         <PersonPhoneNumbersFormContainer personId={personId} />
+        <PersonReadOnlyAddressesContainer personId={personId} />
         <PersonAddressesFormContainer personId={personId} />
       </div>
     }

@@ -3,10 +3,8 @@ import {shallow} from 'enzyme'
 import PersonEthnicityForm from 'views/people/PersonEthnicityForm'
 
 describe('PersonEthnicityForm', () => {
-  const renderPersonEthnicityForm = ({ethnicityDetailOptions = [], ...options}) => {
-    const props = {ethnicityDetailOptions, ...options}
-    return shallow(<PersonEthnicityForm {...props} />, {disableLifecycleMethods: true})
-  }
+  const renderPersonEthnicityForm = (props) =>
+    shallow(<PersonEthnicityForm {...props} />, {disableLifecycleMethods: true})
 
   describe('Yes checkbox', () => {
     it('renders a check box with the proper id for Yes', () => {
@@ -58,13 +56,13 @@ describe('PersonEthnicityForm', () => {
     })
 
     describe('ethnicityDetailOptions select field', () => {
-      it('does not render if latioOrigin is not set to Yes', () => {
+      it('does not render if latinoOrigin is not set to Yes', () => {
         const component = renderPersonEthnicityForm({latinoOrigin: ''})
         const detailSelect = component.find('SelectField')
         expect(detailSelect.exists()).toEqual(false)
       })
 
-      it('renders with no label if latioOrigin is set to Yes', () => {
+      it('renders with no label if latinoOrigin is set to Yes', () => {
         const component = renderPersonEthnicityForm({latinoOrigin: 'Yes', personId: '123'})
         const detailSelect = component.find('SelectField')
         expect(detailSelect.exists()).toEqual(true)
@@ -73,7 +71,7 @@ describe('PersonEthnicityForm', () => {
         expect(detailSelect.props().id).toEqual('participant-123-ethnicity-detail')
       })
 
-      it('sets the value of the selct to the current ethnicityDetail', () => {
+      it('sets the value of the select to the current ethnicityDetail', () => {
         const component = renderPersonEthnicityForm({latinoOrigin: 'Yes', ethnicityDetail: 'Hispanic'})
         const detailSelect = component.find('SelectField')
         expect(detailSelect.exists()).toEqual(true)
@@ -89,18 +87,18 @@ describe('PersonEthnicityForm', () => {
       })
 
       it('renders ethnicityDetailOptions as options for the select', () => {
-        const ethnicityDetailOptions = [
-          {value: 'hispanic', label: 'Hispanic'},
-          {value: 'mexican', label: 'Mexican'},
-        ]
-        const component = renderPersonEthnicityForm({latinoOrigin: 'Yes', ethnicityDetailOptions})
+        const component = renderPersonEthnicityForm({latinoOrigin: 'Yes'})
         const detailSelect = component.find('SelectField')
         const detailSelectOptions = detailSelect.children()
         expect(detailSelectOptions.at(0).props().value).toEqual('')
-        expect(detailSelectOptions.at(1).props().value).toEqual('hispanic')
+        expect(detailSelectOptions.at(1).props().value).toEqual('Hispanic')
         expect(detailSelectOptions.at(1).children().text()).toEqual('Hispanic')
-        expect(detailSelectOptions.at(2).props().value).toEqual('mexican')
+        expect(detailSelectOptions.at(2).props().value).toEqual('Mexican')
         expect(detailSelectOptions.at(2).children().text()).toEqual('Mexican')
+        expect(detailSelectOptions.at(3).props().value).toEqual('Central American')
+        expect(detailSelectOptions.at(3).children().text()).toEqual('Central American')
+        expect(detailSelectOptions.at(4).props().value).toEqual('South American')
+        expect(detailSelectOptions.at(4).children().text()).toEqual('South American')
       })
     })
   })

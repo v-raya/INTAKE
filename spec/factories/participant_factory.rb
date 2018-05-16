@@ -82,6 +82,12 @@ FactoryBot.define do
       roles { ['Perpetrator'] }
     end
 
+    trait :with_legacy_address do
+      after(:create) do |participant|
+        participant.addresses = create_list(:address, 1, :complete, :with_legacy)
+      end
+    end
+
     trait :with_complete_address do
       after(:create) do |participant|
         participant.addresses = create_list(:address, 1, :complete)

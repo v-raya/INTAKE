@@ -1,22 +1,17 @@
-import {fromJS, List, Map, Seq} from 'immutable'
+import {fromJS, List, Seq} from 'immutable'
 import {
   getFilteredPersonRolesSelector,
   getPeopleWithEditsSelector,
   getPersonPhoneNumbersSelector,
   getPhoneNumberTypeOptions,
   getAddressTypeOptionsSelector,
-  getPersonAddressesSelector,
-  getStateOptionsSelector,
+  getPersonEditableAddressesSelector,
   getPersonDemographicsSelector,
   getPersonRacesSelector,
   getPersonRaceDetailsSelector,
   getIsApproximateAgeDisabledSelector,
-  getApproximateAgeUnitOptionsSelector,
-  getLanguageOptionsSelector,
-  getGenderOptionsSelector,
   getAreEthnicityFieldsDisabledForPersonSelector,
   getPersonHispanicLatinoOriginValueSelector,
-  getEthnicityDetailOptionsSelector,
   getPersonEthnicityDetaiValueSelector,
   getIsRaceIndeterminateValueSelector,
   getErrorsSelector,
@@ -61,6 +56,7 @@ describe('peopleFormSelectors', () => {
               state: {value: 'CA'},
               zip: {value: '55555'},
               type: {value: 'Home'},
+              legacy_descriptor: {value: {legacy_id: 'A2'}},
             }, {
               id: null,
               street: {value: '9674 Somewhere Street'},
@@ -166,8 +162,8 @@ describe('peopleFormSelectors', () => {
             {id: null, number: '0987654321', type: 'Cell'},
           ],
           addresses: [
-            {id: 'ABC', street_address: '1234 Nowhere Lane', city: 'Somewhereville', state: 'CA', zip: '55555', type: 'Home'},
-            {id: null, street_address: '9674 Somewhere Street', city: 'Nowhereville', state: 'CA', zip: '55555', type: 'Cell'},
+            {id: 'ABC', street_address: '1234 Nowhere Lane', city: 'Somewhereville', state: 'CA', zip: '55555', type: 'Home', legacy_id: 'A2'},
+            {id: null, street_address: '9674 Somewhere Street', city: 'Nowhereville', state: 'CA', zip: '55555', type: 'Cell', legacy_id: null},
           ],
           roles: ['a', 'b'],
           ssn: '321456789',
@@ -195,7 +191,7 @@ describe('peopleFormSelectors', () => {
           last_name: 'last two',
           name_suffix: 'suffix two',
           phone_numbers: [{id: null, number: null, type: null}],
-          addresses: [{id: null, street_address: null, city: null, state: null, zip: null, type: null}],
+          addresses: [{id: null, street_address: null, city: null, state: null, zip: null, type: null, legacy_id: null}],
           roles: ['c'],
           ssn: '321456789',
           sensitive: false,
@@ -226,6 +222,134 @@ describe('peopleFormSelectors', () => {
           addresses: [],
           roles: [],
           ssn: null,
+          sensitive: true,
+          sealed: true,
+          ethnicity: {
+            hispanic_latino_origin: null,
+            ethnicity_detail: [],
+          },
+          races: [],
+        },
+      }))
+    })
+
+    it('it combines read only and editable addresses', () => {
+      const screening = {id: '123456'}
+      const participants = [
+        {
+          legacy_source_table: null,
+          gender: 'male',
+          addresses: [
+            {
+              legacy_source_table: null,
+              zip: '95616',
+              legacy_descriptor: null,
+              city: 'Davis',
+              state: 'CA',
+              legacy_id: '65TT6lc0Qc',
+              street_address: '123 Delaware Crossing',
+              type: '31',
+              id: '1782',
+            },
+          ],
+          id: 'one',
+        },
+        {
+          legacy_source_table: null,
+          gender: 'female',
+          addresses: [
+            {
+              legacy_source_table: null,
+              zip: '00000',
+              legacy_descriptor: null,
+              city: 'Springston',
+              state: 'CA',
+              legacy_id: 'AAAi88',
+              street_address: '227 fairway heavens',
+              type: '99',
+              id: '9999',
+            },
+          ],
+          id: '9928',
+        },
+      ]
+
+      const peopleForm = {
+        one: {
+          id: 'one',
+          approximate_age: {value: '1'},
+          approximate_age_units: {value: 'years'},
+          date_of_birth: {value: '13/0/-514'},
+          first_name: {value: ''},
+          gender: {value: ''},
+          languages: {value: []},
+          legacy_descriptor: {value: 'a legacy_descriptor'},
+          middle_name: {value: ''},
+          last_name: {value: ''},
+          name_suffix: {value: ''},
+          phone_numbers: [],
+          addresses: [
+            {
+              id: '3',
+              street: {value: '223 Van der Burgh Ave'},
+              city: {value: 'Calistoga'},
+              state: {value: 'CA'},
+              zip: {value: '839893'},
+              type: {value: 'Home'},
+            },
+          ],
+          roles: {value: []},
+          ssn: {value: ''},
+          sensitive: {value: true},
+          sealed: {value: true},
+          ethnicity: {
+            hispanic_latino_origin: {value: null},
+            ethnicity_detail: {value: []},
+          },
+          races: {},
+          race_details: {},
+        },
+      }
+      const state = fromJS({peopleForm, screening, participants})
+      expect(getPeopleWithEditsSelector(state)).toEqualImmutable(fromJS({
+        one: {
+          id: 'one',
+          screening_id: '123456',
+          approximate_age: null,
+          approximate_age_units: null,
+          date_of_birth: '13/0/-514',
+          first_name: '',
+          gender: '',
+          languages: [],
+          legacy_descriptor: 'a legacy_descriptor',
+          middle_name: '',
+          last_name: '',
+          name_suffix: '',
+          phone_numbers: [],
+          addresses: [
+            {
+              legacy_source_table: null,
+              zip: '95616',
+              legacy_descriptor: null,
+              city: 'Davis',
+              state: 'CA',
+              legacy_id: '65TT6lc0Qc',
+              street_address: '123 Delaware Crossing',
+              type: '31',
+              id: '1782',
+            },
+            {
+              id: '3',
+              street_address: '223 Van der Burgh Ave',
+              city: 'Calistoga',
+              state: 'CA',
+              zip: '839893',
+              type: 'Home',
+              legacy_id: null,
+            },
+          ],
+          roles: [],
+          ssn: '',
           sensitive: true,
           sealed: true,
           ethnicity: {
@@ -394,23 +518,27 @@ describe('peopleFormSelectors', () => {
     })
   })
 
-  describe('getStateOptionsSelector', () => {
-    it('returns formatted options for phone types', () => {
-      expect(getStateOptionsSelector().first()).toEqualImmutable(Map({value: 'AL', label: 'Alabama'}))
-      expect(getStateOptionsSelector().last()).toEqualImmutable(Map({value: 'WY', label: 'Wyoming'}))
-    })
-  })
-
-  describe('getPersonAddressesSelector', () => {
-    it('returns the addresses for the person with the passed id', () => {
+  describe('getPersonEditableAddressesSelector', () => {
+    it('returns the editable addresses for the person with the passed id', () => {
       const peopleForm = {
         one: {addresses: [{
+          id: 2212,
           street: {value: '1234 Nowhere Lane'},
           city: {value: 'Somewhereville'},
           state: {value: 'CA'},
           zip: {value: '55555'},
           type: {value: 'Home'},
-        }]},
+          legacy_descriptor: {value: {legacy_id: 'xyz122'}},
+        },
+        {
+          id: 3,
+          street: {value: '223 Van der Burgh Ave'},
+          city: {value: 'Calistoga'},
+          state: {value: 'CA'},
+          zip: {value: '839893'},
+          type: {value: 'Home'},
+        },
+        ]},
         two: {addresses: [{
           street: {value: '9674 Somewhere Street'},
           city: {value: 'Nowhereville'},
@@ -420,12 +548,13 @@ describe('peopleFormSelectors', () => {
         }]},
       }
       const state = fromJS({peopleForm})
-      expect(getPersonAddressesSelector(state, 'one')).toEqualImmutable(fromJS(
+      expect(getPersonEditableAddressesSelector(state, 'one')).toEqualImmutable(fromJS(
         [{
-          street: '1234 Nowhere Lane',
-          city: 'Somewhereville',
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
           state: 'CA',
-          zip: '55555',
+          zip: '839893',
           type: 'Home',
           zipError: List(),
         }]
@@ -444,43 +573,6 @@ describe('peopleFormSelectors', () => {
       const peopleForm = {1: {date_of_birth: {value: '13/0/-514'}}}
       const state = fromJS({peopleForm})
       expect(getIsApproximateAgeDisabledSelector(state, '1')).toBe(true)
-    })
-  })
-
-  describe('getApproximateAgeUnitOptionsSelector', () => {
-    it('includes the approximate age unit options', () => {
-      const peopleForm = {}
-      const state = fromJS({peopleForm})
-      expect(getApproximateAgeUnitOptionsSelector(state, '1'))
-        .toEqualImmutable(fromJS([
-          {label: 'Days', value: 'days'},
-          {label: 'Weeks', value: 'weeks'},
-          {label: 'Months', value: 'months'},
-          {label: 'Years', value: 'years'},
-        ]))
-    })
-  })
-
-  describe('getLanguageOptionsSelector', () => {
-    it('includes the languages options', () => {
-      const peopleForm = {}
-      const state = fromJS({peopleForm})
-      expect(getLanguageOptionsSelector(state, '1').toJS())
-        .toContain({label: 'English', value: 'English'})
-    })
-  })
-
-  describe('getGenderOptionsSelector', () => {
-    it('includes the gender options', () => {
-      const peopleForm = {}
-      const state = fromJS({peopleForm})
-      expect(getGenderOptionsSelector(state, '1'))
-        .toEqualImmutable(fromJS([
-          {label: 'Male', value: 'male'},
-          {label: 'Female', value: 'female'},
-          {label: 'Intersex', value: 'intersex'},
-          {label: 'Unknown', value: 'unknown'},
-        ]))
     })
   })
 
@@ -609,17 +701,6 @@ describe('peopleFormSelectors', () => {
       }
       const state = fromJS({peopleForm})
       expect(getPersonHispanicLatinoOriginValueSelector(state, 'two')).toEqual('Yes')
-    })
-  })
-
-  describe('getEthnicityDetailOptionsSelector', () => {
-    it('returns a value and label for ethnicity options', () => {
-      expect(getEthnicityDetailOptionsSelector()).toEqualImmutable(fromJS([
-        {value: 'Hispanic', label: 'Hispanic'},
-        {value: 'Mexican', label: 'Mexican'},
-        {value: 'Central American', label: 'Central American'},
-        {value: 'South American', label: 'South American'},
-      ]))
     })
   })
 

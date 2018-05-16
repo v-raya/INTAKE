@@ -7,11 +7,8 @@ describe('PersonDemographicsForm', () => {
     approximateAge,
     approximateAgeIsDisabled,
     approximateAgeUnit,
-    approximateAgeUnitOptions = [],
     dateOfBirth,
     gender,
-    genderOptions = [],
-    languageOptions = [],
     languages,
     onChange,
     personId,
@@ -20,11 +17,8 @@ describe('PersonDemographicsForm', () => {
       approximateAge,
       approximateAgeIsDisabled,
       approximateAgeUnit,
-      approximateAgeUnitOptions,
       dateOfBirth,
       gender,
-      genderOptions,
-      languageOptions,
       languages,
       onChange,
       personId,
@@ -52,21 +46,25 @@ describe('PersonDemographicsForm', () => {
 
   it('renders the approximate age unit field and its options', () => {
     const field = renderPersonDemographicsForm({
-      approximateAgeUnit: '5', approximateAgeUnitOptions: [{value: '1'}, {value: '2'}],
+      approximateAgeUnit: '5',
     }).find('select[aria-label="Approximate Age Units"]')
     expect(field.props().value).toEqual('5')
-    expect(field.childAt(0).props().value).toEqual('1')
-    expect(field.childAt(1).props().value).toEqual('2')
+    expect(field.childAt(0).props().value).toEqual('days')
+    expect(field.childAt(1).props().value).toEqual('weeks')
+    expect(field.childAt(2).props().value).toEqual('months')
+    expect(field.childAt(3).props().value).toEqual('years')
   })
 
   it('renders the gender field and its options', () => {
     const field = renderPersonDemographicsForm({
-      gender: '0', genderOptions: [{value: '1'}, {value: '2'}],
+      gender: '0',
     }).find('SelectField[label="Sex at Birth"]')
     expect(field.props().value).toEqual('0')
     expect(field.childAt(0).props().value).toEqual('')
-    expect(field.childAt(1).props().value).toEqual('1')
-    expect(field.childAt(2).props().value).toEqual('2')
+    expect(field.childAt(1).props().value).toEqual('male')
+    expect(field.childAt(2).props().value).toEqual('female')
+    expect(field.childAt(3).props().value).toEqual('intersex')
+    expect(field.childAt(4).props().value).toEqual('unknown')
   })
 
   it('renders the languages field and its options', () => {
@@ -76,7 +74,9 @@ describe('PersonDemographicsForm', () => {
     expect(form.find('label[htmlFor="languages_1"]').props().children)
       .toEqual('Language(s) (Primary First)')
     expect(form.find('Select').props().value).toEqual(['0'])
-    expect(form.find('Select').props().options).toEqual([{value: '1'}, {value: '2'}])
+    expect(form.find('Select').props().options[0]).toEqual({value: 'American Sign Language', label: 'American Sign Language'})
+    expect(form.find('Select').props().options[1]).toEqual({value: 'Arabic', label: 'Arabic'})
+    expect(form.find('Select').props().options[5]).toEqual({value: 'English', label: 'English'})
   })
 
   describe('onChange', () => {

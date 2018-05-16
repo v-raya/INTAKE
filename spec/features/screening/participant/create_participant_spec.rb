@@ -286,11 +286,12 @@ feature 'Create participant' do
         )
         expect(page).to have_field('Date of birth', with: homer_date_of_birth.strftime('%m/%d/%Y'))
         expect(page).to have_field('Social security number', with: homer.ssn)
-        expect(page).to have_field('Address', with: homer.addresses.first.street_address)
-        expect(page).to have_field('City', with: homer.addresses.first.city)
-        expect(page).to have_field('State', with: homer.addresses.first.state)
-        expect(page).to have_field('Zip', with: homer.addresses.first.zip)
-        expect(find(:css, 'select#address_type').value).to eq(homer.addresses.first.type)
+
+        # Address has legacy_id, and so should be read-only
+        expect(page).not_to have_field('Address')
+        expect(page).not_to have_field('City')
+        expect(page).not_to have_field('State')
+        expect(page).not_to have_field('Zip')
         within 'fieldset', text: 'Race' do
           expect(page).to have_checked_field('Asian')
           expect(page).to have_select(

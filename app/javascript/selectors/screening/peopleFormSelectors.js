@@ -1,7 +1,3 @@
-import selectOptions from 'utils/selectHelper'
-import APPROXIMATE_AGE_UNITS from 'enums/ApproximateAgeUnits'
-import GENDERS from 'enums/Genders'
-import LANGUAGES from 'enums/Languages'
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
@@ -10,17 +6,11 @@ import {getZIPErrors} from 'utils/zipValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {getAddressTypes} from 'selectors/systemCodeSelectors'
 import moment from 'moment'
-
-const formatEnums = (enumObject) =>
-  Object.keys(enumObject).map((item) => ({label: enumObject[item], value: item}))
-
-export const getPeopleSelector = (state) => state.get('peopleForm')
-
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import PHONE_NUMBER_TYPE from 'enums/PhoneNumberType'
-import US_STATE from 'enums/USState'
 import {RACE_DETAILS} from 'enums/Races'
-import {ETHNICITY_DETAILS} from 'enums/Ethnicity'
+
+export const getPeopleSelector = (state) => state.get('peopleForm')
 
 const calculateAgeFromScreeningDate = (state, personId) => {
   const screeningStartDate = moment(state.getIn(['screeningInformationForm', 'started_at', 'value']))
@@ -137,12 +127,18 @@ const getPhoneNumbers = (person) => person.get('phone_numbers', List()).map((pho
 
 const getAddresses = (person) => person.get('addresses', List()).map((address) => Map({
   id: address.get('id'),
-  street_address: address.getIn(['street', 'value']),
+  street: address.getIn(['street', 'value']),
   city: address.getIn(['city', 'value']),
   state: address.getIn(['state', 'value']),
   zip: address.getIn(['zip', 'value']),
   type: address.getIn(['type', 'value']),
+  legacy_id: address.getIn(['legacy_descriptor', 'value', 'legacy_id'], null),
 }))
+
+export const getPersonEditableAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
+  .filter((address) => !address.get('legacy_id'))
+  .map((address) => address.delete('legacy_id'))
+  .map((address) => address.set('zipError', getZIPErrors(address.get('zip'))))
 
 const getEthnicity = (person) => {
   const hispanic_latino_origin = person.getIn(['ethnicity', 'hispanic_latino_origin', 'value'])
@@ -156,10 +152,26 @@ const getRaces = (person) => person.get('races', Map()).reduce((races, raceValue
   return (raceValue.get('value')) ? [...races, {race: raceKey, race_detail: raceDetails}] : races
 }, [])
 
+const getAllReadOnlyAddresses = (state) => (state.get('participants') === undefined ? List() : state.get('participants').map((person) => Map({
+  personId: person.get('id'),
+  addresses: person.get('addresses').filter((address) => address.get('legacy_id')),
+})))
+
+const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
+  const personAddress = allReadOnlyAddresses.find((personAddress) => personAddress.get('personId') === personId)
+  return personAddress ? personAddress.get('addresses') : List()
+}
+
+const combineAddresses = (person, personId, allReadOnlyAddresses) => [
+  ...filterLegacyAddresses(personId, allReadOnlyAddresses),
+  ...getAddresses(person),
+].map((address) => address.set('street_address', address.get('street', address.get('street_address'))).delete('street'))
+
 export const getPeopleWithEditsSelector = createSelector(
   getPeopleSelector,
   getScreeningIdValueSelector,
-  (people, screeningId) => people.map((person, personId) => {
+  getAllReadOnlyAddresses,
+  (people, screeningId, allReadOnlyAddresses) => people.map((person, personId) => {
     const isAgeDisabled = Boolean(person.getIn(['date_of_birth', 'value']))
     return fromJS({
       screening_id: screeningId,
@@ -175,7 +187,7 @@ export const getPeopleWithEditsSelector = createSelector(
       last_name: person.getIn(['last_name', 'value']),
       name_suffix: person.getIn(['name_suffix', 'value']),
       phone_numbers: getPhoneNumbers(person),
-      addresses: getAddresses(person),
+      addresses: combineAddresses(person, personId, allReadOnlyAddresses),
       roles: person.getIn(['roles', 'value']),
       ssn: person.getIn(['ssn', 'value']),
       sensitive: person.getIn(['sensitive', 'value']),
@@ -230,18 +242,9 @@ export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).m
   label: addressType.get('value'),
 }))
 
-export const getStateOptionsSelector = () => fromJS(US_STATE.map(({code, name}) => ({value: code, label: name})))
-
-export const getPersonAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
-  .map((address) => address.set('street', address.get('street_address')).delete('street_address').delete('id').set('zipError', getZIPErrors(address.get('zip'))))
-
 export const getIsApproximateAgeDisabledSelector = (state, personId) => (
   Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))
 )
-
-export const getApproximateAgeUnitOptionsSelector = () => fromJS(formatEnums(APPROXIMATE_AGE_UNITS))
-export const getLanguageOptionsSelector = () => fromJS(selectOptions(LANGUAGES))
-export const getGenderOptionsSelector = () => fromJS(formatEnums(GENDERS))
 
 export const getPersonDemographicsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId], Map())
@@ -269,10 +272,6 @@ export const getAreEthnicityFieldsDisabledForPersonSelector = (state, personId) 
 
 export const getPersonHispanicLatinoOriginValueSelector = (state, personId) => (
   state.getIn(['peopleForm', personId, 'ethnicity', 'hispanic_latino_origin', 'value'])
-)
-
-export const getEthnicityDetailOptionsSelector = () => (
-  fromJS(ETHNICITY_DETAILS.map((detail) => ({value: detail, label: detail})))
 )
 
 export const getPersonEthnicityDetaiValueSelector = (state, personId) => (
