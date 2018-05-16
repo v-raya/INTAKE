@@ -37,7 +37,7 @@ describe('CrossReportAgencyField', () => {
     expect(checkbox.props().checked).toEqual(false)
     expect(checkbox.props().disabled).toEqual(true)
     expect(checkbox.props().required).toEqual(true)
-    expect(checkbox.props().label).toEqual('District attorney')
+    expect(checkbox.props().label).toEqual('District Attorney')
     expect(checkbox.props().value).toEqual('DISTRICT_ATTORNEY')
   })
   it('checkbox enabled when agencies exist', () => {
@@ -153,7 +153,7 @@ describe('CrossReportAgencyField', () => {
       })
       const selectField = component.find('SelectField[id="LAW_ENFORCEMENT-agency-code"]')
       expect(selectField.exists()).toEqual(true)
-      expect(selectField.props().label).toEqual('Law enforcement agency name')
+      expect(selectField.props().label).toEqual('Law Enforcement Agency Name')
       expect(selectField.props().required).toEqual(true)
       expect(selectField.props().value).toEqual('12345')
       expect(selectField.props().gridClassName).toEqual('input-error')

@@ -45,7 +45,7 @@ const CrossReportAgencyField = ({
       selected &&
         <SelectField
           id={`${type}-agency-code`}
-          label={`${AGENCY_TYPES[type]} agency name`}
+          label={`${AGENCY_TYPES[type]} Agency Name`}
           gridClassName={ClassNames({'input-error': (errors && errors.length !== 0)})}
           required
           onChange={({target: {value}}) => {
