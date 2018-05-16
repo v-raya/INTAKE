@@ -2,8 +2,6 @@ import {fromJS, List, Seq} from 'immutable'
 import {
   getFilteredPersonRolesSelector,
   getPeopleWithEditsSelector,
-  getPersonPhoneNumbersSelector,
-  getPhoneNumberTypeOptions,
   getPersonDemographicsSelector,
   getPersonRacesSelector,
   getPersonRaceDetailsSelector,
@@ -454,35 +452,6 @@ describe('peopleFormSelectors', () => {
     })
   })
 
-  describe('getPhoneNumberTypeOptions', () => {
-    it('returns formatted options for phone types', () => {
-      expect(getPhoneNumberTypeOptions()).toEqualImmutable(fromJS([
-        {value: 'Cell', label: 'Cell'},
-        {value: 'Work', label: 'Work'},
-        {value: 'Home', label: 'Home'},
-        {value: 'Other', label: 'Other'},
-      ]))
-    })
-  })
-
-  describe('getPersonFormattedPhoneNumbersSelector', () => {
-    it('returns the phone numbers for the person with the passed id', () => {
-      const peopleForm = {
-        one: {phone_numbers: [{
-          number: {value: '1234567890'},
-          type: {value: 'Home'}},
-        ]},
-        two: {phone_numbers: [{
-          number: {value: '0987654321'},
-          type: {value: 'Cell'}},
-        ]},
-      }
-      const state = fromJS({peopleForm})
-      expect(getPersonPhoneNumbersSelector(state, 'one')).toEqualImmutable(fromJS(
-        [{number: '1234567890', type: 'Home'}]
-      ))
-    })
-  })
   describe('getIsApproximateAgeDisabledSelector', () => {
     it('is set to false if the given person does not have a date of birth', () => {
       const peopleForm = {1: {date_of_birth: {value: null}}}
