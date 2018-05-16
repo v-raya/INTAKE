@@ -159,8 +159,7 @@ const getAllReadOnlyAddresses = (state) => (state.get('participants') === undefi
 
 const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
   const personAddress = allReadOnlyAddresses.find((personAddress) => personAddress.get('personId') === personId)
-  if (!personAddress) { return List() }
-  return personAddress.get('addresses')
+  return personAddress ? personAddress.get('addresses') : List()
 }
 
 const combineAddresses = (person, personId, allReadOnlyAddresses) => [

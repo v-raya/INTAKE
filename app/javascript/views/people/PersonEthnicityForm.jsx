@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import SelectField from 'common/SelectField'
-import {ETHNICITY_DETAILS} from 'enums/ETHNICITY'
+import {ETHNICITY_DETAILS} from 'enums/Ethnicity'
 
 const PersonEthnicityForm = ({
   disableFields,
