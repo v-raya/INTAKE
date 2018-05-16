@@ -8,7 +8,7 @@ import {
 import {fetch as fetchAllegations} from 'actions/screeningAllegationsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
-import {getPeopleWithEditsSelector} from 'selectors/screening/peopleFormSelectors'
+import {getPeopleWithEditsSelector} from 'selectors/screening/personFormSelectors'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 

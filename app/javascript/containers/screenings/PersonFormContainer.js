@@ -10,7 +10,7 @@ import {
   getLastNameSelector,
   getPersonAlertErrorMessageSelector,
   getSocialSecurityNumberSelector,
-} from 'selectors/screening/peopleFormSelectors'
+} from 'selectors/screening/personFormSelectors'
 import {setField, touchField} from 'actions/peopleFormActions'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
 

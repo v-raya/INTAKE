@@ -11,10 +11,10 @@ import {
   getVisibleErrorsSelector,
   getSocialSecurityNumberSelector,
   getRolesSelector,
-} from 'selectors/screening/peopleFormSelectors'
+} from 'selectors/screening/personFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
-describe('peopleFormSelectors', () => {
+describe('personFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
   describe('getPeopleWithEditsSelector', () => {

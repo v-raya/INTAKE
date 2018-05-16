@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import PersonCard from 'views/people/PersonCard'
-import {getPeopleWithEditsSelector} from 'selectors/screening/peopleFormSelectors'
+import {getPeopleWithEditsSelector} from 'selectors/screening/personFormSelectors'
 import {
   getModeValueSelector,
   getPersonNamesSelector,
