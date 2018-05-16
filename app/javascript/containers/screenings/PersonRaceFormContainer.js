@@ -5,7 +5,7 @@ import {
   getPersonRacesSelector,
   getPersonRaceDetailsSelector,
   getIsRaceIndeterminateValueSelector,
-} from 'selectors/screening/peopleFormSelectors'
+} from 'selectors/screening/personRaceFormSelectors'
 import {setField} from 'actions/peopleFormActions'
 
 const mapStateToProps = (state, {personId}) => {

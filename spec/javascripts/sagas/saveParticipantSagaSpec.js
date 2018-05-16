@@ -11,7 +11,7 @@ import {fetch as fetchAllegations} from 'actions/screeningAllegationsActions'
 import * as personCardActions from 'actions/personCardActions'
 import {fromJS} from 'immutable'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
-import {getPeopleWithEditsSelector} from 'selectors/screening/peopleFormSelectors'
+import {getPeopleWithEditsSelector} from 'selectors/screening/personFormSelectors'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 

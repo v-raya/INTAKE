@@ -4,7 +4,7 @@ import PhoneNumbersForm from 'views/people/PhoneNumbersForm'
 import {
   getPersonPhoneNumbersSelector,
   getPhoneNumberTypeOptions,
-} from 'selectors/screening/peopleFormSelectors'
+} from 'selectors/screening/personPhoneNumbersFormSelectors'
 
 const mapStateToProps = (state, {personId}) => (
   {

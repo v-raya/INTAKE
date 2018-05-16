@@ -2,7 +2,7 @@ import {connect} from 'react-redux'
 import {
   getIsApproximateAgeDisabledSelector,
   getPersonDemographicsSelector,
-} from 'selectors/screening/peopleFormSelectors'
+} from 'selectors/screening/personDemographicsFormSelectors'
 import {setField} from 'actions/peopleFormActions'
 import {MAX_LANGUAGES} from 'common/LanguageInfo'
 import PersonDemographicsForm from 'views/people/PersonDemographicsForm'
