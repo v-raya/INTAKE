@@ -22,10 +22,13 @@ feature 'searching a participant in autocompleter' do
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
     stub_system_codes
-    visit edit_screening_path(id: existing_screening[:id])
   end
 
   context 'search for a person' do
+    before do
+      visit edit_screening_path(id: existing_screening[:id])
+    end
+
     scenario 'search result contains person information' do
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
@@ -418,13 +421,15 @@ feature 'searching a participant in autocompleter' do
         expect(page).to_not have_button('Show more results')
       end
     end
+  end
 
+  it_behaves_like :authenticated do
     scenario 'clear search input on navigation' do
       allow(LUID).to receive(:generate).and_return(['DQJIYK'])
       new_screening = {
         id: '1',
         reference: 'DQJIYK',
-        assignee: nil,
+        assignee: 'Joe Cool',
         assignee_staff_id: nil,
         incident_county: nil,
         indexable: true,
@@ -448,7 +453,7 @@ feature 'searching a participant in autocompleter' do
         ferb_api_url(FerbRoutes.intake_screening_path(new_screening[:id])))
         .and_return(json_body(new_screening.to_json, status: 200))
 
-      visit root_path
+      visit root_path(accessCode: access_code)
       click_button 'Start Screening'
 
       stub_person_search(search_term: 'Go back', person_response: { hits: { total: 1, hits: [] } })

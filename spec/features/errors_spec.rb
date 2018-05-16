@@ -71,13 +71,15 @@ feature 'error pages' do
   end
 
   context 'server has error' do
-    scenario 'renders error banner' do
-      expect(ScreeningRepository).to receive(:search).and_raise(StandardError)
-      visit root_path
+    it_behaves_like :authenticated do
+      scenario 'renders error banner' do
+        expect(ScreeningRepository).to receive(:search).and_raise(StandardError)
+        visit root_path(accessCode: access_code)
 
-      expect(page).to have_text(
-        /Something went wrong, sorry! Please try your last action again. \(Ref #:.*\)/
-      )
+        expect(page).to have_text(
+          /Something went wrong, sorry! Please try your last action again. \(Ref #:.*\)/
+        )
+      end
     end
   end
 end
