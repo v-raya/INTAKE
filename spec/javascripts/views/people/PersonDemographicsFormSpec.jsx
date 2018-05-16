@@ -74,9 +74,9 @@ describe('PersonDemographicsForm', () => {
     expect(form.find('label[htmlFor="languages_1"]').props().children)
       .toEqual('Language(s) (Primary First)')
     expect(form.find('Select').props().value).toEqual(['0'])
-    expect(form.find('Select').props().options[0]).toEqual({value: 'American Sign Language'})
-    expect(form.find('Select').props().options[1]).toEqual({value: 'Arabic'})
-    expect(form.find('Select').props().options[5]).toEqual({value: 'English'})
+    expect(form.find('Select').props().options[0]).toEqual({value: 'American Sign Language', label: 'American Sign Language'})
+    expect(form.find('Select').props().options[1]).toEqual({value: 'Arabic', label: 'Arabic'})
+    expect(form.find('Select').props().options[5]).toEqual({value: 'English', label: 'English'})
   })
 
   describe('onChange', () => {

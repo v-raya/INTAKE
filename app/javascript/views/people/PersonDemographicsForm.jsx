@@ -73,7 +73,7 @@ const PersonDemographicsForm = ({
           multi
           tabSelectsValue={false}
           inputProps={{id: `languages_${personId}`}}
-          options={LANGUAGES.map((language) => ({value: language}))}
+          options={LANGUAGES.map((language) => ({value: language, label: language}))}
           value={languages}
           onChange={(languages) => onChange('languages', languages)}
         />
