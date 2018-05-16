@@ -18,9 +18,6 @@ feature 'Participant Address' do
   before do
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
-    stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id))
-    ).and_return(json_body(marge.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(screening)
   end
@@ -29,8 +26,32 @@ feature 'Participant Address' do
     visit edit_screening_path(id: screening[:id])
     expect(page).to_not have_field('Address', with: marge.addresses.first.street_address)
 
+    marge[:addresses].push(
+      street_number: '1234 Some Lane',
+      city: 'Someplace',
+      state: 'CA',
+      zip: '55555',
+      type: '32'
+    )
+    stub_request(
+      :put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id))
+    ).and_return(json_body(marge.to_json, status: 200))
+
     within edit_participant_card_selector(marge.id) do
       click_button 'Add new address'
+
+      expect(page).to have_select('Address Type', options: [
+                                    '',
+                                    'Common',
+                                    'Day Care',
+                                    'Home',
+                                    'Homeless',
+                                    'Other',
+                                    'Penal Institution',
+                                    'Permanent Mailing Address',
+                                    'Residence 2',
+                                    'Work'
+                                  ])
 
       within all('.row.list-item').first do
         fill_in 'Address', with: '1234 Some Lane'
@@ -62,25 +83,6 @@ feature 'Participant Address' do
       click_link 'Edit'
       expect(page).to_not have_field('Address', with: marge.addresses.first.street_address)
       expect(page).to have_field('Address', with: '1234 Some Lane')
-    end
-  end
-
-  scenario 'list of address types is correct' do
-    visit edit_screening_path(id: screening[:id])
-    within edit_participant_card_selector(marge.id) do
-      click_button 'Add new address'
-      expect(page).to have_select('Address Type', options: [
-                                    '',
-                                    'Common',
-                                    'Day Care',
-                                    'Home',
-                                    'Homeless',
-                                    'Other',
-                                    'Penal Institution',
-                                    'Permanent Mailing Address',
-                                    'Residence 2',
-                                    'Work'
-                                  ])
     end
   end
 end
