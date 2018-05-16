@@ -504,6 +504,7 @@ describe('peopleFormReducer', () => {
             state: {value: 'CA'},
             zip: {value: '55555'},
             type: {value: 'Home'},
+            legacy_id: {value: undefined},
             legacy_descriptor: {value: 'address legacy descriptor'},
           }],
           races: {},

@@ -2,6 +2,7 @@ import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
+import {getZIPErrors} from 'utils/zipValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {getAddressTypes} from 'selectors/systemCodeSelectors'
 import moment from 'moment'
@@ -137,6 +138,7 @@ const getAddresses = (person) => person.get('addresses', List()).map((address) =
 export const getPersonEditableAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
   .filter((address) => !address.get('legacy_id'))
   .map((address) => address.delete('legacy_id'))
+  .map((address) => address.set('zipError', getZIPErrors(address.get('zip'))))
 
 const getEthnicity = (person) => {
   const hispanic_latino_origin = person.getIn(['ethnicity', 'hispanic_latino_origin', 'value'])
@@ -156,8 +158,9 @@ const getAllReadOnlyAddresses = (state) => (state.get('participants') === undefi
 })))
 
 const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
-  if (allReadOnlyAddresses.isEmpty()) { return List() }
-  return allReadOnlyAddresses.filter((personAddresses) => personAddresses.get('personId') === personId).map((obj) => obj.get('addresses')).first()
+  const personAddress = allReadOnlyAddresses.find((personAddress) => personAddress.get('personId') === personId)
+  if (!personAddress) { return List() }
+  return personAddress.get('addresses')
 }
 
 const combineAddresses = (person, personId, allReadOnlyAddresses) => [
