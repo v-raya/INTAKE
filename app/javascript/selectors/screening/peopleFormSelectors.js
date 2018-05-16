@@ -5,7 +5,6 @@ import {getSSNErrors} from 'utils/ssnValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import moment from 'moment'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
-import {RACE_DETAILS} from 'enums/Races'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
 
@@ -217,35 +216,4 @@ export const getFilteredPersonRolesSelector = (state, personId) => {
     ...ROLE_TYPE_NON_REPORTER.map((value) => ({label: value, value, disabled: false})),
     ...ROLE_TYPE_REPORTER.map((value) => ({label: value, value, disabled: hasReporterRole})),
   ])
-}
-
-export const getIsApproximateAgeDisabledSelector = (state, personId) => (
-  Boolean(state.getIn(['peopleForm', personId, 'date_of_birth', 'value']))
-)
-
-export const getPersonDemographicsSelector = (state, personId) => {
-  const person = state.getIn(['peopleForm', personId], Map())
-  return fromJS({
-    approximateAge: person.getIn(['approximate_age', 'value']) || '',
-    approximateAgeUnit: person.getIn(['approximate_age_units', 'value']) || 'years',
-    dateOfBirth: person.getIn(['date_of_birth', 'value']) || '',
-    gender: person.getIn(['gender', 'value']) || '',
-    languages: person.getIn(['languages', 'value']) || [],
-  })
-}
-
-export const getPersonRacesSelector = (state, personId) => {
-  const personRaces = state.getIn(['peopleForm', personId, 'races'])
-  return Object.keys(RACE_DETAILS).reduce((races, race) => races.set(race, personRaces.getIn([race, 'value'], false)), Map())
-}
-export const getPersonRaceDetailsSelector = (state, personId) => {
-  const personRaces = state.getIn(['peopleForm', personId, 'race_details'])
-  return Object.keys(RACE_DETAILS).reduce((races, race) => races.set(race, personRaces.getIn([race, 'value'], '')), Map())
-}
-export const getIsRaceIndeterminateValueSelector = (state, personId) => {
-  const isUnknown = state.getIn(['peopleForm', personId, 'races', 'Unknown', 'value'])
-  const isAbandoned = state.getIn(['peopleForm', personId, 'races', 'Abandoned', 'value'])
-  const isDeclinedToAnswer = state.getIn(['peopleForm', personId, 'races', 'Declined to answer', 'value'])
-
-  return Boolean(isUnknown || isAbandoned || isDeclinedToAnswer)
 }
