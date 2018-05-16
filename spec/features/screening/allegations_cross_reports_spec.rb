@@ -41,9 +41,9 @@ feature 'show cross reports' do
 
     within '#cross-report-card.edit' do
       expect(page).to have_content('must be cross-reported to law enforcement')
-      expect(page.find('label', text: /\ADistrict attorney\z/)[:class]).to include('required')
-      expect(page.find('label', text: /\ALaw enforcement\z/)[:class]).to include('required')
-      expect(page.find('label', text: 'Law enforcement agency name')[:class]).to include('required')
+      expect(page.find('label', text: /\ADistrict Attorney\z/)[:class]).to include('required')
+      expect(page.find('label', text: /\ALaw Enforcement\z/)[:class]).to include('required')
+      expect(page.find('label', text: 'Law Enforcement Agency Name')[:class]).to include('required')
       expect(page.find('label', text: 'Cross Reported on Date')[:class]).to include('required')
       expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
       click_button 'Cancel'
@@ -107,9 +107,9 @@ feature 'show cross reports' do
 
     within '#cross-report-card.edit' do
       expect(page).to_not have_content('must be cross-reported to law enforcement')
-      expect(page.find('label', text: /\ADistrict attorney\z/)[:class]).to_not include('required')
-      expect(page.find('label', text: /\ALaw enforcement\z/)[:class]).to_not include('required')
-      expect(page.find('label', text: 'Law enforcement agency name')[:class]).to include('required')
+      expect(page.find('label', text: /\ADistrict Attorney\z/)[:class]).to_not include('required')
+      expect(page.find('label', text: /\ALaw Enforcement\z/)[:class]).to_not include('required')
+      expect(page.find('label', text: 'Law Enforcement Agency Name')[:class]).to include('required')
       expect(page.find('label', text: 'Cross Reported on Date')[:class]).to include('required')
       expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
     end
@@ -162,12 +162,12 @@ feature 'show cross reports' do
     within '#cross-report-card.edit' do
       expect(page).to have_content('must be cross-reported to law enforcement')
       select 'State of California', from: 'County'
-      find('label', text: /\ADistrict attorney\z/).click
+      find('label', text: /\ADistrict Attorney\z/).click
       expect(page).to have_content('must be cross-reported to law enforcement')
-      select 'LA District Attorney - Criminal Division', from: 'District attorney agency name'
-      find('label', text: /\ALaw enforcement\z/).click
+      select 'LA District Attorney - Criminal Division', from: 'District Attorney Agency Name'
+      find('label', text: /\ALaw Enforcement\z/).click
       expect(page).to_not have_content('must be cross-reported to law enforcement')
-      select 'The Sheriff', from: 'Law enforcement agency name'
+      select 'The Sheriff', from: 'Law Enforcement Agency Name'
     end
 
     api_screening = screening.merge(address: {}, cross_reports: [{

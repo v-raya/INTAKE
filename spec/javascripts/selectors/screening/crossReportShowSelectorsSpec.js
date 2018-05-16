@@ -178,25 +178,25 @@ describe('crossReportShowSelectors', () => {
       const countyAgencies = [{id: 'A324ad', name: 'County Agency'}]
       const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY', id: 'A324ad'}]}]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
-      expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'District attorney - County Agency'})
+      expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'District Attorney - County Agency'})
     })
     it('returns agency type and id when county agency does not have a name', () => {
       const countyAgencies = [{id: 'A324ad'}]
       const crossReports = [{agencies: [{type: 'COUNTY_LICENSING', id: 'A324ad'}]}]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
-      expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'County licensing - A324ad'})
+      expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'County Licensing - A324ad'})
     })
     it('returns agency type and id when county agnecies empty', () => {
       const countyAgencies = [{id: 'B525ad', name: 'Other Agency'}]
       const crossReports = [{agencies: [{type: 'LAW_ENFORCEMENT', id: 'A324ad'}]}]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
-      expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'Law enforcement - A324ad'})
+      expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'Law Enforcement - A324ad'})
     })
     it('returns only types when no county agencies', () => {
       const countyAgencies = []
       const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY', id: 'A324ad'}]}]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
-      expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'District attorney - A324ad'})
+      expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'District Attorney - A324ad'})
     })
     it('returns empty map when cross reports is undefined', () => {
       const countyAgencies = [{id: 'A324ad', name: 'County Agency'}]
@@ -231,10 +231,10 @@ describe('crossReportShowSelectors', () => {
       }]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
       expect(getSelectedCrossReportAgencyNamesSelector(state)).toEqualImmutable(fromJS({
-        DISTRICT_ATTORNEY: 'District attorney - County A Agency',
-        LAW_ENFORCEMENT: 'Law enforcement - County B Agency',
-        COMMUNITY_CARE_LICENSING: 'Community care licensing - County C Agency',
-        COUNTY_LICENSING: 'County licensing - County D Agency',
+        DISTRICT_ATTORNEY: 'District Attorney - County A Agency',
+        LAW_ENFORCEMENT: 'Law Enforcement - County B Agency',
+        COMMUNITY_CARE_LICENSING: 'Community Care Licensing - County C Agency',
+        COUNTY_LICENSING: 'County Licensing - County D Agency',
       }))
     })
     it('returns type when only type is there', () => {
@@ -254,10 +254,10 @@ describe('crossReportShowSelectors', () => {
       }]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
       expect(getSelectedCrossReportAgencyNamesSelector(state)).toEqualImmutable(fromJS({
-        DISTRICT_ATTORNEY: 'District attorney - County A Agency',
-        LAW_ENFORCEMENT: 'Law enforcement - County B Agency',
-        COMMUNITY_CARE_LICENSING: 'Community care licensing',
-        COUNTY_LICENSING: 'County licensing',
+        DISTRICT_ATTORNEY: 'District Attorney - County A Agency',
+        LAW_ENFORCEMENT: 'Law Enforcement - County B Agency',
+        COMMUNITY_CARE_LICENSING: 'Community Care Licensing',
+        COUNTY_LICENSING: 'County Licensing',
       }))
     })
     it('returns id when both are present but not in agencyCodeToName map', () => {
@@ -275,10 +275,10 @@ describe('crossReportShowSelectors', () => {
       }]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
       expect(getSelectedCrossReportAgencyNamesSelector(state)).toEqualImmutable(fromJS({
-        DISTRICT_ATTORNEY: 'District attorney - A324ad',
-        LAW_ENFORCEMENT: 'Law enforcement - A325ad',
-        COMMUNITY_CARE_LICENSING: 'Community care licensing - County C Agency',
-        COUNTY_LICENSING: 'County licensing - County D Agency',
+        DISTRICT_ATTORNEY: 'District Attorney - A324ad',
+        LAW_ENFORCEMENT: 'Law Enforcement - A325ad',
+        COMMUNITY_CARE_LICENSING: 'Community Care Licensing - County C Agency',
+        COUNTY_LICENSING: 'County Licensing - County D Agency',
       }))
     })
   })

@@ -4,10 +4,10 @@ export const DISTRICT_ATTORNEY = 'DISTRICT_ATTORNEY'
 export const LAW_ENFORCEMENT = 'LAW_ENFORCEMENT'
 
 export const AGENCY_TYPES = Object.freeze({
-  [DISTRICT_ATTORNEY]: 'District attorney',
-  [LAW_ENFORCEMENT]: 'Law enforcement',
-  [COUNTY_LICENSING]: 'County licensing',
-  [COMMUNITY_CARE_LICENSING]: 'Community care licensing',
+  [DISTRICT_ATTORNEY]: 'District Attorney',
+  [LAW_ENFORCEMENT]: 'Law Enforcement',
+  [COUNTY_LICENSING]: 'County Licensing',
+  [COMMUNITY_CARE_LICENSING]: 'Community Care Licensing',
 })
 
 export const COMMUNICATION_METHODS = Object.freeze([

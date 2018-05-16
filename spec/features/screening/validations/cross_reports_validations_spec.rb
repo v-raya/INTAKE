@@ -59,7 +59,7 @@ feature 'Cross Reports Validations' do
           ).and_return(json_body(screening.to_json, status: 201))
         end
         scenario 'shows no error when filled in' do
-          select 'Hoverment Agency', from: 'County licensing agency name'
+          select 'Hoverment Agency', from: 'County Licensing Agency Name'
           blur_field
           should_not_have_content error_message, inside: '#cross-report-card .card-body'
           save_card('cross-report')
