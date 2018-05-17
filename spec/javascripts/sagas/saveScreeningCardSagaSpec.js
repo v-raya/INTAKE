@@ -48,7 +48,7 @@ describe('saveScreeningCard', () => {
       select(getScreeningWithAllegationsEditsSelector)
     )
     expect(gen.next(screening).value).toEqual(
-      call(Utils.put, '/api/v1/screenings/123', screening.toJS())
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
     expect(gen.next(screening).value).toEqual(
       put(saveSuccess(screening))
@@ -64,7 +64,7 @@ describe('saveScreeningCard', () => {
       select(getScreeningWithScreeningInformationEditsSelector)
     )
     expect(gen.next(screening).value).toEqual(
-      call(Utils.put, '/api/v1/screenings/123', screening.toJS())
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
     expect(gen.next(screening).value).toEqual(
       put(saveSuccess(screening))
@@ -80,7 +80,7 @@ describe('saveScreeningCard', () => {
       select(getScreeningWithNarrativeEditsSelector)
     )
     expect(gen.next(screening).value).toEqual(
-      call(Utils.put, '/api/v1/screenings/123', screening.toJS())
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
     expect(gen.next(screening).value).toEqual(
       put(saveSuccess(screening))
@@ -96,7 +96,7 @@ describe('saveScreeningCard', () => {
       select(getScreeningWithIncidentInformationEditsSelector)
     )
     expect(gen.next(screening).value).toEqual(
-      call(Utils.put, '/api/v1/screenings/123', screening.toJS())
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
     expect(gen.next(screening).value).toEqual(
       put(saveSuccess(screening))
@@ -112,7 +112,7 @@ describe('saveScreeningCard', () => {
       select(getScreeningWithWorkerSafetyEditsSelector)
     )
     expect(gen.next(screening).value).toEqual(
-      call(Utils.put, '/api/v1/screenings/123', screening.toJS())
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
     expect(gen.next(screening).value).toEqual(
       put(saveSuccess(screening))
@@ -128,7 +128,7 @@ describe('saveScreeningCard', () => {
       select(getScreeningWithCrossReportEditsSelector)
     )
     expect(gen.next(screening).value).toEqual(
-      call(Utils.put, '/api/v1/screenings/123', screening.toJS())
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
     expect(gen.next(screening).value).toEqual(
       put(saveSuccess(screening))
@@ -144,7 +144,7 @@ describe('saveScreeningCard', () => {
       select(getScreeningWithDecisionEditsSelector)
     )
     expect(gen.next(screening).value).toEqual(
-      call(Utils.put, '/api/v1/screenings/123', screening.toJS())
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
     expect(gen.next(screening).value).toEqual(
       put(saveSuccess(screening))
@@ -160,7 +160,7 @@ describe('saveScreeningCard', () => {
       select(getScreeningWithAllegationsEditsSelector)
     )
     expect(gen.next(screening).value).toEqual(
-      call(Utils.put, '/api/v1/screenings/123', screening.toJS())
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
     const error = {responseJSON: 'some error'}
     expect(gen.throw(error).value).toEqual(

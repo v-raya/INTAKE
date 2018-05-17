@@ -63,7 +63,7 @@ export function* saveScreeningCard({payload: {card}}) {
     }
     const id = screening.get('id')
     const path = `/api/v1/screenings/${id}`
-    const response = yield call(api.put, path, screening.toJS())
+    const response = yield call(api.put, path, {screening: screening.toJS()})
     yield put(saveSuccess(response))
   } catch (error) {
     yield put(saveFailure(error))

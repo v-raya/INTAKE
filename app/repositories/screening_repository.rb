@@ -23,14 +23,14 @@ class ScreeningRepository
   end
 
   def self.update(security_token, screening)
-    raise 'Error updating screening: id is required' unless screening.id
-    response = IntakeAPI.make_api_call(
+    raise 'Error updating screening: id is required' unless screening[:id]
+    response = FerbAPI.make_api_call(
       security_token,
-      ExternalRoutes.intake_api_screening_path(screening.id),
+      FerbRoutes.intake_screening_path(screening[:id]),
       :put,
-      screening.as_json.except('id')
+      screening
     )
-    Screening.new(response.body)
+    response.body.as_json
   end
 
   def self.search(security_token)
