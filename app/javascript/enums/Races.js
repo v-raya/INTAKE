@@ -8,7 +8,6 @@ export const RACE_DETAILS = {
     'Romanian',
   ],
   'Black or African American': [
-    'Black',
     'Ethiopian',
     'Caribbean',
   ],
