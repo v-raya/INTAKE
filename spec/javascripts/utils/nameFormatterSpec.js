@@ -90,7 +90,7 @@ describe('formatHighlightedSuffix', () => {
   })
 
   it('should be falsy for invalid suffixes', () => {
-    expect(Boolean(formatHighlightedSuffix('OFM'))).toEqual(false)
+    expect(Boolean(formatHighlightedSuffix('OF'))).toEqual(false)
     expect(Boolean(formatHighlightedSuffix('Primate of Italy'))).toEqual(false)
     expect(Boolean(formatHighlightedSuffix(null))).toEqual(false)
     expect(Boolean(formatHighlightedSuffix(3))).toEqual(false)
@@ -226,6 +226,14 @@ describe('nameFormatter', () => {
         last_name: 'Preston',
         name_suffix: '4',
       })).toEqual('Bill S. Preston IV')
+    })
+    it('returns empty for suffix name is undefined', () => {
+      expect(nameFormatter({
+        first_name: 'Bill',
+        middle_name: 'S.',
+        last_name: 'Preston',
+        name_suffix: undefined,
+      })).toEqual('Bill S. Preston')
     })
   })
 
