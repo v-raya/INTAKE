@@ -60,8 +60,7 @@ module Api
       end
 
       def index
-        screenings = ScreeningRepository.search(session[:security_token])
-        render json: screenings
+        render json: ScreeningRepository.search(session[:security_token])
       end
 
       def history_of_involvements
