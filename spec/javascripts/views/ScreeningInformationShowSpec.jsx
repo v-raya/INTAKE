@@ -6,12 +6,13 @@ describe('ScreeningInformationShow', () => {
   function renderScreeningInformationShow({
     name,
     assignee,
+    report_type,
     communication_method,
     started_at,
     ended_at,
     errors = {},
   }) {
-    const props = {name, assignee, communication_method, started_at, ended_at, errors}
+    const props = {name, assignee, report_type, communication_method, started_at, ended_at, errors}
     return shallow(<ScreeningInformationShow {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -51,6 +52,13 @@ describe('ScreeningInformationShow', () => {
       name: 'a sample screening name',
     }).find('ShowField[label="Title/Name of Screening"]')
     expect(screeningName.html()).toContain('a sample screening name')
+  })
+
+  it('renders the report type', () => {
+    const reportType = renderScreeningInformationShow({
+      report_type: 'Safely Surrendered Baby',
+    }).find('ShowField[label="Report Type"]')
+    expect(reportType.html()).toContain('Safely Surrendered Baby')
   })
 
   it('renders the screening start date/time', () => {
