@@ -34,7 +34,7 @@ describe('screeningInformationFormReducer', () => {
           },
           report_type: {
             value: 'a report type',
-            touched: false
+            touched: false,
           },
           started_at: {
             value: 'a start date time',
@@ -63,7 +63,7 @@ describe('screeningInformationFormReducer', () => {
         },
         report_type: {
           value: 'a report type',
-          touch: false
+          touch: false,
         },
         started_at: {
           value: 'a start date time',

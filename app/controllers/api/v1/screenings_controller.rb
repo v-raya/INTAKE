@@ -17,6 +17,7 @@ module Api
         :name,
         :reference,
         :report_narrative,
+        :report_type,
         :safety_information,
         :screening_decision,
         :screening_decision_detail,
