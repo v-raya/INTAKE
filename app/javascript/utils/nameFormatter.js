@@ -15,6 +15,7 @@ export const formatHighlightedSuffix = (highlightedSuffix) => {
 
   const suffix = highlightedSuffix.replace(/<\/?em>/gi, '')
   const formattedSuffix = formatNameSuffix(suffix)
+  if (!formattedSuffix) { return formattedSuffix }
   const rehighlightedSuffix = suffix === highlightedSuffix ?
     formattedSuffix : `<em>${formattedSuffix}</em>`
 

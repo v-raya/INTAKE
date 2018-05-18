@@ -287,6 +287,38 @@ describe('peopleSearchSelectors', () => {
         expect(peopleResults.getIn([0, 'dateOfBirth'])).toEqual('<em>1990-02-13</em>')
       })
 
+      it('should use exact highlighted and suffixes should return empty for invalid suffixes', () => {
+        const peopleSearch = personWithHighlights({
+          first_name: ['<em>Bar</em>t'],
+          last_name: ['Sim<em>pson</em>'],
+          name_suffix: ['<em>cccv</em>'],
+          ssn: ['<em>123456789</em>'],
+          searchable_date_of_birth: ['<em>1990</em>'],
+          autocomplete_search_bar: [
+            '<em>Bar</em>t',
+            'Sim<em>pson</em>',
+            '<em>123456789</em>',
+            '<em>1990</em>',
+            '<em>cccv</em>',
+          ],
+        })
+
+        const state = fromJS({
+          languages: languageLovs,
+          ethnicityTypes: ethnicityTypeLovs,
+          raceTypes: raceTypeLovs,
+          unableToDetermineCodes,
+          hispanicOriginCodes,
+          usStates,
+          peopleSearch,
+          addressTypes,
+        })
+        const peopleResults = getPeopleResultsSelector(state)
+        expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
+        expect(peopleResults.getIn([0, 'ssn'])).toEqual('<em>123-45-6789</em>')
+        expect(peopleResults.getIn([0, 'dateOfBirth'])).toEqual('<em>1990-02-13</em>')
+      })
+
       it('should check autocomplete_search_bar if no exact first_name', () => {
         const peopleSearch = personWithHighlights({
           // first_name: (no exact first name)
