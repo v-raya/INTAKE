@@ -62,7 +62,7 @@ export default createReducer(Map(), {
     if (error) {
       return state
     } else {
-      return state.set('allegations', fromJS(allegations))
+      return state.set('allegations', buildFerbAllegations(allegations))
     }
   },
 })

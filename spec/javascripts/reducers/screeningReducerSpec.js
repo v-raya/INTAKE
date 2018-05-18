@@ -98,13 +98,32 @@ describe('screeningReducer', () => {
 
   describe('on FETCH_SCREENING_ALLEGATIONS_COMPLETE', () => {
     it('returns the screening with updated allegations on success', () => {
-      const screening = {id: 1, screening_decision: 'promote_to_referral', allegations: [{id: 1}]}
-      const allegations = [{id: 2}]
+      const screening = {
+        id: 1,
+        screening_decision: 'promote_to_referral',
+        allegations: [{
+          id: 1,
+          victim_person_id: 123,
+          perpetrator_person_id: 456,
+          types: [],
+        }],
+      }
+      const allegations = [{
+        id: 2,
+        victim_person_id: 111,
+        perpetrator_person_id: 222,
+        types: ['General Neglect'],
+      }]
       const action = fetchAllegationsSuccess(allegations)
       expect(screeningReducer(fromJS(screening), action)).toEqualImmutable(fromJS({
         id: 1,
         screening_decision: 'promote_to_referral',
-        allegations: [{id: 2}],
+        allegations: [{
+          id: '2',
+          victim_id: '111',
+          perpetrator_id: '222',
+          allegation_types: ['General Neglect'],
+        }],
       }))
     })
 
