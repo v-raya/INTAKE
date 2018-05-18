@@ -15,6 +15,7 @@ export default createReducer(Map(), {
     const {
       name,
       assignee,
+      report_type,
       started_at,
       ended_at,
       communication_method,
@@ -22,14 +23,16 @@ export default createReducer(Map(), {
     return fromJS({
       name: untouched(name),
       assignee: untouched(assignee),
+      report_type: untouched(report_type),
       started_at: untouched(started_at),
       ended_at: untouched(ended_at),
       communication_method: untouched(communication_method),
     })
   },
-  [RESET_SCREENING_INFORMATION_FORM_FIELD_VALUES](state, {payload: {name, assignee, started_at, ended_at, communication_method}}) {
+  [RESET_SCREENING_INFORMATION_FORM_FIELD_VALUES](state, {payload: {name, assignee, report_type, started_at, ended_at, communication_method}}) {
     return state.setIn(['name', 'value'], name)
       .setIn(['assignee', 'value'], assignee)
+      .setIn(['report_type', 'value'], report_type)
       .setIn(['started_at', 'value'], started_at)
       .setIn(['ended_at', 'value'], ended_at)
       .setIn(['communication_method', 'value'], communication_method)
@@ -43,6 +46,7 @@ export default createReducer(Map(), {
   [TOUCH_ALL_SCREENING_INFORMATION_FORM_FIELDS](state, _) {
     return state.setIn(['name', 'touched'], true)
       .setIn(['assignee', 'touched'], true)
+      .setIn(['report_type', 'touched'], true)
       .setIn(['started_at', 'touched'], true)
       .setIn(['ended_at', 'touched'], true)
       .setIn(['communication_method', 'touched'], true)

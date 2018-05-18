@@ -2,10 +2,10 @@ export const RESET_SCREENING_INFORMATION_FORM_FIELD_VALUES = 'RESET_SCREENING_IN
 export const SET_SCREENING_INFORMATION_FORM_FIELD = 'SET_SCREENING_INFORMATION_FORM_FIELD'
 export const TOUCH_SCREENING_INFORMATION_FORM_FIELD = 'TOUCH_SCREENING_INFORMATION_FORM_FIELD'
 export const TOUCH_ALL_SCREENING_INFORMATION_FORM_FIELDS = 'TOUCH_ALL_SCREENING_INFORMATION_FORM_FIELDS'
-export function resetFieldValues({name, assignee, started_at, ended_at, communication_method}) {
+export function resetFieldValues({name, assignee, report_type, started_at, ended_at, communication_method}) {
   return {
     type: RESET_SCREENING_INFORMATION_FORM_FIELD_VALUES,
-    payload: {name, assignee, started_at, ended_at, communication_method},
+    payload: {name, assignee, report_type, started_at, ended_at, communication_method},
   }
 }
 export function setField(field, value) {

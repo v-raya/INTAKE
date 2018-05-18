@@ -17,6 +17,7 @@ describe('screeningInformationFormReducer', () => {
       const action = fetchScreeningSuccess({
         name: 'a sample screening name',
         assignee: 'a screening assignee',
+        report_type: 'a report type',
         started_at: 'a start date time',
         ended_at: 'an end date time',
         communication_method: 'a communication method',
@@ -30,6 +31,10 @@ describe('screeningInformationFormReducer', () => {
           assignee: {
             value: 'a screening assignee',
             touched: false,
+          },
+          report_type: {
+            value: 'a report type',
+            touched: false
           },
           started_at: {
             value: 'a start date time',
@@ -56,6 +61,10 @@ describe('screeningInformationFormReducer', () => {
           value: 'a screening assignee',
           touched: false,
         },
+        report_type: {
+          value: 'a report type',
+          touch: false
+        },
         started_at: {
           value: 'a start date time',
           touched: false,
@@ -72,6 +81,7 @@ describe('screeningInformationFormReducer', () => {
       const action = fetchScreeningFailure({
         name: '',
         assignee: '',
+        report_type: '',
         started_at: '',
         ended_at: '',
         communication_method: '',
@@ -91,6 +101,10 @@ describe('screeningInformationFormReducer', () => {
         value: 'the old screening assignee',
         touched: false,
       },
+      report_type: {
+        value: 'the old report type',
+        touched: true,
+      },
       started_at: {
         value: 'the old start date time',
         touched: true,
@@ -107,6 +121,7 @@ describe('screeningInformationFormReducer', () => {
     const action = resetFieldValues({
       name: 'a new screening name',
       assignee: 'a new screening assignee',
+      report_type: 'a new report type',
       started_at: 'a new start date time',
       ended_at: 'a new end date time',
       communication_method: 'a new communication method',
@@ -122,6 +137,10 @@ describe('screeningInformationFormReducer', () => {
           assignee: {
             value: 'a new screening assignee',
             touched: false,
+          },
+          report_type: {
+            value: 'a new report type',
+            touched: true,
           },
           started_at: {
             value: 'a new start date time',
@@ -199,6 +218,10 @@ describe('screeningInformationFormReducer', () => {
         value: 'a screening assignee',
         touched: false,
       },
+      report_type: {
+        value: 'a report type',
+        touched: false,
+      },
       started_at: {
         value: 'a start date time',
         touched: false,
@@ -221,6 +244,10 @@ describe('screeningInformationFormReducer', () => {
           },
           assignee: {
             value: 'a screening assignee',
+            touched: true,
+          },
+          report_type: {
+            value: 'a report type',
             touched: true,
           },
           started_at: {

@@ -13,11 +13,13 @@ export const getScreeningWithEditsSelector = createSelector(
   getScreeningSelector,
   (state) => state.getIn(['screeningInformationForm', 'name', 'value']),
   (state) => state.getIn(['screeningInformationForm', 'assignee', 'value']),
+  (state) => state.getIn(['screeningInformationForm', 'report_type', 'value']),
   (state) => state.getIn(['screeningInformationForm', 'communication_method', 'value']),
   (state) => state.getIn(['screeningInformationForm', 'started_at', 'value']),
   (state) => state.getIn(['screeningInformationForm', 'ended_at', 'value']),
-  (screening, name, assignee, communicationMethod, startedAt, endedAt) => screening.set('name', name)
+  (screening, name, assignee, reportType, communicationMethod, startedAt, endedAt) => screening.set('name', name)
     .set('assignee', assignee)
+    .set('report_type', reportType)
     .set('communication_method', communicationMethod)
     .set('started_at', startedAt)
     .set('ended_at', endedAt)
