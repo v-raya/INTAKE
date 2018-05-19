@@ -20,8 +20,9 @@ describe('SafelySurrenderedBabyShow', () => {
     })
   })
 
-  it('renders hello', () => {
-    expect(root.html()).toContain('<div>hello</div>')
+  it('renders a grouping header', () => {
+    const header = root.find('GrouperHeading')
+    expect(header.props().text).toEqual('Safely Surrendered Baby Information')
   })
 
   describe('body', () => {

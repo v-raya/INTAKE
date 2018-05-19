@@ -78,6 +78,14 @@ h4 {
   margin-top: 0;
 }
 
+h4.grouper {
+  border-bottom: solid 1px $grouper;
+  font-size: $base-font;
+  line-height: 1.4;
+  margin-bottom: 0;
+  margin-top: 4rem;
+}
+
 pre {
   background-color: $darkest-grey;
   border: 0;

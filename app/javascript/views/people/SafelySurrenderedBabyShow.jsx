@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import GrouperHeading from 'common/GrouperHeading'
 import ShowField from 'common/ShowField'
 
 const SafelySurrenderedBabyShow = ({
@@ -12,7 +13,7 @@ const SafelySurrenderedBabyShow = ({
   surrenderedBy,
 }) => (
   <div>
-    <div>hello</div>
+    <GrouperHeading text='Safely Surrendered Baby Information' />
     <div className='row'>
       <ShowField
         label='Surrendered By'
