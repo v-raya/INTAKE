@@ -21,17 +21,6 @@ export const buildFerbAllegations = (allegations) => (
   )
 )
 
-const buildApiAllegations = (allegations) => (
-  fromJS(
-    allegations.map((allegation) => ({
-      id: allegation.id.toString(),
-      victimId: allegation.victim_id.toString(),
-      perpetratorId: allegation.perpetrator_id.toString(),
-      allegationTypes: allegation.allegation_types,
-    }))
-  )
-)
-
 export default createReducer(List(), {
   [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
     if (error) {
@@ -58,7 +47,7 @@ export default createReducer(List(), {
     }
   },
   [RESET_ALLEGATIONS_FORM](_state, {payload: {allegations}}) {
-    return buildApiAllegations(allegations)
+    return buildFerbAllegations(allegations)
   },
   [DELETE_PERSON_COMPLETE](state, {payload: {id}, error}) {
     if (error) {

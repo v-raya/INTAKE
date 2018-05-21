@@ -119,10 +119,10 @@ describe('screeningReducer', () => {
         id: 1,
         screening_decision: 'promote_to_referral',
         allegations: [{
-          id: '2',
-          victim_id: '111',
-          perpetrator_id: '222',
-          allegation_types: ['General Neglect'],
+          id: 2,
+          victim_person_id: 111,
+          perpetrator_person_id: 222,
+          types: ['General Neglect'],
         }],
       }))
     })
