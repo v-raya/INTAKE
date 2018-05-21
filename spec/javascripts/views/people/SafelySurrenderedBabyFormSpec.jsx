@@ -54,9 +54,9 @@ describe('SafeleySurrenderedBabyForm', () => {
     })
 
     it('renders Comments', () => {
-      const props = body.find('InputField[label="Comments"]').props()
-      expect(props.gridClassName).toEqual('col-md-12')
-      expect(props.value).toEqual('Yer a wizard, Harry!')
+      const formfield = body.find('FormField[label="Comments"]')
+      expect(formfield.props().gridClassName).toEqual('col-md-12')
+      expect(formfield.childAt(0).props().value).toEqual('Yer a wizard, Harry!')
     })
 
     it('renders Parent/Guardian Given Bracelet ID', () => {

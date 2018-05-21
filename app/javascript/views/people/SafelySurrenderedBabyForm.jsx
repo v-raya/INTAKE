@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import DateField from 'common/DateField'
+import FormField from 'common/FormField'
 import GrouperHeading from 'common/GrouperHeading'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
@@ -42,13 +43,20 @@ const SafelySurrenderedBabyForm = ({
         value={braceletId}
         onChange={() => {}}
       />
-      <InputField
+      <FormField
         gridClassName='col-md-12'
-        id='comments'
+        htmlFor='ssb-comments'
         label='Comments'
-        value={comments}
-        onChange={() => {}}
-      />
+        required
+      >
+        <textarea
+          id='ssb-comments'
+          onChange={() => {}}
+          onBlur={() => {}}
+          required
+          value={comments}
+        />
+      </FormField>
       <SelectField
         gridClassName='col-md-4'
         id='pg-given-bracelet-id'
