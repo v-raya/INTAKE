@@ -3,6 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
 import {clearPeople, createSnapshotPerson} from 'actions/personCardActions'
+import {clear as clearSearch, setSearchTerm} from 'actions/peopleSearchActions'
 import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
 import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
@@ -117,7 +118,7 @@ const mapStateToProps = (state) => ({
   participants: state.get('participants').toJS(),
 })
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   createSnapshot: () => dispatch(createSnapshot()),
   createSnapshotPerson: (id) => dispatch(createSnapshotPerson(id)),
   startOver: () => {
@@ -125,6 +126,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(clearPeople())
     dispatch(clearHistoryOfInvolvement())
     dispatch(clearRelationships())
+    dispatch(clearSearch())
+    dispatch(setSearchTerm(''))
   },
   unmount: () => {
     dispatch(clearPeople())

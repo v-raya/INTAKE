@@ -1,5 +1,6 @@
 import React from 'react'
-import {SnapshotPage} from 'snapshots/SnapshotPage'
+import {SnapshotPage, mapDispatchToProps} from 'snapshots/SnapshotPage'
+import {clear, setSearchTerm} from 'actions/peopleSearchActions'
 import {shallow} from 'enzyme'
 
 describe('SnapshotPage', () => {
@@ -39,5 +40,19 @@ describe('SnapshotPage', () => {
     const snapshotPage = renderSnapshotPage({unmount})
     snapshotPage.unmount()
     expect(unmount).toHaveBeenCalled()
+  })
+
+  describe('mapDispatchToProps', () => {
+    describe('starting over', () => {
+      it('clears search results', () => {
+        const dispatch = jasmine.createSpy('dispatch')
+        const props = mapDispatchToProps(dispatch)
+
+        props.startOver()
+
+        expect(dispatch).toHaveBeenCalledWith(clear())
+        expect(dispatch).toHaveBeenCalledWith(setSearchTerm(''))
+      })
+    })
   })
 })
