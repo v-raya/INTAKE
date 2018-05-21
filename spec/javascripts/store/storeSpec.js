@@ -48,6 +48,7 @@ describe('Store', () => {
       },
       relationships: [],
       routing: {locationBeforeTransitions: null},
+      safelySurrenderedBaby: null,
       screening: {},
       screeningInformationForm: {},
       screeningDecisionForm: {},
