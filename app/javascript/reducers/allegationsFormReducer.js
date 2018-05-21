@@ -42,9 +42,20 @@ export default createReducer(List(), {
     }
   },
   [SET_ALLEGATION_TYPES](state, {payload: {victimId, perpetratorId, allegationTypes}}) {
-    return state.filterNot((allegation) => (
+    const notFound = -1
+    const allegationIndex = state.findIndex((allegation) => (
       allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
-    )).push(fromJS({id: null, victimId, perpetratorId, allegationTypes}))
+    ))
+    if (allegationIndex === notFound) {
+      return state.push(fromJS({
+        id: null,
+        perpetratorId,
+        victimId,
+        allegationTypes,
+      }))
+    } else {
+      return state.update(allegationIndex, (allegation) => (allegation.set('allegationTypes', List(allegationTypes))))
+    }
   },
   [RESET_ALLEGATIONS_FORM](_state, {payload: {allegations}}) {
     return buildApiAllegations(allegations)
