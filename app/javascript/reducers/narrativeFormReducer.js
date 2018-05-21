@@ -23,7 +23,10 @@ export default createReducer(Map(), {
     }
   },
   [RESET_NARRATIVE_FIELD_VALUES](state, {payload: {screening: {report_narrative}}}) {
-    return state.setIn(['report_narrative', 'value'], report_narrative)
+    return state.set('report_narrative', Map({
+      value: report_narrative,
+      touched: false,
+    }))
   },
   [SET_NARRATIVE_FIELD](state, {payload: {field, value}}) {
     return state.setIn([field, 'value'], value)

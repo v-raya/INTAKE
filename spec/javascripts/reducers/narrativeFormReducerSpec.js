@@ -50,7 +50,7 @@ describe('narrativeFormReducer', () => {
         fromJS({
           report_narrative: {
             value: 'ABC',
-            touched: true,
+            touched: false,
           },
         })
       )
