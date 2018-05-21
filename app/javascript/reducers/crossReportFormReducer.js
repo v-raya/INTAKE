@@ -18,13 +18,15 @@ import {AGENCY_TYPES} from 'enums/CrossReport'
 const buildAgencyInformation = ({agencies}) => {
   const selectedAgencyTypes = agencies.map(({type}) => type)
   const agencyTypeToSelectedAgencyId = agencies.reduce((ids, {type, id}) => ({...ids, [type]: id}), {})
+  const agencyTypeToSelectedAgencyCode = agencies.reduce((codes, {type, code}) => ({...codes, [type]: code}), {})
   return Object.keys(AGENCY_TYPES).reduce((info, type) => ({
     ...info,
     [type]: {
       selected: selectedAgencyTypes.includes(type),
       touched: false,
       agency: {
-        value: agencyTypeToSelectedAgencyId[type] || '',
+        id: agencyTypeToSelectedAgencyId[type],
+        value: agencyTypeToSelectedAgencyCode[type] || '',
         touched: false,
       },
     },

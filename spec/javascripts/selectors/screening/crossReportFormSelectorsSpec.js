@@ -624,8 +624,8 @@ describe('crossReportFormSelectors', () => {
               inform_date: '2017-02-20',
               method: 'Child Abuse Form',
               agencies: [
-                {type: 'DISTRICT_ATTORNEY', id: '1234'},
-                {type: 'LAW_ENFORCEMENT', id: '5234'},
+                {type: 'DISTRICT_ATTORNEY', code: '1234'},
+                {type: 'LAW_ENFORCEMENT', code: '5234'},
               ],
             },
           ],

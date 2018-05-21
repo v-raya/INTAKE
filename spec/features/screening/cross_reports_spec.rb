@@ -27,7 +27,7 @@ feature 'cross reports' do
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -54,15 +54,15 @@ feature 'cross reports' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       ).with(
         body: hash_including(
           'cross_reports' => array_including(
             hash_including(
               'county_id' => 'c42',
               'agencies' => array_including(
-                hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
-                hash_including('id' => 'GPumYGQ00F', 'type' => 'COUNTY_LICENSING')
+                hash_including('code' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
+                hash_including('code' => 'GPumYGQ00F', 'type' => 'COUNTY_LICENSING')
               ),
               'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
@@ -80,8 +80,8 @@ feature 'cross reports' do
     existing_screening[:cross_reports] = [{
       county_id: 'c42',
       agencies: [
-        { id: 'GPumYGQ00F', type: 'COUNTY_LICENSING' },
-        { id: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
+        { code: 'GPumYGQ00F', type: 'COUNTY_LICENSING' },
+        { code: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
       ],
       method: communication_method,
       inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
@@ -90,7 +90,7 @@ feature 'cross reports' do
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -117,15 +117,15 @@ feature 'cross reports' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       ).with(
         body: hash_including(
           'cross_reports' => array_including(
             hash_including(
               'county_id' => 'c40',
               'agencies' => array_including(
-                hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
-                hash_including('id' => '45Hvp7x00F', 'type' => 'DISTRICT_ATTORNEY')
+                hash_including('code' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
+                hash_including('code' => '45Hvp7x00F', 'type' => 'DISTRICT_ATTORNEY')
               ),
               'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
@@ -141,8 +141,8 @@ feature 'cross reports' do
     existing_screening[:cross_reports] = [{
       county_id: 'c42',
       agencies: [
-        { id: 'LsUFj7O00E', type: 'COMMUNITY_CARE_LICENSING' },
-        { id: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
+        { code: 'LsUFj7O00E', type: 'COMMUNITY_CARE_LICENSING' },
+        { code: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
       ],
       method: 'Child Abuse Form',
       inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
@@ -202,7 +202,7 @@ feature 'cross reports' do
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -227,13 +227,13 @@ feature 'cross reports' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       ).with(
         body: hash_including(
           'cross_reports' => array_including(
             hash_including(
               'agencies' => array_including(
-                hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT')
+                hash_including('code' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT')
               ),
               'inform_date' => '2018-05-11T18:10:00.000Z',
               'method' => communication_method
@@ -249,7 +249,7 @@ feature 'cross reports' do
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -279,13 +279,13 @@ feature 'cross reports' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       ).with(
         body: hash_including(
           'cross_reports' => array_including(
             hash_including(
               'agencies' => array_including(
-                hash_including('id' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT')
+                hash_including('code' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT')
               ),
               'inform_date' => nil,
               'method' => nil
@@ -301,7 +301,7 @@ feature 'cross reports' do
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)

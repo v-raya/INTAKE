@@ -15,8 +15,8 @@ describe('crossReportShowSelectors', () => {
     it('returns false if allegations require crossReports but are satisfied', () => {
       const countyAgencies = [{id: 'A324ad', name: 'County Agency'}]
       const crossReports = [{agencies: [
-        {type: 'DISTRICT_ATTORNEY', id: '123'},
-        {type: 'LAW_ENFORCEMENT', id: '124'},
+        {type: 'DISTRICT_ATTORNEY', code: '123'},
+        {type: 'LAW_ENFORCEMENT', code: '124'},
       ]}]
       const allegationsForm = [{
         perpetratorId: '125',
@@ -78,7 +78,7 @@ describe('crossReportShowSelectors', () => {
       const crossReports = [{
         agencies: [
           {type: 'DISTRICT_ATTORNEY'},
-          {type: 'LAW_ENFORCEMENT', id: 'A1234'},
+          {type: 'LAW_ENFORCEMENT', code: 'A1234'},
         ],
       }]
       it('returns an error on missing district attorney and law enforement', () => {
@@ -176,25 +176,25 @@ describe('crossReportShowSelectors', () => {
     })
     it('returns the name and type when all data present', () => {
       const countyAgencies = [{id: 'A324ad', name: 'County Agency'}]
-      const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY', id: 'A324ad'}]}]
+      const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY', code: 'A324ad'}]}]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'District Attorney - County Agency'})
     })
     it('returns agency type and id when county agency does not have a name', () => {
       const countyAgencies = [{id: 'A324ad'}]
-      const crossReports = [{agencies: [{type: 'COUNTY_LICENSING', id: 'A324ad'}]}]
+      const crossReports = [{agencies: [{type: 'COUNTY_LICENSING', code: 'A324ad'}]}]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'County Licensing - A324ad'})
     })
     it('returns agency type and id when county agnecies empty', () => {
       const countyAgencies = [{id: 'B525ad', name: 'Other Agency'}]
-      const crossReports = [{agencies: [{type: 'LAW_ENFORCEMENT', id: 'A324ad'}]}]
+      const crossReports = [{agencies: [{type: 'LAW_ENFORCEMENT', code: 'A324ad'}]}]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'Law Enforcement - A324ad'})
     })
     it('returns only types when no county agencies', () => {
       const countyAgencies = []
-      const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY', id: 'A324ad'}]}]
+      const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY', code: 'A324ad'}]}]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'District Attorney - A324ad'})
     })
@@ -223,10 +223,10 @@ describe('crossReportShowSelectors', () => {
       ]
       const crossReports = [{
         agencies: [
-          {type: 'DISTRICT_ATTORNEY', id: 'A324ad'},
-          {type: 'LAW_ENFORCEMENT', id: 'A325ad'},
-          {type: 'COMMUNITY_CARE_LICENSING', id: 'A326ad'},
-          {type: 'COUNTY_LICENSING', id: 'A327ad'},
+          {type: 'DISTRICT_ATTORNEY', code: 'A324ad'},
+          {type: 'LAW_ENFORCEMENT', code: 'A325ad'},
+          {type: 'COMMUNITY_CARE_LICENSING', code: 'A326ad'},
+          {type: 'COUNTY_LICENSING', code: 'A327ad'},
         ],
       }]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
@@ -246,8 +246,8 @@ describe('crossReportShowSelectors', () => {
       ]
       const crossReports = [{
         agencies: [
-          {type: 'DISTRICT_ATTORNEY', id: 'A324ad'},
-          {type: 'LAW_ENFORCEMENT', id: 'A325ad'},
+          {type: 'DISTRICT_ATTORNEY', code: 'A324ad'},
+          {type: 'LAW_ENFORCEMENT', code: 'A325ad'},
           {type: 'COMMUNITY_CARE_LICENSING'},
           {type: 'COUNTY_LICENSING'},
         ],
@@ -267,10 +267,10 @@ describe('crossReportShowSelectors', () => {
       ]
       const crossReports = [{
         agencies: [
-          {type: 'DISTRICT_ATTORNEY', id: 'A324ad'},
-          {type: 'LAW_ENFORCEMENT', id: 'A325ad'},
-          {type: 'COMMUNITY_CARE_LICENSING', id: 'A326ad'},
-          {type: 'COUNTY_LICENSING', id: 'A327ad'},
+          {type: 'DISTRICT_ATTORNEY', code: 'A324ad'},
+          {type: 'LAW_ENFORCEMENT', code: 'A325ad'},
+          {type: 'COMMUNITY_CARE_LICENSING', code: 'A326ad'},
+          {type: 'COUNTY_LICENSING', code: 'A327ad'},
         ],
       }]
       const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
