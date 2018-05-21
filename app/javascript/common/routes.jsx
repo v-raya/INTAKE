@@ -1,7 +1,7 @@
 import React from 'react'
 import {Router, Route, IndexRoute} from 'react-router'
 import App from 'common/App'
-import HomePage from 'home/HomePage'
+import {default as HomePageContainer} from 'containers/HomePageContainer'
 import ScreeningPage from 'screenings/ScreeningPage'
 import SnapshotPage from 'snapshots/SnapshotPage'
 import ConditionsOfUse from 'views/pages/ConditionsOfUse'
@@ -25,7 +25,7 @@ export default (
   <Provider store={store}>
     <Router history={history} >
       <Route path='/' component={App}>
-        <IndexRoute component={HomePage} />
+        <IndexRoute component={HomePageContainer} />
         {screeningActive && <Route path='screenings/:id' component={ScreeningPage}/>}
         {screeningActive && <Route path='screenings/:id/:mode' component={ScreeningPage} />}
         {snapshotActive && <Route path='snapshot' component={SnapshotPage}/>}
