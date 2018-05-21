@@ -9,6 +9,7 @@ import PersonAddressesContainer from 'containers/screenings/PersonAddressesConta
 import PersonReadOnlyAddressesContainer from 'containers/screenings/PersonReadOnlyAddressesContainer'
 import PersonAddressesFormContainer from 'containers/screenings/PersonAddressesFormContainer'
 import PersonFormContainer from 'containers/screenings/PersonFormContainer'
+import SafelySurrenderedBabyShowContainer from 'containers/screenings/SafelySurrenderedBabyShowContainer'
 import PropTypes from 'prop-types'
 import React from 'react'
 import PersonCSECFormContainer from '../containers/screenings/PersonCSECFormContainer'
@@ -33,6 +34,7 @@ const PersonCardView = ({personId}) => (
         <PersonShowContainer personId={personId} />
         <PersonPhoneNumbersContainer personId={personId} />
         <PersonAddressesContainer personId={personId} />
+        <SafelySurrenderedBabyShowContainer personId={personId} />
       </div>
     }
   />
