@@ -14,7 +14,7 @@ import moment from 'moment'
 describe('incidentInformationFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  const emptyState = fromJS({address: {}})
+  const emptyState = fromJS({incident_address: {}})
 
   describe('getIncidentDateSelector', () => {
     it('return an incident date or empty string if there is no incident date', () => {
@@ -51,7 +51,8 @@ describe('incidentInformationFormSelectors', () => {
   describe('getAddressSelector', () => {
     it('return address properties or an object with empty string if there is no address', () => {
       const incidentInformationForm = {
-        address: {
+        incident_address: {
+          id: '1',
           city: {
             value: 'Sacramento',
           },
@@ -68,15 +69,17 @@ describe('incidentInformationFormSelectors', () => {
       }
       const state = fromJS({incidentInformationForm})
       expect(getAddressSelector(state)).toEqualImmutable(fromJS({
+        id: '1',
         city: 'Sacramento',
         streetAddress: '1234 C Street',
         state: 'CA',
         zip: '98765',
       }))
       expect(getAddressSelector(emptyState)).toEqualImmutable(fromJS({
+        id: undefined,
         city: '',
         streetAddress: '',
-        state: undefined,
+        state: '',
         zip: '',
       }))
     })
@@ -100,7 +103,8 @@ describe('incidentInformationFormSelectors', () => {
       const screening = {
         incident_date: '1/2/2009',
         incident_county: 'old county',
-        address: {
+        incident_address: {
+          id: '1',
           street_address: 'old address',
           city: 'old city',
           state: 'old state',
@@ -115,7 +119,8 @@ describe('incidentInformationFormSelectors', () => {
         incident_county: {
           value: 'new county',
         },
-        address: {
+        incident_address: {
+          id: '1',
           street_address: {
             value: 'new address',
           },
@@ -137,7 +142,8 @@ describe('incidentInformationFormSelectors', () => {
       expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
         incident_date: '1/3/2009',
         incident_county: 'new county',
-        address: {
+        incident_address: {
+          id: '1',
           street_address: 'new address',
           city: 'new city',
           state: 'new state',
@@ -147,11 +153,11 @@ describe('incidentInformationFormSelectors', () => {
       }))
     })
 
-    it('returns the screening with null address', () => {
+    it('returns the screening with empty address', () => {
       const screening = {
         incident_date: '1/2/2009',
         incident_county: 'old county',
-        address: null,
+        incident_address: {},
         location_type: 'old location type',
       }
       const incidentInformationForm = {
@@ -161,7 +167,7 @@ describe('incidentInformationFormSelectors', () => {
         incident_county: {
           value: 'new county',
         },
-        address: null,
+        incident_address: {},
         location_type: {
           value: 'new location type',
         },

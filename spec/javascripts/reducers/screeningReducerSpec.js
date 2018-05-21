@@ -59,7 +59,7 @@ describe('screeningReducer', () => {
           id: '1',
           incident_date: null,
           incident_county: null,
-          address: {street_address: undefined, city: undefined, state: undefined, zip: undefined},
+          incident_address: {},
           location_type: null,
           allegations: [],
           fetch_status: 'FETCHED',
