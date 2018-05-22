@@ -38,6 +38,8 @@ describe PersonSearchRepository do
         'addresses.zip',
         'addresses.type',
         'addresses.legacy_descriptor',
+        'addresses.phone_numbers.number',
+        'addresses.phone_numbers.type',
         'phone_numbers.id',
         'phone_numbers.number',
         'phone_numbers.type',

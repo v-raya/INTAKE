@@ -7,6 +7,7 @@ import {
   mapEthnicities,
   mapIsSensitive,
   mapIsSealed,
+  mapPhoneNumber,
   mapAddress,
 } from 'utils/peopleSearchHelper'
 import {RESIDENCE_TYPE} from 'enums/AddressType'
@@ -65,6 +66,7 @@ describe('peopleSearchHelper', () => {
           state: {id: '1828'},
           state_code: 'CA',
           zip_4: '1111',
+          phone_numbers: [{number: '9660007290'}],
         }],
         gender: 'male',
         languages: [{
@@ -135,7 +137,6 @@ describe('peopleSearchHelper', () => {
       fromJS(participant).forEach((value, key) =>
         expect(result.get(key)).toEqualImmutable(value)
       )
-
       expect(result).toEqualImmutable(fromJS(participant))
     })
   })
@@ -189,6 +190,61 @@ describe('peopleSearchHelper', () => {
       })
       const sensitiveResult = mapIsSealed(result)
       expect(sensitiveResult).toEqual(false)
+    })
+  })
+
+  describe('mapPhoneNumber', () => {
+    it('returns phone numbers', () => {
+      const result = fromJS({
+        addresses: [{
+          id: 'TSWY42i0V4',
+          city: 'Sacramento',
+          state: {
+            id: '1828',
+            description: 'California',
+          },
+          state_code: 'CA',
+          state_name: 'California',
+          county: {
+            id: '1101',
+            description: 'Sacramento',
+          },
+          zip: null,
+          type: {
+            id: '32',
+            description: 'Residence',
+          },
+          street_number: '10',
+          street_name: 'Main St',
+          active: 'true',
+          legacy_descriptor: {
+            legacy_id: 'TSWY42i0V4',
+            legacy_ui_id: '1673-3395-1268-0001926',
+            legacy_last_updated: '2004-11-16T17:25:53.407-0800',
+            legacy_table_name: 'PLC_HM_T',
+            legacy_table_description: 'Placement Home',
+          },
+          phone_numbers: [
+            {
+              number: '9200002665',
+              type: 'Home',
+            },
+            {
+              number: '9230003403',
+              type: 'Work',
+            },
+            {
+              number: '8720007345',
+              type: 'Cell',
+            },
+          ],
+        }],
+      })
+      expect(mapPhoneNumber(result)).toEqualImmutable(fromJS([
+        {number: '9200002665', type: 'Home'},
+        {number: '9230003403', type: 'Work'},
+        {number: '8720007345', type: 'Cell'},
+      ]))
     })
   })
 

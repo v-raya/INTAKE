@@ -80,6 +80,13 @@ export const mapAddress = (state, result) => buildSelector(
   }
 )(state)
 
+export const mapPhoneNumber = (result) => {
+  const address = (result.get('addresses') || List()).first()
+  if (address === undefined) { return null }
+  if (address.getIn(['type', 'id']) !== RESIDENCE_TYPE) { return null }
+  return address.get('phone_numbers')
+}
+
 export const mapDoraPersonToParticipant = (state, person) => Map({
   date_of_birth: person.get('date_of_birth'),
   approximate_age: null,
@@ -91,7 +98,7 @@ export const mapDoraPersonToParticipant = (state, person) => Map({
   ssn: person.get('ssn'),
   sealed: mapIsSealed(person),
   sensitive: mapIsSensitive(person),
-  phone_numbers: person.get('phone_numbers'),
+  phone_numbers: mapPhoneNumber(person) || List(),
   name_suffix: person.get('name_suffix'),
   addresses: List([(mapAddress(state, person) || Map())
     .mapKeys((k) => (k === 'streetAddress' ? 'street_address' : k))]),

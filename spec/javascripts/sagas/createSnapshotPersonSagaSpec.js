@@ -46,6 +46,7 @@ describe('createSnapshotPerson', () => {
       state: {id: '1828'},
       state_code: 'CA',
       zip_4: '1111',
+      phone_numbers: [{number: '9660007290'}],
     }],
     gender: 'male',
     languages: [{
