@@ -235,6 +235,12 @@ class AddressSearchResultBuilder
     address[:type] = yield
   end
 
+  def with_phone_number(phone_number)
+    address[:phone_numbers] = [
+      phone_number
+    ]
+  end
+
   attr_reader :address
 end
 

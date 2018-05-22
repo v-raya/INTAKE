@@ -39,6 +39,19 @@ feature 'Adding and removing a person from a snapshot' do
             builder.with_legacy_descriptor(person.legacy_descriptor)
             builder.with_last_name(person.last_name)
             builder.with_phone_number(person.phone_numbers.first)
+            builder.with_addresses do
+              [
+                AddressSearchResultBuilder.build do |address|
+                  address.with_state_code(person.addresses[0].state)
+                  address.with_city(person.addresses[0].city)
+                  address.with_zip(person.addresses[0].zip)
+                  address.with_type do
+                    AddressTypeSearchResultBuilder.build('Home')
+                  end
+                  address.with_phone_number(person.phone_numbers.first)
+                end
+              ]
+            end
             builder.with_gender(person.gender)
             builder.with_date_of_birth(person.date_of_birth)
             builder.with_ssn(person.ssn)
