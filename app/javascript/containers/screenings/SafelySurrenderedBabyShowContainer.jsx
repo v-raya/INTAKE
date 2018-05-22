@@ -7,16 +7,10 @@ export const SafelySurrenderedBabyShowContainer = ({safelySurrenderedBaby}) =>
   safelySurrenderedBaby &&
     <SafelySurrenderedBabyShow {...safelySurrenderedBaby} />
 
+const jsOrNull = (map) => (map ? map.toJS() : null)
+
 export const mapStateToProps = (state, ownProps) => ({
-  safelySurrenderedBaby: getSafelySurrenderedBaby(state, ownProps.personId) ? {
-    surrenderedBy: 'Hagrid',
-    relationToChild: 'Groundskeeper',
-    braceletId: 'Lightning',
-    parentGuardGivenBraceletId: true,
-    parentGuardProvMedicalQuestionaire: false,
-    comments: 'Yer a wizard, Harry!',
-    medQuestionaireReturnDate: '2001-11-14',
-  } : null,
+  safelySurrenderedBaby: jsOrNull(getSafelySurrenderedBaby(state, ownProps.personId)),
 })
 
 export default connect(mapStateToProps)(SafelySurrenderedBabyShowContainer)
