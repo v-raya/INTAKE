@@ -337,6 +337,26 @@ describe('personShowSelectors', () => {
     })
   })
   describe('getErrorsSelector', () => {
+    describe('zip', () => {
+      it('must be 5 digits long', () => {
+        const people = [{id: 'one', addresses: [{zip: '1234'}]}]
+        const state = fromJS({participants: people})
+        expect(getErrorsSelector(state, 'one').get('addressZip'))
+          .toBeImmutable(List([['zip code should be 5 digits']]))
+      })
+      it('should return empty when zip is 5 digits', () => {
+        const people = [{id: 'one', addresses: [{zip: '12345'}]}]
+        const state = fromJS({participants: people})
+        expect(getErrorsSelector(state, 'one').get('addressZip'))
+          .toEqualImmutable(List([]))
+      })
+      it('should return empty errors when there is complete address with missing zip', () => {
+        const people = [{id: 'one', addresses: [{zip: null}]}]
+        const state = fromJS({participants: people})
+        expect(getErrorsSelector(state, 'one').get('addressZip'))
+          .toEqualImmutable(List([]))
+      })
+    })
     describe('social security number', () => {
       it('must be 9 digits long', () => {
         const people = [{id: 'one', ssn: '88756123'}]
