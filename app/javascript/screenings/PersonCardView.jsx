@@ -1,4 +1,5 @@
 import PersonCardContainer from 'containers/screenings/PersonCardContainer'
+import PersonCSECFormContainer from 'containers/screenings/PersonCSECFormContainer'
 import PersonDemographicsFormContainer from 'containers/screenings/PersonDemographicsFormContainer'
 import PersonRaceFormContainer from 'containers/screenings/PersonRaceFormContainer'
 import PersonEthnicityFormContainer from 'containers/screenings/PersonEthnicityFormContainer'
@@ -9,10 +10,10 @@ import PersonAddressesContainer from 'containers/screenings/PersonAddressesConta
 import PersonReadOnlyAddressesContainer from 'containers/screenings/PersonReadOnlyAddressesContainer'
 import PersonAddressesFormContainer from 'containers/screenings/PersonAddressesFormContainer'
 import PersonFormContainer from 'containers/screenings/PersonFormContainer'
+import SafelySurrenderedBabyFormContainer from 'containers/screenings/SafelySurrenderedBabyFormContainer'
 import SafelySurrenderedBabyShowContainer from 'containers/screenings/SafelySurrenderedBabyShowContainer'
 import PropTypes from 'prop-types'
 import React from 'react'
-import PersonCSECFormContainer from '../containers/screenings/PersonCSECFormContainer'
 
 const PersonCardView = ({personId}) => (
   <PersonCardContainer
@@ -27,6 +28,7 @@ const PersonCardView = ({personId}) => (
         <PersonReadOnlyAddressesContainer personId={personId} />
         <PersonAddressesFormContainer personId={personId} />
         <PersonCSECFormContainer personId={personId} />
+        <SafelySurrenderedBabyFormContainer personId={personId} />
       </div>
     }
     show={
