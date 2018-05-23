@@ -16,6 +16,7 @@ feature 'Edit Screening' do
         zip: '20134'
       },
       assignee: 'Bob Loblaw',
+      report_type: 'csec',
       communication_method: 'phone',
       ended_at: '2016-08-13T11:00:00.000Z',
       incident_county: '34',
@@ -63,6 +64,7 @@ feature 'Edit Screening' do
         expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
         expect(page).to have_field('Title/Name of Screening', with: 'Little Shop Of Horrors')
         expect(page).to have_field('Assigned Social Worker', with: 'Bob Loblaw')
+        expect(page).to have_field('Report Type', with: 'csec')
         expect(page).to have_field('Screening Start Date/Time', with: '08/13/2016 3:00 AM')
         expect(page).to have_field('Screening End Date/Time', with: '08/13/2016 4:00 AM')
         expect(page).to have_field('Communication Method', with: 'phone')
@@ -218,6 +220,7 @@ feature 'Edit Screening' do
           zip: '20134'
         },
         assignee: 'Bob Loblaw',
+        report_type: 'ssb',
         communication_method: 'mail',
         ended_at: '2016-08-22T11:00:00.000Z',
         incident_county: 'sacramento',
@@ -299,6 +302,7 @@ feature 'individual card save' do
         type: nil
       },
       assignee: 'Bob Loblaw',
+      report_type: 'csec',
       communication_method: 'phone',
       ended_at: '2016-08-13T11:00:00.000Z',
       incident_county: 'sacramento',

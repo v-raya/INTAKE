@@ -22,6 +22,7 @@ feature 'Show Screening' do
       allegations: [],
       safety_alerts: [],
       assignee: 'Bob Loblaw',
+      report_type: 'csec',
       communication_method: 'mail',
       ended_at: '2016-08-22T11:00:00.000Z',
       incident_county: '34',
@@ -114,6 +115,7 @@ feature 'Show Screening' do
       expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
       expect(page).to have_content 'The Rocky Horror Picture Show'
       expect(page).to have_content 'Bob Loblaw'
+      expect(page).to have_content 'Commercially Sexually Exploited Children (CSEC)'
       expect(page).to have_content '8/13/2016 3:00 AM'
       expect(page).to have_content '8/22/2016 4:00 AM'
       expect(page).to have_content 'Mail'
@@ -200,6 +202,7 @@ feature 'Show Screening' do
           zip: '12345'
         },
         assignee: 'Bob Loblaw',
+        report_type: 'csec',
         communication_method: 'mail',
         ended_at: '2016-08-22T11:00:00.000Z',
         incident_county: '34',

@@ -17,6 +17,8 @@ const ScreeningInformationForm = ({
   onCancel,
   onBlur,
   onChange,
+  reportType,
+  reportTypes,
 }) => (
   <div className='card-body'>
     <div className='row'>
@@ -45,6 +47,17 @@ const ScreeningInformationForm = ({
         onBlur={() => onBlur('assignee')}
         onChange={({target: {value}}) => onChange('assignee', value)}
       />
+      <SelectField
+        gridClassName='col-md-4'
+        id='report_type'
+        label='Report Type'
+        value={reportType}
+        onBlur={() => onBlur('report_type')}
+        onChange={({target: {value}}) => onChange('report_type', value)}
+      >
+        <option key='' />
+        {reportTypes.map(({value, label}) => <option key={value} value={value}>{label}</option>)}
+      </SelectField>
     </div>
     <div className='row'>
       <DateField
@@ -102,6 +115,8 @@ ScreeningInformationForm.propTypes = {
   onCancel: PropTypes.func,
   onChange: PropTypes.func,
   onSave: PropTypes.func,
+  reportType: PropTypes.string,
+  reportTypes: PropTypes.array,
   startedAt: PropTypes.string,
 }
 export default ScreeningInformationForm

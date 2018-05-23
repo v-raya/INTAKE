@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ShowField from 'common/ShowField'
 
-const ScreeningInformationShow = ({name, assignee, started_at, ended_at, communication_method, errors}) => (
+const ScreeningInformationShow = ({name, assignee, report_type, started_at, ended_at, communication_method, errors}) => (
   <div className='card-body'>
     <div className='row'>
       <ShowField gridClassName='col-md-4' label='Title/Name of Screening'>
@@ -10,6 +10,9 @@ const ScreeningInformationShow = ({name, assignee, started_at, ended_at, communi
       </ShowField>
       <ShowField gridClassName='col-md-4' label='Assigned Social Worker' errors={errors.assignee} required>
         {assignee}
+      </ShowField>
+      <ShowField gridClassName='col-md-4' label='Report Type'>
+        {report_type}
       </ShowField>
     </div>
     <div className='row'>
@@ -32,6 +35,7 @@ ScreeningInformationShow.propTypes = {
   ended_at: PropTypes.string,
   errors: PropTypes.object,
   name: PropTypes.string,
+  report_type: PropTypes.string,
   started_at: PropTypes.string,
 }
 

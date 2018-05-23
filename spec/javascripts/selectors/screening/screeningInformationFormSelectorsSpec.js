@@ -14,6 +14,7 @@ describe('screeningInformationFormSelectors', () => {
       const screening = {
         id: 'existing_screening_id',
         name: 'old value',
+        report_type: 'old value',
         started_at: 'old value',
         ended_at: 'old value',
         assignee: 'old value',
@@ -21,6 +22,7 @@ describe('screeningInformationFormSelectors', () => {
       }
       const screeningInformationForm = {
         name: {value: 'an edited name'},
+        report_type: {value: 'an edited report type'},
         started_at: {value: 'an edited start date time'},
         ended_at: {value: 'an edited end date time'},
         assignee: {value: 'an edited assignee'},
@@ -32,6 +34,7 @@ describe('screeningInformationFormSelectors', () => {
           fromJS({
             id: 'existing_screening_id',
             name: 'an edited name',
+            report_type: 'an edited report type',
             started_at: 'an edited start date time',
             ended_at: 'an edited end date time',
             assignee: 'an edited assignee',

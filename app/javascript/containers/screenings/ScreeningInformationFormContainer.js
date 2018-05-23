@@ -1,6 +1,7 @@
 import {connect} from 'react-redux'
 import ScreeningInformationForm from 'views/ScreeningInformationForm'
 import COMMUNICATION_METHOD from 'enums/CommunicationMethod'
+import REPORT_TYPE from 'enums/ReportType'
 import {setField, touchField, touchAllFields} from 'actions/screeningInformationFormActions'
 import {
   getScreeningInformationFormSelector,
@@ -12,11 +13,15 @@ import {getScreeningSelector} from 'selectors/screeningSelectors'
 
 export const cardName = 'screening-information-card'
 
+const communicationMethods = Object.keys(COMMUNICATION_METHOD)
+  .map((value) => ({value, label: COMMUNICATION_METHOD[value]}))
+
+const reportTypes = Object.keys(REPORT_TYPE)
+  .map((value) => ({value, label: REPORT_TYPE[value]}))
+
 const mapStateToProps = (state) => {
   const screening = getScreeningSelector(state)
   const screeningInformationForm = getScreeningInformationFormSelector(state)
-  const communicationMethods = Object.keys(COMMUNICATION_METHOD)
-    .map((value) => ({value, label: COMMUNICATION_METHOD[value]}))
   return {
     assignee: screeningInformationForm.getIn(['assignee', 'value']),
     assigneeDisabled: Boolean(screening.get('assignee_staff_id')),
@@ -25,6 +30,8 @@ const mapStateToProps = (state) => {
     endedAt: screeningInformationForm.getIn(['ended_at', 'value']),
     errors: getVisibleErrorsSelector(state).toJS(),
     name: screeningInformationForm.getIn(['name', 'value']),
+    reportType: screeningInformationForm.getIn(['report_type', 'value']),
+    reportTypes,
     startedAt: screeningInformationForm.getIn(['started_at', 'value']),
   }
 }

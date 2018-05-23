@@ -6,9 +6,10 @@ describe('ScreeningInformationForm', () => {
   function renderScreeningInformationForm({
     errors = {},
     communicationMethods = [],
+    reportTypes = [],
     ...args
   }) {
-    const props = {errors, communicationMethods, ...args}
+    const props = {errors, communicationMethods, reportTypes, ...args}
     return shallow(<ScreeningInformationForm {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -70,6 +71,29 @@ describe('ScreeningInformationForm', () => {
       .find('InputField[label="Assigned Social Worker"]')
       .simulate('change', {target: {value: 'new assignee'}})
     expect(onChange).toHaveBeenCalledWith('assignee', 'new assignee')
+  })
+
+  it('renders the report type', () => {
+    const component = renderScreeningInformationForm({
+      reportType: 'Safely Surrendered Baby',
+    }).find('SelectField[label="Report Type"]')
+    expect(component.props().value).toEqual('Safely Surrendered Baby')
+  })
+
+  it('calls on blur when report type field is blurred', () => {
+    const onBlur = jasmine.createSpy('onBlur')
+    renderScreeningInformationForm({onBlur})
+      .find('SelectField[label="Report Type"]')
+      .simulate('blur')
+    expect(onBlur).toHaveBeenCalledWith('report_type')
+  })
+
+  it('calls on change when report type field is changed', () => {
+    const onChange = jasmine.createSpy('onChange')
+    renderScreeningInformationForm({onChange})
+      .find('SelectField[label="Report Type"]')
+      .simulate('change', {target: {value: 'new report type'}})
+    expect(onChange).toHaveBeenCalledWith('report_type', 'new report type')
   })
 
   it('renders the screening start time field', () => {

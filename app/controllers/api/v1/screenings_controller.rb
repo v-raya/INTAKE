@@ -17,6 +17,7 @@ module Api
         :name,
         :reference,
         :report_narrative,
+        :report_type,
         :safety_information,
         :screening_decision,
         :screening_decision_detail,
@@ -59,8 +60,7 @@ module Api
       end
 
       def index
-        screenings = ScreeningRepository.search(session[:security_token])
-        render json: screenings
+        render json: ScreeningRepository.search(session[:security_token])
       end
 
       def history_of_involvements
