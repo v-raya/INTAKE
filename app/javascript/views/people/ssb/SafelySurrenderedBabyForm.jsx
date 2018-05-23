@@ -36,7 +36,7 @@ const SafelySurrenderedBabyForm = ({
           id='relation-to-child'
           label='Relationship to Surrendered Child'
           value={relationToChild}
-          onChange={() => {}}
+          onChange={onChangeField('relationToChild')}
         >
           <option key='fake-a' value='Hagrid'>Fake Value A</option>
           <option key='fake-b' value='fake-b'>Fake Value B</option>

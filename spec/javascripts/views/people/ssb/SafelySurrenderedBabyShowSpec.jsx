@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import SafelySurrenderedBabyShow from 'views/people/SafelySurrenderedBabyShow'
+import SafelySurrenderedBabyShow from 'views/people/ssb/SafelySurrenderedBabyShow'
 
 describe('SafelySurrenderedBabyShow', () => {
   const render = (props) => shallow(<SafelySurrenderedBabyShow {...props}/>)

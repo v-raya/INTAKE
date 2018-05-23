@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getSafelySurrenderedBaby} from 'selectors/screening/safelySurrenderedBabySelectors'
-import SafelySurrenderedBabyShow from 'views/people/SafelySurrenderedBabyShow'
+import SafelySurrenderedBabyShow from 'views/people/ssb/SafelySurrenderedBabyShow'
 
 export const SafelySurrenderedBabyShowContainer = ({safelySurrenderedBaby}) =>
   safelySurrenderedBaby &&

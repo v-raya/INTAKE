@@ -1,4 +1,4 @@
-import SafelySurrenderedBabyForm from 'views/people/SafelySurrenderedBabyForm'
+import SafelySurrenderedBabyForm from 'views/people/ssb/SafelySurrenderedBabyForm'
 import React from 'react'
 import {shallow} from 'enzyme'
 
@@ -48,6 +48,12 @@ describe('SafeleySurrenderedBabyForm', () => {
       const props = body.find('SelectField[label="Relationship to Surrendered Child"]').props()
       expect(props.gridClassName).toEqual('col-md-4')
       expect(props.value).toEqual('Groundskeeper')
+    })
+
+    it('propagates changes to Relationship to Surrendered Child', () => {
+      const props = body.find('SelectField[label="Relationship to Surrendered Child"]').props()
+      props.onChange({target: {value: 'Mother'}})
+      expect(actions.onChange).toHaveBeenCalledWith('relationToChild', 'Mother')
     })
 
     it('renders Bracelet ID', () => {
