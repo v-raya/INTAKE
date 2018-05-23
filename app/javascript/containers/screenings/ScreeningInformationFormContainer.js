@@ -13,13 +13,15 @@ import {getScreeningSelector} from 'selectors/screeningSelectors'
 
 export const cardName = 'screening-information-card'
 
+const communicationMethods = Object.keys(COMMUNICATION_METHOD)
+  .map((value) => ({value, label: COMMUNICATION_METHOD[value]}))
+
+const reportTypes = Object.keys(REPORT_TYPE)
+  .map((value) => ({value, label: REPORT_TYPE[value]}))
+
 const mapStateToProps = (state) => {
   const screening = getScreeningSelector(state)
   const screeningInformationForm = getScreeningInformationFormSelector(state)
-  const communicationMethods = Object.keys(COMMUNICATION_METHOD)
-    .map((value) => ({value, label: COMMUNICATION_METHOD[value]}))
-  const reportTypes = Object.keys(REPORT_TYPE)
-    .map((value) => ({value, label: REPORT_TYPE[value]}))
   return {
     assignee: screeningInformationForm.getIn(['assignee', 'value']),
     assigneeDisabled: Boolean(screening.get('assignee_staff_id')),
