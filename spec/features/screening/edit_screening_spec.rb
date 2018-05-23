@@ -33,8 +33,8 @@ feature 'Edit Screening' do
         {
           county_id: 'c42',
           agencies: [
-            { id: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' },
-            { type: 'LAW_ENFORCEMENT' }
+            { id: '1', code: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' },
+            { id: '2', type: 'LAW_ENFORCEMENT' }
           ]
         }
       ],
@@ -183,7 +183,7 @@ feature 'Edit Screening' do
       end
       expect(
         a_request(
-          :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+          :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
         ).with(
           body: hash_including(
             'safety_alerts' => array_including(
@@ -235,8 +235,8 @@ feature 'Edit Screening' do
         cross_reports: [{
           id: '1',
           agencies: [
-            { id: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' },
-            { type: 'COUNTY_LICENSING' }
+            { id: '1', code: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' },
+            { id: '2', type: 'COUNTY_LICENSING' }
           ]
         }],
         participants: [],
@@ -341,7 +341,7 @@ feature 'individual card save' do
       ).merge(address: existing_screening[:incident_address], incident_date: '1996-02-12')
       updated_screening.delete(:incident_address)
       stub_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       ).and_return(json_body(updated_screening.to_json))
       stub_empty_relationships
       stub_empty_history_for_screening(existing_screening)
@@ -349,7 +349,7 @@ feature 'individual card save' do
       click_button 'Save'
       expect(
         a_request(
-          :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+          :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
         )
       ).to have_been_made
     end
@@ -363,7 +363,7 @@ feature 'individual card save' do
       ).to_json
       updated_screening.delete('incident_address')
       stub_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       ).and_return(json_body(updated_screening))
       stub_empty_relationships
       stub_empty_history_for_screening(existing_screening)
@@ -372,7 +372,7 @@ feature 'individual card save' do
       click_button 'Save'
       expect(
         a_request(
-          :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+          :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
         )
       ).to have_been_made
     end
@@ -384,14 +384,14 @@ feature 'individual card save' do
         id: '1',
         county_id: 'c41',
         agencies: [
-          { id: '65Hvp7x01F', type: 'DISTRICT_ATTORNEY' }
+          { id: '1', code: '65Hvp7x01F', type: 'DISTRICT_ATTORNEY' }
         ]
       }
     ]
 
     stub_county_agencies('c41')
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -405,7 +405,7 @@ feature 'individual card save' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       )
     ).to have_been_made
 
@@ -428,13 +428,13 @@ feature 'individual card save' do
         id: '1',
         county_id: 'c41',
         agencies: [
-          { id: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' }
+          { id: '1', code: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' }
         ]
       }
     ]
 
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -445,7 +445,7 @@ feature 'individual card save' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       )
     ).to have_been_made.twice
   end
@@ -454,7 +454,7 @@ feature 'individual card save' do
     existing_screening[:safety_alerts] = ['Dangerous Animal on Premises']
     existing_screening[:safety_information] = 'Important information!'
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -466,7 +466,7 @@ feature 'individual card save' do
     end
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       )
     ).to have_been_made
   end
@@ -484,7 +484,7 @@ feature 'individual card save' do
       existing_screening[:incident_date] = '1996-02-12'
 
       stub_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       ).and_return(json_body(existing_screening.to_json))
       stub_empty_relationships
       stub_empty_history_for_screening(existing_screening)
@@ -498,7 +498,7 @@ feature 'individual card save' do
 
       expect(
         a_request(
-          :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+          :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
         )
       ).to have_been_made
     end

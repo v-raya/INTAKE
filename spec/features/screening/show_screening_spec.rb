@@ -38,8 +38,8 @@ feature 'Show Screening' do
         {
           county_id: 'c41',
           agencies: [
-            { id: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' },
-            { type: 'COUNTY_LICENSING' }
+            { id: '1', code: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' },
+            { id: '2', type: 'COUNTY_LICENSING' }
           ]
         }
       ]

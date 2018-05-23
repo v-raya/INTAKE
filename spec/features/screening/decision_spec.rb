@@ -97,10 +97,9 @@ feature 'decision card' do
       screening_decision_detail: 'An arbitrary string',
       additional_information: 'I changed my decision rationale',
       restrictions_rationale: 'Someone in this screening has sensitive information',
-      access_restrictions: 'sensitive',
-      address: screening.delete(:incident_address)
+      access_restrictions: 'sensitive'
     )
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json))
 
     within '#decision-card.edit' do
@@ -118,7 +117,8 @@ feature 'decision card' do
       click_button 'Save'
     end
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+        .with(body: hash_including(screening.as_json))
     ).to have_been_made
     within '#decision-card.show' do
       expect(page).to have_content('SDM Hotline Tool')

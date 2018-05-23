@@ -86,9 +86,8 @@ feature 'worker safety card' do
 
     existing_screening[:safety_information] = 'Something else'
     existing_screening[:safety_alerts] = ['Dangerous Environment', 'Firearms in Home']
-    existing_screening[:address] = existing_screening.delete(:incident_address)
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
 
     within '#worker-safety-card.edit' do
@@ -97,8 +96,8 @@ feature 'worker safety card' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
-      )
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
+      ).with(body: hash_including(existing_screening.as_json))
     ).to have_been_made
 
     within '#worker-safety-card.show' do
@@ -128,9 +127,8 @@ feature 'worker safety card' do
 
     existing_screening[:safety_information] = 'Something else'
     existing_screening[:safety_alerts] = ['Dangerous Environment', 'Firearms in Home']
-    existing_screening[:address] = existing_screening.delete(:incident_address)
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
 
     within '#worker-safety-card.edit' do
@@ -139,8 +137,8 @@ feature 'worker safety card' do
 
     expect(
       a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
-      )
+        :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
+      ).with(body: hash_including(existing_screening.as_json))
     ).to have_been_made
 
     within '#worker-safety-card.show' do
