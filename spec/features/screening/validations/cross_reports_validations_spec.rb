@@ -51,11 +51,11 @@ feature 'Cross Reports Validations' do
       context 'save with an agency' do
         before do
           stub_county_agencies('c41')
-          screening[:cross_reports][0][:agencies][0][:id] = 'EYIS9Nh75C'
+          screening[:cross_reports][0][:agencies][0][:code] = 'EYIS9Nh75C'
           stub_and_visit_edit_screening(screening)
           stub_request(
             :put,
-            intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id]))
+            ferb_api_url(FerbRoutes.intake_screening_path(screening[:id]))
           ).and_return(json_body(screening.to_json, status: 201))
         end
         scenario 'shows no error when filled in' do
