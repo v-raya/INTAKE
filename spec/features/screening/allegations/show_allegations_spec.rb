@@ -42,7 +42,7 @@ feature 'show allegations' do
     stub_empty_history_for_screening(screening)
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body({}.to_json, status: 200))
 
     visit screening_path(id: screening[:id])
@@ -100,16 +100,16 @@ feature 'show allegations' do
       click_button 'Save'
     end
 
-    new_allegation = FactoryBot.build(
-      :allegation,
-      victim_id: lisa.id,
-      perpetrator_id: homer.id,
+    new_allegation = {
+      id: nil,
+      victim_person_id: lisa.id,
+      perpetrator_person_id: homer.id,
       screening_id: screening[:id],
-      allegation_types: ['Exploitation']
-    )
+      types: ['Exploitation']
+    }
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .with(body: hash_including(allegations: array_including(new_allegation.as_json)))
     ).to have_been_made
   end
@@ -312,7 +312,7 @@ feature 'show allegations' do
     visit screening_path(id: screening[:id])
 
     screening[:name] = 'Hello'
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
 
     within '.card.show', text: 'Allegations' do
@@ -333,7 +333,7 @@ feature 'show allegations' do
     end
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .with(body: hash_including(allegations: []))
     ).to have_been_made
   end
@@ -367,7 +367,7 @@ feature 'show allegations' do
 
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body({}.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(screening)
@@ -400,17 +400,17 @@ feature 'show allegations' do
       click_button 'Save'
     end
 
-    new_allegation = FactoryBot.build(
-      :allegation,
-      victim_id: lisa.id,
-      perpetrator_id: homer.id,
+    new_allegation = {
+      id: nil,
+      victim_person_id: lisa.id,
+      perpetrator_person_id: homer.id,
       screening_id: screening[:id],
-      allegation_types: ['Exploitation']
-    )
+      types: ['Exploitation']
+    }
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
-      .with(body: hash_including(allegations: [new_allegation.as_json.symbolize_keys]))
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+      .with(body: hash_including(allegations: [new_allegation]))
     ).to have_been_made
   end
 end
