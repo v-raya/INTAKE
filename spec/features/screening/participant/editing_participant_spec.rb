@@ -585,7 +585,7 @@ feature 'Edit Person' do
       dob = Time.parse(marge.date_of_birth).strftime('%m/%d/%Y')
       fill_in_datepicker 'Date of birth', with: dob
       expect(page).to have_field('Approximate Age', disabled: true, with: '')
-      expect(page).to have_select('approximate_age_units', disabled: true, selected: 'Years')
+      expect(page).to have_select('approximate_age_units', disabled: true, selected: '')
 
       fill_in_datepicker 'Date of birth', with: ''
       fill_in 'Approximate Age', with: 'abc1234'

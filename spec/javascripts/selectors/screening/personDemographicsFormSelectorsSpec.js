@@ -28,7 +28,7 @@ describe('personDemographicFormSelectors', () => {
       const state = fromJS({peopleForm})
       expect(getPersonDemographicsSelector(state, '2').toJS()).toEqual({
         approximateAge: '',
-        approximateAgeUnit: 'years',
+        approximateAgeUnit: '',
         dateOfBirth: '',
         gender: '',
         languages: [],

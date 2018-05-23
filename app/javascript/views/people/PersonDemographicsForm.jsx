@@ -52,6 +52,7 @@ const PersonDemographicsForm = ({
           onChange={({target: {value}}) => onChange('approximate_age_units', value)}
           disabled={approximateAgeIsDisabled}
         >
+          <option key='' value='' />
           {Object.keys(APPROXIMATE_AGE_UNITS).map((unit) => <option key={unit} value={unit}>{APPROXIMATE_AGE_UNITS[unit]}</option>)}
         </select>
       </div>
