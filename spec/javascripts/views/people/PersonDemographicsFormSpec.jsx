@@ -49,10 +49,11 @@ describe('PersonDemographicsForm', () => {
       approximateAgeUnit: '5',
     }).find('select[aria-label="Approximate Age Units"]')
     expect(field.props().value).toEqual('5')
-    expect(field.childAt(0).props().value).toEqual('days')
-    expect(field.childAt(1).props().value).toEqual('weeks')
-    expect(field.childAt(2).props().value).toEqual('months')
-    expect(field.childAt(3).props().value).toEqual('years')
+    expect(field.childAt(0).props().value).toEqual('')
+    expect(field.childAt(1).props().value).toEqual('days')
+    expect(field.childAt(2).props().value).toEqual('weeks')
+    expect(field.childAt(3).props().value).toEqual('months')
+    expect(field.childAt(4).props().value).toEqual('years')
   })
 
   it('renders the gender field and its options', () => {

@@ -22,7 +22,7 @@ describe('PersonDemographicsFormContainer', () => {
   it('renders PersonDemographicsForm', () => {
     expect(component.find('PersonDemographicsForm').props()).toEqual({
       approximateAge: '',
-      approximateAgeUnit: 'years',
+      approximateAgeUnit: '',
       approximateAgeIsDisabled: true,
       dateOfBirth: '2014-01-15',
       gender: 'female',
