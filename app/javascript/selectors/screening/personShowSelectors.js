@@ -93,11 +93,18 @@ export const getErrorsSelector = (state, personId) => {
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   const lastName = person.get('last_name')
   const firstName = person.get('first_name')
+  const addressZip =
+  person.get('addresses') === undefined ? [] : person.get('addresses')
+    .filter((address) => !address.get('legacy_id'))
+    .map((newAddress) => (
+      getZIPErrors(newAddress.get('zip'))
+    )).flatten()
   const roles = person.get('roles', List())
   return fromJS({
     name: getNameErrors(firstName, lastName, roles),
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
+    addressZip,
   })
 }
 
@@ -176,7 +183,7 @@ export const getAllPersonFormattedAddressesSelector = (state, personId) => (
         city: address.get('city'),
         state: formattedState(address.get('state')),
         zip: address.get('zip'),
-        zipError: getZIPErrors(address.get('zip')),
+        zipError: address.get('legacy_id') ? null : getZIPErrors(address.get('zip')),
         type: systemCodeDisplayValue(address.get('type'), getAddressTypes(state)) || address.get('type'),
         legacy_id: address.get('legacy_id'),
       })
@@ -185,4 +192,4 @@ export const getAllPersonFormattedAddressesSelector = (state, personId) => (
 
 export const getReadOnlyPersonFormattedAddressesSelector = (state, personId) => (
   getAllPersonFormattedAddressesSelector(state, personId)
-).filter((address) => address.get('legacy_id'))
+).filter((address) => address.get('legacy_id')).map((address) => address.delete('zipError'))

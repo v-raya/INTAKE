@@ -112,5 +112,21 @@ describe('screeningPageSelectors', () => {
       const state = fromJS({participants: people})
       expect(getPeopleHaveErrorsSelector(state)).toEqual(true)
     })
+    it('returns true if there are errors in the  zip', () => {
+      const people = [
+        {id: 'one', addresses: [{zip: '1234'}]},
+        {id: 'two', addresses: [{zip: '912'}]},
+      ]
+      const state = fromJS({participants: people})
+      expect(getPeopleHaveErrorsSelector(state)).toEqual(true)
+    })
+    it('returns false if there are no errors on the zip', () => {
+      const people = [
+        {id: 'one', addresses: [{zip: '12345'}]},
+        {id: 'two', addresses: [{zip: '91212'}]},
+      ]
+      const state = fromJS({participants: people})
+      expect(getPeopleHaveErrorsSelector(state)).toEqual(false)
+    })
   })
 })
