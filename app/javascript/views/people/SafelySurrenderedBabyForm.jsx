@@ -7,6 +7,7 @@ import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
 
 const SafelySurrenderedBabyForm = ({
+  actions: {onChange},
   braceletId,
   comments,
   medQuestionaireReturnDate,
@@ -14,84 +15,95 @@ const SafelySurrenderedBabyForm = ({
   parentGuardProvMedicalQuestionaire,
   relationToChild,
   surrenderedBy,
-}) => (
-  <div>
-    <GrouperHeading text='Safely Surrendered Baby Information' />
-    <div className='row'>
-      <SelectField
-        gridClassName='col-md-4'
-        id='surrendered-by'
-        label='Surrendered By'
-        value={surrenderedBy}
-        onChange={() => {}}
-      >
-        <option key='' value='' />
-      </SelectField>
-      <SelectField
-        gridClassName='col-md-4'
-        id='relation-to-child'
-        label='Relationship to Surrendered Child'
-        value={relationToChild}
-        onChange={() => {}}
-      >
-        <option key='' value='' />
-      </SelectField>
-      <InputField
-        gridClassName='col-md-4'
-        id='bracelet-id'
-        label='Bracelet ID'
-        value={braceletId}
-        onChange={() => {}}
-      />
-      <FormField
-        gridClassName='col-md-12'
-        htmlFor='ssb-comments'
-        label='Comments'
-        required
-      >
-        <textarea
-          id='ssb-comments'
+}) => {
+  const onChangeField = (field) => (e) => onChange(field, e.target.value)
+  return (
+    <div>
+      <GrouperHeading text='Safely Surrendered Baby Information' />
+      <div className='row'>
+        <SelectField
+          gridClassName='col-md-4'
+          id='surrendered-by'
+          label='Surrendered By'
+          value={surrenderedBy}
           onChange={() => {}}
-          onBlur={() => {}}
-          required
-          value={comments}
+        >
+          <option key='fake-a' value='fake-a'>Fake Value A</option>
+          <option key='fake-b' value='fake-b'>Fake Value B</option>
+        </SelectField>
+        <SelectField
+          gridClassName='col-md-4'
+          id='relation-to-child'
+          label='Relationship to Surrendered Child'
+          value={relationToChild}
+          onChange={() => {}}
+        >
+          <option key='fake-a' value='Hagrid'>Fake Value A</option>
+          <option key='fake-b' value='fake-b'>Fake Value B</option>
+        </SelectField>
+        <InputField
+          gridClassName='col-md-4'
+          id='bracelet-id'
+          label='Bracelet ID'
+          value={braceletId}
+          onChange={onChangeField('braceletId')}
         />
-      </FormField>
-      <SelectField
-        gridClassName='col-md-4'
-        id='pg-given-bracelet-id'
-        label='Parent/Guardian Given Bracelet ID'
-        value={parentGuardGivenBraceletId ? 'Yes' : 'No'}
-        onChange={() => {}}
-      >
-        <option key='' value='' />
-      </SelectField>
-      <SelectField
-        gridClassName='col-md-4'
-        id='pg-provided-medical-questionaire'
-        label='Parent/Guardian Provided Medical Questionaire'
-        value={parentGuardProvMedicalQuestionaire ? 'Yes' : 'No'}
-        onChange={() => {}}
-      >
-        <option key='' value='' />
-      </SelectField>
-      <DateField
-        gridClassName='col-md-4'
-        id='med-questionaire-return-date'
-        label='Medical Questionaire Return Date'
-        value={medQuestionaireReturnDate}
-        onChange={() => {}}
-      />
+        <FormField
+          gridClassName='col-md-12'
+          htmlFor='ssb-comments'
+          label='Comments'
+          required
+        >
+          <textarea
+            id='ssb-comments'
+            onChange={onChangeField('comments')}
+            onBlur={() => {}}
+            required
+            value={comments}
+          />
+        </FormField>
+        <SelectField
+          gridClassName='col-md-4'
+          id='pg-given-bracelet-id'
+          label='Parent/Guardian Given Bracelet ID'
+          value={parentGuardGivenBraceletId}
+          onChange={onChangeField('parentGuardGivenBraceletId')}
+        >
+          <option key='fake-a' value='Hagrid'>Fake Value A</option>
+          <option key='fake-b' value='fake-b'>Fake Value B</option>
+        </SelectField>
+        <SelectField
+          gridClassName='col-md-4'
+          id='pg-provided-medical-questionaire'
+          label='Parent/Guardian Provided Medical Questionaire'
+          value={parentGuardProvMedicalQuestionaire}
+          onChange={onChangeField('parentGuardProvMedicalQuestionaire')}
+        >
+          <option key='fake-a' value='Hagrid'>Fake Value A</option>
+          <option key='fake-b' value='fake-b'>Fake Value B</option>
+        </SelectField>
+        <DateField
+          gridClassName='col-md-4'
+          id='med-questionaire-return-date'
+          label='Medical Questionaire Return Date'
+          value={medQuestionaireReturnDate}
+          hasTime={false}
+          onChange={(date) => onChange('medQuestionaireReturnDate', date)}
+        />
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 SafelySurrenderedBabyForm.propTypes = {
+  actions: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
+  }).isRequired,
   braceletId: PropTypes.string,
   comments: PropTypes.string,
   medQuestionaireReturnDate: PropTypes.string,
-  parentGuardGivenBraceletId: PropTypes.bool,
-  parentGuardProvMedicalQuestionaire: PropTypes.bool,
+  parentGuardGivenBraceletId: PropTypes.string,
+  parentGuardProvMedicalQuestionaire: PropTypes.string,
   relationToChild: PropTypes.string,
   surrenderedBy: PropTypes.string,
 }
