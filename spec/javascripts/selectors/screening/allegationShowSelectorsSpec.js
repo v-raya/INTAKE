@@ -22,14 +22,14 @@ describe('allegationShowSelectors', () => {
       ]
       const allegations = [
         {
-          victim_id: '1',
-          perpetrator_id: '2',
-          allegation_types: ['General neglect', 'Severe neglect'],
+          victim_person_id: '1',
+          perpetrator_person_id: '2',
+          types: ['General neglect', 'Severe neglect'],
         },
         {
-          victim_id: '3',
-          perpetrator_id: '4',
-          allegation_types: ['Physical abuse'],
+          victim_person_id: '3',
+          perpetrator_person_id: '4',
+          types: ['Physical abuse'],
         },
       ]
       const state = fromJS({screening: {participants, allegations}})

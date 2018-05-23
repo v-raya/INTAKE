@@ -19,7 +19,7 @@ describe('allegationsFormSelectors', () => {
         {id: '123', victimId: '1', perpetratorId: '2', allegationTypes: ['General neglect']},
       ]
       const screening = {id: 'ABCDEF', screening_decision: 'promote_to_referral', allegations: [
-        {id: '456', victim_id: '3', perpetrator_id: '4', allegation_types: ['General neglect']},
+        {id: '456', victim_person_id: '3', perpetrator_person_id: '4', types: ['General neglect']},
       ]}
       const state = fromJS({allegationsForm, screening})
       expect(getScreeningWithAllegationsEditsSelector(state)).toEqualImmutable(fromJS({
@@ -27,9 +27,9 @@ describe('allegationsFormSelectors', () => {
         screening_decision: 'promote_to_referral',
         allegations: [{
           id: '123',
-          victim_id: '1',
-          perpetrator_id: '2',
-          allegation_types: ['General neglect'],
+          victim_person_id: '1',
+          perpetrator_person_id: '2',
+          types: ['General neglect'],
           screening_id: 'ABCDEF',
         }],
       }))
@@ -42,7 +42,7 @@ describe('allegationsFormSelectors', () => {
         {id: '789', victimId: '3', perpetratorId: '4', allegationTypes: []},
       ]
       const screening = {id: 'ABCDEF', screening_decision: 'promote_to_referral', allegations: [
-        {id: '012', victim_id: '3', perpetrator_id: '4', allegation_types: ['General neglect']},
+        {id: '012', victim_person_id: '3', perpetrator_person_id: '4', types: ['General neglect']},
       ]}
       const state = fromJS({allegationsForm, screening})
       expect(getScreeningWithAllegationsEditsSelector(state)).toEqualImmutable(fromJS({
@@ -50,9 +50,9 @@ describe('allegationsFormSelectors', () => {
         screening_decision: 'promote_to_referral',
         allegations: [{
           id: '123',
-          victim_id: '1',
-          perpetrator_id: '2',
-          allegation_types: ['General neglect'],
+          victim_person_id: '1',
+          perpetrator_person_id: '2',
+          types: ['General neglect'],
           screening_id: 'ABCDEF',
         }],
       }))

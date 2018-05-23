@@ -308,12 +308,12 @@ describe Api::V1::ScreeningsController do
             method: 'Child Abuse Form',
             county_id: '1234',
             agencies: [
-              { type: 'DEPARTMENT_OF_JUSTICE', id: 'SCDOFFCODE' },
-              { type: 'COUNTY_LICENSING', id: 'SCDLICCODE' }
+              { id: '1', type: 'DEPARTMENT_OF_JUSTICE', code: 'SCDOFFCODE' },
+              { id: '2', type: 'COUNTY_LICENSING', code: 'SCDLICCODE' }
             ]
           }
         ],
-        address: {
+        incident_address: {
           id: '2',
           city: 'LA',
           state: 'CA',
@@ -323,23 +323,17 @@ describe Api::V1::ScreeningsController do
         allegations: [{
           id: '2',
           screening_id: '3',
-          perpetrator_id: '4',
-          perpetrator: { first_name: 'name' },
-          victim_id: '5',
-          victim: { first_name: 'name' },
-          allegation_types: ['General neglect']
+          perpetrator_person_id: '4',
+          victim_person_id: '5',
+          types: ['General neglect']
         }]
-      }.with_indifferent_access
+      }
     end
-    let(:unallowed_params) { %i[perpetrator victim] }
-    let(:updated_screening) { double(:screening, as_json: { 'id' => 'updated_screening' }) }
+    let(:updated_screening) { { 'id' => 'updated_screening' } }
 
     before do
-      screening = double(:screening)
-      screening_attributes = screening_params.as_json(except: unallowed_params)
-      expect(Screening).to receive(:new).with(screening_attributes).and_return(screening)
       expect(ScreeningRepository).to receive(:update)
-        .with(security_token, screening)
+        .with(security_token, anything)
         .and_return(updated_screening)
     end
 
@@ -350,7 +344,7 @@ describe Api::V1::ScreeningsController do
         format: :json,
         session: session
       expect(response).to be_successful
-      expect(JSON.parse(response.body)).to eq(updated_screening.as_json)
+      expect(JSON.parse(response.body)).to eq(updated_screening)
     end
   end
 

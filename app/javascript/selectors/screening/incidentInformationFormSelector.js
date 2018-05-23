@@ -19,12 +19,13 @@ export const getIncidentCountySelector = createSelector(
 
 export const getAddressSelector = createSelector(
   getIncidentInformationFormSelector,
-  (store) => store.getIn(['incidentInformationForm', 'address', 'state', 'value']),
-  (incidentInformationForm, usState) => fromJS({
-    city: incidentInformationForm.getIn(['address', 'city', 'value'], '') || '',
-    streetAddress: incidentInformationForm.getIn(['address', 'street_address', 'value'], '') || '',
-    state: usState,
-    zip: incidentInformationForm.getIn(['address', 'zip', 'value'], '') || '',
+  (store) => store.getIn(['incidentInformationForm', 'incident_address', 'state', 'value']),
+  (incidentInformationForm, state) => fromJS({
+    id: incidentInformationForm.getIn(['incident_address', 'id']),
+    city: incidentInformationForm.getIn(['incident_address', 'city', 'value'], '') || '',
+    streetAddress: incidentInformationForm.getIn(['incident_address', 'street_address', 'value'], '') || '',
+    state: state || '',
+    zip: incidentInformationForm.getIn(['incident_address', 'zip', 'value'], '') || '',
   })
 )
 
@@ -37,12 +38,18 @@ export const getScreeningWithEditsSelector = createSelector(
   getScreeningSelector,
   (state) => state.getIn(['incidentInformationForm', 'incident_date', 'value']),
   (state) => state.getIn(['incidentInformationForm', 'incident_county', 'value']),
-  (state) => (state.getIn(['incidentInformationForm', 'address']) || Map()).map((value) => (value.get('value'))),
+  (state) => (state.getIn(['incidentInformationForm', 'incident_address']) || Map()),
   (state) => state.getIn(['incidentInformationForm', 'location_type', 'value']),
   (screening, incidentDate, incidentCounty, address, locationType) => (
     screening.set('incident_date', incidentDate)
       .set('incident_county', incidentCounty)
-      .set('address', (screening.get('address') || Map()).map((value, key) => (address.get(key) || null)))
+      .set('incident_address', Map({
+        id: address.get('id'),
+        city: address.getIn(['city', 'value'], '') || '',
+        street_address: address.getIn(['street_address', 'value'], '') || '',
+        state: address.getIn(['state', 'value']) || '',
+        zip: address.getIn(['zip', 'value'], '') || '',
+      }))
       .set('location_type', locationType)
   )
 )

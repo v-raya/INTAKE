@@ -36,11 +36,9 @@ feature 'screening incident information card' do
   end
 
   scenario 'screening<->address edit merging should not override unchanged values' do
-    existing_screening[:address] = existing_screening.delete(:incident_address)
-    existing_screening[:address].merge!(street_address: '33 Whatever',
-                                        id: nil)
+    existing_screening[:incident_address][:street_address] = '33 Whatever'
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -48,9 +46,8 @@ feature 'screening incident information card' do
       fill_in 'Address', with: '33 Whatever'
       click_button 'Save'
       expect(
-        a_request(
-          :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
-        )
+        a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id])))
+          .with(body: hash_including(existing_screening))
       ).to have_been_made
     end
   end
@@ -81,9 +78,8 @@ feature 'screening incident information card' do
     end
 
     existing_screening[:incident_date] = '2015-10-05'
-    existing_screening[:address] = existing_screening.delete(:incident_address).merge(id: nil)
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -93,9 +89,8 @@ feature 'screening incident information card' do
     end
 
     expect(
-      a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
-      )
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id])))
+        .with(body: hash_including(existing_screening))
     ).to have_been_made
 
     within '#incident-information-card.show' do

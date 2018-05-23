@@ -85,6 +85,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -93,6 +94,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -101,6 +103,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -109,6 +112,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -336,8 +340,8 @@ describe('crossReportFormReducer', () => {
             inform_date: '2017-02-20',
             method: 'Child Abuse Form',
             agencies: [
-              {id: '1234', type: 'DISTRICT_ATTORNEY'},
-              {id: '5234', type: 'LAW_ENFORCEMENT'},
+              {id: '1', code: '1234', type: 'DISTRICT_ATTORNEY'},
+              {id: '2', code: '5234', type: 'LAW_ENFORCEMENT'},
             ],
           },
         ],
@@ -360,6 +364,7 @@ describe('crossReportFormReducer', () => {
             selected: true,
             touched: false,
             agency: {
+              id: '1',
               value: '1234',
               touched: false,
             },
@@ -368,6 +373,7 @@ describe('crossReportFormReducer', () => {
             selected: true,
             touched: false,
             agency: {
+              id: '2',
               value: '5234',
               touched: false,
             },
@@ -376,6 +382,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -384,6 +391,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -427,6 +435,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -435,6 +444,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -443,6 +453,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -451,6 +462,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: false,
             agency: {
+              id: undefined,
               value: '',
               touched: false,
             },
@@ -482,8 +494,8 @@ describe('crossReportFormReducer', () => {
             inform_date: '2017-02-20',
             method: '',
             agencies: [
-              {type: 'DISTRICT_ATTORNEY'},
-              {type: 'LAW_ENFORCEMENT'},
+              {id: '1', type: 'DISTRICT_ATTORNEY'},
+              {id: '2', type: 'LAW_ENFORCEMENT'},
             ],
           },
         ],
@@ -505,6 +517,7 @@ describe('crossReportFormReducer', () => {
           selected: true,
           touched: false,
           agency: {
+            id: '1',
             value: '1234',
             touched: true,
           },
@@ -513,6 +526,7 @@ describe('crossReportFormReducer', () => {
           selected: true,
           touched: false,
           agency: {
+            id: '2',
             value: '5234',
             touched: true,
           },
@@ -521,6 +535,7 @@ describe('crossReportFormReducer', () => {
           selected: false,
           touched: false,
           agency: {
+            id: undefined,
             value: '',
             touched: false,
           },
@@ -529,6 +544,7 @@ describe('crossReportFormReducer', () => {
           selected: false,
           touched: false,
           agency: {
+            id: undefined,
             value: '',
             touched: false,
           },
@@ -552,6 +568,7 @@ describe('crossReportFormReducer', () => {
             selected: true,
             touched: true,
             agency: {
+              id: '1',
               value: '1234',
               touched: true,
             },
@@ -560,6 +577,7 @@ describe('crossReportFormReducer', () => {
             selected: true,
             touched: true,
             agency: {
+              id: '2',
               value: '5234',
               touched: true,
             },
@@ -568,6 +586,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: true,
             agency: {
+              id: undefined,
               value: '',
               touched: true,
             },
@@ -576,6 +595,7 @@ describe('crossReportFormReducer', () => {
             selected: false,
             touched: true,
             agency: {
+              id: undefined,
               value: '',
               touched: true,
             },

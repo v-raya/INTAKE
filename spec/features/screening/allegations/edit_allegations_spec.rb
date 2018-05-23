@@ -36,7 +36,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [
         marge.as_json.symbolize_keys,
@@ -101,7 +100,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: []
@@ -183,7 +181,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: []
@@ -246,7 +243,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: []
@@ -290,7 +286,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: []
@@ -302,22 +297,17 @@ feature 'edit allegations' do
 
     visit edit_screening_path(id: screening[:id])
 
-    persisted_allegation = FactoryBot.build(:allegation,
-      victim_id: lisa.id,
-      perpetrator_id: marge.id,
+    persisted_allegation = {
+      id: nil,
+      victim_person_id: lisa.id,
+      perpetrator_person_id: marge.id,
       screening_id: screening[:id],
-      allegation_types: ['General neglect'])
-    api_screening = {
-      id: '1',
-      address: {},
-      addresses: [],
-      cross_reports: [],
-      participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
-      allegations: [persisted_allegation.as_json.symbolize_keys]
+      types: ['General neglect']
     }
+    screening[:allegations] << persisted_allegation
 
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
-      .and_return(json_body(api_screening.to_json, status: 200))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+      .and_return(json_body(screening.to_json, status: 200))
 
     within '.card.edit', text: 'Allegations' do
       fill_in_react_select "allegations_#{lisa.id}_#{marge.id}", with: 'General neglect'
@@ -330,7 +320,8 @@ feature 'edit allegations' do
     end
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+        .with(body: hash_including(screening))
     ).to have_been_made
 
     within '.card.show', text: 'Allegations' do
@@ -348,7 +339,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: []
@@ -387,7 +377,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: [allegation]
@@ -429,7 +418,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [
         marge.as_json.symbolize_keys,
@@ -476,7 +464,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [
         marge.as_json.symbolize_keys,
@@ -538,7 +525,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: []
@@ -551,23 +537,16 @@ feature 'edit allegations' do
 
     visit edit_screening_path(id: screening[:id])
     persisted_allegation = {
-      victim_id: lisa.id,
-      perpetrator_id: marge.id,
+      victim_person_id: lisa.id,
+      perpetrator_person_id: marge.id,
       screening_id: screening[:id],
-      allegation_types: ['General neglect']
+      types: ['General neglect']
     }
 
-    api_screening = {
-      id: '1',
-      address: {},
-      addresses: [],
-      cross_reports: [],
-      participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
-      allegations: [persisted_allegation]
-    }
+    screening[:allegations] << persisted_allegation
 
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
-      .and_return(json_body(api_screening.to_json, status: 200))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+      .and_return(json_body(screening.to_json, status: 200))
 
     within '.card.edit', text: 'Allegations' do
       fill_in_react_select "allegations_#{lisa.id}_#{marge.id}", with: 'General neglect'
@@ -584,9 +563,9 @@ feature 'edit allegations' do
     stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(lisa.id)))
       .and_return(json_body(lisa.to_json, status: 200))
 
-    api_screening[:allegations] = []
+    screening[:allegations] = []
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
-      .and_return(json_body(api_screening.to_json, status: 200))
+      .and_return(json_body(screening.to_json, status: 200))
 
     within edit_participant_card_selector(lisa.id) do
       remove_react_select_option('Role', 'Victim')
@@ -639,7 +618,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: []
@@ -652,23 +630,17 @@ feature 'edit allegations' do
 
     visit edit_screening_path(id: screening[:id])
     persisted_allegation = {
-      victim_id: lisa.id,
-      perpetrator_id: marge.id,
+      id: nil,
+      victim_person_id: lisa.id,
+      perpetrator_person_id: marge.id,
       screening_id: screening[:id],
-      allegation_types: ['General neglect']
+      types: ['General neglect']
     }
 
-    api_screening = {
-      id: '1',
-      address: {},
-      addresses: [],
-      cross_reports: [],
-      participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
-      allegations: [persisted_allegation]
-    }
+    screening[:allegations] << persisted_allegation
 
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
-      .and_return(json_body(api_screening.to_json, status: 200))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+      .and_return(json_body(screening.to_json, status: 200))
 
     within '.card.edit', text: 'Allegations' do
       fill_in_react_select "allegations_#{lisa.id}_#{marge.id}", with: 'General neglect'
@@ -735,7 +707,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys],
       allegations: []
@@ -752,7 +723,7 @@ feature 'edit allegations' do
     end
 
     screening[:name] = 'Hello'
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
 
     within '#screening-information-card.card.edit' do
@@ -761,7 +732,7 @@ feature 'edit allegations' do
     end
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
         .with(body: hash_including(allegations: []))
     ).to have_been_made
   end
@@ -779,7 +750,6 @@ feature 'edit allegations' do
     screening = {
       id: '1',
       incident_address: {},
-      addresses: [],
       cross_reports: [],
       participants: [
         marge.as_json.symbolize_keys,
@@ -791,7 +761,7 @@ feature 'edit allegations' do
 
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body({}.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(screening)
@@ -822,14 +792,14 @@ feature 'edit allegations' do
 
     persisted_allegation = {
       id: nil,
-      victim_id: lisa.id,
-      perpetrator_id: homer.id,
+      victim_person_id: lisa.id,
+      perpetrator_person_id: homer.id,
       screening_id: screening[:id],
-      allegation_types: ['Exploitation']
+      types: ['Exploitation']
     }
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .with(body: hash_including(allegations: [persisted_allegation]))
     ).to have_been_made
   end

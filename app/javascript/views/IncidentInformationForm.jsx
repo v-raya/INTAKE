@@ -30,7 +30,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           id='street_address'
           label='Address'
           maxLength='128'
-          onChange={({target: {value}}) => onChange(['address', 'street_address'], value)}
+          onChange={({target: {value}}) => onChange(['incident_address', 'street_address'], value)}
           value={address.streetAddress}
         />
         <InputField
@@ -38,7 +38,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           id='city'
           label= 'City'
           maxLength='64'
-          onChange={({target: {value}}) => onChange(['address', 'city'], value)}
+          onChange={({target: {value}}) => onChange(['incident_address', 'city'], value)}
           value={address.city}
         />
         <SelectField
@@ -59,7 +59,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           id='state'
           label='State'
           value={address.state}
-          onChange={({target: {value}}) => onChange(['address', 'state'], value)}
+          onChange={({target: {value}}) => onChange(['incident_address', 'state'], value)}
         >
           <option key='' />
           {usStates.map((state) => <option key={state.code} value={state.code}>{state.name}</option>)}
@@ -70,7 +70,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           id='zip'
           label='Zip'
           maxLength='10'
-          onChange={({target: {value}}) => onChange(['address', 'zip'], value)}
+          onChange={({target: {value}}) => onChange(['incident_address', 'zip'], value)}
           value={address.zip}
         />
         <SelectField

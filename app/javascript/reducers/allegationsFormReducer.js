@@ -21,17 +21,6 @@ export const buildFerbAllegations = (allegations) => (
   )
 )
 
-const buildApiAllegations = (allegations) => (
-  fromJS(
-    allegations.map((allegation) => ({
-      id: allegation.id.toString(),
-      victimId: allegation.victim_id.toString(),
-      perpetratorId: allegation.perpetrator_id.toString(),
-      allegationTypes: allegation.allegation_types,
-    }))
-  )
-)
-
 export default createReducer(List(), {
   [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
     if (error) {
@@ -42,12 +31,23 @@ export default createReducer(List(), {
     }
   },
   [SET_ALLEGATION_TYPES](state, {payload: {victimId, perpetratorId, allegationTypes}}) {
-    return state.filterNot((allegation) => (
+    const notFound = -1
+    const allegationIndex = state.findIndex((allegation) => (
       allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
-    )).push(fromJS({id: null, victimId, perpetratorId, allegationTypes}))
+    ))
+    if (allegationIndex === notFound) {
+      return state.push(fromJS({
+        id: null,
+        perpetratorId,
+        victimId,
+        allegationTypes,
+      }))
+    } else {
+      return state.update(allegationIndex, (allegation) => (allegation.set('allegationTypes', List(allegationTypes))))
+    }
   },
   [RESET_ALLEGATIONS_FORM](_state, {payload: {allegations}}) {
-    return buildApiAllegations(allegations)
+    return buildFerbAllegations(allegations)
   },
   [DELETE_PERSON_COMPLETE](state, {payload: {id}, error}) {
     if (error) {

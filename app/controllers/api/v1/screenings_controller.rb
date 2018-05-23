@@ -5,52 +5,14 @@
 module Api
   module V1
     class ScreeningsController < ApiController # :nodoc:
-      PERMITTED_PARAMS = [
-        :additional_information,
-        :assignee,
-        :communication_method,
-        :ended_at,
-        :id,
-        :incident_county,
-        :incident_date,
-        :location_type,
-        :name,
-        :reference,
-        :report_narrative,
-        :report_type,
-        :safety_information,
-        :screening_decision,
-        :screening_decision_detail,
-        :access_restrictions,
-        :restrictions_rationale,
-        :assignee_staff_id,
-        :started_at,
-        cross_reports: [
-          :id,
-          :county_id,
-          :inform_date,
-          :method,
-          agencies: %i[id type]
-        ],
-        address: %i[id city state street_address zip legacy_descriptor],
-        allegations: [
-          :id,
-          :screening_id,
-          :perpetrator_id,
-          :victim_id,
-          allegation_types: []
-        ],
-        safety_alerts: []
-      ].freeze
-
       def create
         screening = ScreeningRepository.create(session[:security_token], new_screening)
         render json: screening
       end
 
       def update
-        existing_screening = Screening.new(screening_params.to_h)
-        updated_screening = ScreeningRepository.update(session[:security_token], existing_screening)
+        screening = params.require(:screening).as_json.symbolize_keys
+        updated_screening = ScreeningRepository.update(session[:security_token], screening)
         render json: updated_screening
       end
 
@@ -75,10 +37,6 @@ module Api
       end
 
       private
-
-      def screening_params
-        params.require(:screening).permit(*PERMITTED_PARAMS)
-      end
 
       def build_incident_county(session)
         user_details = session[:user_details]

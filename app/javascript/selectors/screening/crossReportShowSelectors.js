@@ -24,7 +24,7 @@ export const getAgencyCodeToNameSelector = createSelector(
   getCountyAgenciesSelector,
   (agencies, countyAgencies) => agencies.reduce((agencyCodeToName, agency) => {
     const agencyTypeName = AGENCY_TYPES[agency.get('type')]
-    const agencyCode = agency.get('id')
+    const agencyCode = agency.get('code')
 
     if (!agencyCode) { return agencyCodeToName }
 
@@ -38,8 +38,8 @@ export const getSelectedCrossReportAgencyNamesSelector = createSelector(
   getCrossReportAgenciesSelector,
   getAgencyCodeToNameSelector,
   (agencies, agencyCodeToName) => agencies.reduce((names, agency) => {
-    const {type, id} = agency.toJS()
-    return names.set(type, id ? agencyCodeToName[id] : AGENCY_TYPES[type])
+    const {type, code} = agency.toJS()
+    return names.set(type, code ? agencyCodeToName[code] : AGENCY_TYPES[type])
   }, Map())
 )
 
@@ -55,15 +55,15 @@ const findAgencyData = (agencies, agencyType) => {
 const isBlank = (value) => (value === undefined || value === '')
 
 export const getAgencyRequiredErrors = (type, agencies, allegations) => {
-  const {selectedType, id} = findAgencyData(agencies, type)
-  if (areCrossReportsRequired(allegations) && isBlank(selectedType) && isBlank(id)) {
+  const {selectedType, code} = findAgencyData(agencies, type)
+  if (areCrossReportsRequired(allegations) && isBlank(selectedType) && isBlank(code)) {
     return `Please indicate cross-reporting to ${AGENCY_TYPES[type].toLowerCase()}.`
   }
   return undefined
 }
 export const getDistrictAttorneyErrors = (agencies) => {
-  const {type, id} = findAgencyData(agencies, DISTRICT_ATTORNEY)
-  if (isBlank(type) || id) {
+  const {type, code} = findAgencyData(agencies, DISTRICT_ATTORNEY)
+  if (isBlank(type) || code) {
     return undefined
   } else {
     return 'Please enter an agency name.'
@@ -71,8 +71,8 @@ export const getDistrictAttorneyErrors = (agencies) => {
 }
 
 export const getLawEnforcementErrors = (agencies) => {
-  const {type, id} = findAgencyData(agencies, LAW_ENFORCEMENT)
-  if (isBlank(type) || id) {
+  const {type, code} = findAgencyData(agencies, LAW_ENFORCEMENT)
+  if (isBlank(type) || code) {
     return undefined
   } else {
     return 'Please enter an agency name.'
@@ -80,8 +80,8 @@ export const getLawEnforcementErrors = (agencies) => {
 }
 
 export const getCountyLicensingErrors = (agencies) => {
-  const {type, id} = findAgencyData(agencies, COUNTY_LICENSING)
-  if (isBlank(type) || id) {
+  const {type, code} = findAgencyData(agencies, COUNTY_LICENSING)
+  if (isBlank(type) || code) {
     return undefined
   } else {
     return 'Please enter an agency name.'
@@ -89,8 +89,8 @@ export const getCountyLicensingErrors = (agencies) => {
 }
 
 export const getCommunityCareLicensingErrors = (agencies) => {
-  const {type, id} = findAgencyData(agencies, COMMUNITY_CARE_LICENSING)
-  if (isBlank(type) || id) {
+  const {type, code} = findAgencyData(agencies, COMMUNITY_CARE_LICENSING)
+  if (isBlank(type) || code) {
     return undefined
   } else {
     return 'Please enter an agency name.'

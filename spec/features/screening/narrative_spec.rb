@@ -80,9 +80,8 @@ feature 'screening narrative card' do
     end
 
     existing_screening[:report_narrative] = 'Trying to fill in with changes'
-    existing_screening[:address] = existing_screening.delete(:incident_address)
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -92,9 +91,8 @@ feature 'screening narrative card' do
     end
 
     expect(
-      a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
-      )
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id])))
+        .with(body: hash_including(existing_screening))
     ).to have_been_made
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -119,9 +117,8 @@ feature 'screening narrative card' do
     end
 
     existing_screening[:report_narrative] = 'Trying to fill in with changes'
-    existing_screening[:address] = existing_screening.delete(:incident_address)
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
+      :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -131,9 +128,8 @@ feature 'screening narrative card' do
     end
 
     expect(
-      a_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_screening_path(existing_screening[:id]))
-      )
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id])))
+        .with(body: hash_including(existing_screening))
     ).to have_been_made
 
     within '#narrative-card.show' do

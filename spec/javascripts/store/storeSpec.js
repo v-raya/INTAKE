@@ -84,7 +84,7 @@ describe('Store', () => {
         name: 'Mock screening',
         participants: [{id: '2', legacy_id: '3', screening_id: '1'}],
         allegations: [],
-        address: {street_address: undefined, city: undefined, state: undefined, zip: undefined},
+        incident_address: {},
         fetch_status: 'FETCHED',
       })
     )

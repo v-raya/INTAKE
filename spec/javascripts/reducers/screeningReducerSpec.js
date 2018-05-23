@@ -59,7 +59,7 @@ describe('screeningReducer', () => {
           id: '1',
           incident_date: null,
           incident_county: null,
-          address: {street_address: undefined, city: undefined, state: undefined, zip: undefined},
+          incident_address: {},
           location_type: null,
           allegations: [],
           fetch_status: 'FETCHED',
@@ -119,10 +119,10 @@ describe('screeningReducer', () => {
         id: 1,
         screening_decision: 'promote_to_referral',
         allegations: [{
-          id: '2',
-          victim_id: '111',
-          perpetrator_id: '222',
-          allegation_types: ['General Neglect'],
+          id: 2,
+          victim_person_id: 111,
+          perpetrator_person_id: 222,
+          types: ['General Neglect'],
         }],
       }))
     })

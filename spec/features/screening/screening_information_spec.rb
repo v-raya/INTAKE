@@ -26,7 +26,7 @@ feature 'screening information card' do
   before(:each) do
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_relationships
     stub_empty_history_for_screening(screening)
@@ -64,14 +64,15 @@ feature 'screening information card' do
       ended_at: '2016-08-17T10:00:00.000Z'
     )
 
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
-      .with(json_body(as_json_without_root_id(screening)))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+      .with(json_body(screening.as_json))
       .and_return(json_body(screening.to_json))
     stub_empty_relationships
     stub_empty_history_for_screening(screening)
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+        .with(body: hash_including(screening.as_json))
     ).to have_been_made
   end
 

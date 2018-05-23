@@ -48,11 +48,11 @@ const getAllegationsToSaveSelector = createSelector(
   getAllegationsWithTypesSelector,
   getScreeningIdValueSelector,
   (allegations, screeningId) => allegations.map((allegation) => Map({
-    victim_id: allegation.get('victimId'),
-    perpetrator_id: allegation.get('perpetratorId'),
-    allegation_types: allegation.get('allegationTypes'),
-    screening_id: screeningId,
     id: allegation.get('id'),
+    screening_id: screeningId,
+    victim_person_id: allegation.get('victimId'),
+    perpetrator_person_id: allegation.get('perpetratorId'),
+    types: allegation.get('allegationTypes'),
   }))
 )
 

@@ -39,7 +39,7 @@ const getSelectedAgenciesSelector = createSelector(
     [LAW_ENFORCEMENT]: lawEnforcement,
   }).filter((agencyForm, _type) => agencyForm.get('selected'))
     .reduce((agencies, agencyForm, type) => (
-      agencies.push(fromJS({type, id: agencyForm.getIn(['agency', 'value'])}))
+      agencies.push(fromJS({type, code: agencyForm.getIn(['agency', 'value'])}))
     ), List())
 )
 

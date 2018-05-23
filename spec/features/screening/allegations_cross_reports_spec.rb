@@ -28,7 +28,7 @@ feature 'show cross reports' do
       cross_reports: [{
         id: '1',
         county_id: 'c41',
-        agencies: [{ type: 'LAW_ENFORCEMENT', id: 'LAOFFCODE' }],
+        agencies: [{ id: '1', type: 'LAW_ENFORCEMENT', code: 'LAOFFCODE' }],
         method: 'Child Abuse Form'
       }]
     }
@@ -94,7 +94,7 @@ feature 'show cross reports' do
       cross_reports: [{
         id: '1',
         county_id: 'c41',
-        agencies: [{ type: 'LAW_ENFORCEMENT', id: 'LAOFFCODE' }],
+        agencies: [{ id: '1', type: 'LAW_ENFORCEMENT', code: 'LAOFFCODE' }],
         method: 'Child Abuse Form'
       }]
     }
@@ -173,12 +173,11 @@ feature 'show cross reports' do
     api_screening = screening.merge(address: {}, cross_reports: [{
                                       county_id: 'c41',
                                       agencies: [
-                                        { type: 'DISTRICT_ATTORNEY', id: '65Hvp7x01F' },
-                                        { type: 'LAW_ENFORCEMENT', id: 'BMG2f3J75C' }
+                                        { id: '1', type: 'DISTRICT_ATTORNEY', code: '65Hvp7x01F' },
+                                        { id: '2', type: 'LAW_ENFORCEMENT', code: 'BMG2f3J75C' }
                                       ]
                                     }])
-    api_screening.delete(:incident_address)
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_screening_path(screening[:id])))
+    stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(api_screening.to_json, status: 200))
     within '#cross-report-card.edit' do
       click_button 'Save'
