@@ -48,31 +48,27 @@ describe ScreeningRepository do
       double(:response, body: { 'id' => screening_id, 'name' => 'Updated Screening' })
     end
     let(:screening) do
-      double(
-        :screening,
-        id: screening_id,
-        as_json: { 'id' => screening_id, 'name' => 'Updated Screening' }
-      )
+      { id: screening_id, name: 'Updated Screening' }
     end
 
     context 'when screening has an id' do
       let(:screening_id) { '77' }
 
       before do
-        expect(IntakeAPI).to receive(:make_api_call)
+        expect(FerbAPI).to receive(:make_api_call)
           .with(
             security_token,
-            "/api/v1/screenings/#{screening_id}",
+            "/intake/screenings/#{screening_id}",
             :put,
-            'name' => 'Updated Screening'
+            screening
           )
           .and_return(response)
       end
 
       it 'returns the updated screening' do
         updated_screening = described_class.update(security_token, screening)
-        expect(updated_screening.id).to eq(screening_id)
-        expect(updated_screening.name).to eq('Updated Screening')
+        expect(updated_screening['id']).to eq(screening_id)
+        expect(updated_screening['name']).to eq('Updated Screening')
       end
     end
 
