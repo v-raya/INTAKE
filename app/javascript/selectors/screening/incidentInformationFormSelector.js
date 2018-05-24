@@ -34,13 +34,19 @@ export const getLocationTypeSelector = createSelector(
   (incidentInformationForm) => incidentInformationForm.getIn(['location_type', 'value'], '')
 )
 
+export const getLocationOfChildrenSelector = createSelector(
+  (state) => state.get('incidentInformationForm'),
+  (incidentInformationForm) => incidentInformationForm.getIn(['current_location_of_children', 'value'])
+)
+
 export const getScreeningWithEditsSelector = createSelector(
   getScreeningSelector,
   (state) => state.getIn(['incidentInformationForm', 'incident_date', 'value']),
   (state) => state.getIn(['incidentInformationForm', 'incident_county', 'value']),
   (state) => (state.getIn(['incidentInformationForm', 'incident_address']) || Map()),
   (state) => state.getIn(['incidentInformationForm', 'location_type', 'value']),
-  (screening, incidentDate, incidentCounty, address, locationType) => (
+  (state) => state.getIn(['incidentInformationForm', 'current_location_of_children', 'value']),
+  (screening, incidentDate, incidentCounty, address, locationType, locationOfChildren) => (
     screening.set('incident_date', incidentDate)
       .set('incident_county', incidentCounty)
       .set('incident_address', Map({
@@ -51,6 +57,7 @@ export const getScreeningWithEditsSelector = createSelector(
         zip: address.getIn(['zip', 'value'], '') || '',
       }))
       .set('location_type', locationType)
+      .set('current_location_of_children', locationOfChildren)
   )
 )
 

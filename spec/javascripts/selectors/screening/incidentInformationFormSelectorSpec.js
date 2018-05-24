@@ -5,6 +5,7 @@ import {
   getAddressSelector,
   getLocationTypeSelector,
   getScreeningWithEditsSelector,
+  getLocationOfChildrenSelector,
   getVisibleErrorsSelector,
 } from 'selectors/screening/incidentInformationFormSelector'
 import {getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
@@ -98,6 +99,19 @@ describe('incidentInformationFormSelectors', () => {
     })
   })
 
+  describe('getLocationOfChildrenSelector', () => {
+    it('returns a value when it is present', () => {
+      const incidentInformationForm = {current_location_of_children: {value: 'something is good'}}
+      const state = fromJS({incidentInformationForm})
+      expect(getLocationOfChildrenSelector(state)).toEqual('something is good')
+    })
+    it('returns a undefined when location of child is not defined ', () => {
+      const incidentInformationForm = {}
+      const state = fromJS({incidentInformationForm})
+      expect(getLocationOfChildrenSelector(state)).toEqual(undefined)
+    })
+  })
+
   describe('getScreeningWithEditsSelector', () => {
     it('returns the screening with edits', () => {
       const screening = {
@@ -111,6 +125,7 @@ describe('incidentInformationFormSelectors', () => {
           zip: 'old zip',
         },
         location_type: 'old location type',
+        current_location_of_children: 'Old location of children',
       }
       const incidentInformationForm = {
         incident_date: {
@@ -137,6 +152,9 @@ describe('incidentInformationFormSelectors', () => {
         location_type: {
           value: 'new location type',
         },
+        current_location_of_children: {
+          value: 'new location of children',
+        },
       }
       const state = fromJS({incidentInformationForm, screening})
       expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
@@ -150,6 +168,7 @@ describe('incidentInformationFormSelectors', () => {
           zip: 'new zip',
         },
         location_type: 'new location type',
+        current_location_of_children: 'new location of children',
       }))
     })
 
@@ -159,6 +178,7 @@ describe('incidentInformationFormSelectors', () => {
         incident_county: 'old county',
         incident_address: {},
         location_type: 'old location type',
+        current_location_of_children: 'old location of children',
       }
       const incidentInformationForm = {
         incident_date: {
@@ -170,6 +190,9 @@ describe('incidentInformationFormSelectors', () => {
         incident_address: {},
         location_type: {
           value: 'new location type',
+        },
+        current_location_of_children: {
+          value: 'new location of children',
         },
       }
       const state = fromJS({incidentInformationForm, screening})

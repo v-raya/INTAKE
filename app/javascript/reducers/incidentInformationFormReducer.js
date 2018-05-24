@@ -18,6 +18,7 @@ export default createReducer(Map(), {
       incident_county,
       incident_address: {id, street_address, city, state: usState, zip},
       location_type,
+      current_location_of_children,
     } = screening
 
     return fromJS({
@@ -31,6 +32,9 @@ export default createReducer(Map(), {
         zip: untouched(zip),
       },
       location_type: untouched(location_type),
+      current_location_of_children: {
+        value: current_location_of_children,
+      },
     })
   },
   [SET_INCIDENT_INFORMATION_FORM_FIELD](state, {payload: {fieldSet, value}}) {
@@ -44,6 +48,7 @@ export default createReducer(Map(), {
       .setIn(['incident_address', 'state', 'touched'], true)
       .setIn(['incident_address', 'zip', 'touched'], true)
       .setIn(['location_type', 'touched'], true)
+      .setIn(['current_location_of_children', 'touched'], true)
   },
   [TOUCH_INCIDENT_INFORMATION_FORM_FIELD](state, {payload: {field}}) {
     return state.setIn([field, 'touched'], true)
@@ -54,6 +59,7 @@ export default createReducer(Map(), {
       incident_county,
       incident_address: {street_address, city, state: usState, zip},
       location_type,
+      current_location_of_children,
     } = screening
     return state.setIn(['incident_date', 'value'], incident_date)
       .setIn(['incident_county', 'value'], incident_county)
@@ -62,5 +68,6 @@ export default createReducer(Map(), {
       .setIn(['incident_address', 'state', 'value'], usState)
       .setIn(['incident_address', 'zip', 'value'], zip)
       .setIn(['location_type', 'value'], location_type)
+      .setIn(['current_location_of_children', 'value'], current_location_of_children)
   },
 })
