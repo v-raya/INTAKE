@@ -9,9 +9,9 @@ const attachLink = (onClick, relationship, maybeId) => (
 const isPending = (relationship, pendingPeople) =>
   pendingPeople.some((id) => id === (relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id))
 
-const createRelationshipDataArray = (people) => {
+const createRelationshipDataArray = (person_relationships) => {
   const relationshipData = []
-  people[0].relationships.map((relationship) => {
+  person_relationships.map((relationship) => {
     const value = {name: relationship.relatee, secondaryRelationship: relationship.type}
     relationshipData.push(value)
   })
@@ -23,11 +23,29 @@ const createRelationshipDataArray = (people) => {
 export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
 
   <div className='card-body no-pad-top'>
-    <RelationCard firstName={people[0].name} data={createRelationshipDataArray(people)} />
     {/* <p> {people[0].name} </p>
     <p> {people[0].relationships.map((relationship) => `<p>${relationship.relatee }</p>`)} </p>
     <p> {JSON.stringify(createRelationshipDataArray(people))}</p>
     <p> {JSON.stringify(people)} </p> */}
+    {
+      people.map((person, index) => (
+        <div className='row' key={index}>
+          <div className='col-md-12'>
+            {
+              (person.relationships.length > 0) &&
+              <span>
+                <RelationCard firstName={person.name} data={createRelationshipDataArray(person.relationships)}/>
+              </span>
+            }
+            {
+              (person.relationships.length === 0) &&
+              <strong className='relationships'> has no known relationships</strong>
+            }
+          </div>
+        </div>
+      ))
+    }
+
     {
       people.map((person, index) => (
         <div className='row' key={index}>
