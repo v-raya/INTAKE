@@ -171,7 +171,7 @@ describe('IncidentInformationForm', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = renderIncidentInformationForm({onChange})
       component.find('textarea').simulate('change', {target: {value: 'new value'}})
-      expect(onChange).toHaveBeenCalledWith(['location_of_children'], 'new value')
+      expect(onChange).toHaveBeenCalledWith(['current_location_of_children'], 'new value')
     })
   })
 

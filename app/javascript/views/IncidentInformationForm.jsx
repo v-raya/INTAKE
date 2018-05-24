@@ -94,10 +94,10 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
     </fieldset>
     <div className='row'>
       <div className='col-md-12'>
-        <label className='no-gap' htmlFor='location_of_children'>Location Of Children</label>
+        <label className='no-gap' htmlFor='current_location_of_children'>Location Of Children</label>
         <textarea
-          id='location_of_children'
-          onChange={({target: {value}}) => onChange(['location_of_children'], value || null)}
+          id='current_location_of_children'
+          onChange={({target: {value}}) => onChange(['current_location_of_children'], value || null)}
           value={locationOfChildren.value}
         />
       </div>
