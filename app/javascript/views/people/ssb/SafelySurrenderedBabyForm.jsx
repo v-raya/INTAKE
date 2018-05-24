@@ -5,6 +5,7 @@ import FormField from 'common/FormField'
 import GrouperHeading from 'common/GrouperHeading'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
+import SSBRelationSelect from 'views/people/ssb/SSBRelationSelect'
 
 const SafelySurrenderedBabyForm = ({
   actions: {onChange},
@@ -31,16 +32,7 @@ const SafelySurrenderedBabyForm = ({
           <option key='fake-a' value='fake-a'>Fake Value A</option>
           <option key='fake-b' value='fake-b'>Fake Value B</option>
         </SelectField>
-        <SelectField
-          gridClassName='col-md-4'
-          id='relation-to-child'
-          label='Relationship to Surrendered Child'
-          value={relationToChild}
-          onChange={onChangeField('relationToChild')}
-        >
-          <option key='fake-a' value='Hagrid'>Fake Value A</option>
-          <option key='fake-b' value='fake-b'>Fake Value B</option>
-        </SelectField>
+        <SSBRelationSelect value={relationToChild} onChange={onChangeField('relationToChild')} />
         <InputField
           gridClassName='col-md-4'
           id='bracelet-id'
