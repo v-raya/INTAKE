@@ -18,6 +18,7 @@ describe('SSBRelationSelect', () => {
 
   it('renders a select field', () => {
     const select = root.find('SelectField')
+    expect(select.props().label).toEqual('Relationship to Surrendered Child')
     expect(select.props().gridClassName).toEqual('col-md-4')
     expect(select.props().value).toEqual('Groundskeeper')
   })

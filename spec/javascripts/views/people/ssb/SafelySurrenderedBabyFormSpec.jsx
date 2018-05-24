@@ -85,25 +85,23 @@ describe('SafeleySurrenderedBabyForm', () => {
     })
 
     it('renders Parent/Guardian Given Bracelet ID', () => {
-      const props = body.find('SelectField[label="Parent/Guardian Given Bracelet ID"]').props()
-      expect(props.gridClassName).toEqual('col-md-4')
+      const props = body.find('SSBGivenBraceletSelect').props()
       expect(props.value).toEqual('yes')
     })
 
     it('propagates changes to Parent/Guardian Given Bracelet ID', () => {
-      const props = body.find('SelectField[label="Parent/Guardian Given Bracelet ID"]').props()
+      const props = body.find('SSBGivenBraceletSelect').props()
       props.onChange({target: {value: 'Unknown'}})
       expect(actions.onChange).toHaveBeenCalledWith('parentGuardGivenBraceletId', 'Unknown')
     })
 
     it('renders Parent/Guardian Provided Medical Questionaire', () => {
-      const props = body.find('SelectField[label="Parent/Guardian Provided Medical Questionaire"]').props()
-      expect(props.gridClassName).toEqual('col-md-4')
+      const props = body.find('SSBGivenMedQuestionaireSelect').props()
       expect(props.value).toEqual('no')
     })
 
     it('propagates changes to Parent/Guardian Provided Medical Questionaire', () => {
-      const props = body.find('SelectField[label="Parent/Guardian Provided Medical Questionaire"]').props()
+      const props = body.find('SSBGivenMedQuestionaireSelect').props()
       props.onChange({target: {value: 'Unknown'}})
       expect(actions.onChange).toHaveBeenCalledWith('parentGuardProvMedicalQuestionaire', 'Unknown')
     })

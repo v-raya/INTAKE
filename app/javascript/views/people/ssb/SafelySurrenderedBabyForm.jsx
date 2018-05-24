@@ -5,6 +5,8 @@ import FormField from 'common/FormField'
 import GrouperHeading from 'common/GrouperHeading'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
+import SSBGivenBraceletSelect from 'views/people/ssb/SSBGivenBraceletSelect'
+import SSBGivenMedQuestionaireSelect from 'views/people/ssb/SSBGivenMedQuestionaireSelect'
 import SSBRelationSelect from 'views/people/ssb/SSBRelationSelect'
 
 const SafelySurrenderedBabyForm = ({
@@ -32,7 +34,10 @@ const SafelySurrenderedBabyForm = ({
           <option key='fake-a' value='fake-a'>Fake Value A</option>
           <option key='fake-b' value='fake-b'>Fake Value B</option>
         </SelectField>
-        <SSBRelationSelect value={relationToChild} onChange={onChangeField('relationToChild')} />
+        <SSBRelationSelect
+          value={relationToChild}
+          onChange={onChangeField('relationToChild')}
+        />
         <InputField
           gridClassName='col-md-4'
           id='bracelet-id'
@@ -54,26 +59,14 @@ const SafelySurrenderedBabyForm = ({
             value={comments}
           />
         </FormField>
-        <SelectField
-          gridClassName='col-md-4'
-          id='pg-given-bracelet-id'
-          label='Parent/Guardian Given Bracelet ID'
+        <SSBGivenBraceletSelect
           value={parentGuardGivenBraceletId}
           onChange={onChangeField('parentGuardGivenBraceletId')}
-        >
-          <option key='fake-a' value='Hagrid'>Fake Value A</option>
-          <option key='fake-b' value='fake-b'>Fake Value B</option>
-        </SelectField>
-        <SelectField
-          gridClassName='col-md-4'
-          id='pg-provided-medical-questionaire'
-          label='Parent/Guardian Provided Medical Questionaire'
+        />
+        <SSBGivenMedQuestionaireSelect
           value={parentGuardProvMedicalQuestionaire}
           onChange={onChangeField('parentGuardProvMedicalQuestionaire')}
-        >
-          <option key='fake-a' value='Hagrid'>Fake Value A</option>
-          <option key='fake-b' value='fake-b'>Fake Value B</option>
-        </SelectField>
+        />
         <DateField
           gridClassName='col-md-4'
           id='med-questionaire-return-date'
