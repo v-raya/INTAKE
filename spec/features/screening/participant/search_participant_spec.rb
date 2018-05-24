@@ -59,6 +59,7 @@ feature 'searching a participant in autocompleter' do
                     address.with_state_code('NY')
                     address.with_city('Springfield')
                     address.with_zip('11222')
+                    address.with_phone_number(number: '6035550123', type: 'Home')
                     address.with_type do
                       AddressTypeSearchResultBuilder.build('Home')
                     end
@@ -96,7 +97,7 @@ feature 'searching a participant in autocompleter' do
         expect(page).to have_content 'Hispanic/Latino'
         expect(page).to have_content 'Language'
         expect(page).to have_content 'French (Primary), Italian'
-        expect(page).to have_content 'Home(971) 287-6774'
+        expect(page).to have_content 'Home(603) 555-0123'
         expect(page).to have_content 'SSN'
         expect(page).to have_content '1234'
         expect(page).to have_content '123-23-1234'
@@ -213,7 +214,7 @@ feature 'searching a participant in autocompleter' do
       end
     end
 
-    scenario 'person without phone_numbers' do
+    scenario 'person without last known phone_numbers' do
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
         response.with_hits do
@@ -223,7 +224,8 @@ feature 'searching a participant in autocompleter' do
               builder.with_middle_name('Jacqueline')
               builder.with_last_name('Simpson')
               builder.with_name_suffix('md')
-              builder.with_phone_number({})
+              # Phone numbers should be pulled from addresses, not here.
+              builder.with_phone_number(number: '6035550123', type: 'Home')
             end
           ]
         end

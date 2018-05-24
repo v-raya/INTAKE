@@ -10,6 +10,7 @@ import {
   mapRaces,
   mapEthnicities,
   mapAddress,
+  mapPhoneNumber,
 } from 'utils/peopleSearchHelper'
 import {isCommaSuffix, formatHighlightedSuffix} from 'utils/nameFormatter'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
@@ -28,10 +29,10 @@ export const getLastResultsSortValueSelector = (state) => {
 
 const formatSSN = (ssn) => ssn && ssn.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3')
 const formatDOB = (dob, highlight) => (highlight ? '<em>'.concat(dob, '</em>') : dob)
-const formatPhoneNumber = (phoneNumber) => phoneNumber && Map({
+const formatPhoneNumber = (phoneNumber) => (phoneNumber ? Map({
   number: phoneNumberFormatter(phoneNumber.get('number')),
   type: phoneNumber.get('type'),
-})
+}) : null)
 
 // Try to find a match from a list of highlights by stripping out <em> tags
 const highlightNameField = (exactName, highlights) => (highlights.find(
@@ -81,7 +82,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       ssn: formatSSN(highlight.getIn(['ssn', 0], result.get('ssn'))),
       clientCounty: systemCodeDisplayValue(result.getIn(['client_county', 'id']), state.get('counties')),
       address: mapAddress(state, result),
-      phoneNumber: formatPhoneNumber(result.getIn(['phone_numbers', 0], null)),
+      phoneNumber: formatPhoneNumber((mapPhoneNumber(result) || List()).first()),
       isSensitive: mapIsSensitive(result),
       isSealed: mapIsSealed(result),
     })
