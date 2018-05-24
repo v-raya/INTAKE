@@ -94,6 +94,10 @@ describe('peopleSearchSelectors', () => {
               state_code: 'state',
               zip: '11344',
               type: {id: RESIDENCE_TYPE},
+              phone_numbers: [{
+                number: '2126666666',
+                type: 'Home',
+              }],
             }],
             phone_numbers: [{
               id: '2',
@@ -148,7 +152,7 @@ describe('peopleSearchSelectors', () => {
             streetAddress: '234 Fake Street',
           },
           phoneNumber: {
-            number: '(994) 907-6774',
+            number: '(212) 666-6666',
             type: 'Home',
           },
           isSensitive: true,
@@ -157,7 +161,7 @@ describe('peopleSearchSelectors', () => {
       )
     })
 
-    it('maps the first address and phone number result to address and phone number', () => {
+    it('maps the first address and its phone number result to address and phone number', () => {
       const peopleSearch = {
         results: [{
           _source: {
@@ -169,6 +173,10 @@ describe('peopleSearchSelectors', () => {
               state_code: 'state',
               zip: '11344',
               type: {id: RESIDENCE_TYPE},
+              phone_numbers: [{
+                number: '2125550123',
+                type: 'Home',
+              }],
             }, {
               id: '2',
               street_number: '2',
@@ -177,6 +185,10 @@ describe('peopleSearchSelectors', () => {
               state_code: 'state',
               zip: '11222',
               type: {id: RESIDENCE_TYPE},
+              phone_numbers: [{
+                number: '1231231234',
+                type: 'Home',
+              }],
             }],
             phone_numbers: [{
               number: '9949076774',
@@ -210,7 +222,7 @@ describe('peopleSearchSelectors', () => {
       )
       expect(peopleResults.getIn([0, 'phoneNumber'])).toEqualImmutable(
         Map({
-          number: '(994) 907-6774',
+          number: '(212) 555-0123',
           type: 'Home',
         })
       )
