@@ -3,8 +3,8 @@ import {shallow} from 'enzyme'
 import IncidentInformationForm from 'views/IncidentInformationForm'
 
 describe('IncidentInformationForm', () => {
-  const renderIncidentInformationForm = ({errors = {}, address = {}, counties = [], locationTypes = [], usStates = [], ...args}) => {
-    const props = {errors, address, counties, locationTypes, usStates, ...args}
+  const renderIncidentInformationForm = ({errors = {}, address = {}, counties = [], locationTypes = [], locationOfChildren = {}, usStates = [], ...args}) => {
+    const props = {errors, address, counties, locationTypes, locationOfChildren, usStates, ...args}
     return shallow(<IncidentInformationForm {...props}/>, {disableLifecycleMethods: true})
   }
 
@@ -158,6 +158,20 @@ describe('IncidentInformationForm', () => {
         component.find('InputField[label="Zip"]').simulate('change', {target: {value: 'new value'}})
         expect(onChange).toHaveBeenCalledWith(['incident_address', 'zip'], 'new value')
       })
+    })
+  })
+
+  describe('Location of Children', () => {
+    it('displays the current location of the child', () => {
+      const component = renderIncidentInformationForm({locationOfChildren: {value: 'everthing is good'}})
+      const locationOfChildrenField = component.find('textarea')
+      expect(locationOfChildrenField.props().value).toEqual('everthing is good')
+    })
+    it('calls onChange when the current location of child changes', () => {
+      const onChange = jasmine.createSpy('onChange')
+      const component = renderIncidentInformationForm({onChange})
+      component.find('textarea').simulate('change', {target: {value: 'new value'}})
+      expect(onChange).toHaveBeenCalledWith(['location_of_children'], 'new value')
     })
   })
 

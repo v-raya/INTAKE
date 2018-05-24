@@ -4,7 +4,8 @@ import DateField from 'common/DateField'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
 
-const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, address, usStates, selectedCounty, counties, selectedLocationType, locationTypes, onSave, onCancel}) => (
+const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, address, usStates, selectedCounty, counties,
+  selectedLocationType, locationTypes, locationOfChildren, onSave, onCancel}) => (
   <div className='card-body'>
     <div className='row'>
       <DateField
@@ -93,6 +94,16 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
     </fieldset>
     <div className='row'>
       <div className='col-md-12'>
+        <label className='no-gap' htmlFor='location_of_children'>Location Of Children</label>
+        <textarea
+          id='location_of_children'
+          onChange={({target: {value}}) => onChange(['location_of_children'], value || null)}
+          value={locationOfChildren.value}
+        />
+      </div>
+    </div>
+    <div className='row'>
+      <div className='col-md-12'>
         <div className='pull-right'>
           <button className='btn btn-default' onClick={onCancel}>Cancel</button>
           <button className='btn btn-primary' onClick={onSave}>Save</button>
@@ -117,6 +128,9 @@ IncidentInformationForm.propTypes = {
     incident_date: PropTypes.arrayOf(PropTypes.string),
   }),
   incidentDate: PropTypes.string,
+  locationOfChildren: PropTypes.shape({
+    value: PropTypes.string,
+  }),
   locationTypes: PropTypes.arrayOf(PropTypes.shape({
     locations: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
@@ -131,6 +145,10 @@ IncidentInformationForm.propTypes = {
     code: PropTypes.string,
     name: PropTypes.string,
   })),
+}
+
+IncidentInformationForm.defaultProps = {
+  locationOfChildren: {},
 }
 
 export default IncidentInformationForm
