@@ -1,5 +1,5 @@
 export const FETCH_SSB_COMPLETE = 'FETCH_SSB_COMPLETE'
-export const SAVE_SSB_FIELD = 'SAVE_SSB_FIELD'
+export const SET_SSB_FIELD = 'SET_SSB_FIELD'
 
 export const fetchSSBSuccess = (payload) => ({
   type: FETCH_SSB_COMPLETE,
@@ -12,7 +12,7 @@ export const fetchSSBFailure = (error) => ({
   error: true,
 })
 
-export const saveField = (field, value) => ({
-  type: SAVE_SSB_FIELD,
+export const setField = (field, value) => ({
+  type: SET_SSB_FIELD,
   payload: {field, value},
 })

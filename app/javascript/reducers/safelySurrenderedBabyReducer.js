@@ -1,7 +1,7 @@
 import {fromJS} from 'immutable'
 import {
   FETCH_SSB_COMPLETE,
-  SAVE_SSB_FIELD,
+  SET_SSB_FIELD,
 } from 'actions/safelySurrenderedBabyActions'
 import {createReducer} from 'utils/createReducer'
 
@@ -32,6 +32,6 @@ export default createReducer(initialState, {
     if (error) { return state }
     return state.set('participant_child_id', payload.participant_child_id)
   },
-  [SAVE_SSB_FIELD]: (state, {payload: {field, value}}) =>
+  [SET_SSB_FIELD]: (state, {payload: {field, value}}) =>
     state.setIn(['form', field], value),
 })

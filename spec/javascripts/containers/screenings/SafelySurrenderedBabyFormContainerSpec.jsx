@@ -1,7 +1,7 @@
 import {fromJS} from 'immutable'
 import React from 'react'
 import {shallow} from 'enzyme'
-import {saveField} from 'actions/safelySurrenderedBabyActions'
+import {setField} from 'actions/safelySurrenderedBabyActions'
 import {
   SafelySurrenderedBabyFormContainer,
   mapStateToProps,
@@ -86,7 +86,7 @@ describe('SafelySurrenderedBabyFormContainer', () => {
 
       actions.onChange('surrenderedBy', 'New SB')
 
-      expect(dispatch).toHaveBeenCalledWith(saveField('surrenderedBy', 'New SB'))
+      expect(dispatch).toHaveBeenCalledWith(setField('surrenderedBy', 'New SB'))
     })
   })
 })
