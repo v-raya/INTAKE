@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import SelectField from 'common/SelectField'
+import {GIVEN_MED_QUESTIONAIRE_RESPONSES} from 'enums/SafelySurrenderedBabyEnums'
+import {optionsOf} from 'utils/enums'
 
 const SSBGivenMedQuestionaireSelect = ({
   value,
@@ -13,11 +15,7 @@ const SSBGivenMedQuestionaireSelect = ({
     value={value}
     onChange={onChange}
   >
-    <option key='unknown' value='unknown'>Unknown</option>
-    <option key='immediate' value='immediate'>Completed and Returned Immediately</option>
-    <option key='mailed' value='mailed'>Completed and Mailed Back</option>
-    <option key='provided' value='provided'>Provided/Never Returned</option>
-    <option key='declined' value='declined'>Declined</option>
+    {optionsOf(GIVEN_MED_QUESTIONAIRE_RESPONSES)}
   </SelectField>
 )
 

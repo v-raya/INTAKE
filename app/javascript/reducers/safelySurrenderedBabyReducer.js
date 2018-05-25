@@ -3,10 +3,10 @@ import {createReducer} from 'utils/createReducer'
 
 const initialState = Map({
   surrenderedBy: 'Hagrid',
-  relationToChild: 'Groundskeeper',
+  relationToChild: '1592',
   braceletId: 'Lightning',
-  parentGuardGivenBraceletId: 'no',
-  parentGuardProvMedicalQuestionaire: 'yes',
+  parentGuardGivenBraceletId: 'unknown',
+  parentGuardProvMedicalQuestionaire: 'unknown',
   comments: 'Yer a wizard, Harry!',
   medQuestionaireReturnDate: '2001-11-14',
 })

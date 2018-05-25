@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import SelectField from 'common/SelectField'
+import {GIVEN_BRACELET_RESPONSES} from 'enums/SafelySurrenderedBabyEnums'
+import {optionsOf} from 'utils/enums'
 
 const SSBGivenBraceletSelect = ({
   value,
@@ -13,10 +15,7 @@ const SSBGivenBraceletSelect = ({
     value={value}
     onChange={onChange}
   >
-    <option key='unknown' value='unknown'>Unknown</option>
-    <option key='yes' value='yes'>Yes</option>
-    <option key='no' value='no'>No</option>
-    <option key='attempted' value='attempted'>Attempted</option>
+    {optionsOf(GIVEN_BRACELET_RESPONSES)}
   </SelectField>
 )
 
