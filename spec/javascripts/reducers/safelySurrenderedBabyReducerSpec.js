@@ -3,6 +3,8 @@ import * as matchers from 'jasmine-immutable-matchers'
 import {
   fetchSSBSuccess,
   fetchSSBFailure,
+  saveSSBSuccess,
+  saveSSBFailure,
   setField,
 } from 'actions/safelySurrenderedBabyActions'
 import safelySurrenderedBabyReducer from 'reducers/safelySurrenderedBabyReducer'
@@ -21,6 +23,31 @@ describe('safelySurrenderedBabyReducer', () => {
     it('returns the last state on failure', () => {
       const action = fetchSSBFailure('Bad')
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+    })
+  })
+
+  describe('on SAVE_SSB_COMPLETE', () => {
+    it('returns the last state on failure', () => {
+      const action = saveSSBFailure('Bad')
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+    })
+
+    it('copies the payload to both persisted and form state', () => {
+      const payload = {
+        relationToChild: '1592',
+        braceletId: 'Lightning',
+        parentGuardGivenBraceletId: 'unknown',
+        parentGuardProvMedicalQuestionaire: 'unknown',
+        comments: 'Yer a wizard, Harry!',
+        medQuestionaireReturnDate: '2001-11-14',
+      }
+      const immutablePayload = Map(payload)
+      const action = saveSSBSuccess(payload)
+
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
+        persisted: immutablePayload,
+        form: immutablePayload,
+      }))
     })
   })
 

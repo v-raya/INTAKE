@@ -7,6 +7,7 @@ import {
   getPersonInformationFlagValuesSelector,
 } from 'selectors/screening/personCardSelectors'
 import {savePerson, deletePerson} from 'actions/personCardActions'
+import {saveSSB} from 'actions/safelySurrenderedBabyActions'
 import {setPersonCardMode} from 'actions/screeningPageActions'
 import {touchAllFields} from 'actions/peopleFormActions'
 
@@ -24,6 +25,7 @@ const mapDispatchToProps = (dispatch, {personId}) => ({
   onDelete: () => dispatch(deletePerson(personId)),
   onEdit: () => dispatch(setPersonCardMode(personId, 'edit')),
   onSave: () => {
+    dispatch(saveSSB(personId))
     dispatch(savePerson(personId))
     dispatch(touchAllFields(personId))
     dispatch(setPersonCardMode(personId, 'show'))
