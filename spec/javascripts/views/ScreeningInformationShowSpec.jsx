@@ -1,6 +1,7 @@
 import React from 'react'
 import ScreeningInformationShow from 'views/ScreeningInformationShow'
 import {shallow} from 'enzyme'
+import {SCREENING_INFORMATION_SSB_MESSAGE} from 'common/HelpTextBox'
 
 describe('ScreeningInformationShow', () => {
   function renderScreeningInformationShow({
@@ -59,6 +60,22 @@ describe('ScreeningInformationShow', () => {
       report_type: 'Safely Surrendered Baby',
     }).find('ShowField[label="Report Type"]')
     expect(reportType.html()).toContain('Safely Surrendered Baby')
+  })
+
+  describe('Alert info messages', () => {
+    it('renders an alert info message when ssb is selected', () => {
+      const component = renderScreeningInformationShow({report_type: 'ssb'})
+      expect(component.find('AlertInfoMessage').exists()).toEqual(true)
+      expect(component.find('AlertInfoMessage').props().message).toEqual(SCREENING_INFORMATION_SSB_MESSAGE)
+    })
+    it('does not render an alert info message when csec is selected', () => {
+      const component = renderScreeningInformationShow({report_type: 'csec'})
+      expect(component.find('AlertInfoMessage').exists()).toEqual(false)
+    })
+    it('does not render an alert info message when report type values is not selected', () => {
+      const component = renderScreeningInformationShow({report_type: undefined})
+      expect(component.find('AlertInfoMessage').exists()).toEqual(false)
+    })
   })
 
   it('renders the screening start date/time', () => {
