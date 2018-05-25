@@ -31,4 +31,15 @@ describe('buildSelector', () => {
     expect(built('3 To Make Ready!')).toEqual('3!')
     expect(built('4 To Go!')).toEqual('4!')
   })
+
+  it('passes multiple arguments to intermediate selectors', () => {
+    const built = buildSelector(
+      (n, s) => s[n],
+      (n, s) => s[s.length - 1 - n],
+      (a, b) => a + b
+    )
+    expect(built(0, 'ABCXYZ')).toEqual('AZ')
+    expect(built(1, 'ABCXYZ')).toEqual('BY')
+    expect(built(2, 'ABCXYZ')).toEqual('CX')
+  })
 })

@@ -39,10 +39,10 @@ describe('SafelySurrenderedBabyShowContainer', () => {
       safelySurrenderedBaby: {
         participant_child_id: '123',
         surrenderedBy: 'Hagrid',
-        relationToChild: 'Groundskeeper',
+        relationToChild: '1600',
         braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'Attempted',
-        parentGuardProvMedicalQuestionaire: 'Declined',
+        parentGuardGivenBraceletId: 'attempted',
+        parentGuardProvMedicalQuestionaire: 'declined',
         comments: 'Yer a wizard, Harry!',
         medQuestionaireReturnDate: '2001-11-14',
       },
@@ -55,7 +55,7 @@ describe('SafelySurrenderedBabyShowContainer', () => {
         safelySurrenderedBaby: {
           participant_child_id: '123',
           surrenderedBy: 'Hagrid',
-          relationToChild: 'Groundskeeper',
+          relationToChild: 'Brother',
           braceletId: 'Lightning',
           parentGuardGivenBraceletId: 'Attempted',
           parentGuardProvMedicalQuestionaire: 'Declined',
