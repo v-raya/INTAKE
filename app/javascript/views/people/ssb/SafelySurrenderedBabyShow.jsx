@@ -36,11 +36,11 @@ const SafelySurrenderedBabyShow = ({
       <ShowField
         label='Parent/Guardian Given Bracelet ID'
         gridClassName='col-md-4'
-      >{parentGuardGivenBraceletId ? 'Yes' : 'No'}</ShowField>
+      >{parentGuardGivenBraceletId}</ShowField>
       <ShowField
         label='Parent/Guardian Provided Medical Questionaire'
         gridClassName='col-md-4'
-      >{parentGuardProvMedicalQuestionaire ? 'Yes' : 'No'}</ShowField>
+      >{parentGuardProvMedicalQuestionaire}</ShowField>
       <ShowField
         label='Medical Questionaire Return Date'
         gridClassName='col-md-4'
@@ -53,8 +53,8 @@ SafelySurrenderedBabyShow.propTypes = {
   braceletId: PropTypes.string,
   comments: PropTypes.string,
   medQuestionaireReturnDate: PropTypes.string,
-  parentGuardGivenBraceletId: PropTypes.bool,
-  parentGuardProvMedicalQuestionaire: PropTypes.bool,
+  parentGuardGivenBraceletId: PropTypes.string,
+  parentGuardProvMedicalQuestionaire: PropTypes.string,
   relationToChild: PropTypes.string,
   surrenderedBy: PropTypes.string,
 }

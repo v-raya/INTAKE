@@ -13,8 +13,8 @@ describe('SafelySurrenderedBabyShow', () => {
       surrenderedBy: 'Hagrid',
       relationToChild: 'Groundskeeper',
       braceletId: 'Lightning',
-      parentGuardGivenBraceletId: true,
-      parentGuardProvMedicalQuestionaire: false,
+      parentGuardGivenBraceletId: 'Attempted',
+      parentGuardProvMedicalQuestionaire: 'Declined',
       comments: 'Yer a wizard, Harry!',
       medQuestionaireReturnDate: '2001-11-14',
     })
@@ -63,13 +63,13 @@ describe('SafelySurrenderedBabyShow', () => {
     it('renders Parent/Guardian Given Bracelet ID', () => {
       const props = findField(body, 'Parent/Guardian Given Bracelet ID').props()
       expect(props.gridClassName).toEqual('col-md-4')
-      expect(props.children).toEqual('Yes')
+      expect(props.children).toEqual('Attempted')
     })
 
     it('renders Parent/Guardian Provided Medical Questionaire', () => {
       const props = findField(body, 'Parent/Guardian Provided Medical Questionaire').props()
       expect(props.gridClassName).toEqual('col-md-4')
-      expect(props.children).toEqual('No')
+      expect(props.children).toEqual('Declined')
     })
 
     it('renders Medical Questionaire Return Date', () => {
