@@ -42,13 +42,15 @@ describe('SafelySurrenderedBabyFormContainer', () => {
     const state = fromJS({
       safelySurrenderedBaby: {
         participant_child_id: '123',
-        surrenderedBy: 'Hagrid',
-        relationToChild: 'Groundskeeper',
-        braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'yes',
-        parentGuardProvMedicalQuestionaire: 'no',
-        comments: 'Yer a wizard, Harry!',
-        medQuestionaireReturnDate: '2001-11-14',
+        form: {
+          surrenderedBy: 'Hagrid',
+          relationToChild: 'Groundskeeper',
+          braceletId: 'Lightning',
+          parentGuardGivenBraceletId: 'yes',
+          parentGuardProvMedicalQuestionaire: 'no',
+          comments: 'Yer a wizard, Harry!',
+          medQuestionaireReturnDate: '2001-11-14',
+        },
       },
     })
 
@@ -57,7 +59,6 @@ describe('SafelySurrenderedBabyFormContainer', () => {
 
       expect(mapStateToProps(state, ownProps)).toEqual({
         safelySurrenderedBaby: {
-          participant_child_id: '123',
           surrenderedBy: 'Hagrid',
           relationToChild: 'Groundskeeper',
           braceletId: 'Lightning',

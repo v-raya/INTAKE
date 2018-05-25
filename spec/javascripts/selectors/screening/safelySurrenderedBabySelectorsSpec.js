@@ -1,28 +1,34 @@
 import {fromJS, Map} from 'immutable'
 import * as matchers from 'jasmine-immutable-matchers'
 import {
-  getFormattedSafelySurrenderedBaby,
-  getSafelySurrenderedBaby,
+  getPersistedSafelySurrenderedBaby,
+  getFormSafelySurrenderedBaby,
 } from 'selectors/screening/safelySurrenderedBabySelectors'
 
 describe('safelySurrenderedBabySelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('getSafelySurrenderedBaby', () => {
-    const state = fromJS({
-      safelySurrenderedBaby: {
-        participant_child_id: '123',
+  const state = fromJS({
+    safelySurrenderedBaby: {
+      participant_child_id: '123',
+      persisted: {
         relationToChild: '1592',
+        parentGuardGivenBraceletId: 'yes',
+        parentGuardProvMedicalQuestionaire: 'declined',
+      },
+      form: {
+        relationToChild: '1600',
         parentGuardGivenBraceletId: 'unknown',
         parentGuardProvMedicalQuestionaire: 'unknown',
       },
-    })
+    },
+  })
 
+  describe('getFormSafelySurrenderedBaby', () => {
     it('returns SSB info for the matching child', () => {
-      expect(getSafelySurrenderedBaby(state, '123')).toEqualImmutable(
+      expect(getFormSafelySurrenderedBaby(state, '123')).toEqualImmutable(
         fromJS({
-          participant_child_id: '123',
-          relationToChild: '1592',
+          relationToChild: '1600',
           parentGuardGivenBraceletId: 'unknown',
           parentGuardProvMedicalQuestionaire: 'unknown',
         })
@@ -30,43 +36,33 @@ describe('safelySurrenderedBabySelectors', () => {
     })
 
     it('returns undefined for people who are not SSBs', () => {
-      expect(getSafelySurrenderedBaby(state, '456')).toEqual(undefined)
+      expect(getFormSafelySurrenderedBaby(state, '456')).toEqual(undefined)
     })
 
     it('returns undefined when there is no SSB information', () => {
-      expect(getSafelySurrenderedBaby(Map({
+      expect(getFormSafelySurrenderedBaby(Map({
         safelySurrenderedBaby: null,
       }), '123')).toEqual(undefined)
     })
   })
 
-  describe('getFormattedSafelySurrenderedBaby', () => {
-    const state = fromJS({
-      safelySurrenderedBaby: {
-        participant_child_id: '123',
-        relationToChild: '1592',
-        parentGuardGivenBraceletId: 'unknown',
-        parentGuardProvMedicalQuestionaire: 'unknown',
-      },
-    })
-
+  describe('getPersistedSafelySurrenderedBaby', () => {
     it('returns SSB info for the matching child', () => {
-      expect(getFormattedSafelySurrenderedBaby(state, '123')).toEqualImmutable(
+      expect(getPersistedSafelySurrenderedBaby(state, '123')).toEqualImmutable(
         fromJS({
-          participant_child_id: '123',
           relationToChild: 'Parents',
-          parentGuardGivenBraceletId: 'Unknown',
-          parentGuardProvMedicalQuestionaire: 'Unknown',
+          parentGuardGivenBraceletId: 'Yes',
+          parentGuardProvMedicalQuestionaire: 'Declined',
         })
       )
     })
 
     it('returns undefined for people who are not SSBs', () => {
-      expect(getFormattedSafelySurrenderedBaby(state, '456')).toEqual(undefined)
+      expect(getPersistedSafelySurrenderedBaby(state, '456')).toEqual(undefined)
     })
 
     it('returns undefined when there is no SSB information', () => {
-      expect(getFormattedSafelySurrenderedBaby(Map({
+      expect(getPersistedSafelySurrenderedBaby(Map({
         safelySurrenderedBaby: null,
       }), '123')).toEqual(undefined)
     })

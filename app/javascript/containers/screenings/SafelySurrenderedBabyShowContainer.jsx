@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {
-  getFormattedSafelySurrenderedBaby,
+  getPersistedSafelySurrenderedBaby,
 } from 'selectors/screening/safelySurrenderedBabySelectors'
 import SafelySurrenderedBabyShow from 'views/people/ssb/SafelySurrenderedBabyShow'
 
@@ -13,7 +13,7 @@ const jsOrNull = (map) => (map ? map.toJS() : null)
 
 export const mapStateToProps = (state, ownProps) => ({
   safelySurrenderedBaby: jsOrNull(
-    getFormattedSafelySurrenderedBaby(state, ownProps.personId)
+    getPersistedSafelySurrenderedBaby(state, ownProps.personId)
   ),
 })
 

@@ -3,12 +3,19 @@ import {
   GIVEN_BRACELET_RESPONSES,
   GIVEN_MED_QUESTIONAIRE_RESPONSES,
 } from 'enums/SafelySurrenderedBabyEnums'
-import {buildSelector} from 'selectors'
 
-const display = (ssb) => {
-  if (!ssb) { return ssb }
+const findSSB = (state, personId) =>
+  state.find((value, key) =>
+    key === 'safelySurrenderedBaby' &&
+    value &&
+    value.get('participant_child_id') === personId
+  )
 
-  return ssb
+const getPersisted = (ssb) => ssb && ssb.get('persisted')
+const getForm = (ssb) => ssb && ssb.get('form')
+
+const display = (ssb) => ssb &&
+  ssb
     .set(
       'relationToChild',
       RELATIONS[ssb.get('relationToChild')])
@@ -18,16 +25,9 @@ const display = (ssb) => {
     .set(
       'parentGuardProvMedicalQuestionaire',
       GIVEN_MED_QUESTIONAIRE_RESPONSES[ssb.get('parentGuardProvMedicalQuestionaire')])
-}
 
-export const getSafelySurrenderedBaby = (state, personId) =>
-  state.find((value, key) =>
-    key === 'safelySurrenderedBaby' &&
-    value &&
-    value.get('participant_child_id') === personId
-  )
+export const getFormSafelySurrenderedBaby = (state, personId) =>
+  getForm(findSSB(state, personId))
 
-export const getFormattedSafelySurrenderedBaby = buildSelector(
-  getSafelySurrenderedBaby,
-  display
-)
+export const getPersistedSafelySurrenderedBaby = (state, personId) =>
+  display(getPersisted(findSSB(state, personId)))

@@ -25,46 +25,52 @@ describe('safelySurrenderedBabyReducer', () => {
   })
 
   describe('on SAVE_SSB_FIELD', () => {
+    const initial = Map({
+      participant_child_id: '123',
+      persisted: Map(),
+      form: Map(),
+    })
+
     it('updates the surrenderedBy field', () => {
       const action = saveField('surrenderedBy', 'Somebody')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().set('surrenderedBy', 'Somebody')
+      expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
+        initial.setIn(['form', 'surrenderedBy'], 'Somebody')
       )
     })
     it('updates the relationToChild field', () => {
       const action = saveField('relationToChild', 'New Relation')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().set('relationToChild', 'New Relation')
+      expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
+        initial.setIn(['form', 'relationToChild'], 'New Relation')
       )
     })
     it('updates the braceletId field', () => {
       const action = saveField('braceletId', 'New Bracelet')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().set('braceletId', 'New Bracelet')
+      expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
+        initial.setIn(['form', 'braceletId'], 'New Bracelet')
       )
     })
     it('updates the comment field', () => {
       const action = saveField('comments', 'New Comment')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().set('comments', 'New Comment')
+      expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
+        initial.setIn(['form', 'comments'], 'New Comment')
       )
     })
     it('updates the parentGuardGivenBraceletId field', () => {
       const action = saveField('parentGuardGivenBraceletId', 'Yes')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().set('parentGuardGivenBraceletId', 'Yes')
+      expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
+        initial.setIn(['form', 'parentGuardGivenBraceletId'], 'Yes')
       )
     })
     it('updates the parentGuardProvMedicalQuestionaire field', () => {
       const action = saveField('parentGuardProvMedicalQuestionaire', 'Yes')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().set('parentGuardProvMedicalQuestionaire', 'Yes')
+      expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
+        initial.setIn(['form', 'parentGuardProvMedicalQuestionaire'], 'Yes')
       )
     })
     it('updates the medQuestionaireReturnDate field', () => {
       const action = saveField('medQuestionaireReturnDate', '2018-05-01')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().set('medQuestionaireReturnDate', '2018-05-01')
+      expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
+        initial.setIn(['form', 'medQuestionaireReturnDate'], '2018-05-01')
       )
     })
   })
