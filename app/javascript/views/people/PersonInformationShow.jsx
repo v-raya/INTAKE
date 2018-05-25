@@ -6,6 +6,9 @@ import AlertErrorMessage from 'common/AlertErrorMessage'
 
 const PersonInformationShow = ({
   approximateAge,
+  CSECTypes,
+  csecEndedAt,
+  csecStartedAt,
   dateOfBirth,
   ethnicity,
   gender,
@@ -60,12 +63,26 @@ const PersonInformationShow = ({
         {ethnicity}
       </ShowField>
     </div>
+    <div className='row gap-top'>
+      <div className='col-md-4'>
+        {CSECTypes && <ShowField label='CSEC Types'>{CSECTypes}</ShowField>}
+      </div>
+      <div className='col-md-4'>
+        {csecStartedAt && <ShowField label='CSEC Start Date'>{csecStartedAt}</ShowField>}
+      </div>
+      <div className='col-md-4'>
+        {csecEndedAt && <ShowField label='CSEC End Date'>{csecEndedAt}</ShowField>}
+      </div>
+    </div>
   </div>
 )
 
 PersonInformationShow.propTypes = {
+  CSECTypes: PropTypes.array,
   alertErrorMessage: PropTypes.string,
   approximateAge: PropTypes.string,
+  csecEndedAt: PropTypes.string,
+  csecStartedAt: PropTypes.string,
   dateOfBirth: PropTypes.string,
   ethnicity: PropTypes.string,
   gender: PropTypes.string,
