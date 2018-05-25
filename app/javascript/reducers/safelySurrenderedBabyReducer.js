@@ -1,4 +1,5 @@
 import {fromJS} from 'immutable'
+import {SET_PEOPLE_FORM_FIELD} from 'actions/peopleFormActions'
 import {
   FETCH_SSB_COMPLETE,
   SAVE_SSB_COMPLETE,
@@ -7,18 +8,8 @@ import {
 import {createReducer} from 'utils/createReducer'
 
 const initialState = fromJS({
-  persisted: {
-    participantChildId: '1566',
-    surrenderedBy: 'Hagrid',
-    relationToChild: '1592',
-    braceletId: 'Lightning',
-    parentGuardGivenBraceletId: 'unknown',
-    parentGuardProvMedicalQuestionaire: 'unknown',
-    comments: 'Yer a wizard, Harry!',
-    medQuestionaireReturnDate: '2001-11-14',
-  },
+  persisted: {},
   form: {
-    participantChildId: '1566',
     surrenderedBy: 'Hagrid',
     relationToChild: '1592',
     braceletId: 'Lightning',
@@ -43,4 +34,14 @@ export default createReducer(initialState, {
   },
   [SET_SSB_FIELD]: (state, {payload: {field, value}}) =>
     state.setIn(['form', field], value),
+  [SET_PEOPLE_FORM_FIELD]: (state, {payload: {personId, fieldSet, value: roles}}) => {
+    if (
+      fieldSet[0] !== 'roles' ||
+      state.getIn(['form', 'participantChildId']) ||
+      !roles.includes('Victim')
+    ) {
+      return state
+    }
+    return state.setIn(['form', 'participantChildId'], personId)
+  },
 })

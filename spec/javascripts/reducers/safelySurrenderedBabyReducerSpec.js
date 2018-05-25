@@ -7,6 +7,7 @@ import {
   saveSSBFailure,
   setField,
 } from 'actions/safelySurrenderedBabyActions'
+import {setField as setPersonField} from 'actions/peopleFormActions'
 import safelySurrenderedBabyReducer from 'reducers/safelySurrenderedBabyReducer'
 
 describe('safelySurrenderedBabyReducer', () => {
@@ -100,6 +101,34 @@ describe('safelySurrenderedBabyReducer', () => {
       expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
         initial.setIn(['form', 'medQuestionaireReturnDate'], '2018-05-01')
       )
+    })
+  })
+
+  describe('on SET_PEOPLE_FORM_FIELD', () => {
+    it('ignores fields that are not roles', () => {
+      const action = setPersonField('123', ['ssn'], '12345')
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+    })
+
+    it('ignores changes to role that do not have victim', () => {
+      const action = setPersonField('123', ['roles'], ['Perpetrator'])
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+    })
+
+    it('ignores new victims if a participant child is already set', () => {
+      const state = Map({
+        persisted: Map().set('participantChildId', '456'),
+        form: Map().set('participantChildId', '456'),
+      })
+      const action = setPersonField('123', ['roles'], ['Victim'])
+      expect(safelySurrenderedBabyReducer(state, action)).toEqualImmutable(state)
+    })
+
+    it('watches for the addition of victims', () => {
+      const action = setPersonField('123', ['roles'], ['Victim'])
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
+        form: Map().set('participantChildId', '123'),
+      }))
     })
   })
 })

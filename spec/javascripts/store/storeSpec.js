@@ -49,18 +49,8 @@ describe('Store', () => {
       relationships: [],
       routing: {locationBeforeTransitions: null},
       safelySurrenderedBaby: {
-        persisted: {
-          participantChildId: '1566',
-          surrenderedBy: 'Hagrid',
-          relationToChild: '1592',
-          braceletId: 'Lightning',
-          parentGuardGivenBraceletId: 'unknown',
-          parentGuardProvMedicalQuestionaire: 'unknown',
-          comments: 'Yer a wizard, Harry!',
-          medQuestionaireReturnDate: '2001-11-14',
-        },
+        persisted: {},
         form: {
-          participantChildId: '1566',
           surrenderedBy: 'Hagrid',
           relationToChild: '1592',
           braceletId: 'Lightning',
