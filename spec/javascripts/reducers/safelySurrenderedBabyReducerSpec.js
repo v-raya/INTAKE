@@ -16,7 +16,9 @@ describe('safelySurrenderedBabyReducer', () => {
     it('updates the participant child', () => {
       const action = fetchSSBSuccess({participant_child_id: '123'})
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().set('participant_child_id', '123')
+        Map()
+          .setIn(['persisted', 'participantChildId'], '123')
+          .setIn(['form', 'participantChildId'], '123')
       )
     })
 
@@ -53,7 +55,6 @@ describe('safelySurrenderedBabyReducer', () => {
 
   describe('on SET_SSB_FIELD', () => {
     const initial = Map({
-      participant_child_id: '123',
       persisted: Map(),
       form: Map(),
     })

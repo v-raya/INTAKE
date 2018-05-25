@@ -7,8 +7,8 @@ import {
 import {createReducer} from 'utils/createReducer'
 
 const initialState = fromJS({
-  participant_child_id: '1566',
   persisted: {
+    participantChildId: '1566',
     surrenderedBy: 'Hagrid',
     relationToChild: '1592',
     braceletId: 'Lightning',
@@ -18,6 +18,7 @@ const initialState = fromJS({
     medQuestionaireReturnDate: '2001-11-14',
   },
   form: {
+    participantChildId: '1566',
     surrenderedBy: 'Hagrid',
     relationToChild: '1592',
     braceletId: 'Lightning',
@@ -31,7 +32,9 @@ const initialState = fromJS({
 export default createReducer(initialState, {
   [FETCH_SSB_COMPLETE]: (state, {payload, error}) => {
     if (error) { return state }
-    return state.set('participant_child_id', payload.participant_child_id)
+    return state
+      .setIn(['persisted', 'participantChildId'], payload.participant_child_id)
+      .setIn(['form', 'participantChildId'], payload.participant_child_id)
   },
   [SAVE_SSB_COMPLETE]: (state, {payload, error}) => {
     if (error) { return state }
@@ -40,5 +43,4 @@ export default createReducer(initialState, {
   },
   [SET_SSB_FIELD]: (state, {payload: {field, value}}) =>
     state.setIn(['form', field], value),
-
 })

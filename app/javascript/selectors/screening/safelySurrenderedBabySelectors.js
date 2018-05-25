@@ -4,15 +4,10 @@ import {
   GIVEN_MED_QUESTIONAIRE_RESPONSES,
 } from 'enums/SafelySurrenderedBabyEnums'
 
-const findSSB = (state, personId) =>
-  state.find((value, key) =>
-    key === 'safelySurrenderedBaby' &&
-    value &&
-    value.get('participant_child_id') === personId
-  )
+const getSSB = (state, type) => state.getIn(['safelySurrenderedBaby', type])
 
-const getPersisted = (ssb) => ssb && ssb.get('persisted')
-const getForm = (ssb) => ssb && ssb.get('form')
+const onlyForChild = (personId, ssb) =>
+  (ssb && ssb.get('participantChildId') === personId ? ssb : null)
 
 const display = (ssb) => ssb &&
   ssb
@@ -27,7 +22,7 @@ const display = (ssb) => ssb &&
       GIVEN_MED_QUESTIONAIRE_RESPONSES[ssb.get('parentGuardProvMedicalQuestionaire')])
 
 export const getFormSafelySurrenderedBaby = (state, personId) =>
-  getForm(findSSB(state, personId))
+  onlyForChild(personId, getSSB(state, 'form'))
 
 export const getPersistedSafelySurrenderedBaby = (state, personId) =>
-  display(getPersisted(findSSB(state, personId)))
+  display(onlyForChild(personId, getSSB(state, 'persisted')))

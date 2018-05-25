@@ -49,8 +49,8 @@ describe('Store', () => {
       relationships: [],
       routing: {locationBeforeTransitions: null},
       safelySurrenderedBaby: {
-        participant_child_id: '1566',
         persisted: {
+          participantChildId: '1566',
           surrenderedBy: 'Hagrid',
           relationToChild: '1592',
           braceletId: 'Lightning',
@@ -60,6 +60,7 @@ describe('Store', () => {
           medQuestionaireReturnDate: '2001-11-14',
         },
         form: {
+          participantChildId: '1566',
           surrenderedBy: 'Hagrid',
           relationToChild: '1592',
           braceletId: 'Lightning',
