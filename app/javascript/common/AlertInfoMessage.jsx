@@ -17,7 +17,10 @@ const AlertInfoMessage = ({message}) => (
 )
 
 AlertInfoMessage.propTypes = {
-  message: PropTypes.string,
+  message: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
 }
 
 export default AlertInfoMessage

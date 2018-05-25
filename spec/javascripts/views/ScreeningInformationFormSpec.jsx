@@ -1,6 +1,7 @@
 import ScreeningInformationForm from 'views/ScreeningInformationForm'
 import React from 'react'
 import {shallow} from 'enzyme'
+import {SCREENING_INFORMATION_SSB_MESSAGE} from 'common/HelpTextBox'
 
 describe('ScreeningInformationForm', () => {
   function renderScreeningInformationForm({
@@ -236,5 +237,21 @@ describe('ScreeningInformationForm', () => {
     renderScreeningInformationForm({onCancel})
       .find('.btn.btn-default').simulate('click')
     expect(onCancel).toHaveBeenCalled()
+  })
+
+  describe('Alert info messages', () => {
+    it('renders an alert info message when ssb is selected', () => {
+      const component = renderScreeningInformationForm({reportType: 'ssb'})
+      expect(component.find('AlertInfoMessage').exists()).toEqual(true)
+      expect(component.find('AlertInfoMessage').props().message).toEqual(SCREENING_INFORMATION_SSB_MESSAGE)
+    })
+    it('does not render an alert info message when csec is selected', () => {
+      const component = renderScreeningInformationForm({reportType: 'csec'})
+      expect(component.find('AlertInfoMessage').exists()).toEqual(false)
+    })
+    it('does not render an alert info message when report type values is not selected', () => {
+      const component = renderScreeningInformationForm({reportType: undefined})
+      expect(component.find('AlertInfoMessage').exists()).toEqual(false)
+    })
   })
 })

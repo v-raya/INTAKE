@@ -8,4 +8,9 @@ describe('AlertInfoMessage', () => {
     const component = shallow(<AlertInfoMessage message={messageText} />, {disableLifecycleMethods: true})
     expect(component.text()).toEqual(messageText)
   })
+  it('renders the jsx passed to it', () => {
+    const jsx = <div>This is test</div>
+    const component = shallow(<AlertInfoMessage message={jsx} />, {disableLifecycleMethods: true})
+    expect(component.html()).toContain('<div>This is test</div>')
+  })
 })

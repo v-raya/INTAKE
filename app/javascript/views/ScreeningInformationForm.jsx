@@ -3,6 +3,8 @@ import InputField from 'common/InputField'
 import PropTypes from 'prop-types'
 import React from 'react'
 import SelectField from 'common/SelectField'
+import AlertInfoMessage from 'common/AlertInfoMessage'
+import {SCREENING_INFORMATION_SSB_MESSAGE} from 'common/HelpTextBox'
 
 const ScreeningInformationForm = ({
   assignee,
@@ -21,6 +23,7 @@ const ScreeningInformationForm = ({
   reportTypes,
 }) => (
   <div className='card-body'>
+    { reportType === 'ssb' && <AlertInfoMessage message={SCREENING_INFORMATION_SSB_MESSAGE} /> }
     <div className='row'>
       <InputField
         allowCharacters={/[a-zA-Z\s'’-]/}
