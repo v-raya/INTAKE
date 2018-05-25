@@ -88,6 +88,7 @@ feature 'Adding and removing a person from a snapshot' do
 
     within show_participant_card_selector(person.legacy_descriptor.legacy_id) do
       within '.card-body' do
+        expect(page).to have_content(person.legacy_descriptor.legacy_ui_id)
         expect(page).to have_content(person.first_name)
         expect(page).to have_content(person.last_name)
         expect(page).to have_content('(971) 287-6774')
