@@ -139,7 +139,7 @@ feature 'Race & Ethnicity' do
       end
       within show_participant_card_selector(homer.id) do
         within '.card-body' do
-          expect(page).to have_content('Yes - Mexican')
+          expect(page).to have_content('Mexican - Yes')
           expect(page).to have_content('Asian - Hmong')
         end
       end
