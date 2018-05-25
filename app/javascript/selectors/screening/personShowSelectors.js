@@ -134,6 +134,9 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
 
   return fromJS({
     approximateAge: approximateAge,
+    CSECTypes: person.get('csec_types'),
+    csecStartedAt: person.get('csec_started_at') && dateFormatter(person.get('csec_started_at')),
+    csecEndedAt: person.get('csec_ended_at') && dateFormatter(person.get('csec_ended_at')),
     dateOfBirth: dateOfBirth,
     ethnicity: getEthnicity(person),
     gender: GENDERS[person.get('gender')],

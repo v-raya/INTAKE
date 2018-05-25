@@ -62,6 +62,9 @@ const buildPerson = ({
   addresses,
   approximate_age,
   approximate_age_units,
+  csec_types,
+  csec_started_at,
+  csec_ended_at,
   date_of_birth,
   first_name,
   gender,
@@ -81,6 +84,9 @@ const buildPerson = ({
   addresses: buildAddresses(addresses),
   approximate_age: {value: approximate_age},
   approximate_age_units: {value: approximate_age_units},
+  csec_types: {value: csec_types},
+  csec_started_at: {value: csec_started_at, touched: false},
+  csec_ended_at: {value: csec_ended_at, touched: false},
   date_of_birth: {value: date_of_birth},
   first_name: {value: first_name, touched: false},
   gender: {value: gender},
@@ -125,6 +131,8 @@ export default createReducer(Map(), {
       'first_name',
       'last_name',
       'ssn',
+      'csec_started_at',
+      'csec_ended_at',
     ]
     return fieldsWithTouch.reduce((newState, field) => newState.setIn([personId, field, 'touched'], true), state)
   },
