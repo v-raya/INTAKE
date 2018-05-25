@@ -124,7 +124,7 @@ describe('personShowSelectors', () => {
         {id: '1', ethnicity: {hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican']}},
       ]
       const state = fromJS({participants})
-      expect(getFormattedPersonInformationSelector(state, '1').get('ethnicity')).toEqual('Yes - Mexican')
+      expect(getFormattedPersonInformationSelector(state, '1').get('ethnicity')).toEqual('Mexican - Yes')
     })
 
     it('includes the formatted ethnicity for a person of hispanic/latino origin but without ethnicity details', () => {

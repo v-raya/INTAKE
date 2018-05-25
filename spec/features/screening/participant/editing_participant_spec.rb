@@ -560,7 +560,7 @@ feature 'Edit Person' do
     ).to have_been_made
 
     within show_participant_card_selector(marge.id) do
-      expect(page).to_not have_content('Yes - Mexican')
+      expect(page).to_not have_content('Mexican - Yes')
     end
   end
 

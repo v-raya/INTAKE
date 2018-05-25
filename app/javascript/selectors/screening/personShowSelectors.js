@@ -120,8 +120,8 @@ const getEthnicity = (person) => {
 
   if (!hispanicLatinoOrigin) { return undefined }
 
-  const ethnicityText = ethnicity_detail.length > 0 ? ` - ${ethnicity_detail}` : ''
-  return `${hispanicLatinoOrigin}${ethnicityText}`
+  const ethnicityText = ethnicity_detail.length > 0 ? `${ethnicity_detail} - ` : ''
+  return `${ethnicityText}${hispanicLatinoOrigin}`
 }
 
 export const getFormattedPersonInformationSelector = (state, personId) => {
