@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {saveField} from 'actions/safelySurrenderedBabyActions'
 import {getSafelySurrenderedBaby} from 'selectors/screening/safelySurrenderedBabySelectors'
 import SafelySurrenderedBabyForm from 'views/people/ssb/SafelySurrenderedBabyForm'
 
@@ -16,10 +17,7 @@ export const mapStateToProps = (state, ownProps) => ({
 export const mapDispatchToProps = (dispatch) => ({
   actions: {
     onChange(field, value) {
-      dispatch({
-        type: 'SAVE_SSB_FIELD',
-        payload: {field, value},
-      })
+      dispatch(saveField(field, value))
     },
   },
 })

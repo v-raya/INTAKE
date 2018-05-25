@@ -1,6 +1,7 @@
 import {fromJS} from 'immutable'
 import React from 'react'
 import {shallow} from 'enzyme'
+import {saveField} from 'actions/safelySurrenderedBabyActions'
 import {
   SafelySurrenderedBabyFormContainer,
   mapStateToProps,
@@ -78,103 +79,13 @@ describe('SafelySurrenderedBabyFormContainer', () => {
   })
 
   describe('mapDispatchToProps', () => {
-    it('saves the surrenderedBy field on change', () => {
+    it('saves the field and value on change', () => {
       const dispatch = jasmine.createSpy('dispatch')
       const actions = mapDispatchToProps(dispatch).actions
 
       actions.onChange('surrenderedBy', 'New SB')
 
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SAVE_SSB_FIELD',
-        payload: {
-          field: 'surrenderedBy',
-          value: 'New SB',
-        },
-      })
-    })
-    it('saves the relationToChild field on change', () => {
-      const dispatch = jasmine.createSpy('dispatch')
-      const actions = mapDispatchToProps(dispatch).actions
-
-      actions.onChange('relationToChild', 'New Relation')
-
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SAVE_SSB_FIELD',
-        payload: {
-          field: 'relationToChild',
-          value: 'New Relation',
-        },
-      })
-    })
-    it('saves the braceletId field on change', () => {
-      const dispatch = jasmine.createSpy('dispatch')
-      const actions = mapDispatchToProps(dispatch).actions
-
-      actions.onChange('braceletId', 'New Bracelet')
-
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SAVE_SSB_FIELD',
-        payload: {
-          field: 'braceletId',
-          value: 'New Bracelet',
-        },
-      })
-    })
-    it('saves the comments field on change', () => {
-      const dispatch = jasmine.createSpy('dispatch')
-      const actions = mapDispatchToProps(dispatch).actions
-
-      actions.onChange('comments', 'New Comments')
-
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SAVE_SSB_FIELD',
-        payload: {
-          field: 'comments',
-          value: 'New Comments',
-        },
-      })
-    })
-    it('saves the parentGuardGivenBraceletId field on change', () => {
-      const dispatch = jasmine.createSpy('dispatch')
-      const actions = mapDispatchToProps(dispatch).actions
-
-      actions.onChange('parentGuardGivenBraceletId', 'Could Be')
-
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SAVE_SSB_FIELD',
-        payload: {
-          field: 'parentGuardGivenBraceletId',
-          value: 'Could Be',
-        },
-      })
-    })
-    it('saves the parentGuardProvMedicalQuestionaire field on change', () => {
-      const dispatch = jasmine.createSpy('dispatch')
-      const actions = mapDispatchToProps(dispatch).actions
-
-      actions.onChange('parentGuardProvMedicalQuestionaire', 'Yessir')
-
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SAVE_SSB_FIELD',
-        payload: {
-          field: 'parentGuardProvMedicalQuestionaire',
-          value: 'Yessir',
-        },
-      })
-    })
-    it('saves the medQuestionaireReturnDate field on change', () => {
-      const dispatch = jasmine.createSpy('dispatch')
-      const actions = mapDispatchToProps(dispatch).actions
-
-      actions.onChange('medQuestionaireReturnDate', '2010-01-02')
-
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SAVE_SSB_FIELD',
-        payload: {
-          field: 'medQuestionaireReturnDate',
-          value: '2010-01-02',
-        },
-      })
+      expect(dispatch).toHaveBeenCalledWith(saveField('surrenderedBy', 'New SB'))
     })
   })
 })

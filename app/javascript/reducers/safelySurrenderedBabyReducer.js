@@ -1,4 +1,8 @@
 import {Map} from 'immutable'
+import {
+  FETCH_SSB_COMPLETE,
+  SAVE_SSB_FIELD,
+} from 'actions/safelySurrenderedBabyActions'
 import {createReducer} from 'utils/createReducer'
 
 const initialState = Map({
@@ -12,9 +16,9 @@ const initialState = Map({
 })
 
 export default createReducer(initialState, {
-  ['FETCH_SSB_COMPLETE']: (state, {payload, error}) => {
+  [FETCH_SSB_COMPLETE]: (state, {payload, error}) => {
     if (error) { return state }
     return state.set('participant_child_id', payload.participant_child_id)
   },
-  ['SAVE_SSB_FIELD']: (state, {payload: {field, value}}) => state.set(field, value),
+  [SAVE_SSB_FIELD]: (state, {payload: {field, value}}) => state.set(field, value),
 })
