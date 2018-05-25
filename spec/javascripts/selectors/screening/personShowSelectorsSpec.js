@@ -21,6 +21,9 @@ describe('personShowSelectors', () => {
       expect(getFormattedPersonInformationSelector(state, '2')).toEqualImmutable(fromJS({
         legacySource: undefined,
         name: {value: 'Unknown Person', errors: [], required: false},
+        CSECTypes: undefined,
+        csecStartedAt: undefined,
+        csecEndedAt: undefined,
         gender: undefined,
         roles: {value: [], errors: []},
         languages: undefined,
