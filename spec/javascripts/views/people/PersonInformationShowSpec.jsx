@@ -101,4 +101,19 @@ describe('PersonInformationShow', () => {
     const view = renderPersonShow({alertErrorMessage: null})
     expect(view.find('AlertErrorMessage').exists()).toEqual(false)
   })
+
+  it('renders the CSEC type field of the person when provided', () => {
+    const view = renderPersonShow({CSECTypes: ['At Risk']})
+    expect(view.find('ShowField[label="CSEC Types"]').html()).toContain('At Risk')
+  })
+
+  it('renders the CSEC Start Date of the person when provided', () => {
+    const view = renderPersonShow({csecStartedAt: '22/22/2202'})
+    expect(view.find('ShowField[label="CSEC Start Date"]').html()).toContain('22/22/2202')
+  })
+
+  it('renders the CSEC End Date of the person when provided', () => {
+    const view = renderPersonShow({csecEndedAt: '22/22/2202'})
+    expect(view.find('ShowField[label="CSEC End Date"]').html()).toContain('22/22/2202')
+  })
 })
