@@ -59,6 +59,10 @@ describe('createSnapshotPerson', () => {
     date_of_birth: '1994-09-29',
     legacy_descriptor: {
       legacy_id: id,
+      legacy_ui_id: '1673-3395-1268-0001926',
+      legacy_last_updated: '2004-11-16T17:25:53.407-0800',
+      legacy_table_name: 'PLC_HM_T',
+      legacy_table_description: 'Placement Home',
     },
     last_name: 'John',
     middle_name: '',
@@ -92,6 +96,13 @@ describe('createSnapshotPerson', () => {
     }],
     id: id,
     legacy_id: id,
+    legacy_descriptor: {
+      legacy_id: id,
+      legacy_ui_id: '1673-3395-1268-0001926',
+      legacy_last_updated: '2004-11-16T17:25:53.407-0800',
+      legacy_table_name: 'PLC_HM_T',
+      legacy_table_description: 'Placement Home',
+    },
     roles: [],
     languages: ['French', 'English'],
     races: [{

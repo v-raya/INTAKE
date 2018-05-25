@@ -104,6 +104,7 @@ export const mapDoraPersonToParticipant = (state, person) => Map({
     .mapKeys((k) => (k === 'streetAddress' ? 'street_address' : k))]),
   legacy_id: person.get('id') || person.getIn(['legacy_descriptor', 'legacy_id']),
   id: person.get('id') || person.getIn(['legacy_descriptor', 'legacy_id']),
+  legacy_descriptor: person.get('legacy_descriptor'),
   roles: List(),
   languages: mapLanguages(state, person),
   races: mapRaces(state, person),
