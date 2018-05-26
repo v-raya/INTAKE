@@ -10,7 +10,7 @@ import {saveSSB, saveSSBSaga} from 'sagas/safelySurrenderedBabySagas'
 import {
   getFormSafelySurrenderedBaby,
 } from 'selectors/screening/safelySurrenderedBabySelectors'
-
+import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
 describe('saveSSBSaga', () => {
   it('saves SSB info on SAVE_SSB', () => {
     const gen = saveSSBSaga()
@@ -30,6 +30,17 @@ describe('saveSSB', () => {
     medQuestionaireReturnDate: '2001-11-14',
   })
 
+  it('does nothing if the report type is not SSB', () => {
+    const gen = saveSSB(saveSSBAction(personId))
+    expect(gen.next().value).toEqual(
+      select(getFormSafelySurrenderedBaby, personId)
+    )
+    expect(gen.next(formState).value).toEqual(select(getReportType))
+    const returned = gen.next('csec')
+    expect(returned.value).toEqual(undefined)
+    expect(returned.done).toEqual(true)
+  })
+
   it('does nothing if the person is not the participant child', () => {
     const gen = saveSSB(saveSSBAction('1001'))
     expect(gen.next().value).toEqual(
@@ -46,7 +57,8 @@ describe('saveSSB', () => {
       select(getFormSafelySurrenderedBaby, personId)
     )
 
-    const returned = gen.next(formState)
+    expect(gen.next(formState).value).toEqual(select(getReportType))
+    const returned = gen.next('ssb')
     expect(returned.value).toEqual(
       put(saveSSBSuccess(formState.toJS()))
     )

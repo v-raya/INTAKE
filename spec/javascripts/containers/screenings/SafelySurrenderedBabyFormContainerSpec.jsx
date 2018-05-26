@@ -22,6 +22,7 @@ describe('SafelySurrenderedBabyFormContainer', () => {
         comments: 'Yer a wizard, Harry!',
         medQuestionaireReturnDate: '2001-11-14',
       },
+      reportType: 'ssb',
       actions: jasmine.createSpyObj('actions', ['onChange', 'onBlur']),
     })
 
@@ -31,6 +32,26 @@ describe('SafelySurrenderedBabyFormContainer', () => {
   it('renders nothing when there is no SSB information', () => {
     const root = render({
       safelySurrenderedBaby: null,
+      reportType: 'ssb',
+      actions: jasmine.createSpyObj('actions', ['onChange', 'onBlur']),
+    })
+
+    expect(root.find('SafelySurrenderedBabyForm').exists()).toEqual(false)
+    expect(root.type()).toEqual(null)
+  })
+
+  it('renders nothing when the report type is not SSB', () => {
+    const root = render({
+      safelySurrenderedBaby: {
+        surrenderedBy: 'Hagrid',
+        relationToChild: 'Groundskeeper',
+        braceletId: 'Lightning',
+        parentGuardGivenBraceletId: 'Attempted',
+        parentGuardProvMedicalQuestionaire: 'Declined',
+        comments: 'Yer a wizard, Harry!',
+        medQuestionaireReturnDate: '2001-11-14',
+      },
+      reportType: 'csec',
       actions: jasmine.createSpyObj('actions', ['onChange', 'onBlur']),
     })
 
@@ -40,6 +61,7 @@ describe('SafelySurrenderedBabyFormContainer', () => {
 
   describe('mapStateToProps', () => {
     const state = fromJS({
+      screening: {report_type: 'ssb'},
       safelySurrenderedBaby: {
         form: {
           participantChildId: '123',
@@ -58,6 +80,7 @@ describe('SafelySurrenderedBabyFormContainer', () => {
       const ownProps = {personId: '123'}
 
       expect(mapStateToProps(state, ownProps)).toEqual({
+        reportType: 'ssb',
         safelySurrenderedBaby: {
           participantChildId: '123',
           surrenderedBy: 'Hagrid',
@@ -75,6 +98,7 @@ describe('SafelySurrenderedBabyFormContainer', () => {
       const ownProps = {personId: '456'}
 
       expect(mapStateToProps(state, ownProps)).toEqual({
+        reportType: 'ssb',
         safelySurrenderedBaby: null,
       })
     })

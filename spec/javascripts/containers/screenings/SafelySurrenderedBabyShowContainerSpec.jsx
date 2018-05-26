@@ -20,6 +20,7 @@ describe('SafelySurrenderedBabyShowContainer', () => {
         comments: 'Yer a wizard, Harry!',
         medQuestionaireReturnDate: '2001-11-14',
       },
+      reportType: 'ssb',
     })
 
     expect(root.find('SafelySurrenderedBabyShow').exists()).toEqual(true)
@@ -28,6 +29,25 @@ describe('SafelySurrenderedBabyShowContainer', () => {
   it('renders nothing when there is no SSB information', () => {
     const root = render({
       safelySurrenderedBaby: null,
+      reportType: 'ssb',
+    })
+
+    expect(root.find('SafelySurrenderedBabyShow').exists()).toEqual(false)
+    expect(root.type()).toEqual(null)
+  })
+
+  it('renders nothing when the report type is not SSB', () => {
+    const root = render({
+      safelySurrenderedBaby: {
+        surrenderedBy: 'Hagrid',
+        relationToChild: 'Groundskeeper',
+        braceletId: 'Lightning',
+        parentGuardGivenBraceletId: 'Attempted',
+        parentGuardProvMedicalQuestionaire: 'Declined',
+        comments: 'Yer a wizard, Harry!',
+        medQuestionaireReturnDate: '2001-11-14',
+      },
+      reportType: 'csec',
     })
 
     expect(root.find('SafelySurrenderedBabyShow').exists()).toEqual(false)
@@ -36,6 +56,7 @@ describe('SafelySurrenderedBabyShowContainer', () => {
 
   describe('mapStateToProps', () => {
     const state = fromJS({
+      screening: {report_type: 'ssb'},
       safelySurrenderedBaby: {
         persisted: {
           participantChildId: '123',
@@ -54,6 +75,7 @@ describe('SafelySurrenderedBabyShowContainer', () => {
       const ownProps = {personId: '123'}
 
       expect(mapStateToProps(state, ownProps)).toEqual({
+        reportType: 'ssb',
         safelySurrenderedBaby: {
           participantChildId: '123',
           surrenderedBy: 'Hagrid',
@@ -71,6 +93,7 @@ describe('SafelySurrenderedBabyShowContainer', () => {
       const ownProps = {personId: '456'}
 
       expect(mapStateToProps(state, ownProps)).toEqual({
+        reportType: 'ssb',
         safelySurrenderedBaby: null,
       })
     })

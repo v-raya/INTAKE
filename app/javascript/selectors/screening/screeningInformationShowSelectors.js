@@ -7,6 +7,8 @@ import {
   combineCompact,
 } from 'utils/validator'
 
+export const getReportType = (state) => state.getIn(['screening', 'report_type'])
+
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'assignee']),
   (state) => state.getIn(['screening', 'communication_method']),
