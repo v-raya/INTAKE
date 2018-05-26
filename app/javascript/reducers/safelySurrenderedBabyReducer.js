@@ -11,13 +11,13 @@ import {createReducer} from 'utils/createReducer'
 const initialState = fromJS({
   persisted: {},
   form: {
-    surrenderedBy: 'Hagrid',
+    surrenderedBy: null,
     relationToChild: '1592',
-    braceletId: 'Lightning',
+    braceletId: '',
     parentGuardGivenBraceletId: 'unknown',
     parentGuardProvMedicalQuestionaire: 'unknown',
-    comments: 'Yer a wizard, Harry!',
-    medQuestionaireReturnDate: '2001-11-14',
+    comments: '',
+    medQuestionaireReturnDate: '',
   },
 })
 
