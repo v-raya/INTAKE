@@ -1,12 +1,12 @@
 import {takeEvery, select, put} from 'redux-saga/effects'
 import {SAVE_SSB, saveSSBSuccess} from 'actions/safelySurrenderedBabyActions'
 import {
-  getFormSafelySurrenderedBaby,
+  getRawFormSafelySurrenderedBaby,
 } from 'selectors/screening/safelySurrenderedBabySelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
 
 export function* saveSSB({payload: {personId}}) {
-  const ssb = yield select(getFormSafelySurrenderedBaby, personId)
+  const ssb = yield select(getRawFormSafelySurrenderedBaby, personId)
   if (!ssb) { return }
 
   const reportType = yield select(getReportType)

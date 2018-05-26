@@ -60,7 +60,7 @@ describe('SafelySurrenderedBabyShowContainer', () => {
       safelySurrenderedBaby: {
         persisted: {
           participantChildId: '123',
-          surrenderedBy: 'Hagrid',
+          surrenderedBy: null,
           relationToChild: '1600',
           braceletId: 'Lightning',
           parentGuardGivenBraceletId: 'attempted',
@@ -78,7 +78,7 @@ describe('SafelySurrenderedBabyShowContainer', () => {
         reportType: 'ssb',
         safelySurrenderedBaby: {
           participantChildId: '123',
-          surrenderedBy: 'Hagrid',
+          surrenderedBy: 'Unknown',
           relationToChild: 'Brother',
           braceletId: 'Lightning',
           parentGuardGivenBraceletId: 'Attempted',

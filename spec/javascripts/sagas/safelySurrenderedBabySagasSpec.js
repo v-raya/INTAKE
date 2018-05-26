@@ -8,7 +8,7 @@ import {
 } from 'actions/safelySurrenderedBabyActions'
 import {saveSSB, saveSSBSaga} from 'sagas/safelySurrenderedBabySagas'
 import {
-  getFormSafelySurrenderedBaby,
+  getRawFormSafelySurrenderedBaby,
 } from 'selectors/screening/safelySurrenderedBabySelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
 describe('saveSSBSaga', () => {
@@ -33,7 +33,7 @@ describe('saveSSB', () => {
   it('does nothing if the report type is not SSB', () => {
     const gen = saveSSB(saveSSBAction(personId))
     expect(gen.next().value).toEqual(
-      select(getFormSafelySurrenderedBaby, personId)
+      select(getRawFormSafelySurrenderedBaby, personId)
     )
     expect(gen.next(formState).value).toEqual(select(getReportType))
     const returned = gen.next('csec')
@@ -44,7 +44,7 @@ describe('saveSSB', () => {
   it('does nothing if the person is not the participant child', () => {
     const gen = saveSSB(saveSSBAction('1001'))
     expect(gen.next().value).toEqual(
-      select(getFormSafelySurrenderedBaby, '1001')
+      select(getRawFormSafelySurrenderedBaby, '1001')
     )
 
     const returned = gen.next(undefined)
@@ -54,7 +54,7 @@ describe('saveSSB', () => {
   it('puts the result directly into a success action', () => {
     const gen = saveSSB(saveSSBAction(personId))
     expect(gen.next().value).toEqual(
-      select(getFormSafelySurrenderedBaby, personId)
+      select(getRawFormSafelySurrenderedBaby, personId)
     )
 
     expect(gen.next(formState).value).toEqual(select(getReportType))

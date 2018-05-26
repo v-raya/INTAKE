@@ -39,8 +39,9 @@ describe('SafeleySurrenderedBabyForm', () => {
     })
 
     it('renders Surrendered By', () => {
-      const props = body.find('SelectField[label="Surrendered By"]').props()
+      const props = body.find('InputField[label="Surrendered By"]').props()
       expect(props.gridClassName).toEqual('col-md-4')
+      expect(props.disabled).toEqual(true)
       expect(props.value).toEqual('Hagrid')
     })
 

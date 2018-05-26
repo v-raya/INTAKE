@@ -65,7 +65,7 @@ describe('SafelySurrenderedBabyFormContainer', () => {
       safelySurrenderedBaby: {
         form: {
           participantChildId: '123',
-          surrenderedBy: 'Hagrid',
+          surrenderedBy: null,
           relationToChild: 'Groundskeeper',
           braceletId: 'Lightning',
           parentGuardGivenBraceletId: 'yes',
@@ -83,7 +83,7 @@ describe('SafelySurrenderedBabyFormContainer', () => {
         reportType: 'ssb',
         safelySurrenderedBaby: {
           participantChildId: '123',
-          surrenderedBy: 'Hagrid',
+          surrenderedBy: 'Unknown',
           relationToChild: 'Groundskeeper',
           braceletId: 'Lightning',
           parentGuardGivenBraceletId: 'yes',

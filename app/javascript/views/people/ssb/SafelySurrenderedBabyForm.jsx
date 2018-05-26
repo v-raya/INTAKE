@@ -4,7 +4,6 @@ import DateField from 'common/DateField'
 import FormField from 'common/FormField'
 import GrouperHeading from 'common/GrouperHeading'
 import InputField from 'common/InputField'
-import SelectField from 'common/SelectField'
 import SSBGivenBraceletSelect from 'views/people/ssb/SSBGivenBraceletSelect'
 import SSBGivenMedQuestionaireSelect from 'views/people/ssb/SSBGivenMedQuestionaireSelect'
 import SSBRelationSelect from 'views/people/ssb/SSBRelationSelect'
@@ -24,16 +23,14 @@ const SafelySurrenderedBabyForm = ({
     <div>
       <GrouperHeading text='Safely Surrendered Baby Information' />
       <div className='row'>
-        <SelectField
+        <InputField
           gridClassName='col-md-4'
           id='surrendered-by'
           label='Surrendered By'
+          disabled={true}
           value={surrenderedBy}
           onChange={() => {}}
-        >
-          <option key='fake-a' value='fake-a'>Fake Value A</option>
-          <option key='fake-b' value='fake-b'>Fake Value B</option>
-        </SelectField>
+        />
         <SSBRelationSelect
           value={relationToChild}
           onChange={onChangeField('relationToChild')}

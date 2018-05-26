@@ -8,6 +8,7 @@ import {
   setField,
 } from 'actions/safelySurrenderedBabyActions'
 import {setField as setPersonField} from 'actions/peopleFormActions'
+import {updatePersonSuccess, updatePersonFailure} from 'actions/personCardActions'
 import safelySurrenderedBabyReducer from 'reducers/safelySurrenderedBabyReducer'
 
 describe('safelySurrenderedBabyReducer', () => {
@@ -111,7 +112,7 @@ describe('safelySurrenderedBabyReducer', () => {
     })
 
     it('ignores changes to role that do not have victim', () => {
-      const action = setPersonField('123', ['roles'], ['Perpetrator'])
+      const action = setPersonField('123', ['roles'], ['Mandated Reporter'])
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
     })
 
@@ -126,9 +127,30 @@ describe('safelySurrenderedBabyReducer', () => {
 
     it('watches for the addition of victims', () => {
       const action = setPersonField('123', ['roles'], ['Victim'])
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
-        form: Map().set('participantChildId', '123'),
-      }))
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
+        Map().setIn(['form', 'participantChildId'], '123')
+      )
+    })
+  })
+
+  describe('on UPDATE_PERSON_COMPLETE', () => {
+    it('watches for new perpetrators', () => {
+      const action = updatePersonSuccess({id: '3', roles: ['Perpetrator']})
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
+        Map()
+          .setIn(['form', 'surrenderedBy'], '3')
+          .setIn(['persisted', 'surrenderedBy'], '3')
+      )
+    })
+
+    it('ignores non-perpetrators', () => {
+      const action = updatePersonSuccess({id: '3', roles: ['Victim']})
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+    })
+
+    it('ignores errors', () => {
+      const action = updatePersonFailure('Bad')
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
     })
   })
 })

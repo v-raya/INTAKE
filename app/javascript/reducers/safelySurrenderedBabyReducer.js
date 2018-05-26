@@ -1,5 +1,6 @@
 import {fromJS} from 'immutable'
 import {SET_PEOPLE_FORM_FIELD} from 'actions/peopleFormActions'
+import {UPDATE_PERSON_COMPLETE} from 'actions/personCardActions'
 import {
   FETCH_SSB_COMPLETE,
   SAVE_SSB_COMPLETE,
@@ -43,5 +44,11 @@ export default createReducer(initialState, {
       return state
     }
     return state.setIn(['form', 'participantChildId'], personId)
+  },
+  [UPDATE_PERSON_COMPLETE]: (state, {payload: {person: {id, roles} = {}}, error}) => {
+    if (error || !roles || !roles.includes('Perpetrator')) { return state }
+    return state
+      .setIn(['form', 'surrenderedBy'], id)
+      .setIn(['persisted', 'surrenderedBy'], id)
   },
 })
