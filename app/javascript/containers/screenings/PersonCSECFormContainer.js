@@ -3,7 +3,7 @@ import {
   getPersonCSECDetailsSelector,
   getCSECRequireValidationSelector,
   getVisibleErrorsSelector,
-} from 'selectors/screening/perosnCSECFormSelectors'
+} from 'selectors/screening/personCSECFormSelectors'
 import {setField, touchField} from 'actions/peopleFormActions'
 import PersonCSECForm from 'views/people/PersonCSECForm'
 
