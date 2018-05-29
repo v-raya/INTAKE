@@ -1,6 +1,7 @@
 import React from 'react'
 import {shallow} from 'enzyme'
 import AlertInfoMessage from 'common/AlertInfoMessage'
+import {SafelySurrenderedBabyMessage} from 'views/ScreeningInformationHelpTextBox'
 
 describe('AlertInfoMessage', () => {
   it('renders the message text passed to it', () => {
@@ -8,9 +9,9 @@ describe('AlertInfoMessage', () => {
     const component = shallow(<AlertInfoMessage message={messageText} />, {disableLifecycleMethods: true})
     expect(component.text()).toEqual(messageText)
   })
-  it('renders the jsx passed to it', () => {
-    const jsx = <div>This is test</div>
-    const component = shallow(<AlertInfoMessage message={jsx} />, {disableLifecycleMethods: true})
-    expect(component.html()).toContain('<div>This is test</div>')
+
+  it('renders the conponent passed to it', () => {
+    const component = shallow(<AlertInfoMessage message={<SafelySurrenderedBabyMessage/>} />, {disableLifecycleMethods: true})
+    expect(component.html()).toContain('<li>Complete all other fields marked as required.</li>')
   })
 })

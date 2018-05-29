@@ -1,7 +1,7 @@
 import ScreeningInformationForm from 'views/ScreeningInformationForm'
 import React from 'react'
 import {shallow} from 'enzyme'
-import {SCREENING_INFORMATION_SSB_MESSAGE} from 'common/HelpTextBox'
+import {SafelySurrenderedBabyMessage} from 'views/ScreeningInformationHelpTextBox'
 
 describe('ScreeningInformationForm', () => {
   function renderScreeningInformationForm({
@@ -101,7 +101,7 @@ describe('ScreeningInformationForm', () => {
     it('renders an alert info message when ssb is selected', () => {
       const component = renderScreeningInformationForm({reportType: 'ssb'})
       expect(component.find('AlertInfoMessage').exists()).toEqual(true)
-      expect(component.find('AlertInfoMessage').props().message).toEqual(SCREENING_INFORMATION_SSB_MESSAGE)
+      expect(component.find('AlertInfoMessage').props().message).toEqual(<SafelySurrenderedBabyMessage/>)
     })
     it('does not render an alert info message when csec is selected', () => {
       const component = renderScreeningInformationForm({reportType: 'csec'})

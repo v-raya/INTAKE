@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ShowField from 'common/ShowField'
 import AlertInfoMessage from 'common/AlertInfoMessage'
-import {SCREENING_INFORMATION_SSB_MESSAGE} from 'common/HelpTextBox'
+import {SafelySurrenderedBabyMessage} from './ScreeningInformationHelpTextBox'
 
 const ScreeningInformationShow = ({name, assignee, report_type, started_at, ended_at, communication_method, errors}) => (
   <div className='card-body'>
-    { report_type === 'ssb' && <AlertInfoMessage message={SCREENING_INFORMATION_SSB_MESSAGE} /> }
+    { report_type === 'ssb' && <AlertInfoMessage message={<SafelySurrenderedBabyMessage/>} /> }
     <div className='row'>
       <ShowField gridClassName='col-md-4' label='Title/Name of Screening'>
         {name}

@@ -19,7 +19,7 @@ const AlertInfoMessage = ({message}) => (
 AlertInfoMessage.propTypes = {
   message: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object,
+    PropTypes.element,
   ]),
 }
 

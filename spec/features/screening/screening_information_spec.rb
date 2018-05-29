@@ -70,6 +70,11 @@ feature 'screening information card' do
     stub_empty_relationships
     stub_empty_history_for_screening(screening)
 
+    within '#screening-information-card.show' do
+      expect(page).to have_content('Safely Surrendered Baby')
+      expect(page).to have_content('This screening was flagged as a safely surrendered baby report')
+    end
+
     expect(
       a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
         .with(body: hash_including(screening.as_json))
