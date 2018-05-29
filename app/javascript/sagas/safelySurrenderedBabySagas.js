@@ -10,7 +10,7 @@ export function* saveSSB({payload: {personId}}) {
   if (!ssb) { return }
 
   const reportType = yield select(getReportType)
-  if (reportType !== 'ssb') { return }
+  // if (reportType !== 'ssb') { return } // TODO - remove this
   // API call should happen here to actually save the SSB info
   yield put(saveSSBSuccess(ssb.toJS()))
 }

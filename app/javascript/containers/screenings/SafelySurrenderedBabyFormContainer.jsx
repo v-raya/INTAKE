@@ -15,7 +15,7 @@ export const mapStateToProps = (state, ownProps) => ({
   safelySurrenderedBaby: jsOrNull(
     getFormSafelySurrenderedBaby(state, ownProps.personId)
   ),
-  reportType: getReportType(state),
+  reportType: 'ssb', // getReportType(state), TODO - remove this
 })
 
 export const mapDispatchToProps = (dispatch) => ({
