@@ -16,7 +16,7 @@ export const mapStateToProps = (state, ownProps) => ({
   safelySurrenderedBaby: jsOrNull(
     getPersistedSafelySurrenderedBaby(state, ownProps.personId)
   ),
-  reportType: 'ssb', // getReportType(state), TODO - remove this
+  reportType: getReportType(state),
 })
 
 export default connect(mapStateToProps)(SafelySurrenderedBabyShowContainer)
