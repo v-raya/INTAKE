@@ -64,7 +64,7 @@ describe('ScreeningInformationShow', () => {
 
   describe('Alert info messages', () => {
     it('renders an alert info message when ssb is selected', () => {
-      const component = renderScreeningInformationShow({report_type: 'ssb'})
+      const component = renderScreeningInformationShow({report_type: 'Safely Surrendered Baby'})
       expect(component.find('AlertInfoMessage').exists()).toEqual(true)
       expect(component.find('AlertInfoMessage').props().message).toEqual(<SafelySurrenderedBabyMessage/>)
     })

@@ -10,7 +10,7 @@ feature 'screening information card' do
       id: '1',
       name: 'James',
       assignee: 'Lisa',
-      report_type: 'csec',
+      report_type: 'ssb',
       started_at: '2016-08-13T10:00:00.000Z',
       ended_at: '2016-08-15T11:00:00.000Z',
       communication_method: 'mail',
@@ -37,7 +37,9 @@ feature 'screening information card' do
     within '#screening-information-card.edit' do
       expect(page).to have_field('Title/Name of Screening', with: 'James')
       expect(page).to have_field('Assigned Social Worker', with: 'Lisa')
-      expect(page).to have_field('Report Type', with: 'csec')
+      expect(page).to have_field('Report Type', with: 'ssb')
+      expect(page).to have_content('Safely Surrendered Baby')
+      expect(page).to have_content('This screening was flagged as a safely surrendered baby report')
       expect(page).to have_field('Screening Start Date/Time', with: '08/13/2016 3:00 AM')
       expect(page).to have_field('Screening End Date/Time', with: '08/15/2016 4:00 AM')
       expect(page).to have_field('Communication Method', with: 'mail')
@@ -55,6 +57,11 @@ feature 'screening information card' do
       click_button 'Save'
     end
 
+    within '#screening-information-card.show' do
+      expect(page).to have_content('Safely Surrendered Baby')
+      expect(page).to have_content('This screening was flagged as a safely surrendered baby report')
+    end
+
     screening.merge!(
       name: 'Cameron',
       assignee: 'Mariko',
@@ -70,11 +77,6 @@ feature 'screening information card' do
     stub_empty_relationships
     stub_empty_history_for_screening(screening)
 
-    within '#screening-information-card.show' do
-      expect(page).to have_content('Safely Surrendered Baby')
-      expect(page).to have_content('This screening was flagged as a safely surrendered baby report')
-    end
-
     expect(
       a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
         .with(body: hash_including(screening.as_json))
@@ -85,7 +87,7 @@ feature 'screening information card' do
     within '#screening-information-card.edit' do
       fill_in 'Title/Name of Screening', with: 'Bob Loblaw'
       fill_in 'Assigned Social Worker', with: 'George Michael'
-      select 'Safely Surrendered Baby', from: 'Report Type'
+      select 'Commercially Sexually Exploited Children (CSEC)', from: 'Report Type'
       select 'In Person', from: 'Communication Method'
       fill_in_datepicker 'Screening Start Date/Time', with: '08/19/2016 3:00 AM'
       fill_in_datepicker 'Screening End Date/Time', with: '08/24/2016 3:00 AM'
@@ -97,7 +99,7 @@ feature 'screening information card' do
       expect(page).to have_content('Lisa')
       expect(page).to have_content('08/13/2016 3:00 AM')
       expect(page).to have_content('08/15/2016 4:00 AM')
-      expect(page).to have_content('Commercially Sexually Exploited Children (CSEC)')
+      expect(page).to have_content('Safely Surrendered Baby')
       expect(page).to have_content('Mail')
     end
 
@@ -106,7 +108,7 @@ feature 'screening information card' do
     within '#screening-information-card.edit' do
       expect(page).to have_field('Title/Name of Screening', with: 'James')
       expect(page).to have_field('Assigned Social Worker', with: 'Lisa')
-      expect(page).to have_field('Report Type', with: 'csec')
+      expect(page).to have_field('Report Type', with: 'ssb')
       expect(page).to have_field('Screening Start Date/Time', with: '08/13/2016 3:00 AM')
       expect(page).to have_field('Screening End Date/Time', with: '08/15/2016 4:00 AM')
       expect(page).to have_field('Communication Method', with: 'mail')
