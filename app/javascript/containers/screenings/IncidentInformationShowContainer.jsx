@@ -3,6 +3,7 @@ import {
   getIncidentDateSelector,
   getIncidentCountySelector,
   getAddressSelector,
+  getCurrentLocationOfChildrenSelector,
   getLocationTypeSelector,
   getErrorsSelector,
 } from 'selectors/screening/incidentInformationShowSelector'
@@ -14,6 +15,7 @@ const mapStateToProps = (state, _ownProps) => ({
   incidentCounty: getIncidentCountySelector(state),
   address: getAddressSelector(state).toJS(),
   locationType: getLocationTypeSelector(state),
+  locationOfChildren: getCurrentLocationOfChildrenSelector(state),
 })
 
 export default connect(mapStateToProps)(IncidentInformationShow)
