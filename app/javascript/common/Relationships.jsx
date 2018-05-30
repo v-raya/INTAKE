@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {RelationCard} from 'react-wood-duck'
+import 'react-bootstrap-table/css/react-bootstrap-table.css'
 
 const attachLink = (onClick, relationship, maybeId) => (
   <a className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>
@@ -15,7 +16,6 @@ const createRelationshipDataArray = (person_relationships) => {
     const value = {name: relationship.relatee, secondaryRelationship: relationship.type}
     relationshipData.push(value)
   })
-  //console.log(`relationshipData: ${ JSON.stringify(relationshipData)}`)
 
   return relationshipData
 }
@@ -23,10 +23,6 @@ const createRelationshipDataArray = (person_relationships) => {
 export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
 
   <div className='card-body no-pad-top'>
-    {/* <p> {people[0].name} </p>
-    <p> {people[0].relationships.map((relationship) => `<p>${relationship.relatee }</p>`)} </p>
-    <p> {JSON.stringify(createRelationshipDataArray(people))}</p>
-    <p> {JSON.stringify(people)} </p> */}
     {
       people.map((person, index) => (
         <div className='row' key={index}>
