@@ -129,7 +129,7 @@ describe('personCSECFormSelectors', () => {
         }
         const state = fromJS({peopleForm})
         expect(getVisibleErrorsSelector(state, 'one').get('csec_started_at'))
-          .toEqualImmutable(List(['Please enter a screening start date.']))
+          .toEqualImmutable(List(['Please enter a csec start date.']))
       })
 
       it('returns an error if csec start date is in the future and touched', () => {
