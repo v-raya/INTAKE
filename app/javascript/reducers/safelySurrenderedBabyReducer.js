@@ -8,10 +8,7 @@ import {
   CREATE_PERSON_COMPLETE,
   UPDATE_PERSON_COMPLETE,
 } from 'actions/personCardActions'
-import {
-  FETCH_SSB_COMPLETE,
-  SET_SSB_FIELD,
-} from 'actions/safelySurrenderedBabyActions'
+import {SET_SSB_FIELD} from 'actions/safelySurrenderedBabyActions'
 import {SAVE_SCREENING_COMPLETE} from 'actions/screeningActions'
 import {createReducer} from 'utils/createReducer'
 
@@ -46,12 +43,6 @@ const reduceSSBFromParticipant = (state, {payload: {person: {safelySurrenderedBa
 }
 
 export default createReducer(initialState, {
-  [FETCH_SSB_COMPLETE]: (state, {payload, error}) => {
-    if (error) { return state }
-    return state
-      .setIn(['persisted', 'participantChildId'], payload.participant_child_id)
-      .setIn(['form', 'participantChildId'], payload.participant_child_id)
-  },
   [SET_SSB_FIELD]: (state, {payload: {field, value}}) =>
     state.setIn(['form', field], value),
   [SET_PEOPLE_FORM_FIELD]: (state, {payload: {personId, fieldSet, value: roles}}) => {

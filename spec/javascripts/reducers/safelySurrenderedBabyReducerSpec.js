@@ -1,10 +1,6 @@
 import {Map, fromJS} from 'immutable'
 import * as matchers from 'jasmine-immutable-matchers'
-import {
-  fetchSSBSuccess,
-  fetchSSBFailure,
-  setField,
-} from 'actions/safelySurrenderedBabyActions'
+import {setField} from 'actions/safelySurrenderedBabyActions'
 import {setField as setPersonField} from 'actions/peopleFormActions'
 import {
   createPersonSuccess,
@@ -24,22 +20,6 @@ import safelySurrenderedBabyReducer from 'reducers/safelySurrenderedBabyReducer'
 
 describe('safelySurrenderedBabyReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
-
-  describe('on FETCH_SSB_COMPLETE', () => {
-    it('updates the participant child', () => {
-      const action = fetchSSBSuccess({participant_child_id: '123'})
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map()
-          .setIn(['persisted', 'participantChildId'], '123')
-          .setIn(['form', 'participantChildId'], '123')
-      )
-    })
-
-    it('returns the last state on failure', () => {
-      const action = fetchSSBFailure('Bad')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
-    })
-  })
 
   describe('on SET_SSB_FIELD', () => {
     const initial = Map({
