@@ -54,6 +54,16 @@ module Api
         phone_numbers: %i[id number type],
         races: %i[race race_detail],
         roles: [],
+        safelySurrenderedBabies: %i[
+          surrendered_by
+          relation_to_child
+          bracelet_id
+          parent_guardian_given_bracelet_id
+          parent_guardian_provided_med_questionaire
+          med_questionaire_return_date
+          comments
+          participant_child
+        ],
         languages: [],
         ethnicity: [:hispanic_latino_origin, ethnicity_detail: []]
       ].freeze

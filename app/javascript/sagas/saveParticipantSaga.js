@@ -8,14 +8,14 @@ import {
 import {fetch as fetchAllegations} from 'actions/screeningAllegationsActions'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
-import {getPeopleWithEditsSelector} from 'selectors/screening/personFormSelectors'
+import {getPersonWithEditsSelector} from 'selectors/screening/personFormSelectors'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 
 export function* saveParticipant({payload: {personId}}) {
   try {
-    const peopleWithEdits = yield select(getPeopleWithEditsSelector)
-    const person = peopleWithEdits.get(personId).toJS()
+    const personWithEdits = yield select(getPersonWithEditsSelector, personId)
+    const person = personWithEdits.toJS()
     const response = yield call(Utils.put, `/api/v1/participants/${personId}`, person)
     yield put(updatePersonSuccess(response))
     const clientIds = yield select(getClientIdsSelector)

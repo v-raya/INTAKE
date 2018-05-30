@@ -1,6 +1,7 @@
 import {fromJS, List, Seq} from 'immutable'
 import {
   getFilteredPersonRolesSelector,
+  getPersonWithEditsSelector,
   getPeopleWithEditsSelector,
   getErrorsSelector,
   getNamesRequiredSelector,
@@ -899,6 +900,204 @@ describe('personFormSelectors', () => {
       const state = fromJS({peopleForm})
       expect(getVisibleErrorsSelector(state).get('first_name'))
         .toEqualImmutable(List())
+    })
+  })
+
+  describe('getPersonWithEditsSelector', () => {
+    const screening = {id: '123456', report_type: 'ssb'}
+    const peopleForm = {
+      one: {
+        legacy_descriptor: {value: 'a legacy descriptor'},
+        approximate_age: {value: ''},
+        approximate_age_units: {value: ''},
+        date_of_birth: {value: '13/0/-514'},
+        first_name: {value: 'one'},
+        gender: {value: 'known'},
+        languages: {value: ['Ω', 'ß']},
+        middle_name: {value: 'middle one'},
+        last_name: {value: 'last one'},
+        name_suffix: {value: 'suffix one'},
+        phone_numbers: [
+          {id: '123', number: {value: '1234567890'}, type: {value: 'Home'}},
+          {id: null, number: {value: '0987654321'}, type: {value: 'Cell'}},
+        ],
+        addresses: [
+          {
+            id: 'ABC',
+            street: {value: '1234 Nowhere Lane'},
+            city: {value: 'Somewhereville'},
+            state: {value: 'CA'},
+            zip: {value: '55555'},
+            type: {value: 'Home'},
+            legacy_descriptor: {value: {legacy_id: 'A2'}},
+          }, {
+            id: null,
+            street: {value: '9674 Somewhere Street'},
+            city: {value: 'Nowhereville'},
+            state: {value: 'CA'},
+            zip: {value: '55555'},
+            type: {value: 'Cell'},
+          },
+        ],
+        roles: {value: ['a', 'b']},
+        ssn: {value: '321456789'},
+        sensitive: {value: true},
+        sealed: {value: true},
+        ethnicity: {
+          hispanic_latino_origin: {value: 'Yes'},
+          ethnicity_detail: {value: ['Mexican']},
+        },
+        races: {
+          Abandoned: {value: true},
+          White: {value: false},
+        },
+        race_details: {},
+      },
+      two: {
+        legacy_descriptor: {value: 'a legacy descriptor'},
+        approximate_age: {value: '1'},
+        approximate_age_units: {value: 'year'},
+        date_of_birth: {value: ''},
+        first_name: {value: 'two'},
+        gender: {value: 'unknown'},
+        languages: {value: []},
+        middle_name: {value: 'middle two'},
+        last_name: {value: 'last two'},
+        name_suffix: {value: 'suffix two'},
+        phone_numbers: [{id: null, number: {value: null}, type: {value: null}}],
+        addresses: [{
+          id: null,
+          street: {value: null},
+          city: {value: null},
+          state: {value: null},
+          zip: {value: null},
+          type: {value: null},
+        }],
+        roles: {value: ['c']},
+        ssn: {value: '321456789'},
+        sensitive: {value: false},
+        sealed: {value: false},
+        ethnicity: {
+          hispanic_latino_origin: {value: 'No'},
+          ethnicity_detail: {value: ['Mexican']},
+        },
+        races: {
+          White: {value: true},
+          Asian: {value: true},
+        },
+        race_details: {
+          White: {value: 'Fuzzy Triangle'},
+          Asian: {value: 'Regular Circle'},
+        },
+      },
+      three: {
+        legacy_descriptor: {value: 'a legacy descriptor'},
+        approximate_age: {value: ''},
+        approximate_age_units: {value: 'days'},
+        date_of_birth: {value: ''},
+        first_name: {value: 'three'},
+        gender: {value: ''},
+        languages: {value: ['']},
+        middle_name: {value: 'middle three'},
+        last_name: {value: 'last three'},
+        name_suffix: {value: 'suffix three'},
+        phone_numbers: [],
+        addresses: [],
+        roles: {value: []},
+        ssn: {value: null},
+        sensitive: {value: true},
+        sealed: {value: true},
+        ethnicity: {
+          hispanic_latino_origin: {value: null},
+          ethnicity_detail: {value: []},
+        },
+        races: {},
+        race_details: {},
+      },
+    }
+    const safelySurrenderedBaby = {
+      persisted: {},
+      form: {
+        participant_child: 'two',
+        surrendered_by: null,
+        relation_to_child: '1592',
+        bracelet_id: '12345',
+        parent_guardian_given_bracelet_id: 'unknown',
+        parent_guardian_provided_med_questionaire: 'unknown',
+        comments: 'Comments and such!',
+        med_questionaire_return_date: '2018-01-01',
+      },
+    }
+    const state = fromJS({peopleForm, screening, safelySurrenderedBaby})
+
+    it('returns formatted person object map', () => {
+      const personId = 'one'
+      expect(getPersonWithEditsSelector(state, personId)).toEqualImmutable(fromJS({
+        id: 'one',
+        legacy_descriptor: 'a legacy descriptor',
+        screening_id: '123456',
+        approximate_age: null,
+        approximate_age_units: null,
+        csec_types: undefined,
+        csec_started_at: undefined,
+        csec_ended_at: undefined,
+        date_of_birth: '13/0/-514',
+        first_name: 'one',
+        gender: 'known',
+        languages: ['Ω', 'ß'],
+        middle_name: 'middle one',
+        last_name: 'last one',
+        name_suffix: 'suffix one',
+        phone_numbers: [
+          {id: '123', number: '1234567890', type: 'Home'},
+          {id: null, number: '0987654321', type: 'Cell'},
+        ],
+        addresses: [
+          {id: 'ABC', street_address: '1234 Nowhere Lane', city: 'Somewhereville', state: 'CA', zip: '55555', type: 'Home', legacy_id: 'A2'},
+          {id: null, street_address: '9674 Somewhere Street', city: 'Nowhereville', state: 'CA', zip: '55555', type: 'Cell', legacy_id: null},
+        ],
+        roles: ['a', 'b'],
+        ssn: '321456789',
+        sensitive: true,
+        sealed: true,
+        ethnicity: {
+          hispanic_latino_origin: 'Yes',
+          ethnicity_detail: ['Mexican'],
+        },
+        races: [
+          {race: 'Abandoned', race_detail: null},
+        ],
+      }))
+    })
+
+    it('returns undefined if person is not found', () => {
+      const personId = 'four'
+      expect(getPersonWithEditsSelector(state, personId)).toBe(null)
+    })
+
+    describe('ssb', () => {
+      it('adds ssb info to participant children', () => {
+        expect(getPersonWithEditsSelector(state, 'two').get('safelySurrenderedBabies'))
+          .toEqualImmutable(fromJS({
+            participant_child: 'two',
+            surrendered_by: null,
+            relation_to_child: '1592',
+            bracelet_id: '12345',
+            parent_guardian_given_bracelet_id: 'unknown',
+            parent_guardian_provided_med_questionaire: 'unknown',
+            comments: 'Comments and such!',
+            med_questionaire_return_date: '2018-01-01',
+          }))
+      })
+
+      it('does not add ssb if report_type is not ssb', () => {
+        expect(
+          getPersonWithEditsSelector(
+            state.setIn(['screening', 'report_type'], 'csec'),
+            'two'
+          ).get('safelySurrenderedBabies')
+        ).toBeUndefined()
+      })
     })
   })
 })

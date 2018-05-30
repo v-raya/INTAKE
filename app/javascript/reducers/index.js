@@ -23,6 +23,7 @@ import peopleSearch from 'reducers/peopleSearchReducer'
 import relationships from 'reducers/relationshipsReducer'
 import relationshipTypes from 'reducers/systemCodes/relationshipTypesReducer'
 import routing from 'reducers/routerReducer'
+import safelySurrenderedBaby from 'reducers/safelySurrenderedBabyReducer'
 import screening from 'reducers/screeningReducer'
 import screeningInformationForm from 'reducers/screeningInformationFormReducer'
 import screeningDecisionForm from 'reducers/screeningDecisionFormReducer'
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
   relationships,
   relationshipTypes,
   routing,
+  safelySurrenderedBaby,
   screening,
   screeningInformationForm,
   screeningDecisionForm,

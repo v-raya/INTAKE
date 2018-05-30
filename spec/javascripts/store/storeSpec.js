@@ -48,6 +48,18 @@ describe('Store', () => {
       },
       relationships: [],
       routing: {locationBeforeTransitions: null},
+      safelySurrenderedBaby: {
+        persisted: {},
+        form: {
+          surrendered_by: null,
+          relation_to_child: '1592',
+          bracelet_id: '',
+          parent_guardian_given_bracelet_id: 'U',
+          parent_guardian_provided_med_questionaire: 'U',
+          comments: '',
+          med_questionaire_return_date: '',
+        },
+      },
       screening: {},
       screeningInformationForm: {},
       screeningDecisionForm: {},

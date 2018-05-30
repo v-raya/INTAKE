@@ -23,4 +23,3 @@ PersonCardView.propTypes = {
 }
 
 export default PersonCardView
-

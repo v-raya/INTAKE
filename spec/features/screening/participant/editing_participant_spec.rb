@@ -66,7 +66,7 @@ feature 'Edit Person' do
   context 'editing and saving basic person information' do
     scenario 'saves the person information' do
       stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
-        .and_return(json_body(marge.to_json, status: 201))
+        .and_return(json_body(marge.to_json, status: 200))
       visit edit_screening_path(id: screening[:id])
       within edit_participant_card_selector(marge.id) do
         within '.card-header' do
@@ -112,7 +112,7 @@ feature 'Edit Person' do
   context 'editing and saving person phone numbers' do
     scenario 'saves the person information' do
       stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
-        .and_return(json_body({}.to_json, status: 201))
+        .and_return(json_body({}.to_json, status: 200))
 
       visit edit_screening_path(id: screening[:id])
       within edit_participant_card_selector(marge.id) do
@@ -155,7 +155,7 @@ feature 'Edit Person' do
   context 'editing and saving addresses' do
     scenario 'saves the person information' do
       stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
-        .and_return(json_body({}.to_json, status: 201))
+        .and_return(json_body({}.to_json, status: 200))
 
       address = homer.addresses.first
       visit edit_screening_path(id: screening[:id])
@@ -211,7 +211,7 @@ feature 'Edit Person' do
   context 'editing and saving person demographics' do
     scenario 'saves the person information' do
       stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
-        .and_return(json_body({}.to_json, status: 201))
+        .and_return(json_body({}.to_json, status: 200))
 
       visit edit_screening_path(id: screening[:id])
       dob = Time.parse(marge.date_of_birth).strftime('%m/%d/%Y')
@@ -243,7 +243,7 @@ feature 'Edit Person' do
 
   scenario 'editing & saving a person for a screening saves only the relevant person ids' do
     stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
-      .and_return(json_body({}.to_json, status: 201))
+      .and_return(json_body({}.to_json, status: 200))
 
     visit edit_screening_path(id: screening[:id])
 
@@ -598,6 +598,86 @@ feature 'Edit Person' do
           approximate_age: nil,
           approximate_age_units: nil
         ))).to have_been_made
+    end
+  end
+
+  context 'saving a safely surrendered baby' do
+    let(:screening) do
+      {
+        id: '1',
+        report_type: 'ssb',
+        cross_reports: [],
+        allegations: [],
+        incident_address: {},
+        safety_alerts: [],
+        participants: [homer.as_json.symbolize_keys]
+      }
+    end
+
+    scenario 'updates the participant' do
+      visit edit_screening_path(id: screening[:id])
+
+      updated_participant = homer.as_json.merge(
+        safelySurrenderedBabies: {
+          surrendered_by: 'Unknown',
+          relation_to_child: '1597',
+          bracelet_id: '12345',
+          parent_guardian_given_bracelet_id: 'A',
+          parent_guardian_provided_med_questionaire: 'D',
+          med_questionaire_return_date: '2011-01-01',
+          comments: 'These are the comments.',
+          participant_child: homer.id
+        }
+      )
+
+      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
+        .and_return(json_body(updated_participant.to_json, status: 200))
+
+      within edit_participant_card_selector(homer.id) do
+        expect(page).to have_no_content('Safely Surrendered Baby')
+
+        fill_in_react_select('Role', with: 'Victim')
+
+        expect(page).to have_content('Safely Surrendered Baby')
+
+        within '.ssb-info' do
+          fill_in_react_select 'Relationship to Surrendered Child', with: 'Grandmother'
+          fill_in 'Bracelet ID', with: '12345'
+          fill_in 'Comments', with: 'These are the comments.'
+          fill_in_react_select 'Parent/Guardian Given Bracelet ID', with: 'Attempted'
+          fill_in_react_select 'Parent/Guardian Provided Medical Questionaire', with: 'Declined'
+          fill_in_datepicker 'Medical Questionaire Return Date', with: '01-01-2011'
+        end
+        click_button 'Save'
+      end
+
+      expect(a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
+        .with(body: hash_including(
+          safelySurrenderedBabies: anything
+        ))).to have_been_made
+
+      within show_participant_card_selector(homer.id) do
+        expect(page).to have_content('Safely Surrendered Baby')
+        expect(page).to have_content('Relationship to Surrendered Child Grandmother')
+        expect(page).to have_content('Bracelet ID 12345')
+        expect(page).to have_content('Parent/Guardian Given Bracelet ID Attempted')
+        expect(page).to have_content('Parent/Guardian Provided Medical Questionaire Declined')
+        expect(page).to have_content('Medical Questionaire Return Date 2011-01-01')
+      end
+
+      updated_screening = screening.as_json.merge(
+        participants: [updated_participant.as_json.symbolize_keys]
+      )
+
+      stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+        .and_return(json_body(updated_screening.to_json, status: 200))
+
+      visit edit_screening_path(id: screening[:id])
+
+      within edit_participant_card_selector(homer.id) do
+        expect(page).to have_content('Safely Surrendered Baby')
+        expect(page).to have_select('relation-to-child', selected: 'Grandmother')
+      end
     end
   end
 end

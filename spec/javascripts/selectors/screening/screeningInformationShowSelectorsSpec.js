@@ -1,10 +1,21 @@
-import {getErrorsSelector} from 'selectors/screening/screeningInformationShowSelectors'
+import {
+  getReportType,
+  getErrorsSelector,
+} from 'selectors/screening/screeningInformationShowSelectors'
 import {fromJS, List} from 'immutable'
 import * as matchers from 'jasmine-immutable-matchers'
 import moment from 'moment'
 
 describe('screeningInformationSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
+
+  describe('getReportType', () => {
+    it('returns the report type', () => {
+      const screening = {report_type: 'ssb'}
+      const state = fromJS({screening})
+      expect(getReportType(state)).toEqual('ssb')
+    })
+  })
 
   describe('getErrorsSelector', () => {
     describe('assignee', () => {

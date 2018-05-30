@@ -5,7 +5,7 @@ import {
 } from 'selectors/screening/narrativeShowSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
-describe('contactFormSelectors', () => {
+describe('narrativeShowSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
   describe('getReportNarrativeValueSelector', () => {

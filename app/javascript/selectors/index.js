@@ -5,5 +5,5 @@ export const findByCategory = (statusCodes = List(), selectedCategory) => (
 
 export const buildSelector = (...funcs) => {
   const selector = funcs.pop()
-  return (arg) => selector(...(funcs.map((f) => (f(arg)))))
+  return (...args) => selector(...(funcs.map((f) => (f(...args)))))
 }
