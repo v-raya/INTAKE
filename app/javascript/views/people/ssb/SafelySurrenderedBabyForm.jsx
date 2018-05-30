@@ -20,7 +20,7 @@ const SafelySurrenderedBabyForm = ({
 }) => {
   const onChangeField = (field) => (e) => onChange(field, e.target.value)
   return (
-    <div>
+    <div className='ssb-info'>
       <GrouperHeading text='Safely Surrendered Baby Information' />
       <div className='row'>
         <InputField

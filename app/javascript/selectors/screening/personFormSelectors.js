@@ -190,6 +190,11 @@ export const getPeopleWithEditsSelector = createSelector(
   })
 )
 
+export const getPersonWithEditsSelector = (state, personId) => {
+  const people = getPeopleWithEditsSelector(state)
+  return people.get(personId)
+}
+
 const getAlertMessageByRole = (roles) => {
   if (roles.includes('Victim')) {
     return 'Alleged victims must be identified with a name, even Doe or Unknown, and must be under the age of 18'

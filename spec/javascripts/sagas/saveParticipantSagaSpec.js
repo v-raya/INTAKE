@@ -11,7 +11,7 @@ import {fetch as fetchAllegations} from 'actions/screeningAllegationsActions'
 import * as personCardActions from 'actions/personCardActions'
 import {fromJS} from 'immutable'
 import {getClientIdsSelector} from 'selectors/clientSelectors'
-import {getPeopleWithEditsSelector} from 'selectors/screening/personFormSelectors'
+import {getPersonWithEditsSelector} from 'selectors/screening/personFormSelectors'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 
@@ -25,15 +25,14 @@ describe('saveParticipantSaga', () => {
 describe('saveParticipant', () => {
   const id = '123'
   const participant = {id, name: 'test'}
-  const participants = fromJS({[id]: participant})
   const action = personCardActions.savePerson(id)
 
   it('saves and puts participant and fetches allegations', () => {
     const gen = saveParticipant(action)
     expect(gen.next().value).toEqual(
-      select(getPeopleWithEditsSelector)
+      select(getPersonWithEditsSelector, id)
     )
-    expect(gen.next(participants).value).toEqual(
+    expect(gen.next(fromJS(participant)).value).toEqual(
       call(Utils.put, '/api/v1/participants/123', participant)
     )
     expect(gen.next(participant).value).toEqual(
@@ -56,9 +55,9 @@ describe('saveParticipant', () => {
   it('puts errors when errors are thrown', () => {
     const gen = saveParticipant(action)
     expect(gen.next().value).toEqual(
-      select(getPeopleWithEditsSelector)
+      select(getPersonWithEditsSelector, id)
     )
-    expect(gen.next(participants).value).toEqual(
+    expect(gen.next(fromJS(participant)).value).toEqual(
       call(Utils.put, '/api/v1/participants/123', participant)
     )
     const error = {responseJSON: 'some error'}
