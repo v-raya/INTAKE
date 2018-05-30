@@ -33,13 +33,13 @@ describe('buildSelector', () => {
   })
 
   it('passes multiple arguments to intermediate selectors', () => {
-    const built = buildSelector(
-      (n, s) => s[n],
-      (n, s) => s[s.length - 1 - n],
-      (a, b) => a + b
-    )
-    expect(built(0, 'ABCXYZ')).toEqual('AZ')
-    expect(built(1, 'ABCXYZ')).toEqual('BY')
-    expect(built(2, 'ABCXYZ')).toEqual('CX')
+    const final = (sum, product) => ({sum, product})
+    const add = (a, b) => a + b
+    const mul = (a, b) => a * b
+    const built = buildSelector(add, mul, final)
+
+    expect(built(5, 7)).toEqual({sum: 12, product: 35})
+    expect(built(3, 3)).toEqual({sum: 6, product: 9})
+    expect(built(0, 1)).toEqual({sum: 1, product: 0})
   })
 })

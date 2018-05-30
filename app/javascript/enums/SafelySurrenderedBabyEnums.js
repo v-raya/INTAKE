@@ -4,6 +4,7 @@
   our relationship types are not stored in a way where we can easily select this
   subset (i.e. with a subcategory). So, for now we hardcode them and plan to
   circle back on this tech debt.
+  https://osi-cwds.atlassian.net/browse/HOT-2016
 */
 export const RELATIONS = Object.freeze({
   1592: 'Parents',
