@@ -19,15 +19,15 @@ describe('safelySurrenderedBabySelectors', () => {
         surrendered_by: '5',
         participant_child: '123',
         relation_to_child: '1592',
-        parent_guardian_given_bracelet_id: 'yes',
-        parent_guardian_provided_med_questionaire: 'declined',
+        parent_guardian_given_bracelet_id: 'Y',
+        parent_guardian_provided_med_questionaire: 'D',
       },
       form: {
         surrendered_by: '5',
         participant_child: '123',
         relation_to_child: '1600',
-        parent_guardian_given_bracelet_id: 'unknown',
-        parent_guardian_provided_med_questionaire: 'unknown',
+        parent_guardian_given_bracelet_id: 'U',
+        parent_guardian_provided_med_questionaire: 'U',
       },
     },
   })
@@ -39,8 +39,8 @@ describe('safelySurrenderedBabySelectors', () => {
           surrendered_by: '5',
           participant_child: '123',
           relation_to_child: '1600',
-          parent_guardian_given_bracelet_id: 'unknown',
-          parent_guardian_provided_med_questionaire: 'unknown',
+          parent_guardian_given_bracelet_id: 'U',
+          parent_guardian_provided_med_questionaire: 'U',
         })
       )
     })
@@ -63,8 +63,8 @@ describe('safelySurrenderedBabySelectors', () => {
           surrendered_by: 'John Doe',
           participant_child: '123',
           relation_to_child: '1600',
-          parent_guardian_given_bracelet_id: 'unknown',
-          parent_guardian_provided_med_questionaire: 'unknown',
+          parent_guardian_given_bracelet_id: 'U',
+          parent_guardian_provided_med_questionaire: 'U',
         })
       )
     })

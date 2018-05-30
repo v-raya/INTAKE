@@ -26,16 +26,16 @@ export const RELATIONS = Object.freeze({
 })
 
 export const GIVEN_BRACELET_RESPONSES = Object.freeze({
-  unknown: 'Unknown',
-  yes: 'Yes',
-  no: 'No',
-  attempted: 'Attempted',
+  U: 'Unknown',
+  Y: 'Yes',
+  N: 'No',
+  A: 'Attempted',
 })
 
 export const GIVEN_MED_QUESTIONAIRE_RESPONSES = Object.freeze({
-  unknown: 'Unknown',
-  immediate: 'Completed and Returned Immediately',
-  mailed: 'Completed and Mailed Back',
-  provided: 'Provided/Never Returned',
-  declined: 'Declined',
+  U: 'Unknown',
+  R: 'Completed and Returned Immediately',
+  M: 'Completed and Mailed Back',
+  N: 'Provided/Never Returned',
+  D: 'Declined',
 })

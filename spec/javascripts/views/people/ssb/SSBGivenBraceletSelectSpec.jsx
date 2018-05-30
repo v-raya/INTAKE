@@ -11,7 +11,7 @@ describe('SSBGivenBraceletSelect', () => {
   beforeEach(() => {
     onChange = jasmine.createSpy('onChange')
     root = render({
-      value: 'no',
+      value: 'N',
       onChange,
     })
   })
@@ -20,7 +20,7 @@ describe('SSBGivenBraceletSelect', () => {
     const select = root.find('SelectField')
     expect(select.props().label).toEqual('Parent/Guardian Given Bracelet ID')
     expect(select.props().gridClassName).toEqual('col-md-4')
-    expect(select.props().value).toEqual('no')
+    expect(select.props().value).toEqual('N')
   })
 
   it('propagates changes', () => {

@@ -11,7 +11,7 @@ describe('SSBGivenMedQuestionaireSelect', () => {
   beforeEach(() => {
     onChange = jasmine.createSpy('onChange')
     root = render({
-      value: 'immediate',
+      value: 'R',
       onChange,
     })
   })
@@ -20,7 +20,7 @@ describe('SSBGivenMedQuestionaireSelect', () => {
     const select = root.find('SelectField')
     expect(select.props().label).toEqual('Parent/Guardian Provided Medical Questionaire')
     expect(select.props().gridClassName).toEqual('col-md-4')
-    expect(select.props().value).toEqual('immediate')
+    expect(select.props().value).toEqual('R')
   })
 
   it('propagates changes', () => {
