@@ -164,11 +164,13 @@ export const getPeopleWithEditsSelector = createSelector(
   getAllReadOnlyAddresses,
   (people, screeningId, allReadOnlyAddresses) => people.map((person, personId) => {
     const isAgeDisabled = Boolean(person.getIn(['date_of_birth', 'value']))
-    return fromJS({
-      screening_id: screeningId,
+    return fromJS({screening_id: screeningId,
       id: personId,
       approximate_age: isAgeDisabled ? null : person.getIn(['approximate_age', 'value']),
       approximate_age_units: isAgeDisabled ? null : person.getIn(['approximate_age_units', 'value']),
+      csec_types: person.getIn(['csec_types', 'value']),
+      csec_started_at: person.getIn(['csec_started_at', 'value']),
+      csec_ended_at: person.getIn(['csec_ended_at', 'value']),
       date_of_birth: person.getIn(['date_of_birth', 'value']),
       first_name: person.getIn(['first_name', 'value']),
       gender: person.getIn(['gender', 'value']),
@@ -184,8 +186,7 @@ export const getPeopleWithEditsSelector = createSelector(
       sensitive: person.getIn(['sensitive', 'value']),
       sealed: person.getIn(['sealed', 'value']),
       ethnicity: getEthnicity(person),
-      races: getRaces(person),
-    })
+      races: getRaces(person)})
   })
 )
 

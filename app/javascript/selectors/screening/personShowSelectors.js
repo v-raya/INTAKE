@@ -134,16 +134,15 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
 
   return fromJS({
     approximateAge: approximateAge,
+    CSECTypes: person.get('csec_types'),
+    csecStartedAt: person.get('csec_started_at') && dateFormatter(person.get('csec_started_at')),
+    csecEndedAt: person.get('csec_ended_at') && dateFormatter(person.get('csec_ended_at')),
     dateOfBirth: dateOfBirth,
     ethnicity: getEthnicity(person),
     gender: GENDERS[person.get('gender')],
     languages: person.get('languages') && flagPrimaryLanguage((person.toJS().languages) || []).join(', '),
     legacySource: legacyDescriptor && legacySourceFormatter(legacyDescriptor.toJS()),
-    name: {
-      value: nameFormatter(person.toJS()),
-      errors: [],
-      required: false,
-    },
+    name: {value: nameFormatter(person.toJS()), errors: [], required: false},
     races: getRaces(person),
     roles: {value: person.get('roles', List()), errors: []},
     ssn: {value: ssnFormatter(person.get('ssn')), errors: []},

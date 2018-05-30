@@ -11,6 +11,7 @@ import PersonAddressesFormContainer from 'containers/screenings/PersonAddressesF
 import PersonFormContainer from 'containers/screenings/PersonFormContainer'
 import PropTypes from 'prop-types'
 import React from 'react'
+import PersonCSECFormContainer from '../containers/screenings/PersonCSECFormContainer'
 
 const PersonCardView = ({personId}) => (
   <PersonCardContainer
@@ -24,6 +25,7 @@ const PersonCardView = ({personId}) => (
         <PersonPhoneNumbersFormContainer personId={personId} />
         <PersonReadOnlyAddressesContainer personId={personId} />
         <PersonAddressesFormContainer personId={personId} />
+        <PersonCSECFormContainer personId={personId} />
       </div>
     }
     show={
