@@ -14,22 +14,22 @@ const getName = (participant) => (participant ? nameFormatter(participant.toJS()
 const getSSB = (state, type) => state.getIn(['safelySurrenderedBaby', type])
 
 const fillName = (state, ssb) => ssb &&
-  ssb.set('surrenderedBy', getName(getParticipant(state, ssb.get('surrenderedBy'))))
+  ssb.set('surrendered_by', getName(getParticipant(state, ssb.get('surrendered_by'))))
 
 const onlyForChild = (personId, ssb) =>
-  (ssb && ssb.get('participantChildId') === personId ? ssb : null)
+  (ssb && ssb.get('participant_child') === personId ? ssb : null)
 
 const display = (ssb) => ssb &&
   ssb
     .set(
-      'relationToChild',
-      RELATIONS[ssb.get('relationToChild')])
+      'relation_to_child',
+      RELATIONS[ssb.get('relation_to_child')])
     .set(
-      'parentGuardGivenBraceletId',
-      GIVEN_BRACELET_RESPONSES[ssb.get('parentGuardGivenBraceletId')])
+      'parent_guardian_given_bracelet_id',
+      GIVEN_BRACELET_RESPONSES[ssb.get('parent_guardian_given_bracelet_id')])
     .set(
-      'parentGuardProvMedicalQuestionaire',
-      GIVEN_MED_QUESTIONAIRE_RESPONSES[ssb.get('parentGuardProvMedicalQuestionaire')])
+      'parent_guardian_provided_med_questionaire',
+      GIVEN_MED_QUESTIONAIRE_RESPONSES[ssb.get('parent_guardian_provided_med_questionaire')])
 
 export const getRawFormSafelySurrenderedBaby = (state, personId) =>
   onlyForChild(personId, getSSB(state, 'form'))

@@ -4,13 +4,13 @@ import GrouperHeading from 'common/GrouperHeading'
 import ShowField from 'common/ShowField'
 
 const SafelySurrenderedBabyShow = ({
-  braceletId,
+  bracelet_id,
   comments,
-  medQuestionaireReturnDate,
-  parentGuardGivenBraceletId,
-  parentGuardProvMedicalQuestionaire,
-  relationToChild,
-  surrenderedBy,
+  med_questionaire_return_date,
+  parent_guardian_given_bracelet_id,
+  parent_guardian_provided_med_questionaire,
+  relation_to_child,
+  surrendered_by,
 }) => (
   <div>
     <GrouperHeading text='Safely Surrendered Baby Information' />
@@ -18,15 +18,15 @@ const SafelySurrenderedBabyShow = ({
       <ShowField
         label='Surrendered By'
         gridClassName='col-md-4'
-      >{surrenderedBy}</ShowField>
+      >{surrendered_by}</ShowField>
       <ShowField
         label='Relationship to Surrendered Child'
         gridClassName='col-md-4'
-      >{relationToChild}</ShowField>
+      >{relation_to_child}</ShowField>
       <ShowField
         label='Bracelet ID'
         gridClassName='col-md-4'
-      >{braceletId}</ShowField>
+      >{bracelet_id}</ShowField>
 
       <ShowField
         label='Comments'
@@ -36,27 +36,27 @@ const SafelySurrenderedBabyShow = ({
       <ShowField
         label='Parent/Guardian Given Bracelet ID'
         gridClassName='col-md-4'
-      >{parentGuardGivenBraceletId}</ShowField>
+      >{parent_guardian_given_bracelet_id}</ShowField>
       <ShowField
         label='Parent/Guardian Provided Medical Questionaire'
         gridClassName='col-md-4'
-      >{parentGuardProvMedicalQuestionaire}</ShowField>
+      >{parent_guardian_provided_med_questionaire}</ShowField>
       <ShowField
         label='Medical Questionaire Return Date'
         gridClassName='col-md-4'
-      >{medQuestionaireReturnDate}</ShowField>
+      >{med_questionaire_return_date}</ShowField>
     </div>
   </div>
 )
 
 SafelySurrenderedBabyShow.propTypes = {
-  braceletId: PropTypes.string,
+  bracelet_id: PropTypes.string,
   comments: PropTypes.string,
-  medQuestionaireReturnDate: PropTypes.string,
-  parentGuardGivenBraceletId: PropTypes.string,
-  parentGuardProvMedicalQuestionaire: PropTypes.string,
-  relationToChild: PropTypes.string,
-  surrenderedBy: PropTypes.string,
+  med_questionaire_return_date: PropTypes.string,
+  parent_guardian_given_bracelet_id: PropTypes.string,
+  parent_guardian_provided_med_questionaire: PropTypes.string,
+  relation_to_child: PropTypes.string,
+  surrendered_by: PropTypes.string,
 }
 
 export default SafelySurrenderedBabyShow

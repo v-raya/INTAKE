@@ -1018,14 +1018,14 @@ describe('personFormSelectors', () => {
     const safelySurrenderedBaby = {
       persisted: {},
       form: {
-        participantChildId: 'two',
-        surrenderedBy: null,
-        relationToChild: '1592',
-        braceletId: '12345',
-        parentGuardGivenBraceletId: 'unknown',
-        parentGuardProvMedicalQuestionaire: 'unknown',
+        participant_child: 'two',
+        surrendered_by: null,
+        relation_to_child: '1592',
+        bracelet_id: '12345',
+        parent_guardian_given_bracelet_id: 'unknown',
+        parent_guardian_provided_med_questionaire: 'unknown',
         comments: 'Comments and such!',
-        medQuestionaireReturnDate: '2018-01-01',
+        med_questionaire_return_date: '2018-01-01',
       },
     }
     const state = fromJS({peopleForm, screening, safelySurrenderedBaby})
@@ -1076,14 +1076,14 @@ describe('personFormSelectors', () => {
       it('adds ssb info to participant children', () => {
         expect(getPersonWithEditsSelector(state, 'two').get('safelySurrenderedBabies'))
           .toEqualImmutable(fromJS({
-            participantChildId: 'two',
-            surrenderedBy: null,
-            relationToChild: '1592',
-            braceletId: '12345',
-            parentGuardGivenBraceletId: 'unknown',
-            parentGuardProvMedicalQuestionaire: 'unknown',
+            participant_child: 'two',
+            surrendered_by: null,
+            relation_to_child: '1592',
+            bracelet_id: '12345',
+            parent_guardian_given_bracelet_id: 'unknown',
+            parent_guardian_provided_med_questionaire: 'unknown',
             comments: 'Comments and such!',
-            medQuestionaireReturnDate: '2018-01-01',
+            med_questionaire_return_date: '2018-01-01',
           }))
       })
 

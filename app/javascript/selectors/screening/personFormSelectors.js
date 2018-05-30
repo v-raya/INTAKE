@@ -200,7 +200,7 @@ export const getPersonWithEditsSelector = (state, personId) => {
 
   const ssb = state.getIn(['safelySurrenderedBaby', 'form'])
 
-  if (ssb && reportType === 'ssb' && ssb.get('participantChildId') === personId) {
+  if (ssb && reportType === 'ssb' && ssb.get('participant_child') === personId) {
     return person.set('safelySurrenderedBabies', ssb)
   }
 

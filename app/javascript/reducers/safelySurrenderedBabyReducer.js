@@ -15,13 +15,13 @@ import {createReducer} from 'utils/createReducer'
 const initialState = fromJS({
   persisted: {},
   form: {
-    surrenderedBy: null,
-    relationToChild: '1592',
-    braceletId: '',
-    parentGuardGivenBraceletId: 'unknown',
-    parentGuardProvMedicalQuestionaire: 'unknown',
+    surrendered_by: null,
+    relation_to_child: '1592',
+    bracelet_id: '',
+    parent_guardian_given_bracelet_id: 'unknown',
+    parent_guardian_provided_med_questionaire: 'unknown',
     comments: '',
-    medQuestionaireReturnDate: '',
+    med_questionaire_return_date: '',
   },
 })
 
@@ -48,12 +48,12 @@ export default createReducer(initialState, {
   [SET_PEOPLE_FORM_FIELD]: (state, {payload: {personId, fieldSet, value: roles}}) => {
     if (
       fieldSet[0] !== 'roles' ||
-      state.getIn(['form', 'participantChildId']) ||
+      state.getIn(['form', 'participant_child']) ||
       !roles.includes('Victim')
     ) {
       return state
     }
-    return state.setIn(['form', 'participantChildId'], personId)
+    return state.setIn(['form', 'participant_child'], personId)
   },
   [CREATE_SCREENING_COMPLETE]: reduceSSBFromParticipants,
   [FETCH_SCREENING_COMPLETE]: reduceSSBFromParticipants,
@@ -69,7 +69,7 @@ export default createReducer(initialState, {
 
     if (error || !roles || !roles.includes('Perpetrator')) { return state }
     return state
-      .setIn(['form', 'surrenderedBy'], id)
-      .setIn(['persisted', 'surrenderedBy'], id)
+      .setIn(['form', 'surrendered_by'], id)
+      .setIn(['persisted', 'surrendered_by'], id)
   },
 })

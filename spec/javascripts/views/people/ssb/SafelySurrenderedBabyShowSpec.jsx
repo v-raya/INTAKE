@@ -10,13 +10,13 @@ describe('SafelySurrenderedBabyShow', () => {
 
   beforeEach(() => {
     root = render({
-      surrenderedBy: 'Hagrid',
-      relationToChild: 'Groundskeeper',
-      braceletId: 'Lightning',
-      parentGuardGivenBraceletId: 'Attempted',
-      parentGuardProvMedicalQuestionaire: 'Declined',
+      surrendered_by: 'Hagrid',
+      relation_to_child: 'Groundskeeper',
+      bracelet_id: 'Lightning',
+      parent_guardian_given_bracelet_id: 'Attempted',
+      parent_guardian_provided_med_questionaire: 'Declined',
       comments: 'Yer a wizard, Harry!',
-      medQuestionaireReturnDate: '2001-11-14',
+      med_questionaire_return_date: '2001-11-14',
     })
   })
 

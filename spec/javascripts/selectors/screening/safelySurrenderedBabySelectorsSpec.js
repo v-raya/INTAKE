@@ -16,18 +16,18 @@ describe('safelySurrenderedBabySelectors', () => {
     ],
     safelySurrenderedBaby: {
       persisted: {
-        surrenderedBy: '5',
-        participantChildId: '123',
-        relationToChild: '1592',
-        parentGuardGivenBraceletId: 'yes',
-        parentGuardProvMedicalQuestionaire: 'declined',
+        surrendered_by: '5',
+        participant_child: '123',
+        relation_to_child: '1592',
+        parent_guardian_given_bracelet_id: 'yes',
+        parent_guardian_provided_med_questionaire: 'declined',
       },
       form: {
-        surrenderedBy: '5',
-        participantChildId: '123',
-        relationToChild: '1600',
-        parentGuardGivenBraceletId: 'unknown',
-        parentGuardProvMedicalQuestionaire: 'unknown',
+        surrendered_by: '5',
+        participant_child: '123',
+        relation_to_child: '1600',
+        parent_guardian_given_bracelet_id: 'unknown',
+        parent_guardian_provided_med_questionaire: 'unknown',
       },
     },
   })
@@ -36,11 +36,11 @@ describe('safelySurrenderedBabySelectors', () => {
     it('returns SSB info for the matching child', () => {
       expect(getRawFormSafelySurrenderedBaby(state, '123')).toEqualImmutable(
         fromJS({
-          surrenderedBy: '5',
-          participantChildId: '123',
-          relationToChild: '1600',
-          parentGuardGivenBraceletId: 'unknown',
-          parentGuardProvMedicalQuestionaire: 'unknown',
+          surrendered_by: '5',
+          participant_child: '123',
+          relation_to_child: '1600',
+          parent_guardian_given_bracelet_id: 'unknown',
+          parent_guardian_provided_med_questionaire: 'unknown',
         })
       )
     })
@@ -60,11 +60,11 @@ describe('safelySurrenderedBabySelectors', () => {
     it('returns SSB info for the matching child', () => {
       expect(getFormSafelySurrenderedBaby(state, '123')).toEqualImmutable(
         fromJS({
-          surrenderedBy: 'John Doe',
-          participantChildId: '123',
-          relationToChild: '1600',
-          parentGuardGivenBraceletId: 'unknown',
-          parentGuardProvMedicalQuestionaire: 'unknown',
+          surrendered_by: 'John Doe',
+          participant_child: '123',
+          relation_to_child: '1600',
+          parent_guardian_given_bracelet_id: 'unknown',
+          parent_guardian_provided_med_questionaire: 'unknown',
         })
       )
     })
@@ -84,11 +84,11 @@ describe('safelySurrenderedBabySelectors', () => {
     it('returns SSB info for the matching child', () => {
       expect(getPersistedSafelySurrenderedBaby(state, '123')).toEqualImmutable(
         fromJS({
-          surrenderedBy: 'John Doe',
-          participantChildId: '123',
-          relationToChild: 'Parents',
-          parentGuardGivenBraceletId: 'Yes',
-          parentGuardProvMedicalQuestionaire: 'Declined',
+          surrendered_by: 'John Doe',
+          participant_child: '123',
+          relation_to_child: 'Parents',
+          parent_guardian_given_bracelet_id: 'Yes',
+          parent_guardian_provided_med_questionaire: 'Declined',
         })
       )
     })

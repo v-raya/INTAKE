@@ -10,13 +10,13 @@ import SSBRelationSelect from 'views/people/ssb/SSBRelationSelect'
 
 const SafelySurrenderedBabyForm = ({
   actions: {onChange},
-  braceletId,
+  bracelet_id,
   comments,
-  medQuestionaireReturnDate,
-  parentGuardGivenBraceletId,
-  parentGuardProvMedicalQuestionaire,
-  relationToChild,
-  surrenderedBy,
+  med_questionaire_return_date,
+  parent_guardian_given_bracelet_id,
+  parent_guardian_provided_med_questionaire,
+  relation_to_child,
+  surrendered_by,
 }) => {
   const onChangeField = (field) => (e) => onChange(field, e.target.value)
   return (
@@ -28,19 +28,19 @@ const SafelySurrenderedBabyForm = ({
           id='surrendered-by'
           label='Surrendered By'
           disabled={true}
-          value={surrenderedBy}
+          value={surrendered_by}
           onChange={() => {}}
         />
         <SSBRelationSelect
-          value={relationToChild}
-          onChange={onChangeField('relationToChild')}
+          value={relation_to_child}
+          onChange={onChangeField('relation_to_child')}
         />
         <InputField
           gridClassName='col-md-4'
           id='bracelet-id'
           label='Bracelet ID'
-          value={braceletId}
-          onChange={onChangeField('braceletId')}
+          value={bracelet_id}
+          onChange={onChangeField('bracelet_id')}
         />
         <FormField
           gridClassName='col-md-12'
@@ -57,20 +57,20 @@ const SafelySurrenderedBabyForm = ({
           />
         </FormField>
         <SSBGivenBraceletSelect
-          value={parentGuardGivenBraceletId}
-          onChange={onChangeField('parentGuardGivenBraceletId')}
+          value={parent_guardian_given_bracelet_id}
+          onChange={onChangeField('parent_guardian_given_bracelet_id')}
         />
         <SSBGivenMedQuestionaireSelect
-          value={parentGuardProvMedicalQuestionaire}
-          onChange={onChangeField('parentGuardProvMedicalQuestionaire')}
+          value={parent_guardian_provided_med_questionaire}
+          onChange={onChangeField('parent_guardian_provided_med_questionaire')}
         />
         <DateField
           gridClassName='col-md-4'
           id='med-questionaire-return-date'
           label='Medical Questionaire Return Date'
-          value={medQuestionaireReturnDate}
+          value={med_questionaire_return_date}
           hasTime={false}
-          onChange={(date) => onChange('medQuestionaireReturnDate', date)}
+          onChange={(date) => onChange('med_questionaire_return_date', date)}
         />
       </div>
     </div>
@@ -81,13 +81,13 @@ SafelySurrenderedBabyForm.propTypes = {
   actions: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
   }).isRequired,
-  braceletId: PropTypes.string,
+  bracelet_id: PropTypes.string,
   comments: PropTypes.string,
-  medQuestionaireReturnDate: PropTypes.string,
-  parentGuardGivenBraceletId: PropTypes.string,
-  parentGuardProvMedicalQuestionaire: PropTypes.string,
-  relationToChild: PropTypes.string,
-  surrenderedBy: PropTypes.string,
+  med_questionaire_return_date: PropTypes.string,
+  parent_guardian_given_bracelet_id: PropTypes.string,
+  parent_guardian_provided_med_questionaire: PropTypes.string,
+  relation_to_child: PropTypes.string,
+  surrendered_by: PropTypes.string,
 }
 
 export default SafelySurrenderedBabyForm

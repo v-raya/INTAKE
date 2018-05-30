@@ -11,13 +11,13 @@ describe('SafeleySurrenderedBabyForm', () => {
   beforeEach(() => {
     actions = jasmine.createSpyObj('actions', ['onBlur', 'onChange'])
     root = render({
-      surrenderedBy: 'Hagrid',
-      relationToChild: 'Groundskeeper',
-      braceletId: 'Lightning',
-      parentGuardGivenBraceletId: 'yes',
-      parentGuardProvMedicalQuestionaire: 'no',
+      surrendered_by: 'Hagrid',
+      relation_to_child: 'Groundskeeper',
+      bracelet_id: 'Lightning',
+      parent_guardian_given_bracelet_id: 'yes',
+      parent_guardian_provided_med_questionaire: 'no',
       comments: 'Yer a wizard, Harry!',
-      medQuestionaireReturnDate: '2001-11-14',
+      med_questionaire_return_date: '2001-11-14',
       actions,
     })
   })
@@ -53,7 +53,7 @@ describe('SafeleySurrenderedBabyForm', () => {
     it('propagates changes to Relationship to Surrendered Child', () => {
       const props = body.find('SSBRelationSelect').props()
       props.onChange({target: {value: 'Mother'}})
-      expect(actions.onChange).toHaveBeenCalledWith('relationToChild', 'Mother')
+      expect(actions.onChange).toHaveBeenCalledWith('relation_to_child', 'Mother')
     })
 
     it('renders Bracelet ID', () => {
@@ -63,11 +63,11 @@ describe('SafeleySurrenderedBabyForm', () => {
     })
 
     it('propagates changes to Bracelet ID', () => {
-      const braceletId = body.find('InputField[label="Bracelet ID"]')
+      const bracelet_id = body.find('InputField[label="Bracelet ID"]')
 
-      braceletId.props().onChange({target: {value: 'New Id'}})
+      bracelet_id.props().onChange({target: {value: 'New Id'}})
 
-      expect(actions.onChange).toHaveBeenCalledWith('braceletId', 'New Id')
+      expect(actions.onChange).toHaveBeenCalledWith('bracelet_id', 'New Id')
     })
 
     it('renders Comments', () => {
@@ -93,7 +93,7 @@ describe('SafeleySurrenderedBabyForm', () => {
     it('propagates changes to Parent/Guardian Given Bracelet ID', () => {
       const props = body.find('SSBGivenBraceletSelect').props()
       props.onChange({target: {value: 'Unknown'}})
-      expect(actions.onChange).toHaveBeenCalledWith('parentGuardGivenBraceletId', 'Unknown')
+      expect(actions.onChange).toHaveBeenCalledWith('parent_guardian_given_bracelet_id', 'Unknown')
     })
 
     it('renders Parent/Guardian Provided Medical Questionaire', () => {
@@ -104,7 +104,7 @@ describe('SafeleySurrenderedBabyForm', () => {
     it('propagates changes to Parent/Guardian Provided Medical Questionaire', () => {
       const props = body.find('SSBGivenMedQuestionaireSelect').props()
       props.onChange({target: {value: 'Unknown'}})
-      expect(actions.onChange).toHaveBeenCalledWith('parentGuardProvMedicalQuestionaire', 'Unknown')
+      expect(actions.onChange).toHaveBeenCalledWith('parent_guardian_provided_med_questionaire', 'Unknown')
     })
 
     it('renders Medical Questionaire Return Date', () => {
@@ -116,7 +116,7 @@ describe('SafeleySurrenderedBabyForm', () => {
     it('propagates changes to Medical Questionaire Return Date', () => {
       const props = body.find('DateField[label="Medical Questionaire Return Date"]').props()
       props.onChange('2001-12-31')
-      expect(actions.onChange).toHaveBeenCalledWith('medQuestionaireReturnDate', '2001-12-31')
+      expect(actions.onChange).toHaveBeenCalledWith('med_questionaire_return_date', '2001-12-31')
     })
   })
 })

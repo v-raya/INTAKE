@@ -27,22 +27,22 @@ describe('safelySurrenderedBabyReducer', () => {
       form: Map(),
     })
 
-    it('updates the surrenderedBy field', () => {
-      const action = setField('surrenderedBy', 'Somebody')
+    it('updates the surrendered_by field', () => {
+      const action = setField('surrendered_by', 'Somebody')
       expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
-        initial.setIn(['form', 'surrenderedBy'], 'Somebody')
+        initial.setIn(['form', 'surrendered_by'], 'Somebody')
       )
     })
-    it('updates the relationToChild field', () => {
-      const action = setField('relationToChild', 'New Relation')
+    it('updates the relation_to_child field', () => {
+      const action = setField('relation_to_child', 'New Relation')
       expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
-        initial.setIn(['form', 'relationToChild'], 'New Relation')
+        initial.setIn(['form', 'relation_to_child'], 'New Relation')
       )
     })
-    it('updates the braceletId field', () => {
-      const action = setField('braceletId', 'New Bracelet')
+    it('updates the bracelet_id field', () => {
+      const action = setField('bracelet_id', 'New Bracelet')
       expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
-        initial.setIn(['form', 'braceletId'], 'New Bracelet')
+        initial.setIn(['form', 'bracelet_id'], 'New Bracelet')
       )
     })
     it('updates the comment field', () => {
@@ -51,22 +51,22 @@ describe('safelySurrenderedBabyReducer', () => {
         initial.setIn(['form', 'comments'], 'New Comment')
       )
     })
-    it('updates the parentGuardGivenBraceletId field', () => {
-      const action = setField('parentGuardGivenBraceletId', 'Yes')
+    it('updates the parent_guardian_given_bracelet_id field', () => {
+      const action = setField('parent_guardian_given_bracelet_id', 'Yes')
       expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
-        initial.setIn(['form', 'parentGuardGivenBraceletId'], 'Yes')
+        initial.setIn(['form', 'parent_guardian_given_bracelet_id'], 'Yes')
       )
     })
-    it('updates the parentGuardProvMedicalQuestionaire field', () => {
-      const action = setField('parentGuardProvMedicalQuestionaire', 'Yes')
+    it('updates the parent_guardian_provided_med_questionaire field', () => {
+      const action = setField('parent_guardian_provided_med_questionaire', 'Yes')
       expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
-        initial.setIn(['form', 'parentGuardProvMedicalQuestionaire'], 'Yes')
+        initial.setIn(['form', 'parent_guardian_provided_med_questionaire'], 'Yes')
       )
     })
-    it('updates the medQuestionaireReturnDate field', () => {
-      const action = setField('medQuestionaireReturnDate', '2018-05-01')
+    it('updates the med_questionaire_return_date field', () => {
+      const action = setField('med_questionaire_return_date', '2018-05-01')
       expect(safelySurrenderedBabyReducer(initial, action)).toEqualImmutable(
-        initial.setIn(['form', 'medQuestionaireReturnDate'], '2018-05-01')
+        initial.setIn(['form', 'med_questionaire_return_date'], '2018-05-01')
       )
     })
   })
@@ -84,8 +84,8 @@ describe('safelySurrenderedBabyReducer', () => {
 
     it('ignores new victims if a participant child is already set', () => {
       const state = Map({
-        persisted: Map().set('participantChildId', '456'),
-        form: Map().set('participantChildId', '456'),
+        persisted: Map().set('participant_child', '456'),
+        form: Map().set('participant_child', '456'),
       })
       const action = setPersonField('123', ['roles'], ['Victim'])
       expect(safelySurrenderedBabyReducer(state, action)).toEqualImmutable(state)
@@ -94,7 +94,7 @@ describe('safelySurrenderedBabyReducer', () => {
     it('watches for the addition of victims', () => {
       const action = setPersonField('123', ['roles'], ['Victim'])
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
-        Map().setIn(['form', 'participantChildId'], '123')
+        Map().setIn(['form', 'participant_child'], '123')
       )
     })
   })
@@ -104,8 +104,8 @@ describe('safelySurrenderedBabyReducer', () => {
       const action = updatePersonSuccess({id: '3', roles: ['Perpetrator']})
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
         Map()
-          .setIn(['form', 'surrenderedBy'], '3')
-          .setIn(['persisted', 'surrenderedBy'], '3')
+          .setIn(['form', 'surrendered_by'], '3')
+          .setIn(['persisted', 'surrendered_by'], '3')
       )
     })
 
@@ -116,14 +116,14 @@ describe('safelySurrenderedBabyReducer', () => {
 
     it('copies SSB info from safely surrendered babies', () => {
       const payload = {
-        participantChildId: '3',
-        surrenderedBy: 'Unknown',
-        relationToChild: '1592',
-        braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'unknown',
-        parentGuardProvMedicalQuestionaire: 'unknown',
+        participant_child: '3',
+        surrendered_by: 'Unknown',
+        relation_to_child: '1592',
+        bracelet_id: 'Lightning',
+        parent_guardian_given_bracelet_id: 'unknown',
+        parent_guardian_provided_med_questionaire: 'unknown',
         comments: 'Yer a wizard, Harry!',
-        medQuestionaireReturnDate: '2001-11-14',
+        med_questionaire_return_date: '2001-11-14',
       }
       const action = updatePersonSuccess({
         id: '3',
@@ -150,14 +150,14 @@ describe('safelySurrenderedBabyReducer', () => {
 
     it('copies SSB info from safely surrendered babies', () => {
       const payload = {
-        participantChildId: '3',
-        surrenderedBy: 'Unknown',
-        relationToChild: '1592',
-        braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'unknown',
-        parentGuardProvMedicalQuestionaire: 'unknown',
+        participant_child: '3',
+        surrendered_by: 'Unknown',
+        relation_to_child: '1592',
+        bracelet_id: 'Lightning',
+        parent_guardian_given_bracelet_id: 'unknown',
+        parent_guardian_provided_med_questionaire: 'unknown',
         comments: 'Yer a wizard, Harry!',
-        medQuestionaireReturnDate: '2001-11-14',
+        med_questionaire_return_date: '2001-11-14',
       }
       const action = createPersonSuccess({
         id: '3',
@@ -174,14 +174,14 @@ describe('safelySurrenderedBabyReducer', () => {
 
   describe('when reducing actions with multiple participants', () => {
     const payload = {
-      participantChildId: '3',
-      surrenderedBy: 'Unknown',
-      relationToChild: '1592',
-      braceletId: 'Lightning',
-      parentGuardGivenBraceletId: 'unknown',
-      parentGuardProvMedicalQuestionaire: 'unknown',
+      participant_child: '3',
+      surrendered_by: 'Unknown',
+      relation_to_child: '1592',
+      bracelet_id: 'Lightning',
+      parent_guardian_given_bracelet_id: 'unknown',
+      parent_guardian_provided_med_questionaire: 'unknown',
       comments: 'Yer a wizard, Harry!',
-      medQuestionaireReturnDate: '2001-11-14',
+      med_questionaire_return_date: '2001-11-14',
     }
     const screening = {
       participants: [

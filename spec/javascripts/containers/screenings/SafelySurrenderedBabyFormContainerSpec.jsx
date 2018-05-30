@@ -14,13 +14,13 @@ describe('SafelySurrenderedBabyFormContainer', () => {
   it('renders a SafelySurrenderedBabyForm when given props', () => {
     const root = render({
       safelySurrenderedBaby: {
-        surrenderedBy: 'Hagrid',
-        relationToChild: 'Groundskeeper',
-        braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'yes',
-        parentGuardProvMedicalQuestionaire: 'no',
+        surrendered_by: 'Hagrid',
+        relation_to_child: 'Groundskeeper',
+        bracelet_id: 'Lightning',
+        parent_guardian_given_bracelet_id: 'yes',
+        parent_guardian_provided_med_questionaire: 'no',
         comments: 'Yer a wizard, Harry!',
-        medQuestionaireReturnDate: '2001-11-14',
+        med_questionaire_return_date: '2001-11-14',
       },
       reportType: 'ssb',
       actions: jasmine.createSpyObj('actions', ['onChange', 'onBlur']),
@@ -43,13 +43,13 @@ describe('SafelySurrenderedBabyFormContainer', () => {
   it('renders nothing when the report type is not SSB', () => {
     const root = render({
       safelySurrenderedBaby: {
-        surrenderedBy: 'Hagrid',
-        relationToChild: 'Groundskeeper',
-        braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'Attempted',
-        parentGuardProvMedicalQuestionaire: 'Declined',
+        surrendered_by: 'Hagrid',
+        relation_to_child: 'Groundskeeper',
+        bracelet_id: 'Lightning',
+        parent_guardian_given_bracelet_id: 'Attempted',
+        parent_guardian_provided_med_questionaire: 'Declined',
         comments: 'Yer a wizard, Harry!',
-        medQuestionaireReturnDate: '2001-11-14',
+        med_questionaire_return_date: '2001-11-14',
       },
       reportType: 'csec',
       actions: jasmine.createSpyObj('actions', ['onChange', 'onBlur']),
@@ -64,14 +64,14 @@ describe('SafelySurrenderedBabyFormContainer', () => {
       screening: {report_type: 'ssb'},
       safelySurrenderedBaby: {
         form: {
-          participantChildId: '123',
-          surrenderedBy: null,
-          relationToChild: 'Groundskeeper',
-          braceletId: 'Lightning',
-          parentGuardGivenBraceletId: 'yes',
-          parentGuardProvMedicalQuestionaire: 'no',
+          participant_child: '123',
+          surrendered_by: null,
+          relation_to_child: 'Groundskeeper',
+          bracelet_id: 'Lightning',
+          parent_guardian_given_bracelet_id: 'yes',
+          parent_guardian_provided_med_questionaire: 'no',
           comments: 'Yer a wizard, Harry!',
-          medQuestionaireReturnDate: '2001-11-14',
+          med_questionaire_return_date: '2001-11-14',
         },
       },
     })
@@ -82,14 +82,14 @@ describe('SafelySurrenderedBabyFormContainer', () => {
       expect(mapStateToProps(state, ownProps)).toEqual({
         reportType: 'ssb',
         safelySurrenderedBaby: {
-          participantChildId: '123',
-          surrenderedBy: 'Unknown',
-          relationToChild: 'Groundskeeper',
-          braceletId: 'Lightning',
-          parentGuardGivenBraceletId: 'yes',
-          parentGuardProvMedicalQuestionaire: 'no',
+          participant_child: '123',
+          surrendered_by: 'Unknown',
+          relation_to_child: 'Groundskeeper',
+          bracelet_id: 'Lightning',
+          parent_guardian_given_bracelet_id: 'yes',
+          parent_guardian_provided_med_questionaire: 'no',
           comments: 'Yer a wizard, Harry!',
-          medQuestionaireReturnDate: '2001-11-14',
+          med_questionaire_return_date: '2001-11-14',
         },
       })
     })
@@ -109,9 +109,9 @@ describe('SafelySurrenderedBabyFormContainer', () => {
       const dispatch = jasmine.createSpy('dispatch')
       const actions = mapDispatchToProps(dispatch).actions
 
-      actions.onChange('surrenderedBy', 'New SB')
+      actions.onChange('surrendered_by', 'New SB')
 
-      expect(dispatch).toHaveBeenCalledWith(setField('surrenderedBy', 'New SB'))
+      expect(dispatch).toHaveBeenCalledWith(setField('surrendered_by', 'New SB'))
     })
   })
 })

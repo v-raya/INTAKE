@@ -626,7 +626,7 @@ feature 'Edit Person' do
           parent_guardian_provided_med_questionaire: 'D',
           med_questionaire_return_date: '2011-01-01',
           comments: 'These are the comments.',
-          participant_child_id: homer.id
+          participant_child: homer.id
         }
       )
 

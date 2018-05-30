@@ -12,13 +12,13 @@ describe('SafelySurrenderedBabyShowContainer', () => {
   it('renders a SafelySurrenderedBabyShow when given props', () => {
     const root = render({
       safelySurrenderedBaby: {
-        surrenderedBy: 'Hagrid',
-        relationToChild: 'Groundskeeper',
-        braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'Attempted',
-        parentGuardProvMedicalQuestionaire: 'Declined',
+        surrendered_by: 'Hagrid',
+        relation_to_child: 'Groundskeeper',
+        bracelet_id: 'Lightning',
+        parent_guardian_given_bracelet_id: 'Attempted',
+        parent_guardian_provided_med_questionaire: 'Declined',
         comments: 'Yer a wizard, Harry!',
-        medQuestionaireReturnDate: '2001-11-14',
+        med_questionaire_return_date: '2001-11-14',
       },
       reportType: 'ssb',
     })
@@ -39,13 +39,13 @@ describe('SafelySurrenderedBabyShowContainer', () => {
   it('renders nothing when the report type is not SSB', () => {
     const root = render({
       safelySurrenderedBaby: {
-        surrenderedBy: 'Hagrid',
-        relationToChild: 'Groundskeeper',
-        braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'Attempted',
-        parentGuardProvMedicalQuestionaire: 'Declined',
+        surrendered_by: 'Hagrid',
+        relation_to_child: 'Groundskeeper',
+        bracelet_id: 'Lightning',
+        parent_guardian_given_bracelet_id: 'Attempted',
+        parent_guardian_provided_med_questionaire: 'Declined',
         comments: 'Yer a wizard, Harry!',
-        medQuestionaireReturnDate: '2001-11-14',
+        med_questionaire_return_date: '2001-11-14',
       },
       reportType: 'csec',
     })
@@ -59,14 +59,14 @@ describe('SafelySurrenderedBabyShowContainer', () => {
       screening: {report_type: 'ssb'},
       safelySurrenderedBaby: {
         persisted: {
-          participantChildId: '123',
-          surrenderedBy: null,
-          relationToChild: '1600',
-          braceletId: 'Lightning',
-          parentGuardGivenBraceletId: 'attempted',
-          parentGuardProvMedicalQuestionaire: 'declined',
+          participant_child: '123',
+          surrendered_by: null,
+          relation_to_child: '1600',
+          bracelet_id: 'Lightning',
+          parent_guardian_given_bracelet_id: 'attempted',
+          parent_guardian_provided_med_questionaire: 'declined',
           comments: 'Yer a wizard, Harry!',
-          medQuestionaireReturnDate: '2001-11-14',
+          med_questionaire_return_date: '2001-11-14',
         },
       },
     })
@@ -77,14 +77,14 @@ describe('SafelySurrenderedBabyShowContainer', () => {
       expect(mapStateToProps(state, ownProps)).toEqual({
         reportType: 'ssb',
         safelySurrenderedBaby: {
-          participantChildId: '123',
-          surrenderedBy: 'Unknown',
-          relationToChild: 'Brother',
-          braceletId: 'Lightning',
-          parentGuardGivenBraceletId: 'Attempted',
-          parentGuardProvMedicalQuestionaire: 'Declined',
+          participant_child: '123',
+          surrendered_by: 'Unknown',
+          relation_to_child: 'Brother',
+          bracelet_id: 'Lightning',
+          parent_guardian_given_bracelet_id: 'Attempted',
+          parent_guardian_provided_med_questionaire: 'Declined',
           comments: 'Yer a wizard, Harry!',
-          medQuestionaireReturnDate: '2001-11-14',
+          med_questionaire_return_date: '2001-11-14',
         },
       })
     })
