@@ -142,11 +142,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
     gender: GENDERS[person.get('gender')],
     languages: person.get('languages') && flagPrimaryLanguage((person.toJS().languages) || []).join(', '),
     legacySource: legacyDescriptor && legacySourceFormatter(legacyDescriptor.toJS()),
-    name: {
-      value: nameFormatter(person.toJS()),
-      errors: [],
-      required: false,
-    },
+    name: {value: nameFormatter(person.toJS()), errors: [], required: false},
     races: getRaces(person),
     roles: {value: person.get('roles', List()), errors: []},
     ssn: {value: ssnFormatter(person.get('ssn')), errors: []},
