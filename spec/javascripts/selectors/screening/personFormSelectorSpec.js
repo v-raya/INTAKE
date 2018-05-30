@@ -904,7 +904,7 @@ describe('personFormSelectors', () => {
   })
 
   describe('getPersonWithEditsSelector', () => {
-    const screening = {id: '123456'}
+    const screening = {id: '123456', report_type: 'ssb'}
     const peopleForm = {
       one: {
         legacy_descriptor: {value: 'a legacy descriptor'},
@@ -1015,7 +1015,20 @@ describe('personFormSelectors', () => {
         race_details: {},
       },
     }
-    const state = fromJS({peopleForm, screening})
+    const safelySurrenderedBaby = {
+      persisted: {},
+      form: {
+        participantChildId: 'two',
+        surrenderedBy: null,
+        relationToChild: '1592',
+        braceletId: '12345',
+        parentGuardGivenBraceletId: 'unknown',
+        parentGuardProvMedicalQuestionaire: 'unknown',
+        comments: 'Comments and such!',
+        medQuestionaireReturnDate: '2018-01-01',
+      },
+    }
+    const state = fromJS({peopleForm, screening, safelySurrenderedBaby})
 
     it('returns formatted person object map', () => {
       const personId = 'one'
@@ -1056,7 +1069,32 @@ describe('personFormSelectors', () => {
 
     it('returns undefined if person is not found', () => {
       const personId = 'four'
-      expect(getPersonWithEditsSelector(state, personId)).toBe(undefined)
+      expect(getPersonWithEditsSelector(state, personId)).toBe(null)
+    })
+
+    describe('ssb', () => {
+      it('adds ssb info to participant children', () => {
+        expect(getPersonWithEditsSelector(state, 'two').get('safelySurrenderedBabies'))
+          .toEqualImmutable(fromJS({
+            participantChildId: 'two',
+            surrenderedBy: null,
+            relationToChild: '1592',
+            braceletId: '12345',
+            parentGuardGivenBraceletId: 'unknown',
+            parentGuardProvMedicalQuestionaire: 'unknown',
+            comments: 'Comments and such!',
+            medQuestionaireReturnDate: '2018-01-01',
+          }))
+      })
+
+      it('does not add ssb if report_type is not ssb', () => {
+        expect(
+          getPersonWithEditsSelector(
+            state.setIn(['screening', 'report_type'], 'csec'),
+            'two'
+          ).get('safelySurrenderedBabies')
+        ).toBeUndefined()
+      })
     })
   })
 })

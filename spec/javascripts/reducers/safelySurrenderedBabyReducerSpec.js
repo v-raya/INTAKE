@@ -1,14 +1,25 @@
-import {Map} from 'immutable'
+import {Map, fromJS} from 'immutable'
 import * as matchers from 'jasmine-immutable-matchers'
 import {
   fetchSSBSuccess,
   fetchSSBFailure,
-  saveSSBSuccess,
-  saveSSBFailure,
   setField,
 } from 'actions/safelySurrenderedBabyActions'
 import {setField as setPersonField} from 'actions/peopleFormActions'
-import {updatePersonSuccess, updatePersonFailure} from 'actions/personCardActions'
+import {
+  createPersonSuccess,
+  createPersonFailure,
+  updatePersonSuccess,
+  updatePersonFailure,
+} from 'actions/personCardActions'
+import {
+  createScreeningSuccess,
+  createScreeningFailure,
+  fetchScreeningSuccess,
+  fetchScreeningFailure,
+  saveSuccess as saveScreeningSuccess,
+  saveFailure as saveScreeningFailure,
+} from 'actions/screeningActions'
 import safelySurrenderedBabyReducer from 'reducers/safelySurrenderedBabyReducer'
 
 describe('safelySurrenderedBabyReducer', () => {
@@ -27,31 +38,6 @@ describe('safelySurrenderedBabyReducer', () => {
     it('returns the last state on failure', () => {
       const action = fetchSSBFailure('Bad')
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
-    })
-  })
-
-  describe('on SAVE_SSB_COMPLETE', () => {
-    it('returns the last state on failure', () => {
-      const action = saveSSBFailure('Bad')
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
-    })
-
-    it('copies the payload to both persisted and form state', () => {
-      const payload = {
-        relationToChild: '1592',
-        braceletId: 'Lightning',
-        parentGuardGivenBraceletId: 'unknown',
-        parentGuardProvMedicalQuestionaire: 'unknown',
-        comments: 'Yer a wizard, Harry!',
-        medQuestionaireReturnDate: '2001-11-14',
-      }
-      const immutablePayload = Map(payload)
-      const action = saveSSBSuccess(payload)
-
-      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
-        persisted: immutablePayload,
-        form: immutablePayload,
-      }))
     })
   })
 
@@ -148,9 +134,129 @@ describe('safelySurrenderedBabyReducer', () => {
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
     })
 
+    it('copies SSB info from safely surrendered babies', () => {
+      const payload = {
+        participantChildId: '3',
+        surrenderedBy: 'Unknown',
+        relationToChild: '1592',
+        braceletId: 'Lightning',
+        parentGuardGivenBraceletId: 'unknown',
+        parentGuardProvMedicalQuestionaire: 'unknown',
+        comments: 'Yer a wizard, Harry!',
+        medQuestionaireReturnDate: '2001-11-14',
+      }
+      const action = updatePersonSuccess({
+        id: '3',
+        roles: ['Victim'],
+        safelySurrenderedBabies: payload,
+      })
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
+        persisted: fromJS(payload),
+        form: fromJS(payload),
+      }))
+    })
+
     it('ignores errors', () => {
       const action = updatePersonFailure('Bad')
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+    })
+  })
+
+  describe('on CREATE_PERSON_COMPLETE', () => {
+    it('returns previous state on error', () => {
+      const action = createPersonFailure('Bad')
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+    })
+
+    it('copies SSB info from safely surrendered babies', () => {
+      const payload = {
+        participantChildId: '3',
+        surrenderedBy: 'Unknown',
+        relationToChild: '1592',
+        braceletId: 'Lightning',
+        parentGuardGivenBraceletId: 'unknown',
+        parentGuardProvMedicalQuestionaire: 'unknown',
+        comments: 'Yer a wizard, Harry!',
+        medQuestionaireReturnDate: '2001-11-14',
+      }
+      const action = createPersonSuccess({
+        id: '3',
+        roles: ['Victim'],
+        safelySurrenderedBabies: payload,
+      })
+
+      expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
+        persisted: fromJS(payload),
+        form: fromJS(payload),
+      }))
+    })
+  })
+
+  describe('when reducing actions with multiple participants', () => {
+    const payload = {
+      participantChildId: '3',
+      surrenderedBy: 'Unknown',
+      relationToChild: '1592',
+      braceletId: 'Lightning',
+      parentGuardGivenBraceletId: 'unknown',
+      parentGuardProvMedicalQuestionaire: 'unknown',
+      comments: 'Yer a wizard, Harry!',
+      medQuestionaireReturnDate: '2001-11-14',
+    }
+    const screening = {
+      participants: [
+        {id: '2'},
+        {
+          id: '3',
+          safelySurrenderedBabies: payload,
+        },
+        {id: '4'},
+      ],
+    }
+
+    describe('on CREATE_SCREENING_COMPLETE', () => {
+      it('returns previous state on error', () => {
+        const action = createScreeningFailure('Bad')
+        expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+      })
+
+      it('copies SSB info from safely surrendered babies', () => {
+        const action = createScreeningSuccess(screening)
+        expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
+          persisted: fromJS(payload),
+          form: fromJS(payload),
+        }))
+      })
+    })
+
+    describe('on FETCH_SCREENING_COMPLETE', () => {
+      it('returns previous state on error', () => {
+        const action = fetchScreeningFailure('Bad')
+        expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+      })
+
+      it('copies SSB info from safely surrendered babies', () => {
+        const action = fetchScreeningSuccess(screening)
+        expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
+          persisted: fromJS(payload),
+          form: fromJS(payload),
+        }))
+      })
+    })
+
+    describe('on SAVE_SCREENING_COMPLETE', () => {
+      it('returns previous state on error', () => {
+        const action = saveScreeningFailure('Bad')
+        expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map())
+      })
+
+      it('copies SSB info from safely surrendered babies', () => {
+        const action = saveScreeningSuccess(screening)
+        expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
+          persisted: fromJS(payload),
+          form: fromJS(payload),
+        }))
+      })
     })
   })
 })

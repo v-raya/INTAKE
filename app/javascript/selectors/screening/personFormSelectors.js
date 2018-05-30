@@ -5,6 +5,7 @@ import {getSSNErrors} from 'utils/ssnValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import moment from 'moment'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
+import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
 
@@ -192,7 +193,18 @@ export const getPeopleWithEditsSelector = createSelector(
 
 export const getPersonWithEditsSelector = (state, personId) => {
   const people = getPeopleWithEditsSelector(state)
-  return people.get(personId)
+  const person = people.get(personId)
+  const reportType = getReportType(state)
+
+  if (!person) { return null }
+
+  const ssb = state.getIn(['safelySurrenderedBaby', 'form'])
+
+  if (ssb && reportType === 'ssb' && ssb.get('participantChildId') === personId) {
+    return person.set('safelySurrenderedBabies', ssb)
+  }
+
+  return person
 }
 
 const getAlertMessageByRole = (roles) => {
