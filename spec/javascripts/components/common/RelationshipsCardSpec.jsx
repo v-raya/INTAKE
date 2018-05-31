@@ -20,4 +20,10 @@ describe('RelationshipsCard', () => {
     expect(component.find('CardView').props().show).toEqual(<RelationshipsScreeningContainer />)
     expect(component.find('CardView').props().show).not.toEqual(<RelationshipsSnapshotContainer />)
   })
+
+  it('renders a relationships table when there are relationships based on screening/snapshot page', () => {
+    const component = renderRelationshipsCard({areRelationshipsEmpty: false, isScreening: true})
+    expect(component.find('CardView').instance().RelationshipsScreeningContainer.RelationCard.lenght()).toEqual(1)
+    expect(component.find('CardView').props().show).not.toEqual(<RelationshipsSnapshotContainer />)
+  })
 })
