@@ -33,8 +33,8 @@ describe('safelySurrenderedBabySelectors', () => {
   })
 
   describe('getRawFormSafelySurrenderedBaby', () => {
-    it('returns SSB info for the matching child', () => {
-      expect(getRawFormSafelySurrenderedBaby(state, '123')).toEqualImmutable(
+    it('returns Maybe of SSB info for the matching child', () => {
+      expect(getRawFormSafelySurrenderedBaby(state, '123').valueOrElse()).toEqualImmutable(
         fromJS({
           surrendered_by: '5',
           participant_child: '123',
@@ -45,20 +45,20 @@ describe('safelySurrenderedBabySelectors', () => {
       )
     })
 
-    it('returns null for people who are not SSBs', () => {
-      expect(getRawFormSafelySurrenderedBaby(state, '456')).toEqual(null)
+    it('returns Nothing for people who are not SSBs', () => {
+      expect(getRawFormSafelySurrenderedBaby(state, '456').isNothing()).toEqual(true)
     })
 
-    it('returns null when there is no SSB information', () => {
+    it('returns Nothing when there is no SSB information', () => {
       expect(getRawFormSafelySurrenderedBaby(Map({
         safelySurrenderedBaby: null,
-      }), '123')).toEqual(null)
+      }), '123').isNothing()).toEqual(true)
     })
   })
 
   describe('getFormSafelySurrenderedBaby', () => {
-    it('returns SSB info for the matching child', () => {
-      expect(getFormSafelySurrenderedBaby(state, '123')).toEqualImmutable(
+    it('returns Maybe of SSB info for the matching child', () => {
+      expect(getFormSafelySurrenderedBaby(state, '123').valueOrElse()).toEqualImmutable(
         fromJS({
           surrendered_by: 'John Doe',
           participant_child: '123',
@@ -69,20 +69,20 @@ describe('safelySurrenderedBabySelectors', () => {
       )
     })
 
-    it('returns null for people who are not SSBs', () => {
-      expect(getFormSafelySurrenderedBaby(state, '456')).toEqual(null)
+    it('returns Nothing for people who are not SSBs', () => {
+      expect(getFormSafelySurrenderedBaby(state, '456').isNothing()).toEqual(true)
     })
 
-    it('returns null when there is no SSB information', () => {
+    it('returns Nothing when there is no SSB information', () => {
       expect(getFormSafelySurrenderedBaby(Map({
         safelySurrenderedBaby: null,
-      }), '123')).toEqual(null)
+      }), '123').isNothing()).toEqual(true)
     })
   })
 
   describe('getPersistedSafelySurrenderedBaby', () => {
-    it('returns SSB info for the matching child', () => {
-      expect(getPersistedSafelySurrenderedBaby(state, '123')).toEqualImmutable(
+    it('returns Maybe of SSB info for the matching child', () => {
+      expect(getPersistedSafelySurrenderedBaby(state, '123').valueOrElse()).toEqualImmutable(
         fromJS({
           surrendered_by: 'John Doe',
           participant_child: '123',
@@ -93,14 +93,14 @@ describe('safelySurrenderedBabySelectors', () => {
       )
     })
 
-    it('returns null for people who are not SSBs', () => {
-      expect(getPersistedSafelySurrenderedBaby(state, '456')).toEqual(null)
+    it('returns Nothing for people who are not SSBs', () => {
+      expect(getPersistedSafelySurrenderedBaby(state, '456').isNothing()).toEqual(true)
     })
 
-    it('returns null when there is no SSB information', () => {
+    it('returns Nothing when there is no SSB information', () => {
       expect(getPersistedSafelySurrenderedBaby(Map({
         safelySurrenderedBaby: null,
-      }), '123')).toEqual(null)
+      }), '123').isNothing()).toEqual(true)
     })
   })
 })

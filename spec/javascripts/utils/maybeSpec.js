@@ -87,4 +87,31 @@ describe('Maybe', () => {
       expect(Maybe.of(-1).chain(sqrt).isNothing()).toEqual(true)
     })
   })
+
+  describe('filter', () => {
+    const isPositive = (x) => x > 0
+    const isEven = (x) => x % 2 === 0
+
+    it('removes values if the predicate is false', () => {
+      const maybe = Maybe.of(-10)
+      expect(maybe.isSomething()).toEqual(true)
+      expect(maybe.filter(isPositive).isNothing()).toEqual(true)
+    })
+
+    it('preserves values if the predicate is true', () => {
+      expect(Maybe.of(10).filter(isPositive).isSomething()).toEqual(true)
+    })
+
+    it('filters Nothings into Nothings', () => {
+      expect(Maybe.of(null).filter(() => true).isNothing()).toEqual(true)
+    })
+
+    it('satisfies distributivity', () => {
+      expect(
+        Maybe.of(10).filter((x) => isPositive(x) && isEven(x))._value
+      ).toEqual(
+        Maybe.of(10).filter(isPositive).filter(isEven)._value
+      )
+    })
+  })
 })

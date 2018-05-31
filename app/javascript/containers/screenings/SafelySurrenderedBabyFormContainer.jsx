@@ -9,12 +9,9 @@ export const SafelySurrenderedBabyFormContainer = ({safelySurrenderedBaby, repor
   safelySurrenderedBaby && reportType === 'ssb' &&
     <SafelySurrenderedBabyForm {...safelySurrenderedBaby} actions={actions}/>
 
-const jsOrNull = (map) => (map ? map.toJS() : null)
-
 export const mapStateToProps = (state, ownProps) => ({
-  safelySurrenderedBaby: jsOrNull(
-    getFormSafelySurrenderedBaby(state, ownProps.personId)
-  ),
+  safelySurrenderedBaby: getFormSafelySurrenderedBaby(state, ownProps.personId)
+    .map((imm) => imm.toJS()).valueOrElse(null),
   reportType: getReportType(state),
 })
 

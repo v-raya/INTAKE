@@ -82,7 +82,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       ssn: formatSSN(highlight.getIn(['ssn', 0], result.get('ssn'))),
       clientCounty: systemCodeDisplayValue(result.getIn(['client_county', 'id']), state.get('counties')),
       address: mapAddress(state, result),
-      phoneNumber: formatPhoneNumber((mapPhoneNumber(result) || List()).first()),
+      phoneNumber: formatPhoneNumber(mapPhoneNumber(result).first()),
       isSensitive: mapIsSensitive(result),
       isSealed: mapIsSealed(result),
     })

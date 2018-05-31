@@ -27,6 +27,10 @@ export class Maybe {
     return this.map(f).join()
   }
 
+  filter(predicate) {
+    return this.isSomething() && predicate(this._value) ? this : Maybe.of(null)
+  }
+
   static of(value) {
     return new Maybe(value)
   }

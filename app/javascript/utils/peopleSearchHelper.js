@@ -4,6 +4,7 @@ import {systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {zipFormatter} from '../utils/zipFormatter'
 import {isPlacementHome} from './isPlacementHome'
 import {RESIDENCE_TYPE} from 'enums/AddressType'
+import {Maybe} from 'utils/maybe'
 
 export const mapLanguages = (state, result) => buildSelector(
   (state) => state.get('languages'),
@@ -61,31 +62,29 @@ const getDisplayType = (address, addressTypes) => {
   }
 }
 
-export const mapAddress = (state, result) => buildSelector(
-  (state) => state.get('addressTypes'),
-  () => (result.get('addresses') || List()).first(),
-  (addressTypes, address) => {
-    if (address === undefined) { return null }
+const isResidence = (address) => address.getIn(['type', 'id']) === RESIDENCE_TYPE
 
-    const type = getDisplayType(address, addressTypes)
-    if (address.getIn(['type', 'id']) !== RESIDENCE_TYPE) { return null }
+export const mapAddress = (state, result) => {
+  const addressTypes = state.get('addressTypes')
 
-    return Map({
+  return Maybe.of(result.get('addresses'))
+    .map((as) => as.first())
+    .filter(isResidence)
+    .map((address) => Map({
       city: address.get('city'),
       state: address.get('state_code'),
       zip: zipFormatter(address.get('zip')),
       streetAddress: getStreetAddress(address),
-      type,
-    })
-  }
-)(state)
-
-export const mapPhoneNumber = (result) => {
-  const address = (result.get('addresses') || List()).first()
-  if (address === undefined) { return null }
-  if (address.getIn(['type', 'id']) !== RESIDENCE_TYPE) { return null }
-  return address.get('phone_numbers')
+      type: getDisplayType(address, addressTypes),
+    })).valueOrElse(null)
 }
+
+export const mapPhoneNumber = (result) =>
+  Maybe.of(result.get('addresses'))
+    .map((as) => as.first())
+    .filter(isResidence)
+    .map((address) => address.get('phone_numbers'))
+    .valueOrElse(List())
 
 export const mapDoraPersonToParticipant = (state, person) => Map({
   date_of_birth: person.get('date_of_birth'),
@@ -98,7 +97,7 @@ export const mapDoraPersonToParticipant = (state, person) => Map({
   ssn: person.get('ssn'),
   sealed: mapIsSealed(person),
   sensitive: mapIsSensitive(person),
-  phone_numbers: mapPhoneNumber(person) || List(),
+  phone_numbers: mapPhoneNumber(person),
   name_suffix: person.get('name_suffix'),
   addresses: List([(mapAddress(state, person) || Map())
     .mapKeys((k) => (k === 'streetAddress' ? 'street_address' : k))]),

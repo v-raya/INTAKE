@@ -14,13 +14,13 @@ const getName = (participant) => nameFormatter(participant.toJS())
 
 const getSSB = (state, type) => Maybe.of(state.getIn(['safelySurrenderedBaby', type]))
 
-const fillName = (state) => (ssb) => ssb.set(
-  'surrendered_by',
-  getParticipant(state, ssb.get('surrendered_by')).map(getName).valueOrElse('Unknown')
-)
+const fillName = (state) => (ssb) => ssb.set('surrendered_by',
+  getParticipant(state, ssb.get('surrendered_by'))
+    .map(getName)
+    .valueOrElse('Unknown'))
 
 const onlyForChild = (personId) => (ssb) =>
-  Maybe.of(ssb.get('participant_child') === personId ? ssb : null)
+  Maybe.of(ssb).filter((ssb) => ssb.get('participant_child') === personId)
 
 const display = (ssb) => ssb
   .set(
@@ -36,14 +36,13 @@ const display = (ssb) => ssb
 const rawFormSSB = (state, personId) => getSSB(state, 'form').chain(onlyForChild(personId))
 
 export const getRawFormSafelySurrenderedBaby = (state, personId) =>
-  rawFormSSB(state, personId).valueOrElse(null)
+  rawFormSSB(state, personId)
 
 export const getFormSafelySurrenderedBaby = (state, personId) =>
-  rawFormSSB(state, personId).map(fillName(state)).valueOrElse(null)
+  rawFormSSB(state, personId).map(fillName(state))
 
 export const getPersistedSafelySurrenderedBaby = (state, personId) =>
   getSSB(state, 'persisted')
     .chain(onlyForChild(personId))
     .map(display)
     .map(fillName(state))
-    .valueOrElse(null)
