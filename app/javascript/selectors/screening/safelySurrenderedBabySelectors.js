@@ -1,41 +1,49 @@
-import {List} from 'immutable'
 import {
   RELATIONS,
   GIVEN_BRACELET_RESPONSES,
   GIVEN_MED_QUESTIONAIRE_RESPONSES,
 } from 'enums/SafelySurrenderedBabyEnums'
 import nameFormatter from 'utils/nameFormatter'
+import {Maybe} from 'utils/maybe'
 
-const getParticipant = (state, personId) =>
-  state.get('participants', List()).find((person) => person.get('id') === personId)
+const getParticipant = (state, personId) => Maybe.of(state)
+  .map((s) => s.get('participants'))
+  .map((ps) => ps.find((person) => person.get('id') === personId))
 
-const getName = (participant) => (participant ? nameFormatter(participant.toJS()) : 'Unknown')
+const getName = (participant) => nameFormatter(participant.toJS())
 
-const getSSB = (state, type) => state.getIn(['safelySurrenderedBaby', type])
+const getSSB = (state, type) => Maybe.of(state.getIn(['safelySurrenderedBaby', type]))
 
-const fillName = (state, ssb) => ssb &&
-  ssb.set('surrendered_by', getName(getParticipant(state, ssb.get('surrendered_by'))))
+const fillName = (state) => (ssb) => ssb.set(
+  'surrendered_by',
+  getParticipant(state, ssb.get('surrendered_by')).map(getName).valueOrElse('Unknown')
+)
 
-const onlyForChild = (personId, ssb) =>
-  (ssb && ssb.get('participant_child') === personId ? ssb : null)
+const onlyForChild = (personId) => (ssb) =>
+  Maybe.of(ssb.get('participant_child') === personId ? ssb : null)
 
-const display = (ssb) => ssb &&
-  ssb
-    .set(
-      'relation_to_child',
-      RELATIONS[ssb.get('relation_to_child')])
-    .set(
-      'parent_guardian_given_bracelet_id',
-      GIVEN_BRACELET_RESPONSES[ssb.get('parent_guardian_given_bracelet_id')])
-    .set(
-      'parent_guardian_provided_med_questionaire',
-      GIVEN_MED_QUESTIONAIRE_RESPONSES[ssb.get('parent_guardian_provided_med_questionaire')])
+const display = (ssb) => ssb
+  .set(
+    'relation_to_child',
+    RELATIONS[ssb.get('relation_to_child')])
+  .set(
+    'parent_guardian_given_bracelet_id',
+    GIVEN_BRACELET_RESPONSES[ssb.get('parent_guardian_given_bracelet_id')])
+  .set(
+    'parent_guardian_provided_med_questionaire',
+    GIVEN_MED_QUESTIONAIRE_RESPONSES[ssb.get('parent_guardian_provided_med_questionaire')])
+
+const rawFormSSB = (state, personId) => getSSB(state, 'form').chain(onlyForChild(personId))
 
 export const getRawFormSafelySurrenderedBaby = (state, personId) =>
-  onlyForChild(personId, getSSB(state, 'form'))
+  rawFormSSB(state, personId).valueOrElse(null)
 
 export const getFormSafelySurrenderedBaby = (state, personId) =>
-  fillName(state, getRawFormSafelySurrenderedBaby(state, personId))
+  rawFormSSB(state, personId).map(fillName(state)).valueOrElse(null)
 
 export const getPersistedSafelySurrenderedBaby = (state, personId) =>
-  fillName(state, display(onlyForChild(personId, getSSB(state, 'persisted'))))
+  getSSB(state, 'persisted')
+    .chain(onlyForChild(personId))
+    .map(display)
+    .map(fillName(state))
+    .valueOrElse(null)

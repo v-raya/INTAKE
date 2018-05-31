@@ -1,0 +1,90 @@
+import {Maybe} from 'utils/maybe'
+
+describe('Maybe', () => {
+  // Number -> Number
+  const add1 = (x) => x + 1
+  // Number -> Maybe(Number)
+  const sqrt = (x) => Maybe.of((x < 0) ? null : Math.sqrt(x))
+
+  it('isSomething when it holds a value', () => {
+    expect(Maybe.of(10).isSomething()).toEqual(true)
+    expect(Maybe.of('Hello').isSomething()).toEqual(true)
+    expect(Maybe.of([1, 2, 3]).isSomething()).toEqual(true)
+  })
+
+  it('is not Nothing when it holds a value', () => {
+    expect(Maybe.of(10).isNothing()).toEqual(false)
+    expect(Maybe.of('Hello').isNothing()).toEqual(false)
+    expect(Maybe.of([1, 2, 3]).isNothing()).toEqual(false)
+  })
+
+  it('isSomething even when its value is falsey', () => {
+    expect(Maybe.of(false).isSomething()).toEqual(true)
+    expect(Maybe.of(0).isSomething()).toEqual(true)
+    expect(Maybe.of(false).isNothing()).toEqual(false)
+    expect(Maybe.of(0).isNothing()).toEqual(false)
+  })
+
+  it('isNothing when it holds null or undefined', () => {
+    expect(Maybe.of(null).isNothing()).toEqual(true)
+    expect(Maybe.of(null).isSomething()).toEqual(false)
+    expect(Maybe.of(undefined).isNothing()).toEqual(true)
+    expect(Maybe.of(undefined).isSomething()).toEqual(false)
+  })
+
+  describe('map', () => {
+    it('maps over values', () => {
+      expect(Maybe.of(10).map(add1).map(add1)._value).toEqual(12)
+    })
+
+    it('does not mutate when mapped', () => {
+      const maybe = Maybe.of(10)
+
+      maybe.map(add1).map(add1)
+      expect(maybe._value).toEqual(10)
+    })
+
+    it('preserves nothings when mapped', () => {
+      expect(Maybe.of(null).map(add1).map(add1).isNothing()).toEqual(true)
+    })
+  })
+
+  describe('valueOrElse', () => {
+    it('provides the underlying value', () => {
+      expect(Maybe.of('Hello').valueOrElse()).toEqual('Hello')
+      expect(Maybe.of(10).map(add1).valueOrElse(0)).toEqual(11)
+    })
+
+    it('provides the default value when isNothing', () => {
+      expect(Maybe.of(null).valueOrElse('Hello')).toEqual('Hello')
+      expect(Maybe.of(undefined).map(add1).map(add1).valueOrElse(0)).toEqual(0)
+    })
+  })
+
+  describe('join', () => {
+    it('flattens nested Maybes', () => {
+      const nested = Maybe.of(Maybe.of(10))
+      expect(nested.valueOrElse()).not.toEqual(10)
+      expect(nested.join()._value).toEqual(10)
+    })
+
+    it('preserves Nothings when joining', () => {
+      const nested = Maybe.of(null)
+      expect(nested.join().isNothing()).toEqual(true)
+    })
+
+    it('only flattens a single level at a time', () => {
+      const nested = Maybe.of(Maybe.of(Maybe.of('Hello')))
+
+      expect(nested.join().join()._value).toEqual('Hello')
+    })
+  })
+
+  describe('chain', () => {
+    it('maps and joins', () => {
+      expect(Maybe.of(9).chain(sqrt)._value).toEqual(3)
+      expect(Maybe.of(null).chain(sqrt).isNothing()).toEqual(true)
+      expect(Maybe.of(-1).chain(sqrt).isNothing()).toEqual(true)
+    })
+  })
+})

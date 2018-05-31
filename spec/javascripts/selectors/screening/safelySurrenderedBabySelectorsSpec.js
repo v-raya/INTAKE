@@ -46,11 +46,11 @@ describe('safelySurrenderedBabySelectors', () => {
     })
 
     it('returns undefined for people who are not SSBs', () => {
-      expect(getFormSafelySurrenderedBaby(state, '456')).toEqual(null)
+      expect(getRawFormSafelySurrenderedBaby(state, '456')).toEqual(null)
     })
 
     it('returns undefined when there is no SSB information', () => {
-      expect(getFormSafelySurrenderedBaby(Map({
+      expect(getRawFormSafelySurrenderedBaby(Map({
         safelySurrenderedBaby: null,
       }), '123')).toEqual(null)
     })
