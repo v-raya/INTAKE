@@ -1,15 +1,9 @@
 #!/usr/bin/env ruby
 require 'shellwords'
 
-# Tests must be run in the correct timezone because
-# of UTC conversion and explicit expectations.
-# Sincerely,
-# The Time Lords
-ENV['TZ'] = 'Etc/GMT+7'
 ENV['NODE_ENV'] = 'test'
 APP_PATH          = File.expand_path('../', __dir__)
 NODE_MODULES_PATH = File.join(APP_PATH, 'node_modules')
-WEBPACK_CONFIG    = File.join(APP_PATH, "config/webpack/#{ENV['NODE_ENV']}.js")
 
 puts "Running karma with additional options: #{ARGV}" unless ARGV.empty?
 generate_test_reports = ENV['GENERATE_TEST_REPORTS'] == 'yes'
