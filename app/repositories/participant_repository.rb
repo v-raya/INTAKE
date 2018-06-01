@@ -12,19 +12,9 @@ class ParticipantRepository
       security_token,
       ExternalRoutes.intake_api_screening_people_path(participant.screening_id.to_s),
       :post,
-      post_data(participant).as_json
+      participant.as_json
     )
     Participant.new(response.body)
-  end
-
-  def self.post_data(participant)
-    {
-      screening_id: participant.screening_id.to_s,
-      legacy_descriptor: {
-        legacy_id: participant.legacy_descriptor&.legacy_id,
-        legacy_table_name: participant.legacy_descriptor&.legacy_table_name
-      }
-    }
   end
 
   def self.delete(security_token, id)

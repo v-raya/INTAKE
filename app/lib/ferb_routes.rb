@@ -19,6 +19,10 @@ class FerbRoutes
       "/screenings/#{id}/history_of_involvements"
     end
 
+    def screening_participants_path(_)
+      '/participants'
+    end
+
     def lov_path
       '/lov'
     end
