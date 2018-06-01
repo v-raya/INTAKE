@@ -10,16 +10,6 @@ const attachLink = (onClick, relationship, maybeId) => (
 const isPending = (relationship, pendingPeople) =>
   pendingPeople.some((id) => id === (relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id))
 
-const createRelationshipDataArray = (person_relationships) => {
-  const relationshipData = []
-  person_relationships.map((relationship) => {
-    const value = {name: relationship.relatee, secondaryRelationship: relationship.type}
-    relationshipData.push(value)
-  })
-
-  return relationshipData
-}
-
 export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
 
   <div className='card-body no-pad-top'>
@@ -30,7 +20,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
             {
               (person.relationships.length > 0) &&
               <span>
-                <RelationCard firstName={person.name} data={createRelationshipDataArray(person.relationships)}/>
+                <RelationCard firstName={person.name} data={person.relationships}/>
               </span>
             }
             {
