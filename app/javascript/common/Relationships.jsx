@@ -74,7 +74,9 @@ Relationships.propTypes = {
     name: PropTypes.string,
     relationships: PropTypes.arrayOf(PropTypes.shape({
       relatee: PropTypes.string,
+      name: PropTypes.string,
       type: PropTypes.string,
+      secondaryRelationship: PropTypes.string,
     })),
   })),
   screeningId: PropTypes.string,
