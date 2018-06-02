@@ -272,4 +272,12 @@ describe('DateField', () => {
       expect(onChange.calls.mostRecent().args[0]).toEqual('2015-01-01T22:00:00.000Z')
     })
   })
+
+  it('parses dates correctly when daylight savings time are in place', () => {
+    const onChange = jasmine.createSpy('onChange')
+    const input = mountDateField({value: '123', hasTime: true, onChange}).find('input')
+    input.simulate('change', {target: {value: '06-01-18 2:00 PM'}})
+    input.simulate('blur', {target: {value: '06-01-18 2:00 PM'}})
+    expect(onChange.calls.mostRecent().args[0]).toEqual('2018-06-01T21:00:00.000Z')
+  })
 })
