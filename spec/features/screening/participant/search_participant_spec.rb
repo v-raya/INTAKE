@@ -156,6 +156,7 @@ feature 'searching a participant in autocompleter' do
             [
               PersonSearchResultBuilder.build do |builder|
                 builder.with_first_name('Marge')
+                builder.with_legacy_descriptor(FactoryBot.create(:legacy_descriptor))
               end
             ]
           end

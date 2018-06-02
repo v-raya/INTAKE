@@ -131,22 +131,23 @@ feature 'Create Snapshot' do
         ).and_return(json_body(new_screening.to_json, status: 200))
         click_button 'Start Screening'
 
+        person = FactoryBot.create(
+          :participant,
+          first_name: 'Marge',
+          screening_id: new_screening[:id]
+        )
         search_response = PersonSearchResponseBuilder.build do |response|
           response.with_total(1)
           response.with_hits do
             [
               PersonSearchResultBuilder.build do |builder|
                 builder.with_first_name('Marge')
+                builder.with_legacy_descriptor(person.legacy_descriptor)
               end
             ]
           end
         end
         stub_person_search(search_term: 'Ma', person_response: search_response)
-        person = FactoryBot.create(
-          :participant,
-          first_name: 'Marge',
-          screening_id: new_screening[:id]
-        )
         stub_request(
           :post,
           intake_api_url(ExternalRoutes.intake_api_screening_people_path(new_screening[:id]))

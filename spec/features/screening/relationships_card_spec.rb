@@ -62,7 +62,10 @@ feature 'Relationship card' do
       related_person_relationship: '18',
       indexed_person_relationship: '277',
       relationship_context: 'Half',
-      related_person_id: '7'
+      related_person_id: '7',
+      legacy_descriptor: {
+        legacy_id: 'jake_legacy_id'
+      }
     }
   end
   let(:jane) do
@@ -208,7 +211,7 @@ feature 'Relationship card' do
         screening_id = participants_screening[:id]
 
         stub_request(:post,
-          intake_api_url(ExternalRoutes.intake_api_screening_people_path(screening_id)))
+          ferb_api_url(FerbRoutes.screening_participants_path(screening_id)))
           .and_return(json_body(new_participant.to_json, status: 201))
 
         stub_request(
