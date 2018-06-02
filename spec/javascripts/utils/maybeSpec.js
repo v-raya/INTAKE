@@ -1,43 +1,55 @@
 import {Maybe} from 'utils/maybe'
 
+// Helper Functions - These are just a couple helper functions to test with
+// Number -> Number
+const add1 = (x) => x + 1
+// Number -> Maybe(Number)
+const sqrt = (x) => Maybe.of((x < 0) ? null : Math.sqrt(x))
+
 describe('Maybe', () => {
-  // Number -> Number
-  const add1 = (x) => x + 1
-  // Number -> Maybe(Number)
-  const sqrt = (x) => Maybe.of((x < 0) ? null : Math.sqrt(x))
+  describe('isSomething and isNothing', () => {
+    it('isSomething when it holds a value', () => {
+      expect(Maybe.of(10).isSomething()).toEqual(true)
+      expect(Maybe.of('Hello').isSomething()).toEqual(true)
+      expect(Maybe.of([1, 2, 3]).isSomething()).toEqual(true)
+    })
 
-  it('isSomething when it holds a value', () => {
-    expect(Maybe.of(10).isSomething()).toEqual(true)
-    expect(Maybe.of('Hello').isSomething()).toEqual(true)
-    expect(Maybe.of([1, 2, 3]).isSomething()).toEqual(true)
-  })
+    it('is not Nothing when it holds a value', () => {
+      expect(Maybe.of(10).isNothing()).toEqual(false)
+      expect(Maybe.of('Hello').isNothing()).toEqual(false)
+      expect(Maybe.of([1, 2, 3]).isNothing()).toEqual(false)
+    })
 
-  it('is not Nothing when it holds a value', () => {
-    expect(Maybe.of(10).isNothing()).toEqual(false)
-    expect(Maybe.of('Hello').isNothing()).toEqual(false)
-    expect(Maybe.of([1, 2, 3]).isNothing()).toEqual(false)
-  })
+    /*
+      Maybes can hold falsey values as well. A Maybe should only be Nothing if
+      it truly contains "nothing". Consider a function that adds 1 to a client's
+      age, if the client has an age). We would expect:
+        10 => 11
+        null => null
+        0 => 1
+      Without `Maybe.of(0).isSomething() === true` this would be impossible.
+    */
+    it('isSomething even when its value is falsey', () => {
+      expect(Maybe.of(false).isSomething()).toEqual(true)
+      expect(Maybe.of(0).isSomething()).toEqual(true)
+      expect(Maybe.of(false).isNothing()).toEqual(false)
+      expect(Maybe.of(0).isNothing()).toEqual(false)
+    })
 
-  it('isSomething even when its value is falsey', () => {
-    expect(Maybe.of(false).isSomething()).toEqual(true)
-    expect(Maybe.of(0).isSomething()).toEqual(true)
-    expect(Maybe.of(false).isNothing()).toEqual(false)
-    expect(Maybe.of(0).isNothing()).toEqual(false)
-  })
-
-  it('isNothing when it holds null or undefined', () => {
-    expect(Maybe.of(null).isNothing()).toEqual(true)
-    expect(Maybe.of(null).isSomething()).toEqual(false)
-    expect(Maybe.of(undefined).isNothing()).toEqual(true)
-    expect(Maybe.of(undefined).isSomething()).toEqual(false)
+    it('isNothing when it holds null or undefined', () => {
+      expect(Maybe.of(null).isNothing()).toEqual(true)
+      expect(Maybe.of(null).isSomething()).toEqual(false)
+      expect(Maybe.of(undefined).isNothing()).toEqual(true)
+      expect(Maybe.of(undefined).isSomething()).toEqual(false)
+    })
   })
 
   describe('map', () => {
-    it('maps over values', () => {
+    it('transforms the contained value', () => {
       expect(Maybe.of(10).map(add1).map(add1)._value).toEqual(12)
     })
 
-    it('does not mutate when mapped', () => {
+    it('returns a new Maybe without mutating the original value', () => {
       const maybe = Maybe.of(10)
 
       maybe.map(add1).map(add1)
