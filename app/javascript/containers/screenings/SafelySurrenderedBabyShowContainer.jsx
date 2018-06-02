@@ -12,7 +12,7 @@ export const SafelySurrenderedBabyShowContainer = ({safelySurrenderedBaby, repor
 
 export const mapStateToProps = (state, ownProps) => ({
   safelySurrenderedBaby: getPersistedSafelySurrenderedBaby(state, ownProps.personId)
-    .map((imm) => imm.toJS()).valueOrElse(null),
+    .map((immutable) => immutable.toJS()).valueOrElse(null),
   reportType: getReportType(state),
 })
 

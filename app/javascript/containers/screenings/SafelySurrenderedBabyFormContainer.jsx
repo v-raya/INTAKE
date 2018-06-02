@@ -11,7 +11,7 @@ export const SafelySurrenderedBabyFormContainer = ({safelySurrenderedBaby, repor
 
 export const mapStateToProps = (state, ownProps) => ({
   safelySurrenderedBaby: getFormSafelySurrenderedBaby(state, ownProps.personId)
-    .map((imm) => imm.toJS()).valueOrElse(null),
+    .map((immutable) => immutable.toJS()).valueOrElse(null),
   reportType: getReportType(state),
 })
 
