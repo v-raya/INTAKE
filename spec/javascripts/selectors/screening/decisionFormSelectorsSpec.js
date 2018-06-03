@@ -1,5 +1,6 @@
 import {List, Map, fromJS} from 'immutable'
 import {
+  getRolesSelector,
   getAccessRestrictionOptionsSelector,
   getDecisionDetailOptionsSelector,
   getDecisionDetailSelector,
@@ -20,6 +21,34 @@ import * as matchers from 'jasmine-immutable-matchers'
 
 describe('screeningDecisionFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
+
+  describe('getRolesSelector', () => {
+    const state = fromJS({
+      participants: [
+        {
+          screening_id: '3',
+          roles: [
+            'Perpetrator',
+          ],
+        },
+        {
+          screening_id: '3',
+          roles: [
+            'Victim',
+          ],
+        },
+        {
+          screening_id: '3',
+          roles: [
+            'Mandated Reporter',
+          ],
+        }],
+    })
+
+    it('returns all the roles', () => {
+      expect(getRolesSelector(state)).toEqualImmutable(fromJS(['Perpetrator', 'Victim', 'Mandated Reporter']))
+    })
+  })
 
   describe('getDecisionOptionsSelector', () => {
     it('returns the enums for screening decisions in an object form with value and label', () => {

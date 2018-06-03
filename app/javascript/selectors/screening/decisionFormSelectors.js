@@ -10,6 +10,10 @@ const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
 )
 
+export const getRolesSelector = (state) =>
+  state.get('participants').map((participant) =>
+    participant.get('roles')).flatten()
+
 export const getDecisionFormSelector = (state) => state.get('screeningDecisionForm', Map())
 export const getDecisionOptionsSelector = () => fromJS(selectOptionsFormatter(SCREENING_DECISION))
 export const getAccessRestrictionOptionsSelector = () => fromJS(selectOptionsFormatter(ACCESS_RESTRICTIONS))
