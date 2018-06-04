@@ -5,7 +5,7 @@ require 'spec_helper'
 
 feature 'Screening Decision Validations' do
   let(:error_message) { 'Please enter at least one allegation to promote to referral.' }
-  let(:reporter_error_message) { 'A reporter is required to submit a screening Contact'}
+  let(:reporter_error_message) { 'A reporter is required to submit a screening Contact' }
   let(:perpetrator) { FactoryBot.create(:participant, :perpetrator) }
   let(:victim) { FactoryBot.create(:participant, :victim) }
   let(:screening_decision_detail) { nil }
@@ -51,7 +51,6 @@ feature 'Screening Decision Validations' do
           expect(page).not_to have_content(error_message)
           click_button 'Cancel'
         end
-        
         within '#decision-card.show' do
           expect(page).not_to have_content(error_message)
           click_link 'Edit'
@@ -79,7 +78,6 @@ feature 'Screening Decision Validations' do
           expect(page).not_to have_content(reporter_error_message)
           click_button 'Cancel'
         end
-        
         within '#decision-card.show' do
           expect(page).not_to have_content(reporter_error_message)
           click_link 'Edit'
