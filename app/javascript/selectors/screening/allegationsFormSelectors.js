@@ -37,7 +37,7 @@ export const getSortedPerpetratorsSelector = createSelector(
   ))
 )
 
-const getAllegationsWithTypesSelector = createSelector(
+export const getAllegationsWithTypesSelector = createSelector(
   getAllegationsFormSelector,
   (allegations) => allegations.filterNot((allegation) => (
     allegation.get('allegationTypes').filterNot((type) => type === '').isEmpty()

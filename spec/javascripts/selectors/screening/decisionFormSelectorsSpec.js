@@ -1,6 +1,7 @@
 import {List, Map, fromJS} from 'immutable'
 import {
   getAccessRestrictionOptionsSelector,
+  getDecisionAlertErrorMessageSelector,
   getDecisionDetailOptionsSelector,
   getDecisionDetailSelector,
   getDecisionDetailValueSelector,
@@ -392,6 +393,33 @@ describe('screeningDecisionFormSelectors', () => {
       const state = fromJS({screeningDecisionForm, allegationsForm})
       const errors = getVisibleErrorsSelector(state)
       expect(errors.every((fieldErrors) => fieldErrors.isEmpty())).toEqual(true)
+    })
+  })
+
+  describe('getDecisionAlertErrorMessageSelector', () => {
+    it('returns a message when no allegations should be present but allegation is included', () => {
+      const screeningDecisionForm = {
+        screening_decision: {value: 'information_to_child_welfare_services'},
+        screening_decision_detail: {value: ''},
+      }
+      const allegationsForm = [{
+        id: 1,
+        victimId: '123abc',
+        perpetratorId: 'cba321',
+        allegationTypes: ['Physical abuse'],
+      }]
+      const state = fromJS({screeningDecisionForm, allegationsForm})
+      expect(getDecisionAlertErrorMessageSelector(state)).toContain('Please remove any allegations before submitting this information to a social worker on an existing case or referral.')
+    })
+
+    it('does not return an error when no allegations are present ', () => {
+      const screeningDecisionForm = {
+        screening_decision: {value: 'information_to_child_welfare_services'},
+        screening_decision_detail: {value: ''},
+      }
+      const allegationsForm = [{allegationTypes: []}]
+      const state = fromJS({screeningDecisionForm, allegationsForm})
+      expect(getDecisionAlertErrorMessageSelector(state)).toEqual(undefined)
     })
   })
 })

@@ -5,6 +5,9 @@ import {isRequiredIfCreate, isRequiredCreate, combineCompact} from 'utils/valida
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import ACCESS_RESTRICTIONS from 'enums/AccessRestrictions'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
+import {
+  getAllegationsWithTypesSelector,
+} from 'selectors/screening/allegationsFormSelectors'
 
 const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
@@ -138,3 +141,17 @@ export const getScreeningWithEditsSelector = createSelector(
       .set('restrictions_rationale', restrictionRationale)
   )
 )
+
+export const getAllegationsRemoveSelector = (state) => (
+  state.getIn(['screeningDecisionForm', 'screening_decision', 'value']) === 'information_to_child_welfare_services'
+)
+
+export const getDecisionAlertErrorMessageSelector = (state) => {
+  const required = getAllegationsRemoveSelector(state)
+  const allegationsWithTypes = getAllegationsWithTypesSelector(state)
+  if (required && !allegationsWithTypes.isEmpty()) {
+    return 'Please remove any allegations before submitting this information to a social worker on an existing case or referral.'
+  } else {
+    return undefined
+  }
+}

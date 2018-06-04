@@ -43,6 +43,17 @@ describe('ScreeningDecisionShow', () => {
     expect(decision.children().text()).toEqual('Promote to referral')
   })
 
+  it('displays an errorMessage alert if one is passed', () => {
+    const component = renderScreeningDecisionShow({alertErrorMessage: 'Nope'})
+    expect(component.find('AlertErrorMessage').exists()).toEqual(true)
+    expect(component.find('AlertErrorMessage').props().message).toEqual('Nope')
+  })
+
+  it('does not display an errorMessage alert if one is not passed', () => {
+    const component = renderScreeningDecisionShow({})
+    expect(component.find('AlertErrorMessage').exists()).toEqual(false)
+  })
+
   it('renders the decision detail header, label, and value', () => {
     const component = renderScreeningDecisionShow({
       decisionDetail: {

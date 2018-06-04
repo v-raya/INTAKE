@@ -1,3 +1,4 @@
+import AlertErrorMessage from 'common/AlertErrorMessage'
 import React from 'react'
 import PropTypes from 'prop-types'
 import SelectField from 'common/SelectField'
@@ -8,6 +9,7 @@ const ScreeningDecisionForm = ({
   accessRestriction,
   accessRestrictionOptions,
   additionalInformation,
+  alertErrorMessage,
   decision,
   decisionOptions,
   decisionDetail,
@@ -20,7 +22,8 @@ const ScreeningDecisionForm = ({
   sdmPath,
   isAdditionalInfoRequired,
 }) => (
-  <div className='card-body'>
+  <div className='card-body no-pad-top'>
+    { alertErrorMessage && <AlertErrorMessage message={alertErrorMessage} /> }
     <div className='row'>
       <div className='col-md-6'>
         <SelectField
@@ -139,6 +142,7 @@ ScreeningDecisionForm.propTypes = {
   additionalInformation: PropTypes.shape({
     value: PropTypes.string,
   }),
+  alertErrorMessage: PropTypes.string,
   decision: PropTypes.shape({
     value: PropTypes.string,
     errors: PropTypes.arrayOf(PropTypes.string),

@@ -1,8 +1,10 @@
+import AlertErrorMessage from 'common/AlertErrorMessage'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ShowField from 'common/ShowField'
 
 const ScreeningDecisionShow = ({
+  alertErrorMessage,
   accessRestriction,
   additionalInformation,
   decision,
@@ -11,7 +13,8 @@ const ScreeningDecisionShow = ({
   sdmPath,
   isAdditionalInfoRequired,
 }) => (
-  <div className='card-body'>
+  <div className='card-body no-pad-top'>
+    { alertErrorMessage && <AlertErrorMessage message={alertErrorMessage} /> }
     <div className='row'>
       <div className='col-md-6'>
         <ShowField label='Screening Decision' errors={decision.errors} required>
@@ -58,6 +61,7 @@ ScreeningDecisionShow.propTypes = {
   additionalInformation: PropTypes.shape({
     value: PropTypes.string,
   }),
+  alertErrorMessage: PropTypes.string,
   decision: PropTypes.shape({
     errors: PropTypes.arrayOf(PropTypes.string),
     value: PropTypes.string,
