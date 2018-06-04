@@ -3,6 +3,7 @@ import React from 'react'
 import DateField from 'common/DateField'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
+import TextAreaCount from 'common/TextAreaCount'
 
 const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, address, usStates, selectedCounty, counties,
   selectedLocationType, locationTypes, locationOfChildren, onSave, onCancel}) => (
@@ -92,13 +93,14 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         </SelectField>
       </div>
     </fieldset>
-    <div className='row'>
-      <div className='col-md-12'>
+    <div className='col-md-12'>
+      <div className='row'>
         <label className='no-gap' htmlFor='current_location_of_children'>Location Of Children</label>
-        <textarea
+        <TextAreaCount
           id='current_location_of_children'
           onChange={({target: {value}}) => onChange(['current_location_of_children'], value || null)}
           value={locationOfChildren.value}
+          maxLength='250'
         />
       </div>
     </div>
