@@ -4,7 +4,7 @@ import {getScreeningSelector} from 'selectors/screeningSelectors'
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
 import {isRequiredCreate, isRequiredIfCreate, combineCompact} from 'utils/validator'
-import {getRolesSelector, isReporterRequired} from './decisionFormSelectors'
+import {getDecisionRolesSelector, isReporterRequired} from './decisionFormSelectors'
 
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'screening_decision']),
@@ -12,7 +12,7 @@ export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'access_restrictions']) || '',
   (state) => state.getIn(['screening', 'restrictions_rationale']) || '',
   (state) => state.get('allegationsForm', List()),
-  getRolesSelector,
+  getDecisionRolesSelector,
   (state) => state.getIn(['screening', 'additional_information']) || '',
   (decision, decisionDetail, accessRestrictions, restrictionsRationale, allegations, roles, additionalInformation) => (
     fromJS({

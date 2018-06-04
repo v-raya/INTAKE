@@ -5,12 +5,13 @@ import {isRequiredIfCreate, isRequiredCreate, combineCompact} from 'utils/valida
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import ACCESS_RESTRICTIONS from 'enums/AccessRestrictions'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
+import {ROLE_TYPE_REPORTER} from 'enums/RoleType'
 
 const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
 )
 
-export const getRolesSelector = (state) => (
+export const getDecisionRolesSelector = (state) => (
   state.get('participants', List()).map((participant) => participant.get('roles', List())).flatten()
 )
 
@@ -40,7 +41,7 @@ export const getDecisionDetailOptionsSelector = createSelector(
 
 export const isReporterRequired = (decision, roles) => (
   (decision === 'information_to_child_welfare_services' &&
-    roles.every((role) => (role !== 'Mandated Reporter') && (role !== 'Non-mandated Reporter') && (role !== 'Anonymous Reporter'))) ?
+    !roles.some((role) => ROLE_TYPE_REPORTER.includes(role))) ?
     'A reporter is required to submit a screening Contact' : undefined
 )
 
@@ -49,7 +50,7 @@ export const getErrorsSelector = createSelector(
   getDecisionDetailValueSelector,
   (state) => state.getIn(['screeningDecisionForm', 'restrictions_rationale', 'value']) || '',
   (state) => state.get('allegationsForm', List()),
-  getRolesSelector,
+  getDecisionRolesSelector,
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']) || '',
   (decision, decisionDetail, restrictionsRationale, allegations, roles, additionalInformation) => fromJS({
     screening_decision: combineCompact(
