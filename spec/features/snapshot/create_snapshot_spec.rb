@@ -149,6 +149,10 @@ feature 'Create Snapshot' do
         end
         stub_person_search(search_term: 'Ma', person_response: search_response)
         stub_request(
+          :get,
+          ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))
+        ).and_return(json_body('', status: 200))
+        stub_request(
           :post,
           intake_api_url(ExternalRoutes.intake_api_screening_people_path(new_screening[:id]))
         ).and_return(json_body(person.to_json, status: 201))
