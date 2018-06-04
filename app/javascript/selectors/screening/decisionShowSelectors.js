@@ -4,6 +4,7 @@ import {getScreeningSelector} from 'selectors/screeningSelectors'
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
 import {isRequiredCreate, isRequiredIfCreate, combineCompact} from 'utils/validator'
+import {getRolesSelector} from './decisionFormSelectors'
 
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'screening_decision']),
@@ -11,8 +12,9 @@ export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'access_restrictions']) || '',
   (state) => state.getIn(['screening', 'restrictions_rationale']) || '',
   (state) => state.get('allegationsForm', List()),
+  getRolesSelector,
   (state) => state.getIn(['screening', 'additional_information']) || '',
-  (decision, decisionDetail, accessRestrictions, restrictionsRationale, allegations, additionalInformation) => (
+  (decision, decisionDetail, accessRestrictions, restrictionsRationale, allegations, roles, additionalInformation) => (
     fromJS({
       screening_decision: combineCompact(
         isRequiredCreate(decision, 'Please enter a decision'),
@@ -20,6 +22,11 @@ export const getErrorsSelector = createSelector(
           (decision === 'promote_to_referral' &&
             allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
             'Please enter at least one allegation to promote to referral.' : undefined
+        ),
+        () => (
+          (decision === 'information_to_child_welfare_services' &&
+            roles.every((role) => (role !== 'Mandated Reporter') && (role !== 'Non-mandated Reporter') && (role !== 'Anonymous Reporter'))) ?
+            'A reporter is required to submit a screening Contact' : undefined
         )
       ),
       screening_decision_detail: combineCompact(

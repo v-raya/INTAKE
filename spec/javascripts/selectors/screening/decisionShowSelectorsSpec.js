@@ -107,6 +107,30 @@ describe('allegationShowSelectors', () => {
           .toEqualImmutable(List())
       })
 
+      it('includes an error message if decision is information to child welfare service and role is empty', () => {
+        const screening = {screening_decision: 'information_to_child_welfare_services'}
+        const participants = [{id: '1', roles: []}]
+        const state = fromJS({screening, participants})
+        expect(getErrorsSelector(state).get('screening_decision'))
+          .toEqualImmutable(List(['A reporter is required to submit a screening Contact']))
+      })
+
+      it('includes an error message if decision is information to child welfare service and role is not reporter', () => {
+        const screening = {screening_decision: 'information_to_child_welfare_services'}
+        const participants = [{id: '1', roles: ['Victim', 'Perpetrator']}]
+        const state = fromJS({screening, participants})
+        expect(getErrorsSelector(state).get('screening_decision'))
+          .toEqualImmutable(List(['A reporter is required to submit a screening Contact']))
+      })
+
+      it('doesnot includes an error message if decision is information to child welfare service and role is reporter', () => {
+        const screening = {screening_decision: 'information_to_child_welfare_services'}
+        const participants = [{id: '1', roles: ['Mandated Reporter', 'Victim', 'Collateral']}]
+        const state = fromJS({screening, participants})
+        expect(getErrorsSelector(state).get('screening_decision'))
+          .toEqualImmutable(List())
+      })
+
       it('includes an error message if decision is promote to referral and allegations are empty', () => {
         const screening = {screening_decision: 'promote_to_referral'}
         const allegationsForm = [{allegationTypes: []}]
