@@ -2,7 +2,7 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import {EmptyRelationships, Relationships} from 'common/Relationships'
 
-fdescribe('Relationships', () => {
+describe('Relationships', () => {
   const onClick = jasmine.createSpy('onClick')
   const renderRelationships = (props) => shallow(<Relationships {...props} onClick={onClick} />, {disableLifecycleMethods: true})
   it('renders people with no relationships', () => {
@@ -93,9 +93,8 @@ fdescribe('Relationships', () => {
         ],
       },
     ]
-    const renderRelationshipsTable = (props) => shallow(<Relationships {...props} onClick={onClick} />)
-    const component = renderRelationshipsTable({people, screeningId: '1', isScreening: true})
-    expect(component.find('CardView').find('RelationCard').length).toBe(1)
+    const component = renderRelationships({people})
+    expect(component.html()).toContain('react-bs-table-container')
   })
 })
 
