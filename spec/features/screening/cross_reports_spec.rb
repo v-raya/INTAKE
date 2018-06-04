@@ -137,7 +137,9 @@ feature 'cross reports' do
   end
 
   scenario 'viewing cross reports on an existing screening' do
-    reported_on = DateTime.strptime('5/11/2018 11:10 AM', '%m/%d/%Y %l:%M %p')
+    reported_in_utc = DateTime.strptime('5/11/2018 04:10 AM', '%m/%d/%Y %l:%M %p')
+    reported_on = reported_in_utc.in_time_zone('Pacific Time (US & Canada)')
+
     existing_screening[:cross_reports] = [{
       county_id: 'c42',
       agencies: [
@@ -145,7 +147,7 @@ feature 'cross reports' do
         { code: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
       ],
       method: 'Child Abuse Form',
-      inform_date: reported_on.strftime('%m/%d/%Y %l:%M %p')
+      inform_date: reported_in_utc.utc.iso8601
     }]
     stub_request(
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
@@ -176,7 +178,7 @@ feature 'cross reports' do
         selected: "Daisie's Preschool")
       expect(page).to have_field('Communication Method', with: 'Child Abuse Form')
       expect(page).to \
-        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
+        have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %-l:%M %p'))
     end
   end
 
