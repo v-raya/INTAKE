@@ -358,7 +358,7 @@ feature 'Relationship card' do
               expect(page).to \
                 have_selector('td', text: [new_participant.first_name,
                                            new_participant.last_name].join(' '),
-                                    count: 1)
+                                    count: 2)
             end
           end
         end
