@@ -2,7 +2,7 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import {EmptyRelationships, Relationships} from 'common/Relationships'
 
-describe('Relationships', () => {
+fdescribe('Relationships', () => {
   const onClick = jasmine.createSpy('onClick')
   const renderRelationships = (props) => shallow(<Relationships {...props} onClick={onClick} />, {disableLifecycleMethods: true})
   it('renders people with no relationships', () => {
@@ -82,6 +82,20 @@ describe('Relationships', () => {
     const attachLink = component.find('a').at(0)
     attachLink.simulate('click')
     expect(onClick).toHaveBeenCalled()
+  })
+
+  it('renders a relationships table when there are relationships based on screening/snapshot page', () => {
+    const people = [
+      {
+        name: 'Sally Jones',
+        relationships: [
+          {relatee: 'Jim Johnson', type: 'mother', person_card_exists: true},
+        ],
+      },
+    ]
+    const renderRelationshipsTable = (props) => shallow(<Relationships {...props} onClick={onClick} />)
+    const component = renderRelationshipsTable({people, screeningId: '1', isScreening: true})
+    expect(component.find('CardView').find('RelationCard').length).toBe(1)
   })
 })
 

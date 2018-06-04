@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {RelationCard} from 'react-wood-duck'
-import 'react-bootstrap-table/css/react-bootstrap-table.css'
 
 const attachLink = (onClick, relationship, maybeId) => (
   <a className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>

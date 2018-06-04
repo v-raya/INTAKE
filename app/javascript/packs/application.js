@@ -15,6 +15,7 @@ import ReactDOM from 'react-dom'
 import routes from 'common/routes'
 
 // CSS
+import 'react-bootstrap-table/css/react-bootstrap-table.css'
 import 'bootstrap/dist/css/bootstrap'
 import 'react-wood-duck/dist/styles/application'
 import '../../assets/stylesheets/helpers'
