@@ -10,12 +10,9 @@ export const SafelySurrenderedBabyShowContainer = ({safelySurrenderedBaby, repor
   safelySurrenderedBaby && reportType === 'ssb' &&
     <SafelySurrenderedBabyShow {...safelySurrenderedBaby} />
 
-const jsOrNull = (map) => (map ? map.toJS() : null)
-
 export const mapStateToProps = (state, ownProps) => ({
-  safelySurrenderedBaby: jsOrNull(
-    getPersistedSafelySurrenderedBaby(state, ownProps.personId)
-  ),
+  safelySurrenderedBaby: getPersistedSafelySurrenderedBaby(state, ownProps.personId)
+    .map((immutable) => immutable.toJS()).valueOrElse(null),
   reportType: getReportType(state),
 })
 
