@@ -38,6 +38,12 @@ export const getDecisionDetailOptionsSelector = createSelector(
   }
 )
 
+export const isReporterRequired = (decision, roles) => (
+  (decision === 'information_to_child_welfare_services' &&
+    roles.every((role) => (role !== 'Mandated Reporter') && (role !== 'Non-mandated Reporter') && (role !== 'Anonymous Reporter'))) ?
+    'A reporter is required to submit a screening Contact' : undefined
+)
+
 export const getErrorsSelector = createSelector(
   getDecisionValueSelector,
   getDecisionDetailValueSelector,
@@ -53,11 +59,7 @@ export const getErrorsSelector = createSelector(
           allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
           'Please enter at least one allegation to promote to referral.' : undefined
       ),
-      () => (
-        (decision === 'information_to_child_welfare_services' &&
-          roles.every((role) => (role !== 'Mandated Reporter') && (role !== 'Non-mandated Reporter') && (role !== 'Anonymous Reporter'))) ?
-          'A reporter is required to submit a screening Contact' : undefined
-      )
+      () => isReporterRequired(decision, roles)
     ),
     screening_decision_detail: combineCompact(
       () => ((decision === 'promote_to_referral' && !decisionDetail) ? 'Please enter a response time' : undefined)
