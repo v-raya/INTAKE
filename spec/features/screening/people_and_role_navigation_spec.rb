@@ -46,6 +46,7 @@ feature 'Create participant' do
           PersonSearchResultBuilder.build do |builder|
             builder.with_first_name('Marge')
             builder.with_last_name('Simpson')
+            builder.with_legacy_descriptor(marge.legacy_descriptor)
             builder.with_sensitivity
           end
         ]
@@ -67,7 +68,7 @@ feature 'Create participant' do
     visit edit_screening_path(id: existing_screening[:id])
 
     stub_request(:post,
-      intake_api_url(ExternalRoutes.intake_api_screening_people_path(existing_screening[:id])))
+      ferb_api_url(FerbRoutes.screening_participants_path(existing_screening[:id])))
       .and_return(json_body(marge.to_json, status: 201))
 
     within '#search-card', text: 'Search' do
@@ -88,7 +89,7 @@ feature 'Create participant' do
     )
 
     stub_request(:post,
-      intake_api_url(ExternalRoutes.intake_api_screening_people_path(existing_screening[:id])))
+      ferb_api_url(FerbRoutes.screening_participants_path(existing_screening[:id])))
       .and_return(json_body(created_participant_unknown.to_json, status: 201))
 
     within '#search-card', text: 'Search' do

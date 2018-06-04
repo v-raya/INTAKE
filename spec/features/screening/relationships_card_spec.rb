@@ -286,6 +286,13 @@ feature 'Relationship card' do
           stub_empty_history_for_screening(participants_screening, response: hoi)
           visit edit_screening_path(id: participants_screening[:id])
 
+          stub_request(:get,
+            ferb_api_url(
+              FerbRoutes.client_authorization_path(
+                jake[:legacy_descriptor][:legacy_id]
+              )
+            )).and_return(status: 200)
+
           stub_request(:post,
             intake_api_url(
               ExternalRoutes.intake_api_screening_people_path(participants_screening[:id])
