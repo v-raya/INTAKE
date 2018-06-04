@@ -10,9 +10,9 @@ const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
 )
 
-export const getRolesSelector = (state) =>
-  state.get('participants').map((participant) =>
-    participant.get('roles')).flatten()
+export const getRolesSelector = (state) => (
+  state.get('participants', List()).map((participant) => participant.get('roles', List())).flatten()
+)
 
 export const getDecisionFormSelector = (state) => state.get('screeningDecisionForm', Map())
 export const getDecisionOptionsSelector = () => fromJS(selectOptionsFormatter(SCREENING_DECISION))
@@ -43,14 +43,20 @@ export const getErrorsSelector = createSelector(
   getDecisionDetailValueSelector,
   (state) => state.getIn(['screeningDecisionForm', 'restrictions_rationale', 'value']) || '',
   (state) => state.get('allegationsForm', List()),
+  getRolesSelector,
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']) || '',
-  (decision, decisionDetail, restrictionsRationale, allegations, additionalInformation) => fromJS({
+  (decision, decisionDetail, restrictionsRationale, allegations, roles, additionalInformation) => fromJS({
     screening_decision: combineCompact(
       isRequiredCreate(decision, 'Please enter a decision'),
       () => (
         (decision === 'promote_to_referral' &&
           allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
           'Please enter at least one allegation to promote to referral.' : undefined
+      ),
+      () => (
+        (decision === 'information_to_child_welfare_services' &&
+          roles.every((role) => (role !== 'Mandated Reporter') && (role !== 'Non-mandated Reporter') && (role !== 'Anonymous Reporter'))) ?
+          'A reporter is required to submit a screening Contact' : undefined
       )
     ),
     screening_decision_detail: combineCompact(
