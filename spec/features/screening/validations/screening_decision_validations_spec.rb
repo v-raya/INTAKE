@@ -5,6 +5,7 @@ require 'spec_helper'
 
 feature 'Screening Decision Validations' do
   let(:error_message) { 'Please enter at least one allegation to promote to referral.' }
+  let(:reporter_error_message) { 'A reporter is required to submit a screening Contact' }
   let(:perpetrator) { FactoryBot.create(:participant, :perpetrator) }
   let(:victim) { FactoryBot.create(:participant, :victim) }
   let(:screening_decision_detail) { nil }
@@ -50,7 +51,6 @@ feature 'Screening Decision Validations' do
           expect(page).not_to have_content(error_message)
           click_button 'Cancel'
         end
-
         within '#decision-card.show' do
           expect(page).not_to have_content(error_message)
           click_link 'Edit'
@@ -70,6 +70,33 @@ feature 'Screening Decision Validations' do
 
         within '#decision-card.show' do
           expect(page).to have_content(error_message)
+        end
+      end
+
+      scenario 'Selecting information to child welfare requires reporter' do
+        within '#decision-card.edit' do
+          expect(page).not_to have_content(reporter_error_message)
+          click_button 'Cancel'
+        end
+        within '#decision-card.show' do
+          expect(page).not_to have_content(reporter_error_message)
+          click_link 'Edit'
+        end
+
+        stub_screening_put_request_with_anything_and_return(
+          screening,
+          with_updated_attributes: { screening_decision: 'information_to_child_welfare_services' }
+        )
+
+        within '#decision-card.edit' do
+          select 'Information to child welfare services', from: 'Screening Decision'
+          blur_field
+          expect(page).to have_content(reporter_error_message)
+          click_button 'Save'
+        end
+
+        within '#decision-card.show' do
+          expect(page).to have_content(reporter_error_message)
         end
       end
 
