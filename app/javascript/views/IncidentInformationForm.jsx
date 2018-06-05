@@ -98,8 +98,8 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         <label className='no-gap' htmlFor='current_location_of_children'>Location Of Children</label>
         <TextAreaCount
           id='current_location_of_children'
-          onChange={({target: {value}}) => onChange(['current_location_of_children'], value || null)}
-          value={locationOfChildren.value}
+          onChange={({target: {value}}) => onChange(['current_location_of_children'], value)}
+          value={locationOfChildren}
           maxLength='250'
         />
       </div>
@@ -130,9 +130,7 @@ IncidentInformationForm.propTypes = {
     incident_date: PropTypes.arrayOf(PropTypes.string),
   }),
   incidentDate: PropTypes.string,
-  locationOfChildren: PropTypes.shape({
-    value: PropTypes.string,
-  }),
+  locationOfChildren: PropTypes.string,
   locationTypes: PropTypes.arrayOf(PropTypes.shape({
     locations: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
@@ -148,9 +146,4 @@ IncidentInformationForm.propTypes = {
     name: PropTypes.string,
   })),
 }
-
-IncidentInformationForm.defaultProps = {
-  locationOfChildren: {},
-}
-
 export default IncidentInformationForm

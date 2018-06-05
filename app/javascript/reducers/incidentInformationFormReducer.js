@@ -32,9 +32,7 @@ export default createReducer(Map(), {
         zip: untouched(zip),
       },
       location_type: untouched(location_type),
-      current_location_of_children: {
-        value: current_location_of_children,
-      },
+      current_location_of_children: untouched(current_location_of_children),
     })
   },
   [SET_INCIDENT_INFORMATION_FORM_FIELD](state, {payload: {fieldSet, value}}) {

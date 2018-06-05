@@ -14,7 +14,6 @@ const TextAreaCount = ({value, onChange, id, maxLength}) => (
 
 )
 TextAreaCount.propTypes = {
-
   id: PropTypes.string,
   maxLength: PropTypes.string,
   onChange: PropTypes.func,

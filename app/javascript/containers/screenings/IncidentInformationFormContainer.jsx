@@ -30,9 +30,7 @@ const mapStateToProps = (state) => ({
   counties: getCountiesSelector(state),
   usStates: getStates(),
   locationTypes: getLocationTypes(),
-  locationOfChildren: {
-    value: getLocationOfChildrenSelector(state),
-  },
+  locationOfChildren: getLocationOfChildrenSelector(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

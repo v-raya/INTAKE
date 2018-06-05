@@ -4,7 +4,7 @@ import TextAreaCount from 'common/TextAreaCount'
 
 describe('TextAreaCount', () => {
   let component
-  let textFeild
+  let textField
   let onChange
   const props = {
     id: 'some_id',
@@ -17,12 +17,12 @@ describe('TextAreaCount', () => {
   describe('basic functionality', () => {
     beforeEach(() => {
       component = shallow(<TextAreaCount {...props} onChange={onChange} />, {disableLifecycleMethods: true})
-      textFeild = component.find('textarea')
+      textField = component.find('textarea')
     })
     it('passes props to the TextAreaCount', () => {
-      expect(textFeild.props().id).toEqual('some_id')
-      expect(textFeild.props().maxLength).toEqual('250')
-      expect(textFeild.props().value).toEqual('some value')
+      expect(textField.props().id).toEqual('some_id')
+      expect(textField.props().maxLength).toEqual('250')
+      expect(textField.props().value).toEqual('some value')
     })
     it('renders the textarea counter field value', () => {
       expect(component.find('span').text()).toEqual('10 / 250')

@@ -79,6 +79,7 @@ describe('incidentInformationFormReducer', () => {
         },
         current_location_of_children: {
           value: 'new location of children',
+          touched: false,
         },
       })
       expect(incidentInformationFormReducer(state, action)).toEqual(newState)

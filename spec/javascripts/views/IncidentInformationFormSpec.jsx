@@ -3,8 +3,8 @@ import {shallow} from 'enzyme'
 import IncidentInformationForm from 'views/IncidentInformationForm'
 
 describe('IncidentInformationForm', () => {
-  const renderIncidentInformationForm = ({errors = {}, address = {}, counties = [], locationTypes = [], locationOfChildren = {}, usStates = [], ...args}) => {
-    const props = {errors, address, counties, locationTypes, locationOfChildren, usStates, ...args}
+  const renderIncidentInformationForm = ({errors = {}, address = {}, counties = [], locationTypes = [], usStates = [], ...args}) => {
+    const props = {errors, address, counties, locationTypes, usStates, ...args}
     return shallow(<IncidentInformationForm {...props}/>, {disableLifecycleMethods: true})
   }
 
@@ -163,7 +163,7 @@ describe('IncidentInformationForm', () => {
 
   describe('Location of Children', () => {
     it('displays the current location of the child', () => {
-      const component = renderIncidentInformationForm({locationOfChildren: {value: 'everthing is good'}})
+      const component = renderIncidentInformationForm({locationOfChildren: 'everthing is good'})
       const locationOfChildrenField = component.find('TextAreaCount')
       expect(locationOfChildrenField.props().value).toEqual('everthing is good')
     })
