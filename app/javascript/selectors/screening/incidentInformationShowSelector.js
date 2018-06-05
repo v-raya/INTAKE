@@ -34,6 +34,11 @@ export const getLocationTypeSelector = createSelector(
   (screening) => screening.get('location_type', '')
 )
 
+export const getCurrentLocationOfChildrenSelector = createSelector(
+  getScreeningSelector,
+  (screening) => screening.get('current_location_of_children')
+)
+
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'incident_date']),
   (incident_date) => (fromJS({

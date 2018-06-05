@@ -71,4 +71,11 @@ describe('IncidentInformationShow', () => {
     expect(component.find('ShowField[label="Location Type"]').html())
       .toContain('Juvenile Detention')
   })
+  it('renders the current location of child', () => {
+    const component = renderIncidentInformationShow({
+      locationOfChildren: 'the current location of child is los angeles',
+    })
+    expect(component.find('ShowField[label="Location of Children"]').html())
+      .toContain('the current location of child is los angeles')
+  })
 })

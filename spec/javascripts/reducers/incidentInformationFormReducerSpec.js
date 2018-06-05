@@ -41,6 +41,7 @@ describe('incidentInformationFormReducer', () => {
           zip: 'new zip',
         },
         location_type: 'new location type',
+        current_location_of_children: 'new location of children',
       }
       const state = fromJS({})
       const action = fetchScreeningSuccess(screening)
@@ -74,6 +75,10 @@ describe('incidentInformationFormReducer', () => {
         },
         location_type: {
           value: 'new location type',
+          touched: false,
+        },
+        current_location_of_children: {
+          value: 'new location of children',
           touched: false,
         },
       })
@@ -130,6 +135,9 @@ describe('incidentInformationFormReducer', () => {
         location_type: {
           touched: true,
         },
+        current_location_of_children: {
+          touched: true,
+        },
       }))
     })
   })
@@ -175,6 +183,9 @@ describe('incidentInformationFormReducer', () => {
         location_type: {
           value: 'new location type',
         },
+        current_location_of_children: {
+          value: 'new current location of children',
+        },
       }
       const screening = {
         incident_date: 'old date',
@@ -187,6 +198,7 @@ describe('incidentInformationFormReducer', () => {
           zip: 'old zip',
         },
         location_type: 'old location type',
+        current_location_of_children: 'old location of children',
       }
       const action = resetFieldValues(screening)
       const state = fromJS(incidentInformationForm)
@@ -214,6 +226,9 @@ describe('incidentInformationFormReducer', () => {
         },
         location_type: {
           value: 'old location type',
+        },
+        current_location_of_children: {
+          value: 'old location of children',
         },
       }))
     })
