@@ -30,8 +30,10 @@ const mapStateToProps = (state) => {
     endedAt: screeningInformationForm.getIn(['ended_at', 'value']),
     errors: getVisibleErrorsSelector(state).toJS(),
     name: screeningInformationForm.getIn(['name', 'value']),
+    prevReportType: screening.get('report_type'),
     reportType: screeningInformationForm.getIn(['report_type', 'value']),
     reportTypes,
+    screeningId: screening.get('id'),
     startedAt: screeningInformationForm.getIn(['started_at', 'value']),
   }
 }
@@ -44,11 +46,21 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(setCardMode(cardName, SHOW_MODE))
   },
   onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
+  dispatch,
+})
+
+export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
   onSave: () => {
-    dispatch(saveCard(cardName))
-    dispatch(touchAllFields())
-    dispatch(setCardMode(cardName, SHOW_MODE))
+    dispatchProps.dispatch(saveCard(cardName))
+    dispatchProps.dispatch(touchAllFields())
+    dispatchProps.dispatch(setCardMode(cardName, SHOW_MODE))
+    if (stateProps.reportType === 'ssb' && stateProps.prevReportType !== 'ssb') {
+      dispatchProps.dispatch({type: 'TRIGGER_SSB', payload: stateProps.screeningId})
+    }
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ScreeningInformationForm)
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ScreeningInformationForm)
