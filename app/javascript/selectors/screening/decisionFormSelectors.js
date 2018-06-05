@@ -155,12 +155,12 @@ export const getScreeningWithEditsSelector = createSelector(
   )
 )
 
-export const getAllegationsRemoveSelector = (state) => (
+export const isAllegationsProhibited = (state) => (
   state.getIn(['screeningDecisionForm', 'screening_decision', 'value']) === 'information_to_child_welfare_services'
 )
 
 export const getDecisionAlertErrorMessageSelector = (state) => {
-  const required = getAllegationsRemoveSelector(state)
+  const required = isAllegationsProhibited(state)
   const allegationsWithTypes = getAllegationsWithTypesSelector(state)
   if (required && !allegationsWithTypes.isEmpty()) {
     return 'Please remove any allegations before submitting this information to a social worker on an existing case or referral.'
