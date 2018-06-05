@@ -30,7 +30,7 @@ feature 'decision card' do
     visit edit_screening_path(id: screening[:id])
   end
 
-  scenario 'initial configuration' do
+  scenario 'initial configuration, persisting data' do
     new_window = nil
     within '#decision-card.edit' do
       expect(page).to have_select('Screening Decision', options: [
@@ -82,16 +82,25 @@ feature 'decision card' do
       expect(page).to have_content(
         'Determine Decision and Response Time by using Structured Decision Making'
       )
+
       expect(page).to have_content('Complete SDM')
+      link_from_edit = find_link('Complete SDM')
+      expect(link_from_edit[:href]).to eq 'https://ca.sdmdata.org/'
+      expect(link_from_edit[:target]).to eq '_blank'
+      click_button 'Cancel'
+    end
+    within '#decision-card.show' do
+      link_from_show = find_link('Complete SDM')
+      expect(link_from_show[:href]).to eq 'https://ca.sdmdata.org/'
+      expect(link_from_show[:target]).to eq '_blank'
       change_href('complete_sdm', 'localhost:3000/test')
       new_window = window_opened_by { click_link 'Complete SDM' }
+      within_window new_window do
+        expect(current_path).to eq '3000/test'
+      end
     end
-    within_window new_window do
-      expect(current_path).to eq '3000/test'
-    end
-  end
 
-  scenario 'edit and save new values' do
+    click_link 'Edit decision'
     screening.merge!(
       screening_decision: 'differential_response',
       screening_decision_detail: 'An arbitrary string',
@@ -118,7 +127,7 @@ feature 'decision card' do
     end
     expect(
       a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
-        .with(body: hash_including(screening.as_json))
+      .with(body: hash_including(screening.as_json))
     ).to have_been_made
     within '#decision-card.show' do
       expect(page).to have_content('SDM Hotline Tool')
@@ -160,20 +169,6 @@ feature 'decision card' do
       expect(page).to have_field('Screening Decision', with: 'promote_to_referral')
       expect(page).to have_field('Response Time', with: '3_days')
       expect(page).to have_field('Additional Information', with: 'this is why it is')
-    end
-  end
-
-  scenario 'navigate to SDM on new window' do
-    within '#decision-card.edit' do
-      link_from_edit = find_link('Complete SDM')
-      expect(link_from_edit[:href]).to eq 'https://ca.sdmdata.org/'
-      expect(link_from_edit[:target]).to eq '_blank'
-      click_button 'Cancel'
-    end
-    within '#decision-card.show' do
-      link_from_show = find_link('Complete SDM')
-      expect(link_from_show[:href]).to eq 'https://ca.sdmdata.org/'
-      expect(link_from_show[:target]).to eq '_blank'
     end
   end
 end
