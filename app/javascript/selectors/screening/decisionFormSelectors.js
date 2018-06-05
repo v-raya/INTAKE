@@ -8,9 +8,14 @@ import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
 import {
   getAllegationsWithTypesSelector,
 } from 'selectors/screening/allegationsFormSelectors'
+import {ROLE_TYPE_REPORTER} from 'enums/RoleType'
 
 const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
+)
+
+export const getDecisionRolesSelector = (state) => (
+  state.get('participants', List()).map((participant) => participant.get('roles', List())).flatten()
 )
 
 export const getDecisionFormSelector = (state) => state.get('screeningDecisionForm', Map())
@@ -37,20 +42,28 @@ export const getDecisionDetailOptionsSelector = createSelector(
   }
 )
 
+export const isReporterRequired = (decision, roles) => (
+  (decision === 'information_to_child_welfare_services' &&
+    !roles.some((role) => ROLE_TYPE_REPORTER.includes(role))) ?
+    'A reporter is required to submit a screening Contact' : undefined
+)
+
 export const getErrorsSelector = createSelector(
   getDecisionValueSelector,
   getDecisionDetailValueSelector,
   (state) => state.getIn(['screeningDecisionForm', 'restrictions_rationale', 'value']) || '',
   (state) => state.get('allegationsForm', List()),
+  getDecisionRolesSelector,
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']) || '',
-  (decision, decisionDetail, restrictionsRationale, allegations, additionalInformation) => fromJS({
+  (decision, decisionDetail, restrictionsRationale, allegations, roles, additionalInformation) => fromJS({
     screening_decision: combineCompact(
       isRequiredCreate(decision, 'Please enter a decision'),
       () => (
         (decision === 'promote_to_referral' &&
           allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
           'Please enter at least one allegation to promote to referral.' : undefined
-      )
+      ),
+      () => isReporterRequired(decision, roles)
     ),
     screening_decision_detail: combineCompact(
       () => ((decision === 'promote_to_referral' && !decisionDetail) ? 'Please enter a response time' : undefined)

@@ -1,5 +1,6 @@
 import {List, Map, fromJS} from 'immutable'
 import {
+  getDecisionRolesSelector,
   getAccessRestrictionOptionsSelector,
   getDecisionAlertErrorMessageSelector,
   getDecisionDetailOptionsSelector,
@@ -21,6 +22,34 @@ import * as matchers from 'jasmine-immutable-matchers'
 
 describe('screeningDecisionFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
+
+  describe('getDecisionRolesSelector', () => {
+    const state = fromJS({
+      participants: [
+        {
+          screening_id: '3',
+          roles: [
+            'Perpetrator', 'Family Member',
+          ],
+        },
+        {
+          screening_id: '3',
+          roles: [
+            'Victim',
+          ],
+        },
+        {
+          screening_id: '3',
+          roles: [
+            'Mandated Reporter',
+          ],
+        }],
+    })
+
+    it('returns all the roles', () => {
+      expect(getDecisionRolesSelector(state)).toEqualImmutable(fromJS(['Perpetrator', 'Family Member', 'Victim', 'Mandated Reporter']))
+    })
+  })
 
   describe('getDecisionOptionsSelector', () => {
     it('returns the enums for screening decisions in an object form with value and label', () => {
@@ -255,6 +284,30 @@ describe('screeningDecisionFormSelectors', () => {
       it('does not include an error message if screening decision is present', () => {
         const screeningDecisionForm = {screening_decision: {value: 'screen_out'}}
         const state = fromJS({screeningDecisionForm})
+        expect(getErrorsSelector(state).get('screening_decision'))
+          .toEqualImmutable(List())
+      })
+
+      it('includes an error message if decision is information to child welfare service and role is empty', () => {
+        const screeningDecisionForm = {screening_decision: {value: 'information_to_child_welfare_services'}}
+        const participants = [{id: '1', roles: []}]
+        const state = fromJS({screeningDecisionForm, participants})
+        expect(getErrorsSelector(state).get('screening_decision'))
+          .toEqualImmutable(List(['A reporter is required to submit a screening Contact']))
+      })
+
+      it('includes an error message if decision is information to child welfare service and role is not reporter', () => {
+        const screeningDecisionForm = {screening_decision: {value: 'information_to_child_welfare_services'}}
+        const participants = [{id: '1', roles: ['Victim', 'Perpetrator']}]
+        const state = fromJS({screeningDecisionForm, participants})
+        expect(getErrorsSelector(state).get('screening_decision'))
+          .toEqualImmutable(List(['A reporter is required to submit a screening Contact']))
+      })
+
+      it('doesnot includes an error message if decision is information to child welfare service and role is reporter', () => {
+        const screeningDecisionForm = {screening_decision: {value: 'information_to_child_welfare_services'}}
+        const participants = [{id: '1', roles: ['Mandated Reporter', 'Victim', 'Collateral']}]
+        const state = fromJS({screeningDecisionForm, participants})
         expect(getErrorsSelector(state).get('screening_decision'))
           .toEqualImmutable(List())
       })

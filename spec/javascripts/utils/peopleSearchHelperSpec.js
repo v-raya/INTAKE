@@ -283,7 +283,7 @@ describe('peopleSearchHelper', () => {
       }))
     })
 
-    it('returns null when typeId is not 32', () => {
+    it('returns null list when typeId is not 32', () => {
       const result = fromJS({
         addresses: [{
           city: 'city',
