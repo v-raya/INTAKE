@@ -14,7 +14,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
   <div className='card-body no-pad-top'>
     {
       people.map((person, index) => (
-        <div className='row' key={index}>
+        <div className='row' key={`new-${index}`}>
           <div className='col-md-12'>
             {
               (person.relationships.length > 0) &&
