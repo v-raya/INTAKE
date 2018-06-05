@@ -5,6 +5,7 @@ import {
   getAddressSelector,
   getLocationTypeSelector,
   getCountiesSelector,
+  getLocationOfChildrenSelector,
   getStates,
   getLocationTypes,
   getVisibleErrorsSelector,
@@ -29,6 +30,7 @@ const mapStateToProps = (state) => ({
   counties: getCountiesSelector(state),
   usStates: getStates(),
   locationTypes: getLocationTypes(),
+  locationOfChildren: getLocationOfChildrenSelector(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

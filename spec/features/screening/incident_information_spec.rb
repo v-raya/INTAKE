@@ -18,6 +18,7 @@ feature 'screening incident information card' do
         zip: '12345'
       },
       location_type: "Child's Home",
+      current_location_of_children: 'Current location of children at LA',
       report_narrative: 'Some kind of narrative',
       addresses: [],
       cross_reports: [],
@@ -70,6 +71,7 @@ feature 'screening incident information card' do
       expect(page).to have_field('City', with: 'Springfield')
       expect(page).to have_field('State', with: 'NY')
       expect(page).to have_field('Zip', with: '12345')
+      expect(page).to have_field('Location Of Children', with: 'Current location of children at LA')
       fill_in_datepicker 'Incident Date', with: '10-05-2015'
     end
 
@@ -102,6 +104,7 @@ feature 'screening incident information card' do
       expect(page).to have_content('Springfield')
       expect(page).to have_content('New York')
       expect(page).to have_content('12345')
+      expect(page).to have_content('Current location of children at LA')
     end
 
     within '#narrative-card.edit' do

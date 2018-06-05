@@ -161,6 +161,20 @@ describe('IncidentInformationForm', () => {
     })
   })
 
+  describe('Location of Children', () => {
+    it('displays the current location of the child', () => {
+      const component = renderIncidentInformationForm({locationOfChildren: 'everthing is good'})
+      const locationOfChildrenField = component.find('TextAreaCount')
+      expect(locationOfChildrenField.props().value).toEqual('everthing is good')
+    })
+    it('calls onChange when the current location of child changes', () => {
+      const onChange = jasmine.createSpy('onChange')
+      const component = renderIncidentInformationForm({onChange})
+      component.find('TextAreaCount').simulate('change', {target: {value: 'new value'}})
+      expect(onChange).toHaveBeenCalledWith(['current_location_of_children'], 'new value')
+    })
+  })
+
   describe('Location Type', () => {
     it('renders the location type field', () => {
       const component = renderIncidentInformationForm({

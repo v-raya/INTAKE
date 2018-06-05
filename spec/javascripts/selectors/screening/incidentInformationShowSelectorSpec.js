@@ -4,6 +4,7 @@ import {
   getIncidentCountySelector,
   getAddressSelector,
   getLocationTypeSelector,
+  getCurrentLocationOfChildrenSelector,
   getErrorsSelector,
 } from 'selectors/screening/incidentInformationShowSelector'
 import {getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
@@ -99,6 +100,20 @@ describe('incidentInformationShowSelectors', () => {
       expect(getErrorsSelector(state)).toEqualImmutable(fromJS({
         incident_date: [],
       }))
+    })
+  })
+  describe('getCurrentLocationOfChildrenSelector', () => {
+    it('returns a value when it is present', () => {
+      const screening = {
+        current_location_of_children: 'the current location of child is in los angeles',
+      }
+      const state = fromJS({screening})
+      expect(getCurrentLocationOfChildrenSelector(state)).toEqual('the current location of child is in los angeles')
+    })
+    it('returns undefined when no value is present', () => {
+      const screening = {}
+      const state = fromJS({screening})
+      expect(getCurrentLocationOfChildrenSelector(state)).toEqual(undefined)
     })
   })
 })

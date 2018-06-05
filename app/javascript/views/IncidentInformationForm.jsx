@@ -3,8 +3,10 @@ import React from 'react'
 import DateField from 'common/DateField'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
+import TextAreaCount from 'common/TextAreaCount'
 
-const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, address, usStates, selectedCounty, counties, selectedLocationType, locationTypes, onSave, onCancel}) => (
+const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, address, usStates, selectedCounty, counties,
+  selectedLocationType, locationTypes, locationOfChildren, onSave, onCancel}) => (
   <div className='card-body'>
     <div className='row'>
       <DateField
@@ -91,6 +93,17 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         </SelectField>
       </div>
     </fieldset>
+    <div className='col-md-12'>
+      <div className='row'>
+        <label className='no-gap' htmlFor='current_location_of_children'>Location Of Children</label>
+        <TextAreaCount
+          id='current_location_of_children'
+          onChange={({target: {value}}) => onChange(['current_location_of_children'], value)}
+          value={locationOfChildren}
+          maxLength='250'
+        />
+      </div>
+    </div>
     <div className='row'>
       <div className='col-md-12'>
         <div className='pull-right'>
@@ -117,6 +130,7 @@ IncidentInformationForm.propTypes = {
     incident_date: PropTypes.arrayOf(PropTypes.string),
   }),
   incidentDate: PropTypes.string,
+  locationOfChildren: PropTypes.string,
   locationTypes: PropTypes.arrayOf(PropTypes.shape({
     locations: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
@@ -132,5 +146,4 @@ IncidentInformationForm.propTypes = {
     name: PropTypes.string,
   })),
 }
-
 export default IncidentInformationForm

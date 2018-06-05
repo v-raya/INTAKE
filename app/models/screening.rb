@@ -18,6 +18,7 @@ class Screening # :nodoc:
   attribute :report_narrative
   attribute :report_type
   attribute :safety_alerts, Array
+  attribute :current_location_of_children, String
   attribute :safety_information, String
   attribute :screening_decision
   attribute :screening_decision_detail
