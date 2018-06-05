@@ -1,6 +1,9 @@
 import {takeEvery, call, put} from 'redux-saga/effects'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
-import {createPersonSuccess} from 'actions/personCardActions'
+import {
+  createPersonFailure,
+  createPersonSuccess,
+} from 'actions/personCardActions'
 import {GENERATE_BABY_DOE} from 'actions/safelySurrenderedBabyActions'
 import {saveCard} from 'actions/screeningActions'
 import {cardName as allegationsCardName} from 'containers/screenings/AllegationsFormContainer'
@@ -24,14 +27,14 @@ export function* generateBabyDoe({payload: screening_id}) {
     })
     yield put(createPersonSuccess(caretaker))
 
-    yield put(setAllegationTypes({
+    yield put.resolve(setAllegationTypes({
       victimId: baby.id,
       perpetratorId: caretaker.id,
       allegationTypes: ['Caretaker absent/incapacity'],
     }))
     yield put(saveCard(allegationsCardName))
   } catch (error) {
-    yield put()
+    yield put(createPersonFailure(error && error.responseJSON))
   }
 }
 

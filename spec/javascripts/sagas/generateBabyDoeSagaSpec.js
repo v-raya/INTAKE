@@ -1,6 +1,9 @@
 import {takeEvery, call, put} from 'redux-saga/effects'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
-import {createPersonSuccess} from 'actions/personCardActions'
+import {
+  createPersonFailure,
+  createPersonSuccess,
+} from 'actions/personCardActions'
 import {GENERATE_BABY_DOE} from 'actions/safelySurrenderedBabyActions'
 import {saveCard} from 'actions/screeningActions'
 import {cardName as allegationsCardName} from 'containers/screenings/AllegationsFormContainer'
@@ -47,11 +50,29 @@ describe('triggerSSB', () => {
 
     expect(putCaretaker.value).toEqual(put(createPersonSuccess(caretakerResponse)))
 
-    expect(gen.next().value).toEqual(put(setAllegationTypes({
+    expect(gen.next().value).toEqual(put.resolve(setAllegationTypes({
       victimId: '111',
       perpetratorId: '222',
       allegationTypes: ['Caretaker absent/incapacity'],
     })))
     expect(gen.next().value).toEqual(put(saveCard(allegationsCardName)))
+  })
+
+  it('puts createPersonFailure when Baby Doe fails', () => {
+    const gen = generateBabyDoe({payload: screening_id})
+    gen.next()
+
+    const error = {responseJSON: 'some error'}
+    expect(gen.throw(error).value).toEqual(put(createPersonFailure('some error')))
+  })
+
+  it('puts createPersonFailure when Caretaker Doe fails', () => {
+    const gen = generateBabyDoe({payload: screening_id})
+    gen.next()
+    gen.next({id: '111'})
+    gen.next()
+
+    const error = {responseJSON: 'some error'}
+    expect(gen.throw(error).value).toEqual(put(createPersonFailure('some error')))
   })
 })
