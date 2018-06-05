@@ -93,7 +93,7 @@ describe('Relationships', () => {
         ],
       },
     ]
-    const component = renderRelationships({people})
+    const component = renderRelationships({people, isScreening: true})
     expect(component.html()).toContain('react-bs-table-container')
   })
 })
