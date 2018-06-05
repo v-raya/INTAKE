@@ -36,12 +36,10 @@ feature 'decision card' do
       expect(page).to have_select('Screening Decision', options: [
                                     '',
                                     'Differential response',
-                                    'Information to child welfare services',
                                     'Promote to referral',
                                     'Screen out'
                                   ])
-      select 'Information to child welfare services', from: 'Screening Decision'
-      expect(page).to have_field('Staff Name', with: '')
+
       select 'Promote to referral', from: 'Screening Decision'
       expect(page).to have_select('Response Time', options: [
                                     '',
@@ -50,6 +48,7 @@ feature 'decision card' do
                                     '5 days',
                                     '10 days'
                                   ])
+
       select 'Screen out', from: 'Screening Decision'
       expect(page).to have_select('Category', options: [
                                     '',
@@ -59,12 +58,12 @@ feature 'decision card' do
                                     'Abandoned call',
                                     'Other'
                                   ])
+
       select 'Differential response', from: 'Screening Decision'
       expect(page).to have_field('Service Name', with: '')
-      # Values are cleared when decision is changed
       fill_in 'Service Name', with: 'Do not persist'
-      select 'Information to child welfare services', from: 'Screening Decision'
-      expect(page).to have_field('Staff Name', with: '')
+
+      select 'Screen out', from: 'Screening Decision'
       select 'Differential response', from: 'Screening Decision'
       expect(page).to have_field('Service Name', with: '')
       expect(page).to have_field('Additional Information', with: 'this is why it is')
@@ -74,6 +73,7 @@ feature 'decision card' do
                                     'Mark as Sensitive',
                                     'Mark as Sealed'
                                   ])
+
       expect(page).not_to have_field('Restrictions Rationale')
       select 'Mark as Sensitive', from: 'Access Restrictions'
       expect(page).to have_field('Restrictions Rationale')

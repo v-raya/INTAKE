@@ -52,10 +52,9 @@ describe('screeningDecisionFormSelectors', () => {
   })
 
   describe('getDecisionOptionsSelector', () => {
-    it('returns the enums for screening decisions in an object form with value and label', () => {
+    it(' returns enums from screenings decisions except information to child welfare services by default', () => {
       expect(getDecisionOptionsSelector()).toEqualImmutable(fromJS([
         {value: 'differential_response', label: 'Differential response'},
-        {value: 'information_to_child_welfare_services', label: 'Information to child welfare services'},
         {value: 'promote_to_referral', label: 'Promote to referral'},
         {value: 'screen_out', label: 'Screen out'},
       ]))

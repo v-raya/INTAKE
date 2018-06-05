@@ -10,6 +10,7 @@ import {ROLE_TYPE_REPORTER} from 'enums/RoleType'
 
 const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
+    .filter((obj) => obj.value !== 'information_to_child_welfare_services')
 )
 
 export const getDecisionRolesSelector = (state) => (
