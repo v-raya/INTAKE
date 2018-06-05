@@ -41,7 +41,7 @@ describe('ScreeningInformationFormContainer', () => {
 
       it('triggers SSB when report type changes to SSB', () => {
         const dispatch = jasmine.createSpy('dispatch')
-        const onSave = mergeProps({prevReportType: '', screeningId: '3', reportType: 'ssb'}, {dispatch}, {}).onSave
+        const onSave = mergeProps({persistedReportType: '', screeningId: '3', reportType: 'ssb'}, {dispatch}, {}).onSave
 
         onSave()
 
@@ -53,7 +53,7 @@ describe('ScreeningInformationFormContainer', () => {
 
       it('does not trigger SSB when report type was already SSB', () => {
         const dispatch = jasmine.createSpy('dispatch')
-        const onSave = mergeProps({prevReportType: 'ssb', screeningId: '3', reportType: 'ssb'}, {dispatch}, {}).onSave
+        const onSave = mergeProps({persistedReportType: 'ssb', screeningId: '3', reportType: 'ssb'}, {dispatch}, {}).onSave
 
         onSave()
 

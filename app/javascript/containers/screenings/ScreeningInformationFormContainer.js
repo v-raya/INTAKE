@@ -31,7 +31,7 @@ const mapStateToProps = (state) => {
     endedAt: screeningInformationForm.getIn(['ended_at', 'value']),
     errors: getVisibleErrorsSelector(state).toJS(),
     name: screeningInformationForm.getIn(['name', 'value']),
-    prevReportType: screening.get('report_type'),
+    persistedReportType: screening.get('report_type'),
     reportType: screeningInformationForm.getIn(['report_type', 'value']),
     reportTypes,
     screeningId: screening.get('id'),
@@ -58,7 +58,7 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     dispatchProps.dispatch(saveCard(cardName))
     dispatchProps.dispatch(touchAllFields())
     dispatchProps.dispatch(setCardMode(cardName, SHOW_MODE))
-    if (stateProps.reportType === 'ssb' && stateProps.prevReportType !== 'ssb') {
+    if (stateProps.reportType === 'ssb' && stateProps.persistedReportType !== 'ssb') {
       dispatchProps.dispatch(generateBabyDoe(stateProps.screeningId))
     }
   },

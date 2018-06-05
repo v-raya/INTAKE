@@ -7,7 +7,7 @@ import {cardName as allegationsCardName} from 'containers/screenings/Allegations
 import {babyDoe, caretakerDoe} from 'data/participants'
 import {post} from 'utils/http'
 
-export function* triggerSSB({payload: screening_id}) {
+export function* generateBabyDoe({payload: screening_id}) {
   try {
     const baby = yield call(post, '/api/v1/participants', {
       participant: {
@@ -35,6 +35,6 @@ export function* triggerSSB({payload: screening_id}) {
   }
 }
 
-export function* triggerSSBSaga() {
-  yield takeEvery(GENERATE_BABY_DOE, triggerSSB)
+export function* generateBabyDoeSaga() {
+  yield takeEvery(GENERATE_BABY_DOE, generateBabyDoe)
 }
