@@ -42,7 +42,7 @@ describe('Participants', () => {
 
     it('has an approximate age of 0 days', () => {
       // Yes, this is definitely intended for the caretaker, not the child.
-      expect(caretakerDoe.approximate_age).toEqual(0)
+      expect(caretakerDoe.approximate_age).toEqual('0')
       expect(caretakerDoe.approximate_age_units).toEqual('days')
     })
   })

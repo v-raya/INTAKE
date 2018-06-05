@@ -3,7 +3,6 @@ import * as matchers from 'jasmine-immutable-matchers'
 import {
   getPersistedSafelySurrenderedBaby,
   getFormSafelySurrenderedBaby,
-  getRawFormSafelySurrenderedBaby,
 } from 'selectors/screening/safelySurrenderedBabySelectors'
 
 describe('safelySurrenderedBabySelectors', () => {
@@ -16,14 +15,14 @@ describe('safelySurrenderedBabySelectors', () => {
     ],
     safelySurrenderedBaby: {
       persisted: {
-        surrendered_by: '5',
+        surrendered_by: 'John Doe',
         participant_child: '123',
         relation_to_child: '1592',
         parent_guardian_given_bracelet_id: 'Y',
         parent_guardian_provided_med_questionaire: 'D',
       },
       form: {
-        surrendered_by: '5',
+        surrendered_by: 'John Doe',
         participant_child: '123',
         relation_to_child: '1600',
         parent_guardian_given_bracelet_id: 'U',
@@ -31,31 +30,6 @@ describe('safelySurrenderedBabySelectors', () => {
       },
     },
   })
-
-  describe('getRawFormSafelySurrenderedBaby', () => {
-    it('returns Maybe of SSB info for the matching child', () => {
-      expect(getRawFormSafelySurrenderedBaby(state, '123').valueOrElse()).toEqualImmutable(
-        fromJS({
-          surrendered_by: '5',
-          participant_child: '123',
-          relation_to_child: '1600',
-          parent_guardian_given_bracelet_id: 'U',
-          parent_guardian_provided_med_questionaire: 'U',
-        })
-      )
-    })
-
-    it('returns Nothing for people who are not SSBs', () => {
-      expect(getRawFormSafelySurrenderedBaby(state, '456').isNothing()).toEqual(true)
-    })
-
-    it('returns Nothing when there is no SSB information', () => {
-      expect(getRawFormSafelySurrenderedBaby(Map({
-        safelySurrenderedBaby: null,
-      }), '123').isNothing()).toEqual(true)
-    })
-  })
-
   describe('getFormSafelySurrenderedBaby', () => {
     it('returns Maybe of SSB info for the matching child', () => {
       expect(getFormSafelySurrenderedBaby(state, '123').valueOrElse()).toEqualImmutable(
