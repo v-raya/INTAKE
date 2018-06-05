@@ -1,9 +1,10 @@
 import {takeEvery, call, put} from 'redux-saga/effects'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
 import {createPersonSuccess} from 'actions/personCardActions'
+import {GENERATE_BABY_DOE} from 'actions/safelySurrenderedBabyActions'
 import {saveCard} from 'actions/screeningActions'
 import {cardName as allegationsCardName} from 'containers/screenings/AllegationsFormContainer'
-import {babyDoe, parentDoe} from 'data/participants'
+import {babyDoe, caretakerDoe} from 'data/participants'
 import {
   triggerSSB,
   triggerSSBSaga,
@@ -11,16 +12,16 @@ import {
 import {post} from 'utils/http'
 
 describe('triggerSSBSaga', () => {
-  it('triggers SSB info creation on TRIGGER_SSB', () => {
+  it('triggers SSB info creation on GENERATE_BABY_DOE', () => {
     const gen = triggerSSBSaga()
-    expect(gen.next().value).toEqual(takeEvery('TRIGGER_SSB', triggerSSB))
+    expect(gen.next().value).toEqual(takeEvery(GENERATE_BABY_DOE, triggerSSB))
   })
 })
 
 describe('triggerSSB', () => {
   const screening_id = '1'
 
-  it('adds Baby Doe and Parent Doe', () => {
+  it('adds Baby Doe and Caretaker Doe', () => {
     const gen = triggerSSB({payload: screening_id})
     expect(gen.next().value).toEqual(call(post, '/api/v1/participants', {
       participant: {
@@ -37,7 +38,7 @@ describe('triggerSSB', () => {
     expect(gen.next().value).toEqual(call(post, '/api/v1/participants', {
       participant: {
         screening_id,
-        ...parentDoe,
+        ...caretakerDoe,
       },
     }))
 

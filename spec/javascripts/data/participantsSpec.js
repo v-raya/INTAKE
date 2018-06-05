@@ -1,6 +1,6 @@
 import {
   babyDoe,
-  parentDoe,
+  caretakerDoe,
 } from 'data/participants'
 
 describe('Participants', () => {
@@ -24,26 +24,26 @@ describe('Participants', () => {
     })
   })
 
-  describe('Parent Doe', () => {
+  describe('Caretaker Doe', () => {
     it('is named Unknown Doe', () => {
-      expect(parentDoe.first_name).toBe('Unknown')
-      expect(parentDoe.last_name).toBe('Doe')
+      expect(caretakerDoe.first_name).toBe('Unknown')
+      expect(caretakerDoe.last_name).toBe('Doe')
     })
 
     it('has no id, descriptor, or screening', () => {
-      expect(parentDoe.id).toBeUndefined()
-      expect(parentDoe.legacy_descriptor).toBeUndefined()
-      expect(parentDoe.screening_id).toBeUndefined()
+      expect(caretakerDoe.id).toBeUndefined()
+      expect(caretakerDoe.legacy_descriptor).toBeUndefined()
+      expect(caretakerDoe.screening_id).toBeUndefined()
     })
 
     it('is a perpetrator', () => {
-      expect(parentDoe.roles).toEqual(['Perpetrator'])
+      expect(caretakerDoe.roles).toEqual(['Perpetrator'])
     })
 
     it('has an approximate age of 0 days', () => {
-      // Yes, this is definitely intended for the parent, not the child.
-      expect(parentDoe.approximate_age).toEqual(0)
-      expect(parentDoe.approximate_age_units).toEqual('days')
+      // Yes, this is definitely intended for the caretaker, not the child.
+      expect(caretakerDoe.approximate_age).toEqual(0)
+      expect(caretakerDoe.approximate_age_units).toEqual('days')
     })
   })
 })

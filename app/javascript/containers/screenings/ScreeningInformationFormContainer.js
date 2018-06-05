@@ -7,6 +7,7 @@ import {
   getScreeningInformationFormSelector,
   getVisibleErrorsSelector,
 } from 'selectors/screening/screeningInformationFormSelectors'
+import {generateBabyDoe} from 'actions/safelySurrenderedBabyActions'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
@@ -58,7 +59,7 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     dispatchProps.dispatch(touchAllFields())
     dispatchProps.dispatch(setCardMode(cardName, SHOW_MODE))
     if (stateProps.reportType === 'ssb' && stateProps.prevReportType !== 'ssb') {
-      dispatchProps.dispatch({type: 'TRIGGER_SSB', payload: stateProps.screeningId})
+      dispatchProps.dispatch(generateBabyDoe(stateProps.screeningId))
     }
   },
 })

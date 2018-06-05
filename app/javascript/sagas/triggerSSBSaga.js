@@ -1,9 +1,10 @@
 import {takeEvery, call, put} from 'redux-saga/effects'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
 import {createPersonSuccess} from 'actions/personCardActions'
+import {GENERATE_BABY_DOE} from 'actions/safelySurrenderedBabyActions'
 import {saveCard} from 'actions/screeningActions'
 import {cardName as allegationsCardName} from 'containers/screenings/AllegationsFormContainer'
-import {babyDoe, parentDoe} from 'data/participants'
+import {babyDoe, caretakerDoe} from 'data/participants'
 import {post} from 'utils/http'
 
 export function* triggerSSB({payload: screening_id}) {
@@ -18,7 +19,7 @@ export function* triggerSSB({payload: screening_id}) {
     const caretaker = yield call(post, '/api/v1/participants', {
       participant: {
         screening_id,
-        ...parentDoe,
+        ...caretakerDoe,
       },
     })
     yield put(createPersonSuccess(caretaker))
@@ -35,5 +36,5 @@ export function* triggerSSB({payload: screening_id}) {
 }
 
 export function* triggerSSBSaga() {
-  yield takeEvery('TRIGGER_SSB', triggerSSB)
+  yield takeEvery(GENERATE_BABY_DOE, triggerSSB)
 }

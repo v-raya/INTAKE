@@ -9,7 +9,7 @@ export const babyDoe = {
   },
 }
 
-export const parentDoe = {
+export const caretakerDoe = {
   approximate_age: 0,
   approximate_age_units: 'days',
   first_name: 'Unknown',
