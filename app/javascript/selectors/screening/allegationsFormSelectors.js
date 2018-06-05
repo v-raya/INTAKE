@@ -59,7 +59,10 @@ const getAllegationsToSaveSelector = createSelector(
 export const getScreeningWithAllegationsEditsSelector = createSelector(
   getScreeningSelector,
   getAllegationsToSaveSelector,
-  (screening, allegations) => screening.set('allegations', allegations)
+  getPeopleSelector,
+  (screening, allegations, participants) => screening
+    .set('allegations', allegations)
+    .set('participants', participants)
 )
 
 export const getFormattedAllegationsSelector = createSelector(
