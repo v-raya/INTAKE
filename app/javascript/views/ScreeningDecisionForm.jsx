@@ -22,7 +22,7 @@ const ScreeningDecisionForm = ({
   sdmPath,
   isAdditionalInfoRequired,
 }) => (
-  <div className='card-body no-pad-top'>
+  <div className='card-body'>
     { alertErrorMessage && <AlertErrorMessage message={alertErrorMessage} /> }
     <div className='row'>
       <div className='col-md-6'>

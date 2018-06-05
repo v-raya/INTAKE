@@ -5,9 +5,7 @@ import {isRequiredIfCreate, isRequiredCreate, combineCompact} from 'utils/valida
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import ACCESS_RESTRICTIONS from 'enums/AccessRestrictions'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
-import {
-  getAllegationsWithTypesSelector,
-} from 'selectors/screening/allegationsFormSelectors'
+import {getAllegationsWithTypesSelector} from 'selectors/screening/allegationsTypeFormSelectors'
 import {ROLE_TYPE_REPORTER} from 'enums/RoleType'
 
 const selectOptionsFormatter = (options) => (

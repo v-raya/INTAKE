@@ -1,6 +1,7 @@
 import {createSelector} from 'reselect'
 import {Map, List, fromJS} from 'immutable'
 import {getScreeningSelector, getScreeningIdValueSelector} from 'selectors/screeningSelectors'
+import {getAllegationsWithTypesSelector} from 'selectors/screening/allegationsTypeFormSelectors'
 import nameFormatter from 'utils/nameFormatter'
 import {siblingAtRiskHasRequiredComplementaryAllegations} from 'utils/allegationsHelper'
 import ALLEGATION_TYPES from 'enums/AllegationTypes'
@@ -34,13 +35,6 @@ export const getSortedPerpetratorsSelector = createSelector(
       sortFields,
       sortOrder
     )
-  ))
-)
-
-export const getAllegationsWithTypesSelector = createSelector(
-  getAllegationsFormSelector,
-  (allegations) => allegations.filterNot((allegation) => (
-    allegation.get('allegationTypes').filterNot((type) => type === '').isEmpty()
   ))
 )
 

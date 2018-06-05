@@ -4,7 +4,6 @@ import {
   getFormattedAllegationsSelector,
   getAllegationsRequiredValueSelector,
   getAllegationsAlertErrorMessageSelector,
-  getAllegationsWithTypesSelector,
   getSortedVictimsSelector,
   getSortedPerpetratorsSelector,
 } from 'selectors/screening/allegationsFormSelectors'
@@ -343,35 +342,6 @@ describe('allegationsFormSelectors', () => {
 
       const state = fromJS({participants: [malory, archer]})
       expect(getSortedPerpetratorsSelector(state)).toEqualImmutable(fromJS([archer, malory]))
-    })
-  })
-  describe('getAllegationsWithTypesSelector', () => {
-    it('returns empty when allegations is blank', () => {
-      const allegationsForm = [{
-        id: 1,
-        victimId: '123abc',
-        perpetratorId: 'cba321',
-        allegationTypes: [''],
-      }]
-      const state = fromJS({
-        allegationsForm})
-      expect(getAllegationsWithTypesSelector(state)).toEqualImmutable(fromJS([]))
-    })
-    it('returns allegations when allegations is not blank', () => {
-      const allegationsForm = [{
-        id: 1,
-        victimId: '123abc',
-        perpetratorId: 'cba321',
-        allegationTypes: ['something'],
-      }]
-      const state = fromJS({
-        allegationsForm})
-      expect(getAllegationsWithTypesSelector(state)).toEqualImmutable(fromJS([{
-        id: 1,
-        victimId: '123abc',
-        perpetratorId: 'cba321',
-        allegationTypes: ['something'],
-      }]))
     })
   })
 })
