@@ -10,7 +10,6 @@ import {ROLE_TYPE_REPORTER} from 'enums/RoleType'
 
 const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
-    .filter((obj) => obj.value !== 'information_to_child_welfare_services')
 )
 
 export const getDecisionRolesSelector = (state) => (
@@ -22,10 +21,13 @@ export const getDecisionFormSelector = (state) => state.get('screeningDecisionFo
 export const getDecisionOptionListSelector = () => fromJS(selectOptionsFormatter(SCREENING_DECISION))
 
 export const getDecisionOptionsSelector = createSelector(
-  (state) => state.getIn(['involvements','cases'], List()),
-  (state) => state.getIn(['involvements','referrals'], List()),
+  (state) => state.getIn(['involvements', 'cases'], List()),
+  (state) => state.getIn(['involvements', 'referrals'], List()),
   getDecisionOptionListSelector,
-  (cases, referrals, options) => options,
+  (cases, referrals, options) => {
+    const hasOpenItem = Boolean(cases.merge(referrals).findEntry((k) => !k.get('end_date')))
+    return hasOpenItem ? options : options.filter((obj) => obj.get('value') !== 'information_to_child_welfare_services')
+  }
 )
 
 export const getAccessRestrictionOptionsSelector = () => fromJS(selectOptionsFormatter(ACCESS_RESTRICTIONS))

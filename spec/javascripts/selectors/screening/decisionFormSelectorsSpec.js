@@ -51,17 +51,19 @@ describe('screeningDecisionFormSelectors', () => {
     })
   })
 
-  fdescribe('getDecisionOptionsSelector', () => {
-    const state = fromJS({
-      involvements: {
-        referrals: [{
-          start_date: '01/01/2014',
-          end_date: '02/02/2016',
-        }]
-      },
-    })
-
-    it('returns information to child welfare services when HOI contains open cases/referrals', () => {
+  describe('getDecisionOptionsSelector', () => {
+    it('returns information to child welfare services when HOI contains at least 1 open cases/referrals', () => {
+      const state = fromJS({
+        involvements: {
+          referrals: [{
+            start_date: '01/01/2014',
+          }],
+          cases: [{
+            start_date: '01/01/2014',
+            end_date: '02/02/2014',
+          }],
+        },
+      })
       expect(getDecisionOptionsSelector(state)).toEqualImmutable(fromJS([
         {value: 'differential_response', label: 'Differential response'},
         {value: 'information_to_child_welfare_services', label: 'Information to child welfare services'},
@@ -70,7 +72,28 @@ describe('screeningDecisionFormSelectors', () => {
       ]))
     })
 
-    it(' returns enums from screenings decisions except information to child welfare services by default', () => {
+    it('do not return information to child welfare services when HOI contains only closed cases/referrals', () => {
+      const state = fromJS({
+        involvements: {
+          referrals: [{
+            start_date: '01/01/2014',
+            end_date: '02/02/2014',
+          }],
+          cases: [{
+            start_date: '01/01/2014',
+            end_date: '02/02/2014',
+          }],
+        },
+      })
+      expect(getDecisionOptionsSelector(state)).toEqualImmutable(fromJS([
+        {value: 'differential_response', label: 'Differential response'},
+        {value: 'promote_to_referral', label: 'Promote to referral'},
+        {value: 'screen_out', label: 'Screen out'},
+      ]))
+    })
+
+    it('returns enums from screenings decisions except information to child welfare services by default', () => {
+      const state = fromJS({})
       expect(getDecisionOptionsSelector(state)).toEqualImmutable(fromJS([
         {value: 'differential_response', label: 'Differential response'},
         {value: 'promote_to_referral', label: 'Promote to referral'},
