@@ -10,6 +10,7 @@ import {
   getDecisionSelector,
   getRestrictionRationaleSelector,
   getAdditionalInfoRequiredSelector,
+  getDecisionAlertErrorMessageSelector,
 } from 'selectors/screening/decisionFormSelectors'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
@@ -24,6 +25,7 @@ export const cardName = 'decision-card'
 
 const mapStateToProps = (state) => (
   {
+    alertErrorMessage: getDecisionAlertErrorMessageSelector(state),
     accessRestriction: getAccessRestrictionSelector(state).toJS(),
     accessRestrictionOptions: getAccessRestrictionOptionsSelector().toJS(),
     additionalInformation: getAdditionalInformationSelector(state).toJS(),

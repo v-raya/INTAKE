@@ -73,6 +73,18 @@ describe('ScreeningDecisionForm', () => {
     expect(onCancel).toHaveBeenCalled()
   })
 
+  it('displays an alert error message if one is passed', () => {
+    const alertErrorMessage = 'Something is wrong!'
+    const component = renderScreeningDecisionForm({alertErrorMessage})
+    expect(component.find('AlertErrorMessage').exists()).toEqual(true)
+    expect(component.find('AlertErrorMessage').props().message).toEqual(alertErrorMessage)
+  })
+
+  it('does not render an alert error message if none is passed', () => {
+    const component = renderScreeningDecisionForm({})
+    expect(component.find('AlertErrorMessage').exists()).toEqual(false)
+  })
+
   describe('decision select field', () => {
     it('renders a select dropdown for the decision', () => {
       const component = renderScreeningDecisionForm({})

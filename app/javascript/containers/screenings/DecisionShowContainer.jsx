@@ -7,6 +7,9 @@ import {
   getAdditionalInfoRequiredSelector,
   getAdditionalInformationSelector,
 } from 'selectors/screening/decisionShowSelectors'
+import {
+  getDecisionAlertErrorMessageSelector,
+} from 'selectors/screening/decisionFormSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import * as IntakeConfig from 'common/config'
 import {getScreeningIsReadOnlySelector} from 'selectors/screeningSelectors'
@@ -14,6 +17,7 @@ import _ from 'lodash'
 
 const mapStateToProps = (state, ownProps) => {
   let props = {
+    alertErrorMessage: getDecisionAlertErrorMessageSelector(state),
     accessRestriction: {
       value: _.capitalize(getScreeningSelector(state).get('access_restrictions')),
     },
