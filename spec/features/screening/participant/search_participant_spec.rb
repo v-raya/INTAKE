@@ -150,18 +150,23 @@ feature 'searching a participant in autocompleter' do
 
     context 'closes search results' do
       before do
+        legacy_descriptor = FactoryBot.create(:legacy_descriptor)
         search_response = PersonSearchResponseBuilder.build do |response|
           response.with_total(1)
           response.with_hits do
             [
               PersonSearchResultBuilder.build do |builder|
                 builder.with_first_name('Marge')
-                builder.with_legacy_descriptor(FactoryBot.create(:legacy_descriptor))
+                builder.with_legacy_descriptor(legacy_descriptor)
               end
             ]
           end
         end
         stub_person_search(search_term: 'Ma', person_response: search_response)
+        stub_request(
+          :get,
+          ferb_api_url(FerbRoutes.client_authorization_path(legacy_descriptor[:legacy_id]))
+        ).and_return(status: 200)
         stub_request(
           :post,
           intake_api_url(ExternalRoutes.intake_api_screening_people_path(existing_screening[:id]))
