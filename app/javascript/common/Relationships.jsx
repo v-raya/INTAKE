@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {RelationCard} from 'react-wood-duck'
+import RelationCard from './RelationCard'
 
 const attachLink = (onClick, relationship, maybeId) => (
   <a className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>
@@ -9,7 +9,7 @@ const attachLink = (onClick, relationship, maybeId) => (
 const isPending = (relationship, pendingPeople) =>
   pendingPeople.some((id) => id === (relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id))
 
-export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
+export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) =>(
 
   <div className='card-body no-pad-top'>
     {
@@ -19,7 +19,12 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
             {
               (person.relationships.length > 0) &&
               <span>
-                <RelationCard firstName={person.name} data={person.relationships}/>
+
+                <RelationCard firstName={person.name} data={person.relationships}
+                  attachActions={(cell, row) => (
+                    (row.person_card_exists && !isPending(row, pendingPeople)) ?
+                      (isScreening ? attachLink(onClick, row, screeningId) : attachLink(onClick, row)) : '')}
+                />
               </span>
             }
             {
