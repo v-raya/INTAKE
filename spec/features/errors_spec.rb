@@ -119,7 +119,7 @@ feature 'error banner' do
       visit edit_screening_path(id: screening[:id])
       stub_request(
         :post,
-        intake_api_url(ExternalRoutes.intake_api_screening_submit_path(screening[:id]))
+        ferb_api_url(FerbRoutes.screening_submit_path(screening[:id]))
       ).and_return(json_body([].to_json, status: 500))
       visit edit_screening_path(id: screening[:id])
       expect(page).to_not have_text(
@@ -133,7 +133,7 @@ feature 'error banner' do
       screening[:referral_id] = referral_id
       stub_request(
         :post,
-        intake_api_url(ExternalRoutes.intake_api_screening_submit_path(screening[:id]))
+        ferb_api_url(FerbRoutes.screening_submit_path(screening[:id]))
       ).and_return(json_body(api_response.to_json, status: 201))
       click_button 'Submit'
 

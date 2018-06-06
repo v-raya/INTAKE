@@ -181,7 +181,7 @@ feature 'Submit Screening' do
     before do
       stub_request(
         :post,
-        intake_api_url(ExternalRoutes.intake_api_screening_submit_path(existing_screening[:id]))
+        ferb_api_url(FerbRoutes.screening_submit_path(existing_screening[:id]))
       ).and_return(json_body(screening_with_referral.to_json, status: 201))
     end
 
@@ -209,7 +209,7 @@ feature 'Submit Screening' do
       expect(
         a_request(
           :post,
-          intake_api_url(ExternalRoutes.intake_api_screening_submit_path(existing_screening[:id]))
+          ferb_api_url(FerbRoutes.screening_submit_path(existing_screening[:id]))
         )
       ).to have_been_made
 
@@ -280,7 +280,7 @@ feature 'Submit Screening' do
     before do
       stub_request(
         :post,
-        intake_api_url(ExternalRoutes.intake_api_screening_submit_path(existing_screening[:id]))
+        ferb_api_url(FerbRoutes.screening_submit_path(existing_screening[:id]))
       ).and_return(json_body(errors.to_json, status: 422))
       visit edit_screening_path(existing_screening[:id])
       save_all_cards
@@ -289,7 +289,7 @@ feature 'Submit Screening' do
       expect(
         a_request(
           :post,
-          intake_api_url(ExternalRoutes.intake_api_screening_submit_path(existing_screening[:id]))
+          ferb_api_url(FerbRoutes.screening_submit_path(existing_screening[:id]))
         )
       ).to have_been_made
     end

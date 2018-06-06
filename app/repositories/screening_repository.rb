@@ -55,11 +55,12 @@ class ScreeningRepository
   end
 
   def self.submit(security_token, id)
-    response = IntakeAPI.make_api_call(
+    response = FerbAPI.make_api_call(
       security_token,
-      ExternalRoutes.intake_api_screening_submit_path(id),
-      :post
+      FerbRoutes.screening_submit_path(id),
+      :post,
+      {}
     )
-    Screening.new(response.body)
+    response.body.as_json
   end
 end

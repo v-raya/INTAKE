@@ -23,6 +23,10 @@ class FerbRoutes
       '/participants'
     end
 
+    def screening_submit_path(id)
+      "/screenings/#{id}/submit"
+    end
+
     def lov_path
       '/lov'
     end
