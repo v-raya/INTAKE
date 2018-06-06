@@ -19,7 +19,6 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
             {
               (person.relationships.length > 0) &&
               <span>
-
                 <RelationCard firstName={person.name} data={person.relationships}
                   attachActions={(cell, row) => (
                     (row.person_card_exists && !isPending(row, pendingPeople)) ? //eslint-disable-line no-nested-ternary
@@ -29,14 +28,14 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
             }
             {
               (person.relationships.length === 0) &&
-              <strong className='relationships'> has no known relationships</strong>
+              <span className='relationships'><strong>&nbsp;&nbsp;&nbsp;&nbsp;{person.name}</strong> has no known relationships</span>
             }
           </div>
         </div>
       ))
     }
 
-    {
+    {/* {
       people.map((person, index) => (
         <div className='row' key={index}>
           <div className='col-md-6 gap-top'>
@@ -66,7 +65,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
           </div>
         </div>
       ))
-    }
+    } */}
   </div>
 )
 
