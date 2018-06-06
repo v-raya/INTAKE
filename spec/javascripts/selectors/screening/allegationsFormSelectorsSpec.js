@@ -32,6 +32,36 @@ describe('allegationsFormSelectors', () => {
           types: ['General neglect'],
           screening_id: 'ABCDEF',
         }],
+        participants: [],
+      }))
+    })
+
+    it('takes the participants from the participants list', () => {
+      const allegationsForm = [
+        {id: '123', victimId: '1', perpetratorId: '2', allegationTypes: ['General neglect']},
+      ]
+      const screening = {
+        id: 'ABCDEF',
+        screening_decision: 'promote_to_referral',
+        allegations: [
+          {id: '456', victim_person_id: '3', perpetrator_person_id: '4', types: ['General neglect']},
+        ],
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+
+      const participants = [{id: '123', first_name: 'Mario'}]
+      const state = fromJS({allegationsForm, screening, participants})
+      expect(getScreeningWithAllegationsEditsSelector(state)).toEqualImmutable(fromJS({
+        id: 'ABCDEF',
+        screening_decision: 'promote_to_referral',
+        allegations: [{
+          id: '123',
+          victim_person_id: '1',
+          perpetrator_person_id: '2',
+          types: ['General neglect'],
+          screening_id: 'ABCDEF',
+        }],
+        participants,
       }))
     })
 
@@ -55,6 +85,7 @@ describe('allegationsFormSelectors', () => {
           types: ['General neglect'],
           screening_id: 'ABCDEF',
         }],
+        participants: [],
       }))
     })
   })

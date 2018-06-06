@@ -17,6 +17,17 @@ describe FerbRoutes do
     end
   end
 
+  describe '.screening_participants_path' do
+    it 'returns /participants' do
+      # This temporarily points to /participants, until the
+      # /screening/:id/participants endpoint is available. These endpoints are
+      # compatible with each other.
+      expect(described_class.screening_participants_path(97)).to eq(
+        '/participants'
+      )
+    end
+  end
+
   describe '.relationships_path' do
     it 'returns the base path' do
       expect(described_class.relationships_path).to eq(

@@ -101,11 +101,11 @@ describe('safelySurrenderedBabyReducer', () => {
 
   describe('on UPDATE_PERSON_COMPLETE', () => {
     it('watches for new perpetrators', () => {
-      const action = updatePersonSuccess({id: '3', roles: ['Perpetrator']})
+      const action = updatePersonSuccess({first_name: 'John', last_name: 'Doe', roles: ['Perpetrator']})
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(
         Map()
-          .setIn(['form', 'surrendered_by'], '3')
-          .setIn(['persisted', 'surrendered_by'], '3')
+          .setIn(['form', 'surrendered_by'], 'John Doe')
+          .setIn(['persisted', 'surrendered_by'], 'John Doe')
       )
     })
 

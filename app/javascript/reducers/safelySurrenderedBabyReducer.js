@@ -11,6 +11,7 @@ import {
 import {SET_SSB_FIELD} from 'actions/safelySurrenderedBabyActions'
 import {SAVE_SCREENING_COMPLETE} from 'actions/screeningActions'
 import {createReducer} from 'utils/createReducer'
+import nameFormatter from 'utils/nameFormatter'
 
 const initialState = fromJS({
   persisted: {},
@@ -59,7 +60,8 @@ export default createReducer(initialState, {
   [FETCH_SCREENING_COMPLETE]: reduceSSBFromParticipants,
   [SAVE_SCREENING_COMPLETE]: reduceSSBFromParticipants,
   [CREATE_PERSON_COMPLETE]: reduceSSBFromParticipant,
-  [UPDATE_PERSON_COMPLETE]: (state, {payload: {person: {id, roles, safelySurrenderedBabies} = {}}, error}) => {
+  [UPDATE_PERSON_COMPLETE]: (state, {payload: {person = {}}, error}) => {
+    const {roles, safelySurrenderedBabies} = person
     if (error) { return state }
 
     if (safelySurrenderedBabies) {
@@ -68,8 +70,9 @@ export default createReducer(initialState, {
     }
 
     if (error || !roles || !roles.includes('Perpetrator')) { return state }
+    const name = nameFormatter(person)
     return state
-      .setIn(['form', 'surrendered_by'], id)
-      .setIn(['persisted', 'surrendered_by'], id)
+      .setIn(['form', 'surrendered_by'], name)
+      .setIn(['persisted', 'surrendered_by'], name)
   },
 })

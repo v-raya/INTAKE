@@ -6,25 +6,17 @@ class ParticipantRepository
   class AuthorizationError < StandardError; end
 
   def self.create(security_token, participant)
-    authorize security_token, participant.legacy_descriptor&.legacy_id
+    id = participant.legacy_descriptor&.legacy_id
 
-    response = IntakeAPI.make_api_call(
-      security_token,
-      ExternalRoutes.intake_api_screening_people_path(participant.screening_id.to_s),
-      :post,
-      post_data(participant).as_json
-    )
+    authorize security_token, id
+
+    response =
+      if id.blank?
+        create_with_ferb(security_token, participant)
+      else
+        create_with_intake(security_token, participant)
+      end
     Participant.new(response.body)
-  end
-
-  def self.post_data(participant)
-    {
-      screening_id: participant.screening_id.to_s,
-      legacy_descriptor: {
-        legacy_id: participant.legacy_descriptor&.legacy_id,
-        legacy_table_name: participant.legacy_descriptor&.legacy_table_name
-      }
-    }
   end
 
   def self.delete(security_token, id)
@@ -61,5 +53,33 @@ class ParticipantRepository
       raise AuthorizationError if e.api_error[:http_code] == 403
       raise e
     end
+  end
+
+  private_class_method def self.post_data(participant)
+    {
+      screening_id: participant.screening_id.to_s,
+      legacy_descriptor: {
+        legacy_id: participant.legacy_descriptor&.legacy_id,
+        legacy_table_name: participant.legacy_descriptor&.legacy_table_name
+      }
+    }
+  end
+
+  private_class_method def self.create_with_intake(security_token, participant)
+    IntakeAPI.make_api_call(
+      security_token,
+      ExternalRoutes.intake_api_screening_people_path(participant.screening_id.to_s),
+      :post,
+      post_data(participant).as_json
+    )
+  end
+
+  private_class_method def self.create_with_ferb(security_token, participant)
+    FerbAPI.make_api_call(
+      security_token,
+      FerbRoutes.screening_participants_path(participant.screening_id.to_s),
+      :post,
+      participant.as_json
+    )
   end
 end

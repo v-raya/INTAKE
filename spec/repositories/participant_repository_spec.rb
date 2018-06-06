@@ -33,9 +33,13 @@ describe ParticipantRepository do
       end
 
       before do
-        expect(FerbAPI).not_to receive(:make_api_call)
-        expect(IntakeAPI).to receive(:make_api_call)
-          .with(security_token, '/api/v1/screenings/1/people', :post, payload)
+        expect(IntakeAPI).not_to receive(:make_api_call)
+        expect(FerbAPI).to receive(:make_api_call)
+          .with(
+            security_token,
+            FerbRoutes.screening_participants_path(screening_id),
+            :post, participant.as_json
+          )
           .and_return(response)
       end
 
