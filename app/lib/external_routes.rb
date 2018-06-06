@@ -23,10 +23,6 @@ class ExternalRoutes
       "/api/v1/screenings/#{id}/history_of_involvements"
     end
 
-    def intake_api_screening_submit_path(id)
-      "/api/v1/screenings/#{id}/submit"
-    end
-
     def intake_api_participants_path
       '/api/v1/participants'
     end

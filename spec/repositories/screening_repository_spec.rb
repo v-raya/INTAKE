@@ -160,12 +160,12 @@ describe ScreeningRepository do
     end
 
     it 'responds with response body' do
-      expect(IntakeAPI).to receive(:make_api_call)
-        .with(security_token, "/api/v1/screenings/#{screening_id}/submit", :post)
+      expect(FerbAPI).to receive(:make_api_call)
+        .with(security_token, "/screenings/#{screening_id}/submit", :post, {})
         .and_return(response)
       submitted_screening = described_class.submit(security_token, screening_id)
-      expect(submitted_screening.id).to eq(screening_id)
-      expect(submitted_screening.name).to eq('Submitted Screening')
+      expect(submitted_screening['id']).to eq(screening_id)
+      expect(submitted_screening['name']).to eq('Submitted Screening')
     end
   end
 end

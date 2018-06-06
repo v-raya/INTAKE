@@ -28,6 +28,14 @@ describe FerbRoutes do
     end
   end
 
+  describe '.screening_submit_path' do
+    it 'returns /screenings/:id/submit' do
+      expect(described_class.screening_submit_path(32)).to eq(
+        '/screenings/32/submit'
+      )
+    end
+  end
+
   describe '.relationships_path' do
     it 'returns the base path' do
       expect(described_class.relationships_path).to eq(
