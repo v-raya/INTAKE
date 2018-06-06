@@ -9,7 +9,7 @@ const attachLink = (onClick, relationship, maybeId) => (
 const isPending = (relationship, pendingPeople) =>
   pendingPeople.some((id) => id === (relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id))
 
-export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) =>(
+export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
 
   <div className='card-body no-pad-top'>
     {
@@ -22,8 +22,8 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
 
                 <RelationCard firstName={person.name} data={person.relationships}
                   attachActions={(cell, row) => (
-                    (row.person_card_exists && !isPending(row, pendingPeople)) ?
-                      (isScreening ? attachLink(onClick, row, screeningId) : attachLink(onClick, row)) : '')}
+                    (row.person_card_exists && !isPending(row, pendingPeople)) ? //eslint-disable-line no-nested-ternary
+                    (isScreening ? attachLink(onClick, row, screeningId) : attachLink(onClick, row)) : '')} //eslint-disable-line no-nested-ternary
                 />
               </span>
             }
