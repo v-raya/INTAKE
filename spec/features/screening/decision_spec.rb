@@ -146,6 +146,39 @@ feature 'decision card' do
     end
   end
 
+  context 'Information to child welfare services decision option' do
+    let(:hoi_populated) do
+      {
+        referrals: [
+          {
+            id: '1234',
+            start_date: '2016-11-14'
+          }
+        ]
+      }
+    end
+
+    scenario 'can be seen when there are open HOI records' do
+      stub_request(
+        :get,
+        ferb_api_url(
+          FerbRoutes.screening_history_of_involvements_path(screening[:id])
+        )
+      ).and_return(json_body(hoi_populated.to_json, status: 200))
+
+      visit edit_screening_path(id: screening[:id])
+      within '#decision-card.edit' do
+        expect(page).to have_select('Screening Decision', options: [
+                                      '',
+                                      'Differential response',
+                                      'Information to child welfare services',
+                                      'Promote to referral',
+                                      'Screen out'
+                                    ])
+      end
+    end
+  end
+
   scenario 'user edits information details and click cancel' do
     within '#decision-card.edit' do
       fill_in 'Additional Information', with: 'I changed my decision rationale'
