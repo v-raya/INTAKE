@@ -474,5 +474,20 @@ describe('screeningDecisionFormSelectors', () => {
       const state = fromJS({screeningDecisionForm, allegationsForm})
       expect(getDecisionAlertErrorMessageSelector(state)).toEqual(undefined)
     })
+
+    it('does not return an error when allegations are allowed ', () => {
+      const screeningDecisionForm = {
+        screening_decision: {value: 'promote_to_referral'},
+        screening_decision_detail: {value: ''},
+      }
+      const allegationsForm = [{
+        id: 1,
+        victimId: '123abc',
+        perpetratorId: 'cba321',
+        allegationTypes: ['Physical abuse'],
+      }]
+      const state = fromJS({screeningDecisionForm, allegationsForm})
+      expect(getDecisionAlertErrorMessageSelector(state)).toEqual(undefined)
+    })
   })
 })
