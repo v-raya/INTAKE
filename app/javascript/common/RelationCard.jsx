@@ -45,7 +45,7 @@ const RelationCard = ({
         expandColumnOptions={expandColumnComponent}
         options={{expandBy: 'column'}}
       >
-        <TableHeaderColumn dataField='name' isKey={true}>
+        <TableHeaderColumn dataField='name' isKey={true} width='30%'>
             Name
         </TableHeaderColumn>
         <TableHeaderColumn dataField='secondaryRelationship' width='30%'>
