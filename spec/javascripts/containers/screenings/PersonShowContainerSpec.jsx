@@ -38,7 +38,7 @@ describe('PersonShowContainer', () => {
       languages: 'Javascript (Primary), Ruby',
       legacySource: 'Client ID 1-4 in CWS-CMS',
       personId: '1',
-      races: 'White - Romanian, Asian - Chinese',
+      races: 'White - Romanian (primary), Asian - Chinese',
       roles: {
         value: ['super-hero', 'anti-hero'],
         errors: [],

@@ -119,7 +119,27 @@ describe('personShowSelectors', () => {
       ]
       const state = fromJS({participants})
       expect(getFormattedPersonInformationSelector(state, '1').get('races'))
-        .toEqual('White - Romanian, Asian - Chinese, Black or African American')
+        .toEqual('White - Romanian (primary), Asian - Chinese, Black or African American')
+    })
+
+    it('shows primary race when there is one race', () => {
+      const participants = [
+        {id: '1', races: [
+          {race: 'White', race_detail: 'Romanian'},
+        ]},
+      ]
+      const state = fromJS({participants})
+      expect(getFormattedPersonInformationSelector(state, '1').get('races'))
+        .toEqual('White - Romanian (primary)')
+    })
+
+    it('shows nothing when there is no race', () => {
+      const participants = [
+        {id: '1', races: []},
+      ]
+      const state = fromJS({participants})
+      expect(getFormattedPersonInformationSelector(state, '1').get('races'))
+        .toEqual('')
     })
 
     it('includes the formatted ethnicity for a person of hispanic/latino origin who has ethnicity details', () => {
