@@ -49,7 +49,7 @@ const RelationCard = ({
             Name
         </TableHeaderColumn>
         <TableHeaderColumn dataField='secondaryRelationship' width='30%'>
-            Relationship to Focus Person
+            Relationship
         </TableHeaderColumn>
         <TableHeaderColumn dataField='ageBirth'>Age</TableHeaderColumn>
         <TableHeaderColumn dataFormat={tableActions} expandable={false}>
