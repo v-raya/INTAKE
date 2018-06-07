@@ -34,38 +34,6 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
         </div>
       ))
     }
-
-    {/* {
-      people.map((person, index) => (
-        <div className='row' key={index}>
-          <div className='col-md-6 gap-top'>
-            <span className='person'>{person.name}</span>
-            {
-              (person.relationships.length > 0) &&
-              <span>
-                <strong> is the...</strong>
-                <ul className='relationships'>
-                  {
-                    person.relationships.map((relationship, index) => (
-                      <li key={index}>
-                        <strong>{ relationship.type }</strong> &nbsp; of { relationship.relatee }
-                        {relationship.person_card_exists && !isPending(relationship, pendingPeople) &&
-                          (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship))
-                        }
-                      </li>
-                    ))
-                  }
-                </ul>
-              </span>
-            }
-            {
-              (person.relationships.length === 0) &&
-              <strong className='relationships'> has no known relationships</strong>
-            }
-          </div>
-        </div>
-      ))
-    } */}
   </div>
 )
 
