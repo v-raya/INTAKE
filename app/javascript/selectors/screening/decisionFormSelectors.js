@@ -25,7 +25,7 @@ export const getDecisionOptionsSelector = createSelector(
   (state) => state.getIn(['involvements', 'referrals'], List()),
   getDecisionOptionListSelector,
   (cases, referrals, options) => {
-    const hasOpenItem = Boolean(cases.merge(referrals).findEntry((k) => !k.get('end_date')))
+    const hasOpenItem = cases.merge(referrals).some((k) => !k.get('end_date'))
     return hasOpenItem ? options : options.filter((obj) => obj.get('value') !== 'information_to_child_welfare_services')
   }
 )
