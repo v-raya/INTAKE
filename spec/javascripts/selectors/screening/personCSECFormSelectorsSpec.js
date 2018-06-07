@@ -121,6 +121,39 @@ describe('personCSECFormSelectors', () => {
           .toEqualImmutable(List())
       })
 
+      it('returns an error if csec types is not present and touched', () => {
+        const peopleForm = {
+          one: {
+            csec_types: {value: '', touched: true},
+          },
+        }
+        const state = fromJS({peopleForm})
+        expect(getVisibleErrorsSelector(state, 'one').get('csec_types'))
+          .toEqualImmutable(List(['CSEC type must be selected.']))
+      })
+
+      it('returns an error if csec types is a emtpy list and touched', () => {
+        const peopleForm = {
+          one: {
+            csec_types: {value: List(), touched: true},
+          },
+        }
+        const state = fromJS({peopleForm})
+        expect(getVisibleErrorsSelector(state, 'one').get('csec_types'))
+          .toEqualImmutable(List(['CSEC type must be selected.']))
+      })
+
+      it('doesnot returns an error if csec types is a present', () => {
+        const peopleForm = {
+          one: {
+            csec_types: {value: ['At Risk', 'Victim Before Foster Care']},
+          },
+        }
+        const state = fromJS({peopleForm})
+        expect(getVisibleErrorsSelector(state, 'one').get('csec_types'))
+          .toEqualImmutable(List([]))
+      })
+
       it('returns an error if csec start date has an empty string and touched', () => {
         const peopleForm = {
           one: {

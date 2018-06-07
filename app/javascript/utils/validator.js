@@ -80,3 +80,12 @@ export function validateAllFields({screening, fieldValidations}) {
   })
   return Immutable.Map(errors)
 }
+
+const isTypesRequired = ({value, errorMessage}) => {
+  if (_.isEmpty(value) || value.size === 0) {
+    return errorMessage
+  }
+  return undefined
+}
+
+export const isTypesRequiredCreate = (value, errorMessage) => () => isTypesRequired({value, errorMessage})
