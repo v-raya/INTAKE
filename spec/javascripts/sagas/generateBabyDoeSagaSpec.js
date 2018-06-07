@@ -1,18 +1,26 @@
-import {takeEvery, call, put} from 'redux-saga/effects'
+import {fromJS} from 'immutable'
+import {takeEvery, call, put, select} from 'redux-saga/effects'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
 import {
   createPersonFailure,
   createPersonSuccess,
 } from 'actions/personCardActions'
 import {GENERATE_BABY_DOE} from 'actions/safelySurrenderedBabyActions'
-import {saveCard} from 'actions/screeningActions'
+import {
+  saveCard,
+  saveFailure,
+  saveSuccess,
+} from 'actions/screeningActions'
 import {cardName as allegationsCardName} from 'containers/screenings/AllegationsFormContainer'
 import {babyDoe, caretakerDoe} from 'data/participants'
 import {
   generateBabyDoe,
   generateBabyDoeSaga,
 } from 'sagas/generateBabyDoeSaga'
-import {post} from 'utils/http'
+import {
+  getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
+} from 'selectors/screening/screeningInformationFormSelectors'
+import * as http from 'utils/http'
 
 describe('generateBabyDoeSaga', () => {
   it('triggers SSB info creation on GENERATE_BABY_DOE', () => {
@@ -24,9 +32,23 @@ describe('generateBabyDoeSaga', () => {
 describe('triggerSSB', () => {
   const screening_id = '1'
 
+  const screening = {
+    id: screening_id,
+    report_type: 'ssb',
+  }
+
+  const saveScreening = (gen) => {
+    gen.next()
+    gen.next(fromJS(screening))
+    gen.next(screening)
+  }
+
   it('adds Baby Doe and Caretaker Doe', () => {
     const gen = generateBabyDoe({payload: screening_id})
-    expect(gen.next().value).toEqual(call(post, '/api/v1/participants', {
+    expect(gen.next().value).toEqual(select(getScreeningWithScreeningInformationEditsSelector))
+    expect(gen.next(fromJS(screening)).value).toEqual(call(http.put, '/api/v1/screenings/1', {screening}))
+    expect(gen.next('response').value).toEqual(put(saveSuccess('response')))
+    expect(gen.next().value).toEqual(call(http.post, '/api/v1/participants', {
       participant: {
         screening_id,
         ...babyDoe,
@@ -38,7 +60,7 @@ describe('triggerSSB', () => {
 
     expect(putBaby.value).toEqual(put(createPersonSuccess(babyResponse)))
 
-    expect(gen.next().value).toEqual(call(post, '/api/v1/participants', {
+    expect(gen.next().value).toEqual(call(http.post, '/api/v1/participants', {
       participant: {
         screening_id,
         ...caretakerDoe,
@@ -60,6 +82,7 @@ describe('triggerSSB', () => {
 
   it('puts createPersonFailure when Baby Doe fails', () => {
     const gen = generateBabyDoe({payload: screening_id})
+    saveScreening(gen)
     gen.next()
 
     const error = {responseJSON: 'some error'}
@@ -68,11 +91,20 @@ describe('triggerSSB', () => {
 
   it('puts createPersonFailure when Caretaker Doe fails', () => {
     const gen = generateBabyDoe({payload: screening_id})
+    saveScreening(gen)
     gen.next()
     gen.next({id: '111'})
     gen.next()
 
     const error = {responseJSON: 'some error'}
     expect(gen.throw(error).value).toEqual(put(createPersonFailure('some error')))
+  })
+
+  it('puts saveFailure when saving the screening type fails', () => {
+    const gen = generateBabyDoe({payload: screening_id})
+    gen.next()
+    gen.next(fromJS(screening))
+    const error = {responseJSON: 'some error'}
+    expect(gen.throw(error).value).toEqual(put(saveFailure('some error')))
   })
 })
