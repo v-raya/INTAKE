@@ -32,7 +32,7 @@ const mapStateToProps = (state) => (
     decision: getDecisionSelector(state).toJS(),
     decisionDetail: getDecisionDetailSelector(state).toJS(),
     decisionDetailOptions: getDecisionDetailOptionsSelector(state).toJS(),
-    decisionOptions: getDecisionOptionsSelector().toJS(),
+    decisionOptions: getDecisionOptionsSelector(state).toJS(),
     restrictionRationale: getRestrictionRationaleSelector(state).toJS(),
     sdmPath: sdmPath(),
     isAdditionalInfoRequired: getAdditionalInfoRequiredSelector(state),

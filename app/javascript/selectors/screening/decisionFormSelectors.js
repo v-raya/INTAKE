@@ -17,7 +17,19 @@ export const getDecisionRolesSelector = (state) => (
 )
 
 export const getDecisionFormSelector = (state) => state.get('screeningDecisionForm', Map())
-export const getDecisionOptionsSelector = () => fromJS(selectOptionsFormatter(SCREENING_DECISION))
+
+export const getDecisionOptionListSelector = () => fromJS(selectOptionsFormatter(SCREENING_DECISION))
+
+export const getDecisionOptionsSelector = createSelector(
+  (state) => state.getIn(['involvements', 'cases'], List()),
+  (state) => state.getIn(['involvements', 'referrals'], List()),
+  getDecisionOptionListSelector,
+  (cases, referrals, options) => {
+    const hasOpenItem = cases.merge(referrals).some((k) => !k.get('end_date'))
+    return hasOpenItem ? options : options.filter((obj) => obj.get('value') !== 'information_to_child_welfare_services')
+  }
+)
+
 export const getAccessRestrictionOptionsSelector = () => fromJS(selectOptionsFormatter(ACCESS_RESTRICTIONS))
 
 export const getDecisionValueSelector = (state) => (
