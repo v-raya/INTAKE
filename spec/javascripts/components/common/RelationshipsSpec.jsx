@@ -109,8 +109,8 @@ describe('Relationships', () => {
   })
 
   it('8.renders people with no relationships', () => {
-    expect(component.find('.relationships').at(0).text()).toContain('Nally Raymonds has no known relationships')
-    expect(component.find('.relationships').at(1).text()).toContain('Kate Winslet has no known relationships')
-    expect(component.find('.relationships').at(2).text()).toContain('Kim West has no known relationships')
+    expect(component.find('.no-relationships').at(0).text()).toContain('Nally Raymonds has no known relationships')
+    expect(component.find('.no-relationships').at(1).text()).toContain('Kate Winslet has no known relationships')
+    expect(component.find('.no-relationships').at(2).text()).toContain('Kim West has no known relationships')
   })
 })

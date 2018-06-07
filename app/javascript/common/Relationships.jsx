@@ -9,6 +9,12 @@ const attachLink = (onClick, relationship, maybeId) => (
 const isPending = (relationship, pendingPeople) =>
   pendingPeople.some((id) => id === (relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id))
 
+const callAttachLink = (relationship, pendingPeople, isScreening, screeningId, onClick) => {
+  if (relationship.person_card_exists && !isPending(relationship, pendingPeople)) {
+    return (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship))
+  } else { return '' }
+}
+
 export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
 
   <div className='card-body no-pad-top'>
@@ -20,15 +26,14 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
               (person.relationships.length > 0) &&
               <span>
                 <RelationCard firstName={person.name} data={person.relationships}
-                  attachActions={(cell, row) => (
-                    (row.person_card_exists && !isPending(row, pendingPeople)) ? //eslint-disable-line no-nested-ternary
-                    (isScreening ? attachLink(onClick, row, screeningId) : attachLink(onClick, row)) : '')} //eslint-disable-line no-nested-ternary
+                  attachActions={(cell, row) => (callAttachLink(row, pendingPeople, isScreening, screeningId, onClick)
+                  )}
                 />
               </span>
             }
             {
               (person.relationships.length === 0) &&
-              <span className='relationships'><strong>&nbsp;&nbsp;&nbsp;&nbsp;{person.name}</strong> has no known relationships</span>
+              <div className='no-relationships well'><strong>{person.name}</strong> has no known relationships</div>
             }
           </div>
         </div>
