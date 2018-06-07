@@ -29,9 +29,46 @@ feature 'Screening Decision Validations' do
     }
   end
 
+  let(:involvements) do
+    {
+      referrals: [
+        {
+          id: '1234',
+          start_date: '2016-11-14',
+          county: {
+            id: '1234',
+            description: 'Madera'
+          },
+          response_time: {
+            id: '1520'
+          },
+          reporter: {
+            first_name: 'Reporter1',
+            last_name: 'r1LastName'
+          },
+          assigned_social_worker: {
+            first_name: 'Social1',
+            last_name: 's1LastName'
+          }
+        }
+      ]
+    }
+  end
+
   context 'When page is opened in edit mode' do
     before do
       stub_and_visit_edit_screening(screening)
+      stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+        .and_return(json_body(screening.to_json, status: 200))
+      stub_empty_relationships
+      stub_request(
+        :get,
+        ferb_api_url(
+          FerbRoutes.screening_history_of_involvements_path(screening[:id])
+        )
+      ).and_return(json_body(involvements.to_json, status: 200))
+      visit edit_screening_path(id: screening[:id])
+      page.driver.browser.navigate.refresh
     end
 
     context 'Screening decision is set to nil on page load' do
