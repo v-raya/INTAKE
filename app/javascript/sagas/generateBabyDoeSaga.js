@@ -1,25 +1,42 @@
-import {takeEvery, call, put} from 'redux-saga/effects'
+import {takeEvery, call, put, select} from 'redux-saga/effects'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
 import {
   createPersonFailure,
   createPersonSuccess,
 } from 'actions/personCardActions'
 import {GENERATE_BABY_DOE} from 'actions/safelySurrenderedBabyActions'
-import {saveCard} from 'actions/screeningActions'
+import {
+  saveCard,
+  saveFailure,
+  saveSuccess,
+} from 'actions/screeningActions'
 import {cardName as allegationsCardName} from 'containers/screenings/AllegationsFormContainer'
 import {babyDoe, caretakerDoe} from 'data/participants'
-import {post} from 'utils/http'
+import {
+  getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
+} from 'selectors/screening/screeningInformationFormSelectors'
+import * as http from 'utils/http'
 
 export function* generateBabyDoe({payload: screening_id}) {
   try {
-    const baby = yield call(post, '/api/v1/participants', {
+    const screening = yield select(getScreeningWithScreeningInformationEditsSelector)
+    const id = screening.get('id')
+    const path = `/api/v1/screenings/${id}`
+    const response = yield call(http.put, path, {screening: screening.toJS()})
+    yield put(saveSuccess(response))
+  } catch (error) {
+    yield put(saveFailure(error && error.responseJSON))
+  }
+
+  try {
+    const baby = yield call(http.post, '/api/v1/participants', {
       participant: {
         screening_id,
         ...babyDoe,
       },
     })
     yield put(createPersonSuccess(baby))
-    const caretaker = yield call(post, '/api/v1/participants', {
+    const caretaker = yield call(http.post, '/api/v1/participants', {
       participant: {
         screening_id,
         ...caretakerDoe,

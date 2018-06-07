@@ -34,9 +34,10 @@ describe('ScreeningInformationFormContainer', () => {
         onSave()
 
         expect(dispatch).toHaveBeenCalledWith(saveCard(cardName))
+        expect(dispatch).not.toHaveBeenCalledWith(generateBabyDoe('3'))
+
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
-        expect(dispatch).not.toHaveBeenCalledWith(generateBabyDoe('3'))
       })
 
       it('triggers SSB when report type changes to SSB', () => {
@@ -45,10 +46,11 @@ describe('ScreeningInformationFormContainer', () => {
 
         onSave()
 
-        expect(dispatch).toHaveBeenCalledWith(saveCard(cardName))
+        expect(dispatch).not.toHaveBeenCalledWith(saveCard(cardName))
+        expect(dispatch).toHaveBeenCalledWith(generateBabyDoe('3'))
+
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
-        expect(dispatch).toHaveBeenCalledWith(generateBabyDoe('3'))
       })
 
       it('does not trigger SSB when report type was already SSB', () => {
@@ -58,9 +60,10 @@ describe('ScreeningInformationFormContainer', () => {
         onSave()
 
         expect(dispatch).toHaveBeenCalledWith(saveCard(cardName))
+        expect(dispatch).not.toHaveBeenCalledWith(generateBabyDoe('3'))
+
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
-        expect(dispatch).not.toHaveBeenCalledWith(generateBabyDoe('3'))
       })
     })
   })

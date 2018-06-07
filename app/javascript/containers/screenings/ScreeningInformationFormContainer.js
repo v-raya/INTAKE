@@ -55,12 +55,13 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
   onSave: () => {
-    dispatchProps.dispatch(saveCard(cardName))
-    dispatchProps.dispatch(touchAllFields())
-    dispatchProps.dispatch(setCardMode(cardName, SHOW_MODE))
     if (stateProps.reportType === 'ssb' && stateProps.persistedReportType !== 'ssb') {
       dispatchProps.dispatch(generateBabyDoe(stateProps.screeningId))
+    } else {
+      dispatchProps.dispatch(saveCard(cardName))
     }
+    dispatchProps.dispatch(touchAllFields())
+    dispatchProps.dispatch(setCardMode(cardName, SHOW_MODE))
   },
 })
 
