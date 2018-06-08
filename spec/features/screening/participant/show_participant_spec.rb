@@ -91,7 +91,8 @@ feature 'Show Screening' do
         expect(page).to have_content(address.type)
         expect(page).to have_content('Hispanic/Latino Origin')
         expect(page).to have_content('Mexican - Yes')
-        expect(page).to have_content('Asian - Korean, Native Hawaiian or Other Pacific Islander')
+        expect(page).to have_content('Asian - Korean (primary), '\
+                                     'Native Hawaiian or Other Pacific Islander')
       end
     end
   end
