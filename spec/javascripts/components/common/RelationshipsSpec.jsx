@@ -3,6 +3,13 @@ import {shallow, mount} from 'enzyme'
 import {EmptyRelationships, Relationships} from 'common/Relationships'
 
 describe('Relationships for Screening', () => {
+  const getProps = (component, cardNumber) => (
+    component.find('RelationCard').at(cardNumber).props()
+  )
+  const getCellValue = (component, cardNumber, rowNumber, colNumber) => (
+    component.find('RelationCard').at(cardNumber).find('BootstrapTable').find('TableBody').find('TableRow').at(rowNumber).find('TableColumn').at(colNumber)
+  )
+
   let onClick
   let component
   const renderRelationships = (props) => mount(<Relationships {...props} isScreening={true} screeningId={'1'} pendingPeople = {['1']} onClick={onClick} />, {disableLifecycleMethods: true})
@@ -45,69 +52,51 @@ describe('Relationships for Screening', () => {
 
   it('1.renders a RelationCard component for each person with relationships', () => {
     expect(component.find('RelationCard').length).toEqual(4)
-    expect(component.find('RelationCard').at(0).props().firstName).toEqual('Sally Jones')
-    expect(component.find('RelationCard').at(1).props().firstName).toEqual('Nate Starbringer')
-    expect(component.find('RelationCard').at(2).props().firstName).toEqual('Jim Johnson')
-    expect(component.find('RelationCard').at(3).props().firstName).toEqual('Cecilia Gomez')
   })
 
-  it('2.renders relationships table for each person with relationships', () => {
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').length).toEqual(1)
-    expect(component.find('RelationCard').at(1).find('BootstrapTable').length).toEqual(1)
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').length).toEqual(1)
-    expect(component.find('RelationCard').at(3).find('BootstrapTable').length).toEqual(1)
+  it('2.passes correct props (firstName) to RelationCard component', () => {
+    expect(getProps(component, 0).firstName).toEqual('Sally Jones')
+    expect(getProps(component, 1).firstName).toEqual('Nate Starbringer')
+    expect(getProps(component, 2).firstName).toEqual('Jim Johnson')
+    expect(getProps(component, 3).firstName).toEqual('Cecilia Gomez')
   })
 
-  it('3.renders the correct headers for the relationships table', () => {
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableHeader').at(0).find('TableHeaderColumn').at(0).text()).toEqual('Name')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableHeader').at(0).find('TableHeaderColumn').at(1).text()).toEqual('Relationship')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableHeader').at(0).find('TableHeaderColumn').at(2).text()).toEqual('Age')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableHeader').at(0).find('TableHeaderColumn').at(3).text()).toEqual('Actions')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableHeader').at(0).find('TableHeaderColumn').at(4).text()).toEqual('Attach')
+  it('3.passes correct props (data) to RelationCard component', () => {
+    expect(getProps(component, 0).data[0].name).toEqual('Kim Johnson')
+    expect(getProps(component, 0).data[0].secondaryRelationship).toEqual('mother')
+    expect(getProps(component, 1).data[0].name).toEqual('Jim Johnson')
+    expect(getProps(component, 1).data[0].secondaryRelationship).toEqual('father')
+    expect(getProps(component, 2).data[0].name).toEqual('Nate Starbringer')
+    expect(getProps(component, 2).data[0].secondaryRelationship).toEqual('son')
+    expect(getProps(component, 2).data[1].name).toEqual('Sally Jones')
+    expect(getProps(component, 2).data[1].secondaryRelationship).toEqual('son')
+    expect(getProps(component, 3).data[0].name).toEqual('Jose Gomez')
+    expect(getProps(component, 3).data[0].secondaryRelationship).toEqual('son')
+    expect(getProps(component, 3).data[1].name).toEqual('Julie Gomez')
+    expect(getProps(component, 3).data[1].secondaryRelationship).toEqual('daughter')
   })
 
-  it('4.shows correct fields for each relationship in the relationships table', () => {
-    expect(component.find('RelationCard').at(0).props().firstName).toEqual('Sally Jones')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(0).text()).toEqual('Kim Johnson')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(1).text()).toEqual('mother')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(2).text()).toEqual('')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(3).text()).toEqual('')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(4).text()).toContain('Attach')
+  it('4.shows Attach link for each unattached person', () => {
+    expect(getProps(component, 0).firstName).toEqual('Sally Jones')
+    expect(getProps(component, 0).data[0].name).toEqual('Kim Johnson')
+    expect(getProps(component, 0).attachActions).toEqual(jasmine.any(Function))
+    expect(getCellValue(component, 0, 0, 4).text()).toContain('Attach')
 
-    expect(component.find('RelationCard').at(2).props().firstName).toEqual('Jim Johnson')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(0).text()).toEqual('Nate Starbringer')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(1).text()).toEqual('son')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(2).text()).toEqual('')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(3).text()).toEqual('')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(4).text()).toContain('Attach')
-  })
-
-  it('5.shows Attach link for each unattached person', () => {
-    expect(component.find('RelationCard').at(0).props().firstName).toEqual('Sally Jones')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(0).text()).toEqual('Kim Johnson')
-    expect(component.find('RelationCard').at(0).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(4).text()).toContain('Attach')
-
-    expect(component.find('RelationCard').at(1).props().firstName).toEqual('Nate Starbringer')
-    expect(component.find('RelationCard').at(1).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(0).text()).toEqual('Jim Johnson')
-    expect(component.find('RelationCard').at(1).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(4).text()).toEqual('')
-
-    expect(component.find('RelationCard').at(2).props().firstName).toEqual('Jim Johnson')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(0).text()).toEqual('Nate Starbringer')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(4).text()).toContain('Attach')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(1).find('TableColumn').at(0).text()).toEqual('Sally Jones')
-    expect(component.find('RelationCard').at(2).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(1).find('TableColumn').at(4).text()).toContain('Attach')
+    expect(getProps(component, 1).firstName).toEqual('Nate Starbringer')
+    expect(getCellValue(component, 1, 0, 0).text()).toEqual('Jim Johnson')
+    expect(getCellValue(component, 1, 0, 4).text()).toEqual('')
   })
 
   it('6.hides Attach link for people in the pending list', () => {
-    expect(component.find('RelationCard').at(3).props().firstName).toEqual('Cecilia Gomez')
-    expect(component.find('RelationCard').at(3).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(0).text()).toEqual('Jose Gomez')
-    expect(component.find('RelationCard').at(3).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(4).text()).toEqual('')
-    expect(component.find('RelationCard').at(3).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(1).find('TableColumn').at(0).text()).toEqual('Julie Gomez')
-    expect(component.find('RelationCard').at(3).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(1).find('TableColumn').at(4).text()).toContain('Attach')
+    expect(getProps(component, 3).firstName).toEqual('Cecilia Gomez')
+    expect(getCellValue(component, 3, 0, 0).text()).toEqual('Jose Gomez')
+    expect(getCellValue(component, 3, 0, 4).text()).toEqual('')
+    expect(getCellValue(component, 3, 1, 0).text()).toEqual('Julie Gomez')
+    expect(getCellValue(component, 3, 1, 4).text()).toContain('Attach')
   })
 
   it('7.calls onClick when the Attach Link is clicked', () => {
-    const attachLink = component.find('RelationCard').at(0).find('BootstrapTable').find('TableBody').at(0).find('TableRow').at(0).find('TableColumn').at(4).find('a')
+    const attachLink = getCellValue(component, 0, 0, 4).find('a')
     attachLink.simulate('click')
     expect(onClick).toHaveBeenCalled()
   })
