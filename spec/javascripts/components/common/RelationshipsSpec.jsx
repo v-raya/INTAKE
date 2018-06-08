@@ -3,7 +3,8 @@ import {shallow, mount} from 'enzyme'
 import {EmptyRelationships, Relationships} from 'common/Relationships'
 
 describe('Relationships for Screening', () => {
-  const onClick = jasmine.createSpy('onClick')
+  let onClick
+  let component
   const renderRelationships = (props) => mount(<Relationships {...props} isScreening={true} screeningId={'1'} pendingPeople = {['1']} onClick={onClick} />, {disableLifecycleMethods: true})
   const people = [
     {
@@ -37,7 +38,10 @@ describe('Relationships for Screening', () => {
     {name: 'Kim West', relationships: []},
   ]
 
-  const component = renderRelationships({people})
+  beforeEach(() => {
+    onClick = jasmine.createSpy('onClick')
+    component = renderRelationships({people})
+  })
 
   it('1.renders a RelationCard component for each person with relationships', () => {
     expect(component.find('RelationCard').length).toEqual(4)
