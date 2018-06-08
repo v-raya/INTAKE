@@ -16,7 +16,7 @@ import {List, fromJS} from 'immutable'
 export const buildFerbAllegations = (allegations) => (
   fromJS(
     allegations.map((allegation) => ({
-      id: allegation.id.toString(),
+      id: allegation.id && allegation.id.toString(),
       victimId: allegation.victim_person_id.toString(),
       perpetratorId: allegation.perpetrator_person_id.toString(),
       allegationTypes: allegation.types,
