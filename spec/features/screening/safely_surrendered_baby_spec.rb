@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
-require 'factory_bot'
 
 feature 'safely surrendered baby' do
   let(:screening) do

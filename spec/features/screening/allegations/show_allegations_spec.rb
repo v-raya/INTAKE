@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 
 feature 'show allegations' do
   scenario 'editing existing allegations' do

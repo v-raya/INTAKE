@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 
 feature 'Allegations Validations' do
   scenario 'User sees that allegations are required when decision is promote to referral' do

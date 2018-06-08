@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 
 feature 'Allegations Sibling At Risk Validations' do
   let(:sibling_at_risk_error) do

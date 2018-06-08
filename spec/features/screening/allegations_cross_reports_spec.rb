@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 
 feature 'show cross reports' do
   scenario 'adding certain allegations makes certain cross reports required' do

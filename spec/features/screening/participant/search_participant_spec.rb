@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 require 'feature/testing'
+
 feature 'searching a participant in autocompleter' do
   let(:existing_screening) do
     {
