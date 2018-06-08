@@ -52,7 +52,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
                   {
                     person.relationships.map((relationship, index) => (
                       <li key={index}>
-                        <strong>{ relationship.type }</strong> &nbsp; of { relationship.relatee }
+                        <strong>{ relationship.type }</strong> &nbsp; of { relationship.name }
                         {relationship.person_card_exists && !isPending(relationship, pendingPeople) &&
                           (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship))
                         }
@@ -80,7 +80,6 @@ Relationships.propTypes = {
   people: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     relationships: PropTypes.arrayOf(PropTypes.shape({
-      relatee: PropTypes.string,
       name: PropTypes.string,
       type: PropTypes.string,
       secondaryRelationship: PropTypes.string,

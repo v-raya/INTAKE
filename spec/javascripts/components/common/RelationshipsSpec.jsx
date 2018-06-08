@@ -10,20 +10,20 @@ describe('Relationships for Screening', () => {
     {
       name: 'Sally Jones',
       relationships: [
-        {relatee: 'Kim Johnson', type: 'mother', name: 'Kim Johnson', secondaryRelationship: 'mother', person_card_exists: true},
+        {type: 'mother', name: 'Kim Johnson', secondaryRelationship: 'mother', person_card_exists: true},
       ],
     },
     {
       name: 'Nate Starbringer',
       relationships: [
-        {relatee: 'Jim Johnson', type: 'father', name: 'Jim Johnson', secondaryRelationship: 'father', person_card_exists: false},
+        {type: 'father', name: 'Jim Johnson', secondaryRelationship: 'father', person_card_exists: false},
       ],
     },
     {
       name: 'Jim Johnson',
       relationships: [
-        {relatee: 'Nate Starbringer', type: 'son', name: 'Nate Starbringer', secondaryRelationship: 'son', person_card_exists: true},
-        {relatee: 'Sally Jones', type: 'son', name: 'Sally Jones', secondaryRelationship: 'son', person_card_exists: true},
+        {type: 'son', name: 'Nate Starbringer', secondaryRelationship: 'son', person_card_exists: true},
+        {type: 'son', name: 'Sally Jones', secondaryRelationship: 'son', person_card_exists: true},
       ],
     },
     {
@@ -139,20 +139,20 @@ describe('Relationships for Snapshot', () => {
       {
         name: 'Sally Jones',
         relationships: [
-          {relatee: 'Jim Johnson', type: 'mother', person_card_exists: true},
+          {name: 'Jim Johnson', type: 'mother', person_card_exists: true},
         ],
       },
       {
         name: 'Nate Starbringer',
         relationships: [
-          {relatee: 'Jim Johnson', type: 'father', person_card_exists: false},
+          {name: 'Jim Johnson', type: 'father', person_card_exists: false},
         ],
       },
       {
         name: 'Jim Johnson',
         relationships: [
-          {relatee: 'Nate Starbringer', type: 'son', person_card_exists: true},
-          {relatee: 'Sally Jones', type: 'son', person_card_exists: true},
+          {name: 'Nate Starbringer', type: 'son', person_card_exists: true},
+          {name: 'Sally Jones', type: 'son', person_card_exists: true},
         ],
       },
     ]
@@ -168,13 +168,13 @@ describe('Relationships for Snapshot', () => {
       {
         name: 'Sally Jones',
         relationships: [
-          {relatee: 'Jim Johnson', type: 'mother', person_card_exists: true, legacy_descriptor: {legacy_id: '1'}},
+          {name: 'Jim Johnson', type: 'mother', person_card_exists: true, legacy_descriptor: {legacy_id: '1'}},
         ],
       },
       {
         name: 'Nate Starbringer',
         relationships: [
-          {relatee: 'Jim Johnson', type: 'father', person_card_exists: true},
+          {name: 'Jim Johnson', type: 'father', person_card_exists: true},
         ],
       },
     ]
@@ -191,7 +191,7 @@ describe('Relationships for Snapshot', () => {
       {
         name: 'Goku',
         relationships: [
-          {relatee: 'Gohan', type: 'son', person_card_exists: true},
+          {name: 'Gohan', type: 'son', person_card_exists: true},
         ],
       },
     ]
