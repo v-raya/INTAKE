@@ -1,6 +1,6 @@
 import React from 'react'
-import {shallow,mount} from 'enzyme'
-import {EmptyRelationships,Relationships} from 'common/Relationships'
+import {shallow, mount} from 'enzyme'
+import {EmptyRelationships, Relationships} from 'common/Relationships'
 
 describe('Relationships for Screening', () => {
   const onClick = jasmine.createSpy('onClick')
