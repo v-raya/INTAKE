@@ -236,7 +236,7 @@ feature 'edit allegations' do
     end
   end
 
-  scenario 'deleting a participant removes possible allegations' do
+  scenario 'deleting a perpetrator participant does not remove allegation' do
     marge = FactoryBot.create(:participant, :perpetrator, first_name: 'Marge')
     lisa = FactoryBot.create(:participant, :victim, first_name: 'Lisa')
     screening = {
@@ -273,7 +273,7 @@ feature 'edit allegations' do
 
     within '.card.edit', text: 'Allegations' do
       within('table') do
-        expect(page).to have_no_content('Lisa')
+        expect(page).to have_content('Lisa')
         expect(page).to have_no_content('Marge')
       end
     end
@@ -606,7 +606,7 @@ feature 'edit allegations' do
     end
   end
 
-  scenario 'I remove the perpetrator role from a participant for whom I have edited allegations' do
+  scenario 'remove perpetrator role from participant with victim role does not remove allegation' do
     lisa = FactoryBot.create(:participant, :victim, first_name: 'Lisa', last_name: 'Simps')
     marge = FactoryBot.create(
       :participant,
@@ -677,7 +677,7 @@ feature 'edit allegations' do
     end
 
     within '.card.edit', text: 'Allegations' do
-      expect(page).to have_no_content('Lisa')
+      expect(page).to have_content('Lisa')
       expect(page).to have_no_content('Marge')
       expect(page).to have_no_content('General neglect')
     end
