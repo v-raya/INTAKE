@@ -199,7 +199,7 @@ feature 'Edit Person' do
                 'city' => 'Someplace',
                 'state' => 'CA',
                 'zip' => '55555',
-                'type' => '32'
+                'type' => 'Home'
               )
             )
           )

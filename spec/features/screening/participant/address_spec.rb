@@ -31,7 +31,7 @@ feature 'Participant Address' do
       city: 'Someplace',
       state: 'CA',
       zip: '55555',
-      type: '32'
+      type: 'Home'
     )
     stub_request(
       :put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id))
@@ -73,7 +73,7 @@ feature 'Participant Address' do
                      'city' => 'Someplace',
                      'state' => 'CA',
                      'zip' => '55555',
-                     'type' => '32',
+                     'type' => 'Home',
                      'legacy_id' => nil
                    )
                  )
