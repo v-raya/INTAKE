@@ -65,8 +65,8 @@ export const getFormattedAllegationsSelector = createSelector(
   getAllegationsFormSelector,
   (victims, perpetrators, allegations) => (
     victims.map((victim) => {
-      const filterper = perpetrators.filterNot((perpetrator) => victim.get('id') === perpetrator.get('id'))
-      if (filterper.size === 0) {
+      const filterPerpetrator = perpetrators.filterNot((perpetrator) => victim.get('id') === perpetrator.get('id'))
+      if (filterPerpetrator.size === 0) {
         const victimId = victim.get('id')
         const allegationTypes = allegations.find((allegation) => (allegation.get('victimId') === victimId
         ), null, Map()).get('allegationTypes', List())
@@ -75,22 +75,21 @@ export const getFormattedAllegationsSelector = createSelector(
           victimId,
           allegationTypes,
         }])
-      } else {
-        return filterper.map((perpetrator, index) => {
-          const victimId = victim.get('id')
-          const perpetratorId = perpetrator.get('id')
-          const allegationTypes = allegations.find((allegation) => (
-            allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
-          ), null, Map()).get('allegationTypes', List())
-          return fromJS({
-            victimName: index === 0 ? nameFormatter(victim.toJS()) : '',
-            victimId,
-            perpetratorName: nameFormatter(perpetrator.toJS()),
-            perpetratorId,
-            allegationTypes,
-          })
-        })
       }
+      return filterPerpetrator.map((perpetrator, index) => {
+        const victimId = victim.get('id')
+        const perpetratorId = perpetrator.get('id')
+        const allegationTypes = allegations.find((allegation) => (
+          allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
+        ), null, Map()).get('allegationTypes', List())
+        return fromJS({
+          victimName: index === 0 ? nameFormatter(victim.toJS()) : '',
+          victimId,
+          perpetratorName: nameFormatter(perpetrator.toJS()),
+          perpetratorId,
+          allegationTypes,
+        })
+      })
     })
   ).flatten(FLATTEN_LEVEL)
 )
