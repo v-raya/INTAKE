@@ -15,17 +15,17 @@ import {RESIDENCE_TYPE} from 'enums/AddressType'
 describe('peopleSearchHelper', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  const languageLovs = [
+  const languages = [
     {code: '1', value: 'English'},
     {code: '2', value: 'French'},
     {code: '3', value: 'Italian'},
   ]
-  const ethnicityTypeLovs = [
+  const ethnicityTypes = [
     {code: '1', value: 'European'},
     {code: '2', value: 'French'},
     {code: '3', value: 'Romanian'},
   ]
-  const raceTypeLovs = [
+  const raceTypes = [
     {code: '1', value: 'Race 1'},
     {code: '2', value: 'Race 2'},
     {code: '3', value: 'Race 3'},
@@ -40,9 +40,16 @@ describe('peopleSearchHelper', () => {
     {code: 'N', value: 'no'},
   ]
 
-  const addressTypes = [
-    {code: RESIDENCE_TYPE, value: 'address type'},
-  ]
+  const addressTypes = [{code: RESIDENCE_TYPE, value: 'address type'}]
+
+  const systemCodes = {
+    addressTypes,
+    ethnicityTypes,
+    hispanicOriginCodes,
+    languages,
+    raceTypes,
+    unableToDetermineCodes,
+  }
 
   describe('mapDoraPersonToParticipant', () => {
     it('maps all fields', () => {
@@ -134,14 +141,7 @@ describe('peopleSearchHelper', () => {
         },
       }
 
-      const state = fromJS({
-        languages: languageLovs,
-        ethnicityTypes: ethnicityTypeLovs,
-        raceTypes: raceTypeLovs,
-        unableToDetermineCodes,
-        hispanicOriginCodes,
-        addressTypes,
-      })
+      const state = fromJS({systemCodes})
 
       const result = mapDoraPersonToParticipant(state, fromJS(doraPerson))
 
@@ -160,7 +160,7 @@ describe('peopleSearchHelper', () => {
           {id: '2', primary: false}, // French
           {id: '1', primary: true}], // English
       })
-      const state = fromJS({languages: languageLovs})
+      const state = fromJS({systemCodes: {languages}})
       const languageResult = mapLanguages(state, result)
       expect(languageResult).toEqualImmutable(
         fromJS(['Italian', 'English', 'French'])
@@ -272,7 +272,7 @@ describe('peopleSearchHelper', () => {
 
         }],
       })
-      const state = fromJS({addressTypes})
+      const state = fromJS({systemCodes})
       const addressResult = mapAddress(state, result)
       expect(addressResult).toEqualImmutable(fromJS({
         city: 'city',
@@ -295,7 +295,7 @@ describe('peopleSearchHelper', () => {
 
         }],
       })
-      const state = fromJS({addressTypes})
+      const state = fromJS({systemCodes})
       const addressResult = mapAddress(state, result)
       expect(addressResult).toEqual(null)
     })
@@ -318,7 +318,7 @@ describe('peopleSearchHelper', () => {
           street_name: 'K Street',
         }],
       })
-      const state = fromJS({addressTypes})
+      const state = fromJS({systemCodes})
       const addressResult = mapAddress(state, result)
       expect(addressResult).toEqualImmutable(fromJS({
         city: 'city',
@@ -347,7 +347,7 @@ describe('peopleSearchHelper', () => {
           },
         }],
       })
-      const state = fromJS({addressTypes})
+      const state = fromJS({systemCodes})
       const addressResult = mapAddress(state, result)
       expect(addressResult).toEqualImmutable(fromJS({
         city: 'city',
@@ -370,7 +370,7 @@ describe('peopleSearchHelper', () => {
           ],
         },
       })
-      const state = fromJS({ethnicityTypes: ethnicityTypeLovs, raceTypes: raceTypeLovs})
+      const state = fromJS({systemCodes: {ethnicityTypes, raceTypes}})
       const racesResult = mapRaces(state, result)
       expect(racesResult).toEqualImmutable(
         fromJS([
@@ -385,7 +385,7 @@ describe('peopleSearchHelper', () => {
       const result = fromJS({
         unable_to_determine_code: 'A',
       })
-      const state = fromJS({unableToDetermineCodes})
+      const state = fromJS({systemCodes: {unableToDetermineCodes}})
 
       const racesResult = mapRaces(state, result)
       expect(racesResult).toEqualImmutable(
@@ -397,7 +397,7 @@ describe('peopleSearchHelper', () => {
       const result = fromJS({
         unable_to_determine_code: 'I',
       })
-      const state = fromJS({unableToDetermineCodes})
+      const state = fromJS({systemCodes: {unableToDetermineCodes}})
 
       const racesResult = mapRaces(state, result)
       expect(racesResult).toEqualImmutable(
@@ -409,7 +409,7 @@ describe('peopleSearchHelper', () => {
       const result = fromJS({
         unable_to_determine_code: 'K',
       })
-      const state = fromJS({unableToDetermineCodes})
+      const state = fromJS({systemCodes: {unableToDetermineCodes}})
 
       const racesResult = mapRaces(state, result)
       expect(racesResult).toEqualImmutable(
@@ -430,7 +430,7 @@ describe('peopleSearchHelper', () => {
           ],
         },
       })
-      const state = fromJS({hispanicOriginCodes, ethnicityTypes: ethnicityTypeLovs, raceTypes: raceTypeLovs})
+      const state = fromJS({systemCodes: {ethnicityTypes, hispanicOriginCodes, raceTypes}})
       const racesResult = mapEthnicities(state, result)
       expect(racesResult).toEqualImmutable(
         fromJS({

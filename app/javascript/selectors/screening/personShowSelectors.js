@@ -7,7 +7,7 @@ import {dateFormatter} from 'utils/dateFormatter'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import US_STATE from 'enums/USState'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
-import {getAddressTypes, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
+import {getAddressTypesSelector, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
@@ -186,7 +186,7 @@ export const getAllPersonFormattedAddressesSelector = (state, personId) => (
         state: formattedState(address.get('state')),
         zip: address.get('zip'),
         zipError: address.get('legacy_id') ? null : getZIPErrors(address.get('zip')),
-        type: systemCodeDisplayValue(address.get('type'), getAddressTypes(state)) || address.get('type'),
+        type: systemCodeDisplayValue(address.get('type'), getAddressTypesSelector(state)) || address.get('type'),
         legacy_id: address.get('legacy_id'),
       })
     )
