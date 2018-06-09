@@ -20,15 +20,8 @@ FactoryBot.define do
       zip { FFaker::AddressUS.zip_code }
       type do
         %w[
-          6273
-          28
-          32
-          29
-          6272
-          30
-          31
-          6271
-          27
+          Common
+          Home
         ].sample
       end
     end

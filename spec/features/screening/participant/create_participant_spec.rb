@@ -54,7 +54,7 @@ feature 'Create participant' do
       city: 'Springfield',
       state: 'NY',
       zip: '12345',
-      type: '32'
+      type: 'Home'
     )
   end
   let(:marge_phone_number) do

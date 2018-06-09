@@ -18,6 +18,5 @@ export const getPersonEditableAddressesSelector = (state, personId) => getAddres
   .map((address) => address.set('zipError', getZIPErrors(address.get('zip'))))
 
 export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).map((addressType) => Map({
-  value: addressType.get('code'),
   label: addressType.get('value'),
 }))
