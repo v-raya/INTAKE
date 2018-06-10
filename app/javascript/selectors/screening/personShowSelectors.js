@@ -6,7 +6,7 @@ import ssnFormatter from 'utils/ssnFormatter'
 import {dateFormatter} from 'utils/dateFormatter'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import US_STATE from 'enums/USState'
-import {isRequiredIfCreate, combineCompact} from 'utils/validator'
+import {isRequiredIfCreate, combineCompact, isTypesRequiredCreate, isRequiredCreate} from 'utils/validator'
 import {getAddressTypes, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {getSSNErrors} from 'utils/ssnValidator'
@@ -87,6 +87,14 @@ const getRoleErrors = (state, personId, roles) => combineCompact(
   }
 )
 
+const getCSECTypeErrors = (state, personId, csecTypes) => combineCompact(
+  isTypesRequiredCreate(csecTypes, 'CSEC type must be selected.')
+)
+
+const getCSECStartedAtErrors = (state, personId, csecStartedAt) => combineCompact(
+  isRequiredCreate(csecStartedAt, 'Please enter a csec start date.')
+)
+
 export const getErrorsSelector = (state, personId) => {
   const person = getPersonSelector(state, personId)
   const ssn = person.get('ssn') || ''
@@ -100,11 +108,15 @@ export const getErrorsSelector = (state, personId) => {
       getZIPErrors(newAddress.get('zip'))
     )).flatten()
   const roles = person.get('roles', List())
+  const csecTypes = person.get('csec_types', List())
+  const csecStartedAt = person.get('csec_started_at')
   return fromJS({
     name: getNameErrors(firstName, lastName, roles),
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
     addressZip,
+    csecTypes: getCSECTypeErrors(state, personId, csecTypes),
+    csecStartedAt: getCSECStartedAtErrors(state, personId, csecStartedAt),
   })
 }
 
@@ -137,8 +149,8 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
 
   return fromJS({
     approximateAge: approximateAge,
-    CSECTypes: person.get('csec_types'),
-    csecStartedAt: person.get('csec_started_at') && dateFormatter(person.get('csec_started_at')),
+    CSECTypes: {value: person.get('csec_types', List()), errors: []},
+    csecStartedAt: {value: (person.get('csec_started_at') && dateFormatter(person.get('csec_started_at'))), errors: []},
     csecEndedAt: person.get('csec_ended_at') && dateFormatter(person.get('csec_ended_at')),
     dateOfBirth: dateOfBirth,
     ethnicity: getEthnicity(person),
@@ -160,6 +172,8 @@ export const getFormattedPersonWithErrorsSelector = (state, personId) => {
     .setIn(['name', 'errors'], errors.get('name'))
     .setIn(['name', 'required'], getNamesRequiredSelector(state, personId))
     .setIn(['roles', 'errors'], errors.get('roles'))
+    .setIn(['CSECTypes', 'errors'], errors.get('csecTypes'))
+    .setIn(['csecStartedAt', 'errors'], errors.get('csecStartedAt'))
 }
 export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
   state.get('participants', List()).find((person) => person.get('id') === personId)

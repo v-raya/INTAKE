@@ -96,6 +96,5 @@ describe('PersonCSECForm', () => {
         .simulate('blur')
       expect(onBlur).toHaveBeenCalledWith('csec_types')
     })
-
   })
 })

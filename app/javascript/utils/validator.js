@@ -82,10 +82,11 @@ export function validateAllFields({screening, fieldValidations}) {
 }
 
 const isTypesRequired = ({value, errorMessage}) => {
-  if (_.isEmpty(value) || value.size === 0) {
+  if ((!value) || (value.size === 0)) {
     return errorMessage
+  } else {
+    return undefined
   }
-  return undefined
 }
 
 export const isTypesRequiredCreate = (value, errorMessage) => () => isTypesRequired({value, errorMessage})

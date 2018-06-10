@@ -37,7 +37,7 @@ export const getErrorsSelector = (state, personId) => {
       isFutureDatetimeCreate(csecEndedAt, 'The end date and time cannot be in the future.')
     ),
     csec_started_at: combineCompact(
-      isRequiredCreate(csecStartedAt, 'Please enter a csec start date.'),
+      isRequiredCreate(csecStartedAt, 'Start date must be entered.'),
       isFutureDatetimeCreate(csecStartedAt, 'The start date and time cannot be in the future.'),
       isBeforeDatetimeCreate(
         csecEndedAt,

@@ -65,10 +65,14 @@ const PersonInformationShow = ({
     </div>
     <div className='row gap-top'>
       <div className='col-md-4'>
-        {CSECTypes && <ShowField label='CSEC Types'>{CSECTypes}</ShowField>}
+        {CSECTypes && <ShowField label='CSEC Types' errors={CSECTypes.errors}>
+          {CSECTypes.value.length > 0 &&
+            <ul>{CSECTypes.value.map((CSECType, index) => (<li key={`csecType-${index}`}>{CSECType}</li>))}</ul>
+          }
+        </ShowField>}
       </div>
       <div className='col-md-4'>
-        {csecStartedAt && <ShowField label='CSEC Start Date'>{csecStartedAt}</ShowField>}
+        {csecStartedAt && <ShowField label='CSEC Start Date' errors={csecStartedAt.errors}>{csecStartedAt.value}</ShowField>}
       </div>
       <div className='col-md-4'>
         {csecEndedAt && <ShowField label='CSEC End Date'>{csecEndedAt}</ShowField>}
@@ -78,11 +82,17 @@ const PersonInformationShow = ({
 )
 
 PersonInformationShow.propTypes = {
-  CSECTypes: PropTypes.array,
+  CSECTypes: PropTypes.shape({
+    errors: PropTypes.array,
+    value: PropTypes.array,
+  }),
   alertErrorMessage: PropTypes.string,
   approximateAge: PropTypes.string,
   csecEndedAt: PropTypes.string,
-  csecStartedAt: PropTypes.string,
+  csecStartedAt: PropTypes.shape({
+    errors: PropTypes.array,
+    value: PropTypes.string,
+  }),
   dateOfBirth: PropTypes.string,
   ethnicity: PropTypes.string,
   gender: PropTypes.string,
