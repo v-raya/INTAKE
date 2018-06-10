@@ -92,7 +92,7 @@ const getCSECTypeErrors = (state, personId, csecTypes) => combineCompact(
 )
 
 const getCSECStartedAtErrors = (state, personId, csecStartedAt) => combineCompact(
-  isRequiredCreate(csecStartedAt, 'Please enter a csec start date.')
+  isRequiredCreate(csecStartedAt, 'Start date must be entered.')
 )
 
 export const getErrorsSelector = (state, personId) => {
