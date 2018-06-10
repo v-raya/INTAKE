@@ -143,10 +143,11 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
   const person = getPersonSelector(state, personId)
   const legacyDescriptor = person.get('legacy_descriptor')
   const showApproximateAge = !person.get('date_of_birth') && person.get('approximate_age')
-  const approximateAge = showApproximateAge ?
-    [person.get('approximate_age'), person.get('approximate_age_units')].join(' ') : undefined
+  const approximateAge = showApproximateAge ? [person.get('approximate_age'), person.get('approximate_age_units')].join(' ') : undefined
   const dateOfBirth = person.get('date_of_birth') && dateFormatter(person.get('date_of_birth'))
-
+  const screeningReportType = person.getIn(['screening', 'report_type', 'value'])
+  const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
+  const showCSEC = roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'
   return fromJS({
     approximateAge: approximateAge,
     CSECTypes: {value: person.get('csec_types', List()), errors: []},
@@ -162,6 +163,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
     roles: {value: person.get('roles', List()), errors: []},
     ssn: {value: ssnFormatter(person.get('ssn')), errors: []},
     alertErrorMessage: getPersonAlertErrorMessageSelector(state, personId),
+    showCSEC: showCSEC,
   })
 }
 

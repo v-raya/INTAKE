@@ -33,6 +33,7 @@ describe('personShowSelectors', () => {
         races: undefined,
         ethnicity: undefined,
         alertErrorMessage: undefined,
+        showCSEC: undefined,
       }))
     })
 

@@ -50,6 +50,7 @@ describe('PersonShowContainer', () => {
         errors: [],
       },
       ssn: {value: '123-45-6789', errors: []},
+      showCSEC: undefined,
     })
   })
 })
