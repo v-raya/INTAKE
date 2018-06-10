@@ -90,3 +90,12 @@ const isTypesRequired = ({value, errorMessage}) => {
 }
 
 export const isTypesRequiredCreate = (value, errorMessage) => () => isTypesRequired({value, errorMessage})
+
+const isTypesRequiredIf = ({value, errorMessage, condition}) => {
+  if (condition()) {
+    return isRequired({value, errorMessage})
+  }
+  return undefined
+}
+
+export const isTypesRequiredIfCreate = (value, errorMessage, condition) => () => isTypesRequiredIf({value, errorMessage, condition})

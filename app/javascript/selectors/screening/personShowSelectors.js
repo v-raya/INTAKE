@@ -6,7 +6,7 @@ import ssnFormatter from 'utils/ssnFormatter'
 import {dateFormatter} from 'utils/dateFormatter'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import US_STATE from 'enums/USState'
-import {isRequiredIfCreate, combineCompact, isTypesRequiredCreate, isRequiredCreate} from 'utils/validator'
+import {isRequiredIfCreate, combineCompact, isTypesRequiredIfCreate} from 'utils/validator'
 import {getAddressTypes, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {getSSNErrors} from 'utils/ssnValidator'
@@ -87,12 +87,14 @@ const getRoleErrors = (state, personId, roles) => combineCompact(
   }
 )
 
-const getCSECTypeErrors = (state, personId, csecTypes) => combineCompact(
-  isTypesRequiredCreate(csecTypes, 'CSEC type must be selected.')
+const getCSECTypeErrors = (state, personId, csecTypes, roles, screeningReportType) => combineCompact(
+  isTypesRequiredIfCreate(csecTypes, 'CSEC type must be selected.',
+    () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
 )
 
-const getCSECStartedAtErrors = (state, personId, csecStartedAt) => combineCompact(
-  isRequiredCreate(csecStartedAt, 'Start date must be entered.')
+const getCSECStartedAtErrors = (state, personId, csecStartedAt, roles, screeningReportType) => combineCompact(
+  isRequiredIfCreate(csecStartedAt, 'Start date must be entered.',
+    () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
 )
 
 export const getErrorsSelector = (state, personId) => {
@@ -110,13 +112,15 @@ export const getErrorsSelector = (state, personId) => {
   const roles = person.get('roles', List())
   const csecTypes = person.get('csec_types', List())
   const csecStartedAt = person.get('csec_started_at')
+  const screeningReportType = person.getIn(['screening', 'report_type', 'value'])
+  const rolesTypes = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   return fromJS({
     name: getNameErrors(firstName, lastName, roles),
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
     addressZip,
-    csecTypes: getCSECTypeErrors(state, personId, csecTypes),
-    csecStartedAt: getCSECStartedAtErrors(state, personId, csecStartedAt),
+    csecTypes: getCSECTypeErrors(state, personId, csecTypes, rolesTypes, screeningReportType),
+    csecStartedAt: getCSECStartedAtErrors(state, personId, csecStartedAt, rolesTypes, screeningReportType),
   })
 }
 
