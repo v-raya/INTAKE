@@ -4,6 +4,7 @@ import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import moment from 'moment'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
 
@@ -144,10 +145,10 @@ const getRaces = (person) => person.get('races', Map()).reduce((races, raceValue
   return (raceValue.get('value')) ? [...races, {race: raceKey, race_detail: raceDetails}] : races
 }, [])
 
-const getAllReadOnlyAddresses = (state) => (state.get('participants') === undefined ? List() : state.get('participants').map((person) => Map({
+const getAllReadOnlyAddresses = (state) => selectParticipants(state).map((person) => Map({
   personId: person.get('id'),
   addresses: person.get('addresses').filter((address) => address.get('legacy_id')),
-})))
+}))
 
 const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
   const personAddress = allReadOnlyAddresses.find((personAddress) => personAddress.get('personId') === personId)

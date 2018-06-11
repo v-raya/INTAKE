@@ -1,4 +1,5 @@
 import {Map} from 'immutable'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIsReadOnlySelector} from 'selectors/screeningSelectors'
 import {EDIT_MODE, SHOW_MODE} from 'actions/screeningPageActions'
 import {getErrorsSelector as crossReportErrorsSelector} from 'selectors/screening/crossReportShowSelectors'
@@ -39,7 +40,7 @@ export const getScreeningHasErrorsSelector = (state) => (
 )
 
 export const getPeopleHaveErrorsSelector = (state) => (
-  state.get('participants').map((person) => (
+  selectParticipants(state).map((person) => (
     personErrorsSelector(state, person.get('id')).some((errors) => !errors.isEmpty())
   )).some((errorsPresent) => errorsPresent)
 )

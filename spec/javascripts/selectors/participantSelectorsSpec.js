@@ -1,7 +1,31 @@
-import {fromJS} from 'immutable'
-import {getClientIds} from 'selectors/participantSelectors'
+import {fromJS, List, Map} from 'immutable'
+import {
+  getClientIds,
+  selectParticipants,
+} from 'selectors/participantSelectors'
+import * as matchers from 'jasmine-immutable-matchers'
 
 describe('participantSelectors', () => {
+  beforeEach(() => jasmine.addMatchers(matchers))
+
+  describe('selectParticipants', () => {
+    it('should select participants from state', () => {
+      const state = fromJS({
+        participants: [
+          {id: '1', first_name: 'Mario'},
+          {id: '2', first_name: 'Luigi'},
+          {id: '3', first_name: 'Peach'},
+        ],
+      })
+
+      expect(selectParticipants(state)).toEqualImmutable(state.get('participants'))
+    })
+
+    it('should select an empty list if no participants', () => {
+      expect(selectParticipants(Map())).toEqualImmutable(List())
+    })
+  })
+
   describe('getClientIds', () => {
     it('should select ids from legacy_id field', () => {
       const state = fromJS({

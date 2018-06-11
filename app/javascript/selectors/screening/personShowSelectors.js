@@ -1,11 +1,13 @@
 import {List, Map, fromJS} from 'immutable'
+import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import GENDERS from 'enums/Genders'
+import US_STATE from 'enums/USState'
+import {selectParticipants} from 'selectors/participantSelectors'
+import {getAddressTypesSelector, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
 import nameFormatter from 'utils/nameFormatter'
 import ssnFormatter from 'utils/ssnFormatter'
 import {dateFormatter} from 'utils/dateFormatter'
-import {flagPrimaryLanguage} from 'common/LanguageInfo'
-import US_STATE from 'enums/USState'
 import {isRequiredIfCreate, combineCompact, hasRequiredValuesIfCreate} from 'utils/validator'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {getSSNErrors} from 'utils/ssnValidator'
@@ -13,7 +15,7 @@ import {getZIPErrors} from 'utils/zipValidator'
 import moment from 'moment'
 
 const getPersonSelector = (state, personId) =>
-  state.get('participants').find((person) => person.get('id') === personId) || Map()
+  selectParticipants(state).find((person) => person.get('id') === personId) || Map()
 
 export const getNamesRequiredSelector = (state, personId) => {
   const person = getPersonSelector(state, personId)
@@ -181,7 +183,7 @@ export const getFormattedPersonWithErrorsSelector = (state, personId) => {
     .setIn(['csecStartedAt', 'errors'], errors.get('csecStartedAt'))
 }
 export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
-  state.get('participants', List()).find((person) => person.get('id') === personId)
+  selectParticipants(state).find((person) => person.get('id') === personId)
     .get('phone_numbers', List()).map((phoneNumber) => (
       Map({
         number: phoneNumberFormatter(phoneNumber.get('number')),
@@ -197,7 +199,7 @@ const formattedState = (stateCode) => {
 }
 
 export const getAllPersonFormattedAddressesSelector = (state, personId) => (
-  state.get('participants', List()).find((person) => person.get('id') === personId)
+  selectParticipants(state).find((person) => person.get('id') === personId)
     .get('addresses', List()).map((address) =>
       Map({
         street: address.get('street_address'),

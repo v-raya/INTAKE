@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {
   isRequiredCreate,
@@ -17,7 +18,7 @@ export const getScreeningWithEditsSelector = createSelector(
   (state) => state.getIn(['screeningInformationForm', 'communication_method', 'value']),
   (state) => state.getIn(['screeningInformationForm', 'started_at', 'value']),
   (state) => state.getIn(['screeningInformationForm', 'ended_at', 'value']),
-  (state) => state.get('participants', List()),
+  (state) => selectParticipants(state),
   (screening, name, assignee, reportType, communicationMethod, startedAt, endedAt, participants) => screening.set('name', name)
     .set('assignee', assignee)
     .set('report_type', reportType)

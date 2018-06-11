@@ -1,11 +1,10 @@
 import {createSelector} from 'reselect'
 import {Map, List} from 'immutable'
 import nameFormatter from 'utils/nameFormatter'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {systemCodeDisplayValue, getRelationshipTypesSelector} from 'selectors/systemCodeSelectors'
 
 export const getScreeningRelationships = (state) => (state.get('relationships', List()))
-
-export const getParticipantsSelector = (state) => state.get('participants', List())
 
 const isPersonCardExists = (people, relationship) => {
   if (people && people.size > 0 && relationship.legacy_descriptor) {
@@ -16,7 +15,7 @@ const isPersonCardExists = (people, relationship) => {
 }
 
 export const getPeopleSelector = createSelector(
-  getParticipantsSelector,
+  selectParticipants,
   getScreeningRelationships,
   getRelationshipTypesSelector,
   (participants, people, relationshipTypes) => people.map((person) => Map({

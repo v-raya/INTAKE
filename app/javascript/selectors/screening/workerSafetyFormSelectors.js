@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {List} from 'immutable'
 
@@ -16,7 +17,7 @@ export const getScreeningWithEditsSelector = createSelector(
   getScreeningSelector,
   getAlertValuesSelector,
   getInformationValueSelector,
-  (state) => state.get('participants', List()),
+  (state) => selectParticipants(state),
   (screening, alerts, information, participants) => screening
     .set('safety_alerts', alerts)
     .set('safety_information', information)

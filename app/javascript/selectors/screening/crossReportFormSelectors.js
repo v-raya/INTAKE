@@ -19,6 +19,7 @@ import {
 } from 'selectors/screening/crossReportShowSelectors'
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {getCountiesSelector} from 'selectors/systemCodeSelectors'
 import {areCrossReportsRequired} from 'utils/allegationsHelper'
@@ -50,7 +51,7 @@ export const getScreeningWithEditsSelector = createSelector(
   (state) => state.getIn(['crossReportForm', 'inform_date', 'value']) || null,
   (state) => state.getIn(['crossReportForm', 'method', 'value']) || null,
   getSelectedAgenciesSelector,
-  (state) => state.get('participants', List()),
+  selectParticipants,
   (
     screening,
     county_id,

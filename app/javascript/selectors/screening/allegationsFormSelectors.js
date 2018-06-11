@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect'
 import {Map, List, fromJS} from 'immutable'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector, getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getAllegationsWithTypesSelector} from 'selectors/screening/allegationsTypeFormSelectors'
 import nameFormatter from 'utils/nameFormatter'
@@ -10,14 +11,13 @@ const FLATTEN_LEVEL = 1
 const sortFields = [(person) => (person.date_of_birth || ''), 'last_name', 'first_name']
 const sortOrder = ['desc', 'asc', 'asc']
 
-const getPeopleSelector = (state) => state.get('participants', List())
 const getAllegationsFormSelector = (state) => state.get('allegationsForm', List())
 export const getAllegationTypesSelector = () => (
   fromJS(ALLEGATION_TYPES.map((type) => ({label: type.value, value: type.value})))
 )
 
 export const getSortedVictimsSelector = createSelector(
-  getPeopleSelector,
+  selectParticipants,
   (people) => (fromJS(
     _.orderBy(
       people.filter((person) => person.get('roles', List()).includes('Victim')).toJS(),
@@ -28,7 +28,7 @@ export const getSortedVictimsSelector = createSelector(
 )
 
 export const getSortedPerpetratorsSelector = createSelector(
-  getPeopleSelector,
+  selectParticipants,
   (people) => (fromJS(
     _.orderBy(
       people.filter((person) => person.get('roles', List()).includes('Perpetrator')).toJS(),
@@ -53,7 +53,7 @@ const getAllegationsToSaveSelector = createSelector(
 export const getScreeningWithAllegationsEditsSelector = createSelector(
   getScreeningSelector,
   getAllegationsToSaveSelector,
-  getPeopleSelector,
+  selectParticipants,
   (screening, allegations, participants) => screening
     .set('allegations', allegations)
     .set('participants', participants)

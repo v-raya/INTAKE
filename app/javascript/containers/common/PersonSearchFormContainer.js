@@ -1,5 +1,6 @@
 import {connect} from 'react-redux'
 import PersonSearchForm from 'views/people/PersonSearchForm'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {
   getPeopleResultsSelector,
   getResultsTotalValueSelector,
@@ -18,7 +19,7 @@ const mapStateToProps = (state) => {
     results: getPeopleResultsSelector(state).toJS(),
     total: getResultsTotalValueSelector(state),
     searchTerm: getSearchTermValueSelector(state),
-    participants: state.get('participants').toJS(),
+    participants: selectParticipants(state).toJS(),
     isSelectable,
   }
 }
