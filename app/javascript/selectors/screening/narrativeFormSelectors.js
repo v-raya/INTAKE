@@ -12,7 +12,7 @@ export const getReportNarrativeValueSelector = createSelector(
 export const getScreeningWithEditsSelector = createSelector(
   getScreeningSelector,
   getReportNarrativeValueSelector,
-  (state) => selectParticipants(state),
+  selectParticipants,
   (screening, reportNarrative, participants) => screening
     .set('report_narrative', reportNarrative)
     .set('participants', participants)

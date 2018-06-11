@@ -157,7 +157,7 @@ export const getScreeningWithEditsSelector = createSelector(
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']),
   (state) => state.getIn(['screeningDecisionForm', 'access_restrictions', 'value']),
   (state) => state.getIn(['screeningDecisionForm', 'restrictions_rationale', 'value']),
-  (state) => selectParticipants(state),
+  selectParticipants,
   (screening, decision, decisionDetail, additionalInformation, accessRestriction, restrictionRationale, participants) => (
     screening.set('screening_decision', decision)
       .set('screening_decision_detail', decisionDetail)

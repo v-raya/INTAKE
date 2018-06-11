@@ -45,7 +45,7 @@ export const getScreeningWithEditsSelector = createSelector(
   (state) => (state.getIn(['incidentInformationForm', 'incident_address']) || Map()),
   (state) => state.getIn(['incidentInformationForm', 'location_type', 'value']),
   getLocationOfChildrenSelector,
-  (state) => selectParticipants(state),
+  selectParticipants,
   (screening, incidentDate, incidentCounty, address, locationType, locationOfChildren, participants) => (
     screening.set('incident_date', incidentDate)
       .set('incident_county', incidentCounty)

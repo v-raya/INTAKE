@@ -1,11 +1,12 @@
 import {createSelector} from 'reselect'
 import {List, Map} from 'immutable'
+import {selectParticipants} from 'selectors/participantSelectors'
 import nameFormatter from 'utils/nameFormatter'
 const FLATTEN_LEVEL = 1
 
 const getAllegationsSelector = createSelector(
   (state) => state.getIn(['screening', 'allegations'], List()),
-  (state) => state.getIn(['screening', 'participants'], List()),
+  selectParticipants,
   (allegations, people) => allegations.map((allegation) => {
     const allegation_types = allegation.get('types') || []
     const victim_id = (allegation.get('victim_person_id') || '').toString()
