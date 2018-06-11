@@ -34,7 +34,7 @@ const AllegationsForm = ({
                   <td>
                     <Select
                       options={allegationTypes}
-                      value={allegation.allegationTypes && allegation.allegationTypes.map((type) => ({value: type, label: type}))}
+                      value={allegation.allegationTypes.map((type) => ({value: type, label: type}))}
                       onChange={(selectedAllegationTypes) => onChange({
                         victimId,
                         perpetratorId,
@@ -86,4 +86,3 @@ AllegationsForm.propTypes = {
 }
 
 export default AllegationsForm
-

@@ -69,7 +69,7 @@ export const getFormattedAllegationsSelector = createSelector(
       if (filterPerpetrator.size === 0) {
         const victimId = victim.get('id')
         const allegationTypes = allegations.find((allegation) => (allegation.get('victimId') === victimId
-        ), null, Map()).get('allegationTypes', List())
+        ), null, Map()).get('allegationTypes') || List()
         return fromJS([{
           victimName: nameFormatter(victim.toJS()),
           victimId,
@@ -81,7 +81,7 @@ export const getFormattedAllegationsSelector = createSelector(
         const perpetratorId = perpetrator.get('id')
         const allegationTypes = allegations.find((allegation) => (
           allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
-        ), null, Map()).get('allegationTypes', List())
+        ), null, Map()).get('allegationTypes') || List()
         return fromJS({
           victimName: index === 0 ? nameFormatter(victim.toJS()) : '',
           victimId,
