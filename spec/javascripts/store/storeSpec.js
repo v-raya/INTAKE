@@ -96,7 +96,6 @@ describe('Store', () => {
       fromJS({
         id: '1',
         name: 'Mock screening',
-        participants: [{id: '2', legacy_id: '3', screening_id: '1'}],
         allegations: [],
         incident_address: {},
         fetch_status: 'FETCHED',
@@ -114,7 +113,11 @@ describe('Store', () => {
     const action = createScreeningSuccess(screening.toJS())
     store.dispatch(action)
     expect(store.getState().get('screening')).toEqualImmutable(
-      screening.set('fetch_status', 'FETCHED')
+      fromJS({
+        id: '1',
+        name: 'Mock screening',
+        fetch_status: 'FETCHED',
+      })
     )
     expect(store.getState().get('participants').isEmpty()).toEqual(true)
   })
@@ -138,7 +141,11 @@ describe('Store', () => {
       const action = saveSuccess(updatedScreening.toJS())
       store.dispatch(action)
       expect(store.getState().get('screening')).toEqualImmutable(
-        updatedScreening.set('fetch_status', 'FETCHED')
+        fromJS({
+          id: '1',
+          name: 'Mock screening',
+          fetch_status: 'FETCHED',
+        })
       )
       expect(store.getState().get('participants')).toEqualImmutable(participants)
     })

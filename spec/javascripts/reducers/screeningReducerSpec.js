@@ -37,6 +37,18 @@ describe('screeningReducer', () => {
         Map({id: '1', fetch_status: 'FETCHED'})
       )
     })
+
+    it('does not store the participants on the screening', () => {
+      const screening = {
+        id: '1',
+        participants: [{id: '1', first_name: 'Mario'}],
+      }
+      const action = createScreeningSuccess(screening)
+      expect(screeningReducer(Map(), action)).toEqualImmutable(
+        Map({id: '1', fetch_status: 'FETCHED'})
+      )
+    })
+
     it('returns the last state on failure', () => {
       const action = createScreeningFailure()
       expect(screeningReducer(Map(), action)).toEqualImmutable(Map())
@@ -66,6 +78,31 @@ describe('screeningReducer', () => {
         })
       )
     })
+
+    it('does not store the participants on the screening', () => {
+      const screening = {
+        id: '1',
+        incident_date: null,
+        incident_county: null,
+        incident_address: {},
+        location_type: null,
+        allegations: [],
+        participants: [{id: '1', first_name: 'Mario'}],
+      }
+      const action = fetchScreeningSuccess(screening)
+      expect(screeningReducer(Map(), action)).toEqualImmutable(
+        fromJS({
+          id: '1',
+          incident_date: null,
+          incident_county: null,
+          incident_address: {},
+          location_type: null,
+          allegations: [],
+          fetch_status: 'FETCHED',
+        })
+      )
+    })
+
     it('returns the last state on failure', () => {
       const action = fetchScreeningFailure()
       expect(screeningReducer(Map(), action)).toEqualImmutable(Map())
@@ -75,6 +112,17 @@ describe('screeningReducer', () => {
   describe('on SAVE_SCREENING_COMPLETE', () => {
     it('returns the screening from the action on success', () => {
       const screening = {id: '1'}
+      const action = saveSuccess(screening)
+      expect(screeningReducer(Map(), action)).toEqualImmutable(
+        Map({id: '1', fetch_status: 'FETCHED'})
+      )
+    })
+
+    it('does not store the participants on the screening', () => {
+      const screening = {
+        id: '1',
+        participants: [{id: '1', first_name: 'Mario'}],
+      }
       const action = saveSuccess(screening)
       expect(screeningReducer(Map(), action)).toEqualImmutable(
         Map({id: '1', fetch_status: 'FETCHED'})
@@ -90,6 +138,18 @@ describe('screeningReducer', () => {
         Map({id: '1', fetch_status: 'FETCHED'})
       )
     })
+
+    it('does not store the participants on the screening', () => {
+      const screening = {
+        id: '1',
+        participants: [{id: '1', first_name: 'Mario'}],
+      }
+      const action = submitScreeningSuccess(screening)
+      expect(screeningReducer(Map(), action)).toEqualImmutable(
+        Map({id: '1', fetch_status: 'FETCHED'})
+      )
+    })
+
     it('returns the last state on failure', () => {
       const action = submitScreeningFailure()
       expect(screeningReducer(Map(), action)).toEqualImmutable(Map())
