@@ -3,10 +3,11 @@ import ErrorMessages from 'common/ErrorMessages'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const FormField = ({children, errors, gridClassName, labelClassName, htmlFor, label, required}) => {
+const FormField = ({children, errors, gridClassName, textWrapClassName, labelClassName, htmlFor, label, required}) => {
   const emptyArrayLength = 0
   const hasErrors = errors && errors.length > emptyArrayLength
   const gridClassNames = ClassNames(gridClassName, {'input-error': hasErrors})
+  const textWrapClassNames = ClassNames(textWrapClassName)
   const labelClassNames =
     ClassNames(labelClassName, {'input-error-label': hasErrors}, {required: required})
   return (
@@ -14,7 +15,9 @@ const FormField = ({children, errors, gridClassName, labelClassName, htmlFor, la
       <label htmlFor={htmlFor} className={labelClassNames}>
         {label}
       </label>
-      {children}
+      <div className={textWrapClassNames}>
+        {children}
+      </div>
       <ErrorMessages ariaDescribedBy={htmlFor} errors={errors}/>
     </div>
   )
@@ -31,5 +34,6 @@ FormField.propTypes = {
   label: PropTypes.string.isRequired,
   labelClassName: PropTypes.string,
   required: PropTypes.bool,
+  textWrapClassName: PropTypes.string,
 }
 export default FormField
