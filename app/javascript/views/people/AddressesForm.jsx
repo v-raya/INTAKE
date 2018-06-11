@@ -53,7 +53,7 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
           value={type}
         >
           <option key='' value='' />
-          {addressTypeOptions.map(({value, label}) => <option key={value} value={value}>{label}</option>)}
+          {addressTypeOptions.map(({label}) => <option key={label} value={label}>{label}</option>)}
         </SelectField>
 
         <a

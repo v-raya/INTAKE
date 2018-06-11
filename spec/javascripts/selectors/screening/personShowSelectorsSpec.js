@@ -238,7 +238,7 @@ describe('personShowSelectors', () => {
   describe('getAllPersonFormattedAddressesSelector', () => {
     it('returns info for the person with the passed id', () => {
       const people = [
-        {id: '1', addresses: [{type: '32'}]},
+        {id: '1', addresses: [{type: 'Residence'}]},
         {id: '2', addresses: [{type: 'Cell'}]},
       ]
       const state = fromJS({participants: people, systemCodes})
@@ -295,8 +295,8 @@ describe('personShowSelectors', () => {
     })
 
     it('returns the type for an address', () => {
-      const people = [{id: '1', addresses: [{type: '32'}]}]
-      const state = fromJS({participants: people, systemCodes})
+      const people = [{id: '1', addresses: [{type: 'Residence'}]}]
+      const state = fromJS({participants: people, addressTypes: [{value: 'Residence'}]})
       expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('type'))
         .toEqual('Residence')
     })
