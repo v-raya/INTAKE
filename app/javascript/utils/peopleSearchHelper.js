@@ -1,13 +1,21 @@
 import {Map, List, fromJS} from 'immutable'
 import {buildSelector} from 'selectors'
-import {systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
+import {
+  getAddressTypesSelector,
+  getEthnicityTypesSelector,
+  getHispanicOriginCodesSelector,
+  getLanguagesSelector,
+  getRaceTypesSelector,
+  getUnableToDetermineCodesSelector,
+  systemCodeDisplayValue,
+} from 'selectors/systemCodeSelectors'
 import {zipFormatter} from '../utils/zipFormatter'
 import {isPlacementHome} from './isPlacementHome'
 import {RESIDENCE_TYPE} from 'enums/AddressType'
 import {Maybe} from 'utils/maybe'
 
 export const mapLanguages = (state, result) => buildSelector(
-  (state) => state.get('languages'),
+  getLanguagesSelector,
   () => (result.get('languages') || List()),
   (statusCodes, languages) => (
     languages
@@ -23,9 +31,9 @@ export const mapIsSensitive = (result) => (result.get('sensitivity_indicator', '
 export const mapIsSealed = (result) => (result.get('sensitivity_indicator', '').toUpperCase() === 'R')
 
 export const mapRaces = (state, result) => buildSelector(
-  (state) => state.get('ethnicityTypes'),
-  (state) => state.get('raceTypes'),
-  (state) => state.get('unableToDetermineCodes'),
+  getEthnicityTypesSelector,
+  getRaceTypesSelector,
+  getUnableToDetermineCodesSelector,
   () => (result.getIn(['race_ethnicity', 'race_codes']) || List()),
   () => result.get('unable_to_determine_code'),
   (ethnicityTypes, raceTypes, unableToDetermineCodes, races, unableToDetermineCode) => {
@@ -42,7 +50,7 @@ export const mapRaces = (state, result) => buildSelector(
 )(state)
 
 export const mapEthnicities = (state, result) => buildSelector(
-  (state) => state.get('hispanicOriginCodes'),
+  getHispanicOriginCodesSelector,
   () => (result.getIn(['race_ethnicity', 'hispanic_codes']) || List()),
   () => (result.getIn(['race_ethnicity', 'hispanic_origin_code'])),
   (hispanicOriginCodes, ethnicities, hispanicLatinoOriginCode) => fromJS({
@@ -65,7 +73,7 @@ const getDisplayType = (address, addressTypes) => {
 const isResidence = (address) => address.getIn(['type', 'id']) === RESIDENCE_TYPE
 
 export const mapAddress = (state, result) => {
-  const addressTypes = state.get('addressTypes')
+  const addressTypes = getAddressTypesSelector(state)
 
   return Maybe.of(result.get('addresses'))
     .map((as) => as.first())

@@ -27,7 +27,7 @@ describe('crossReportShowSelectors', () => {
         ],
       }]
       const screening = {cross_reports: crossReports}
-      const state = fromJS({countyAgencies, screening, allegationsForm})
+      const state = fromJS({systemCodes: {countyAgencies}, screening, allegationsForm})
       expect(getAllegationsRequireCrossReportsValueSelector(state)).toEqual(false)
     })
     it('returns true if allegations require crossReports', () => {
@@ -42,7 +42,7 @@ describe('crossReportShowSelectors', () => {
         ],
       }]
       const screening = {cross_reports: crossReports}
-      const state = fromJS({countyAgencies, screening, allegationsForm})
+      const state = fromJS({systemCodes: {countyAgencies}, screening, allegationsForm})
       expect(getAllegationsRequireCrossReportsValueSelector(state)).toEqual(true)
     })
     it('returns false if allegations do not require crossReports', () => {
@@ -58,7 +58,7 @@ describe('crossReportShowSelectors', () => {
         ],
       }]
       const screening = {cross_reports: crossReports}
-      const state = fromJS({countyAgencies, screening, allegationsForm})
+      const state = fromJS({systemCodes: {countyAgencies}, screening, allegationsForm})
       expect(getAllegationsRequireCrossReportsValueSelector(state)).toEqual(false)
     })
   })
@@ -131,7 +131,7 @@ describe('crossReportShowSelectors', () => {
             .toEqualImmutable(List(['Please select a cross-report communication method.']))
         })
         it('returns errors if agency type is selected without agency', () => {
-          const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+          const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
           expect(getErrorsSelector(state).get('COMMUNITY_CARE_LICENSING'))
             .toEqualImmutable(fromJS(['Please enter an agency name.']))
           expect(getErrorsSelector(state).get('COUNTY_LICENSING'))
@@ -171,36 +171,36 @@ describe('crossReportShowSelectors', () => {
     it('returns nothing when no agnecy_code', () => {
       const countyAgencies = [{id: 'A324ad', name: 'County Agency'}]
       const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY'}]}]
-      const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({})
     })
     it('returns the name and type when all data present', () => {
       const countyAgencies = [{id: 'A324ad', name: 'County Agency'}]
       const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY', code: 'A324ad'}]}]
-      const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'District Attorney - County Agency'})
     })
     it('returns agency type and id when county agency does not have a name', () => {
       const countyAgencies = [{id: 'A324ad'}]
       const crossReports = [{agencies: [{type: 'COUNTY_LICENSING', code: 'A324ad'}]}]
-      const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'County Licensing - A324ad'})
     })
     it('returns agency type and id when county agnecies empty', () => {
       const countyAgencies = [{id: 'B525ad', name: 'Other Agency'}]
       const crossReports = [{agencies: [{type: 'LAW_ENFORCEMENT', code: 'A324ad'}]}]
-      const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'Law Enforcement - A324ad'})
     })
     it('returns only types when no county agencies', () => {
       const countyAgencies = []
       const crossReports = [{agencies: [{type: 'DISTRICT_ATTORNEY', code: 'A324ad'}]}]
-      const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({A324ad: 'District Attorney - A324ad'})
     })
     it('returns empty map when cross reports is undefined', () => {
       const countyAgencies = [{id: 'A324ad', name: 'County Agency'}]
-      const state = fromJS({countyAgencies, screening: {}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {}})
       expect(getAgencyCodeToNameSelector(state)).toEqual({})
     })
     it('returns empty map when cross reports are empty', () => {
@@ -229,7 +229,7 @@ describe('crossReportShowSelectors', () => {
           {type: 'COUNTY_LICENSING', code: 'A327ad'},
         ],
       }]
-      const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
       expect(getSelectedCrossReportAgencyNamesSelector(state)).toEqualImmutable(fromJS({
         DISTRICT_ATTORNEY: 'District Attorney - County A Agency',
         LAW_ENFORCEMENT: 'Law Enforcement - County B Agency',
@@ -252,7 +252,7 @@ describe('crossReportShowSelectors', () => {
           {type: 'COUNTY_LICENSING'},
         ],
       }]
-      const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
       expect(getSelectedCrossReportAgencyNamesSelector(state)).toEqualImmutable(fromJS({
         DISTRICT_ATTORNEY: 'District Attorney - County A Agency',
         LAW_ENFORCEMENT: 'Law Enforcement - County B Agency',
@@ -273,7 +273,7 @@ describe('crossReportShowSelectors', () => {
           {type: 'COUNTY_LICENSING', code: 'A327ad'},
         ],
       }]
-      const state = fromJS({countyAgencies, screening: {cross_reports: crossReports}})
+      const state = fromJS({systemCodes: {countyAgencies}, screening: {cross_reports: crossReports}})
       expect(getSelectedCrossReportAgencyNamesSelector(state)).toEqualImmutable(fromJS({
         DISTRICT_ATTORNEY: 'District Attorney - A324ad',
         LAW_ENFORCEMENT: 'Law Enforcement - A325ad',

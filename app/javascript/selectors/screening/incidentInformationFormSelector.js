@@ -3,6 +3,7 @@ import LOCATION_TYPE from 'enums/LocationType'
 import {createSelector} from 'reselect'
 import {Map, List, fromJS} from 'immutable'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
+import {getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
 import {isFutureDatetimeCreate, combineCompact} from 'utils/validator'
 
 export const getIncidentInformationFormSelector = (state) => state.get('incidentInformationForm', Map())
@@ -86,7 +87,9 @@ export const getVisibleErrorsSelector = createSelector(
 )
 
 export const getCountiesSelector = (state) =>
-  (state.get('addressCounties').map((county) => ({key: county.get('code'), name: county.get('value')}))).toJS()
+  getAddressCountiesSelector(state)
+    .map((county) => ({key: county.get('code'), name: county.get('value')}))
+    .toJS()
 
 export const getStates = () => US_STATE
 

@@ -14,6 +14,10 @@ import * as matchers from 'jasmine-immutable-matchers'
 describe('personShowSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
+  const systemCodes = {
+    addressTypes: [{code: '32', value: 'Residence'}],
+  }
+
   describe('getFormattedPersonInformationSelector', () => {
     it('returns a blank person when person does not exist', () => {
       const participants = [{id: '1', date_of_birth: '2014-01-15'}]
@@ -226,7 +230,7 @@ describe('personShowSelectors', () => {
         {id: '1', addresses: [{type: '32', legacy_id: '23'}, {type: 'Cell'}]},
         {id: '2', addresses: [{type: 'Cell', legacy_id: '33'}]},
       ]
-      const state = fromJS({participants: people, addressTypes: [{code: '32', value: 'Residence'}]})
+      const state = fromJS({participants: people, systemCodes})
       expect(getReadOnlyPersonFormattedAddressesSelector(state, '1').size).toEqual(1)
     })
   })
@@ -237,7 +241,7 @@ describe('personShowSelectors', () => {
         {id: '1', addresses: [{type: 'Residence'}]},
         {id: '2', addresses: [{type: 'Cell'}]},
       ]
-      const state = fromJS({participants: people, addressTypes: [{code: '32', value: 'Residence'}]})
+      const state = fromJS({participants: people, systemCodes})
       expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('type'))
         .toEqual('Residence')
     })

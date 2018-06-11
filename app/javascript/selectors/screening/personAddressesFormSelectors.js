@@ -1,5 +1,5 @@
 import {List, Map} from 'immutable'
-import {getAddressTypes} from 'selectors/systemCodeSelectors'
+import {getAddressTypesSelector} from 'selectors/systemCodeSelectors'
 import {getZIPErrors} from 'utils/zipValidator'
 
 const getAddresses = (person) => person.get('addresses', List()).map((address) => Map({
@@ -17,6 +17,6 @@ export const getPersonEditableAddressesSelector = (state, personId) => getAddres
   .map((address) => address.delete('legacy_id'))
   .map((address) => address.set('zipError', getZIPErrors(address.get('zip'))))
 
-export const getAddressTypeOptionsSelector = (state) => getAddressTypes(state).map((addressType) => Map({
+export const getAddressTypeOptionsSelector = (state) => getAddressTypesSelector(state).map((addressType) => Map({
   label: addressType.get('value'),
 }))

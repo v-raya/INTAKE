@@ -3,17 +3,18 @@ import {
   getAlertValuesSelector,
   getInformationValueSelector,
 } from 'selectors/screening/workerSafetyFormSelectors'
-import {getSafetyAlertsSelector} from 'selectors/systemCodeSelectors'
 import {setField} from 'actions/workerSafetyFormActions'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
+import SAFETY_ALERT from 'enums/SafetyAlert'
+import selectOptions from 'utils/selectHelper'
 import {connect} from 'react-redux'
 
 export const cardName = 'worker-safety-card'
 
 const mapStateToProps = (state) => (
   {
-    alertOptions: getSafetyAlertsSelector(state),
+    alertOptions: selectOptions(SAFETY_ALERT),
     safetyAlerts: {
       value: getAlertValuesSelector(state).toJS(),
     },

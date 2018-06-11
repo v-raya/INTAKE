@@ -9,11 +9,16 @@ import {
   updatePersonSuccess,
   updatePersonFailure,
 } from 'actions/personCardActions'
-import {fetchScreeningSuccess, fetchScreeningFailure} from 'actions/screeningActions'
+import {
+  fetchScreeningFailure,
+  fetchScreeningSuccess,
+  saveFailure,
+  saveSuccess,
+} from 'actions/screeningActions'
 import * as matchers from 'jasmine-immutable-matchers'
 import allegationsFormReducer from 'reducers/allegationsFormReducer'
 
-describe('narrativeFormReducer', () => {
+describe('allegationsFormReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
   describe('on FETCH_SCREENING_COMPLETE', () => {
@@ -34,6 +39,29 @@ describe('narrativeFormReducer', () => {
 
     it('returns the last state on failure', () => {
       const action = fetchScreeningFailure()
+      expect(allegationsFormReducer(List(), action))
+        .toEqualImmutable(List())
+    })
+  })
+
+  describe('on SAVE_SCREENING_COMPLETE', () => {
+    it('returns the allegations form', () => {
+      const allegations = [{id: '123', victim_person_id: '1', perpetrator_person_id: '2', types: ['General neglect']}]
+      const action = saveSuccess({allegations})
+      expect(allegationsFormReducer(List(), action)).toEqualImmutable(
+        fromJS([
+          {
+            id: '123',
+            victimId: '1',
+            perpetratorId: '2',
+            allegationTypes: ['General neglect'],
+          },
+        ])
+      )
+    })
+
+    it('returns the last state on failure', () => {
+      const action = saveFailure()
       expect(allegationsFormReducer(List(), action))
         .toEqualImmutable(List())
     })

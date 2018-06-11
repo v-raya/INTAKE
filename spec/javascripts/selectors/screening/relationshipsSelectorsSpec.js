@@ -4,7 +4,7 @@ import {
 } from 'selectors/screening/relationshipsSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
-describe('relationshipsViewSelectors', () => {
+describe('relationshipsSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
   const emptyState = fromJS({relationships: []})
@@ -105,7 +105,7 @@ describe('relationshipsViewSelectors', () => {
         {code: '258', value: 'Nephew (Paternal)'},
         {code: '297', value: 'Uncle (Paternal)'},
       ]
-      const state = fromJS({relationships, relationshipTypes, participants})
+      const state = fromJS({relationships, systemCodes: {relationshipTypes}, participants})
 
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
         {
