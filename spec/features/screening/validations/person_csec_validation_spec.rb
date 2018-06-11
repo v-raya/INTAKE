@@ -27,13 +27,11 @@ feature 'CSEC validation' do
   before do
     stub_and_visit_edit_screening(screening)
   end
-  
   context 'csec start date field' do
     let(:csec_start_date_error_message) { 'Start date must be entered.' }
     scenario 'displays an error if the user does not enter a start date' do
-      
       within "#participants-card-#{victim.id}" do
-        expect(page).to have_content('CSEC Start Date') 
+        expect(page).to have_content('CSEC Start Date')
         expect(page).not_to have_content(csec_start_date_error_message)
         fill_in_datepicker 'CSEC Start Date', with: '', blur: false
         expect(page).not_to have_content(csec_start_date_error_message)
@@ -44,13 +42,11 @@ feature 'CSEC validation' do
       end
     end
   end
-  
   context 'csec types field' do
     let(:csec_types_error_message) { 'CSEC type must be selected.' }
-
     scenario 'displays an error if the user does not enter a csec types' do
       within "#participants-card-#{victim.id}" do
-        expect(page).to have_content('CSEC Types') 
+        expect(page).to have_content('CSEC Types')
         expect(page).not_to have_content(csec_types_error_message)
         fill_in_react_select('CSEC Types', with: '')
         expect(page).not_to have_content(csec_types_error_message)
@@ -61,6 +57,5 @@ feature 'CSEC validation' do
         expect(page).not_to have_content(csec_types_error_message)
       end
     end
-  end 
+  end
 end
-
