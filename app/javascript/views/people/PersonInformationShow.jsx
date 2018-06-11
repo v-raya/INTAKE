@@ -64,25 +64,25 @@ const PersonInformationShow = ({
         {ethnicity}
       </ShowField>
     </div>
-    <div className='row gap-top'>
-      { showCSEC &&
-      <div>
+    {showCSEC &&
+    <div>
+      <div className='row gap-top'>
         <div className='col-md-4'>
+          {CSECTypes &&
           <ShowField label='CSEC Types' errors={CSECTypes.errors}>
             {CSECTypes.value.length > 0 &&
               <ul>{CSECTypes.value.map((CSECType, index) => (<li key={`csecType-${index}`}>{CSECType}</li>))}</ul>
             }
-          </ShowField>
+          </ShowField>}
         </div>
         <div className='col-md-4'>
-          <ShowField label='CSEC Start Date' errors={csecStartedAt.errors}>{csecStartedAt.value}</ShowField>
+          {csecStartedAt && <ShowField label='CSEC Start Date' errors={csecStartedAt.errors}>{csecStartedAt.value}</ShowField>}
+        </div>
+        <div className='col-md-4'>
+          {csecEndedAt && <ShowField label='CSEC End Date'>{csecEndedAt}</ShowField>}
         </div>
       </div>
-      }
-      <div className='col-md-4'>
-        {csecEndedAt && <ShowField label='CSEC End Date'>{csecEndedAt}</ShowField>}
-      </div>
-    </div>
+    </div>}
   </div>
 )
 
