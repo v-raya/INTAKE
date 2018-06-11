@@ -8,7 +8,7 @@ import {
 } from 'actions/personCardActions'
 import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
-import {getClientIdsSelector} from 'selectors/clientSelectors'
+import {getClientIds} from 'selectors/participantSelectors'
 import {mapDoraPersonToParticipant} from 'utils/peopleSearchHelper'
 
 export function* createSnapshotPerson({payload: {id}}) {
@@ -17,7 +17,7 @@ export function* createSnapshotPerson({payload: {id}}) {
     const state = yield select()
     const participant = mapDoraPersonToParticipant(state, fromJS(response)).toJS()
     yield put(createPersonSuccess(participant))
-    const clientIds = yield select(getClientIdsSelector)
+    const clientIds = yield select(getClientIds)
     yield put(fetchRelationships(clientIds))
     yield put(fetchHistoryOfInvolvementsByClientIds(clientIds))
   } catch (error) {

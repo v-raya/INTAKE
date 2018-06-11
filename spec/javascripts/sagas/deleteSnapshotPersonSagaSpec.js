@@ -8,7 +8,7 @@ import {DELETE_SNAPSHOT_PERSON} from 'actions/personCardActions'
 import * as personCardActions from 'actions/personCardActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
-import {getClientIdsSelector} from 'selectors/clientSelectors'
+import {getClientIds} from 'selectors/participantSelectors'
 
 describe('deleteParticipantSaga', () => {
   it('deletes participant on DELETE_PERSON', () => {
@@ -27,7 +27,7 @@ describe('deleteParticipant', () => {
       put(personCardActions.deletePersonSuccess(id))
     )
     expect(gen.next().value).toEqual(
-      select(getClientIdsSelector)
+      select(getClientIds)
     )
     const clientIds = ['456', '789']
     expect(gen.next(clientIds).value).toEqual(

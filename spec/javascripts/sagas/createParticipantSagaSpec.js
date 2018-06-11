@@ -6,7 +6,7 @@ import {
   createParticipantSaga,
 } from 'sagas/createParticipantSaga'
 import {CREATE_PERSON} from 'actions/personCardActions'
-import {getClientIdsSelector} from 'selectors/clientSelectors'
+import {getClientIds} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import * as personCardActions from 'actions/personCardActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
@@ -31,7 +31,7 @@ describe('createParticipant', () => {
       put(personCardActions.createPersonSuccess(participant))
     )
 
-    expect(gen.next().value).toEqual(select(getClientIdsSelector))
+    expect(gen.next().value).toEqual(select(getClientIds))
     const clientIds = ['123', '456']
     expect(gen.next(clientIds).value).toEqual(
       put(fetchRelationships(clientIds))
