@@ -64,25 +64,41 @@ export const getFormattedAllegationsSelector = createSelector(
   getSortedPerpetratorsSelector,
   getAllegationsFormSelector,
   (victims, perpetrators, allegations) => (
-    victims.map((victim) => (
-      perpetrators.filterNot((perpetrator) =>
-        victim.get('id') === perpetrator.get('id')
-      ).map((perpetrator, index) => {
-        const victimId = victim.get('id')
-        const perpetratorId = perpetrator.get('id')
-        const allegationTypes = allegations.find((allegation) => (
-          allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
-        ), null, Map()).get('allegationTypes', List())
-        return fromJS({
-          victimName: index === 0 ? nameFormatter(victim.toJS()) : '',
-          victimId,
-          perpetratorName: nameFormatter(perpetrator.toJS()),
-          perpetratorId,
-          allegationTypes,
+    victims.map((victim) => {
+      const filterper = perpetrators.filterNot((perpetrator) => victim.get('id') === perpetrator.get('id'))
+      if (filterper.size === 0) {
+        return filterper.map((index) => {
+          const victimId = victim.get('id')
+          const allegationTypes = allegations.find((allegation) => (
+            allegation.get('victimId') === victimId
+          ), null, Map()).get('allegationTypes', List())
+          return fromJS({
+            victimName: index === 0 ? nameFormatter(victim.toJS()) : '',
+            victimId,
+            // perpetratorName: nameFormatter(perpetrator.toJS()),
+            // perpetratorId,
+            allegationTypes,
+          })
         })
-      })
-    )).flatten(FLATTEN_LEVEL)
-  )
+      } else {
+        return filterper.map((perpetrator, index) => {
+          const victimId = victim.get('id')
+          const perpetratorId = perpetrator.get('id')
+          const allegationTypes = allegations.find((allegation) => (
+            allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
+          ), null, Map()).get('allegationTypes', List())
+          return fromJS({
+            victimName: index === 0 ? nameFormatter(victim.toJS()) : '',
+            victimId,
+            perpetratorName: nameFormatter(perpetrator.toJS()),
+            perpetratorId,
+            allegationTypes,
+          })
+        })
+      }
+    }
+    )
+  ).flatten(FLATTEN_LEVEL)
 )
 
 export const getAllegationsRequiredValueSelector = (state) => (
