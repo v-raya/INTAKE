@@ -15,10 +15,11 @@ const screeningStatus = (decision, decisionDetail) => {
 
 const linkName = (id, referralId, name) => (name || referralId || id)
 
-const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, referralId}) => (
+const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, referralId, screening_status}) => (
   <tr>
     <td><Link to={`/screenings/${id}`}>{linkName(id, referralId, name)}</Link></td>
     <td>{screeningStatus(decision, decisionDetail)}</td>
+    <td>{screening_status}</td>
     <td>&nbsp;</td>
     <td>{assignee}</td>
     <td>
@@ -35,6 +36,7 @@ ScreeningRow.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   referralId: PropTypes.string,
+  screening_status: PropTypes.string,
   startedAt: PropTypes.string,
 }
 export default ScreeningRow
