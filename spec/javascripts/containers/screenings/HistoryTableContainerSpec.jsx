@@ -7,11 +7,13 @@ import * as IntakeConfig from 'common/config'
 
 describe('HistoryTableContainer', () => {
   const state = fromJS({
-    relationshipTypes: [
-      {code: '250', value: 'Mother', category: 'relationship_type'},
-      {code: '214', value: 'Father (Step)', category: 'relationship_type'},
-    ],
-    screenResponseTimes: [{code: '1518', value: 'Immediate'}],
+    systemCodes: {
+      relationshipTypes: [
+        {code: '250', value: 'Mother', category: 'relationship_type'},
+        {code: '214', value: 'Father (Step)', category: 'relationship_type'},
+      ],
+      screenResponseTimes: [{code: '1518', value: 'Immediate'}],
+    },
     involvements: {
       screenings: [
         {

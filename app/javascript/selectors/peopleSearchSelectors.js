@@ -2,7 +2,10 @@ import {
   List,
   Map,
 } from 'immutable'
-import {systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
+import {
+  getCountiesSelector,
+  systemCodeDisplayValue,
+} from 'selectors/systemCodeSelectors'
 import {
   mapLanguages,
   mapIsSensitive,
@@ -80,7 +83,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       ethnicity: mapEthnicities(state, result),
       dateOfBirth: formatDOB(result.get('date_of_birth'), highlight.has('searchable_date_of_birth')),
       ssn: formatSSN(highlight.getIn(['ssn', 0], result.get('ssn'))),
-      clientCounty: systemCodeDisplayValue(result.getIn(['client_county', 'id']), state.get('counties')),
+      clientCounty: systemCodeDisplayValue(result.getIn(['client_county', 'id']), getCountiesSelector(state)),
       address: mapAddress(state, result),
       phoneNumber: formatPhoneNumber(mapPhoneNumber(result).first()),
       isSensitive: mapIsSensitive(result),

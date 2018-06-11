@@ -102,7 +102,7 @@ describe('crossReportFormSelectors', () => {
           'Physical abuse',
         ],
       }]
-      const state = fromJS({crossReportForm, countyAgencies, allegationsForm})
+      const state = fromJS({crossReportForm, systemCodes: {countyAgencies}, allegationsForm})
       expect(getAllegationsRequireCrossReportsValueSelector(state)).toEqual(false)
     })
     it('returns true if allegations require crossReports', () => {
@@ -133,7 +133,7 @@ describe('crossReportFormSelectors', () => {
           'Physical abuse',
         ],
       }]
-      const state = fromJS({crossReportForm, countyAgencies, allegationsForm})
+      const state = fromJS({crossReportForm, systemCodes: {countyAgencies}, allegationsForm})
       expect(getAllegationsRequireCrossReportsValueSelector(state)).toEqual(true)
     })
     it('returns false if allegations do not require crossReports', () => {
@@ -165,7 +165,7 @@ describe('crossReportFormSelectors', () => {
           'At risk, sibling abused',
         ],
       }]
-      const state = fromJS({crossReportForm, countyAgencies, allegationsForm})
+      const state = fromJS({crossReportForm, systemCodes: {countyAgencies}, allegationsForm})
       expect(getAllegationsRequireCrossReportsValueSelector(state)).toEqual(false)
     })
   })
@@ -637,11 +637,13 @@ describe('crossReportFormSelectors', () => {
     it('returns the county code if a match is found', () => {
       const state = fromJS({
         userInfo: {county: 'Dorne'},
-        counties: [
-          {code: '1111', value: 'Stormlands'},
-          {code: '2222', value: 'Dorne'},
-          {code: '3333', value: 'Dragonstone'},
-        ],
+        systemCodes: {
+          counties: [
+            {code: '1111', value: 'Stormlands'},
+            {code: '2222', value: 'Dorne'},
+            {code: '3333', value: 'Dragonstone'},
+          ],
+        },
       })
 
       expect(getUserCountySelector(state)).toEqual('2222')
@@ -650,11 +652,13 @@ describe('crossReportFormSelectors', () => {
     it('returns null if the userInfo is not populated', () => {
       const state = fromJS({
         userInfo: {},
-        counties: [
-          {code: '1111', value: 'Stormlands'},
-          {code: '2222', value: 'Dorne'},
-          {code: '3333', value: 'Dragonstone'},
-        ],
+        systemCodes: {
+          counties: [
+            {code: '1111', value: 'Stormlands'},
+            {code: '2222', value: 'Dorne'},
+            {code: '3333', value: 'Dragonstone'},
+          ],
+        },
       })
 
       expect(getUserCountySelector(state)).toBeNull()
@@ -662,11 +666,13 @@ describe('crossReportFormSelectors', () => {
 
     it('returns null if there is no userInfo at all', () => {
       const state = fromJS({
-        counties: [
-          {code: '1111', value: 'Stormlands'},
-          {code: '2222', value: 'Dorne'},
-          {code: '3333', value: 'Dragonstone'},
-        ],
+        systemCodes: {
+          counties: [
+            {code: '1111', value: 'Stormlands'},
+            {code: '2222', value: 'Dorne'},
+            {code: '3333', value: 'Dragonstone'},
+          ],
+        },
       })
 
       expect(getUserCountySelector(state)).toBeNull()
@@ -675,6 +681,7 @@ describe('crossReportFormSelectors', () => {
     it('returns null if the counties are not populated', () => {
       const state = fromJS({
         userInfo: {county: 'Dorne'},
+        systemCodes: {counties: []},
       })
 
       expect(getUserCountySelector(state)).toBeNull()
@@ -683,11 +690,13 @@ describe('crossReportFormSelectors', () => {
     it('returns null if the user is from an unknown county', () => {
       const state = fromJS({
         userInfo: {county: 'Pentos'},
-        counties: [
-          {code: '1111', value: 'Stormlands'},
-          {code: '2222', value: 'Dorne'},
-          {code: '3333', value: 'Dragonstone'},
-        ],
+        systemCodes: {
+          counties: [
+            {code: '1111', value: 'Stormlands'},
+            {code: '2222', value: 'Dorne'},
+            {code: '3333', value: 'Dragonstone'},
+          ],
+        },
       })
 
       expect(getUserCountySelector(state)).toBeNull()

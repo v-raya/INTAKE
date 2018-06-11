@@ -1,37 +1,19 @@
-import {createSelector} from 'reselect'
 import {Map, List} from 'immutable'
-import SAFETY_ALERT from 'enums/SafetyAlert'
-import selectOptions from 'utils/selectHelper'
 
-/* eslint-disable no-invalid-this */
-export const systemCodeDisplayValue = (code, systemCodes = List(), noSetValue = Map(), context = this) => systemCodes.find(
-  (systemCode) => systemCode.get('code') === code, context, noSetValue
+export const systemCodeDisplayValue = (code, systemCodes = List()) => systemCodes.find(
+  (systemCode) => systemCode.get('code') === code, null, Map()
 ).get('value')
-/* eslint-enable no-invalid-this */
-export const getStatusesSelector = (state) => state.get('contactStatuses')
-export const getPurposesSelector = (state) => state.get('contactPurposes')
-export const getAddressTypes = (state) => state.get('addressTypes')
-export const getLocationsSelector = (state) => state.get('locations')
-export const getCommunicationMethodsSelector = (state) => state.get('communicationMethods')
-export const getAllegationTypesSelector = (state) => state.get('allegationTypes', List())
-export const getSafetyAlertsSelector = (_state) => selectOptions(SAFETY_ALERT)
-export const getAddressCountiesSelector = (state) => state.get('addressCounties', List())
-export const getScreenResponseTimesSelector = (state) => state.get('screenResponseTimes')
-export const getRelationshipTypesSelector = (state) => state.get('relationshipTypes')
 
-/* eslint-disable no-invalid-this */
-export const getInPersonCommunicationMethodValueSelector = createSelector(
-  getCommunicationMethodsSelector,
-  (systemCodes) => {
-    const systemCode = systemCodes.find((systemCode) => systemCode.get('value') === 'In person', this, Map())
-    return systemCode.get('code')
-  }
-)
-export const getOfficeLocationCodeValueSelector = createSelector(
-  getLocationsSelector,
-  (systemCodes) => {
-    const systemCode = systemCodes.find((systemCode) => systemCode.get('value') === 'CWS Office', this, Map())
-    return systemCode.get('code')
-  }
-)
-/* eslint-enable no-invalid-this */
+const getCodes = (type) => (state) => state.getIn(['systemCodes', type])
+
+export const getAddressCountiesSelector = getCodes('addressCounties')
+export const getAddressTypesSelector = getCodes('addressTypes')
+export const getCountiesSelector = getCodes('counties')
+export const getCountyAgenciesSelector = getCodes('countyAgencies')
+export const getEthnicityTypesSelector = getCodes('ethnicityTypes')
+export const getHispanicOriginCodesSelector = getCodes('hispanicOriginCodes')
+export const getLanguagesSelector = getCodes('languages')
+export const getRaceTypesSelector = getCodes('raceTypes')
+export const getRelationshipTypesSelector = getCodes('relationshipTypes')
+export const getScreenResponseTimesSelector = getCodes('screenResponseTimes')
+export const getUnableToDetermineCodesSelector = getCodes('unableToDetermineCodes')
