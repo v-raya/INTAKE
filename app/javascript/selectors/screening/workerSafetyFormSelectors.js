@@ -16,5 +16,9 @@ export const getScreeningWithEditsSelector = createSelector(
   getScreeningSelector,
   getAlertValuesSelector,
   getInformationValueSelector,
-  (screening, alerts, information) => screening.set('safety_alerts', alerts).set('safety_information', information)
+  (state) => state.get('participants', List()),
+  (screening, alerts, information, participants) => screening
+    .set('safety_alerts', alerts)
+    .set('safety_information', information)
+    .set('participants', participants)
 )

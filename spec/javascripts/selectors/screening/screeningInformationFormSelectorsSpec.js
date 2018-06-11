@@ -10,6 +10,15 @@ describe('screeningInformationFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
   describe('getScreeningWithEditsSelector', () => {
+    const screeningInformationForm = {
+      name: {value: 'an edited name'},
+      report_type: {value: 'an edited report type'},
+      started_at: {value: 'an edited start date time'},
+      ended_at: {value: 'an edited end date time'},
+      assignee: {value: 'an edited assignee'},
+      communication_method: {value: 'an edited communication method'},
+    }
+
     it('returns a screening with updated screening information form field values', () => {
       const screening = {
         id: 'existing_screening_id',
@@ -19,14 +28,6 @@ describe('screeningInformationFormSelectors', () => {
         ended_at: 'old value',
         assignee: 'old value',
         communication_method: 'old value',
-      }
-      const screeningInformationForm = {
-        name: {value: 'an edited name'},
-        report_type: {value: 'an edited report type'},
-        started_at: {value: 'an edited start date time'},
-        ended_at: {value: 'an edited end date time'},
-        assignee: {value: 'an edited assignee'},
-        communication_method: {value: 'an edited communication method'},
       }
       const state = fromJS({screening, screeningInformationForm})
       expect(getScreeningWithEditsSelector(state))
@@ -39,6 +40,35 @@ describe('screeningInformationFormSelectors', () => {
             ended_at: 'an edited end date time',
             assignee: 'an edited assignee',
             communication_method: 'an edited communication method',
+            participants: [],
+          })
+        )
+    })
+
+    it('takes the participants from the participants list', () => {
+      const screening = {
+        id: 'existing_screening_id',
+        name: 'old value',
+        report_type: 'old value',
+        started_at: 'old value',
+        ended_at: 'old value',
+        assignee: 'old value',
+        communication_method: 'old value',
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const participants = [{id: '123', first_name: 'Mario'}]
+      const state = fromJS({screening, screeningInformationForm, participants})
+      expect(getScreeningWithEditsSelector(state))
+        .toEqualImmutable(
+          fromJS({
+            id: 'existing_screening_id',
+            name: 'an edited name',
+            report_type: 'an edited report type',
+            started_at: 'an edited start date time',
+            ended_at: 'an edited end date time',
+            assignee: 'an edited assignee',
+            communication_method: 'an edited communication method',
+            participants,
           })
         )
     })

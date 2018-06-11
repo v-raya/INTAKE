@@ -46,7 +46,22 @@ describe('workerSafetyFormSelectors', () => {
       }
       const state = fromJS({screening, workerSafetyForm})
       expect(getScreeningWithEditsSelector(state))
-        .toEqualImmutable(fromJS({safety_alerts: List(['123']), safety_information: '456'}))
+        .toEqualImmutable(fromJS({safety_alerts: List(['123']), safety_information: '456', participants: []}))
+    })
+    it('takes the participants from the participants list', () => {
+      const screening = {
+        safety_alerts: ['ABC'],
+        safety_information: 'DEF',
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const workerSafetyForm = {
+        safety_alerts: {value: ['123'], touched: true},
+        safety_information: {value: '456', touched: true},
+      }
+      const participants = [{id: '123', first_name: 'Mario'}]
+      const state = fromJS({screening, workerSafetyForm, participants})
+      expect(getScreeningWithEditsSelector(state))
+        .toEqualImmutable(fromJS({safety_alerts: List(['123']), safety_information: '456', participants}))
     })
   })
 })

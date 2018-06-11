@@ -581,6 +581,7 @@ describe('crossReportFormSelectors', () => {
       expect(getScreeningWithEditsSelector(state))
         .toEqualImmutable(fromJS({
           cross_reports: [],
+          participants: [],
         }))
     })
     it('returns a screening with an updated cross_reports if the form has a value', () => {
@@ -629,6 +630,27 @@ describe('crossReportFormSelectors', () => {
               ],
             },
           ],
+          participants: [],
+        }))
+    })
+
+    it('takes the participants from the participants list', () => {
+      const screening = {
+        cross_reports: [],
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const crossReportForm = getCrossReportState({
+        county_id: {
+          value: '',
+          touched: true,
+        },
+      })
+      const participants = [{id: '123', first_name: 'Mario'}]
+      const state = fromJS({screening, crossReportForm, participants})
+      expect(getScreeningWithEditsSelector(state))
+        .toEqualImmutable(fromJS({
+          cross_reports: [],
+          participants,
         }))
     })
   })

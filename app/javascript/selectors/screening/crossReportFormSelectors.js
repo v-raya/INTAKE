@@ -50,12 +50,14 @@ export const getScreeningWithEditsSelector = createSelector(
   (state) => state.getIn(['crossReportForm', 'inform_date', 'value']) || null,
   (state) => state.getIn(['crossReportForm', 'method', 'value']) || null,
   getSelectedAgenciesSelector,
+  (state) => state.get('participants', List()),
   (
     screening,
     county_id,
     inform_date,
     method,
-    agencies
+    agencies,
+    participants
   ) => {
     if (agencies.size) {
       return screening
@@ -63,8 +65,11 @@ export const getScreeningWithEditsSelector = createSelector(
         .setIn(['cross_reports', 0, 'inform_date'], inform_date)
         .setIn(['cross_reports', 0, 'method'], method)
         .setIn(['cross_reports', 0, 'agencies'], agencies)
+        .set('participants', participants)
     } else {
-      return screening.set('cross_reports', List())
+      return screening
+        .set('cross_reports', List())
+        .set('participants', participants)
     }
   }
 )

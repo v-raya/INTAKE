@@ -308,6 +308,37 @@ describe('screeningDecisionFormSelectors', () => {
         access_restrictions: '4',
         restrictions_rationale: '5',
         narrative: 'Hello',
+        participants: [],
+      }))
+    })
+
+    it('takes the participants from the participants list', () => {
+      const screening = {
+        screening_decision: 'ABC',
+        screening_decision_detail: 'DEF',
+        additional_information: 'GHI',
+        access_restrictions: 'JKL',
+        restrictions_rationale: 'MNO',
+        narrative: 'Hello',
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const screeningDecisionForm = {
+        screening_decision: {value: '1'},
+        screening_decision_detail: {value: '2'},
+        additional_information: {value: '3'},
+        access_restrictions: {value: '4'},
+        restrictions_rationale: {value: '5'},
+      }
+      const participants = [{id: '123', first_name: 'Mario'}]
+      const state = fromJS({screening, screeningDecisionForm, participants})
+      expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
+        screening_decision: '1',
+        screening_decision_detail: '2',
+        additional_information: '3',
+        access_restrictions: '4',
+        restrictions_rationale: '5',
+        narrative: 'Hello',
+        participants,
       }))
     })
   })
