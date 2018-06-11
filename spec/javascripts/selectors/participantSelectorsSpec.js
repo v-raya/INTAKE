@@ -1,6 +1,7 @@
 import {fromJS, List, Map} from 'immutable'
 import {
   getClientIds,
+  selectParticipant,
   selectParticipants,
 } from 'selectors/participantSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
@@ -23,6 +24,31 @@ describe('participantSelectors', () => {
 
     it('should select an empty list if no participants', () => {
       expect(selectParticipants(Map())).toEqualImmutable(List())
+    })
+  })
+
+  describe('selectParticipant', () => {
+    const state = fromJS({
+      participants: [
+        {id: '1', first_name: 'Mario'},
+        {id: '2', first_name: 'Luigi'},
+        {id: '3', first_name: 'Peach'},
+      ],
+    })
+    it('should select a Maybe of a participant from state', () => {
+      const participant = selectParticipant(state, '1')
+      expect(participant.isSomething()).toEqual(true)
+      expect(participant.valueOrElse()).toEqualImmutable(
+        fromJS({id: '1', first_name: 'Mario'})
+      )
+    })
+
+    it('should select nothing when participant not found', () => {
+      expect(selectParticipant(state, '0').isNothing()).toEqual(true)
+    })
+
+    it('should select nothing when there are no participants', () => {
+      expect(selectParticipant(Map(), '1').isNothing()).toEqual(true)
     })
   })
 

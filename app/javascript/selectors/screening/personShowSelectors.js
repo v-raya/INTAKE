@@ -2,7 +2,7 @@ import {List, Map, fromJS} from 'immutable'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import GENDERS from 'enums/Genders'
 import US_STATE from 'enums/USState'
-import {selectParticipants} from 'selectors/participantSelectors'
+import {selectParticipant} from 'selectors/participantSelectors'
 import {getAddressTypesSelector, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
 import nameFormatter from 'utils/nameFormatter'
@@ -14,11 +14,11 @@ import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
 import moment from 'moment'
 
-const getPersonSelector = (state, personId) =>
-  selectParticipants(state).find((person) => person.get('id') === personId) || Map()
+const selectPersonOrEmpty = (state, personId) =>
+  selectParticipant(state, personId).valueOrElse(Map())
 
 export const getNamesRequiredSelector = (state, personId) => {
-  const person = getPersonSelector(state, personId)
+  const person = selectPersonOrEmpty(state, personId)
   const roles = person.get('roles', List())
   return (roles.includes('Victim') || roles.includes('Collateral'))
 }
@@ -34,7 +34,7 @@ const getAlertMessageByRole = (roles) => {
 
 export const getPersonAlertErrorMessageSelector = (state, personId) => {
   const required = getNamesRequiredSelector(state, personId)
-  const person = getPersonSelector(state, personId)
+  const person = selectPersonOrEmpty(state, personId)
   const lastName = person.get('last_name')
   const firstName = person.get('first_name')
   const roles = person.get('roles', List())
@@ -46,7 +46,7 @@ export const getPersonAlertErrorMessageSelector = (state, personId) => {
 
 const calculateAgeFromScreeningDate = (state, personId) => {
   const screeningStartDate = moment(state.getIn(['screeningInformationForm', 'started_at', 'value']))
-  const person = getPersonSelector(state, personId)
+  const person = selectPersonOrEmpty(state, personId)
   const dateOfBirth = person.get('date_of_birth') || ''
   const approximateAge = parseInt(person.get('approximate_age'), 10)
   const approximateAgeUnit = person.get('approximate_age_units')
@@ -99,7 +99,7 @@ const getCSECStartedAtErrors = (state, csecStartedAt, roles, screeningReportType
 )
 
 export const getErrorsSelector = (state, personId) => {
-  const person = getPersonSelector(state, personId)
+  const person = selectPersonOrEmpty(state, personId)
   const ssn = person.get('ssn') || ''
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   const lastName = person.get('last_name')
@@ -145,7 +145,7 @@ const getEthnicity = (person) => {
 }
 
 export const getFormattedPersonInformationSelector = (state, personId) => {
-  const person = getPersonSelector(state, personId)
+  const person = selectPersonOrEmpty(state, personId)
   const legacyDescriptor = person.get('legacy_descriptor')
   const showApproximateAge = !person.get('date_of_birth') && person.get('approximate_age')
   const approximateAge = showApproximateAge ? [person.get('approximate_age'), person.get('approximate_age_units')].join(' ') : undefined
@@ -183,7 +183,7 @@ export const getFormattedPersonWithErrorsSelector = (state, personId) => {
     .setIn(['csecStartedAt', 'errors'], errors.get('csecStartedAt'))
 }
 export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
-  selectParticipants(state).find((person) => person.get('id') === personId)
+  selectPersonOrEmpty(state, personId)
     .get('phone_numbers', List()).map((phoneNumber) => (
       Map({
         number: phoneNumberFormatter(phoneNumber.get('number')),
@@ -199,7 +199,7 @@ const formattedState = (stateCode) => {
 }
 
 export const getAllPersonFormattedAddressesSelector = (state, personId) => (
-  selectParticipants(state).find((person) => person.get('id') === personId)
+  selectPersonOrEmpty(state, personId)
     .get('addresses', List()).map((address) =>
       Map({
         street: address.get('street_address'),

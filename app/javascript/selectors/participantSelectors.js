@@ -1,6 +1,13 @@
 import {List} from 'immutable'
+import {Maybe} from 'utils/maybe'
 
 export const selectParticipants = (state) => state.get('participants', List())
+
+const hasId = (id) => (participant) => participant.get('id') === id
+
+export const selectParticipant = (state, id) => Maybe.of(
+  selectParticipants(state).find(hasId(id))
+)
 
 export const getClientIds = (state) =>
   selectParticipants(state).map(
