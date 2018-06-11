@@ -146,7 +146,7 @@ describe('personCSECFormSelectors', () => {
       it('doesnot returns an error if csec types is a present', () => {
         const peopleForm = {
           one: {
-            csec_types: {value: ['At Risk', 'Victim Before Foster Care']},
+            csec_types: {value: ['At Risk', 'Victim Before Foster Care'], touched: true},
           },
         }
         const state = fromJS({peopleForm})

@@ -81,7 +81,7 @@ export function validateAllFields({screening, fieldValidations}) {
   return Immutable.Map(errors)
 }
 
-const isTypesRequired = ({value, errorMessage}) => {
+const hasRequiredValues = ({value, errorMessage}) => {
   if ((!value) || (value.size === 0)) {
     return errorMessage
   } else {
@@ -89,13 +89,13 @@ const isTypesRequired = ({value, errorMessage}) => {
   }
 }
 
-export const isTypesRequiredCreate = (value, errorMessage) => () => isTypesRequired({value, errorMessage})
+export const hasRequiredValuesCreate = (value, errorMessage) => () => hasRequiredValues({value, errorMessage})
 
-const isTypesRequiredIf = ({value, errorMessage, condition}) => {
+const hasRequiredValuesIf = ({value, errorMessage, condition}) => {
   if (condition()) {
-    return isRequired({value, errorMessage})
+    return hasRequiredValues({value, errorMessage})
   }
   return undefined
 }
 
-export const isTypesRequiredIfCreate = (value, errorMessage, condition) => () => isTypesRequiredIf({value, errorMessage, condition})
+export const hasRequiredValuesIfCreate = (value, errorMessage, condition) => () => hasRequiredValuesIf({value, errorMessage, condition})

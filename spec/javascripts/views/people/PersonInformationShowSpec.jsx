@@ -109,8 +109,8 @@ describe('PersonInformationShow', () => {
 
   it('renders the CSEC type error if CSEC type is not selected', () => {
     const view = renderPersonShow({CSECTypes: {value: [], errors: ['CSEC type must be selected.']}, showCSEC: true})
-    const rolesField = view.find('ShowField[label="CSEC Types"]')
-    expect(rolesField.html()).toContain('CSEC type must be selected.')
+    const csecTypesField = view.find('ShowField[label="CSEC Types"]')
+    expect(csecTypesField.html()).toContain('CSEC type must be selected.')
   })
 
   it('renders the CSEC Start Date of the person when provided', () => {
@@ -120,8 +120,8 @@ describe('PersonInformationShow', () => {
 
   it('renders the CSEC started date error if CSEC started date is not selected', () => {
     const view = renderPersonShow({csecStartedAt: {value: '', errors: ['Start date must be entered.']}, showCSEC: true})
-    const rolesField = view.find('ShowField[label="CSEC Start Date"]')
-    expect(rolesField.html()).toContain('Start date must be entered.')
+    const csecStartField = view.find('ShowField[label="CSEC Start Date"]')
+    expect(csecStartField.html()).toContain('Start date must be entered.')
   })
 
   it('renders the CSEC End Date of the person when provided', () => {

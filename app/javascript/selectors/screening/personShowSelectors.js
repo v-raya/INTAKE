@@ -6,7 +6,7 @@ import ssnFormatter from 'utils/ssnFormatter'
 import {dateFormatter} from 'utils/dateFormatter'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import US_STATE from 'enums/USState'
-import {isRequiredIfCreate, combineCompact, isTypesRequiredIfCreate} from 'utils/validator'
+import {isRequiredIfCreate, combineCompact, hasRequiredValuesIfCreate} from 'utils/validator'
 import {getAddressTypes, systemCodeDisplayValue} from 'selectors/systemCodeSelectors'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {getSSNErrors} from 'utils/ssnValidator'
@@ -87,12 +87,12 @@ const getRoleErrors = (state, personId, roles) => combineCompact(
   }
 )
 
-const getCSECTypeErrors = (state, personId, csecTypes, roles, screeningReportType) => combineCompact(
-  isTypesRequiredIfCreate(csecTypes, 'CSEC type must be selected.',
+const getCSECTypeErrors = (state, csecTypes, roles, screeningReportType) => combineCompact(
+  hasRequiredValuesIfCreate(csecTypes, 'CSEC type must be selected.',
     () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
 )
 
-const getCSECStartedAtErrors = (state, personId, csecStartedAt, roles, screeningReportType) => combineCompact(
+const getCSECStartedAtErrors = (state, csecStartedAt, roles, screeningReportType) => combineCompact(
   isRequiredIfCreate(csecStartedAt, 'Start date must be entered.',
     () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
 )
@@ -119,8 +119,8 @@ export const getErrorsSelector = (state, personId) => {
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
     addressZip,
-    csecTypes: getCSECTypeErrors(state, personId, csecTypes, rolesTypes, screeningReportType),
-    csecStartedAt: getCSECStartedAtErrors(state, personId, csecStartedAt, rolesTypes, screeningReportType),
+    csecTypes: getCSECTypeErrors(state, csecTypes, rolesTypes, screeningReportType),
+    csecStartedAt: getCSECStartedAtErrors(state, csecStartedAt, rolesTypes, screeningReportType),
   })
 }
 
