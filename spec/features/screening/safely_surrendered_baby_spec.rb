@@ -75,7 +75,9 @@ feature 'safely surrendered baby' do
         med_questionaire_return_date: nil,
         comments: nil,
         participant_child: nil
-      }
+      },
+      csec_started_at: nil,
+      csec_types: []
     }
   end
 
@@ -122,7 +124,9 @@ feature 'safely surrendered baby' do
         ethnicity_detail: []
       },
       legacy_descriptor: nil,
-      safelySurrenderedBabies: nil
+      safelySurrenderedBabies: nil,
+      csec_started_at: nil,
+      csec_types: []
     }
   end
 
