@@ -12,6 +12,6 @@ COPY scripts/build.sh /usr/local/bin/build.sh
 RUN chmod +x /usr/local/bin/build.sh
 
 COPY . ./
-RUN bundle install -j8
+RUN bundle install
 RUN yarn
 RUN bin/webpack
