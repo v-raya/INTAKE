@@ -171,7 +171,7 @@ feature 'Relationship card' do
         expect(page).to have_content('Jane Campbell Sister (Half)')
         expect(page).to have_content('Jake Campbell Brother (Half)')
       end
-      
+
       expect(
         a_request(
           :get,
@@ -192,7 +192,7 @@ feature 'Relationship card' do
 
           expect(page).to have_content('Jane Campbell Sister (Half)')
           expect(page).to have_content('Jake Campbell Brother (Half)')
-          end
+        end
 
         expect(
           a_request(
@@ -328,8 +328,10 @@ feature 'Relationship card' do
 
           describe '.attached-person' do
             scenario 'does not show "Attach" link' do
-              find(:xpath, ".//tr[td[contains(., 'Jake Campbell')]]/td/a", :text=>'Attach').click
-              expect(page).not_to have_xpath(".//tr[td[contains(., 'Jake Campbell')]]/td/a", :text=>'Attach')
+              find(:xpath, ".//tr[td[contains(., 'Jake Campbell')]]/td/a",
+                text: 'Attach').click
+              expect(page).not_to have_xpath(".//tr[td[contains(., 'Jake Campbell')]]/td/a",
+                text: 'Attach')
             end
           end
         end
@@ -355,10 +357,10 @@ feature 'Relationship card' do
               ).to have_been_made.twice
 
               expect(page).to \
-                have_selector(:css, 'div#history-card table.history-table td', text: [new_participant.first_name,
-                                           new_participant.last_name].join(' '),
-                                    count: 1)
-                      
+                have_selector(:css, 'div#history-card table.history-table td',
+                  text: [new_participant.first_name,
+                         new_participant.last_name].join(' '),
+                  count: 1)
             end
           end
         end
