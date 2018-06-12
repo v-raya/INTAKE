@@ -19,5 +19,11 @@ describe('ScreeningRow', () => {
       expect(link.props().to).toEqual('/screenings/1')
       expect(link.html()).toEqual('<a>456</a>')
     })
+
+    it('renders screening status when available', () => {
+      const props = {id: '1', referralId: '456', name: null, screening_status: 'open'}
+      const view = shallow(<ScreeningRow {...props} />, {disableLifecycleMethods: true})
+      expect(view.html()).toContain('open')
+    })
   })
 })
