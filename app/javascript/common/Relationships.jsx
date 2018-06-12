@@ -26,7 +26,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
               (person.relationships.length > 0) &&
               <span>
                 <RelationCard firstName={person.name} data={person.relationships}
-                  attachActions={(cell, row) => (callAttachLink(row, pendingPeople, isScreening, screeningId, onClick)
+                  tableActions={(cell, row) => (callAttachLink(row, pendingPeople, isScreening, screeningId, onClick)
                   )}
                 />
               </span>

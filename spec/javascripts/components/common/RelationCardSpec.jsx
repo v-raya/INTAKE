@@ -15,7 +15,7 @@ describe('RelationCard', () => {
     expect(wrapper.find('BootstrapTable').length).toBe(1)
   })
   it('has a TableHeaderColumn', () => {
-    expect(wrapper.find('TableHeaderColumn').length).toBe(5)
+    expect(wrapper.find('TableHeaderColumn').length).toBe(3)
   })
   it('has props', () => {
     expect(component.prop('firstName')).toEqual('Han')
