@@ -5,7 +5,7 @@ import SCREENING_DECISION_OPTIONS from '../enums/ScreeningDecisionOptions'
 import moment from 'moment'
 import {Link} from 'react-router'
 
-const screeningStatus = (decision, decisionDetail) => {
+const decisionType = (decision, decisionDetail) => {
   if (['promote_to_referral', 'screen_out'].includes(decision)) {
     const responseTimes = SCREENING_DECISION_OPTIONS[decision]
     return responseTimes.values[decisionDetail]
@@ -18,7 +18,7 @@ const linkName = (id, referralId, name) => (name || referralId || id)
 const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, referralId, screening_status}) => (
   <tr>
     <td><Link to={`/screenings/${id}`}>{linkName(id, referralId, name)}</Link></td>
-    <td>{screeningStatus(decision, decisionDetail)}</td>
+    <td>{decisionType(decision, decisionDetail)}</td>
     <td>{screening_status}</td>
     <td>&nbsp;</td>
     <td>{assignee}</td>
