@@ -64,15 +64,24 @@ export const getFormattedAllegationsSelector = createSelector(
   getSortedPerpetratorsSelector,
   getAllegationsFormSelector,
   (victims, perpetrators, allegations) => (
-    victims.map((victim) => (
-      perpetrators.filterNot((perpetrator) =>
-        victim.get('id') === perpetrator.get('id')
-      ).map((perpetrator, index) => {
+    victims.map((victim) => {
+      const filterPerpetrator = perpetrators.filterNot((perpetrator) => victim.get('id') === perpetrator.get('id'))
+      if (filterPerpetrator.size === 0) {
+        const victimId = victim.get('id')
+        const allegationTypes = allegations.find((allegation) => (allegation.get('victimId') === victimId
+        ), null, Map()).get('allegationTypes') || List()
+        return fromJS([{
+          victimName: nameFormatter(victim.toJS()),
+          victimId,
+          allegationTypes,
+        }])
+      }
+      return filterPerpetrator.map((perpetrator, index) => {
         const victimId = victim.get('id')
         const perpetratorId = perpetrator.get('id')
         const allegationTypes = allegations.find((allegation) => (
           allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
-        ), null, Map()).get('allegationTypes', List())
+        ), null, Map()).get('allegationTypes') || List()
         return fromJS({
           victimName: index === 0 ? nameFormatter(victim.toJS()) : '',
           victimId,
@@ -81,8 +90,8 @@ export const getFormattedAllegationsSelector = createSelector(
           allegationTypes,
         })
       })
-    )).flatten(FLATTEN_LEVEL)
-  )
+    })
+  ).flatten(FLATTEN_LEVEL)
 )
 
 export const getAllegationsRequiredValueSelector = (state) => (

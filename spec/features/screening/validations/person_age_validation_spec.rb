@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 
 feature 'Person Information Validations' do
   let(:screening) do
@@ -20,6 +19,10 @@ feature 'Person Information Validations' do
   let(:person_name) { "#{person.first_name} #{person.last_name}" }
 
   before do
+    stub_request(
+      :put,
+      intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+    ).and_return(json_body(person.to_json))
     stub_and_visit_edit_screening(screening)
   end
 
@@ -49,14 +52,14 @@ feature 'Person Information Validations' do
             intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
           ).and_return(json_body(person.to_json))
 
-          within('.card.edit', text: person_name) { click_button 'Save' }
+          within('.card.edit.participant', text: person_name) { click_button 'Save' }
 
           within('.card.show', text: person_name) do
             expect(page).not_to have_content(error_message)
             click_link 'Edit'
           end
 
-          within('.card.edit', text: person_name) do
+          within('.card.edit.participant', text: person_name) do
             fill_in 'Approximate Age', with: valid_approximate_age
             expect(page).not_to have_content(error_message)
           end
@@ -158,14 +161,14 @@ feature 'Person Information Validations' do
 
           ).and_return(json_body(person.to_json))
 
-          within('.card.edit', text: person_name) { click_button 'Save' }
+          within('.card.edit.participant', text: person_name) { click_button 'Save' }
 
           within('.card.show', text: person_name) do
             expect(page).not_to have_content(error_message)
             click_link 'Edit'
           end
 
-          within('.card.edit', text: person_name) do
+          within('.card.edit.participant', text: person_name) do
             fill_in_datepicker 'Date of birth', with: Time.new(1987, 12, 13)
             expect(page).not_to have_content(error_message)
           end

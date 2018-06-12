@@ -86,4 +86,3 @@ AllegationsForm.propTypes = {
 }
 
 export default AllegationsForm
-

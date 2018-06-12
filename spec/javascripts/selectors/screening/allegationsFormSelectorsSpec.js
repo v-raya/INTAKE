@@ -106,6 +106,26 @@ describe('allegationsFormSelectors', () => {
       }]))
     })
 
+    it('build allegation with only a victim', () => {
+      const participants = [
+        {id: '1', first_name: 'John', last_name: 'Smith', roles: ['Victim']},
+      ]
+      const state = fromJS({participants})
+      expect(getFormattedAllegationsSelector(state)).toEqualImmutable(fromJS([{
+        victimName: 'John Smith',
+        victimId: '1',
+        allegationTypes: [],
+      }]))
+    })
+
+    it('does not build allegation with only a perpetrator', () => {
+      const participants = [
+        {id: '2', first_name: 'Jane', last_name: 'Doe', roles: ['Perpetrator']},
+      ]
+      const state = fromJS({participants})
+      expect(getFormattedAllegationsSelector(state)).toEqualImmutable(fromJS([]))
+    })
+
     it('only includes the victim name in the first allegation for that victim', () => {
       const participants = [
         {id: '1', first_name: 'John', last_name: 'Aaron', roles: ['Victim', 'Perpetrator']},
@@ -376,4 +396,3 @@ describe('allegationsFormSelectors', () => {
     })
   })
 })
-

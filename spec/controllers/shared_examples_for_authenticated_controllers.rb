@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for 'an authenticated controller action' do
   context 'when authentication is enabled' do

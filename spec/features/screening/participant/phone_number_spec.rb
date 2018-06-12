@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 
 feature 'Participant Phone Number' do
   let(:existing_phone_number) { PhoneNumber.new(id: '1', number: '9175555555', type: 'Work') }

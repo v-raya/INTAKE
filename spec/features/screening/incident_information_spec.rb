@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
-require 'factory_bot'
 
 feature 'screening incident information card' do
   let(:existing_screening) do

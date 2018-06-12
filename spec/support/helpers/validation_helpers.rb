@@ -40,7 +40,7 @@ module ValidationHelpers
       intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
     ).and_return(json_body(person.to_json))
 
-    within('.card.edit', text: person_name) { click_button 'Save' }
+    within('.card.edit.participant', text: person_name) { click_button 'Save' }
 
     within('.card.show', text: person_name) do
       error_messages.each do |message|
@@ -49,7 +49,7 @@ module ValidationHelpers
       click_link 'Edit'
     end
 
-    within('.card.edit', text: person_name) do
+    within('.card.edit.participant', text: person_name) do
       error_messages.each do |message|
         expect(page).to have_content(message, count: 1)
       end
@@ -67,7 +67,7 @@ module ValidationHelpers
       intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
     ).and_return(json_body(person.to_json))
 
-    within('.card.edit', text: person_name) do
+    within('.card.edit.participant', text: person_name) do
       error_messages.each do |message|
         expect(page).not_to have_content(message)
       end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 
 feature 'Screening Decision Validations' do
   let(:error_message) { 'Please enter at least one allegation to promote to referral.' }
