@@ -101,7 +101,8 @@ feature 'home page' do
             expect(page).to have_link(screening_one[:name],
               href: screening_path(id: screening_one[:id]))
             expect(page).to have_text(
-              'Little Shop of Horrors Differential response submitted Melody Pond 08/11/2016 11:24 AM'
+              'Little Shop of Horrors Differential response '\
+              'submitted Melody Pond 08/11/2016 11:24 AM'
             )
           end
           within rows[1] do
@@ -174,7 +175,9 @@ feature 'home page' do
         within 'tbody' do
           rows = all('tr')
           within rows[0] do
-            expect(page).to have_text("It's bigger on the inside open Clara Oswald 08/11/2016 5:00 PM")
+            expect(page).to have_text(
+              "It's bigger on the inside open Clara Oswald 08/11/2016 5:00 PM"
+            )
           end
           within rows[1] do
             expect(page).to have_content('Immediate submitted')
@@ -206,7 +209,7 @@ feature 'home page' do
             id: 2,
             screening_decision: 'screen_out',
             screening_decision_detail: 'evaluate_out',
-            screening_status: 'submitted',
+            screening_status: 'submitted'
           },
           {
             id: 3,
@@ -234,7 +237,9 @@ feature 'home page' do
         within 'tbody' do
           rows = all('tr')
           within rows[0] do
-            expect(page).to have_text("It's bigger on the inside submitted Clara Oswald 08/11/2016 5:00 PM")
+            expect(page).to have_text(
+              "It's bigger on the inside submitted Clara Oswald 08/11/2016 5:00 PM"
+            )
           end
           within rows[1] do
             expect(page).to have_content('Evaluate out submitted')
