@@ -1,6 +1,6 @@
 import {takeEvery, put, call, select} from 'redux-saga/effects'
 import * as api from 'utils/http'
-import {saveSuccess, saveFailure, SAVE_SCREENING} from 'actions/screeningActions'
+import {saveSuccess, saveFailure, saveFailureFromNoParticipants, SAVE_SCREENING} from 'actions/screeningActions'
 import {getScreeningWithAllegationsEditsSelector} from 'selectors/screening/allegationsFormSelectors'
 import {
   getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
@@ -60,6 +60,11 @@ export function* saveScreeningCard({payload: {card}}) {
         screening = yield select(getScreeningWithWorkerSafetyEditsSelector)
         break
       }
+    }
+
+    if (screening.get('participants') === undefined) {
+      yield put(saveFailureFromNoParticipants())
+      return
     }
     const id = screening.get('id')
     const path = `/api/v1/screenings/${id}`

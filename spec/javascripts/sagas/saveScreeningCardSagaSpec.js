@@ -3,7 +3,7 @@ import {takeEvery, put, call, select} from 'redux-saga/effects'
 import * as Utils from 'utils/http'
 import {fromJS} from 'immutable'
 import {saveScreeningCardSaga, saveScreeningCard} from 'sagas/saveScreeningCardSaga'
-import {saveSuccess, saveFailure, saveCard, SAVE_SCREENING} from 'actions/screeningActions'
+import {saveSuccess, saveFailure, saveFailureFromNoParticipants, saveCard, SAVE_SCREENING} from 'actions/screeningActions'
 import {getScreeningWithAllegationsEditsSelector} from 'selectors/screening/allegationsFormSelectors'
 import {
   getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
@@ -41,7 +41,7 @@ describe('saveScreeningCardSaga', () => {
 describe('saveScreeningCard', () => {
   it('saves allegations edits and puts screening', () => {
     const action = saveCard(allegationsCardName)
-    const screening = fromJS({id: 123, allegations: []})
+    const screening = fromJS({id: 123, allegations: [], participants: []})
 
     const gen = saveScreeningCard(action)
     expect(gen.next().value).toEqual(
@@ -57,7 +57,7 @@ describe('saveScreeningCard', () => {
 
   it('saves screening information edits and puts screening', () => {
     const action = saveCard(screeningInformationCardName)
-    const screening = fromJS({id: 123, name: 'My Screening'})
+    const screening = fromJS({id: 123, name: 'My Screening', participants: []})
 
     const gen = saveScreeningCard(action)
     expect(gen.next().value).toEqual(
@@ -73,7 +73,7 @@ describe('saveScreeningCard', () => {
 
   it('saves narrative edits and puts screening', () => {
     const action = saveCard(narrativeCardName)
-    const screening = fromJS({id: 123, narrative: 'My Narrative'})
+    const screening = fromJS({id: 123, narrative: 'My Narrative', participants: []})
 
     const gen = saveScreeningCard(action)
     expect(gen.next().value).toEqual(
@@ -89,7 +89,7 @@ describe('saveScreeningCard', () => {
 
   it('saves incident information edits and puts screening', () => {
     const action = saveCard(incidentInformationCardName)
-    const screening = fromJS({id: 123, incident_date: '01/01/1990'})
+    const screening = fromJS({id: 123, incident_date: '01/01/1990', participants: []})
 
     const gen = saveScreeningCard(action)
     expect(gen.next().value).toEqual(
@@ -105,7 +105,7 @@ describe('saveScreeningCard', () => {
 
   it('saves worker safety edits and puts screening', () => {
     const action = saveCard(workerSafetyCardName)
-    const screening = fromJS({id: 123, safety_alerts: []})
+    const screening = fromJS({id: 123, safety_alerts: [], participants: []})
 
     const gen = saveScreeningCard(action)
     expect(gen.next().value).toEqual(
@@ -121,7 +121,7 @@ describe('saveScreeningCard', () => {
 
   it('saves cross reports edits and puts screening', () => {
     const action = saveCard(crossReportsCardName)
-    const screening = fromJS({id: 123, cross_reports: []})
+    const screening = fromJS({id: 123, cross_reports: [], participants: []})
 
     const gen = saveScreeningCard(action)
     expect(gen.next().value).toEqual(
@@ -137,7 +137,7 @@ describe('saveScreeningCard', () => {
 
   it('saves decision edits and puts screening', () => {
     const action = saveCard(decisionCardName)
-    const screening = fromJS({id: 123, decision: 'screen_out'})
+    const screening = fromJS({id: 123, decision: 'screen_out', participants: []})
 
     const gen = saveScreeningCard(action)
     expect(gen.next().value).toEqual(
@@ -153,7 +153,7 @@ describe('saveScreeningCard', () => {
 
   it('puts errors when errors are thrown', () => {
     const action = saveCard(allegationsCardName)
-    const screening = fromJS({id: 123, allegations: []})
+    const screening = fromJS({id: 123, allegations: [], participants: []})
 
     const gen = saveScreeningCard(action)
     expect(gen.next().value).toEqual(
@@ -166,5 +166,18 @@ describe('saveScreeningCard', () => {
     expect(gen.throw(error).value).toEqual(
       put(saveFailure(error))
     )
+  })
+
+  it('puts saveFailure when saving the screening with undefined participants', () => {
+    const action = saveCard(allegationsCardName)
+    const screening = fromJS({id: 123, allegations: []})
+
+    const gen = saveScreeningCard(action)
+    expect(gen.next().value).toEqual(
+      select(getScreeningWithAllegationsEditsSelector)
+    )
+
+    expect(gen.next(screening).value).toEqual(put(saveFailureFromNoParticipants()))
+    expect(gen.next().done).toEqual(true)
   })
 })

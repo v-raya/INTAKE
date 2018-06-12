@@ -32,6 +32,9 @@ export const getPageErrorMessageValueSelector = createSelector(
   (errors, systemErrorIncidentIds, apiValidationErrors) => {
     if (apiValidationErrors.size) {
       return `${apiValidationErrors.size} error(s) have been identified. Please fix them and try submitting again.`
+    } else if (errors.some((error) => error.get('friendly_message'))) {
+      const error = errors.find((error) => error.get('friendly_message'))
+      return `Something went wrong, sorry! ${error.get('friendly_message')}`
     } else {
       let message = 'Something went wrong, sorry! Please try your last action again.'
       if (systemErrorIncidentIds.size) {
