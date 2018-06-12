@@ -98,7 +98,7 @@ feature 'CSEC validation' do
         updated_participant = victim.as_json.merge(
           csec_ended_at: '2018-11-13',
           csec_started_at: '2018-11-12',
-          csec_types: 'At Risk'
+          csec_types: ['At Risk']
         )
 
         stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(victim.id)))
