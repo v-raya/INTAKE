@@ -37,7 +37,9 @@ export default createReducer(List(), {
   [SET_ALLEGATION_TYPES](state, {payload: {victimId, perpetratorId, allegationTypes}}) {
     const notFound = -1
     const allegationIndex = state.findIndex((allegation) => (
-      allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
+      (victimId && perpetratorId) ? (
+        allegation.get('victimId') === victimId && allegation.get('perpetratorId') === perpetratorId
+      ) : (allegation.get('victimId') === victimId)
     ))
     if (allegationIndex === notFound) {
       return state.push(fromJS({
