@@ -17,6 +17,7 @@ describe('screeningDecisionFormReducer', () => {
       const action = fetchScreeningSuccess({
         screening_decision: 'promote_to_referral',
         screening_decision_detail: '3_day',
+        screening_contact_reference: '0442-2654-1834-4001650',
         access_restrictions: 'sealed',
         restrictions_rationale: 'Because I said so',
         additional_information: 'Really bad thing happened.',
@@ -29,6 +30,10 @@ describe('screeningDecisionFormReducer', () => {
           },
           screening_decision_detail: {
             value: '3_day',
+            touched: false,
+          },
+          screening_contact_reference: {
+            value: '0442-2654-1834-4001650',
             touched: false,
           },
           access_restrictions: {
@@ -58,6 +63,7 @@ describe('screeningDecisionFormReducer', () => {
       const action = resetFieldValues({
         screening_decision: 'ABC',
         screening_decision_detail: 'DEF',
+        screening_contact_reference: 'e0442-2654-1834-4001650',
         additional_information: 'GHI',
         access_restrictions: 'JKL',
         restrictions_rationale: 'MNO',
@@ -65,6 +71,7 @@ describe('screeningDecisionFormReducer', () => {
       const state = fromJS({
         screening_decision: {value: '123', touched: false},
         screening_decision_detail: {value: '123', touched: false},
+        screening_contact_reference: {value: '123', touched: false},
         additional_information: {value: '123', touched: false},
         access_restrictions: {value: '123', touched: false},
         restrictions_rationale: {value: '123', touched: false},
@@ -73,6 +80,7 @@ describe('screeningDecisionFormReducer', () => {
         fromJS({
           screening_decision: {value: 'ABC', touched: false},
           screening_decision_detail: {value: 'DEF', touched: false},
+          screening_contact_reference: {value: 'e0442-2654-1834-4001650', touched: false},
           additional_information: {value: 'GHI', touched: false},
           access_restrictions: {value: 'JKL', touched: false},
           restrictions_rationale: {value: 'MNO', touched: false}})
@@ -116,6 +124,7 @@ describe('screeningDecisionFormReducer', () => {
       const state = fromJS({
         screening_decision: {value: '123', touched: false},
         screening_decision_detail: {value: '123', touched: false},
+        screening_contact_reference: {value: '123', touched: false},
         additional_information: {value: '123', touched: false},
         access_restrictions: {value: '123', touched: false},
         restrictions_rationale: {value: '123', touched: false},
@@ -124,6 +133,7 @@ describe('screeningDecisionFormReducer', () => {
         fromJS({
           screening_decision: {value: '123', touched: true},
           screening_decision_detail: {value: '123', touched: true},
+          screening_contact_reference: {value: '123', touched: true},
           additional_information: {value: '123', touched: true},
           access_restrictions: {value: '123', touched: true},
           restrictions_rationale: {value: '123', touched: true},
