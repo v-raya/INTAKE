@@ -27,7 +27,7 @@ class ScreeningsTable extends React.Component {
           <thead>{this.renderTableHead()}</thead>
           <tbody>
             {
-              this.props.screenings.map(({id, name, screening_decision, screening_decision_detail, assignee, started_at, referral_id}) => (
+              this.props.screenings.map(({id, name, screening_decision, screening_decision_detail, assignee, started_at, referral_id, screening_status}) => (
                 <ScreeningRow
                   key={id}
                   id={id}
@@ -37,6 +37,7 @@ class ScreeningsTable extends React.Component {
                   assignee={assignee}
                   startedAt={started_at}
                   referralId={referral_id}
+                  screening_status={screening_status}
                 />
               )
               )

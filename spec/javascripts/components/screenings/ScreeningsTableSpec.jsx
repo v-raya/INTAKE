@@ -22,6 +22,7 @@ describe('ScreeningsTable', () => {
       assignee: 'Robert Jones',
       started_at: '2016-09-21T14:26:58.042Z',
       referral_id: '456',
+      screening_status: 'open',
     }]
     const view = shallow(<ScreeningsTable screenings={screenings} />, {disableLifecycleMethods: true})
     const screeningRow = view.find('ScreeningRow')
@@ -33,6 +34,7 @@ describe('ScreeningsTable', () => {
       assignee: 'Robert Jones',
       startedAt: '2016-09-21T14:26:58.042Z',
       referralId: '456',
+      screening_status: 'open',
     })
   })
 })
