@@ -112,7 +112,7 @@ export const getErrorsSelector = (state, personId) => {
   const roles = person.get('roles', List())
   const csecTypes = person.get('csec_types', List())
   const csecStartedAt = person.get('csec_started_at')
-  const screeningReportType = person.getIn(['screening', 'report_type', 'value'])
+  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const rolesTypes = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   return fromJS({
     name: getNameErrors(firstName, lastName, roles),
@@ -149,7 +149,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
   const showApproximateAge = !person.get('date_of_birth') && person.get('approximate_age')
   const approximateAge = showApproximateAge ? [person.get('approximate_age'), person.get('approximate_age_units')].join(' ') : undefined
   const dateOfBirth = person.get('date_of_birth') && dateFormatter(person.get('date_of_birth'))
-  const screeningReportType = person.getIn(['screening', 'report_type', 'value'])
+  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   const showCSEC = roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'
   return fromJS({
