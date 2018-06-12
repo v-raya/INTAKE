@@ -1,6 +1,6 @@
 import {fromJS, List, Map} from 'immutable'
 import {
-  getClientIds,
+  selectClientIds,
   selectParticipant,
   selectParticipants,
 } from 'selectors/participantSelectors'
@@ -52,7 +52,7 @@ describe('participantSelectors', () => {
     })
   })
 
-  describe('getClientIds', () => {
+  describe('selectClientIds', () => {
     it('should select ids from legacy_id field', () => {
       const state = fromJS({
         participants: [{
@@ -60,7 +60,7 @@ describe('participantSelectors', () => {
         }],
       })
 
-      expect(getClientIds(state)).toEqual(['ABC'])
+      expect(selectClientIds(state)).toEqual(['ABC'])
     })
 
     it('should select ids from legacy_descriptor', () => {
@@ -72,7 +72,7 @@ describe('participantSelectors', () => {
         }],
       })
 
-      expect(getClientIds(state)).toEqual(['DEF'])
+      expect(selectClientIds(state)).toEqual(['DEF'])
     })
 
     it('should bypass null legacy_ids', () => {
@@ -85,7 +85,7 @@ describe('participantSelectors', () => {
         }],
       })
 
-      expect(getClientIds(state)).toEqual(['DEF'])
+      expect(selectClientIds(state)).toEqual(['DEF'])
     })
 
     it('should select multiple clients', () => {
@@ -100,7 +100,7 @@ describe('participantSelectors', () => {
         }],
       })
 
-      expect(getClientIds(state)).toEqual(['ABC', 'DEF'])
+      expect(selectClientIds(state)).toEqual(['ABC', 'DEF'])
     })
   })
 })

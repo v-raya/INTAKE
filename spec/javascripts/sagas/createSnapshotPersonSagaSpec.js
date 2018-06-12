@@ -10,7 +10,7 @@ import {CREATE_SNAPSHOT_PERSON} from 'actions/personCardActions'
 import * as personCardActions from 'actions/personCardActions'
 import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
-import {getClientIds} from 'selectors/participantSelectors'
+import {selectClientIds} from 'selectors/participantSelectors'
 import {RESIDENCE_TYPE} from 'enums/AddressType'
 
 describe('createSnapshotPersonSaga', () => {
@@ -164,7 +164,7 @@ describe('createSnapshotPerson', () => {
       put(personCardActions.createPersonSuccess(participant))
     )
     expect(gen.next().value).toEqual(
-      select(getClientIds)
+      select(selectClientIds)
     )
     expect(gen.next(['1']).value).toEqual(
       put(fetchRelationships(['1']))

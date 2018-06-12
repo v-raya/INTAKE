@@ -9,7 +9,7 @@ export const selectParticipant = (state, id) => Maybe.of(
   selectParticipants(state).find(hasId(id))
 )
 
-export const getClientIds = (state) =>
+export const selectClientIds = (state) =>
   selectParticipants(state).map(
     (client) =>
       client.get('legacy_id') ||
