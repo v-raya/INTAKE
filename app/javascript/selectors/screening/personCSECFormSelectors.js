@@ -4,6 +4,7 @@ import {
   isFutureDatetimeCreate,
   isBeforeDatetimeCreate,
   combineCompact,
+  hasRequiredValuesCreate,
 } from 'utils/validator'
 
 export const getPersonCSECDetailsSelector = (state, personId) => {
@@ -27,12 +28,16 @@ export const getCSECRequireValidationSelector = (state, personId) => {
 export const getErrorsSelector = (state, personId) => {
   const csecStartedAt = state.getIn(['peopleForm', personId, 'csec_started_at', 'value'])
   const csecEndedAt = state.getIn(['peopleForm', personId, 'csec_ended_at', 'value'])
+  const csecTypes = state.getIn(['peopleForm', personId, 'csec_types', 'value'])
   return fromJS({
+    csec_types: combineCompact(
+      hasRequiredValuesCreate(csecTypes, 'CSEC type must be selected.')
+    ),
     csec_ended_at: combineCompact(
       isFutureDatetimeCreate(csecEndedAt, 'The end date and time cannot be in the future.')
     ),
     csec_started_at: combineCompact(
-      isRequiredCreate(csecStartedAt, 'Please enter a csec start date.'),
+      isRequiredCreate(csecStartedAt, 'Start date must be entered.'),
       isFutureDatetimeCreate(csecStartedAt, 'The start date and time cannot be in the future.'),
       isBeforeDatetimeCreate(
         csecEndedAt,

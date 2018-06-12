@@ -19,6 +19,7 @@ const PersonInformationShow = ({
   roles,
   ssn,
   alertErrorMessage,
+  showCSEC,
 }) => (
   <div>
     { alertErrorMessage && <AlertErrorMessage message={alertErrorMessage} /> }
@@ -63,26 +64,40 @@ const PersonInformationShow = ({
         {ethnicity}
       </ShowField>
     </div>
-    <div className='row gap-top'>
-      <div className='col-md-4'>
-        {CSECTypes && <ShowField label='CSEC Types'>{CSECTypes}</ShowField>}
+    {showCSEC &&
+    <div>
+      <div className='row gap-top'>
+        <div className='col-md-4'>
+          {CSECTypes &&
+          <ShowField label='CSEC Types' errors={CSECTypes.errors}>
+            {CSECTypes.value.length > 0 &&
+              <ul>{CSECTypes.value.map((CSECType, index) => (<li key={`csecType-${index}`}>{CSECType}</li>))}</ul>
+            }
+          </ShowField>}
+        </div>
+        <div className='col-md-4'>
+          {csecStartedAt && <ShowField label='CSEC Start Date' errors={csecStartedAt.errors}>{csecStartedAt.value}</ShowField>}
+        </div>
+        <div className='col-md-4'>
+          {csecEndedAt && <ShowField label='CSEC End Date'>{csecEndedAt}</ShowField>}
+        </div>
       </div>
-      <div className='col-md-4'>
-        {csecStartedAt && <ShowField label='CSEC Start Date'>{csecStartedAt}</ShowField>}
-      </div>
-      <div className='col-md-4'>
-        {csecEndedAt && <ShowField label='CSEC End Date'>{csecEndedAt}</ShowField>}
-      </div>
-    </div>
+    </div>}
   </div>
 )
 
 PersonInformationShow.propTypes = {
-  CSECTypes: PropTypes.array,
+  CSECTypes: PropTypes.shape({
+    errors: PropTypes.array,
+    value: PropTypes.array,
+  }),
   alertErrorMessage: PropTypes.string,
   approximateAge: PropTypes.string,
   csecEndedAt: PropTypes.string,
-  csecStartedAt: PropTypes.string,
+  csecStartedAt: PropTypes.shape({
+    errors: PropTypes.array,
+    value: PropTypes.string,
+  }),
   dateOfBirth: PropTypes.string,
   ethnicity: PropTypes.string,
   gender: PropTypes.string,
@@ -98,6 +113,7 @@ PersonInformationShow.propTypes = {
     errors: PropTypes.array,
     value: PropTypes.array,
   }),
+  showCSEC: PropTypes.bool,
   ssn: PropTypes.shape({
     errors: PropTypes.array,
     value: PropTypes.string,

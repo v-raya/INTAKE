@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import Select from 'react-select'
 import CSEC_TYPES from 'enums/CSECTypes'
+import ErrorMessages from 'common/ErrorMessages'
 
 const PersonCSECForm = ({
   CSECTypes,
@@ -30,8 +31,10 @@ const PersonCSECForm = ({
               inputProps={{id: `csec_types_${personId}`}}
               options={CSEC_TYPES.map((csec_type) => ({value: csec_type, label: csec_type}))}
               value={CSECTypes}
+              onBlur={() => onBlur('csec_types')}
               onChange={(values) => onChange('csec_types', values.map(({value}) => value))}
             />
+            {<ErrorMessages ariaDescribedBy={`csec_types_${personId}`} errors={errors.csec_types}/>}
           </div>
           <DateField
             gridClassName='col-md-3'

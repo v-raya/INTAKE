@@ -27,4 +27,6 @@ class Participant
   attribute :ethnicity, Ethnicity, default: ->(_person, _attribute) { Ethnicity.new }
   attribute :legacy_descriptor, LegacyDescriptor
   attribute :safelySurrenderedBabies, SafelySurrenderedBabies
+  attribute :csec_started_at
+  attribute :csec_types, Array[String]
 end

@@ -38,12 +38,11 @@ describe('PersonCSECForm', () => {
     expect(csecEndedAt.props().errors).toEqual(['Error 1'])
   })
 
-  it('renders the CSEC type field and its options', () => {
-    const form = renderPersonCSECForm({
-      personId: '1', CSECTypes: ['At Risk', 'Victim During Foster Care'],
-    })
-    const CSECField = form.find('Select[multi]')
-    expect(CSECField.props().value).toEqual(['At Risk', 'Victim During Foster Care'])
+  it('renders ErrorMessage for csec types', () => {
+    const component = renderPersonCSECForm({errors: {csec_types: ['csec types error']}})
+    const errors = component.find('ErrorMessages')
+    expect(errors.exists()).toEqual(true)
+    expect(errors.props().errors).toEqual(['csec types error'])
   })
 
   describe('onChange', () => {
@@ -68,6 +67,34 @@ describe('PersonCSECForm', () => {
       renderPersonCSECForm({CSECTypes: ['At Risk'], onChange}).find('Select')
         .simulate('change', [{value: 'At Risk'}])
       expect(onChange).toHaveBeenCalledWith('csec_types', ['At Risk'])
+    })
+  })
+
+  describe('onBlur', () => {
+    let onBlur
+    beforeEach(() => {
+      onBlur = jasmine.createSpy('onBlur')
+    })
+
+    it('calls on blur when csec start date field is blurred', () => {
+      renderPersonCSECForm({onBlur})
+        .find('DateField[label="CSEC Start Date"]')
+        .simulate('blur')
+      expect(onBlur).toHaveBeenCalledWith('csec_started_at')
+    })
+
+    it('calls on blur when csec end date field is blurred', () => {
+      renderPersonCSECForm({onBlur})
+        .find('DateField[label="CSEC End Date"]')
+        .simulate('blur')
+      expect(onBlur).toHaveBeenCalledWith('csec_ended_at')
+    })
+
+    it('calls on blur when csec types field is blurred', () => {
+      renderPersonCSECForm({onBlur})
+        .find('Select[multi]')
+        .simulate('blur')
+      expect(onBlur).toHaveBeenCalledWith('csec_types')
     })
   })
 })

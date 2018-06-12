@@ -80,3 +80,22 @@ export function validateAllFields({screening, fieldValidations}) {
   })
   return Immutable.Map(errors)
 }
+
+const hasRequiredValues = ({value, errorMessage}) => {
+  if ((!value) || (value.size === 0)) {
+    return errorMessage
+  } else {
+    return undefined
+  }
+}
+
+export const hasRequiredValuesCreate = (value, errorMessage) => () => hasRequiredValues({value, errorMessage})
+
+const hasRequiredValuesIf = ({value, errorMessage, condition}) => {
+  if (condition()) {
+    return hasRequiredValues({value, errorMessage})
+  }
+  return undefined
+}
+
+export const hasRequiredValuesIfCreate = (value, errorMessage, condition) => () => hasRequiredValuesIf({value, errorMessage, condition})

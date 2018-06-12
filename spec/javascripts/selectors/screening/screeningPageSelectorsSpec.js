@@ -97,8 +97,8 @@ describe('screeningPageSelectors', () => {
   describe('getPeopleHaveErrorsSelector', () => {
     it('returns false if there are no errors for people on the screening', () => {
       const people = [
-        {id: 'one', ssn: '123-45-6789'},
-        {id: 'two', ssn: '087-65-4321'},
+        {id: 'one', ssn: '123-45-6789', csec_types: ['At Risk'], csec_started_at: '02/02/2222'},
+        {id: 'two', ssn: '087-65-4321', csec_types: ['Victim Before Foster Care'], csec_started_at: '02/02/2223'},
       ]
       const state = fromJS({participants: people})
       expect(getPeopleHaveErrorsSelector(state)).toEqual(false)
@@ -122,8 +122,8 @@ describe('screeningPageSelectors', () => {
     })
     it('returns false if there are no errors on the zip', () => {
       const people = [
-        {id: 'one', addresses: [{zip: '12345'}]},
-        {id: 'two', addresses: [{zip: '91212'}]},
+        {id: 'one', addresses: [{zip: '12345'}], csec_types: ['At Risk'], csec_started_at: '02/02/2222'},
+        {id: 'two', addresses: [{zip: '91212'}], csec_types: ['Victim Before Foster Care'], csec_started_at: '02/02/2223'},
       ]
       const state = fromJS({participants: people})
       expect(getPeopleHaveErrorsSelector(state)).toEqual(false)
