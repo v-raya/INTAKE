@@ -1,30 +1,39 @@
 import React from 'react'
 import RelationCard from 'common/RelationCard'
-import {mount, shallow} from 'enzyme'
+import {shallow} from 'enzyme'
 
 describe('RelationCard', () => {
-  const wrapper = shallow(<RelationCard />)
-  const RelationCardProps = {
+  const props = {
     firstName: 'Han',
     lastName: 'Solo',
+    data: [{
+      name: 'Luke Skywalker',
+      secondaryRelationship: 'No Relation',
+    }],
+    attachActions: () => {},
+    expandableRow: () => {},
+    expandComponent: () => {},
+    expandColumnComponent: {},
   }
-  const component = mount(<RelationCard />)
-  component.setProps(RelationCardProps)
+  const renderRelationCard = (props) => shallow(<RelationCard {...props}/>, {disableLifecycleMethods: true})
 
   it('has a BootstrapTable', () => {
-    expect(wrapper.find('BootstrapTable').length).toBe(1)
+    expect(renderRelationCard(props).find('BootstrapTable').length).toBe(1)
   })
+
   it('has a TableHeaderColumn', () => {
-    expect(wrapper.find('TableHeaderColumn').length).toBe(3)
+    expect(renderRelationCard(props).find('TableHeaderColumn').length).toBe(3)
   })
-  it('has props', () => {
-    expect(component.prop('firstName')).toEqual('Han')
-    expect(component.prop('lastName')).toEqual('Solo')
-    expect(
-      component
-        .find('div')
-        .at(1)
-        .props().className
-    ).toEqual('childName')
+
+  it('renders the firstName and lastName', () => {
+    expect(renderRelationCard(props).find('div.childName').text()).toEqual('Han Solo')
+  })
+
+  describe('BootstrapTable', () => {
+    const render = renderRelationCard(props)
+
+    it('has props data passed by RelationCard', () => {
+      expect(render.find('BootstrapTable').prop('data')).toBe(props.data)
+    })
   })
 })
