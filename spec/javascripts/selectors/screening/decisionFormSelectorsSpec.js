@@ -17,6 +17,8 @@ import {
   getErrorsSelector,
   getVisibleErrorsSelector,
   getAdditionalInfoRequiredSelector,
+  selectContactReferenceValue,
+  selectContactReference,
 } from 'selectors/screening/decisionFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -288,6 +290,7 @@ describe('screeningDecisionFormSelectors', () => {
       const screening = {
         screening_decision: 'ABC',
         screening_decision_detail: 'DEF',
+        screening_contact_reference: 'REF',
         additional_information: 'GHI',
         access_restrictions: 'JKL',
         restrictions_rationale: 'MNO',
@@ -296,6 +299,7 @@ describe('screeningDecisionFormSelectors', () => {
       const screeningDecisionForm = {
         screening_decision: {value: '1'},
         screening_decision_detail: {value: '2'},
+        screening_contact_reference: {value: 'REF'},
         additional_information: {value: '3'},
         access_restrictions: {value: '4'},
         restrictions_rationale: {value: '5'},
@@ -304,6 +308,7 @@ describe('screeningDecisionFormSelectors', () => {
       expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
         screening_decision: '1',
         screening_decision_detail: '2',
+        screening_contact_reference: 'REF',
         additional_information: '3',
         access_restrictions: '4',
         restrictions_rationale: '5',
@@ -316,6 +321,7 @@ describe('screeningDecisionFormSelectors', () => {
       const screening = {
         screening_decision: 'ABC',
         screening_decision_detail: 'DEF',
+        screening_contact_reference: 'REF',
         additional_information: 'GHI',
         access_restrictions: 'JKL',
         restrictions_rationale: 'MNO',
@@ -325,6 +331,7 @@ describe('screeningDecisionFormSelectors', () => {
       const screeningDecisionForm = {
         screening_decision: {value: '1'},
         screening_decision_detail: {value: '2'},
+        screening_contact_reference: {value: 'REF'},
         additional_information: {value: '3'},
         access_restrictions: {value: '4'},
         restrictions_rationale: {value: '5'},
@@ -334,6 +341,7 @@ describe('screeningDecisionFormSelectors', () => {
       expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
         screening_decision: '1',
         screening_decision_detail: '2',
+        screening_contact_reference: 'REF',
         additional_information: '3',
         access_restrictions: '4',
         restrictions_rationale: '5',
@@ -559,6 +567,70 @@ describe('screeningDecisionFormSelectors', () => {
       }]
       const state = fromJS({screeningDecisionForm, allegationsForm})
       expect(getDecisionAlertErrorMessageSelector(state)).toEqual(undefined)
+    })
+  })
+
+  describe('selectContactReference', () => {
+    it('selectContactReferenceValue returns a value', () => {
+      const screeningDecisionForm = {
+        screening_decision: {value: 'information_to_child_welfare_services'},
+        screening_decision_detail: {value: ''},
+        screening_contact_reference: {value: '1111-1111'},
+      }
+      const state = fromJS({screeningDecisionForm})
+      expect(selectContactReferenceValue(state)).toEqual('1111-1111')
+    })
+
+    it('selectContactReferenceField returns a map with field data', () => {
+      const screeningDecisionForm = {
+        screening_decision: {value: 'information_to_child_welfare_services'},
+        screening_contact_reference: {value: '1111-1111'},
+      }
+      const state = fromJS({screeningDecisionForm})
+      expect(selectContactReference(state)).toEqualImmutable(Map({required: true, value: '1111-1111', errors: List()}))
+    })
+    describe('validations', () => {
+      it('no error is returned if the field contains an valid case or referal id', () => {
+        const screeningDecisionForm = {
+          screening_decision: {value: 'information_to_child_welfare_services'},
+          screening_contact_reference: {value: '0442-2654-1834-4001650', touched: true},
+        }
+        const involvements = {
+          referrals: [{
+            start_date: '01/01/2014',
+            legacy_descriptor: {
+              legacy_ui_id: '0442-2654-1834-4001650',
+            },
+          }],
+          cases: [{
+            start_date: '01/01/2014',
+            end_date: '02/02/2014',
+          }],
+        }
+        const state = fromJS({screeningDecisionForm, involvements})
+        expect(selectContactReference(state)).toEqualImmutable(Map({required: true, value: '0442-2654-1834-4001650', errors: List()}))
+      })
+
+      it('an error is returned if the field contains an invalid case or referal id', () => {
+        const screeningDecisionForm = {
+          screening_decision: {value: 'information_to_child_welfare_services'},
+          screening_contact_reference: {value: '', touched: true},
+        }
+        const involvements = {
+          referrals: [{
+            start_date: '01/01/2014',
+            legacy_descriptor: {
+              legacy_ui_id: '0442-2654-1834-4001650',
+            },
+          }],
+          cases: [{
+            start_date: '01/01/2014',
+            end_date: '02/02/2014',
+          }],
+        }
+        const state = fromJS({screeningDecisionForm, involvements})
+        expect(selectContactReference(state)).toEqualImmutable(Map({required: true, value: '', errors: List(['Please enter a valid Case or Referral Id'])}))
+      })
     })
   })
 })
