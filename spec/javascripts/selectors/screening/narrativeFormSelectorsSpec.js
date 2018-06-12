@@ -31,7 +31,19 @@ describe('narrativeFormSelectors', () => {
       const narrativeForm = {report_narrative: {value: '123', touched: true}}
       const state = fromJS({screening, narrativeForm})
       expect(getScreeningWithEditsSelector(state))
-        .toEqualImmutable(fromJS({report_narrative: '123'}))
+        .toEqualImmutable(fromJS({report_narrative: '123', participants: []}))
+    })
+
+    it('takes the participants from the participants list', () => {
+      const screening = {
+        report_narrative: 'ABC',
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const narrativeForm = {report_narrative: {value: '123', touched: true}}
+      const participants = [{id: '123', first_name: 'Mario'}]
+      const state = fromJS({screening, narrativeForm, participants})
+      expect(getScreeningWithEditsSelector(state))
+        .toEqualImmutable(fromJS({report_narrative: '123', participants}))
     })
   })
 

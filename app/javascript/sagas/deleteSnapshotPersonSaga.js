@@ -5,11 +5,11 @@ import {
 } from 'actions/personCardActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
-import {getClientIdsSelector} from 'selectors/clientSelectors'
+import {selectClientIds} from 'selectors/participantSelectors'
 
 export function* deleteSnapshotPerson({payload: {id}}) {
   yield put(deletePersonSuccess(id))
-  const clientIds = yield select(getClientIdsSelector)
+  const clientIds = yield select(selectClientIds)
   yield put(fetchRelationships(clientIds))
   yield put(fetchHistoryOfInvolvementsByClientIds(clientIds))
 }

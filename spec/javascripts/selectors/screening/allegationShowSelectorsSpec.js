@@ -32,7 +32,7 @@ describe('allegationShowSelectors', () => {
           types: ['Physical abuse'],
         },
       ]
-      const state = fromJS({screening: {participants, allegations}})
+      const state = fromJS({screening: {allegations}, participants})
       expect(getFormattedAllegationsSelector(state)).toEqualImmutable(fromJS([
         {victim: 'John Smith', perpetrator: 'Jane Doe', type: 'General neglect'},
         {victim: 'John Smith', perpetrator: 'Jane Doe', type: 'Severe neglect'},

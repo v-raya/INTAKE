@@ -193,6 +193,21 @@ describe('errorsSelectors', () => {
       const state = fromJS({errors})
       expect(getPageErrorMessageValueSelector(state)).toEqual('2 error(s) have been identified. Please fix them and try submitting again.')
     })
+    it('returns a front-end error with friendly message if one exists and apiValidationErrors is null', () => {
+      const errors = {[SUBMIT_SCREENING_COMPLETE]: [
+        {
+          incident_id: '1',
+          type: 'not_constraint_validation',
+        },
+        {
+          type: 'not_constraint_validation',
+          friendly_message: 'Oops!',
+        },
+      ]}
+      const state = fromJS({errors})
+      expect(getPageErrorMessageValueSelector(state)).toEqual('Something went wrong, sorry! Oops!')
+    })
+
     it('returns a system error with incident ids if systemErrorIncidentIds exists and apiValidationErrors is null', () => {
       const errors = {[SUBMIT_SCREENING_COMPLETE]: [
         {

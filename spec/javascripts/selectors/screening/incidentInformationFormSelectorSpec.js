@@ -113,6 +113,35 @@ describe('incidentInformationFormSelectors', () => {
   })
 
   describe('getScreeningWithEditsSelector', () => {
+    const incidentInformationForm = {
+      incident_date: {
+        value: '1/3/2009',
+      },
+      incident_county: {
+        value: 'new county',
+      },
+      incident_address: {
+        id: '1',
+        street_address: {
+          value: 'new address',
+        },
+        city: {
+          value: 'new city',
+        },
+        state: {
+          value: 'new state',
+        },
+        zip: {
+          value: 'new zip',
+        },
+      },
+      location_type: {
+        value: 'new location type',
+      },
+      current_location_of_children: {
+        value: 'new location of children',
+      },
+    }
     it('returns the screening with edits', () => {
       const screening = {
         incident_date: '1/2/2009',
@@ -127,35 +156,6 @@ describe('incidentInformationFormSelectors', () => {
         location_type: 'old location type',
         current_location_of_children: 'Old location of children',
       }
-      const incidentInformationForm = {
-        incident_date: {
-          value: '1/3/2009',
-        },
-        incident_county: {
-          value: 'new county',
-        },
-        incident_address: {
-          id: '1',
-          street_address: {
-            value: 'new address',
-          },
-          city: {
-            value: 'new city',
-          },
-          state: {
-            value: 'new state',
-          },
-          zip: {
-            value: 'new zip',
-          },
-        },
-        location_type: {
-          value: 'new location type',
-        },
-        current_location_of_children: {
-          value: 'new location of children',
-        },
-      }
       const state = fromJS({incidentInformationForm, screening})
       expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
         incident_date: '1/3/2009',
@@ -169,6 +169,40 @@ describe('incidentInformationFormSelectors', () => {
         },
         location_type: 'new location type',
         current_location_of_children: 'new location of children',
+        participants: [],
+      }))
+    })
+
+    it('takes the participants from the participants list', () => {
+      const screening = {
+        incident_date: '1/2/2009',
+        incident_county: 'old county',
+        incident_address: {
+          id: '1',
+          street_address: 'old address',
+          city: 'old city',
+          state: 'old state',
+          zip: 'old zip',
+        },
+        location_type: 'old location type',
+        current_location_of_children: 'Old location of children',
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const participants = [{id: '123', first_name: 'Mario'}]
+      const state = fromJS({incidentInformationForm, screening, participants})
+      expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
+        incident_date: '1/3/2009',
+        incident_county: 'new county',
+        incident_address: {
+          id: '1',
+          street_address: 'new address',
+          city: 'new city',
+          state: 'new state',
+          zip: 'new zip',
+        },
+        location_type: 'new location type',
+        current_location_of_children: 'new location of children',
+        participants,
       }))
     })
 

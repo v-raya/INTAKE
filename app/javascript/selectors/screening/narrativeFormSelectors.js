@@ -1,6 +1,7 @@
 import {createSelector} from 'reselect'
 import {isRequiredCreate, combineCompact} from 'utils/validator'
 import {Map, fromJS, List} from 'immutable'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 
 export const getReportNarrativeValueSelector = createSelector(
@@ -11,7 +12,10 @@ export const getReportNarrativeValueSelector = createSelector(
 export const getScreeningWithEditsSelector = createSelector(
   getScreeningSelector,
   getReportNarrativeValueSelector,
-  (screening, reportNarrative) => screening.set('report_narrative', reportNarrative)
+  selectParticipants,
+  (screening, reportNarrative, participants) => screening
+    .set('report_narrative', reportNarrative)
+    .set('participants', participants)
 )
 
 export const getTouchedFieldsSelector = createSelector(

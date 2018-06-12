@@ -36,6 +36,7 @@ import DecisionFormContainer from 'containers/screenings/DecisionFormContainer'
 import DecisionShowContainer from 'containers/screenings/DecisionShowContainer'
 import PageHeader from 'common/PageHeader'
 import {getScreeningSubmissionErrorsSelector, getApiValidationErrorsSelector} from 'selectors/errorsSelectors'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningTitleSelector, getScreeningIsReadOnlySelector} from 'selectors/screeningSelectors'
 import {
   getAllCardsAreSavedValueSelector,
@@ -245,7 +246,7 @@ export function mapStateToProps(state, _ownProps) {
     editable: !getScreeningIsReadOnlySelector(state),
     loaded: state.getIn(['screening', 'fetch_status']) === 'FETCHED',
     mode: state.getIn(['screeningPage', 'mode']),
-    participants: state.get('participants').toJS(),
+    participants: selectParticipants(state).toJS(),
     reference: state.getIn(['screening', 'reference']),
     referralId: state.getIn(['screening', 'referral_id']),
     hasApiValidationErrors: Boolean(getApiValidationErrorsSelector(state).size),

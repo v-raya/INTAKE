@@ -7,7 +7,7 @@ import {
 } from 'sagas/deleteParticipantSaga'
 import {DELETE_PERSON} from 'actions/personCardActions'
 import {fetch as fetchAllegations} from 'actions/screeningAllegationsActions'
-import {getClientIdsSelector} from 'selectors/clientSelectors'
+import {selectClientIds} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import * as personCardActions from 'actions/personCardActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
@@ -34,7 +34,7 @@ describe('deleteParticipant', () => {
     expect(gen.next('444').value).toEqual(
       put(fetchAllegations('444'))
     )
-    expect(gen.next().value).toEqual(select(getClientIdsSelector))
+    expect(gen.next().value).toEqual(select(selectClientIds))
     const clientIds = ['456', '789']
     expect(gen.next(clientIds).value).toEqual(
       put(fetchRelationships(clientIds))

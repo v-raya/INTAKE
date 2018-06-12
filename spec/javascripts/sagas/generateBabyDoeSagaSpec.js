@@ -9,6 +9,7 @@ import {GENERATE_BABY_DOE} from 'actions/safelySurrenderedBabyActions'
 import {
   saveCard,
   saveFailure,
+  saveFailureFromNoParticipants,
   saveSuccess,
 } from 'actions/screeningActions'
 import {cardName as allegationsCardName} from 'containers/screenings/AllegationsFormContainer'
@@ -35,6 +36,7 @@ describe('triggerSSB', () => {
   const screening = {
     id: screening_id,
     report_type: 'ssb',
+    participants: [],
   }
 
   const saveScreening = (gen) => {
@@ -106,5 +108,17 @@ describe('triggerSSB', () => {
     gen.next(fromJS(screening))
     const error = {responseJSON: 'some error'}
     expect(gen.throw(error).value).toEqual(put(saveFailure('some error')))
+    expect(gen.next().done).toEqual(true)
+  })
+
+  it('puts saveFailure when saving the screening with undefined participants', () => {
+    const gen = generateBabyDoe({payload: screening_id})
+    gen.next()
+    const result = gen.next(fromJS({
+      id: screening_id,
+      report_type: 'ssb',
+    }))
+    expect(result.value).toEqual(put(saveFailureFromNoParticipants()))
+    expect(gen.next().done).toEqual(true)
   })
 })

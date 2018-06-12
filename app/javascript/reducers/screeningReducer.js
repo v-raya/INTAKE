@@ -14,7 +14,7 @@ const getScreening = (state, {payload: {screening}, error}) => {
   if (error) {
     return state
   } else {
-    return fromJS({...screening, fetch_status: 'FETCHED'})
+    return fromJS({...screening, fetch_status: 'FETCHED'}).delete('participants')
   }
 }
 

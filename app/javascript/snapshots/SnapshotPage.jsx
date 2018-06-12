@@ -14,6 +14,7 @@ import EmptyHistory from 'views/history/EmptyHistory'
 import RelationshipsCardContainer from 'containers/snapshot/RelationshipsCardContainer'
 import PageHeader from 'common/PageHeader'
 import SnapshotSideBar from 'snapshots/SnapshotSideBar'
+import {selectParticipants} from 'selectors/participantSelectors'
 
 const isDuplicatePerson = (participants, id) => (
   participants.some((x) => x.legacy_id === id)
@@ -115,7 +116,7 @@ SnapshotPage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  participants: state.get('participants').toJS(),
+  participants: selectParticipants(state).toJS(),
 })
 
 export const mapDispatchToProps = (dispatch) => ({

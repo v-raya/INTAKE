@@ -35,6 +35,19 @@ export function saveSuccess(screening) {
 export function saveFailure(error) {
   return {type: SAVE_SCREENING_COMPLETE, payload: {error}, error: true}
 }
+export function saveFailureFromNoParticipants() {
+  /*
+    This failure originates from attempts to update a screening without
+    specifying the participants. Because participants are stored separately from
+    the screening in Redux, you must explicitly combine them when PUT-ing. We
+    reject attempts with undefined participants, as they are likely mistakes and
+    will cause the API to delete all participants on the screening!
+  */
+  return saveFailure({
+    type: 'invariant-violation',
+    friendly_message: 'Attempt to update screening with undefined participants.',
+  })
+}
 export function saveCard(card) {
   return {type: SAVE_SCREENING, payload: {card}}
 }

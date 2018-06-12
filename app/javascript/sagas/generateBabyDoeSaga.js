@@ -8,6 +8,7 @@ import {GENERATE_BABY_DOE} from 'actions/safelySurrenderedBabyActions'
 import {
   saveCard,
   saveFailure,
+  saveFailureFromNoParticipants,
   saveSuccess,
 } from 'actions/screeningActions'
 import {cardName as allegationsCardName} from 'containers/screenings/AllegationsFormContainer'
@@ -20,12 +21,17 @@ import * as http from 'utils/http'
 export function* generateBabyDoe({payload: screening_id}) {
   try {
     const screening = yield select(getScreeningWithScreeningInformationEditsSelector)
+    if (screening.get('participants') === undefined) {
+      yield put(saveFailureFromNoParticipants())
+      return
+    }
     const id = screening.get('id')
     const path = `/api/v1/screenings/${id}`
     const response = yield call(http.put, path, {screening: screening.toJS()})
     yield put(saveSuccess(response))
   } catch (error) {
     yield put(saveFailure(error && error.responseJSON))
+    return
   }
 
   try {

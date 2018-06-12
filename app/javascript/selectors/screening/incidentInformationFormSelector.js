@@ -2,6 +2,7 @@ import US_STATE from 'enums/USState'
 import LOCATION_TYPE from 'enums/LocationType'
 import {createSelector} from 'reselect'
 import {Map, List, fromJS} from 'immutable'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
 import {isFutureDatetimeCreate, combineCompact} from 'utils/validator'
@@ -44,7 +45,8 @@ export const getScreeningWithEditsSelector = createSelector(
   (state) => (state.getIn(['incidentInformationForm', 'incident_address']) || Map()),
   (state) => state.getIn(['incidentInformationForm', 'location_type', 'value']),
   getLocationOfChildrenSelector,
-  (screening, incidentDate, incidentCounty, address, locationType, locationOfChildren) => (
+  selectParticipants,
+  (screening, incidentDate, incidentCounty, address, locationType, locationOfChildren, participants) => (
     screening.set('incident_date', incidentDate)
       .set('incident_county', incidentCounty)
       .set('incident_address', Map({
@@ -56,6 +58,7 @@ export const getScreeningWithEditsSelector = createSelector(
       }))
       .set('location_type', locationType)
       .set('current_location_of_children', locationOfChildren)
+      .set('participants', participants)
   )
 )
 
