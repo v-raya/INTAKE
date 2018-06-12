@@ -75,6 +75,7 @@ feature 'safely surrendered baby' do
         participant_child: nil
       },
       csec_started_at: nil,
+      csec_ended_at: nil,
       csec_types: []
     }
   end
@@ -124,6 +125,7 @@ feature 'safely surrendered baby' do
       legacy_descriptor: nil,
       safelySurrenderedBabies: nil,
       csec_started_at: nil,
+      csec_ended_at: nil,
       csec_types: []
     }
   end

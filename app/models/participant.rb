@@ -28,5 +28,6 @@ class Participant
   attribute :legacy_descriptor, LegacyDescriptor
   attribute :safelySurrenderedBabies, SafelySurrenderedBabies
   attribute :csec_started_at
+  attribute :csec_ended_at
   attribute :csec_types, Array[String]
 end

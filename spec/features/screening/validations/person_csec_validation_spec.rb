@@ -87,4 +87,31 @@ feature 'CSEC validation' do
       end
     end
   end
+  context 'csec fields' do
+    scenario 'show csec type, csec start date and csec end date' do
+      stub_and_visit_edit_screening(screening)
+      within "#participants-card-#{victim.id}" do
+        expect(page).to have_content('CSEC Start Date')
+        expect(page).to have_content('CSEC End Date')
+        expect(page).to have_content('CSEC Types')
+
+        updated_participant = victim.as_json.merge(
+          csec_ended_at: '2018-11-13',
+          csec_started_at: '2018-11-12',
+          csec_types: 'At Risk'
+        )
+
+        stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(victim.id)))
+          .and_return(json_body(updated_participant.to_json, status: 200))
+
+        click_button 'Save'
+        expect(page).to have_content('CSEC End Date')
+        expect(page).to have_content('11/13/2018')
+        expect(page).to have_content('CSEC Start Date')
+        expect(page).to have_content('11/12/2018')
+        expect(page).to have_content('CSEC Types')
+        expect(page).to have_content('At Risk')
+      end
+    end
+  end
 end
