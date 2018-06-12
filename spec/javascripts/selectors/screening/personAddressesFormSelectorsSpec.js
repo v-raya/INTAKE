@@ -10,17 +10,19 @@ describe('personAddressesFormSelectors', () => {
 
   describe('getAddressTypeOptionsSelector', () => {
     const state = fromJS({
-      addressTypes: [
-        {value: 'Common'},
-        {value: 'Day Care'},
-        {value: 'Residence'},
-        {value: 'Homeless'},
-        {value: 'Other Mailing'},
-        {value: 'Penal Institution'},
-        {value: 'Permanent Mailing Address'},
-        {value: 'Residence 2'},
-        {value: 'Business'},
-      ],
+      systemCodes: {
+        addressTypes: [
+          {value: 'Common'},
+          {value: 'Day Care'},
+          {value: 'Residence'},
+          {value: 'Homeless'},
+          {value: 'Other Mailing'},
+          {value: 'Penal Institution'},
+          {value: 'Permanent Mailing Address'},
+          {value: 'Residence 2'},
+          {value: 'Business'},
+        ],
+      },
     })
     it('returns formatted options for address types', () => {
       expect(getAddressTypeOptionsSelector(state)).toEqualImmutable(fromJS([

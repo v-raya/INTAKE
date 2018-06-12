@@ -116,17 +116,17 @@ describe('createSnapshotPerson', () => {
   }
   const action = personCardActions.createSnapshotPerson(id)
 
-  const languageLovs = [
+  const languages = [
     {code: '1', value: 'English'},
     {code: '2', value: 'French'},
     {code: '3', value: 'Italian'},
   ]
-  const ethnicityTypeLovs = [
+  const ethnicityTypes = [
     {code: '1', value: 'European'},
     {code: '2', value: 'French'},
     {code: '3', value: 'Romanian'},
   ]
-  const raceTypeLovs = [
+  const raceTypes = [
     {code: '1', value: 'Race 1'},
     {code: '2', value: 'Race 2'},
     {code: '3', value: 'Race 3'},
@@ -145,14 +145,16 @@ describe('createSnapshotPerson', () => {
     {code: RESIDENCE_TYPE, value: 'address type'},
   ]
 
-  const state = fromJS({
-    languages: languageLovs,
-    ethnicityTypes: ethnicityTypeLovs,
-    raceTypes: raceTypeLovs,
-    unableToDetermineCodes,
-    hispanicOriginCodes,
+  const systemCodes = {
     addressTypes,
-  })
+    ethnicityTypes,
+    hispanicOriginCodes,
+    languages,
+    raceTypes,
+    unableToDetermineCodes,
+  }
+
+  const state = fromJS({systemCodes})
 
   it('fetches participant, relationships, and history', () => {
     const gen = createSnapshotPerson(action)

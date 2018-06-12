@@ -151,9 +151,9 @@ describe('AddressForm', () => {
     const typeSelect = component.find('SelectField[label="Address Type"]')
     const typeSelectOptions = typeSelect.children()
     expect(typeSelectOptions.at(0).text()).toEqual('')
-    expect(typeSelectOptions.at(1).props().value).toEqual('home')
+    expect(typeSelectOptions.at(1).props().value).toEqual('Home')
     expect(typeSelectOptions.at(1).children().text()).toEqual('Home')
-    expect(typeSelectOptions.at(2).props().value).toEqual('school')
+    expect(typeSelectOptions.at(2).props().value).toEqual('School')
     expect(typeSelectOptions.at(2).children().text()).toEqual('School')
   })
 

@@ -2,18 +2,21 @@ import {
   RESET_ALLEGATIONS_FORM,
   SET_ALLEGATION_TYPES,
 } from 'actions/allegationsFormActions'
-import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
+import {
+  FETCH_SCREENING_COMPLETE,
+} from 'actions/actionTypes'
 import {
   DELETE_PERSON_COMPLETE,
   UPDATE_PERSON_COMPLETE,
 } from 'actions/personCardActions'
+import {SAVE_SCREENING_COMPLETE} from 'actions/screeningActions'
 import {createReducer} from 'utils/createReducer'
 import {List, fromJS} from 'immutable'
 
 export const buildFerbAllegations = (allegations) => (
   fromJS(
     allegations.map((allegation) => ({
-      id: allegation.id.toString(),
+      id: allegation.id && allegation.id.toString(),
       victimId: allegation.victim_person_id.toString(),
       perpetratorId: allegation.perpetrator_person_id.toString(),
       allegationTypes: allegation.types,
@@ -21,15 +24,16 @@ export const buildFerbAllegations = (allegations) => (
   )
 )
 
+const reduceFromScreening = (state, {payload: {screening}, error}) => {
+  if (error) {
+    return state
+  }
+  return buildFerbAllegations(screening.allegations || [])
+}
+
 export default createReducer(List(), {
-  [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
-    if (error) {
-      return state
-    } else {
-      const {allegations} = screening
-      return buildFerbAllegations(allegations)
-    }
-  },
+  [FETCH_SCREENING_COMPLETE]: reduceFromScreening,
+  [SAVE_SCREENING_COMPLETE]: reduceFromScreening,
   [SET_ALLEGATION_TYPES](state, {payload: {victimId, perpetratorId, allegationTypes}}) {
     const notFound = -1
     const allegationIndex = state.findIndex((allegation) => (

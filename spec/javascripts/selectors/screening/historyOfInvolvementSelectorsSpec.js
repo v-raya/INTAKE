@@ -123,7 +123,7 @@ describe('historyOfInvolvementSelectors', () => {
   describe('getFormattedReferralsSelector', () => {
     let state
     beforeEach(() => {
-      state = fromJS({involvements: {referrals: [{}]}, screenResponseTimes: []})
+      state = fromJS({involvements: {referrals: [{}]}, systemCodes: {screenResponseTimes: []}})
     })
 
     it('returns a formatted date range', () => {
@@ -153,7 +153,7 @@ describe('historyOfInvolvementSelectors', () => {
     it('includes the response time for a given referral in the status, if present', () => {
       state = fromJS({
         involvements: {referrals: [{response_time: {id: '1518', description: 'Immediate'}}]},
-        screenResponseTimes: [{code: '1518', value: 'Immediate'}],
+        systemCodes: {screenResponseTimes: [{code: '1518', value: 'Immediate'}]},
       })
       expect(getFormattedReferralsSelector(state).getIn([0, 'status'])).toEqual('Open - Immediate')
     })

@@ -100,7 +100,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           id='current_location_of_children'
           onChange={({target: {value}}) => onChange(['current_location_of_children'], value)}
           value={locationOfChildren}
-          maxLength='250'
+          maxLength='256'
         />
       </div>
     </div>

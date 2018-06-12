@@ -13,7 +13,7 @@ describe('FormField', () => {
       }
       component = shallow(<FormField {...props}/>, {disableLifecycleMethods: true})
       expect(component.html())
-        .toEqual('<div class=""><label class="">L1</label><div>Italy</div><div></div></div>')
+        .toEqual('<div class=""><label class="">L1</label><div class=""><div>Italy</div></div><div></div></div>')
     })
   })
 
@@ -44,7 +44,7 @@ describe('FormField', () => {
       const wrapper = shallow(<FormField {...props}/>, {disableLifecycleMethods: true}).first('div')
       expect(wrapper.children().length).toEqual(3)
       expect(wrapper.childAt(0).type()).toEqual('label')
-      expect(wrapper.childAt(1).html()).toEqual('<h1>Child</h1>')
+      expect(wrapper.childAt(1).html()).toEqual('<div class=""><h1>Child</h1></div>')
       expect(wrapper.find('ErrorMessages').exists()).toEqual(true)
     })
   })

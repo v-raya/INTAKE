@@ -9,17 +9,17 @@ import {
 describe('peopleSearchSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  const languageLovs = [
+  const languages = [
     {code: '1', value: 'English'},
     {code: '2', value: 'French'},
     {code: '3', value: 'Italian'},
   ]
-  const ethnicityTypeLovs = [
+  const ethnicityTypes = [
     {code: '1', value: 'European'},
     {code: '2', value: 'French'},
     {code: '3', value: 'Romanian'},
   ]
-  const raceTypeLovs = [
+  const raceTypes = [
     {code: '1', value: 'Race 1'},
     {code: '2', value: 'Race 2'},
     {code: '3', value: 'Race 3'},
@@ -33,10 +33,6 @@ describe('peopleSearchSelectors', () => {
     {code: 'Y', value: 'yes'},
     {code: 'N', value: 'no'},
   ]
-  const usStates = [
-    {code: '1', value: 'state'},
-  ]
-
   const addressTypes = [
     {code: RESIDENCE_TYPE, value: 'address type'},
   ]
@@ -44,6 +40,16 @@ describe('peopleSearchSelectors', () => {
   const counties = [
     {code: '999', value: 'Nowhere'},
   ]
+
+  const systemCodes = {
+    addressTypes,
+    counties,
+    ethnicityTypes,
+    hispanicOriginCodes,
+    languages,
+    raceTypes,
+    unableToDetermineCodes,
+  }
 
   describe('getLastResultsSortValueSelector', () => {
     it('returns the last results sort attribute', () => {
@@ -113,15 +119,8 @@ describe('peopleSearchSelectors', () => {
         }],
       }
       const state = fromJS({
-        languages: languageLovs,
-        ethnicityTypes: ethnicityTypeLovs,
-        raceTypes: raceTypeLovs,
-        unableToDetermineCodes,
-        hispanicOriginCodes,
-        usStates,
         peopleSearch,
-        addressTypes,
-        counties,
+        systemCodes,
       })
       const peopleResults = getPeopleResultsSelector(state)
       expect(peopleResults).toEqualImmutable(
@@ -201,14 +200,8 @@ describe('peopleSearchSelectors', () => {
         }],
       }
       const state = fromJS({
-        languages: languageLovs,
-        ethnicityTypes: ethnicityTypeLovs,
-        raceTypes: raceTypeLovs,
-        unableToDetermineCodes,
-        hispanicOriginCodes,
-        usStates,
         peopleSearch,
-        addressTypes,
+        systemCodes,
       })
       const peopleResults = getPeopleResultsSelector(state)
       expect(peopleResults.getIn([0, 'address'])).toEqualImmutable(
@@ -238,14 +231,8 @@ describe('peopleSearchSelectors', () => {
         }],
       }
       const state = fromJS({
-        languages: languageLovs,
-        ethnicityTypes: ethnicityTypeLovs,
-        raceTypes: raceTypeLovs,
-        unableToDetermineCodes,
-        hispanicOriginCodes,
-        usStates,
         peopleSearch,
-        addressTypes,
+        systemCodes,
       })
       const peopleResults = getPeopleResultsSelector(state)
       expect(peopleResults.getIn([0, 'address'])).toEqual(null)
@@ -284,14 +271,8 @@ describe('peopleSearchSelectors', () => {
         })
 
         const state = fromJS({
-          languages: languageLovs,
-          ethnicityTypes: ethnicityTypeLovs,
-          raceTypes: raceTypeLovs,
-          unableToDetermineCodes,
-          hispanicOriginCodes,
-          usStates,
           peopleSearch,
-          addressTypes,
+          systemCodes,
         })
         const peopleResults = getPeopleResultsSelector(state)
         expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
@@ -316,14 +297,8 @@ describe('peopleSearchSelectors', () => {
         })
 
         const state = fromJS({
-          languages: languageLovs,
-          ethnicityTypes: ethnicityTypeLovs,
-          raceTypes: raceTypeLovs,
-          unableToDetermineCodes,
-          hispanicOriginCodes,
-          usStates,
           peopleSearch,
-          addressTypes,
+          systemCodes,
         })
         const peopleResults = getPeopleResultsSelector(state)
         expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
@@ -346,14 +321,8 @@ describe('peopleSearchSelectors', () => {
         })
 
         const state = fromJS({
-          languages: languageLovs,
-          ethnicityTypes: ethnicityTypeLovs,
-          raceTypes: raceTypeLovs,
-          unableToDetermineCodes,
-          hispanicOriginCodes,
-          usStates,
           peopleSearch,
-          addressTypes,
+          systemCodes,
         })
         const peopleResults = getPeopleResultsSelector(state)
         expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
@@ -374,14 +343,8 @@ describe('peopleSearchSelectors', () => {
         })
 
         const state = fromJS({
-          languages: languageLovs,
-          ethnicityTypes: ethnicityTypeLovs,
-          raceTypes: raceTypeLovs,
-          unableToDetermineCodes,
-          hispanicOriginCodes,
-          usStates,
           peopleSearch,
-          addressTypes,
+          systemCodes,
         })
         const peopleResults = getPeopleResultsSelector(state)
         expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
@@ -402,14 +365,8 @@ describe('peopleSearchSelectors', () => {
         })
 
         const state = fromJS({
-          languages: languageLovs,
-          ethnicityTypes: ethnicityTypeLovs,
-          raceTypes: raceTypeLovs,
-          unableToDetermineCodes,
-          hispanicOriginCodes,
-          usStates,
           peopleSearch,
-          addressTypes,
+          systemCodes,
         })
         const peopleResults = getPeopleResultsSelector(state)
         expect(peopleResults.getIn([0, 'fullName'])).toEqual('<em>Bar</em>t Sim<em>pson</em>')
@@ -429,14 +386,8 @@ describe('peopleSearchSelectors', () => {
         })
 
         const state = fromJS({
-          languages: languageLovs,
-          ethnicityTypes: ethnicityTypeLovs,
-          raceTypes: raceTypeLovs,
-          unableToDetermineCodes,
-          hispanicOriginCodes,
-          usStates,
           peopleSearch,
-          addressTypes,
+          systemCodes,
         })
         const peopleResults = getPeopleResultsSelector(state)
         expect(peopleResults.getIn([0, 'fullName'])).toEqual('Bart Simpson')
@@ -452,14 +403,8 @@ describe('peopleSearchSelectors', () => {
         }],
       }
       const state = fromJS({
-        languages: languageLovs,
-        ethnicityTypes: ethnicityTypeLovs,
-        raceTypes: raceTypeLovs,
-        unableToDetermineCodes,
-        hispanicOriginCodes,
-        usStates,
         peopleSearch,
-        addressTypes,
+        systemCodes,
       })
       const peopleResults = getPeopleResultsSelector(state)
       expect(peopleResults.getIn([0, 'ssn'])).toEqual('123-45-6789')
@@ -477,14 +422,8 @@ describe('peopleSearchSelectors', () => {
         }],
       }
       const state = fromJS({
-        languages: languageLovs,
-        ethnicityTypes: ethnicityTypeLovs,
-        raceTypes: raceTypeLovs,
-        unableToDetermineCodes,
-        hispanicOriginCodes,
-        usStates,
         peopleSearch,
-        addressTypes,
+        systemCodes,
       })
       const peopleResults = getPeopleResultsSelector(state)
       expect(peopleResults.getIn([0, 'ssn'])).toEqual('<em>123-45-6789</em>')

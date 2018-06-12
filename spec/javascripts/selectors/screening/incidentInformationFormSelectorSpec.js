@@ -43,7 +43,7 @@ describe('incidentInformationFormSelectors', () => {
         {code: '03', value: 'Sacramento', category: 'county_type'},
         {code: '99', value: 'State Of California', category: 'address_county'},
       ]
-      const state = fromJS({incidentInformationForm, addressCounties})
+      const state = fromJS({incidentInformationForm, systemCodes: {addressCounties}})
       expect(getIncidentCountySelector(state, getAddressCountiesSelector)).toEqual('99')
       expect(getIncidentCountySelector(emptyState, getAddressCountiesSelector)).toEqual('')
     })
