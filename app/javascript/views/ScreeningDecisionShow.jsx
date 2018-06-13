@@ -10,6 +10,7 @@ const ScreeningDecisionShow = ({
   decision,
   decisionDetail,
   restrictionRationale,
+  screeningContactReference,
   sdmPath,
   isAdditionalInfoRequired,
 }) => (
@@ -27,6 +28,15 @@ const ScreeningDecisionShow = ({
         >
           {decisionDetail.value}
         </ShowField>
+        {(decision.value === 'Information to child welfare services' && screeningContactReference) &&
+          <ShowField
+            label='Case or Referral Id'
+            errors={screeningContactReference.errors}
+            required
+          >
+            {screeningContactReference.value}
+          </ShowField>
+        }
       </div>
       <div className='col-md-6'>
         <p className='double-gap-top'><strong>SDM Hotline Tool</strong></p>
@@ -74,6 +84,10 @@ ScreeningDecisionShow.propTypes = {
   }),
   isAdditionalInfoRequired: PropTypes.bool,
   restrictionRationale: PropTypes.shape({
+    value: PropTypes.string,
+  }),
+  screeningContactReference: PropTypes.shape({
+    errors: PropTypes.arrayOf(PropTypes.string),
     value: PropTypes.string,
   }),
   sdmPath: PropTypes.string,

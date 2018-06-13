@@ -156,4 +156,38 @@ describe('ScreeningDecisionShow', () => {
     const restrictionRationale = component.find('ShowField[label="Restriction Rationale"]')
     expect(restrictionRationale.exists()).toEqual(false)
   })
+
+  it('does not render contact reference id when ', () => {
+    const component = renderScreeningDecisionShow({
+      decision: {value: 'information_to_child_welfare_services'},
+    })
+    const screeningContactReferenceId = component.find('ShowField[label="Case or Referral Id"]')
+    expect(screeningContactReferenceId.exists()).toEqual(false)
+  })
+
+  it('does not render contact reference id as req when decision is not "info to cws"', () => {
+    const component = renderScreeningDecisionShow({
+      decision: {value: 'promote_to_referral'},
+      screeningContactReference: {value: ''},
+    })
+    const screeningContactReferenceId = component.find('ShowField[label="Case or Referral Id"]')
+    expect(screeningContactReferenceId.exists()).toEqual(false)
+  })
+
+  it('renders contact reference id when a value is present and decision is "info to cws"', () => {
+    const component = renderScreeningDecisionShow({
+      screeningContactReference: {value: '111-222'},
+      decision: {value: 'Information to child welfare services'},
+    })
+    const screeningContactReferenceId = component.find('ShowField[label="Case or Referral Id"]')
+    expect(screeningContactReferenceId.exists()).toEqual(true)
+    expect(screeningContactReferenceId.props().label).toEqual('Case or Referral Id')
+    expect(screeningContactReferenceId.children().text()).toEqual('111-222')
+  })
+
+  it('does not renders contact reference id when no value is present', () => {
+    const component = renderScreeningDecisionShow({value: ''})
+    const screeningContactReferenceId = component.find('ShowField[label="Case or Referral Id"]')
+    expect(screeningContactReferenceId.exists()).toEqual(false)
+  })
 })
