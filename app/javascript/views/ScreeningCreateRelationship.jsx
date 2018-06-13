@@ -3,7 +3,6 @@ import {ModalComponent} from 'react-wood-duck'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import SelectField from '../common/SelectField'
 
-const dropDownStyle = 'label[for="change_relationship_type"] { display: none;}\n'
 const mockData = [
   {
     related_person: '',
@@ -171,7 +170,7 @@ export default class ScreeningCreateRelationship extends React.Component {
         <TableHeaderColumn dataField='related_person' isKey={true}
           dataAlign='center'
         >Related Person</TableHeaderColumn>
-        <TableHeaderColumn dataField='name' dataFormat={this.selectFieldFormat} style={dropDownStyle}> Relationships<br/>
+        <TableHeaderColumn dataField='name' dataFormat={this.selectFieldFormat}> Relationships<br/>
           <div className='text-helper'>Related Person / Primary Person</div>
         </TableHeaderColumn>
         <TableHeaderColumn dataField='focus_person' dataAlign='center'>FocusPerson</TableHeaderColumn>
