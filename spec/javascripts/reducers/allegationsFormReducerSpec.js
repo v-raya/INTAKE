@@ -86,6 +86,25 @@ describe('allegationsFormReducer', () => {
         ])
       )
     })
+
+    it('adds allegations to the form store even if perpetratorId is undefined', () => {
+      const action = setAllegationTypes({
+        victimId: '1',
+        perpetratorId: undefined,
+        allegationTypes: ['General neglect'],
+      })
+      const state = List()
+      expect(allegationsFormReducer(state, action)).toEqualImmutable(
+        fromJS([
+          {
+            id: null,
+            victimId: '1',
+            perpetratorId: undefined,
+            allegationTypes: ['General neglect'],
+          },
+        ])
+      )
+    })
   })
 
   describe('on RESET_ALLEGATIONS_TYPES', () => {
