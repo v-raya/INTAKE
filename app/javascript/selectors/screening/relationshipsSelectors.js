@@ -22,7 +22,7 @@ export const getPeopleSelector = createSelector(
     name: nameFormatter({...person.toJS()}),
     relationships: person.get('relationships', List()).map((relationship) => (
       Map({
-        relatee: nameFormatter({
+        name: nameFormatter({
           first_name: relationship.get('related_person_first_name'),
           last_name: relationship.get('related_person_last_name'),
           middle_name: relationship.get('related_person_middle_name'),
@@ -30,6 +30,7 @@ export const getPeopleSelector = createSelector(
         }),
         legacy_descriptor: relationship.get('legacy_descriptor'),
         type: systemCodeDisplayValue(relationship.get('indexed_person_relationship'), relationshipTypes),
+        secondaryRelationship: systemCodeDisplayValue(relationship.get('related_person_relationship'), relationshipTypes),
         person_card_exists: isPersonCardExists(participants, relationship.toJS()),
       })
     )),
