@@ -4,7 +4,7 @@ import RelationCard from './RelationCard'
 import ActionMenu from './ActionMenu'
 
 const attachLink = (onClick, relationship, maybeId) => (
-  <a className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>Attach</a>
+  <a className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>
 )
 
 const isPending = (relationship, pendingPeople) =>

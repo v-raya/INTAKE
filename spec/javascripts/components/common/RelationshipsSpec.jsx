@@ -83,13 +83,11 @@ describe('Relationships for Screening', () => {
 
     expect(getProps(component, 1).firstName).toEqual('Nate Starbringer')
     expect(getCellValue(component, 1, 0, 0).text()).toEqual('Jim Johnson')
-    expect(getCellValue(component, 1, 0, 2).text()).toEqual('')
   })
 
   it('6.hides Attach link for people in the pending list', () => {
     expect(getProps(component, 3).firstName).toEqual('Cecilia Gomez')
     expect(getCellValue(component, 3, 0, 0).text()).toEqual('Jose Gomez')
-    expect(getCellValue(component, 3, 0, 2).text()).toEqual('')
     expect(getCellValue(component, 3, 1, 0).text()).toEqual('Julie Gomez')
     expect(getCellValue(component, 3, 1, 2).text()).toContain('Attach')
   })
