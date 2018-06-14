@@ -87,6 +87,7 @@ describe('peopleSearchSelectors', () => {
               hispanic_codes: [{description: 'Central American'}],
             },
             date_of_birth: '1990-02-13',
+            date_of_death: '2000-02-18',
             ssn: '123456789',
             client_county: {
               description: 'Nowhere',
@@ -141,6 +142,7 @@ describe('peopleSearchSelectors', () => {
             ethnicity_detail: ['Central American'],
           },
           dateOfBirth: '1990-02-13',
+          dateOfDeath: '2000-02-18',
           ssn: '123-45-6789',
           clientCounty: 'Nowhere',
           address: {
