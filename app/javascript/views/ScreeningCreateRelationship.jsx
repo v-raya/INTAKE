@@ -1,7 +1,7 @@
 import React from 'react'
 import {ModalComponent} from 'react-wood-duck'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
-import SelectField from '/common/SelectField'
+import SelectField from 'common/SelectField'
 
 const mockData = [
   {
