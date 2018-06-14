@@ -1,19 +1,31 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import RelationCard from './RelationCard'
+import ActionMenu from './ActionMenu'
 
 const attachLink = (onClick, relationship, maybeId) => (
-  <a className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>
+  <a className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>Attach</a>
 )
 
 const isPending = (relationship, pendingPeople) =>
   pendingPeople.some((id) => id === (relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id))
 
-const callAttachLink = (relationship, pendingPeople, isScreening, screeningId, onClick) => {
+export const callAttachLink = (relationship, pendingPeople, isScreening, screeningId, onClick) => {
   if (relationship.person_card_exists && !isPending(relationship, pendingPeople)) {
     return (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship))
-  } else { return '' }
+  } else {
+    return ''
+  }
 }
+
+const actionsMenu = (row, pendingPeople, isScreening, screeningId, onClick) =>
+  <ActionMenu
+    relationship ={row}
+    pendingPeople={pendingPeople}
+    isScreening={isScreening}
+    screeningId={screeningId}
+    onClick={onClick}
+  />
 
 export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
 
@@ -25,8 +37,10 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
             {
               (person.relationships.length > 0) &&
               <span>
-                <RelationCard firstName={person.name} data={person.relationships}
-                  tableActions={(cell, row) => (callAttachLink(row, pendingPeople, isScreening, screeningId, onClick)
+                <RelationCard
+                  firstName={person.name}
+                  data={person.relationships}
+                  tableActions={(cell, row) => (actionsMenu(row, pendingPeople, isScreening, screeningId, onClick)
                   )}
                 />
               </span>

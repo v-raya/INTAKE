@@ -110,3 +110,15 @@
     width: 100%;
   }
 }
+
+.react-bs-container-body {
+  overflow: visible;
+}
+
+.react-bs-table table td {
+  overflow: visible;
+}
+
+.react-bs-table td { 
+  outline: none !important; 
+}

@@ -15,7 +15,6 @@ const propTypes = {
   isExpandableRow: PropTypes.func,
   lastName: PropTypes.string,
   tableActions: PropTypes.func,
-
 }
 
 const RelationCard = ({
@@ -35,27 +34,31 @@ const RelationCard = ({
     </div>
     <div>
       <BootstrapTable
+        bordered={false}
         data={data}
-        searchPlaceholder='Quick Filter'
-        search={true}
         expandableRow={isExpandableRow}
         expandComponent={expandComponent}
         expandColumnOptions={expandColumnComponent}
+        search={true}
+        searchPlaceholder='Quick Filter'
         options={{expandBy: 'column'}}
       >
-        <TableHeaderColumn dataField='name' isKey={true}>
+        <TableHeaderColumn
+          dataField='name'
+          dataSort={true}
+          isKey={true}
+          sortHeaderColumnClassName={'table-header-sort'}
+        >
             Name
         </TableHeaderColumn>
-        <TableHeaderColumn dataField='secondaryRelationship'>
+        <TableHeaderColumn
+          dataField='secondaryRelationship'
+          dataSort={true}
+          sortHeaderColumnClassName={'table-header-sort'}
+        >
             Relationship
         </TableHeaderColumn>
-        <TableHeaderColumn
-          dataFormat={tableActions}
-          expandable={false}
-          width='20%'
-        >
-            Actions
-        </TableHeaderColumn>
+        <TableHeaderColumn dataFormat={tableActions} width='5%'/>
       </BootstrapTable>
     </div>
   </div>
