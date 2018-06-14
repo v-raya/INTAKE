@@ -3,13 +3,6 @@ import {ModalComponent} from 'react-wood-duck'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import SelectField from 'common/SelectField'
 
-const mockData = [
-  {
-    related_person: '',
-    name: '',
-    focus_person: '',
-  },
-]
 const RelationshipTypes = [
   {value: '175', label: 'Aunt/Nephew (Maternal)'},
   {value: '176', label: 'Aunt/Nephew (Paternal)'},
@@ -166,7 +159,7 @@ export default class ScreeningCreateRelationship extends React.Component {
 
   modalTable() {
     return (
-      <BootstrapTable data={mockData}>
+      <BootstrapTable data={data}>
         <TableHeaderColumn dataField='related_person' isKey={true}
           dataAlign='center'
         >Related Person</TableHeaderColumn>
@@ -198,7 +191,7 @@ export default class ScreeningCreateRelationship extends React.Component {
 
   modalFooter() {
     return (
-      <button aria-label='Create Relationship'className='pull-right btn btn-primary'>
+      <button aria-label='Create Relationship' className='pull-right btn btn-primary'>
       Create Relationship
       </button>
     )
@@ -221,4 +214,12 @@ export default class ScreeningCreateRelationship extends React.Component {
       </div>
     )
   }
+}
+
+ScreeningCreateRelationship.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    related_person: PropTypes.string,
+    name: PropTypes.string,
+    focus_person: PropTypes.string,
+  })),
 }
