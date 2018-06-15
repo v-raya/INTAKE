@@ -47,14 +47,14 @@ const RelationCard = ({
           dataField='name'
           dataSort={true}
           isKey={true}
-          sortHeaderColumnClassName={'table-header-sort'}
+          sortHeaderColumnClassName='sorted-header'
         >
             Name
         </TableHeaderColumn>
         <TableHeaderColumn
           dataField='secondaryRelationship'
           dataSort={true}
-          sortHeaderColumnClassName={'table-header-sort'}
+          sortHeaderColumnClassName='sorted-header'
         >
             Relationship
         </TableHeaderColumn>

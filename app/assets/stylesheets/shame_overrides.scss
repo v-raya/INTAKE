@@ -115,10 +115,14 @@
   overflow: visible;
 }
 
-.react-bs-table table td {
-  overflow: visible;
-}
+.react-bs-table {
+  td {
+    outline: none;
+  }
 
-.react-bs-table td {
-  outline: none !important;
+  table {
+    td {
+      overflow: visible;
+    }
+  }
 }

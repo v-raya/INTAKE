@@ -19,8 +19,13 @@
     }
   }
 }
+.react-bs-table {
 
-.sort-column.table-header-sort {
-  border-bottom: .29rem solid;
-  border-bottom-color: $medium-blue;
+  .react-bs-container-header {
+
+    .sorted-header {
+      border-bottom: .29rem solid;
+      border-bottom-color: $medium-blue;
+    }
+  }
 }
