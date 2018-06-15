@@ -76,7 +76,9 @@ export const getVisibleErrorsSelector = (state, personId) => {
 
 export const getNamesRequiredSelector = (state, personId) => {
   const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List())
-  return (roles.includes('Victim'))
+  return (
+    roles.size !== 0 && !List(['Anonymous Reporter']).equals(roles)
+  )
 }
 
 export const getRolesSelector = (state, personId) => {
