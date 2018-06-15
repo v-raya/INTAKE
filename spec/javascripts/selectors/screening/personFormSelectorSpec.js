@@ -450,8 +450,6 @@ describe('personFormSelectors', () => {
         expect(getFilteredPersonRolesSelector(state, personId)).toEqualImmutable(fromJS([
           {label: 'Victim', value: 'Victim', disabled: false},
           {label: 'Perpetrator', value: 'Perpetrator', disabled: false},
-          {label: 'Family Member', value: 'Family Member', disabled: false},
-          {label: 'Collateral', value: 'Collateral', disabled: false},
           {label: 'Mandated Reporter', value: 'Mandated Reporter', disabled: true},
           {label: 'Non-mandated Reporter', value: 'Non-mandated Reporter', disabled: true},
           {label: 'Anonymous Reporter', value: 'Anonymous Reporter', disabled: true},
@@ -468,8 +466,6 @@ describe('personFormSelectors', () => {
         expect(getFilteredPersonRolesSelector(state, personId)).toEqualImmutable(fromJS([
           {label: 'Victim', value: 'Victim', disabled: false},
           {label: 'Perpetrator', value: 'Perpetrator', disabled: false},
-          {label: 'Family Member', value: 'Family Member', disabled: false},
-          {label: 'Collateral', value: 'Collateral', disabled: false},
           {label: 'Mandated Reporter', value: 'Mandated Reporter', disabled: false},
           {label: 'Non-mandated Reporter', value: 'Non-mandated Reporter', disabled: false},
           {label: 'Anonymous Reporter', value: 'Anonymous Reporter', disabled: false},
