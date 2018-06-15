@@ -1,11 +1,11 @@
 import {createSelector} from 'reselect'
 import {List, Map, fromJS} from 'immutable'
+import {selectAllRoles} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
 import {isRequiredCreate, isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {
-  selectParticipantsRoles,
   isReporterRequired,
   selectCasesAndReferrals,
   validateScreeningContactReference,
@@ -20,7 +20,7 @@ export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'access_restrictions']) || '',
   (state) => state.getIn(['screening', 'restrictions_rationale']) || '',
   (state) => state.get('allegationsForm', List()),
-  selectParticipantsRoles,
+  selectAllRoles,
   selectCasesAndReferrals,
   (state) => state.getIn(['screening', 'additional_information']) || '',
   (decision, decisionDetail, contactReference, accessRestrictions, restrictionsRationale, allegations, roles, casesAndReferrals, additionalInformation) => (
