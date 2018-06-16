@@ -1,22 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import RelationCard from './RelationCard'
-import ActionMenu from './ActionMenu'
-
-const attachLink = (onClick, relationship, maybeId) => (
-  <a className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>
-)
-
-const isPending = (relationship, pendingPeople) =>
-  pendingPeople.some((id) => id === (relationship.legacy_descriptor && relationship.legacy_descriptor.legacy_id))
-
-export const callAttachLink = (relationship, pendingPeople, isScreening, screeningId, onClick) => {
-  if (relationship.person_card_exists && !isPending(relationship, pendingPeople)) {
-    return (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship))
-  } else {
-    return ''
-  }
-}
+import ActionMenu from 'common/ActionMenu'
+import AttachLink from 'common/AttachLink'
+import RelationCard from 'common/RelationCard'
 
 const actionsMenu = (row, pendingPeople, isScreening, screeningId, onClick) =>
   <ActionMenu
@@ -28,7 +14,6 @@ const actionsMenu = (row, pendingPeople, isScreening, screeningId, onClick) =>
   />
 
 export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
-
   <div className='card-body no-pad-top'>
     {
       isScreening && people.map((person, index) => (
@@ -67,9 +52,13 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
                     person.relationships.map((relationship, index) => (
                       <li key={index}>
                         <strong>{ relationship.type }</strong> &nbsp; of { relationship.name }
-                        {relationship.person_card_exists && !isPending(relationship, pendingPeople) &&
-                          (isScreening ? attachLink(onClick, relationship, screeningId) : attachLink(onClick, relationship))
-                        }
+                        <AttachLink
+                          isScreening={isScreening}
+                          onClick={onClick}
+                          pendingPeople={pendingPeople}
+                          relationship={relationship}
+                          screeningId={screeningId}
+                        />
                       </li>
                     ))
                   }

@@ -1,4 +1,5 @@
 import React from 'react'
+import AttachLink from 'common/AttachLink'
 import {shallow, mount} from 'enzyme'
 import {EmptyRelationships, Relationships} from 'common/Relationships'
 
@@ -83,11 +84,13 @@ describe('Relationships for Screening', () => {
 
     expect(getProps(component, 1).firstName).toEqual('Nate Starbringer')
     expect(getCellValue(component, 1, 0, 0).text()).toEqual('Jim Johnson')
+    expect(getCellValue(component, 1, 0, 2).text()).not.toContain('Attach')
   })
 
   it('6.hides Attach link for people in the pending list', () => {
     expect(getProps(component, 3).firstName).toEqual('Cecilia Gomez')
     expect(getCellValue(component, 3, 0, 0).text()).toEqual('Jose Gomez')
+    expect(getCellValue(component, 3, 0, 2).text()).not.toContain('Attach')
     expect(getCellValue(component, 3, 1, 0).text()).toEqual('Julie Gomez')
     expect(getCellValue(component, 3, 1, 2).text()).toContain('Attach')
   })
@@ -107,7 +110,9 @@ describe('Relationships for Screening', () => {
 
 describe('Relationships for Snapshot', () => {
   const onClick = jasmine.createSpy('onClick')
-  const renderRelationships = (props) => shallow(<Relationships {...props} isScreening={false} onClick={onClick} />, {disableLifecycleMethods: true})
+  const renderRelationships = (props) =>
+    shallow(<Relationships {...props} isScreening={false} onClick={onClick} />, {disableLifecycleMethods: true})
+
   it('renders people with no relationships', () => {
     const people = [
       {name: 'Sally Jones', relationships: []},
@@ -115,6 +120,7 @@ describe('Relationships for Snapshot', () => {
       {name: 'Jim Johnson', relationships: []},
     ]
     const component = renderRelationships({people})
+
     expect(component.find('.person').at(0).text()).toEqual('Sally Jones')
     expect(component.find('.person').at(1).text()).toEqual('Nate Starbringer')
     expect(component.find('.person').at(2).text()).toEqual('Jim Johnson')
@@ -142,11 +148,13 @@ describe('Relationships for Snapshot', () => {
         ],
       },
     ]
-    const component = renderRelationships({people})
-    expect(component.find('.relationships').at(0).find('li').at(0).text()).toEqual('mother of Jim Johnson Attach')
-    expect(component.find('.relationships').at(1).find('li').at(0).text()).toEqual('father of Jim Johnson')
-    expect(component.find('.relationships').at(2).find('li').at(1).text()).toEqual('son of Sally Jones Attach')
-    expect(component.find('.relationships').at(2).find('li').at(0).text()).toEqual('son of Nate Starbringer Attach')
+    const component = renderRelationships({people}).find(AttachLink)
+
+    expect(component.length).toBe(4)
+    expect(component.at(0).prop('relationship')).toEqual({name: 'Jim Johnson', type: 'mother', person_card_exists: true})
+    expect(component.at(1).prop('relationship')).toEqual({name: 'Jim Johnson', type: 'father', person_card_exists: false})
+    expect(component.at(2).prop('relationship')).toEqual({name: 'Nate Starbringer', type: 'son', person_card_exists: true})
+    expect(component.at(3).prop('relationship')).toEqual({name: 'Sally Jones', type: 'son', person_card_exists: true})
   })
 
   it('hides Attach link for people in the pending list', () => {
@@ -164,27 +172,12 @@ describe('Relationships for Snapshot', () => {
         ],
       },
     ]
-
     const pendingPeople = ['1']
+    const component = renderRelationships({people, pendingPeople}).find(AttachLink)
 
-    const component = renderRelationships({people, pendingPeople})
-    expect(component.find('.relationships').at(0).find('li').at(0).text()).toEqual('mother of Jim Johnson')
-    expect(component.find('.relationships').at(1).find('li').at(0).text()).toEqual('father of Jim Johnson Attach')
-  })
-
-  it('calls onClick when the Attach Link is clicked', () => {
-    const people = [
-      {
-        name: 'Goku',
-        relationships: [
-          {name: 'Gohan', type: 'son', person_card_exists: true},
-        ],
-      },
-    ]
-    const component = renderRelationships({people})
-    const attachLink = component.find('a').at(0)
-    attachLink.simulate('click')
-    expect(onClick).toHaveBeenCalled()
+    expect(component.length).toBe(2)
+    expect(component.at(0).prop('relationship')).toEqual({name: 'Jim Johnson', type: 'mother', person_card_exists: true, legacy_descriptor: {legacy_id: '1'}})
+    expect(component.at(1).prop('relationship')).toEqual({name: 'Jim Johnson', type: 'father', person_card_exists: true})
   })
 })
 

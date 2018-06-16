@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {callAttachLink} from './Relationships'
+import AttachLink from 'common/AttachLink'
 
-export const ActionMenu = ({relationship, pendingPeople, isScreening, screeningId, onClick}) => (
+export const ActionMenu = ({isScreening, onClick, pendingPeople, relationship, screeningId}) => (
   <div className='dropdown'>
     <span
       className='glyphicon glyphicon-option-vertical'
@@ -11,7 +11,15 @@ export const ActionMenu = ({relationship, pendingPeople, isScreening, screeningI
     <ul className='dropdown-menu dropdown-menu-right'>
       <li className='dropdown-header'>Actions</li>
       <li role='separator' className='divider'/>
-      <li>{callAttachLink(relationship, pendingPeople, isScreening, screeningId, onClick)}</li>
+      <li>
+        <AttachLink
+          isScreening={isScreening}
+          onClick={onClick}
+          pendingPeople={pendingPeople}
+          relationship={relationship}
+          screeningId={screeningId}
+        />
+      </li>
     </ul>
   </div>
 )
