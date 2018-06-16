@@ -66,14 +66,22 @@ export const isReporterRequired = (decision, roles) => (
     'A reporter is required to submit a screening Contact' : undefined
 )
 
-const validateAllegations = (decision, allegations) => (
+export const validateAllegations = (decision, allegations) => (
   (decision === 'promote_to_referral' &&
           allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
     'Please enter at least one allegation to promote to referral.' : undefined
 )
 
-export const validateScreenerContactReference = (casesAndReferrals, contactReference) => (
-  casesAndReferrals.find((hoiItem) => hoiItem.getIn(['legacy_descriptor', 'legacy_ui_id']) === contactReference)
+export const validateScreenerContactReference = (casesAndReferrals, contactReference, decision) => (
+  (decision === 'information_to_child_welfare_services' &&
+    casesAndReferrals.find((hoiItem) =>
+      hoiItem.getIn(['legacy_descriptor', 'legacy_ui_id']) !== contactReference
+    )) ? 'Please enter a valid Case or Referral Id' : undefined
+)
+
+export const validateScreeningDecisionDetail = (decision, decisionDetail) => (
+  (decision === 'promote_to_referral' && !decisionDetail) ?
+    'Please enter a response time' : undefined
 )
 
 export const getErrorsSelector = createSelector(
@@ -92,11 +100,10 @@ export const getErrorsSelector = createSelector(
       () => isReporterRequired(decision, roles)
     ),
     screening_contact_reference: combineCompact(
-      () => ((decision === 'information_to_child_welfare_services' && validateScreenerContactReference(casesAndReferrals, contactReference)) ?
-        undefined : 'Please enter a valid Case or Referral Id')
+      () => validateScreenerContactReference(casesAndReferrals, contactReference, decision)
     ),
     screening_decision_detail: combineCompact(
-      () => ((decision === 'promote_to_referral' && !decisionDetail) ? 'Please enter a response time' : undefined)
+      () => validateScreeningDecisionDetail(decision, decisionDetail)
     ),
     additional_information: combineCompact(
       isRequiredIfCreate(additionalInformation, 'Please enter additional information', () => (
