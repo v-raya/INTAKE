@@ -69,7 +69,7 @@ module Api
       ].freeze
 
       def create
-        participant = Participant.new(participant_params.to_h)
+        participant = params.require(:participant).as_json.deep_symbolize_keys
 
         begin
           created_participant = ParticipantRepository.create(session[:security_token], participant)
