@@ -13,13 +13,13 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 export function* createParticipant({payload: {person}}) {
   try {
     const {screening_id, legacy_descriptor} = person
-    const {legacy_id, legacy_table_name} = legacy_descriptor || {}
+    const {legacy_id, legacy_source_table} = legacy_descriptor || {}
     const response = yield call(post, '/api/v1/participants', {
       participant: {
         screening_id,
         legacy_descriptor: {
           legacy_id,
-          legacy_table_name,
+          legacy_table_name: legacy_source_table,
         },
       },
     })
