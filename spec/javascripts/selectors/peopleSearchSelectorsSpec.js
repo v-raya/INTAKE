@@ -142,7 +142,7 @@ describe('peopleSearchSelectors', () => {
             ethnicity_detail: ['Central American'],
           },
           dateOfBirth: '1990-02-13',
-          dateOfDeath: '2000-02-18',
+          isDeceased: true,
           ssn: '123-45-6789',
           clientCounty: 'Nowhere',
           address: {

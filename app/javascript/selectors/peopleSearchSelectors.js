@@ -82,7 +82,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       races: mapRaces(state, result),
       ethnicity: mapEthnicities(state, result),
       dateOfBirth: formatDOB(result.get('date_of_birth'), highlight.has('searchable_date_of_birth')),
-      dateOfDeath: result.get('date_of_death'),
+      isDeceased: Boolean(result.get('date_of_death')),
       ssn: formatSSN(highlight.getIn(['ssn', 0], result.get('ssn'))),
       clientCounty: systemCodeDisplayValue(result.getIn(['client_county', 'id']), getCountiesSelector(state)),
       address: mapAddress(state, result),

@@ -42,13 +42,13 @@ describe('PersonSuggestion', () => {
   })
   describe('deceased', () => {
     it('renders when deceased when date of death is present', () => {
-      const props = {dateOfDeath: '02/12/2000'}
+      const props = {isDeceased: true}
       const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
       expect(component.html()).toContain('Deceased')
     })
 
     it('does not render when deceased is not present', () => {
-      const props = {dateOfDeath: null}
+      const props = {isDeceased: false}
       const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
       expect(component.html()).not.toContain('Deceased')
     })
