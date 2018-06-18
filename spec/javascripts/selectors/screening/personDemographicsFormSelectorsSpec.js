@@ -2,6 +2,7 @@ import {fromJS} from 'immutable'
 import {
   getIsApproximateAgeDisabledSelector,
   getPersonDemographicsSelector,
+  isGenderRequired,
 } from 'selectors/screening/personDemographicsFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -64,6 +65,25 @@ describe('personDemographicFormSelectors', () => {
       const state = fromJS({peopleForm})
       expect(getPersonDemographicsSelector(state, '1').get('languages'))
         .toEqualImmutable(fromJS(['Ω', 'ß']))
+    })
+  })
+
+  describe('isGenderRequired', () => {
+    it('is true when role is Victim', () => {
+      const state = fromJS({peopleForm: {1: {roles: {value: ['Victim']}}}})
+      expect(isGenderRequired(state, '1')).toEqual(true)
+    })
+    it('is true when role is Perpetrator', () => {
+      const state = fromJS({peopleForm: {1: {roles: {value: ['Perpetrator']}}}})
+      expect(isGenderRequired(state, '1')).toEqual(true)
+    })
+    it('is false when role is not Client or Perpetrator', () => {
+      const state = fromJS({peopleForm: {1: {roles: {value: ['Mandated Reporter']}}}})
+      expect(isGenderRequired(state, '1')).toEqual(false)
+    })
+    it('is false when person does not exist', () => {
+      const state = fromJS({peopleForm: {1: {roles: {value: ['Victim']}}}})
+      expect(isGenderRequired(state, '2')).toEqual(false)
     })
   })
 })

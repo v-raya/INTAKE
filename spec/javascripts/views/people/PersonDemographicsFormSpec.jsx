@@ -9,6 +9,7 @@ describe('PersonDemographicsForm', () => {
     approximateAgeUnit,
     dateOfBirth,
     gender,
+    genderIsRequired = false,
     languages,
     onChange,
     personId,
@@ -19,6 +20,7 @@ describe('PersonDemographicsForm', () => {
       approximateAgeUnit,
       dateOfBirth,
       gender,
+      genderIsRequired,
       languages,
       onChange,
       personId,
@@ -61,11 +63,21 @@ describe('PersonDemographicsForm', () => {
       gender: '0',
     }).find('SelectField[label="Sex at Birth"]')
     expect(field.props().value).toEqual('0')
+    expect(field.props().required).toEqual(false)
     expect(field.childAt(0).props().value).toEqual('')
     expect(field.childAt(1).props().value).toEqual('male')
     expect(field.childAt(2).props().value).toEqual('female')
     expect(field.childAt(3).props().value).toEqual('intersex')
     expect(field.childAt(4).props().value).toEqual('unknown')
+  })
+
+  it('renders the gender field when required', () => {
+    const field = renderPersonDemographicsForm({
+      gender: 'Kraken',
+      genderIsRequired: true,
+    }).find('SelectField[label="Sex at Birth"]')
+    expect(field.props().value).toEqual('Kraken')
+    expect(field.props().required).toEqual(true)
   })
 
   it('renders the languages field and its options', () => {
