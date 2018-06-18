@@ -40,7 +40,10 @@ describe('PersonShowContainer', () => {
         required: false,
       },
       ethnicity: 'Mexican - Yes',
-      gender: 'Female',
+      gender: {
+        value: 'Female',
+        errors: [],
+      },
       languages: 'Javascript (Primary), Ruby',
       legacySource: 'Client ID 1-4 in CWS-CMS',
       personId: '1',

@@ -41,7 +41,7 @@ const PersonInformationShow = ({
             </ShowField>
           </div>
           <div className='col-md-6'>
-            <ShowField label='Sex at Birth'>{gender}</ShowField>
+            <ShowField label='Sex at Birth' errors={gender.errors}>{gender.value}</ShowField>
           </div>
           <div className='col-md-6'>
             <ShowField label='Language(s) (Primary First)'>{languages}</ShowField>
@@ -100,7 +100,10 @@ PersonInformationShow.propTypes = {
   }),
   dateOfBirth: PropTypes.string,
   ethnicity: PropTypes.string,
-  gender: PropTypes.string,
+  gender: PropTypes.shape({
+    errors: PropTypes.array,
+    value: PropTypes.string,
+  }).isRequired,
   languages: PropTypes.string,
   legacySource: PropTypes.string,
   name: PropTypes.shape({

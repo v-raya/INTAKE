@@ -28,7 +28,7 @@ describe('personShowSelectors', () => {
         CSECTypes: {value: List(), errors: []},
         csecStartedAt: {value: undefined, errors: []},
         csecEndedAt: undefined,
-        gender: undefined,
+        gender: {value: undefined},
         roles: {value: [], errors: []},
         languages: undefined,
         dateOfBirth: undefined,
@@ -65,7 +65,8 @@ describe('personShowSelectors', () => {
     it('includes the gender for the given person', () => {
       const participants = [{id: '1', gender: 'intersex'}]
       const state = fromJS({participants})
-      expect(getFormattedPersonInformationSelector(state, '1').get('gender')).toEqual('Intersex')
+      expect(getFormattedPersonInformationSelector(state, '1').getIn(['gender', 'value']))
+        .toEqual('Intersex')
     })
 
     it('includes the roles for the given person as is', () => {
@@ -189,6 +190,22 @@ describe('personShowSelectors', () => {
           value: '(Unknown first name) Q Public',
           errors: ['Please enter a first name.'],
           required: true,
+        }))
+    })
+
+    it('includes errors for gender', () => {
+      const participants = [{
+        id: '1',
+        first_name: 'John',
+        middle_name: 'Q',
+        last_name: 'Public',
+        roles: ['Victim'],
+      }]
+      const state = fromJS({participants})
+      expect(getFormattedPersonWithErrorsSelector(state, '1').get('gender'))
+        .toEqualImmutable(fromJS({
+          value: undefined,
+          errors: ['Please select a Sex at Birth.'],
         }))
     })
   })
@@ -450,6 +467,29 @@ describe('personShowSelectors', () => {
         const people = [{id: 'one', ssn: null}]
         const state = fromJS({participants: people})
         expect(getErrorsSelector(state, 'one').get('ssn'))
+          .toEqualImmutable(List())
+      })
+    })
+
+    describe('gender', () => {
+      it('is required if role is Victim', () => {
+        const people = [{id: 'one', gender: '', roles: ['Victim']}]
+        const state = fromJS({participants: people})
+        expect(getErrorsSelector(state, 'one').get('gender').size)
+          .toEqual(1)
+      })
+
+      it('is required if role is Perpetrator', () => {
+        const people = [{id: 'one', gender: '', roles: ['Perpetrator']}]
+        const state = fromJS({participants: people})
+        expect(getErrorsSelector(state, 'one').get('gender').size)
+          .toEqual(1)
+      })
+
+      it('has no error if it is provided', () => {
+        const people = [{id: 'one', gender: 'male', roles: ['Victim']}]
+        const state = fromJS({participants: people})
+        expect(getErrorsSelector(state, 'one').get('gender'))
           .toEqualImmutable(List())
       })
     })
