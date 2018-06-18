@@ -15,6 +15,7 @@ const PersonDemographicsForm = ({
   approximateAgeUnit,
   dateOfBirth,
   gender,
+  genderError,
   genderIsRequired,
   languages,
   onChange,
@@ -64,6 +65,7 @@ const PersonDemographicsForm = ({
         value={gender}
         onChange={({target: {value}}) => onChange('gender', value)}
         required={genderIsRequired}
+        errors={genderError ? [genderError] : []}
       >
         <option key='' value='' />
         {Object.keys(GENDERS).map((gender) => <option key={gender} value={gender}>{GENDERS[gender]}</option>)}
@@ -90,6 +92,7 @@ PersonDemographicsForm.propTypes = {
   approximateAgeUnit: PropTypes.string,
   dateOfBirth: PropTypes.string,
   gender: PropTypes.string,
+  genderError: PropTypes.string,
   genderIsRequired: PropTypes.bool.isRequired,
   languages: PropTypes.array,
   onChange: PropTypes.func,

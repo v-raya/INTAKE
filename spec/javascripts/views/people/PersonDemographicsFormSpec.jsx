@@ -10,6 +10,7 @@ describe('PersonDemographicsForm', () => {
     dateOfBirth,
     gender,
     genderIsRequired = false,
+    genderError,
     languages,
     onChange,
     personId,
@@ -21,6 +22,7 @@ describe('PersonDemographicsForm', () => {
       dateOfBirth,
       gender,
       genderIsRequired,
+      genderError,
       languages,
       onChange,
       personId,
@@ -74,10 +76,12 @@ describe('PersonDemographicsForm', () => {
   it('renders the gender field when required', () => {
     const field = renderPersonDemographicsForm({
       gender: 'Kraken',
+      genderError: 'Kraken is not a valid gender',
       genderIsRequired: true,
     }).find('SelectField[label="Sex at Birth"]')
     expect(field.props().value).toEqual('Kraken')
     expect(field.props().required).toEqual(true)
+    expect(field.props().errors).toEqual(['Kraken is not a valid gender'])
   })
 
   it('renders the languages field and its options', () => {

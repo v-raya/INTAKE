@@ -32,6 +32,8 @@ describe('personDemographicFormSelectors', () => {
         approximateAgeUnit: '',
         dateOfBirth: '',
         gender: '',
+        genderIsRequired: false,
+        genderError: undefined,
         languages: [],
       })
     })
@@ -58,6 +60,18 @@ describe('personDemographicFormSelectors', () => {
       const peopleForm = {1: {gender: {value: 'known'}}}
       const state = fromJS({peopleForm})
       expect(getPersonDemographicsSelector(state, '1').get('gender')).toEqual('known')
+    })
+
+    it('includes a gender error if required', () => {
+      const peopleForm = {1: {gender: {value: ''}, roles: {value: ['Victim']}}}
+      const state = fromJS({peopleForm})
+      expect(getPersonDemographicsSelector(state, '1').get('genderError')).toBeDefined()
+    })
+
+    it('includes no gender error if not required', () => {
+      const peopleForm = {1: {gender: {value: ''}, roles: {value: ['']}}}
+      const state = fromJS({peopleForm})
+      expect(getPersonDemographicsSelector(state, '1').get('genderError')).toBeUndefined()
     })
 
     it('includes the languages for the given person', () => {

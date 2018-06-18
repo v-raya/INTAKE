@@ -2,7 +2,6 @@ import {connect} from 'react-redux'
 import {
   getIsApproximateAgeDisabledSelector,
   getPersonDemographicsSelector,
-  isGenderRequired,
 } from 'selectors/screening/personDemographicsFormSelectors'
 import {setField} from 'actions/peopleFormActions'
 import {MAX_LANGUAGES} from 'common/LanguageInfo'
@@ -11,7 +10,6 @@ import PersonDemographicsForm from 'views/people/PersonDemographicsForm'
 const mapStateToProps = (state, {personId}) => (
   {
     approximateAgeIsDisabled: getIsApproximateAgeDisabledSelector(state, personId),
-    genderIsRequired: isGenderRequired(state, personId),
     ...getPersonDemographicsSelector(state, personId).toJS(),
   }
 )
