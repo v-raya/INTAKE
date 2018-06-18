@@ -5,6 +5,10 @@
 module Api
   module V1
     class ScreeningsController < ApiController # :nodoc:
+      def new
+        render json: new_screening
+      end
+
       def create
         screening = ScreeningRepository.create(session[:security_token], new_screening)
         render json: screening

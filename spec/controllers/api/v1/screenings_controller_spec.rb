@@ -25,6 +25,33 @@ describe Api::V1::ScreeningsController do
     end
   end
 
+  describe '#new' do
+    let(:new_screening) do
+      {
+        reference: 'F3RBKY',
+        assignee: nil,
+        assignee_staff_id: nil,
+        incident_county: nil,
+        indexable: true,
+        addresses: [],
+        cross_reports: [],
+        participants: [],
+        allegations: [],
+        incident_address: {}
+      }
+    end
+
+    before do
+      allow(LUID).to receive(:generate).and_return(['F3RBKY'])
+    end
+
+    it 'renders new screening as json' do
+      process :new, method: :get
+      expect(response).to be_successful
+      expect(JSON.parse(response.body)).to eq(new_screening.as_json)
+    end
+  end
+
   describe '#create' do
     let(:created_screening) do
       {
