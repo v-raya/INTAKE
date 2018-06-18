@@ -130,7 +130,7 @@ export class ScreeningPage extends React.Component {
     return (
       <PersonSearchFormContainer
         onSelect={(person) => this.onSelectPerson(person)}
-        searchPrompt='Search for any person (Children, parents, collaterals, reporters, alleged perpetrators...)'
+        searchPrompt='Search for any person (Children, parents, reporters, alleged perpetrators...)'
         canCreateNewPerson={true}
       />)
   }

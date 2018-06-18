@@ -53,8 +53,8 @@ export const getErrorsSelector = (state, personId) => {
   const ssn = person.getIn(['ssn', 'value']) || ''
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   return fromJS({
-    first_name: combineCompact(isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim') || roles.includes('Collateral')))),
-    last_name: combineCompact(isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim') || roles.includes('Collateral')))),
+    first_name: combineCompact(isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim')))),
+    last_name: combineCompact(isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim')))),
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
   })
@@ -76,7 +76,7 @@ export const getVisibleErrorsSelector = (state, personId) => {
 
 export const getNamesRequiredSelector = (state, personId) => {
   const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List())
-  return (roles.includes('Victim') || roles.includes('Collateral'))
+  return (roles.includes('Victim'))
 }
 
 export const getRolesSelector = (state, personId) => {
@@ -211,8 +211,6 @@ export const getPersonWithEditsSelector = (state, personId) => {
 const getAlertMessageByRole = (roles) => {
   if (roles.includes('Victim')) {
     return 'Alleged victims must be identified with a name, even Doe or Unknown, and must be under the age of 18'
-  } else if (roles.includes('Collateral')) {
-    return 'Collateral must be identified with a name, even Doe or Unknown.'
   }
   return undefined
 }

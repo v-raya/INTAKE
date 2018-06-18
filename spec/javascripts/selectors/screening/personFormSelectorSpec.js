@@ -450,8 +450,6 @@ describe('personFormSelectors', () => {
         expect(getFilteredPersonRolesSelector(state, personId)).toEqualImmutable(fromJS([
           {label: 'Victim', value: 'Victim', disabled: false},
           {label: 'Perpetrator', value: 'Perpetrator', disabled: false},
-          {label: 'Family Member', value: 'Family Member', disabled: false},
-          {label: 'Collateral', value: 'Collateral', disabled: false},
           {label: 'Mandated Reporter', value: 'Mandated Reporter', disabled: true},
           {label: 'Non-mandated Reporter', value: 'Non-mandated Reporter', disabled: true},
           {label: 'Anonymous Reporter', value: 'Anonymous Reporter', disabled: true},
@@ -468,8 +466,6 @@ describe('personFormSelectors', () => {
         expect(getFilteredPersonRolesSelector(state, personId)).toEqualImmutable(fromJS([
           {label: 'Victim', value: 'Victim', disabled: false},
           {label: 'Perpetrator', value: 'Perpetrator', disabled: false},
-          {label: 'Family Member', value: 'Family Member', disabled: false},
-          {label: 'Collateral', value: 'Collateral', disabled: false},
           {label: 'Mandated Reporter', value: 'Mandated Reporter', disabled: false},
           {label: 'Non-mandated Reporter', value: 'Non-mandated Reporter', disabled: false},
           {label: 'Anonymous Reporter', value: 'Anonymous Reporter', disabled: false},
@@ -676,17 +672,11 @@ describe('personFormSelectors', () => {
     it('returns roles with error if it has one', () => {
       const peopleForm = {
         1: {roles: {value: 'Victim', errors: []}},
-        2: {roles: {value: 'Collateral', errors: []}},
       }
       const state = fromJS({peopleForm})
       expect(getRolesSelector(state, '1')).toEqualImmutable(fromJS(
         {
           value: 'Victim',
-          errors: [],
-        }))
-      expect(getRolesSelector(state, '2')).toEqualImmutable(fromJS(
-        {
-          value: 'Collateral',
           errors: [],
         }))
     })
@@ -697,18 +687,6 @@ describe('personFormSelectors', () => {
       const peopleForm = {1: {roles: {value: ['Victim', 'Some role']}}}
       const state = fromJS({peopleForm})
       expect(getNamesRequiredSelector(state, '1')).toEqual(true)
-    })
-
-    it('returns true if roles includes Collateral', () => {
-      const peopleForm = {1: {roles: {value: ['Collateral', 'Some role']}}}
-      const state = fromJS({peopleForm})
-      expect(getNamesRequiredSelector(state, '1')).toEqual(true)
-    })
-
-    it('returns false if roles does not include Victim or Collateral', () => {
-      const peopleForm = {1: {roles: {value: ['other role', 'Some role']}}}
-      const state = fromJS({peopleForm})
-      expect(getNamesRequiredSelector(state, '1')).toEqual(false)
     })
   })
 
@@ -734,29 +712,6 @@ describe('personFormSelectors', () => {
         last_name: {value: 'Smith', errors: []}}}
       const state = fromJS({peopleForm})
       expect(getPersonAlertErrorMessageSelector(state, '1')).toEqual(undefined)
-    })
-
-    it('returns undefined if roles includes Collateral and lastName and firstName is not empty', () => {
-      const peopleForm = {1: {
-        roles: {value: ['Collateral', 'Some role']},
-        first_name: {value: 'John', errors: []},
-        last_name: {value: 'Smith', errors: []}}}
-      const state = fromJS({peopleForm})
-      expect(getPersonAlertErrorMessageSelector(state, '1')).toEqual(undefined)
-    })
-
-    it('returns alert if roles includes Collateral and firstName is empty', () => {
-      const peopleForm = {1: {roles: {value: ['Collateral', 'Some role']}, last_name: {value: 'Smith', errors: []}}}
-      const state = fromJS({peopleForm})
-      expect(getPersonAlertErrorMessageSelector(state, '1')).toEqual(
-        'Collateral must be identified with a name, even Doe or Unknown.')
-    })
-
-    it('returns alert if roles includes Collateral and lastName is empty', () => {
-      const peopleForm = {1: {roles: {value: ['Collateral', 'Some role']}, first_name: {value: 'John', errors: []}}}
-      const state = fromJS({peopleForm})
-      expect(getPersonAlertErrorMessageSelector(state, '1')).toEqual(
-        'Collateral must be identified with a name, even Doe or Unknown.')
     })
   })
 
