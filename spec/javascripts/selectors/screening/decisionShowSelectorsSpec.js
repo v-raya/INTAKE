@@ -125,7 +125,7 @@ describe('allegationShowSelectors', () => {
 
       it('doesnot includes an error message if decision is information to child welfare service and role is reporter', () => {
         const screening = {screening_decision: 'information_to_child_welfare_services'}
-        const participants = [{id: '1', roles: ['Mandated Reporter', 'Victim', 'Collateral']}]
+        const participants = [{id: '1', roles: ['Mandated Reporter', 'Victim']}]
         const state = fromJS({screening, participants})
         expect(getErrorsSelector(state).get('screening_decision'))
           .toEqualImmutable(List())

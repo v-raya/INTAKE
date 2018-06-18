@@ -19,14 +19,12 @@ const selectPersonOrEmpty = (state, personId) =>
 export const getNamesRequiredSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const roles = person.get('roles', List())
-  return (roles.includes('Victim') || roles.includes('Collateral'))
+  return (roles.includes('Victim'))
 }
 
 const getAlertMessageByRole = (roles) => {
   if (roles.includes('Victim')) {
     return 'Alleged victims must be identified with a name, even Doe or Unknown, and must be under the age of 18'
-  } else if (roles.includes('Collateral')) {
-    return 'Collateral must be identified with a name, even Doe or Unknown.'
   }
   return undefined
 }
@@ -73,8 +71,8 @@ const isOver18YearsOfAgeAtScreeningDate = (state, personId) => {
 }
 
 const getNameErrors = (firstName, lastName, roles) => combineCompact(
-  isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim') || roles.includes('Collateral'))),
-  isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim') || roles.includes('Collateral')))
+  isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim'))),
+  isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim')))
 )
 
 const getRoleErrors = (state, personId, roles) => combineCompact(
