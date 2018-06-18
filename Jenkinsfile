@@ -18,22 +18,22 @@ node('intake-slave') {
       sh './scripts/ci/build_testing_bench.rb'
     }
 
-    stage('Lint test') {
-      curStage = 'Lint test'
-      sh './scripts/ci/lint_test.rb'
-    }
+    // stage('Lint test') {
+    //   curStage = 'Lint test'
+    //   sh './scripts/ci/lint_test.rb'
+    // }
 
-    stage('Karma tests') {
-      curStage = 'Karma tests'
-      sh './scripts/ci/karma_test.rb'
-    }
+    // stage('Karma tests') {
+    //   curStage = 'Karma tests'
+    //   sh './scripts/ci/karma_test.rb'
+    // }
 
-    stage('Rspec tests') {
-      curStage = 'Rspec tests'
-      sh './scripts/ci/rspec_test.rb'
-    }
+    // stage('Rspec tests') {
+    //   curStage = 'Rspec tests'
+    //   sh './scripts/ci/rspec_test.rb'
+    // }
 
-    if (branch == 'master') {
+    if (branch == 'DOE-2924-Tagging5') {
       VERSION = sh(returnStdout: true, script: './scripts/ci/compute_version.rb').trim()
       VCS_REF = sh(
         script: 'git rev-parse --short HEAD',
@@ -60,6 +60,10 @@ node('intake-slave') {
         }
       }
 
+      stage('Tag Repo') {
+        tagRepo(VERSION)
+      }
+
       stage('Publish') {
         withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
           curStage = 'Publish'
@@ -69,14 +73,14 @@ node('intake-slave') {
         }
       }
 
-      stage('Deploy Preint') {
-        sh "curl -v 'http://${JENKINS_USER}:${JENKINS_API_TOKEN}@jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
-          "?token=${JENKINS_TRIGGER_TOKEN}" +
-          "&cause=Caused%20by%20Build%20${env.BUILD_ID}" +
-          "&INTAKE_APP_VERSION=${VERSION}'"
-          pipelineStatus = 'SUCCEEDED'
-          currentBuild.result = 'SUCCESS'
-      }
+      // stage('Deploy Preint') {
+      //   sh "curl -v 'http://${JENKINS_USER}:${JENKINS_API_TOKEN}@jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
+      //     "?token=${JENKINS_TRIGGER_TOKEN}" +
+      //     "&cause=Caused%20by%20Build%20${env.BUILD_ID}" +
+      //     "&INTAKE_APP_VERSION=${VERSION}'"
+      //     pipelineStatus = 'SUCCEEDED'
+      //     currentBuild.result = 'SUCCESS'
+      // }
     }
 
     stage ('Reports') {
@@ -119,16 +123,16 @@ node('intake-slave') {
       currentBuild.result = 'FAILURE'
     }
 
-    if (branch == 'master') {
-      slackAlertColor = successColor
-      slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' completed for branch '${branch}' (${env.BUILD_URL})"
+    // if (branch == 'master') {
+    //   slackAlertColor = successColor
+    //   slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' completed for branch '${branch}' (${env.BUILD_URL})"
 
-      if(pipelineStatus == 'FAILED') {
-        slackAlertColor = failureColor
-        slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' in stage '${curStage}' for branch '${branch}' (${env.BUILD_URL})"
-      }
+    //   if(pipelineStatus == 'FAILED') {
+    //     slackAlertColor = failureColor
+    //     slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' in stage '${curStage}' for branch '${branch}' (${env.BUILD_URL})"
+    //   }
 
-      slackSend channel: "#tech-intake", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: slackAlertColor, message: slackMessage
-    }
+    //   slackSend channel: "#tech-intake", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: slackAlertColor, message: slackMessage
+    // }
   }
 }
