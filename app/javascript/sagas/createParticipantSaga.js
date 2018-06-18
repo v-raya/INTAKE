@@ -12,7 +12,7 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 
 export function* createParticipant({payload: {person}}) {
   try {
-    const {screening_id, legacy_descriptor} = person
+    const {screening_id, legacy_descriptor, sealed, sensitive} = person
     const {legacy_id, legacy_source_table} = legacy_descriptor || {}
     const response = yield call(post, '/api/v1/participants', {
       participant: {
@@ -21,6 +21,8 @@ export function* createParticipant({payload: {person}}) {
           legacy_id,
           legacy_table_name: legacy_source_table,
         },
+        sealed: sealed || false,
+        sensitive: sensitive || false,
       },
     })
     yield put(createPersonSuccess(response))
