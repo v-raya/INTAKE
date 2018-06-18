@@ -154,7 +154,7 @@ feature 'Create Snapshot' do
         ).and_return(json_body('', status: 200))
         stub_request(
           :post,
-          intake_api_url(ExternalRoutes.intake_api_screening_people_path(new_screening[:id]))
+          ferb_api_url(FerbRoutes.screening_participant_path(new_screening[:id]))
         ).and_return(json_body(person.to_json, status: 201))
 
         within '#search-card', text: 'Search' do

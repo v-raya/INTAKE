@@ -209,7 +209,7 @@ feature 'Relationship card' do
         screening_id = participants_screening[:id]
 
         stub_request(:post,
-          ferb_api_url(FerbRoutes.screening_participants_path(screening_id)))
+          ferb_api_url(FerbRoutes.screening_participant_path(screening_id)))
           .and_return(json_body(new_participant.to_json, status: 201))
 
         stub_request(
@@ -292,8 +292,8 @@ feature 'Relationship card' do
             )).and_return(status: 200)
 
           stub_request(:post,
-            intake_api_url(
-              ExternalRoutes.intake_api_screening_people_path(participants_screening[:id])
+            ferb_api_url(
+              FerbRoutes.screening_participant_path(participants_screening[:id])
             )).and_return(json_body(new_participant.to_json, status: 201))
         end
 
@@ -303,9 +303,9 @@ feature 'Relationship card' do
               assign_relationship(tag: 'tr', element_text: 'Jake Campbell Brother (Half)')
               expect(
                 a_request(:post,
-                  intake_api_url(
-                    ExternalRoutes
-                      .intake_api_screening_people_path(participants_screening[:id])
+                  ferb_api_url(
+                    FerbRoutes
+                      .screening_participant_path(participants_screening[:id])
                   ))
               ).to have_been_made.times(1)
             end
