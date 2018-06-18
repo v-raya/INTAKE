@@ -12,13 +12,13 @@ describe('PersonSuggestion', () => {
   it('renders legacy source table and id', () => {
     const props = {legacyDescriptor: {legacy_ui_id: '123-456-789', legacy_table_description: 'Client'}}
     const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
-    expect(component.html()).toContain('<span>Client ID 123-456-789 in CWS-CMS</span>')
+    expect(component.html()).toContain('<div>Client ID 123-456-789 in CWS-CMS</div>')
   })
 
   it('renders just the legacy table if no id exists', () => {
     const props = {legacyDescriptor: {legacy_table_description: 'Client'}}
     const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
-    expect(component.html()).toContain('<span>Client in CWS-CMS</span>')
+    expect(component.html()).toContain('<div>Client in CWS-CMS</div>')
   })
 
   it('renders html sanitized full name', () => {
@@ -38,6 +38,19 @@ describe('PersonSuggestion', () => {
       const props = {isSensitive: false}
       const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
       expect(component.html()).not.toContain('Sensitive')
+    })
+  })
+  describe('deceased', () => {
+    it('renders when deceased when date of death is present', () => {
+      const props = {isDeceased: true}
+      const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
+      expect(component.html()).toContain('Deceased')
+    })
+
+    it('does not render when deceased is not present', () => {
+      const props = {isDeceased: false}
+      const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
+      expect(component.html()).not.toContain('Deceased')
     })
   })
 

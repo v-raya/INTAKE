@@ -24,6 +24,7 @@ describe PersonSearchRepository do
         'name_suffix',
         'gender',
         'date_of_birth',
+        'date_of_death',
         'ssn',
         'languages',
         'races',

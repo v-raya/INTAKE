@@ -10,7 +10,7 @@ import sanitizeHtml from 'sanitize-html'
 import AvatarImg from '../../assets/images/default-profile.svg'
 
 const PersonSuggestion = ({
-  fullName, dateOfBirth, gender, languages, races,
+  fullName, dateOfBirth, isDeceased, gender, languages, races,
   ethnicity, ssn, address, phoneNumber, legacyDescriptor, isSensitive, isSealed,
 }) => {
   const sanitizedField = (field) => ({
@@ -31,8 +31,9 @@ const PersonSuggestion = ({
       <div className='col-md-10'>
         <div className='row'>
           <div className='col-md-12'>
-            <strong className='highlighted' {...sanitizedField(fullName)} /><br/>
-            <span>{legacySourceString}</span>
+            <strong className='highlighted' {...sanitizedField(fullName)} />
+            {isDeceased && <span className='information-flag search-result'>Deceased</span>}
+            <div>{legacySourceString}</div>
           </div>
         </div>
         <div className='row'>
@@ -63,6 +64,7 @@ PersonSuggestion.propTypes = {
   ethnicity: PropTypes.object,
   fullName: PropTypes.string,
   gender: PropTypes.string,
+  isDeceased: PropTypes.bool,
   isSealed: PropTypes.bool,
   isSensitive: PropTypes.bool,
   languages: PropTypes.array,

@@ -110,6 +110,7 @@ export class Autocompleter extends Component {
         <PersonSuggestion
           address={item.address}
           dateOfBirth={item.dateOfBirth}
+          isDeceased={item.isDeceased}
           ethnicity={item.ethnicity}
           fullName={item.fullName}
           gender={item.gender}
