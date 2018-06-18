@@ -28,7 +28,7 @@ feature 'Person Information Validations' do
     let(:person) do
       FactoryBot.create :participant,
         first_name: invalid_first_name,
-        roles: ['Victim', 'Family Member']
+        roles: ['Victim', 'Mandated Reporter']
     end
     let(:error_message) { 'Please enter a first name.' }
 
@@ -65,7 +65,7 @@ feature 'Person Information Validations' do
     let(:person) do
       FactoryBot.create :participant,
         last_name: invalid_last_name,
-        roles: ['Victim', 'Family Member']
+        roles: ['Victim', 'Mandated Reporter']
     end
     let(:error_message) { 'Please enter a last name.' }
 
@@ -102,7 +102,7 @@ feature 'Person Information Validations' do
     let(:person) do
       FactoryBot.create :participant,
         first_name: invalid_first_name,
-        roles: ['Collateral', 'Family Member']
+        roles: ['Collateral', 'Mandated Reporter']
     end
     let(:error_message) { 'Please enter a first name.' }
 
@@ -139,7 +139,7 @@ feature 'Person Information Validations' do
     let(:person) do
       FactoryBot.create :participant,
         last_name: invalid_last_name,
-        roles: ['Collateral', 'Family Member']
+        roles: ['Collateral', 'Mandated Reporter']
     end
     let(:error_message) { 'Please enter a last name.' }
 

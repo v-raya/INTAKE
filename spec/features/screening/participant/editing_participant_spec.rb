@@ -511,7 +511,7 @@ feature 'Edit Person' do
     visit edit_screening_path(id: screening[:id])
 
     within edit_participant_card_selector(marge.id) do
-      fill_in_react_select 'Role', with: 'Family Member', exit_key: :tab
+      fill_in_react_select 'Role', with: 'Mandated Reporter', exit_key: :tab
       expect(page).to have_react_select_field 'Role', with: %w[Victim Perpetrator]
     end
   end

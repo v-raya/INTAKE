@@ -29,12 +29,6 @@ describe('screeningDecisionFormSelectors', () => {
         {
           screening_id: '3',
           roles: [
-            'Perpetrator', 'Family Member',
-          ],
-        },
-        {
-          screening_id: '3',
-          roles: [
             'Victim',
           ],
         },
@@ -47,7 +41,7 @@ describe('screeningDecisionFormSelectors', () => {
     })
 
     it('returns all the roles', () => {
-      expect(getDecisionRolesSelector(state)).toEqualImmutable(fromJS(['Perpetrator', 'Family Member', 'Victim', 'Mandated Reporter']))
+      expect(getDecisionRolesSelector(state)).toEqualImmutable(fromJS(['Perpetrator', 'Victim', 'Mandated Reporter']))
     })
   })
 

@@ -44,7 +44,7 @@ feature 'Person Information Validations' do
       let(:error_message) { 'Alleged victims must be under 18 years old.' }
 
       context 'when roles does not include Victim' do
-        let(:roles) { ['Family Member'] }
+        let(:roles) { ['Mandated Reporter'] }
 
         scenario 'error not displayed even if approximate age is over 18 years' do
           stub_request(
@@ -67,7 +67,7 @@ feature 'Person Information Validations' do
       end
 
       context 'when roles include victim' do
-        let(:roles) { ['Victim', 'Family Member'] }
+        let(:roles) { ['Victim', 'Mandated Reporter'] }
 
         scenario 'error is displayed until user enters a valid approximate age' do
           validate_message_as_user_interacts_with_person_card(
@@ -152,7 +152,7 @@ feature 'Person Information Validations' do
       end
 
       context 'when roles does not include Victim' do
-        let(:roles) { ['Family Member'] }
+        let(:roles) { ['Mandated Reporter'] }
 
         scenario 'error not displayed even if dob is over 18 years' do
           stub_request(
@@ -176,7 +176,7 @@ feature 'Person Information Validations' do
       end
 
       context 'when roles include victim' do
-        let(:roles) { ['Victim', 'Family Member'] }
+        let(:roles) { ['Victim', 'Mandated Reporter'] }
 
         scenario 'error is displayed until user enters a valid date of birth' do
           validate_message_as_user_interacts_with_person_card(
