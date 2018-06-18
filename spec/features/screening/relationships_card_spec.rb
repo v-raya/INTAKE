@@ -300,7 +300,7 @@ feature 'Relationship card' do
         describe '#relationships-card' do
           describe '.unattached-person' do
             scenario 'allows attachment' do
-              assign_relationship(tag: 'tr', element_text: 'Jake Campbell Brother (Half)')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
               expect(
                 a_request(:post,
                   intake_api_url(
