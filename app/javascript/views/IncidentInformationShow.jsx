@@ -10,7 +10,7 @@ const IncidentInformationShow = ({incidentDate, incidentCounty, address, locatio
       </ShowField>
     </div>
     <div className='row'>
-      <ShowField gridClassName='col-md-4' label='Address'>
+      <ShowField gridClassName='col-md-4' label='Address' errors={errors.incident_address}>
         {address.streetAddress}
       </ShowField>
       <ShowField gridClassName='col-md-4' label='City'>

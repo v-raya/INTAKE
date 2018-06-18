@@ -48,8 +48,8 @@ export default createReducer(Map(), {
       .setIn(['location_type', 'touched'], true)
       .setIn(['current_location_of_children', 'touched'], true)
   },
-  [TOUCH_INCIDENT_INFORMATION_FORM_FIELD](state, {payload: {field}}) {
-    return state.setIn([field, 'touched'], true)
+  [TOUCH_INCIDENT_INFORMATION_FORM_FIELD](state, {payload: {fieldSet}}) {
+    return state.setIn([...fieldSet, 'touched'], true)
   },
   [RESET_INCIDENT_INFORMATION_FORM_FIELDS](state, {payload: {screening}}) {
     const {

@@ -5,7 +5,7 @@ import {Map, List, fromJS} from 'immutable'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
-import {isFutureDatetimeCreate, combineCompact} from 'utils/validator'
+import {isFutureDatetimeCreate, isRequiredCreate, combineCompact} from 'utils/validator'
 
 export const getIncidentInformationFormSelector = (state) => state.get('incidentInformationForm', Map())
 
@@ -62,10 +62,24 @@ export const getScreeningWithEditsSelector = createSelector(
   )
 )
 
+const filterTouched = (map) => map.filter((field) => field.get && field.get('touched')).keySeq()
+
 export const getTouchedFieldsSelector = createSelector(
   (state) => state.get('incidentInformationForm'),
-  (incidentInformationForm) => incidentInformationForm.filter((field) => field.get('touched')).keySeq()
+  filterTouched
 )
+
+const selectTouchedAddressFields = (state) => {
+  const address = state.getIn(['incidentInformationForm', 'incident_address'], Map())
+  return filterTouched(address)
+}
+
+const selectAddressErrors = (state) => {
+  const street_address = state.getIn(['incidentInformationForm', 'incident_address', 'street_address', 'value'])
+  return fromJS({
+    street_address: combineCompact(isRequiredCreate(street_address, 'The incident address must be provided.')),
+  })
+}
 
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['incidentInformationForm', 'incident_date', 'value']),
@@ -77,16 +91,25 @@ export const getErrorsSelector = createSelector(
 export const getVisibleErrorsSelector = createSelector(
   getErrorsSelector,
   getTouchedFieldsSelector,
-  (errors, touchedFields) => errors.reduce(
+  selectAddressErrors,
+  selectTouchedAddressFields,
+  (errors, touchedFields, addressErrors, touchedAddressFields) => errors.reduce(
     (filteredErrors, fieldErrors, field) => {
       if (touchedFields.includes(field)) {
         return filteredErrors.set(field, fieldErrors)
-      } else {
-        return filteredErrors.set(field, List())
       }
+      return filteredErrors.set(field, List())
     },
     Map()
-  )
+  ).set('incident_address', addressErrors.reduce(
+    (filteredErrors, fieldErrors, field) => {
+      if (touchedAddressFields.includes(field)) {
+        return filteredErrors.set(field, fieldErrors)
+      }
+      return filteredErrors.set(field, List())
+    },
+    Map()
+  ))
 )
 
 export const getCountiesSelector = (state) =>

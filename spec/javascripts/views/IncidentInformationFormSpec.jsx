@@ -3,7 +3,7 @@ import {shallow} from 'enzyme'
 import IncidentInformationForm from 'views/IncidentInformationForm'
 
 describe('IncidentInformationForm', () => {
-  const renderIncidentInformationForm = ({errors = {}, address = {}, counties = [], locationTypes = [], usStates = [], ...args}) => {
+  const renderIncidentInformationForm = ({errors = {incident_address: {}}, address = {}, counties = [], locationTypes = [], usStates = [], ...args}) => {
     const props = {errors, address, counties, locationTypes, usStates, ...args}
     return shallow(<IncidentInformationForm {...props}/>, {disableLifecycleMethods: true})
   }
@@ -25,13 +25,14 @@ describe('IncidentInformationForm', () => {
       const onBlur = jasmine.createSpy('onBlur')
       const component = renderIncidentInformationForm({onBlur})
       component.find('DateField[label="Incident Date"]').simulate('blur')
-      expect(onBlur).toHaveBeenCalledWith('incident_date')
+      expect(onBlur).toHaveBeenCalledWith(['incident_date'])
     })
 
     it('renders the incident date field with errors', () => {
       const component = renderIncidentInformationForm({
         errors: {
           incident_date: ['error one'],
+          incident_address: {},
         },
       })
       expect(component.find('DateField[label="Incident Date"]').props().errors).toEqual(['error one'])
@@ -45,13 +46,21 @@ describe('IncidentInformationForm', () => {
     })
 
     describe('Street Address', () => {
-      it('renders the street address field and its callbacks', () => {
+      it('renders the street address field', () => {
         const component = renderIncidentInformationForm({
           address: {
             streetAddress: '1234 C street',
           },
+          errors: {
+            incident_address: {
+              street_address: ['error one'],
+            },
+          },
         })
-        expect(component.find('InputField[label="Address"]').props().value).toEqual('1234 C street')
+        const input = component.find('InputField[label="Address"]')
+        expect(input.props().value).toEqual('1234 C street')
+        expect(input.props().errors).toEqual(['error one'])
+        expect(input.props().required).toEqual(true)
       })
 
       it('fires onChange callback', () => {
@@ -59,6 +68,13 @@ describe('IncidentInformationForm', () => {
         const component = renderIncidentInformationForm({onChange})
         component.find('InputField[label="Address"]').simulate('change', {target: {value: 'new value'}})
         expect(onChange).toHaveBeenCalledWith(['incident_address', 'street_address'], 'new value')
+      })
+
+      it('touches on blur', () => {
+        const onBlur = jasmine.createSpy('onBlur')
+        const component = renderIncidentInformationForm({onBlur})
+        component.find('InputField[label="Address"]').simulate('blur')
+        expect(onBlur).toHaveBeenCalledWith(['incident_address', 'street_address'])
       })
     })
 

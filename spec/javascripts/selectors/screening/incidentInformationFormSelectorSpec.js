@@ -247,6 +247,20 @@ describe('incidentInformationFormSelectors', () => {
         .toEqualImmutable(List(['The incident date and time cannot be in the future.']))
     })
 
+    it('returns an error if the street_address has a validation and is touched', () => {
+      const incidentInformationForm = {
+        incident_address: {
+          street_address: {
+            value: '',
+            touched: true,
+          },
+        },
+      }
+      const state = fromJS({incidentInformationForm})
+      expect(getVisibleErrorsSelector(state).get('incident_address').get('street_address'))
+        .toEqualImmutable(List(['The incident address must be provided.']))
+    })
+
     it('does not return an error if the field has not been touched', () => {
       const incidentInformationForm = {
         incident_date: {

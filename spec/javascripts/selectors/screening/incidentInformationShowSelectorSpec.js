@@ -85,20 +85,36 @@ describe('incidentInformationShowSelectors', () => {
     it('returns an error if the incident date fails to validate', () => {
       const screening = {
         incident_date: moment().add(10, 'days').toISOString(),
+        incident_address: {street_address: '123 Main St'},
       }
       const state = fromJS({screening})
       expect(getErrorsSelector(state)).toEqualImmutable(fromJS({
         incident_date: ['The incident date and time cannot be in the future.'],
+        incident_address: [],
       }))
     })
 
-    it('does not return an error if the incident date successfully validates', () => {
+    it('returns an error if the indicent address is not provided', () => {
       const screening = {
         incident_date: moment().toISOString(),
+        incident_address: {},
       }
       const state = fromJS({screening})
       expect(getErrorsSelector(state)).toEqualImmutable(fromJS({
         incident_date: [],
+        incident_address: ['The incident address must be provided.'],
+      }))
+    })
+
+    it('does not return an error if the incident successfully validates', () => {
+      const screening = {
+        incident_date: moment().toISOString(),
+        incident_address: {street_address: '123 Main St'},
+      }
+      const state = fromJS({screening})
+      expect(getErrorsSelector(state)).toEqualImmutable(fromJS({
+        incident_date: [],
+        incident_address: [],
       }))
     })
   })

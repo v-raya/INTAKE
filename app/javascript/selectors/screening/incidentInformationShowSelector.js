@@ -4,7 +4,7 @@ import {Map, fromJS} from 'immutable'
 import {dateFormatter} from 'utils/dateFormatter'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {systemCodeDisplayValue, getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
-import {isFutureDatetimeCreate, combineCompact} from 'utils/validator'
+import {isFutureDatetimeCreate, isRequiredCreate, combineCompact} from 'utils/validator'
 
 export const getIncidentDateSelector = createSelector(
   getScreeningSelector,
@@ -41,7 +41,9 @@ export const getCurrentLocationOfChildrenSelector = createSelector(
 
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'incident_date']),
-  (incident_date) => (fromJS({
+  (state) => state.getIn(['screening', 'incident_address', 'street_address']),
+  (incident_date, incident_address) => (fromJS({
     incident_date: combineCompact(isFutureDatetimeCreate(incident_date, 'The incident date and time cannot be in the future.')),
+    incident_address: combineCompact(isRequiredCreate(incident_address, 'The incident address must be provided.')),
   }))
 )
