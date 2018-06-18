@@ -27,7 +27,7 @@ const RelationCard = ({
   tableActions,
 }) => (
   <div>
-    <div className='childName'>
+    <div className='child-name'>
       <b>
         {firstName} {lastName}
       </b>
