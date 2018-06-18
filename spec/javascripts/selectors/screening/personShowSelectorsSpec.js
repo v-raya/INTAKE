@@ -228,8 +228,8 @@ describe('personShowSelectors', () => {
   describe('getReadOnlyPersonFormattedAddressesSelector', () => {
     it('returns info for the person with the passed id', () => {
       const people = [
-        {id: '1', addresses: [{type: '32', legacy_id: '23'}, {type: 'Cell'}]},
-        {id: '2', addresses: [{type: 'Cell', legacy_id: '33'}]},
+        {id: '1', addresses: [{type: '32', legacy_descriptor: {legacy_id: '23'}}, {type: 'Cell'}]},
+        {id: '2', addresses: [{type: 'Cell', legacy_descriptor: {legacy_id: '33'}}]},
       ]
       const state = fromJS({participants: people, systemCodes})
       expect(getReadOnlyPersonFormattedAddressesSelector(state, '1').size).toEqual(1)

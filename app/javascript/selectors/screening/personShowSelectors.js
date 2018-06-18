@@ -203,9 +203,9 @@ export const getAllPersonFormattedAddressesSelector = (state, personId) => (
         city: address.get('city'),
         state: formattedState(address.get('state')),
         zip: address.get('zip'),
-        zipError: address.get('legacy_id') ? null : getZIPErrors(address.get('zip')),
+        zipError: address.get(['legacy_descriptor', 'legacy_id']) ? null : getZIPErrors(address.get('zip')),
         type: address.get('type'),
-        legacy_id: address.get('legacy_id'),
+        legacy_id: address.getIn(['legacy_descriptor', 'legacy_id']),
       })
     )
 )
