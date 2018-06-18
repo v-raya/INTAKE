@@ -327,7 +327,7 @@ describe('personShowSelectors', () => {
       expect(getPersonAlertErrorMessageSelector(state, '1')).toEqual(
         'Alleged victims must be identified with a name, even Doe or Unknown, and must be under the age of 18')
     })
-    
+
     it('returns undefined if roles include Victim and lastName and firstName is not empty', () => {
       const people = [{id: '1', roles: ['Victim', 'other role'],
         first_name: 'John',
