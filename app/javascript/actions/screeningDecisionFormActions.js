@@ -5,6 +5,7 @@ export const TOUCH_ALL_SCREENING_DECISION_FIELDS = 'TOUCH_ALL_SCREENING_DECISION
 export function resetFieldValues({
   screening_decision,
   screening_decision_detail,
+  screening_contact_reference,
   additional_information,
   access_restrictions,
   restrictions_rationale,
@@ -14,6 +15,7 @@ export function resetFieldValues({
     payload: {
       screening_decision,
       screening_decision_detail,
+      screening_contact_reference,
       additional_information,
       access_restrictions,
       restrictions_rationale,

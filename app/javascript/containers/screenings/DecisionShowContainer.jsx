@@ -6,6 +6,7 @@ import {
   getRestrictionRationaleSelector,
   getAdditionalInfoRequiredSelector,
   getAdditionalInformationSelector,
+  selectContactReference,
 } from 'selectors/screening/decisionShowSelectors'
 import {
   getDecisionAlertErrorMessageSelector,
@@ -25,6 +26,7 @@ const mapStateToProps = (state, ownProps) => {
     decision: getDecisionSelector(state).toJS(),
     decisionDetail: getDecisionDetailSelector(state).toJS(),
     restrictionRationale: getRestrictionRationaleSelector(state).toJS(),
+    screeningContactReference: selectContactReference(state).toJS(),
     sdmPath: IntakeConfig.sdmPath(),
     isAdditionalInfoRequired: getAdditionalInfoRequiredSelector(state),
   }

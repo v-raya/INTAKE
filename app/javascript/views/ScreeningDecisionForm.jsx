@@ -11,16 +11,17 @@ const ScreeningDecisionForm = ({
   additionalInformation,
   alertErrorMessage,
   decision,
-  decisionOptions,
   decisionDetail,
   decisionDetailOptions,
+  decisionOptions,
+  isAdditionalInfoRequired,
   onBlur,
   onCancel,
   onChange,
   onSave,
   restrictionRationale,
+  screeningContactReference,
   sdmPath,
-  isAdditionalInfoRequired,
 }) => (
   <div className='card-body'>
     { alertErrorMessage && <AlertErrorMessage message={alertErrorMessage} /> }
@@ -50,6 +51,19 @@ const ScreeningDecisionForm = ({
               value={decisionDetail.value}
               onChange={({target: {value}}) => onChange('screening_decision_detail', value)}
               onBlur={() => onBlur('screening_decision_detail')}
+            />
+        }
+        {decision.value === 'information_to_child_welfare_services' && screeningContactReference &&
+            <InputField
+              id='screening_contact_reference'
+              maxLength='22'
+              label='Case or Referral Id'
+              errors={screeningContactReference.errors}
+              allowCharacters={/[0-9-]/}
+              required={screeningContactReference.required}
+              value={screeningContactReference.value}
+              onChange={({target: {value}}) => onChange('screening_contact_reference', value)}
+              onBlur={() => onBlur('screening_contact_reference')}
             />
         }
         {decision.value && decisionDetailOptions.length > 0 &&
@@ -167,6 +181,12 @@ ScreeningDecisionForm.propTypes = {
   onChange: PropTypes.func,
   onSave: PropTypes.func,
   restrictionRationale: PropTypes.shape({
+    value: PropTypes.string,
+  }),
+  screeningContactReference: PropTypes.shape({
+    errors: PropTypes.arrayOf(PropTypes.string),
+    label: PropTypes.string,
+    required: PropTypes.bool,
     value: PropTypes.string,
   }),
   sdmPath: PropTypes.string,

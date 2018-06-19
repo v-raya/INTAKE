@@ -11,6 +11,7 @@ import {
   getRestrictionRationaleSelector,
   getAdditionalInfoRequiredSelector,
   getDecisionAlertErrorMessageSelector,
+  selectContactReference,
 } from 'selectors/screening/decisionFormSelectors'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
@@ -34,6 +35,7 @@ const mapStateToProps = (state) => (
     decisionDetailOptions: getDecisionDetailOptionsSelector(state).toJS(),
     decisionOptions: getDecisionOptionsSelector(state).toJS(),
     restrictionRationale: getRestrictionRationaleSelector(state).toJS(),
+    screeningContactReference: selectContactReference(state).toJS(),
     sdmPath: sdmPath(),
     isAdditionalInfoRequired: getAdditionalInfoRequiredSelector(state),
   }
@@ -49,6 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(setField({field, value}))
     if (field === 'screening_decision') {
       dispatch(setField({field: 'screening_decision_detail', value: null}))
+      dispatch(setField({field: 'screening_contact_reference', value: null}))
     }
     if (field === 'access_restrictions' && value === '') {
       dispatch(setField({field: 'restrictions_rationale', value: null}))

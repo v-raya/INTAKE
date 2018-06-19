@@ -6,10 +6,11 @@ import {
   getRestrictionRationaleSelector,
   getAdditionalInfoRequiredSelector,
   getAdditionalInformationSelector,
+  selectContactReference,
 } from 'selectors/screening/decisionShowSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
-describe('allegationShowSelectors', () => {
+describe('decisionShowSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
   describe('getDecisionSelector', () => {
@@ -243,6 +244,41 @@ describe('allegationShowSelectors', () => {
       const screening = {screening_decision: 'not screen_out', screening_decision_detail: 'Immediate'}
       const state = fromJS({screening})
       expect(getAdditionalInfoRequiredSelector(state)).toEqualImmutable(fromJS(false))
+    })
+  })
+
+  describe('selectContactReference', () => {
+    it('returns the value of the field', () => {
+      const screening = {screening_contact_reference: '111-222'}
+      const state = fromJS({screening})
+      expect(selectContactReference(state).get('value')).toEqual('111-222')
+    })
+
+    it('returns empty if the value of the field is null', () => {
+      const screening = {screening_contact_reference: null}
+      const state = fromJS({screening})
+      expect(selectContactReference(state).get('value')).toEqual('')
+    })
+
+    it('returns an error if the value is not a valid case or referral id', () => {
+      const screening = {
+        screening_contact_reference: '0442',
+        screening_decision: 'information_to_child_welfare_services',
+      }
+      const involvements = {
+        referrals: [{
+          start_date: '01/01/2014',
+          legacy_descriptor: {
+            legacy_ui_id: '0442-2654-1834-4001650',
+          },
+        }],
+        cases: [{
+          start_date: '01/01/2014',
+          end_date: '02/02/2014',
+        }],
+      }
+      const state = fromJS({screening, involvements})
+      expect(selectContactReference(state).get('errors')).toEqual(List(['Please enter a valid Case or Referral Id']))
     })
   })
 

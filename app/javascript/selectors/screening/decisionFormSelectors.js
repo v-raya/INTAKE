@@ -21,15 +21,22 @@ export const getDecisionFormSelector = (state) => state.get('screeningDecisionFo
 
 export const getDecisionOptionListSelector = () => fromJS(selectOptionsFormatter(SCREENING_DECISION))
 
-export const getDecisionOptionsSelector = createSelector(
+export const selectCasesAndReferrals = createSelector(
   (state) => state.getIn(['involvements', 'cases'], List()),
   (state) => state.getIn(['involvements', 'referrals'], List()),
+  (cases, referrals) => (cases.merge(referrals))
+)
+
+export const getDecisionOptionsSelector = createSelector(
+  selectCasesAndReferrals,
   getDecisionOptionListSelector,
-  (cases, referrals, options) => {
-    const hasOpenItem = cases.merge(referrals).some((k) => !k.get('end_date'))
+  (casesAndReferrals, options) => {
+    const hasOpenItem = casesAndReferrals.some((k) => !k.get('end_date'))
     return hasOpenItem ? options : options.filter((obj) => obj.get('value') !== 'information_to_child_welfare_services')
   }
 )
+
+export const selectContactReferenceValue = (state) => state.getIn(['screeningDecisionForm', 'screening_contact_reference', 'value'])
 
 export const getAccessRestrictionOptionsSelector = () => fromJS(selectOptionsFormatter(ACCESS_RESTRICTIONS))
 
@@ -59,6 +66,24 @@ export const isReporterRequired = (decision, roles) => (
     'A reporter is required to submit a screening Contact' : undefined
 )
 
+export const validateAllegations = (decision, allegations) => (
+  (decision === 'promote_to_referral' &&
+          allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
+    'Please enter at least one allegation to promote to referral.' : undefined
+)
+
+export const validateScreenerContactReference = (casesAndReferrals, contactReference, decision) => (
+  (decision === 'information_to_child_welfare_services' &&
+    !casesAndReferrals.find((hoiItem) => !hoiItem.get('end_date') &&
+      hoiItem.getIn(['legacy_descriptor', 'legacy_ui_id']) === contactReference
+    )) ? 'Please enter a valid Case or Referral Id' : undefined
+)
+
+export const validateScreeningDecisionDetail = (decision, decisionDetail) => (
+  (decision === 'promote_to_referral' && !decisionDetail) ?
+    'Please enter a response time' : undefined
+)
+
 export const getErrorsSelector = createSelector(
   getDecisionValueSelector,
   getDecisionDetailValueSelector,
@@ -66,18 +91,19 @@ export const getErrorsSelector = createSelector(
   (state) => state.get('allegationsForm', List()),
   getDecisionRolesSelector,
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']) || '',
-  (decision, decisionDetail, restrictionsRationale, allegations, roles, additionalInformation) => fromJS({
+  selectContactReferenceValue,
+  selectCasesAndReferrals,
+  (decision, decisionDetail, restrictionsRationale, allegations, roles, additionalInformation, contactReference, casesAndReferrals) => fromJS({
     screening_decision: combineCompact(
       isRequiredCreate(decision, 'Please enter a decision'),
-      () => (
-        (decision === 'promote_to_referral' &&
-          allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
-          'Please enter at least one allegation to promote to referral.' : undefined
-      ),
+      () => validateAllegations(decision, allegations),
       () => isReporterRequired(decision, roles)
     ),
+    screening_contact_reference: combineCompact(
+      () => validateScreenerContactReference(casesAndReferrals, contactReference, decision)
+    ),
     screening_decision_detail: combineCompact(
-      () => ((decision === 'promote_to_referral' && !decisionDetail) ? 'Please enter a response time' : undefined)
+      () => validateScreeningDecisionDetail(decision, decisionDetail)
     ),
     additional_information: combineCompact(
       isRequiredIfCreate(additionalInformation, 'Please enter additional information', () => (
@@ -108,6 +134,17 @@ export const getVisibleErrorsSelector = createSelector(
     },
     Map()
   )
+)
+
+export const selectContactReference = createSelector(
+  (state) => state.getIn(['screeningDecisionForm', 'screening_decision', 'value'], ''),
+  selectContactReferenceValue,
+  (state) => getVisibleErrorsSelector(state).get('screening_contact_reference'),
+  (decision, value, errors) => {
+    const required = true
+    const field = Map({required, value: value || '', errors})
+    return decision === 'information_to_child_welfare_services' ? field : Map()
+  }
 )
 
 export const getDecisionDetailSelector = createSelector(
@@ -154,14 +191,16 @@ export const getScreeningWithEditsSelector = createSelector(
   getScreeningSelector,
   getDecisionValueSelector,
   getDecisionDetailValueSelector,
+  selectContactReferenceValue,
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']),
   (state) => state.getIn(['screeningDecisionForm', 'access_restrictions', 'value']),
   (state) => state.getIn(['screeningDecisionForm', 'restrictions_rationale', 'value']),
   selectParticipants,
-  (screening, decision, decisionDetail, additionalInformation, accessRestriction, restrictionRationale, participants) => (
+  (screening, decision, decisionDetail, contactReference, additionalInformation, accessRestriction, restrictionRationale, participants) => (
     screening.set('screening_decision', decision)
       .set('screening_decision_detail', decisionDetail)
       .set('additional_information', additionalInformation)
+      .set('screening_contact_reference', contactReference)
       .set('access_restrictions', accessRestriction)
       .set('restrictions_rationale', restrictionRationale)
       .set('participants', participants)

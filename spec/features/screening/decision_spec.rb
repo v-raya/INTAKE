@@ -145,24 +145,50 @@ feature 'decision card' do
   end
 
   context 'Information to child welfare services decision option' do
+    let(:valid_legacy_ui_id) { '0442-2654-1834-4001650' }
     let(:hoi_populated) do
       {
         referrals: [
           {
             id: '1234',
-            start_date: '2016-11-14'
+            start_date: '2016-11-14',
+            legacy_descriptor: {
+              legacy_ui_id: valid_legacy_ui_id
+            }
           }
         ]
       }
     end
 
-    scenario 'can be seen when there are open HOI records' do
+    let(:screening_contact) do
+      {
+        id: '1',
+        screening_decision: 'information_to_child_welfare_services',
+        screening_decision_detail: '',
+        screening_contact_reference: '',
+        additional_information: 'this is why it is',
+        addresses: [],
+        cross_reports: [],
+        participants: [],
+        allegations: [],
+        safety_alerts: []
+      }
+    end
+
+    scenario 'shows an extra field to store case or referral Id' do
       stub_request(
         :get,
         ferb_api_url(
           FerbRoutes.screening_history_of_involvements_path(screening[:id])
         )
       ).and_return(json_body(hoi_populated.to_json, status: 200))
+
+      stub_request(
+        :put,
+        ferb_api_url(
+          FerbRoutes.intake_screening_path(screening[:id])
+        )
+      ).and_return(json_body(screening_contact.to_json), status: 200)
 
       visit edit_screening_path(id: screening[:id])
       within '#decision-card.edit' do
@@ -173,6 +199,60 @@ feature 'decision card' do
                                       'Promote to referral',
                                       'Screen out'
                                     ])
+        select 'Information to child welfare services', from: 'Screening Decision'
+        expect(page).to have_field('Case or Referral Id')
+
+        # valid chars and error handling
+        fill_in 'Case or Referral Id', with: 'a lot of invalid chars'
+        expect(page).to have_field('Case or Referral Id', with: '')
+        fill_in 'Case or Referral Id', with: '1111-222'
+        expect(page).to have_field('Case or Referral Id', with: '1111-222')
+        fill_in 'Staff Name', with: 'Joe Doe'
+        expect(page).to have_content('Please enter a valid Case or Referral Id')
+
+        fill_in 'Case or Referral Id', with: ''
+        fill_in 'Staff Name', with: 'Jane Doe'
+        expect(page).to have_content('Please enter a valid Case or Referral Id')
+        fill_in 'Case or Referral Id', with: valid_legacy_ui_id
+        expect(page).to_not have_content('Please enter a valid Case or Referral Id')
+
+        # clearing the field after switching options
+        select 'Screen out', from: 'Screening Decision'
+        expect(page).to_not have_field('Case or Referral Id')
+
+        select 'Information to child welfare services', from: 'Screening Decision'
+        expect(page).to have_field('Case or Referral Id', with: '')
+        click_button 'Save'
+      end
+
+      within '#decision-card.show' do
+        expect(page.find('label', text: 'Case or Referral Id')[:class]).to include('required')
+        expect(page).to have_text(
+          'Please enter a valid Case or Referral Id'
+        )
+        click_link 'Edit'
+      end
+
+      valid_screening_contact = screening_contact.merge(
+        screening_contact_reference: valid_legacy_ui_id
+      )
+
+      stub_request(
+        :put,
+        ferb_api_url(
+          FerbRoutes.intake_screening_path(screening[:id])
+        )
+      ).and_return(json_body(valid_screening_contact.to_json), status: 200)
+
+      within '#decision-card.edit' do
+        expect(page).to have_field('Case or Referral Id', with: '')
+        fill_in 'Case or Referral Id', with: valid_legacy_ui_id
+        click_button 'Save'
+      end
+
+      within '#decision-card.show' do
+        expect(page.find('label', text: 'Case or Referral Id')[:class]).to include('required')
+        expect(page).to_not have_text('Please enter a valid Case or Referral Id')
       end
     end
   end

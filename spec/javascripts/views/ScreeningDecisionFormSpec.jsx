@@ -140,6 +140,22 @@ describe('ScreeningDecisionForm', () => {
     })
   })
 
+  describe('screening contact reference field', () => {
+    it('does not render if the decision is not set', () => {
+      const component = renderScreeningDecisionForm({})
+      const decisionDetailInput = component.find('InputField[label="screening_contact_reference"]')
+      expect(decisionDetailInput.exists()).toEqual(false)
+    })
+
+    it('renders if the screeningContactReference is provided', () => {
+      const decision = {value: 'information_to_child_welfare_services'}
+      const screeningContactReference = {}
+      const component = renderScreeningDecisionForm({decision, screeningContactReference})
+      const screeningContactReferenceInput = component.find('InputField[label="Case or Referral Id"]')
+      expect(screeningContactReferenceInput.exists()).toEqual(true)
+    })
+  })
+
   describe('decision detail field', () => {
     it('does not render if screening decision is not set', () => {
       const component = renderScreeningDecisionForm({})
