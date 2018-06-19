@@ -10,7 +10,7 @@ import {
 } from 'selectors/screening/decisionShowSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
-describe('allegationShowSelectors', () => {
+describe('decisionShowSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
   describe('getDecisionSelector', () => {
@@ -261,7 +261,10 @@ describe('allegationShowSelectors', () => {
     })
 
     it('returns an error if the value is not a valid case or referral id', () => {
-      const screening = {screening_contact_reference: '0442'}
+      const screening = {
+        screening_contact_reference: '0442',
+        screening_decision: 'information_to_child_welfare_services',
+      }
       const involvements = {
         referrals: [{
           start_date: '01/01/2014',
@@ -275,7 +278,7 @@ describe('allegationShowSelectors', () => {
         }],
       }
       const state = fromJS({screening, involvements})
-      expect(selectContactReference(state).get('errors')).toEqual(List([]))
+      expect(selectContactReference(state).get('errors')).toEqual(List(['Please enter a valid Case or Referral Id']))
     })
   })
 

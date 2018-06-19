@@ -39,9 +39,7 @@ export const getErrorsSelector = createSelector(
         ))
       ),
       screening_contact_reference: combineCompact(
-        isRequiredIfCreate(contactReference, 'Please enter a valid Case or Referral Id', () =>
-          validateScreenerContactReference(casesAndReferrals, contactReference, decision)
-        )
+        () => validateScreenerContactReference(casesAndReferrals, contactReference, decision)
       ),
       restrictions_rationale: combineCompact(
         isRequiredIfCreate(restrictionsRationale, 'Please enter an access restriction reason', () => (accessRestrictions))
