@@ -45,7 +45,9 @@ import {
 } from 'selectors/screening/screeningPageSelectors'
 
 const isDuplicatePerson = (participants, personOnScreening) => (
-  participants.some((x) => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
+  participants
+    .filter((participant) => participant.legacy_id)
+    .some((x) => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
 )
 
 export class ScreeningPage extends React.Component {
