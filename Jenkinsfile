@@ -1,4 +1,9 @@
 import java.text.SimpleDateFormat
+// Globals
+
+def debug(String str) {
+    echo "[DEBUG] ${str}"
+}
 
 // Tags the repo
 def tagRepo(String VERSION) {
@@ -82,11 +87,9 @@ node('intake-slave') {
           }
         }
       }
-
       stage('Tag Repo') {
         tagRepo(VERSION)
       }
-
       stage('Publish') {
         withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
           curStage = 'Publish'
