@@ -10,21 +10,26 @@ import {fetchRelationships} from 'actions/relationshipsActions'
 import {selectClientIds} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 
+export function* sendPersonPayload(person) {
+  const {screening_id, legacy_descriptor, sealed, sensitive} = person
+  const {legacy_id, legacy_source_table} = legacy_descriptor || {}
+  const participantPayload = {
+    participant: {
+      screening_id,
+      legacy_descriptor: {
+        legacy_id,
+        legacy_table_name: legacy_source_table,
+      },
+      sealed: sealed || false,
+      sensitive: sensitive || false,
+    },
+  }
+  return yield call(post, '/api/v1/participants', participantPayload)
+}
+
 export function* createParticipant({payload: {person}}) {
   try {
-    const {screening_id, legacy_descriptor, sealed, sensitive} = person
-    const {legacy_id, legacy_source_table} = legacy_descriptor || {}
-    const response = yield call(post, '/api/v1/participants', {
-      participant: {
-        screening_id,
-        legacy_descriptor: {
-          legacy_id,
-          legacy_table_name: legacy_source_table,
-        },
-        sealed: sealed || false,
-        sensitive: sensitive || false,
-      },
-    })
+    const response = yield* sendPersonPayload(person)
     yield put(createPersonSuccess(response))
     const clientIds = yield select(selectClientIds)
     yield put(fetchRelationships(clientIds))
