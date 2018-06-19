@@ -15,12 +15,20 @@ class FerbRoutes
       "/intake/screenings/#{id}"
     end
 
+    def screening_participant_save_path(screening_id, participant_id)
+      "/screenings/#{screening_id}/participants/#{participant_id}"
+    end
+
     def screening_history_of_involvements_path(id)
       "/screenings/#{id}/history_of_involvements"
     end
 
-    def screening_participant_path(id)
-      "/screenings/#{id}/participant"
+    def screening_participant_path(screening_id, participant_id = nil)
+      if participant_id
+        screening_participant_save_path(screening_id, participant_id)
+      else
+        "/screenings/#{screening_id}/participant"
+      end
     end
 
     def screening_submit_path(id)
