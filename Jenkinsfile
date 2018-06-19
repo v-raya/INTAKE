@@ -1,6 +1,6 @@
 import java.text.SimpleDateFormat
 
-// Tags the repo TEST1
+// Tags the repo
 
 def tagRepo(String VERSION) {
     debug("tagRepo( VERSION: ${VERSION} )")
@@ -26,7 +26,7 @@ def tagRepo(String VERSION) {
 
 node('intake-slave') {
   checkout scm
-  def branch = env.BRANCH_NAME ?: (env.GIT_BRANCH ?: 'master')
+  def branch = env.BRANCH_NAME ?: (env.GIT_BRANCH ?: 'DOE-2924-Tagging5')
   def curStage = 'Start'
   def pipelineStatus = 'SUCCESS'
   def successColor = '11AB1B'
@@ -37,10 +37,10 @@ node('intake-slave') {
 
   try {
 
-    stage('Building testing bench') {
-      curStage = 'Building testing bench'
-      sh './scripts/ci/build_testing_bench.rb'
-    }
+    // stage('Building testing bench') {
+    //   curStage = 'Building testing bench'
+    //   sh './scripts/ci/build_testing_bench.rb'
+    // }
 
     // stage('Lint test') {
     //   curStage = 'Lint test'
@@ -64,25 +64,25 @@ node('intake-slave') {
         returnStdout: true
       )
 
-      stage('Build') {
-        curStage = 'Build'
-        sh 'make build'
-      }
+      // stage('Build') {
+      //   curStage = 'Build'
+      //   sh 'make build'
+      // }
 
-      stage('Release') {
-        curStage = 'Release'
-        withEnv(["BUILD_DATE=${buildDate}","VERSION=${VERSION}","VCS_REF=${VCS_REF}"]) {
-          sh 'make release'
-        }
-      }
+      // stage('Release') {
+      //   curStage = 'Release'
+      //   withEnv(["BUILD_DATE=${buildDate}","VERSION=${VERSION}","VCS_REF=${VCS_REF}"]) {
+      //     sh 'make release'
+      //   }
+      // }
 
-      stage('Acceptance test Bubble'){
-        withDockerRegistry([credentialsId: docker_credentials_id]){
-          withEnv(["INTAKE_IMAGE_VERSION=intakeaccelerator${BUILD_NUMBER}_app"]) {
-            sh './scripts/ci/acceptance_test.rb'
-          }
-        }
-      }
+      // stage('Acceptance test Bubble'){
+      //   withDockerRegistry([credentialsId: docker_credentials_id]){
+      //     withEnv(["INTAKE_IMAGE_VERSION=intakeaccelerator${BUILD_NUMBER}_app"]) {
+      //       sh './scripts/ci/acceptance_test.rb'
+      //     }
+      //   }
+      // }
 
       stage('Tag Repo') {
         tagRepo(VERSION)
@@ -107,56 +107,56 @@ node('intake-slave') {
       // }
     }
 
-    stage ('Reports') {
-      step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
+  //   stage ('Reports') {
+  //     step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
 
-      publishHTML (target: [
-        allowMissing: false,
-        alwaysLinkToLastBuild: false,
-        keepAll: true,
-        reportDir: 'reports/coverage/js',
-        reportFiles: 'index.html',
-        reportName: 'JS Code Coverage'
-      ])
+  //     publishHTML (target: [
+  //       allowMissing: false,
+  //       alwaysLinkToLastBuild: false,
+  //       keepAll: true,
+  //       reportDir: 'reports/coverage/js',
+  //       reportFiles: 'index.html',
+  //       reportName: 'JS Code Coverage'
+  //     ])
 
-      publishHTML (target: [
-        allowMissing: false,
-        alwaysLinkToLastBuild: false,
-        keepAll: true,
-        reportDir: 'reports/coverage/ruby',
-        reportFiles: 'index.html',
-        reportName: 'Ruby Code Coverage'
-      ])
-    }
+  //     publishHTML (target: [
+  //       allowMissing: false,
+  //       alwaysLinkToLastBuild: false,
+  //       keepAll: true,
+  //       reportDir: 'reports/coverage/ruby',
+  //       reportFiles: 'index.html',
+  //       reportName: 'Ruby Code Coverage'
+  //     ])
+  //   }
 
-  } catch (e) {
-    pipelineStatus = 'FAILED'
-    currentBuild.result = 'FAILURE'
-    throw e
-  }
+  // } catch (e) {
+  //   pipelineStatus = 'FAILED'
+  //   currentBuild.result = 'FAILURE'
+  //   throw e
+  // }
 
-  finally {
-    try {
-      stage('Clean') {
-        withEnv(["GIT_BRANCH=${branch}"]){
-          sh './scripts/ci/clean.rb'
-        }
-      }
-    } catch(e) {
-      pipelineStatus = 'FAILED'
-      currentBuild.result = 'FAILURE'
-    }
+  // finally {
+  //   try {
+  //     stage('Clean') {
+  //       withEnv(["GIT_BRANCH=${branch}"]){
+  //         sh './scripts/ci/clean.rb'
+  //       }
+  //     }
+  //   } catch(e) {
+  //     pipelineStatus = 'FAILED'
+  //     currentBuild.result = 'FAILURE'
+  //   }
 
-    // if (branch == 'master') {
-    //   slackAlertColor = successColor
-    //   slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' completed for branch '${branch}' (${env.BUILD_URL})"
+  //   // if (branch == 'master') {
+  //   //   slackAlertColor = successColor
+  //   //   slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' completed for branch '${branch}' (${env.BUILD_URL})"
 
-    //   if(pipelineStatus == 'FAILED') {
-    //     slackAlertColor = failureColor
-    //     slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' in stage '${curStage}' for branch '${branch}' (${env.BUILD_URL})"
-    //   }
+  //   //   if(pipelineStatus == 'FAILED') {
+  //   //     slackAlertColor = failureColor
+  //   //     slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' in stage '${curStage}' for branch '${branch}' (${env.BUILD_URL})"
+  //   //   }
 
-    //   slackSend channel: "#tech-intake", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: slackAlertColor, message: slackMessage
-    // }
-  }
+  //   //   slackSend channel: "#tech-intake", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: slackAlertColor, message: slackMessage
+  //   // }
+  // }
 }
