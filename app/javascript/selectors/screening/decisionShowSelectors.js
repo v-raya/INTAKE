@@ -5,13 +5,13 @@ import SCREENING_DECISION from 'enums/ScreeningDecision'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
 import {isRequiredCreate, isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {
-  getDecisionRolesSelector,
+  selectParticipantsRoles,
   isReporterRequired,
   selectCasesAndReferrals,
-  validateScreenerContactReference,
+  validateScreeningContactReference,
   validateAllegations,
   validateScreeningDecisionDetail,
-} from './decisionFormSelectors'
+} from './decisionSelectors'
 
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'screening_decision']),
@@ -20,7 +20,7 @@ export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'access_restrictions']) || '',
   (state) => state.getIn(['screening', 'restrictions_rationale']) || '',
   (state) => state.get('allegationsForm', List()),
-  getDecisionRolesSelector,
+  selectParticipantsRoles,
   selectCasesAndReferrals,
   (state) => state.getIn(['screening', 'additional_information']) || '',
   (decision, decisionDetail, contactReference, accessRestrictions, restrictionsRationale, allegations, roles, casesAndReferrals, additionalInformation) => (
@@ -39,7 +39,7 @@ export const getErrorsSelector = createSelector(
         ))
       ),
       screening_contact_reference: combineCompact(
-        () => validateScreenerContactReference(casesAndReferrals, contactReference, decision)
+        () => validateScreeningContactReference(casesAndReferrals, contactReference, decision)
       ),
       restrictions_rationale: combineCompact(
         isRequiredIfCreate(restrictionsRationale, 'Please enter an access restriction reason', () => (accessRestrictions))
