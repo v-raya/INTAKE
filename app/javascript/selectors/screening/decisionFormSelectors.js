@@ -74,8 +74,8 @@ export const validateAllegations = (decision, allegations) => (
 
 export const validateScreenerContactReference = (casesAndReferrals, contactReference, decision) => (
   (decision === 'information_to_child_welfare_services' &&
-    casesAndReferrals.find((hoiItem) =>
-      hoiItem.getIn(['legacy_descriptor', 'legacy_ui_id']) !== contactReference
+    !casesAndReferrals.find((hoiItem) => !hoiItem.get('end_date') &&
+      hoiItem.getIn(['legacy_descriptor', 'legacy_ui_id']) === contactReference
     )) ? 'Please enter a valid Case or Referral Id' : undefined
 )
 

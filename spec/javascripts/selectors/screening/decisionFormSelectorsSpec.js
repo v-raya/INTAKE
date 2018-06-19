@@ -590,6 +590,28 @@ describe('screeningDecisionFormSelectors', () => {
       expect(selectContactReference(state)).toEqualImmutable(Map({required: true, value: '1111-1111', errors: List()}))
     })
     describe('validations', () => {
+      it('an error is returned if the field contains an valid case or referal id but the item is closed', () => {
+        const screeningDecisionForm = {
+          screening_decision: {value: 'information_to_child_welfare_services'},
+          screening_contact_reference: {value: '0442-2654-1834-4001650', touched: true},
+        }
+        const involvements = {
+          referrals: [{
+            start_date: '01/01/2014',
+            end_date: '02/02/2014',
+            legacy_descriptor: {
+              legacy_ui_id: '0442-2654-1834-4001650',
+            },
+          }],
+          cases: [{
+            start_date: '01/01/2014',
+            end_date: '02/02/2014',
+          }],
+        }
+        const state = fromJS({screeningDecisionForm, involvements})
+        expect(selectContactReference(state)).toEqualImmutable(Map({required: true, value: '0442-2654-1834-4001650', errors: List(['Please enter a valid Case or Referral Id'])}))
+      })
+
       it('no error is returned if the field contains an valid case or referal id', () => {
         const screeningDecisionForm = {
           screening_decision: {value: 'information_to_child_welfare_services'},
@@ -605,6 +627,11 @@ describe('screeningDecisionFormSelectors', () => {
           cases: [{
             start_date: '01/01/2014',
             end_date: '02/02/2014',
+          }, {
+            start_date: '01/01/2014',
+            legacy_descriptor: {
+              legacy_ui_id: '3333-2232-1111-2233120',
+            },
           }],
         }
         const state = fromJS({screeningDecisionForm, involvements})
