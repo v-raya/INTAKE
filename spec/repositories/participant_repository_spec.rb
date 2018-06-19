@@ -7,82 +7,87 @@ describe ParticipantRepository do
 
   describe '.create' do
     let(:participant_id) { '11' }
+    let(:screening_id) { '1' }
+    let(:legacy_id) { '2' }
 
     let(:response) do
       double(:response, body: { 'id' => participant_id, 'first_name' => 'New Participant' })
     end
-    let(:screening_id) { '1' }
 
     describe 'when creating a person with no legacy_id' do
-      let(:participant) do
-        Participant.new(
-          id: nil,
-          first_name: 'New Participant',
-          screening_id: screening_id
-        )
+      let(:response) do
+        double(:response, body: {
+                 id: participant_id,
+                 first_name: 'New Participant',
+                 screening_id: screening_id
+               })
       end
 
       let(:payload) do
         {
-          screening_id: screening_id,
-          legacy_descriptor: {
-            legacy_id: participant.legacy_descriptor&.legacy_id,
-            legacy_table_name: participant.legacy_descriptor&.legacy_table_name
-          }
-        }.as_json
+          first_name: 'New Participant',
+          screening_id: screening_id
+        }
       end
 
       before do
-        expect(IntakeAPI).not_to receive(:make_api_call)
         expect(FerbAPI).to receive(:make_api_call)
           .with(
             security_token,
-            FerbRoutes.screening_participants_path(screening_id),
-            :post, participant.as_json
+            FerbRoutes.screening_participant_path(screening_id),
+            :post, payload.as_json.deep_symbolize_keys
           )
           .and_return(response)
       end
 
       it 'returns the created participant with an error flag' do
-        created_participant = described_class.create(security_token, participant)
-        expect(created_participant.id).to eq(participant_id)
-        expect(created_participant.first_name).to eq('New Participant')
+        created_participant = described_class.create(security_token, payload)
+        expect(created_participant['id']).to eq(participant_id)
+        expect(created_participant['first_name']).to eq('New Participant')
       end
     end
 
     describe 'when creating a person with an existing legacy_id' do
       let(:participant) do
-        Participant.new(
-          id: nil,
+        {
+          id: participant_id,
           first_name: 'New Participant',
           screening_id: screening_id,
           legacy_descriptor: {
-            legacy_id: participant_id
+            legacy_id: participant_id,
+            legacy_table_name: 'CLIENT_T'
           }
-        )
+        }
+      end
+
+      let(:response) do
+        double(:response, body: participant)
       end
 
       let(:payload) do
         {
           screening_id: screening_id,
           legacy_descriptor: {
-            legacy_id: participant.legacy_descriptor&.legacy_id,
-            legacy_table_name: participant.legacy_descriptor&.legacy_table_name
+            legacy_id: participant_id,
+            legacy_table_name: 'CLIENT_T'
           }
-        }.as_json
+        }
       end
 
       it 'should return a participant when authorization succeeds' do
         expect(FerbAPI).to receive(:make_api_call)
           .with(security_token, "/authorize/client/#{participant_id}", :get)
           .and_return(status: 200)
-        expect(IntakeAPI).to receive(:make_api_call)
-          .with(security_token, '/api/v1/screenings/1/people', :post, payload)
-          .and_return(response)
+        expect(FerbAPI).to receive(:make_api_call)
+          .with(
+            security_token,
+            FerbRoutes.screening_participant_path(screening_id),
+            :post, payload.as_json.deep_symbolize_keys
+          ).and_return(response)
 
-        created_participant = described_class.create(security_token, participant)
-        expect(created_participant.id).to eq(participant_id)
-        expect(created_participant.first_name).to eq('New Participant')
+        created_participant = described_class.create(security_token, payload)
+        expect(created_participant['id']).to eq(participant_id)
+        expect(created_participant['first_name']).to eq('New Participant')
       end
 
       it 'should raise an error when authorization fails' do
@@ -102,11 +107,11 @@ describe ParticipantRepository do
             )
           )
 
-        expect(IntakeAPI).not_to receive(:make_api_call)
-          .with(security_token, '/api/v1/screenings/1/people', :post)
+        expect(FerbAPI).not_to receive(:make_api_call)
+          .with(security_token, FerbRoutes.screening_participant_path(screening_id), :post)
 
         expect do
-          described_class.create(security_token, participant)
+          described_class.create(security_token, payload)
         end.to raise_error(described_class::AuthorizationError)
       end
 
@@ -128,11 +133,11 @@ describe ParticipantRepository do
           .with(security_token, url, :get)
           .and_raise(exception)
 
-        expect(IntakeAPI).not_to receive(:make_api_call)
-          .with(security_token, '/api/v1/screenings/1/people', :post)
+        expect(FerbAPI).not_to receive(:make_api_call)
+          .with(security_token, FerbRoutes.screening_participant_path(screening_id), :post)
 
         expect do
-          described_class.create(security_token, participant)
+          described_class.create(security_token, payload)
         end.to raise_error(exception)
       end
     end

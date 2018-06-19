@@ -56,38 +56,33 @@ describe Api::V1::ParticipantsController do
         sealed: 'false',
         sensitive: 'true',
         languages: %w[French Farsi]
-      }.with_indifferent_access
+      }
     end
     let(:created_participant) do
-      double(:participant, as_json: participant_params.merge(id: '1'))
+      participant_params.merge(id: '1')
     end
 
     it 'should render a participant as json' do
-      participant = double(:participant)
-      expect(Participant).to receive(:new)
-        .with(participant_params).and_return(participant)
       expect(ParticipantRepository).to receive(:create)
-        .with(security_token, participant)
+        .with(security_token, participant_params)
         .and_return(created_participant)
 
       process :create,
         method: :post,
-        params: { screening_id: '1', participant: participant_params },
+        as: :json,
+        params: { participant: participant_params },
         session: session
-      expect(JSON.parse(response.body)).to eq(created_participant.as_json)
+      expect(JSON.parse(response.body).deep_symbolize_keys).to eq(created_participant)
     end
 
     it 'should return an error if unauthorized' do
-      participant = double(:participant)
-      expect(Participant).to receive(:new)
-        .with(participant_params).and_return(participant)
       expect(ParticipantRepository).to receive(:create)
-        .with(security_token, participant)
+        .with(security_token, participant_params)
         .and_raise(ParticipantRepository::AuthorizationError)
 
       process :create,
         method: :post,
-        params: { screening_id: '1', participant: participant_params },
+        params: { participant: participant_params },
         session: session
       expect(response.status).to eq(403)
       expect(JSON.parse(response.body)).to eq({

@@ -11,7 +11,8 @@ feature 'searching a participant in autocompleter' do
       addresses: [],
       cross_reports: [],
       participants: [],
-      allegations: []
+      allegations: [],
+      safety_alerts: []
     }
   end
   let(:date_of_birth) { 15.years.ago.to_date }
@@ -165,12 +166,21 @@ feature 'searching a participant in autocompleter' do
         stub_person_search(search_term: 'Ma', person_response: search_response)
         stub_request(
           :get,
-          ferb_api_url(FerbRoutes.client_authorization_path(legacy_descriptor[:legacy_id]))
+          ferb_api_url(FerbRoutes.client_authorization_path(legacy_descriptor.legacy_id))
         ).and_return(status: 200)
         stub_request(
           :post,
-          intake_api_url(ExternalRoutes.intake_api_screening_people_path(existing_screening[:id]))
-        ).and_return(json_body({}.to_json, status: 201))
+          ferb_api_url(FerbRoutes.screening_participant_path(existing_screening[:id]))
+        ).and_return(json_body({
+          id: '1',
+          screening_id: existing_screening[:id],
+          legacy_descriptor: {
+            legacy_id: legacy_descriptor.legacy_id,
+            legacy_source_table: legacy_descriptor.legacy_table_name
+          },
+          addresses: [],
+          roles: []
+        }.to_json, status: 201))
 
         within '#search-card', text: 'Search' do
           fill_in 'Search for any person', with: 'Ma'

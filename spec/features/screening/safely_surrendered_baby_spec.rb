@@ -39,44 +39,15 @@ feature 'safely surrendered baby' do
 
   let(:baby_doe) do
     {
-      id: nil,
-      date_of_birth: nil,
-      approximate_age: nil,
-      approximate_age_units: nil,
       first_name: 'Baby',
-      gender: nil,
       last_name: 'Doe',
-      middle_name: nil,
-      ssn: nil,
+      roles: ['Victim'],
+      screening_id: '1',
       sealed: false,
       sensitive: false,
-      name_suffix: nil,
-      phone_numbers: [],
-      addresses: [],
-      legacy_id: nil,
-      legacy_source_table: nil,
-      screening_id: '1',
-      roles: ['Victim'],
-      languages: [],
-      races: [],
-      ethnicity: {
-        hispanic_latino_origin: nil,
-        ethnicity_detail: []
-      },
-      legacy_descriptor: nil,
       safelySurrenderedBabies: {
-        surrendered_by: 'Unknown Doe',
-        relation_to_child: nil,
-        bracelet_id: nil,
-        parent_guardian_given_bracelet_id: nil,
-        parent_guardian_provided_med_questionaire: nil,
-        med_questionaire_return_date: nil,
-        comments: nil,
-        participant_child: nil
-      },
-      csec_started_at: nil,
-      csec_ended_at: nil,
-      csec_types: []
+        surrendered_by: 'Unknown Doe'
+      }
     }
   end
 
@@ -92,46 +63,33 @@ feature 'safely surrendered baby' do
         med_questionaire_return_date: nil,
         comments: nil,
         participant_child: '111'
-      }
+      },
+      addresses: [],
+      languages: [],
+      phone_numbers: []
     )
   end
 
   let(:caretaker_doe) do
     {
-      id: nil,
-      date_of_birth: nil,
+      first_name: 'Unknown',
+      last_name: 'Doe',
+      roles: ['Perpetrator'],
       approximate_age: '0',
       approximate_age_units: 'days',
-      first_name: 'Unknown',
-      gender: nil,
-      last_name: 'Doe',
-      middle_name: nil,
-      ssn: nil,
-      sealed: false,
-      sensitive: false,
-      name_suffix: nil,
-      phone_numbers: [],
-      addresses: [],
-      legacy_id: nil,
-      legacy_source_table: nil,
       screening_id: '1',
-      roles: ['Perpetrator'],
-      languages: [],
-      races: [],
-      ethnicity: {
-        hispanic_latino_origin: nil,
-        ethnicity_detail: []
-      },
-      legacy_descriptor: nil,
-      safelySurrenderedBabies: nil,
-      csec_started_at: nil,
-      csec_ended_at: nil,
-      csec_types: []
+      sealed: false,
+      sensitive: false
     }
   end
 
   let(:caretaker_doe_response) do
-    caretaker_doe.merge(id: '222')
+    caretaker_doe.merge(
+      id: '222',
+      addresses: [],
+      languages: [],
+      phone_numbers: []
+    )
   end
 
   before(:each) do
@@ -156,11 +114,11 @@ feature 'safely surrendered baby' do
       ))
       .and_return(json_body(screening_response_after_generation.to_json))
 
-    stub_request(:post, ferb_api_url(FerbRoutes.screening_participants_path(screening[:id])))
+    stub_request(:post, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id])))
       .with(json_body(hash_including(first_name: 'Baby')))
       .and_return(json_body(baby_doe_response.to_json))
 
-    stub_request(:post, ferb_api_url(FerbRoutes.screening_participants_path(screening[:id])))
+    stub_request(:post, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id])))
       .with(json_body(hash_including(first_name: 'Unknown')))
       .and_return(json_body(caretaker_doe_response.to_json))
   end
@@ -183,13 +141,13 @@ feature 'safely surrendered baby' do
     ).to have_been_made
 
     expect(
-      a_request(:post, ferb_api_url(FerbRoutes.screening_participants_path(screening[:id])))
-        .with(json_body(baby_doe.to_json))
+      a_request(:post, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id])))
+      .with(json_body(baby_doe))
     ).to have_been_made
 
     expect(
-      a_request(:post, ferb_api_url(FerbRoutes.screening_participants_path(screening[:id])))
-        .with(json_body(caretaker_doe.to_json))
+      a_request(:post, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id])))
+      .with(json_body(caretaker_doe))
     ).to have_been_made
 
     expect(page).to have_content('Baby Doe')

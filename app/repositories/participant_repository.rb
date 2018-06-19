@@ -6,17 +6,18 @@ class ParticipantRepository
   class AuthorizationError < StandardError; end
 
   def self.create(security_token, participant)
-    id = participant.legacy_descriptor&.legacy_id
+    legacy_id = participant.dig(:legacy_descriptor, :legacy_id)
+    screening_id = participant[:screening_id]
 
-    authorize security_token, id
+    authorize security_token, legacy_id
 
-    response =
-      if id.blank?
-        create_with_ferb(security_token, participant)
-      else
-        create_with_intake(security_token, participant)
-      end
-    Participant.new(response.body)
+    response = FerbAPI.make_api_call(
+      security_token,
+      FerbRoutes.screening_participant_path(screening_id),
+      :post,
+      participant
+    )
+    response.body.as_json
   end
 
   def self.delete(security_token, id)
@@ -63,23 +64,5 @@ class ParticipantRepository
         legacy_table_name: participant.legacy_descriptor&.legacy_table_name
       }
     }
-  end
-
-  private_class_method def self.create_with_intake(security_token, participant)
-    IntakeAPI.make_api_call(
-      security_token,
-      ExternalRoutes.intake_api_screening_people_path(participant.screening_id.to_s),
-      :post,
-      post_data(participant).as_json
-    )
-  end
-
-  private_class_method def self.create_with_ferb(security_token, participant)
-    FerbAPI.make_api_call(
-      security_token,
-      FerbRoutes.screening_participants_path(participant.screening_id.to_s),
-      :post,
-      participant.as_json
-    )
   end
 end

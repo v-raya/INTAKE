@@ -20,8 +20,17 @@ describe('createParticipantSaga', () => {
 })
 
 describe('createParticipant', () => {
-  const params = {screening_id: '1', legacy_descriptor: {legacy_id: '1', legacy_table_name: 'table'}}
-  const participant = {first_name: 'Michael', ...params}
+  const params = {screening_id: '1', legacy_descriptor: {legacy_id: '1', legacy_table_name: 'table'}, sealed: false, sensitive: false}
+  const participant = {
+    first_name: 'Michael',
+    screening_id: '1',
+    legacy_descriptor: {
+      legacy_id: '1',
+      legacy_source_table: 'table',
+    },
+    sealed: false,
+    sensitive: false,
+  }
   const action = personCardActions.createPerson(participant)
 
   it('creates and puts participant and fetches relationships and history', () => {
