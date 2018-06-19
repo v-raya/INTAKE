@@ -2,6 +2,7 @@ import React from 'react'
 import {ModalComponent} from 'react-wood-duck'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import SelectField from 'common/SelectField'
+import PropTypes from 'prop-types'
 
 const RelationshipTypes = [
   {value: '175', label: 'Aunt/Nephew (Maternal)'},
@@ -157,23 +158,23 @@ export default class ScreeningCreateRelationship extends React.Component {
     })
   }
 
-  modalTable() {
+  modalTable(data) {
     return (
       <BootstrapTable data={data}>
+       <TableHeaderColumn dataField='focus_person' dataAlign='center'>Focus Person</TableHeaderColumn>
+       <TableHeaderColumn dataField='relationship' dataFormat={this.selectFieldFormat}> Relationship<br/>
+          <div className='text-helper'>Focus Person / Related Person</div>
+        </TableHeaderColumn>
         <TableHeaderColumn dataField='related_person' isKey={true}
           dataAlign='center'
         >Related Person</TableHeaderColumn>
-        <TableHeaderColumn dataField='name' dataFormat={this.selectFieldFormat}> Relationships<br/>
-          <div className='text-helper'>Related Person / Primary Person</div>
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField='focus_person' dataAlign='center'>FocusPerson</TableHeaderColumn>
       </BootstrapTable>
     )
   }
 
-  modalTitle(name) {
+  modalTitle() {
     return (<b>
-      Step 2 of 2: Choose Relationship Type to {name}
+      Create Relationship Type
     </b>)
   }
 
@@ -201,15 +202,15 @@ export default class ScreeningCreateRelationship extends React.Component {
     return (
       <div className='container'>
         <button onClick={this.handleShowModal}>
-            Action
+            Create Relationship
         </button>
         <ModalComponent
           closeModal={this.closeModal}
           showModal={this.state.show}
-          modalBody={this.modalTable()}
+          modalBody={this.modalTable(this.props.data)}
           modalFooter={this.modalFooter()}
           modalSize='large'
-          modalTitle={this.modalTitle(name)}
+          modalTitle={'Create Relationship'}
         />
       </div>
     )
@@ -218,8 +219,7 @@ export default class ScreeningCreateRelationship extends React.Component {
 
 ScreeningCreateRelationship.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
-    related_person: PropTypes.string,
-    name: PropTypes.string,
     focus_person: PropTypes.string,
+    related_person: PropTypes.string,
   })),
 }

@@ -3,7 +3,11 @@ import {shallow} from 'enzyme'
 import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
 
 describe('ScreeningCreateRelationship', () => {
-  const wrapper = shallow(<ScreeningCreateRelationship />)
+  const data = [{
+    focus_person:' Sally Fields',
+    related_person: 'Sam Fields',
+  }]
+  const wrapper = shallow(<ScreeningCreateRelationship data={data}/>)
 
   it('has a button', () => {
     expect(wrapper.find('button').length).toBe(1)
