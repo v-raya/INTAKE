@@ -26,6 +26,7 @@ export default (
     <Router history={history} >
       <Route path='/' component={App}>
         <IndexRoute component={HomePageContainer} />
+        {screeningActive && <Route path='screenings/new' component={ScreeningPage}/>}
         {screeningActive && <Route path='screenings/:id' component={ScreeningPage}/>}
         {screeningActive && <Route path='screenings/:id/:mode' component={ScreeningPage} />}
         {snapshotActive && <Route path='snapshot' component={SnapshotPage}/>}

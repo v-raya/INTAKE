@@ -1,9 +1,10 @@
 import 'babel-polyfill'
 import {takeEvery, put, call, select} from 'redux-saga/effects'
+import {post} from 'utils/http'
 import * as Utils from 'utils/http'
 import {fromJS} from 'immutable'
-import {saveScreeningCardSaga, saveScreeningCard} from 'sagas/saveScreeningCardSaga'
-import {saveSuccess, saveFailure, saveFailureFromNoParticipants, saveCard, SAVE_SCREENING} from 'actions/screeningActions'
+import {saveScreeningCardSaga, saveScreeningCard, createScreeningBase} from 'sagas/saveScreeningCardSaga'
+import {saveSuccess, saveFailure, saveFailureFromNoParticipants, saveCard, SAVE_SCREENING, createScreeningSuccess, createScreeningFailure} from 'actions/screeningActions'
 import {getScreeningWithAllegationsEditsSelector} from 'selectors/screening/allegationsFormSelectors'
 import {
   getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
@@ -30,11 +31,35 @@ import {cardName as narrativeCardName} from 'containers/screenings/NarrativeForm
 import {cardName as decisionCardName} from 'containers/screenings/DecisionFormContainer'
 import {cardName as workerSafetyCardName} from 'containers/screenings/WorkerSafetyFormContainer'
 import {cardName as crossReportsCardName} from 'containers/screenings/CrossReportFormContainer'
+import {push} from 'react-router-redux'
 
 describe('saveScreeningCardSaga', () => {
   it('saves screening on SAVE_SCREENING', () => {
     const gen = saveScreeningCardSaga()
     expect(gen.next().value).toEqual(takeEvery(SAVE_SCREENING, saveScreeningCard))
+  })
+})
+
+describe('createScreeningBase', () => {
+  it('creates and puts screening', () => {
+    const screening = {id: '123'}
+    const gen = createScreeningBase()
+    expect(gen.next().value).toEqual(call(post, '/api/v1/screenings'))
+    expect(gen.next(screening).value).toEqual(
+      put(createScreeningSuccess(screening))
+    )
+    expect(gen.next().value).toEqual(
+      put(push('/screenings/123/edit'))
+    )
+  })
+
+  it('puts errors when errors are thrown', () => {
+    const error = {responseJSON: 'some error'}
+    const gen = createScreeningBase()
+    expect(gen.next().value).toEqual(call(post, '/api/v1/screenings'))
+    expect(gen.throw(error).value).toEqual(
+      put(createScreeningFailure(error))
+    )
   })
 })
 

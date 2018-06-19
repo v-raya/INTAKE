@@ -19,7 +19,7 @@ const CardView = ({edit, editable, id, mode, onEdit, show, title}) => (
           />
         }
       </div>
-      {mode === 'edit' && edit}
+      {(mode === 'edit' || mode === undefined) && edit}
       {mode === 'show' && show}
     </div>
   </div>
