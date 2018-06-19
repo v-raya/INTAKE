@@ -12,7 +12,25 @@ feature 'error pages' do
     Rails.application.config.consider_all_requests_local = true
     Rails.application.config.action_dispatch.show_exceptions = false
   end
-  let(:screening) { FactoryBot.create(:screening, :submittable) }
+
+  let(:screening) do
+    {
+      id: '1',
+      started_at: Time.now,
+      assignee: 'Jane Smith',
+      report_narrative: 'My narrative',
+      screening_decision: 'differential_response',
+      communication_method: 'fax',
+      incident_address: {
+        street_address: '123 Main St'
+      },
+      addresses: [],
+      cross_reports: [],
+      participants: [],
+      allegations: [],
+      safety_alerts: []
+    }
+  end
 
   context 'page does not exist' do
     scenario 'renders 404 page' do
@@ -31,11 +49,11 @@ feature 'error pages' do
 
   context 'screening does not exist' do
     before(:each) do
-      stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening.id)))
+      stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
         .and_return(json_body('Screening is not found!!', status: 404))
       stub_empty_relationships
       stub_empty_history_for_screening(screening)
-      visit edit_screening_path(id: screening.id)
+      visit edit_screening_path(id: screening[:id])
     end
 
     scenario 'renders not found error page' do
@@ -58,11 +76,11 @@ feature 'error pages' do
 
   context 'when user attempts to access a screening created by another' do
     scenario 'renders 403 page' do
-      stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening.id)))
+      stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
         .and_return(json_body('Forbidden!!', status: 403))
       stub_empty_relationships
       stub_empty_history_for_screening(screening)
-      visit edit_screening_path(id: screening.id)
+      visit edit_screening_path(id: screening[:id])
       expect(page).to have_current_path('/forbidden')
       expect(page).to have_text('This page is restricted.')
       expect(page).to have_text("You don't have the appropriate permissions to view this page.")
@@ -98,7 +116,9 @@ feature 'error banner' do
         report_narrative: 'My narrative',
         screening_decision: 'differential_response',
         communication_method: 'fax',
-        incident_address: {},
+        incident_address: {
+          street_address: '123 Main St'
+        },
         addresses: [],
         cross_reports: [],
         participants: [],

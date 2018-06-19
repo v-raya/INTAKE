@@ -12,7 +12,9 @@ feature 'Submit Screening' do
       report_narrative: 'My narrative',
       screening_decision: 'differential_response',
       communication_method: 'fax',
-      incident_address: {},
+      incident_address: {
+        street_address: '123 Main St'
+      },
       addresses: [],
       cross_reports: [],
       participants: [],
@@ -107,6 +109,7 @@ feature 'Submit Screening' do
         screening_decision: 'differential_response'
       )
       existing_screening.delete(:communication_method)
+      existing_screening[:incident_address].delete(:street_address)
       existing_screening
     end
 
@@ -123,6 +126,20 @@ feature 'Submit Screening' do
 
       within('.card', text: 'Screening Information') do
         select 'Fax', from: 'Communication Method'
+        click_button 'Save'
+      end
+
+      within('.card', text: 'Incident Information') { click_link 'Edit' }
+
+      stub_screening_put_request_with_anything_and_return(
+        existing_screening,
+        with_updated_attributes: {
+          communication_method: 'fax',
+          incident_address: { street_address: '123 Main St' }
+        }
+      )
+      within('.card', text: 'Incident Information') do
+        fill_in 'Address', with: '123 Main St'
         click_button 'Save'
       end
       expect(page).to have_button('Submit', disabled: false)

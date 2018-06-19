@@ -62,7 +62,7 @@ export const getScreeningWithEditsSelector = createSelector(
   )
 )
 
-const filterTouched = (map) => map.filter((field) => field.get && field.get('touched')).keySeq()
+const filterTouched = (map) => map.filter((field) => field && field.get && field.get('touched')).keySeq()
 
 export const getTouchedFieldsSelector = createSelector(
   (state) => state.get('incidentInformationForm'),
