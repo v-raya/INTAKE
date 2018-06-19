@@ -157,7 +157,7 @@ describe('ScreeningDecisionShow', () => {
     expect(restrictionRationale.exists()).toEqual(false)
   })
 
-  it('does not render contact reference id when ', () => {
+  it('renders Case or Referral Id field when the decision is "info to cws"', () => {
     const component = renderScreeningDecisionShow({
       decision: {value: 'information_to_child_welfare_services'},
     })
