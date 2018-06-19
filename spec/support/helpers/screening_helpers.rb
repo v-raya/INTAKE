@@ -99,8 +99,9 @@ end
 
 def assign_relationship(tag:, element_text:, link_text: 'Attach')
   within '#relationships-card.card' do
-    find(tag, text: element_text)
-      .find('a', text: link_text).click
+    tr = find(tag, text: element_text).find(:xpath, '..')
+    tr.find('div.dropdown').click
+    tr.find('a', link_text).click
   end
 end
 

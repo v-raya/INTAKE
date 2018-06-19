@@ -26,7 +26,7 @@ describe('RelationCard', () => {
   })
 
   it('renders the firstName and lastName', () => {
-    expect(renderRelationCard(props).find('div.childName').text()).toEqual('Han Solo')
+    expect(renderRelationCard(props).find('div.child-name').text()).toEqual('Han Solo')
   })
 
   describe('BootstrapTable', () => {

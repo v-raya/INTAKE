@@ -110,3 +110,24 @@
     width: 100%;
   }
 }
+
+.child-name {
+  padding-left: 1.5rem;
+  padding-top: 3.5rem;
+}
+
+.react-bs-container-body {
+  overflow: visible;
+}
+
+.react-bs-table {
+  td {
+    outline: none;
+  }
+
+  table {
+    td {
+      overflow: visible;
+    }
+  }
+}

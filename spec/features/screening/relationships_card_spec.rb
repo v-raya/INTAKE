@@ -300,7 +300,7 @@ feature 'Relationship card' do
         describe '#relationships-card' do
           describe '.unattached-person' do
             scenario 'allows attachment' do
-              assign_relationship(tag: 'tr', element_text: 'Jake Campbell Brother (Half)')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
               expect(
                 a_request(:post,
                   intake_api_url(
@@ -311,7 +311,7 @@ feature 'Relationship card' do
             end
 
             scenario 'attached person should appear on the current screening' do
-              assign_relationship(tag: 'tr', element_text: 'Jake Campbell Brother (Half)')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
               expect(page).to have_css("div#participants-card-#{new_participant.id}")
             end
 
@@ -323,24 +323,23 @@ feature 'Relationship card' do
               ).with(query: hash_including({}))
                 .and_return(json_body(new_relationships.to_json, status: 200))
 
-              assign_relationship(tag: 'tr', element_text: 'Jake Campbell Brother (Half)')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
 
               expect(page).to have_content('Jane Campbell')
               expect(page).to have_content('Jake Campbell Brother (Half)')
             end
 
             scenario 'should display the name of the newly attached person in sidebar' do
-              assign_relationship(tag: 'tr', element_text: 'Jake Campbell Brother (Half)')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
               should_have_content('Jane Campbell', inside: 'div.side-bar')
             end
           end
 
           describe '.attached-person' do
             scenario 'does not show "Attach" link' do
-              find(:xpath, ".//tr[td[contains(., 'Jake Campbell')]]/td/a",
-                text: 'Attach').click
-              expect(page).not_to have_xpath(".//tr[td[contains(., 'Jake Campbell')]]/td/a",
-                text: 'Attach')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
+              find('td', text: 'Jake Campbell').find(:xpath, '..').find('div.dropdown').click
+              expect(page).to have_no_content('Attach')
             end
           end
         end
@@ -348,7 +347,7 @@ feature 'Relationship card' do
         describe '#history-of-involvement' do
           describe 'newly .attached-person to screening' do
             before(:each) do
-              assign_relationship(tag: 'tr', element_text: 'Jake Campbell Brother (Half)')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
             end
 
             scenario 'should show existing screenings' do
