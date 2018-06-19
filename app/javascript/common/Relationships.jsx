@@ -14,12 +14,11 @@ const actionsMenu = (row, pendingPeople, isScreening, screeningId, onClick) =>
     onClick={onClick}
   />
 
-const createRelationsData = (firstName,data) => {
-  let relationData =[]
-   data.map(rec => relationData.push ({focus_person: firstName, related_person: rec.name}))
-   return relationData
+const createRelationsData = (firstName, data) => {
+  const relationData = []
+  data.map((rec) => relationData.push({focus_person: firstName, related_person: rec.name}))
+  return relationData
 }
-
 
 export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
   <div className='card-body no-pad-top'>
@@ -45,7 +44,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
             <div className='row'>
               <div className='col-md-9' />
               <div className='col-md-3'>
-              <ScreeningCreateRelationship data={createRelationsData(person.name,person.relationships)}/>
+                <ScreeningCreateRelationship data={createRelationsData(person.name, person.relationships)}/>
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
 
 describe('ScreeningCreateRelationship', () => {
   const data = [{
-    focus_person:' Sally Fields',
+    focus_person: 'Sally Fields',
     related_person: 'Sam Fields',
   }]
   const wrapper = shallow(<ScreeningCreateRelationship data={data}/>)
