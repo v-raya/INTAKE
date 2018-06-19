@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe ParticipantRepository do
   let(:security_token) { 'my_security_token' }
+  let(:screening_id) { '1' }
 
   describe '.create' do
     let(:participant_id) { '11' }
@@ -158,31 +159,31 @@ describe ParticipantRepository do
       double(:response, body: { 'id' => participant_id, 'first_name' => 'Updated Participant' })
     end
     let(:participant) do
-      double(
-        :participant,
+      {
         id: participant_id,
-        as_json: { 'id' => participant_id, 'first_name' => 'Updated Participant' }
-      )
+        screening_id: screening_id,
+        first_name: 'Updated Participant'
+      }
     end
 
     context 'when participant has an id' do
       let(:participant_id) { '91' }
 
       before do
-        expect(IntakeAPI).to receive(:make_api_call)
+        expect(FerbAPI).to receive(:make_api_call)
           .with(
             security_token,
-            "/api/v1/participants/#{participant_id}",
+            "/screenings/#{screening_id}/participants/#{participant_id}",
             :put,
-            'first_name' => 'Updated Participant'
+            participant.stringify_keys
           )
           .and_return(response)
       end
 
       it 'returns the updated participant' do
         updated_participant = described_class.update(security_token, participant)
-        expect(updated_participant.id).to eq(participant_id)
-        expect(updated_participant.first_name).to eq('Updated Participant')
+        expect(updated_participant['id']).to eq(participant_id)
+        expect(updated_participant['first_name']).to eq('Updated Participant')
       end
     end
 

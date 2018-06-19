@@ -29,14 +29,14 @@ class ParticipantRepository
   end
 
   def self.update(security_token, participant)
-    raise 'Error updating participant: id is required' unless participant.id
-    response = IntakeAPI.make_api_call(
+    raise 'Error updating participant: id is required' unless participant[:id]
+    response = FerbAPI.make_api_call(
       security_token,
-      ExternalRoutes.intake_api_participant_path(participant.id),
+      FerbRoutes.screening_participant_path(participant[:screening_id], participant[:id]),
       :put,
-      participant_json_without_root_id(participant)
+      participant.as_json
     )
-    Participant.new(response.body)
+    response.body.as_json
   end
 
   def self.participant_json_without_root_id(participant)
