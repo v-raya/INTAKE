@@ -75,7 +75,8 @@ feature 'Create participant' do
       click_button 'Create a new person'
       expect(page).to_not have_button('Create a new person')
     end
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(existing_screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 201))
 
     within edit_participant_card_selector(marge.id) do

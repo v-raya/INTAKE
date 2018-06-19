@@ -226,7 +226,7 @@ feature 'Person Information Validations' do
     scenario 'no error is displayed' do
       stub_request(
         :put,
-        intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], person.id))
       ).and_return(json_body(person.to_json))
 
       within('.card.edit', text: person_name) { click_button 'Save' }

@@ -21,7 +21,7 @@ feature 'Person Information Validations' do
   before do
     stub_request(
       :put,
-      intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], person.id))
     ).and_return(json_body(person.to_json))
     stub_and_visit_edit_screening(screening)
   end
@@ -49,7 +49,7 @@ feature 'Person Information Validations' do
         scenario 'error not displayed even if approximate age is over 18 years' do
           stub_request(
             :put,
-            intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+            ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], person.id))
           ).and_return(json_body(person.to_json))
 
           within('.card.edit.participant', text: person_name) { click_button 'Save' }
@@ -157,7 +157,7 @@ feature 'Person Information Validations' do
         scenario 'error not displayed even if dob is over 18 years' do
           stub_request(
             :put,
-            intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+            ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], person.id))
 
           ).and_return(json_body(person.to_json))
 

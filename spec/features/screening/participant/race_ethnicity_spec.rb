@@ -66,12 +66,14 @@ feature 'Race & Ethnicity' do
 
         marge.races = [{ race: 'Unknown', race_detail: nil }]
         marge.ethnicity = { hispanic_latino_origin: 'Declined to answer', ethnicity_detail: [] }
-        stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+        stub_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
           .and_return(json_body(marge.to_json, status: 200))
 
         click_button 'Save'
         expect(
-          a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+          a_request(:put,
+            ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
           .with(body: hash_including(
             'races' => array_including(
               hash_including(
@@ -115,13 +117,15 @@ feature 'Race & Ethnicity' do
         end
 
         homer.races = [{ race: 'Asian', race_detail: 'Hmong' }]
-        homer.ethnicity =  { hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican'] }
-        stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
+        homer.ethnicity = { hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican'] }
+        stub_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], homer.id)))
           .and_return(json_body(homer.to_json, status: 200))
 
         click_button 'Save'
         expect(
-          a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
+          a_request(:put,
+            ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], homer.id)))
           .with(body: hash_including(
             'races' => array_including(
               hash_including(

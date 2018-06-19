@@ -64,7 +64,8 @@ feature 'Edit Person' do
 
   context 'editing and saving basic person information' do
     scenario 'saves the person information' do
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body(marge.to_json, status: 200))
       visit edit_screening_path(id: screening[:id])
       within edit_participant_card_selector(marge.id) do
@@ -94,7 +95,8 @@ feature 'Edit Person' do
       end
 
       expect(
-        a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+        a_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .with(
           body: hash_including(
             first_name: 'new first name',
@@ -110,7 +112,8 @@ feature 'Edit Person' do
 
   context 'editing and saving person phone numbers' do
     scenario 'saves the person information' do
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body({}.to_json, status: 200))
 
       visit edit_screening_path(id: screening[:id])
@@ -130,7 +133,8 @@ feature 'Edit Person' do
       end
 
       expect(
-        a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+        a_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .with(
           body: hash_including(
             'phone_numbers' => array_including(
@@ -153,7 +157,8 @@ feature 'Edit Person' do
 
   context 'editing and saving addresses' do
     scenario 'saves the person information' do
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], homer.id)))
         .and_return(json_body({}.to_json, status: 200))
 
       address = homer.addresses.first
@@ -180,7 +185,8 @@ feature 'Edit Person' do
       end
 
       expect(
-        a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
+        a_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], homer.id)))
         .with(
           body: hash_including(
             'addresses' => array_including(
@@ -209,7 +215,8 @@ feature 'Edit Person' do
 
   context 'editing and saving person demographics' do
     scenario 'saves the person information' do
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body({}.to_json, status: 200))
 
       visit edit_screening_path(id: screening[:id])
@@ -228,7 +235,8 @@ feature 'Edit Person' do
       end
 
       expect(
-        a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+        a_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .with(
           body: hash_including(
             date_of_birth: marge.date_of_birth,
@@ -241,7 +249,8 @@ feature 'Edit Person' do
   end
 
   scenario 'editing & saving a person for a screening saves only the relevant person ids' do
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body({}.to_json, status: 200))
 
     visit edit_screening_path(id: screening[:id])
@@ -251,7 +260,8 @@ feature 'Edit Person' do
     end
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .with(
         body: hash_including(
           screening_id: screening[:id],
@@ -317,8 +327,8 @@ feature 'Edit Person' do
       marge.ssn = new_ssn
       marge.addresses.first.city = 'New City'
 
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
-        .with(body: as_json_without_root_id(marge))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body(marge.to_json, status: 200))
     end
 
@@ -333,8 +343,8 @@ feature 'Edit Person' do
         click_button 'Save'
       end
       expect(
-        a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
-        .with(json_body(as_json_without_root_id(marge)))
+        a_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       ).to have_been_made
     end
 
@@ -399,8 +409,8 @@ feature 'Edit Person' do
     end
 
     marge.addresses = []
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
-      .with(body: as_json_without_root_id(marge))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 200))
 
     within edit_participant_card_selector(marge.id) do
@@ -408,7 +418,8 @@ feature 'Edit Person' do
     end
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .with(body: hash_including(addresses: []))
     ).to have_been_made
   end
@@ -425,11 +436,13 @@ feature 'Edit Person' do
         fill_in_react_select 'Language(s)', with: 'Spanish'
       end
       marge.languages = %w[English Arabic]
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body(marge.to_json, status: 200))
 
       click_button 'Save'
-      expect(a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      expect(a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .with(body: hash_including(
           languages: contain_exactly('English', 'Arabic')
         ))).to have_been_made
@@ -459,7 +472,8 @@ feature 'Edit Person' do
     end
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
     ).to_not have_been_made
 
     within show_participant_card_selector(marge.id) do
@@ -491,7 +505,8 @@ feature 'Edit Person' do
       remove_react_select_option('Role', 'Perpetrator')
       expect(page).to have_no_content('Perpetrator')
 
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body(marge.to_json, status: 200))
 
       within '.card-body' do
@@ -500,7 +515,8 @@ feature 'Edit Person' do
     end
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .with(body: hash_including('roles' => ['Victim']))
     ).to have_been_made
 
@@ -537,7 +553,8 @@ feature 'Edit Person' do
     visit edit_screening_path(id: screening[:id])
 
     marge.ethnicity = { hispanic_latino_origin: nil, ethnicity_detail: [] }
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 200))
 
     within edit_participant_card_selector(marge.id) do
@@ -549,7 +566,8 @@ feature 'Edit Person' do
     end
 
     expect(
-      a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .with(body: hash_including(
         'ethnicity' => hash_including(
           'ethnicity_detail' => [],
@@ -564,7 +582,8 @@ feature 'Edit Person' do
   end
 
   scenario 'setting an approximate age' do
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 201))
 
     visit edit_screening_path(id: screening[:id])
@@ -591,7 +610,8 @@ feature 'Edit Person' do
       select 'Days', from: 'approximate_age_units'
       fill_in_datepicker 'Date of birth', with: dob, blur: false
       click_button 'Save'
-      expect(a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      expect(a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .with(body: hash_including(
           date_of_birth: marge.date_of_birth,
           approximate_age: nil,
@@ -629,7 +649,8 @@ feature 'Edit Person' do
         }
       )
 
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], homer.id)))
         .and_return(json_body(updated_participant.to_json, status: 200))
 
       within edit_participant_card_selector(homer.id) do
@@ -650,7 +671,8 @@ feature 'Edit Person' do
         click_button 'Save'
       end
 
-      expect(a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(homer.id)))
+      expect(a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], homer.id)))
         .with(body: hash_including(
           safelySurrenderedBabies: anything
         ))).to have_been_made
@@ -668,7 +690,8 @@ feature 'Edit Person' do
         participants: [updated_participant.as_json.symbolize_keys]
       )
 
-      stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+      stub_request(:get,
+        ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
         .and_return(json_body(updated_screening.to_json, status: 200))
 
       visit edit_screening_path(id: screening[:id])

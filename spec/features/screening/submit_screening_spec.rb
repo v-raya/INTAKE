@@ -40,7 +40,7 @@ feature 'Submit Screening' do
 
     before do
       stub_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_participant_path(participant.id))
+        :put, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], participant.id))
       ).and_return(json_body(participant.to_json, status: 200))
     end
 
@@ -145,7 +145,8 @@ feature 'Submit Screening' do
 
     scenario 'the submit button is disabled until the person is valid' do
       stub_request(
-        :put, intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+        :put,
+        ferb_api_url(FerbRoutes.screening_participant_path(existing_screening[:id], person.id))
       ).and_return(json_body(person.to_json, status: 200))
 
       visit edit_screening_path(existing_screening[:id])
@@ -157,7 +158,7 @@ feature 'Submit Screening' do
       person.ssn = '123-45-6789'
       stub_request(
         :put,
-        intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+        ferb_api_url(FerbRoutes.screening_participant_path(existing_screening[:id], person.id))
       ).and_return(json_body(person.to_json))
 
       within('.card', text: person_name) do

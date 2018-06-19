@@ -62,7 +62,8 @@ feature 'Allegations Sibling At Risk Validations' do
     end
 
     scenario 'User sees error when adding at risk allegation' do
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(victim.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], victim.id)))
         .and_return(json_body(victim.to_json, status: 200))
 
       within '.card.edit', text: 'Allegations' do
@@ -336,11 +337,14 @@ feature 'Allegations Sibling At Risk Validations' do
     end
 
     scenario 'User can fix error' do
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(perpetrator.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], perpetrator.id)))
         .and_return(json_body(perpetrator.to_json, status: 200))
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(victim2.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], victim2.id)))
         .and_return(json_body(victim2.to_json, status: 200))
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(victim.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], victim.id)))
         .and_return(json_body(victim.to_json, status: 200))
 
       new_allegation = {
