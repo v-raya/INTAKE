@@ -3,9 +3,9 @@ import {Map, List, fromJS} from 'immutable'
 import nameFormatter from 'utils/nameFormatter'
 import {accessDescription} from 'utils/accessIndicator'
 import {dateRangeFormatter} from 'utils/dateFormatter'
-import {ROLE_TYPE_NON_REPORTER} from 'enums/RoleType'
 import COUNTIES from 'enums/Counties'
 import {systemCodeDisplayValue, getScreenResponseTimesSelector, getRelationshipTypesSelector} from 'selectors/systemCodeSelectors'
+import {hasNonReporter} from 'utils/roles'
 
 const getHistoryOfInvolvementsSelector = (state) => state.get('involvements', Map())
 
@@ -151,7 +151,7 @@ export const getFormattedScreeningsSelector = createSelector(
   (screenings) => screenings.map((screening) => {
     const notJustReporters = screening.get('all_people', List()).filter((person) => {
       const roles = person.get('roles', List())
-      return roles.some((role) => ROLE_TYPE_NON_REPORTER.includes(role)) || roles.isEmpty()
+      return roles.isEmpty() || hasNonReporter(roles)
     })
     const {county, worker} = getScreeningCountyAndWorker(screening)
     return fromJS({

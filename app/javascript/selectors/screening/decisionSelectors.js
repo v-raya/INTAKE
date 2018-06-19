@@ -1,9 +1,6 @@
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
-import {ROLE_TYPE_REPORTER} from 'enums/RoleType'
-
-const hasReporter = (roles) =>
-  roles.some((role) => ROLE_TYPE_REPORTER.includes(role))
+import {hasReporter} from 'utils/roles'
 
 export const isReporterRequired = (decision, roles) => {
   if (hasReporter(roles)) { return undefined }

@@ -84,20 +84,16 @@ describe('personDemographicFormSelectors', () => {
 
   describe('isGenderRequired', () => {
     it('is true when role is Victim', () => {
-      const state = fromJS({peopleForm: {1: {roles: {value: ['Victim']}}}})
-      expect(isGenderRequired(state, '1')).toEqual(true)
+      const roles = ['Victim']
+      expect(isGenderRequired(roles)).toEqual(true)
     })
     it('is true when role is Perpetrator', () => {
-      const state = fromJS({peopleForm: {1: {roles: {value: ['Perpetrator']}}}})
-      expect(isGenderRequired(state, '1')).toEqual(true)
+      const roles = ['Perpetrator']
+      expect(isGenderRequired(roles)).toEqual(true)
     })
     it('is false when role is not Client or Perpetrator', () => {
-      const state = fromJS({peopleForm: {1: {roles: {value: ['Mandated Reporter']}}}})
-      expect(isGenderRequired(state, '1')).toEqual(false)
-    })
-    it('is false when person does not exist', () => {
-      const state = fromJS({peopleForm: {1: {roles: {value: ['Victim']}}}})
-      expect(isGenderRequired(state, '2')).toEqual(false)
+      const roles = ['Mandated Reporter']
+      expect(isGenderRequired(roles)).toEqual(false)
     })
   })
 })

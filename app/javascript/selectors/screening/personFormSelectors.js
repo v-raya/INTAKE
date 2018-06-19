@@ -7,6 +7,7 @@ import moment from 'moment'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
+import {hasReporter} from 'utils/roles'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
 
@@ -230,7 +231,7 @@ export const getPersonAlertErrorMessageSelector = (state, personId) => {
 
 export const getFilteredPersonRolesSelector = (state, personId) => {
   const selectedRoles = state.getIn(['peopleForm', personId, 'roles', 'value'], List())
-  const hasReporterRole = selectedRoles.some((role) => ROLE_TYPE_REPORTER.includes(role))
+  const hasReporterRole = hasReporter(selectedRoles)
   return fromJS([
     ...ROLE_TYPE_NON_REPORTER.map((value) => ({label: value, value, disabled: false})),
     ...ROLE_TYPE_REPORTER.map((value) => ({label: value, value, disabled: hasReporterRole})),

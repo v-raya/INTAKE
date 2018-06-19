@@ -7,7 +7,6 @@ import {
   getDecisionDetailValueSelector,
   getDecisionFormSelector,
   getDecisionOptionsSelector,
-  isReporterRequired,
   getDecisionSelector,
   getDecisionValueSelector,
   getScreeningWithEditsSelector,
