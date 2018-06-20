@@ -41,14 +41,17 @@ describe('decisionSelectors', () => {
   })
 
   describe('isReporterRequired', () => {
-    it('returns false if the decision is "info to cws" and there is a reporter', () => {
-      expect(isReporterRequired('information_to_child_welfare_services', ['Mandated Reporter']))
+    it('returns undefined if the decision is "info to cws" and there is a reporter', () => {
+      expect(isReporterRequired('information_to_child_welfare_services', ['Mandated Reporter'])).toEqual(undefined)
     })
-    it('returns true if the decision is not "info to cws" and there is a reporter', () => {
-      expect(isReporterRequired('promote_to_referral', ['Mandated Reporter']))
+    it('returns undefined if the decision is not "info to cws" and there is a reporter', () => {
+      expect(isReporterRequired('promote_to_referral', ['Mandated Reporter'])).toEqual(undefined)
     })
-    it('returns true if the decision is "info to cws" and there are no reporters', () => {
-      expect(isReporterRequired('promote_to_referral', ['Victim']))
+    it('returns an error if the decision is "info to cws" and there are no reporters', () => {
+      expect(isReporterRequired('information_to_child_welfare_services', ['Victim'])).toEqual('A reporter is required to submit a screening Contact')
+    })
+    it('returns an error if the decision is "info to cws" and there are no roles at all', () => {
+      expect(isReporterRequired('information_to_child_welfare_services', [])).toEqual('A reporter is required to submit a screening Contact')
     })
   })
 
