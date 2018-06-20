@@ -33,6 +33,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -51,6 +52,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -69,6 +71,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -87,6 +90,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed only once until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -105,6 +109,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -123,6 +128,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -141,6 +147,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -159,6 +166,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -177,6 +185,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { ssn: valid_ssn }
@@ -200,6 +209,7 @@ feature 'Person Information Validations' do
       scenario 'error is displayed until user enters a valid ssn' do
         expect(page).to have_content person_name
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_messages: error_messages,
           person_updates: { ssn: valid_ssn }

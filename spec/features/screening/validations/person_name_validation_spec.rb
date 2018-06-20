@@ -35,6 +35,7 @@ feature 'Person Information Validations' do
     scenario 'error is displayed until user enters a valid first name' do
       expect(page).to have_content person_name
       validate_message_as_user_interacts_with_person_card(
+        screening_id: screening[:id],
         person: person,
         error_message: error_message,
         person_updates: { first_name: valid_first_name }
@@ -48,6 +49,7 @@ feature 'Person Information Validations' do
     scenario 'error is not displayed if the victim role is removed' do
       expect(page).to have_content person_name
       validate_message_as_user_interacts_with_person_card(
+        screening_id: screening[:id],
         person: person,
         error_message: error_message,
         person_updates: { roles: [] }
@@ -72,6 +74,7 @@ feature 'Person Information Validations' do
     scenario 'error is displayed until user enters a valid last name' do
       expect(page).to have_content person_name
       validate_message_as_user_interacts_with_person_card(
+        screening_id: screening[:id],
         person: person,
         error_message: error_message,
         person_updates: { last_name: valid_last_name }
@@ -85,6 +88,7 @@ feature 'Person Information Validations' do
     scenario 'error is not displayed if the victim role is removed' do
       expect(page).to have_content person_name
       validate_message_as_user_interacts_with_person_card(
+        screening_id: screening[:id],
         person: person,
         error_message: error_message,
         person_updates: { roles: [] }
