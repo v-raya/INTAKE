@@ -1,6 +1,5 @@
 import {List, Map, fromJS} from 'immutable'
 import {
-  getDecisionRolesSelector,
   getAccessRestrictionOptionsSelector,
   getDecisionAlertErrorMessageSelector,
   getDecisionDetailOptionsSelector,
@@ -24,34 +23,6 @@ import * as matchers from 'jasmine-immutable-matchers'
 
 describe('screeningDecisionFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
-
-  describe('getDecisionRolesSelector', () => {
-    const state = fromJS({
-      participants: [
-        {
-          screening_id: '3',
-          roles: [
-            'Perpetrator',
-          ],
-        },
-        {
-          screening_id: '3',
-          roles: [
-            'Victim',
-          ],
-        },
-        {
-          screening_id: '3',
-          roles: [
-            'Mandated Reporter',
-          ],
-        }],
-    })
-
-    it('returns all the roles', () => {
-      expect(getDecisionRolesSelector(state)).toEqualImmutable(fromJS(['Perpetrator', 'Victim', 'Mandated Reporter']))
-    })
-  })
 
   describe('getDecisionOptionsSelector', () => {
     it('returns information to child welfare services when HOI contains at least 1 open cases/referrals', () => {

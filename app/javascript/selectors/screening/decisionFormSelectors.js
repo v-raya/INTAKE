@@ -2,30 +2,27 @@ import {createSelector} from 'reselect'
 import {Map, List, fromJS} from 'immutable'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {isRequiredIfCreate, isRequiredCreate, combineCompact} from 'utils/validator'
+import {selectParticipants} from 'selectors/participantSelectors'
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import ACCESS_RESTRICTIONS from 'enums/AccessRestrictions'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
-import {selectParticipants} from 'selectors/participantSelectors'
 import {getAllegationsWithTypesSelector} from 'selectors/screening/allegationsTypeFormSelectors'
-import {ROLE_TYPE_REPORTER} from 'enums/RoleType'
+import {
+  selectParticipantsRoles,
+  isReporterRequired,
+  selectCasesAndReferrals,
+  validateScreeningContactReference,
+  validateAllegations,
+  validateScreeningDecisionDetail,
+} from 'selectors/screening/decisionSelectors'
 
 const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
 )
 
-export const getDecisionRolesSelector = (state) => (
-  selectParticipants(state).map((participant) => participant.get('roles', List())).flatten()
-)
-
 export const getDecisionFormSelector = (state) => state.get('screeningDecisionForm', Map())
 
 export const getDecisionOptionListSelector = () => fromJS(selectOptionsFormatter(SCREENING_DECISION))
-
-export const selectCasesAndReferrals = createSelector(
-  (state) => state.getIn(['involvements', 'cases'], List()),
-  (state) => state.getIn(['involvements', 'referrals'], List()),
-  (cases, referrals) => (cases.merge(referrals))
-)
 
 export const getDecisionOptionsSelector = createSelector(
   selectCasesAndReferrals,
@@ -60,36 +57,12 @@ export const getDecisionDetailOptionsSelector = createSelector(
   }
 )
 
-export const isReporterRequired = (decision, roles) => (
-  (decision === 'information_to_child_welfare_services' &&
-    !roles.some((role) => ROLE_TYPE_REPORTER.includes(role))) ?
-    'A reporter is required to submit a screening Contact' : undefined
-)
-
-export const validateAllegations = (decision, allegations) => (
-  (decision === 'promote_to_referral' &&
-          allegations.every((allegation) => allegation.get('allegationTypes').isEmpty())) ?
-    'Please enter at least one allegation to promote to referral.' : undefined
-)
-
-export const validateScreenerContactReference = (casesAndReferrals, contactReference, decision) => (
-  (decision === 'information_to_child_welfare_services' &&
-    !casesAndReferrals.find((hoiItem) => !hoiItem.get('end_date') &&
-      hoiItem.getIn(['legacy_descriptor', 'legacy_ui_id']) === contactReference
-    )) ? 'Please enter a valid Case or Referral Id' : undefined
-)
-
-export const validateScreeningDecisionDetail = (decision, decisionDetail) => (
-  (decision === 'promote_to_referral' && !decisionDetail) ?
-    'Please enter a response time' : undefined
-)
-
 export const getErrorsSelector = createSelector(
   getDecisionValueSelector,
   getDecisionDetailValueSelector,
   (state) => state.getIn(['screeningDecisionForm', 'restrictions_rationale', 'value']) || '',
   (state) => state.get('allegationsForm', List()),
-  getDecisionRolesSelector,
+  selectParticipantsRoles,
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']) || '',
   selectContactReferenceValue,
   selectCasesAndReferrals,
@@ -100,7 +73,7 @@ export const getErrorsSelector = createSelector(
       () => isReporterRequired(decision, roles)
     ),
     screening_contact_reference: combineCompact(
-      () => validateScreenerContactReference(casesAndReferrals, contactReference, decision)
+      () => validateScreeningContactReference(casesAndReferrals, contactReference, decision)
     ),
     screening_decision_detail: combineCompact(
       () => validateScreeningDecisionDetail(decision, decisionDetail)
