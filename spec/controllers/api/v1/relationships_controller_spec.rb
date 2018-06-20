@@ -57,4 +57,42 @@ describe Api::V1::RelationshipsController do
       )
     end
   end
+
+  describe '#update' do
+    let(:id) { '12345' }
+    let(:updateRelationship) do
+      {
+        absent_parent_indicator: false,
+        client_id: 'ZXY123',
+        end_date: '2010-10-01',
+        legacy_id: 'A1b2x',
+        relationship_id: id,
+        relationship_type: '190',
+        relative_id: 'ABC987',
+        same_home_status: 'Y',
+        start_date: '1999-10-01'
+      }
+    end
+
+    it 'has a route' do
+      expect(put: 'api/v1/relationships/20').to route_to(
+        format: :json,
+        controller: 'api/v1/relationships',
+        action: 'update',
+        id: '20'
+      )
+    end
+
+    it 'responds with success and return a relationship' do
+      allow(RelationshipsRepository).to receive(:update)
+        .with(security_token, id, anything)
+        .and_return(updateRelationship)
+      process :update,
+        method: :put,
+        params: { id: id, relationship: updateRelationship },
+        session: session
+      expect(response).to be_successful
+      expect(JSON.parse(response.body)).to eq updateRelationship.as_json
+    end
+  end
 end

@@ -86,4 +86,52 @@ describe RelationshipsRepository do
       expect(relationships).to eq(relationships)
     end
   end
+
+  describe '.update' do
+    let(:id) { '12345' }
+    let(:relationship) do
+      {
+        relationship_id: id,
+        client_id: 'ZXY123',
+        relative_id: 'ABC987',
+        relationship_type: '190',
+        absent_parent_indicator: false,
+        same_home_status: 'Y',
+        start_date: '1999-10-01',
+        end_date: '2010-10-01',
+        legacy_id: 'A1b2x'
+      }
+    end
+
+    let(:update_relationship_response) do
+      double(:response, body: relationship)
+    end
+
+    context 'when relationship has an id' do
+      before do
+        expect(FerbAPI).to receive(:make_api_call)
+          .with(
+            security_token,
+            "/screening_relationships/#{id}",
+            :put,
+            relationship
+          ).and_return(update_relationship_response)
+      end
+
+      it 'should update the relationship' do
+        updated_relationship = described_class.update(security_token, id, relationship)
+        expect(updated_relationship.as_json).to eq(relationship.as_json)
+      end
+    end
+
+    context 'when participant has no id' do
+      let(:id) { nil }
+
+      it 'raises an error' do
+        expect do
+          described_class.update(security_token, id, relationship)
+        end.to raise_error('Error updating relationship: id is required')
+      end
+    end
+  end
 end

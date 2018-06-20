@@ -29,7 +29,7 @@ Rails.application.routes.draw do
         only: %i[update],
         constraints: Routes::ActiveScreeningsConstraint
 
-      resources :relationships, only: %i[index]
+      resources :relationships, only: %i[index update]
       get :history_of_involvements, to: 'history_of_involvements#by_client_ids'
 
       resource :people, only: %i[search] do
