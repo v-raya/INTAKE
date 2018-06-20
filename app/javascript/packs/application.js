@@ -32,6 +32,7 @@ import '../../assets/stylesheets/ie'
 import '../../assets/stylesheets/google-api'
 import '../../assets/stylesheets/page-error'
 import '../../assets/stylesheets/shame_overrides'
+import '../../assets/stylesheets/screening_relationship.scss'
 
 if (document.getElementById('app')) {
   ReactDOM.render(routes, document.getElementById('app'))
