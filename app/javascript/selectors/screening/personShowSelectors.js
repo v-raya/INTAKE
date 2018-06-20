@@ -1,7 +1,6 @@
 import {List, Map, fromJS} from 'immutable'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import GENDERS from 'enums/Genders'
-import {ROLE_TYPE_NON_REPORTER} from 'enums/RoleType'
 import US_STATE from 'enums/USState'
 import {selectParticipant} from 'selectors/participantSelectors'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
@@ -10,6 +9,7 @@ import ssnFormatter from 'utils/ssnFormatter'
 import {dateFormatter} from 'utils/dateFormatter'
 import {isRequiredIfCreate, combineCompact, hasRequiredValuesIfCreate} from 'utils/validator'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
+import {hasNonReporter} from 'utils/roles'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
 import moment from 'moment'
@@ -98,7 +98,7 @@ const getCSECStartedAtErrors = (state, csecStartedAt, roles, screeningReportType
 
 const getGenderErrors = (person, roles) => combineCompact(
   isRequiredIfCreate(person.get('gender'), 'Please select a Sex at Birth.',
-    () => roles.some((role) => ROLE_TYPE_NON_REPORTER.includes(role)))
+    () => hasNonReporter(roles))
 )
 
 export const getErrorsSelector = (state, personId) => {
