@@ -1,10 +1,7 @@
 import * as screeningActions from 'actions/screeningActions'
 import * as personCardActions from 'actions/personCardActions'
 import {setPageMode} from 'actions/screeningPageActions'
-import {
-  fetchHistoryOfInvolvements,
-  clearHistoryOfInvolvement,
-} from 'actions/historyOfInvolvementActions'
+import {fetchHistoryOfInvolvements, clearHistoryOfInvolvement,} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
 import PersonCardView from 'screenings/PersonCardView'
 import PropTypes from 'prop-types'
