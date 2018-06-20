@@ -11,7 +11,7 @@ import {
   validateScreeningContactReference,
   validateAllegations,
   validateScreeningDecisionDetail,
-} from './decisionSelectors'
+} from 'selectors/screening/decisionSelectors'
 
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'screening_decision']),

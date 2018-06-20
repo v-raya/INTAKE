@@ -14,7 +14,7 @@ import {
   validateScreeningContactReference,
   validateAllegations,
   validateScreeningDecisionDetail,
-} from './decisionSelectors'
+} from 'selectors/screening/decisionSelectors'
 
 const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))

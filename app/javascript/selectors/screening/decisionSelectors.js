@@ -21,9 +21,9 @@ export const selectCasesAndReferrals = createSelector(
 
 export const validateScreeningContactReference = (casesAndReferrals, contactReference, decision) => (
   (decision === 'information_to_child_welfare_services' &&
-    !casesAndReferrals.find((hoiItem) => !hoiItem.get('end_date') &&
-      hoiItem.getIn(['legacy_descriptor', 'legacy_ui_id']) === contactReference
-    )) ? 'Please enter a valid Case or Referral Id' : undefined
+    casesAndReferrals.every((hoiItem) => hoiItem.get('end_date') ||
+      hoiItem.getIn(['legacy_descriptor', 'legacy_ui_id']) !== contactReference)) ?
+    'Please enter a valid Case or Referral Id' : undefined
 )
 
 export const validateScreeningDecisionDetail = (decision, decisionDetail) => (
