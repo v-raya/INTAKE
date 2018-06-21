@@ -21,5 +21,5 @@ export const getScreeningNameValueSelector = createSelector(
 export const getScreeningTitleSelector = createSelector(
   getScreeningIdValueSelector,
   getScreeningNameValueSelector,
-  (id, name) => name || (id ? `Screening ${id}` : 'New Screening')
+  (id, name) => name || (id ? `Edit Screening ${id}` : 'New Screening')
 )
