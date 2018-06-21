@@ -34,7 +34,7 @@ def tagRepo(String VERSION) {
 
 node('intake-slave') {
   checkout scm
-  def branch = env.BRANCH_NAME ?: (env.GIT_BRANCH ?: 'DOE-2924-Tagging5')
+  def branch = env.BRANCH_NAME ?: (env.GIT_BRANCH ?: 'master')
   def curStage = 'Start'
   def pipelineStatus = 'SUCCESS'
   def successColor = '11AB1B'
