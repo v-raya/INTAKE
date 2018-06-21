@@ -27,6 +27,10 @@ class FerbRoutes
       "/screenings/#{id}/submit"
     end
 
+    def delete_screening_participant_path(screening_id, id)
+      "/screenings/#{screening_id}/participants/#{id}"
+    end
+
     def lov_path
       '/lov'
     end

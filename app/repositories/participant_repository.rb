@@ -20,10 +20,10 @@ class ParticipantRepository
     response.body.as_json
   end
 
-  def self.delete(security_token, id)
-    IntakeAPI.make_api_call(
+  def self.delete(security_token, screening_id, id)
+    FerbAPI.make_api_call(
       security_token,
-      ExternalRoutes.intake_api_participant_path(id),
+      FerbRoutes.delete_screening_participant_path(screening_id, id),
       :delete
     )
   end

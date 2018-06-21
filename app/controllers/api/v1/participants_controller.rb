@@ -89,7 +89,7 @@ module Api
       end
 
       def destroy
-        ParticipantRepository.delete(session[:security_token], params[:id])
+        ParticipantRepository.delete(session[:security_token], params[:screening_id], params[:id])
       end
 
       def participant_params
