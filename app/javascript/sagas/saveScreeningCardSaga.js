@@ -29,9 +29,9 @@ import {cardName as workerSafetyCardName} from 'containers/screenings/WorkerSafe
 import {cardName as crossReportsCardName} from 'containers/screenings/CrossReportFormContainer'
 import {push} from 'react-router-redux'
 
-export function* createScreeningBase() {
+export function* createScreeningBase(screening) {
   try {
-    const response = yield call(api.post, '/api/v1/screenings')
+    const response = yield call(api.post, '/api/v1/screenings', {screening: screening.toJS()})
     const {id} = response
     const screeningEditPath = `/screenings/${id}/edit`
     yield put(createScreeningSuccess(response))
@@ -85,7 +85,7 @@ export function* saveScreeningCard({payload: {card}}) {
       const response = yield call(api.put, path, {screening: screening.toJS()})
       yield put(saveSuccess(response))
     } else {
-      yield createScreeningBase()
+      yield createScreeningBase(screening)
     }
   } catch (error) {
     yield put(saveFailure(error))

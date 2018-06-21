@@ -1,6 +1,5 @@
 import 'babel-polyfill'
 import {takeEvery, put, call, select} from 'redux-saga/effects'
-import {post} from 'utils/http'
 import * as Utils from 'utils/http'
 import {fromJS} from 'immutable'
 import {saveScreeningCardSaga, saveScreeningCard, createScreeningBase} from 'sagas/saveScreeningCardSaga'
@@ -41,22 +40,28 @@ describe('saveScreeningCardSaga', () => {
 })
 
 describe('createScreeningBase', () => {
-  it('creates and puts screening', () => {
-    const screening = {id: '123'}
-    const gen = createScreeningBase()
-    expect(gen.next().value).toEqual(call(post, '/api/v1/screenings'))
+  it('creates and post screening if id is undefined', () => {
+    const screening = fromJS({id: undefined, allegations: [], participants: []})
+    const gen = createScreeningBase(screening)
+    expect(gen.next().value).toEqual(
+      call(Utils.post, '/api/v1/screenings', {screening: screening.toJS()})
+    )
     expect(gen.next(screening).value).toEqual(
       put(createScreeningSuccess(screening))
     )
+    const screeningNew = fromJS({id: '123', allegations: [], participants: []})
     expect(gen.next().value).toEqual(
-      put(push('/screenings/123/edit'))
+      put(push(`/screenings/${screeningNew.id}/edit`))
     )
   })
 
   it('puts errors when errors are thrown', () => {
     const error = {responseJSON: 'some error'}
-    const gen = createScreeningBase()
-    expect(gen.next().value).toEqual(call(post, '/api/v1/screenings'))
+    const screening = fromJS({id: undefined})
+    const gen = createScreeningBase(screening)
+    expect(gen.next().value).toEqual(
+      call(Utils.post, '/api/v1/screenings', {screening: screening.toJS()})
+    )
     expect(gen.throw(error).value).toEqual(
       put(createScreeningFailure(error))
     )
