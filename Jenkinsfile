@@ -77,6 +77,14 @@ node('intake-slave') {
           pipelineStatus = 'SUCCEEDED'
           currentBuild.result = 'SUCCESS'
       }
+
+      stage('Trigger Security scan') {
+        build job: 'tenable-scan', parameters: [
+          [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'intake'],
+          [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: VERSION]
+        ]
+      }
+
     }
 
     stage ('Reports') {
