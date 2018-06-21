@@ -8,7 +8,7 @@ def debug(String str) {
     echo "[DEBUG] ${str}"
 }
 
-// Tags the repo test
+// Tags the repo test2
 
 def tagRepo(String VERSION) {
     debug("tagRepo( VERSION: ${VERSION} )")
