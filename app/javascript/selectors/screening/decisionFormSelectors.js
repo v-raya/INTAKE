@@ -8,7 +8,7 @@ import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
 import {selectParticipants, selectAllRoles} from 'selectors/participantSelectors'
 import {getAllegationsWithTypesSelector} from 'selectors/screening/allegationsTypeFormSelectors'
 import {
-  isReporterRequired,
+  validateReporterRequired,
   selectCasesAndReferrals,
   validateScreeningContactReference,
   validateAllegations,
@@ -68,7 +68,7 @@ export const getErrorsSelector = createSelector(
     screening_decision: combineCompact(
       isRequiredCreate(decision, 'Please enter a decision'),
       () => validateAllegations(decision, allegations),
-      () => isReporterRequired(decision, roles)
+      () => validateReporterRequired(decision, roles).valueOrElse()
     ),
     screening_contact_reference: combineCompact(
       () => validateScreeningContactReference(casesAndReferrals, contactReference, decision)

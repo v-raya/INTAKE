@@ -1,7 +1,7 @@
 import {List, fromJS} from 'immutable'
 import * as matchers from 'jasmine-immutable-matchers'
 import {
-  isReporterRequired,
+  validateReporterRequired,
   selectCasesAndReferrals,
   validateScreeningContactReference,
   validateScreeningDecisionDetail,
@@ -11,21 +11,40 @@ import {
 describe('decisionSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('isReporterRequired', () => {
-    it('returns undefined if the decision is "info to cws" and there is a reporter', () => {
-      expect(isReporterRequired('information_to_child_welfare_services', ['Mandated Reporter'])).toBeUndefined()
+  describe('validateReporterRequired', () => {
+    it('returns Nothing if the decision is "info to cws" and there is a reporter', () => {
+      expect(
+        validateReporterRequired(
+          'information_to_child_welfare_services',
+          ['Mandated Reporter']
+        ).isNothing()
+      ).toEqual(true)
     })
-    it('returns undefined if the decision is not "info to cws" and there is a reporter', () => {
-      expect(isReporterRequired('promote_to_referral', ['Mandated Reporter'])).toBeUndefined()
+    it('returns Nothing if the decision is not "info to cws" and there is a reporter', () => {
+      expect(
+        validateReporterRequired('promote_to_referral', ['Mandated Reporter'])
+          .isNothing()
+      ).toEqual(true)
     })
     it('returns an error if the decision is "info to cws" and there are no reporters', () => {
-      expect(isReporterRequired('information_to_child_welfare_services', ['Victim'])).toEqual('A reporter is required to submit a screening Contact')
+      expect(
+        validateReporterRequired(
+          'information_to_child_welfare_services',
+          ['Victim']
+        ).valueOrElse()
+      ).toEqual('A reporter is required to submit a screening Contact')
     })
     it('returns an error if the decision is "info to cws" and there are no roles at all', () => {
-      expect(isReporterRequired('information_to_child_welfare_services', [])).toEqual('A reporter is required to submit a screening Contact')
+      expect(
+        validateReporterRequired('information_to_child_welfare_services', [])
+          .valueOrElse()
+      ).toEqual('A reporter is required to submit a screening Contact')
     })
     it('requires a reporter to promote a screening to referral', () => {
-      expect(isReporterRequired('promote_to_referral', ['Victim'])).toBeDefined()
+      expect(
+        validateReporterRequired('promote_to_referral', ['Victim'])
+          .valueOrElse()
+      ).toEqual('A reporter is required to promote to referral')
     })
   })
 

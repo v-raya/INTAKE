@@ -1,17 +1,18 @@
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {hasReporter} from 'utils/roles'
+import {Maybe} from 'utils/maybe'
 
-export const isReporterRequired = (decision, roles) => {
-  if (hasReporter(roles)) { return undefined }
+export const validateReporterRequired = (decision, roles) => {
+  if (hasReporter(roles)) { return Maybe.of(null) }
 
   if (decision === 'information_to_child_welfare_services') {
-    return 'A reporter is required to submit a screening Contact'
+    return Maybe.of('A reporter is required to submit a screening Contact')
   }
   if (decision === 'promote_to_referral') {
-    return 'A reporter is required to promote to referral'
+    return Maybe.of('A reporter is required to promote to referral')
   }
-  return undefined
+  return Maybe.of(null)
 }
 export const selectCasesAndReferrals = createSelector(
   (state) => state.getIn(['involvements', 'cases'], List()),

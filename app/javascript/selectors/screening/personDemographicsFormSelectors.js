@@ -14,19 +14,19 @@ export const isGenderRequired = hasNonReporter
 const validateGender = (gender, roles) =>
   Maybe.of('Please select a Sex at Birth')
     .filter(() => gender === '' && isGenderRequired(roles))
-    .valueOrElse()
 
 export const getPersonDemographicsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId], Map())
-  const gender = selectGender(person)
   const roles = selectRoles(person)
+  const gender = selectGender(person)
+  const genderError = validateGender(gender, roles)
   return fromJS({
     approximateAge: person.getIn(['approximate_age', 'value']) || '',
     approximateAgeUnit: person.getIn(['approximate_age_units', 'value']) || '',
     dateOfBirth: person.getIn(['date_of_birth', 'value']) || '',
     gender,
+    genderError: genderError.valueOrElse(),
     genderIsRequired: isGenderRequired(roles),
-    genderError: validateGender(gender, roles),
     languages: person.getIn(['languages', 'value']) || [],
   })
 }

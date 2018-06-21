@@ -6,7 +6,7 @@ import SCREENING_DECISION from 'enums/ScreeningDecision'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
 import {isRequiredCreate, isRequiredIfCreate, combineCompact} from 'utils/validator'
 import {
-  isReporterRequired,
+  validateReporterRequired,
   selectCasesAndReferrals,
   validateScreeningContactReference,
   validateAllegations,
@@ -28,7 +28,7 @@ export const getErrorsSelector = createSelector(
       screening_decision: combineCompact(
         isRequiredCreate(decision, 'Please enter a decision'),
         () => validateAllegations(decision, allegations),
-        () => isReporterRequired(decision, roles)
+        () => validateReporterRequired(decision, roles).valueOrElse()
       ),
       screening_decision_detail: combineCompact(
         () => validateScreeningDecisionDetail(decision, decisionDetail)
