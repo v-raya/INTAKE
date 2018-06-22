@@ -159,7 +159,8 @@ feature 'show allegations' do
       end
     end
 
-    stub_request(:delete, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:delete,
+      ferb_api_url(FerbRoutes.delete_screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(nil, status: 204))
 
     screening[:allegations] = []

@@ -13,9 +13,9 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 
 export function* deleteParticipant({payload: {id}}) {
   try {
-    yield call(destroy, `/api/v1/participants/${id}`)
-    yield put(deletePersonSuccess(id))
     const screeningId = yield select(getScreeningIdValueSelector)
+    yield call(destroy, `/api/v1/screenings/${screeningId}/participants/${id}`)
+    yield put(deletePersonSuccess(id))
     yield put(fetchAllegations(screeningId))
     const clientIds = yield select(selectClientIds)
     yield put(fetchRelationships(clientIds))

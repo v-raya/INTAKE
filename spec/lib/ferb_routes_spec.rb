@@ -24,7 +24,13 @@ describe FerbRoutes do
       )
     end
   end
-
+  describe '.delete_screening_participant_path' do
+    it 'returns /screenings/screening_id/participant/:id' do
+      expect(described_class.delete_screening_participant_path(97, 67)).to eq(
+        '/screenings/97/participants/67'
+      )
+    end
+  end
   describe '.screening_submit_path' do
     it 'returns /screenings/:id/submit' do
       expect(described_class.screening_submit_path(32)).to eq(

@@ -144,12 +144,14 @@ describe ParticipantRepository do
   end
 
   describe '.delete' do
+    let(:screening_id) { '11' }
     let(:participant_id) { '22' }
 
     it 'makes a DELETE API call to participants' do
-      expect(IntakeAPI).to receive(:make_api_call)
-        .with(security_token, "/api/v1/participants/#{participant_id}", :delete)
-      described_class.delete(security_token, participant_id)
+      expect(FerbAPI).to receive(:make_api_call)
+        .with(security_token,
+          FerbRoutes.delete_screening_participant_path(screening_id, participant_id), :delete)
+      described_class.delete(security_token, screening_id, participant_id)
     end
   end
 

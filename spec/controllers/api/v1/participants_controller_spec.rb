@@ -127,14 +127,16 @@ describe Api::V1::ParticipantsController do
 
   describe '#destroy' do
     let(:participant_id) { '1' }
+    let(:screening_id) { '1' }
     before do
       expect(ParticipantRepository).to receive(:delete)
-        .with(security_token, participant_id)
+        .with(security_token, participant_id, screening_id)
         .and_return('')
     end
 
     it 'deletes an existing participant' do
-      process :destroy, method: :delete, params: { id: participant_id }, session: session
+      process :destroy, method: :delete,
+                        params: { id: participant_id, screening_id: screening_id }, session: session
       expect(response.body).to be_empty
     end
   end

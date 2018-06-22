@@ -265,7 +265,8 @@ feature 'edit allegations' do
       .and_return(json_body(screening.to_json, status: 200))
 
     within edit_participant_card_selector(marge.id) do
-      stub_request(:delete, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      stub_request(:delete,
+        ferb_api_url(FerbRoutes.delete_screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body(nil, status: 204))
 
       click_button 'Remove person'
@@ -499,7 +500,8 @@ feature 'edit allegations' do
       .and_return(json_body(screening.to_json, status: 200))
 
     within edit_participant_card_selector(marge.id) do
-      stub_request(:delete, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      stub_request(:delete,
+        ferb_api_url(FerbRoutes.delete_screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body(nil, status: 204))
 
       click_button 'Remove person'

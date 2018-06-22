@@ -26,11 +26,12 @@ describe('deleteParticipant', () => {
 
   it('deletes and puts participant, fetches a screening, and fetches relationships', () => {
     const gen = deleteParticipant(action)
-    expect(gen.next().value).toEqual(call(destroy, '/api/v1/participants/123'))
+    expect(gen.next().value).toEqual(select(getScreeningIdValueSelector))
+    const screeningId = '444'
+    expect(gen.next(screeningId).value).toEqual(call(destroy, `/api/v1/screenings/${screeningId}/participants/123`))
     expect(gen.next().value).toEqual(
       put(personCardActions.deletePersonSuccess(id))
     )
-    expect(gen.next().value).toEqual(select(getScreeningIdValueSelector))
     expect(gen.next('444').value).toEqual(
       put(fetchAllegations('444'))
     )
@@ -47,7 +48,9 @@ describe('deleteParticipant', () => {
   it('puts errors when errors are thrown', () => {
     const error = {responseJSON: 'some error'}
     const gen = deleteParticipant(action)
-    expect(gen.next().value).toEqual(call(destroy, '/api/v1/participants/123'))
+    expect(gen.next().value).toEqual(select(getScreeningIdValueSelector))
+    const screeningId = '444'
+    expect(gen.next(screeningId).value).toEqual(call(destroy, `/api/v1/screenings/${screeningId}/participants/123`))
     expect(gen.throw(error).value).toEqual(
       put(personCardActions.deletePersonFailure('some error'))
     )

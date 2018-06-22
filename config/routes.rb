@@ -21,9 +21,10 @@ Rails.application.routes.draw do
           get 'history_of_involvements'
           post 'submit'
         end
+        resources :participants, only: %i[destroy]
       end
 
-      resources :participants, only: %i[create destroy]
+      resources :participants, only: %i[create]
       resources :participants,
         only: %i[update],
         constraints: Routes::ActiveScreeningsConstraint
