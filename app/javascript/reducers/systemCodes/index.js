@@ -12,7 +12,6 @@ import hispanicOriginCodes from 'reducers/systemCodes/hispanicOriginCodesReducer
 import ethnicityTypes from 'reducers/systemCodes/ethnicityTypesReducer'
 import raceTypes from 'reducers/systemCodes/raceTypesReducer'
 import relationshipTypes from 'reducers/systemCodes/relationshipTypesReducer'
-import safetyAlerts from 'reducers/systemCodes/safetyAlertsReducer'
 import screenResponseTimes from 'reducers/systemCodes/screenResponseTimesReducer'
 import usStates from 'reducers/systemCodes/usStatesReducer'
 
@@ -29,7 +28,6 @@ const systemCodesReducer = combineReducers({
   locations,
   raceTypes,
   relationshipTypes,
-  safetyAlerts,
   screenResponseTimes,
   unableToDetermineCodes,
   usStates,

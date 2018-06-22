@@ -172,13 +172,13 @@ describe('systemCodeSelectors', () => {
   })
 
   describe('getScreenResponseTimesSelector', () => {
-    it('returns a list of relationship types', () => {
+    it('returns a list of screen response times', () => {
       const screenResponseTimes = [{county_code: '99', value: 'State Of California'}]
       const state = fromJS({systemCodes: {screenResponseTimes}})
       expect(getScreenResponseTimesSelector(state).toJS()).toEqual(screenResponseTimes)
     })
 
-    it('returns an empty list when relationship types are empty', () => {
+    it('returns an empty list when screen response times are empty', () => {
       const screenResponseTimes = []
       const state = fromJS({systemCodes: {screenResponseTimes}})
       expect(getScreenResponseTimesSelector(state).toJS()).toEqual([])

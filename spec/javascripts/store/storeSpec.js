@@ -66,7 +66,6 @@ describe('Store', () => {
         locations: [],
         raceTypes: [],
         relationshipTypes: [],
-        safetyAlerts: [],
         screenResponseTimes: [],
         unableToDetermineCodes: [],
         usStates: [],
