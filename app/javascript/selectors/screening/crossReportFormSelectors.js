@@ -21,7 +21,7 @@ import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
-import {getCountiesSelector} from 'selectors/systemCodeSelectors'
+import {selectCounties} from 'selectors/systemCodeSelectors'
 import {areCrossReportsRequired} from 'utils/allegationsHelper'
 
 export const getDistrictAttorneyFormSelector = (state) => (state.getIn(['crossReportForm', DISTRICT_ATTORNEY]) || Map())
@@ -134,7 +134,7 @@ export const getAllegationsRequireCrossReportsValueSelector = createSelector(
 
 export const getUserCountySelector = (state) => {
   const userCountyName = state.getIn(['userInfo', 'county'])
-  const counties = getCountiesSelector(state)
+  const counties = selectCounties(state)
   const foundCounty = counties.find((county) => county.get('value') === userCountyName)
   return foundCounty ? foundCounty.get('code') : null
 }

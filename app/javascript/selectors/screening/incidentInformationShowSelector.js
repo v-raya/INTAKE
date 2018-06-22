@@ -3,7 +3,7 @@ import {createSelector} from 'reselect'
 import {Map, fromJS} from 'immutable'
 import {dateFormatter} from 'utils/dateFormatter'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
-import {systemCodeDisplayValue, getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
+import {systemCodeDisplayValue, selectAddressCounties} from 'selectors/systemCodeSelectors'
 import {isFutureDatetimeCreate, isRequiredCreate, combineCompact} from 'utils/validator'
 
 export const getIncidentDateSelector = createSelector(
@@ -13,7 +13,7 @@ export const getIncidentDateSelector = createSelector(
 
 export const getIncidentCountySelector = createSelector(
   getScreeningSelector,
-  getAddressCountiesSelector,
+  selectAddressCounties,
   (screening, addressCounties) =>
     systemCodeDisplayValue(screening.get('incident_county', ''), addressCounties) || ''
 )

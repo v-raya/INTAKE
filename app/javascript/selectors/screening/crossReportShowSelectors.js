@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getCountyAgenciesSelector} from 'selectors/systemCodeSelectors'
+import {selectCountyAgencies} from 'selectors/systemCodeSelectors'
 import {Map, List, fromJS} from 'immutable'
 import {
   AGENCY_TYPES,
@@ -21,7 +21,7 @@ export const getCrossReportAgenciesSelector = (state) => state.getIn(['screening
 
 export const getAgencyCodeToNameSelector = createSelector(
   getCrossReportAgenciesSelector,
-  getCountyAgenciesSelector,
+  selectCountyAgencies,
   (agencies, countyAgencies) => agencies.reduce((agencyCodeToName, agency) => {
     const agencyTypeName = AGENCY_TYPES[agency.get('type')]
     const agencyCode = agency.get('code')

@@ -4,7 +4,7 @@ import {createSelector} from 'reselect'
 import {Map, List, fromJS} from 'immutable'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
-import {getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
+import {selectAddressCounties} from 'selectors/systemCodeSelectors'
 import {isFutureDatetimeCreate, isRequiredCreate, combineCompact} from 'utils/validator'
 
 export const getIncidentInformationFormSelector = (state) => state.get('incidentInformationForm', Map())
@@ -112,8 +112,8 @@ export const getVisibleErrorsSelector = createSelector(
   ))
 )
 
-export const getCountiesSelector = (state) =>
-  getAddressCountiesSelector(state)
+export const selectCounties = (state) =>
+  selectAddressCounties(state)
     .map((county) => ({key: county.get('code'), name: county.get('value')}))
     .toJS()
 

@@ -2,7 +2,7 @@ import {createSelector} from 'reselect'
 import {Map, List} from 'immutable'
 import nameFormatter from 'utils/nameFormatter'
 import {selectParticipants} from 'selectors/participantSelectors'
-import {systemCodeDisplayValue, getRelationshipTypesSelector} from 'selectors/systemCodeSelectors'
+import {systemCodeDisplayValue, selectRelationshipTypes} from 'selectors/systemCodeSelectors'
 
 export const getScreeningRelationships = (state) => (state.get('relationships', List()))
 
@@ -17,7 +17,7 @@ const isPersonCardExists = (people, relationship) => {
 export const getPeopleSelector = createSelector(
   selectParticipants,
   getScreeningRelationships,
-  getRelationshipTypesSelector,
+  selectRelationshipTypes,
   (participants, people, relationshipTypes) => people.map((person) => Map({
     name: nameFormatter({...person.toJS()}),
     relationships: person.get('relationships', List()).map((relationship) => (
