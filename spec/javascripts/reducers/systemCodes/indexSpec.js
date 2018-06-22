@@ -18,6 +18,7 @@ describe('systemCodesReducer', () => {
     locations: [],
     raceTypes: [],
     relationshipTypes: [],
+    safetyAlerts: [],
     screenResponseTimes: [],
     unableToDetermineCodes: [],
     usStates: [],
