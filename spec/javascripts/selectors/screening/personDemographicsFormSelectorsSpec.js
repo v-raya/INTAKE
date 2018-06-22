@@ -91,7 +91,7 @@ describe('personDemographicFormSelectors', () => {
       const roles = ['Perpetrator']
       expect(isGenderRequired(roles)).toEqual(true)
     })
-    it('is false when role is not Client or Perpetrator', () => {
+    it('is false when role is not Victim nor Perpetrator', () => {
       const roles = ['Mandated Reporter']
       expect(isGenderRequired(roles)).toEqual(false)
     })
