@@ -16,7 +16,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         value={incidentDate}
         errors={errors.incident_date}
         onChange={(value) => onChange(['incident_date'], value)}
-        onBlur={() => onBlur('incident_date')}
+        onBlur={() => onBlur(['incident_date'])}
         hasTime={false}
       />
     </div>
@@ -32,8 +32,11 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           id='street_address'
           label='Address'
           maxLength='128'
+          onBlur={() => onBlur(['incident_address', 'street_address'])}
           onChange={({target: {value}}) => onChange(['incident_address', 'street_address'], value)}
           value={address.streetAddress}
+          errors={errors.incident_address.street_address}
+          required={true}
         />
         <InputField
           gridClassName='col-md-4'
@@ -128,6 +131,9 @@ IncidentInformationForm.propTypes = {
   })),
   errors: PropTypes.shape({
     incident_date: PropTypes.arrayOf(PropTypes.string),
+    incident_address: PropTypes.shape({
+      street_address: PropTypes.array,
+    }),
   }),
   incidentDate: PropTypes.string,
   locationOfChildren: PropTypes.string,

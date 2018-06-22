@@ -1,8 +1,7 @@
 import {List, fromJS} from 'immutable'
 import * as matchers from 'jasmine-immutable-matchers'
 import {
-  selectParticipantsRoles,
-  isReporterRequired,
+  validateReporterRequired,
   selectCasesAndReferrals,
   validateScreeningContactReference,
   validateScreeningDecisionDetail,
@@ -12,46 +11,40 @@ import {
 describe('decisionSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('selectParticipantsRoles', () => {
-    const state = fromJS({
-      participants: [
-        {
-          screening_id: '3',
-          roles: [
-            'Perpetrator',
-          ],
-        },
-        {
-          screening_id: '3',
-          roles: [
-            'Victim',
-          ],
-        },
-        {
-          screening_id: '3',
-          roles: [
-            'Mandated Reporter',
-          ],
-        }],
+  describe('validateReporterRequired', () => {
+    it('returns Nothing if the decision is "info to cws" and there is a reporter', () => {
+      expect(
+        validateReporterRequired(
+          'information_to_child_welfare_services',
+          ['Mandated Reporter']
+        ).isNothing()
+      ).toEqual(true)
     })
-
-    it('returns all the roles', () => {
-      expect(selectParticipantsRoles(state)).toEqualImmutable(fromJS(['Perpetrator', 'Victim', 'Mandated Reporter']))
-    })
-  })
-
-  describe('isReporterRequired', () => {
-    it('returns undefined if the decision is "info to cws" and there is a reporter', () => {
-      expect(isReporterRequired('information_to_child_welfare_services', ['Mandated Reporter'])).toEqual(undefined)
-    })
-    it('returns undefined if the decision is not "info to cws" and there is a reporter', () => {
-      expect(isReporterRequired('promote_to_referral', ['Mandated Reporter'])).toEqual(undefined)
+    it('returns Nothing if the decision is not "info to cws" and there is a reporter', () => {
+      expect(
+        validateReporterRequired('promote_to_referral', ['Mandated Reporter'])
+          .isNothing()
+      ).toEqual(true)
     })
     it('returns an error if the decision is "info to cws" and there are no reporters', () => {
-      expect(isReporterRequired('information_to_child_welfare_services', ['Victim'])).toEqual('A reporter is required to submit a screening Contact')
+      expect(
+        validateReporterRequired(
+          'information_to_child_welfare_services',
+          ['Victim']
+        ).valueOrElse()
+      ).toEqual('A reporter is required to submit a screening Contact')
     })
     it('returns an error if the decision is "info to cws" and there are no roles at all', () => {
-      expect(isReporterRequired('information_to_child_welfare_services', [])).toEqual('A reporter is required to submit a screening Contact')
+      expect(
+        validateReporterRequired('information_to_child_welfare_services', [])
+          .valueOrElse()
+      ).toEqual('A reporter is required to submit a screening Contact')
+    })
+    it('requires a reporter to promote a screening to referral', () => {
+      expect(
+        validateReporterRequired('promote_to_referral', ['Victim'])
+          .valueOrElse()
+      ).toEqual('A reporter is required to promote to referral')
     })
   })
 
@@ -118,13 +111,13 @@ describe('decisionSelectors', () => {
     ])
 
     it('does not return an error if the id references an open item and "info to cws" is the decision', () => {
-      expect(validateScreeningContactReference(casesAndReferrals, 'opencaseid', decision)).toEqual(undefined)
+      expect(validateScreeningContactReference(casesAndReferrals, 'opencaseid', decision)).toBeUndefined()
     })
     it('returns an error if the id provided is from a closed case', () => {
       expect(validateScreeningContactReference(casesAndReferrals, 'closedcaseid', decision)).toEqual('Please enter a valid Case or Referral Id')
     })
     it('does not return an error if the decision is not "info to cws"', () => {
-      expect(validateScreeningContactReference(casesAndReferrals, 'closedcaseid', 'promote_to_something')).toEqual(undefined)
+      expect(validateScreeningContactReference(casesAndReferrals, 'closedcaseid', 'promote_to_something')).toBeUndefined()
     })
     it('returns an error when the list of cases/referrals is empty', () => {
       expect(validateScreeningContactReference(List(), 'closedcaseid', decision)).toEqual('Please enter a valid Case or Referral Id')
@@ -136,10 +129,10 @@ describe('decisionSelectors', () => {
       expect(validateScreeningDecisionDetail('promote_to_referral', '')).toEqual('Please enter a response time')
     })
     it('returns undefined when the decision detail is provided', () => {
-      expect(validateScreeningDecisionDetail('promote_to_referral', '3 days')).toEqual(undefined)
+      expect(validateScreeningDecisionDetail('promote_to_referral', '3 days')).toBeUndefined()
     })
     it('returns undefined when the decision is not promote to referral', () => {
-      expect(validateScreeningDecisionDetail('', '3 days')).toEqual(undefined)
+      expect(validateScreeningDecisionDetail('', '3 days')).toBeUndefined()
     })
   })
 
@@ -150,7 +143,7 @@ describe('decisionSelectors', () => {
     })
     it('returns undefined when the allegations have types', () => {
       const allegations = fromJS([{allegationTypes: ['General neglect']}, {allegationTypes: []}])
-      expect(validateAllegations('promote_to_referral', allegations)).toEqual(undefined)
+      expect(validateAllegations('promote_to_referral', allegations)).toBeUndefined()
     })
   })
 })

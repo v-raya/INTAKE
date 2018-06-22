@@ -11,8 +11,8 @@ export function resetFieldValues(screening) {
 export function setField(fieldSet, value) {
   return {type: SET_INCIDENT_INFORMATION_FORM_FIELD, payload: {fieldSet, value}}
 }
-export function touchField(field) {
-  return {type: TOUCH_INCIDENT_INFORMATION_FORM_FIELD, payload: {field}}
+export function touchField(fieldSet) {
+  return {type: TOUCH_INCIDENT_INFORMATION_FORM_FIELD, payload: {fieldSet}}
 }
 export function touchAllFields() {
   return {type: TOUCH_ALL_INCIDENT_INFORMATION_FORM_FIELDS}

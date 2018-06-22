@@ -124,7 +124,7 @@ describe('decisionShowSelectors', () => {
           .toEqualImmutable(List(['A reporter is required to submit a screening Contact']))
       })
 
-      it('doesnot includes an error message if decision is information to child welfare service and role is reporter', () => {
+      it('does not include an error message if decision is information to child welfare service and role is reporter', () => {
         const screening = {screening_decision: 'information_to_child_welfare_services'}
         const participants = [{id: '1', roles: ['Mandated Reporter', 'Victim']}]
         const state = fromJS({screening, participants})
@@ -135,15 +135,26 @@ describe('decisionShowSelectors', () => {
       it('includes an error message if decision is promote to referral and allegations are empty', () => {
         const screening = {screening_decision: 'promote_to_referral'}
         const allegationsForm = [{allegationTypes: []}]
-        const state = fromJS({screening, allegationsForm})
+        const participants = [{roles: ['Anonymous Reporter']}]
+        const state = fromJS({screening, allegationsForm, participants})
         expect(getErrorsSelector(state).get('screening_decision'))
           .toEqualImmutable(List(['Please enter at least one allegation to promote to referral.']))
       })
 
-      it('does not include an error message if decision is promote to referral and allegations are present', () => {
+      it('includes an error message if decision is promote to referral and there is no reporter', () => {
+        const screening = {screening_decision: 'promote_to_referral'}
+        const allegationsForm = [{allegationTypes: ['General Neglect']}]
+        const participants = [{roles: ['Perpetrator']}]
+        const state = fromJS({screening, allegationsForm, participants})
+        expect(getErrorsSelector(state).get('screening_decision'))
+          .toEqualImmutable(List(['A reporter is required to promote to referral']))
+      })
+
+      it('does not include an error message if decision is promote to referral and allegations and reporter are present', () => {
         const screening = {screening_decision: 'promote_to_referral'}
         const allegationsForm = [{allegationTypes: ['General neglect']}]
-        const state = fromJS({screening, allegationsForm})
+        const participants = [{roles: ['Anonymous Reporter']}]
+        const state = fromJS({screening, allegationsForm, participants})
         expect(getErrorsSelector(state).get('screening_decision'))
           .toEqualImmutable(List())
       })

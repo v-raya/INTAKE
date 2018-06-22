@@ -26,6 +26,8 @@ describe('PersonDemographicsFormContainer', () => {
       approximateAgeIsDisabled: true,
       dateOfBirth: '2014-01-15',
       gender: 'female',
+      genderIsRequired: false,
+      genderError: undefined,
       languages: ['Javascript', 'Ruby'],
       onChange: jasmine.any(Function),
       personId: '1',

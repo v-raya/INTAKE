@@ -15,3 +15,12 @@ export const selectClientIds = (state) =>
       client.get('legacy_id') ||
       client.getIn(['legacy_descriptor', 'legacy_id'])
   ).filter(Boolean).toJS()
+
+export const selectRoles = (participant) => participant.get('roles') || List()
+
+export const selectAllRoles = (state) =>
+  selectParticipants(state)
+    .map(selectRoles)
+    .reduce((allRoles, participantRoles) => allRoles.concat(
+      participantRoles.filter((role) => !allRoles.includes(role))
+    ), List())

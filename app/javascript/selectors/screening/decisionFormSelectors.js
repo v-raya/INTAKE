@@ -2,14 +2,13 @@ import {createSelector} from 'reselect'
 import {Map, List, fromJS} from 'immutable'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {isRequiredIfCreate, isRequiredCreate, combineCompact} from 'utils/validator'
-import {selectParticipants} from 'selectors/participantSelectors'
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import ACCESS_RESTRICTIONS from 'enums/AccessRestrictions'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
+import {selectParticipants, selectAllRoles} from 'selectors/participantSelectors'
 import {getAllegationsWithTypesSelector} from 'selectors/screening/allegationsTypeFormSelectors'
 import {
-  selectParticipantsRoles,
-  isReporterRequired,
+  validateReporterRequired,
   selectCasesAndReferrals,
   validateScreeningContactReference,
   validateAllegations,
@@ -19,7 +18,6 @@ import {
 const selectOptionsFormatter = (options) => (
   Object.entries(options).map(([key, value]) => ({value: key, label: value}))
 )
-
 export const getDecisionFormSelector = (state) => state.get('screeningDecisionForm', Map())
 
 export const getDecisionOptionListSelector = () => fromJS(selectOptionsFormatter(SCREENING_DECISION))
@@ -62,7 +60,7 @@ export const getErrorsSelector = createSelector(
   getDecisionDetailValueSelector,
   (state) => state.getIn(['screeningDecisionForm', 'restrictions_rationale', 'value']) || '',
   (state) => state.get('allegationsForm', List()),
-  selectParticipantsRoles,
+  selectAllRoles,
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']) || '',
   selectContactReferenceValue,
   selectCasesAndReferrals,
@@ -70,7 +68,7 @@ export const getErrorsSelector = createSelector(
     screening_decision: combineCompact(
       isRequiredCreate(decision, 'Please enter a decision'),
       () => validateAllegations(decision, allegations),
-      () => isReporterRequired(decision, roles)
+      () => validateReporterRequired(decision, roles).valueOrElse()
     ),
     screening_contact_reference: combineCompact(
       () => validateScreeningContactReference(casesAndReferrals, contactReference, decision)

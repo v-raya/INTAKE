@@ -3,6 +3,8 @@ import {
   selectClientIds,
   selectParticipant,
   selectParticipants,
+  selectRoles,
+  selectAllRoles,
 } from 'selectors/participantSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -101,6 +103,86 @@ describe('participantSelectors', () => {
       })
 
       expect(selectClientIds(state)).toEqual(['ABC', 'DEF'])
+    })
+  })
+
+  describe('selectRoles', () => {
+    it('should return the list of roles for a participant', () => {
+      const roles = List(['Victim', 'Perpatrator', 'Master of the Universe'])
+      const participant = Map().set('roles', roles)
+
+      expect(selectRoles(participant)).toEqual(roles)
+    })
+
+    it('should return an empty list for a participant with no roles', () => {
+      const participant = Map()
+      expect(selectRoles(participant)).toEqualImmutable(List())
+    })
+  })
+
+  describe('selectAllRoles', () => {
+    it('should combine all roles present on participants', () => {
+      const participants = fromJS([
+        {roles: ['Victim']},
+        {roles: ['Perpetrator']},
+        {roles: ['Master of the Universe']},
+      ])
+      const state = Map().set('participants', participants)
+      expect(selectAllRoles(state)).toEqualImmutable(List([
+        'Victim',
+        'Perpetrator',
+        'Master of the Universe',
+      ]))
+    })
+
+    it('should remove duplicate roles', () => {
+      const participants = fromJS([
+        {roles: ['Victim']},
+        {roles: ['Victim']},
+        {roles: ['Master of the Universe']},
+      ])
+      const state = Map().set('participants', participants)
+      expect(selectAllRoles(state)).toEqualImmutable(List([
+        'Victim',
+        'Master of the Universe',
+      ]))
+    })
+
+    it('should include all of a person\'s roles', () => {
+      const participants = fromJS([
+        {roles: ['Victim', 'Perpetrator']},
+        {roles: ['Judge', 'Jury', 'Executioner']},
+        {roles: ['Master of the Universe']},
+      ])
+      const state = Map().set('participants', participants)
+      expect(selectAllRoles(state)).toEqualImmutable(List([
+        'Victim',
+        'Perpetrator',
+        'Judge',
+        'Jury',
+        'Executioner',
+        'Master of the Universe',
+      ]))
+    })
+
+    it('should handle people with no roles', () => {
+      const participants = fromJS([
+        {},
+        {roles: []},
+        {roles: ['Master of the Universe']},
+      ])
+      const state = Map().set('participants', participants)
+      expect(selectAllRoles(state)).toEqualImmutable(List([
+        'Master of the Universe',
+      ]))
+    })
+
+    it('should return an empty list by default', () => {
+      const participants = fromJS([
+        {},
+      ])
+      const state = Map().set('participants', participants)
+      expect(selectAllRoles(state)).toEqualImmutable(List())
     })
   })
 })

@@ -21,7 +21,7 @@ import {
 } from 'selectors/screening/decisionFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
-describe('screeningDecisionFormSelectors', () => {
+describe('decisionFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
   describe('getDecisionOptionsSelector', () => {
@@ -354,7 +354,7 @@ describe('screeningDecisionFormSelectors', () => {
           .toEqualImmutable(List(['A reporter is required to submit a screening Contact']))
       })
 
-      it('doesnot includes an error message if decision is information to child welfare service and role is reporter', () => {
+      it('does not include an error message if decision is information to child welfare service and role is reporter', () => {
         const screeningDecisionForm = {screening_decision: {value: 'information_to_child_welfare_services'}}
         const participants = [{id: '1', roles: ['Mandated Reporter', 'Victim']}]
         const state = fromJS({screeningDecisionForm, participants})
@@ -365,15 +365,26 @@ describe('screeningDecisionFormSelectors', () => {
       it('includes an error message if decision is promote to referral and allegations are empty', () => {
         const screeningDecisionForm = {screening_decision: {value: 'promote_to_referral'}}
         const allegationsForm = [{allegationTypes: []}]
-        const state = fromJS({screeningDecisionForm, allegationsForm})
+        const participants = [{roles: ['Mandated Reporter']}]
+        const state = fromJS({screeningDecisionForm, allegationsForm, participants})
         expect(getErrorsSelector(state).get('screening_decision'))
           .toEqualImmutable(List(['Please enter at least one allegation to promote to referral.']))
       })
 
-      it('does not include an error message if decision is promote to referral and allegations are present', () => {
+      it('includes an error message if decision is promote to referral and there is no reporter', () => {
         const screeningDecisionForm = {screening_decision: {value: 'promote_to_referral'}}
         const allegationsForm = [{allegationTypes: ['General neglect']}]
-        const state = fromJS({screeningDecisionForm, allegationsForm})
+        const participants = [{roles: ['Victim']}]
+        const state = fromJS({screeningDecisionForm, allegationsForm, participants})
+        expect(getErrorsSelector(state).get('screening_decision'))
+          .toEqualImmutable(List(['A reporter is required to promote to referral']))
+      })
+
+      it('does not include an error message if decision is promote to referral and allegations and reporter are present', () => {
+        const screeningDecisionForm = {screening_decision: {value: 'promote_to_referral'}}
+        const allegationsForm = [{allegationTypes: ['General neglect']}]
+        const participants = [{roles: ['Mandated Reporter']}]
+        const state = fromJS({screeningDecisionForm, allegationsForm, participants})
         expect(getErrorsSelector(state).get('screening_decision'))
           .toEqualImmutable(List())
       })
@@ -482,7 +493,10 @@ describe('screeningDecisionFormSelectors', () => {
       const state = fromJS({screeningDecisionForm, allegationsForm})
       const errors = getVisibleErrorsSelector(state)
       expect(errors.get('screening_decision'))
-        .toEqualImmutable(List(['Please enter at least one allegation to promote to referral.']))
+        .toEqualImmutable(List([
+          'Please enter at least one allegation to promote to referral.',
+          'A reporter is required to promote to referral',
+        ]))
       expect(errors.get('screening_decision_detail'))
         .toEqualImmutable(List(['Please enter a response time']))
     })

@@ -143,7 +143,7 @@ describe('incidentInformationFormReducer', () => {
   })
   describe('on TOUCH_INCIDENT_INFORMATION_FORM_FIELD', () => {
     it('returns an incidentInformationForm with a field touched', () => {
-      const action = touchField('incident_date')
+      const action = touchField(['incident_date'])
       const state = fromJS({
         incident_date: {
           touched: false,
@@ -152,6 +152,26 @@ describe('incidentInformationFormReducer', () => {
       expect(incidentInformationFormReducer(state, action)).toEqualImmutable(fromJS({
         incident_date: {
           touched: true,
+        },
+      }))
+    })
+
+    it('can touch address fields', () => {
+      const action = touchField(['incident_address', 'street_address'])
+      const state = fromJS({
+        incident_address: {
+          street_address: {
+            value: '123 Main St',
+            touched: false,
+          },
+        },
+      })
+      expect(incidentInformationFormReducer(state, action)).toEqualImmutable(fromJS({
+        incident_address: {
+          street_address: {
+            value: '123 Main St',
+            touched: true,
+          },
         },
       }))
     })

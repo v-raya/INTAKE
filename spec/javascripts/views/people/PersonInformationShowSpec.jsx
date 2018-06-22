@@ -3,8 +3,13 @@ import {shallow} from 'enzyme'
 import PersonInformationShow from 'views/people/PersonInformationShow'
 
 describe('PersonInformationShow', () => {
-  const renderPersonShow = ({ssn = {}, roles = {value: []}, name = {}, ...options}) => {
-    const params = {ssn, roles, name, ...options}
+  const renderPersonShow = ({
+    ssn = {},
+    roles = {value: []},
+    name = {},
+    gender = {value: ''},
+    ...options}) => {
+    const params = {ssn, roles, name, gender, ...options}
     return shallow(<PersonInformationShow {...params} />, {disableLifecycleMethods: true})
   }
 
@@ -37,8 +42,13 @@ describe('PersonInformationShow', () => {
   })
 
   it('renders the gender of the person', () => {
-    const view = renderPersonShow({gender: 'decline to answer'})
+    const view = renderPersonShow({gender: {value: 'decline to answer'}})
     expect(view.find('ShowField[label="Sex at Birth"]').html()).toContain('decline to answer')
+  })
+
+  it('renders gender errors when present', () => {
+    const view = renderPersonShow({gender: {value: 'pizza', errors: ['Pizza is not a sex at birth']}})
+    expect(view.find('ShowField[label="Sex at Birth"]').html()).toContain('Pizza is not a sex at birth')
   })
 
   it('renders the roles of the person', () => {

@@ -688,6 +688,30 @@ describe('personFormSelectors', () => {
       const state = fromJS({peopleForm})
       expect(getNamesRequiredSelector(state, '1')).toEqual(true)
     })
+
+    it('returns true if roles includes Mandated Reporter', () => {
+      const peopleForm = {1: {roles: {value: ['Mandated Reporter']}}}
+      const state = fromJS({peopleForm})
+      expect(getNamesRequiredSelector(state, '1')).toEqual(true)
+    })
+
+    it('returns true if roles includes Non-Mandated Reporter', () => {
+      const peopleForm = {1: {roles: {value: ['Non-mandated Reporter']}}}
+      const state = fromJS({peopleForm})
+      expect(getNamesRequiredSelector(state, '1')).toEqual(true)
+    })
+
+    it('returns false if roles is empty', () => {
+      const peopleForm = {1: {roles: {value: []}}}
+      const state = fromJS({peopleForm})
+      expect(getNamesRequiredSelector(state, '1')).toEqual(false)
+    })
+
+    it('returns false if role is Anonymous Reporter', () => {
+      const peopleForm = {1: {roles: {value: ['Anonymous Reporter']}}}
+      const state = fromJS({peopleForm})
+      expect(getNamesRequiredSelector(state, '1')).toEqual(false)
+    })
   })
 
   describe('getPersonAlertErrorMessageSelector', () => {
@@ -718,8 +742,8 @@ describe('personFormSelectors', () => {
   describe('getLastNameSelector', () => {
     it('returns last name', () => {
       const peopleForm = {
-        1: {roles: {value: ['Victim', 'Some role']}, last_name: {value: 'Smith', errors: [], required: true}},
-        2: {roles: {value: ['Other role', 'Some role']}, last_name: {value: 'Smith2', errors: [], required: false}}}
+        1: {roles: {value: ['Victim', 'Some role']}, last_name: {value: 'Smith', errors: []}},
+        2: {roles: {value: ['Other role', 'Some role']}, last_name: {value: 'Smith2', errors: []}}}
       const state = fromJS({peopleForm})
       expect(getLastNameSelector(state, '1')).toEqual(fromJS(
         {
@@ -731,7 +755,7 @@ describe('personFormSelectors', () => {
         {
           value: 'Smith2',
           errors: [],
-          required: false,
+          required: true,
         }))
     })
   })
@@ -739,8 +763,8 @@ describe('personFormSelectors', () => {
   describe('getFirstNameSelector', () => {
     it('returns first name', () => {
       const peopleForm = {
-        1: {roles: {value: ['Victim', 'Some role']}, first_name: {value: 'John', errors: [], required: true}},
-        2: {roles: {value: ['Other role', 'Some role']}, first_name: {value: 'Jessy', errors: [], required: false}}}
+        1: {roles: {value: ['Victim', 'Some role']}, first_name: {value: 'John', errors: []}},
+        2: {roles: {value: ['Other role', 'Some role']}, first_name: {value: 'Jessy', errors: []}}}
       const state = fromJS({peopleForm})
       expect(getFirstNameSelector(state, '1')).toEqual(fromJS(
         {
@@ -752,7 +776,7 @@ describe('personFormSelectors', () => {
         {
           value: 'Jessy',
           errors: [],
-          required: false,
+          required: true,
         }))
     })
   })

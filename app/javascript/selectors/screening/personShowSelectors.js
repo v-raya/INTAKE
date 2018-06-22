@@ -9,6 +9,7 @@ import ssnFormatter from 'utils/ssnFormatter'
 import {dateFormatter} from 'utils/dateFormatter'
 import {isRequiredIfCreate, combineCompact, hasRequiredValuesIfCreate} from 'utils/validator'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
+import {hasNonReporter} from 'utils/roles'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
 import moment from 'moment'
@@ -95,6 +96,11 @@ const getCSECStartedAtErrors = (state, csecStartedAt, roles, screeningReportType
     () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
 )
 
+const getGenderErrors = (person, roles) => combineCompact(
+  isRequiredIfCreate(person.get('gender'), 'Please select a Sex at Birth.',
+    () => hasNonReporter(roles))
+)
+
 export const getErrorsSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const ssn = person.get('ssn') || ''
@@ -116,6 +122,7 @@ export const getErrorsSelector = (state, personId) => {
     name: getNameErrors(firstName, lastName, roles),
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
+    gender: getGenderErrors(person, roles),
     addressZip,
     csecTypes: getCSECTypeErrors(state, csecTypes, rolesTypes, screeningReportType),
     csecStartedAt: getCSECStartedAtErrors(state, csecStartedAt, rolesTypes, screeningReportType),
@@ -157,7 +164,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
     csecEndedAt: person.get('csec_ended_at') && dateFormatter(person.get('csec_ended_at')),
     dateOfBirth: dateOfBirth,
     ethnicity: getEthnicity(person),
-    gender: GENDERS[person.get('gender')],
+    gender: {value: GENDERS[person.get('gender')]},
     languages: person.get('languages') && flagPrimaryLanguage((person.toJS().languages) || []).join(', '),
     legacySource: legacyDescriptor && legacySourceFormatter(legacyDescriptor.toJS()),
     name: {value: nameFormatter(person.toJS()), errors: [], required: false},
@@ -176,6 +183,7 @@ export const getFormattedPersonWithErrorsSelector = (state, personId) => {
     .setIn(['name', 'errors'], errors.get('name'))
     .setIn(['name', 'required'], getNamesRequiredSelector(state, personId))
     .setIn(['roles', 'errors'], errors.get('roles'))
+    .setIn(['gender', 'errors'], errors.get('gender'))
     .setIn(['CSECTypes', 'errors'], errors.get('csecTypes'))
     .setIn(['csecStartedAt', 'errors'], errors.get('csecStartedAt'))
 }

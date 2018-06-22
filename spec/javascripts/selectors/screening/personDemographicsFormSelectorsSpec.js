@@ -2,6 +2,7 @@ import {fromJS} from 'immutable'
 import {
   getIsApproximateAgeDisabledSelector,
   getPersonDemographicsSelector,
+  isGenderRequired,
 } from 'selectors/screening/personDemographicsFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -31,6 +32,8 @@ describe('personDemographicFormSelectors', () => {
         approximateAgeUnit: '',
         dateOfBirth: '',
         gender: '',
+        genderIsRequired: false,
+        genderError: undefined,
         languages: [],
       })
     })
@@ -59,11 +62,38 @@ describe('personDemographicFormSelectors', () => {
       expect(getPersonDemographicsSelector(state, '1').get('gender')).toEqual('known')
     })
 
+    it('includes a gender error if required', () => {
+      const peopleForm = {1: {gender: {value: ''}, roles: {value: ['Victim']}}}
+      const state = fromJS({peopleForm})
+      expect(getPersonDemographicsSelector(state, '1').get('genderError')).toBeDefined()
+    })
+
+    it('includes no gender error if not required', () => {
+      const peopleForm = {1: {gender: {value: ''}, roles: {value: ['']}}}
+      const state = fromJS({peopleForm})
+      expect(getPersonDemographicsSelector(state, '1').get('genderError')).toBeUndefined()
+    })
+
     it('includes the languages for the given person', () => {
       const peopleForm = {1: {languages: {value: ['Ω', 'ß']}}}
       const state = fromJS({peopleForm})
       expect(getPersonDemographicsSelector(state, '1').get('languages'))
         .toEqualImmutable(fromJS(['Ω', 'ß']))
+    })
+  })
+
+  describe('isGenderRequired', () => {
+    it('is true when role is Victim', () => {
+      const roles = ['Victim']
+      expect(isGenderRequired(roles)).toEqual(true)
+    })
+    it('is true when role is Perpetrator', () => {
+      const roles = ['Perpetrator']
+      expect(isGenderRequired(roles)).toEqual(true)
+    })
+    it('is false when role is not Client or Perpetrator', () => {
+      const roles = ['Mandated Reporter']
+      expect(isGenderRequired(roles)).toEqual(false)
     })
   })
 })

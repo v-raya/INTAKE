@@ -1,18 +1,19 @@
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
-import {selectParticipants} from 'selectors/participantSelectors'
-import {ROLE_TYPE_REPORTER} from 'enums/RoleType'
+import {hasReporter} from 'utils/roles'
+import {Maybe} from 'utils/maybe'
 
-export const selectParticipantsRoles = (state) => (
-  selectParticipants(state).map((participant) => participant.get('roles', List())).flatten()
-)
+export const validateReporterRequired = (decision, roles) => {
+  if (hasReporter(roles)) { return Maybe.of(null) }
 
-export const isReporterRequired = (decision, roles) => (
-  (decision === 'information_to_child_welfare_services' &&
-    !roles.some((role) => ROLE_TYPE_REPORTER.includes(role))) ?
-    'A reporter is required to submit a screening Contact' : undefined
-)
-
+  if (decision === 'information_to_child_welfare_services') {
+    return Maybe.of('A reporter is required to submit a screening Contact')
+  }
+  if (decision === 'promote_to_referral') {
+    return Maybe.of('A reporter is required to promote to referral')
+  }
+  return Maybe.of(null)
+}
 export const selectCasesAndReferrals = createSelector(
   (state) => state.getIn(['involvements', 'cases'], List()),
   (state) => state.getIn(['involvements', 'referrals'], List()),
