@@ -42,12 +42,12 @@ describe('WorkerSafetyForm', () => {
     const component = renderWorkerSafety({onChange})
     const newSelectedSafetyAlerts = [
       {label: 'Firearms in Home', value: 'Firearms in Home'},
-      {label: 'Hostile, Aggressive Client', value: 'Hostile, Aggressive Client'},
+      {label: 'Hostile Aggressive Client', value: 'Hostile Aggressive Client'},
     ]
     component.find('Select[multi]').simulate('Change', newSelectedSafetyAlerts)
     expect(onChange).toHaveBeenCalledWith(
       'safety_alerts',
-      ['Firearms in Home', 'Hostile, Aggressive Client']
+      ['Firearms in Home', 'Hostile Aggressive Client']
     )
   })
 

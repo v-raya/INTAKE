@@ -15,7 +15,7 @@ FactoryBot.define do
         'Dangerous Animal on Premises',
         'Firearms in Home',
         'Gang Affiliation or Gang Activity',
-        'Hostile, Aggressive Client',
+        'Hostile Aggressive Client',
         'Remote or Isolated Location',
         'Severe Mental Health Status',
         'Threat or Assault on Staff Member',
