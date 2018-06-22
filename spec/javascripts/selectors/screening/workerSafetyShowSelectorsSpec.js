@@ -20,7 +20,7 @@ describe('workerSafetyShowSelectors', () => {
       const screening = {}
       const state = fromJS({screening})
       expect(getAlertValuesSelector(state)).
-        toEqual(undefined)
+        toEqual(List([]))
     })
   })
 

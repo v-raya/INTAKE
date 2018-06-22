@@ -6,7 +6,7 @@ import EditLink from 'common/EditLink'
 const CardView = ({edit, editable, id, mode, onEdit, show, title}) => (
   <div>
     <a className='anchor' id={`${id}-anchor`}/>
-    <div className={ClassNames('card', mode, 'double-gap-bottom', 'position-relative')} id={id}>
+    <div className={ClassNames('card', mode || 'edit', 'double-gap-bottom', 'position-relative')} id={id}>
       <div className='card-header'>
         <span>{title}</span>
         {(editable && mode === 'show') &&
