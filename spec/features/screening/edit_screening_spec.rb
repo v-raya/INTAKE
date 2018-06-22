@@ -134,16 +134,16 @@ feature 'Edit Screening' do
     scenario 'aborting changes in Worker Saftey Card' do
       within '#worker-safety-card', text: 'Worker Safety' do
         fill_in_react_select(
-          'Worker Safety Alerts', with: 'Hostile, Aggressive Client'
+          'Worker Safety Alerts', with: 'Hostile Aggressive Client'
         )
         expect(page).to have_react_select_field(
           'Worker Safety Alerts',
-          with: ['Dangerous Animal on Premises', 'Firearms in Home', 'Hostile, Aggressive Client']
+          with: ['Dangerous Animal on Premises', 'Firearms in Home', 'Hostile Aggressive Client']
         )
         click_button 'Cancel'
         expect(page).to have_content('Dangerous Animal on Premises')
         expect(page).to have_content('Firearms in Home')
-        expect(page).to have_no_content('Hostile, Aggressive Client')
+        expect(page).to have_no_content('Hostile Aggressive Client')
       end
     end
 
@@ -155,7 +155,7 @@ feature 'Edit Screening' do
             'Dangerous Animal on Premises',
             'Firearms in Home',
 
-            'Hostile, Aggressive Client',
+            'Hostile Aggressive Client',
             'Severe Mental Health Status'
           ]
         }
@@ -167,7 +167,7 @@ feature 'Edit Screening' do
         )
         fill_in_react_select(
           'Worker Safety Alerts',
-          with: 'Hostile, Aggressive Client'
+          with: 'Hostile Aggressive Client'
         )
         fill_in_react_select(
           'Worker Safety Alerts',
@@ -176,7 +176,7 @@ feature 'Edit Screening' do
         expect(page).to have_react_select_field(
           'Worker Safety Alerts',
           with: ['Dangerous Animal on Premises', 'Firearms in Home',
-                 'Hostile, Aggressive Client', 'Severe Mental Health Status']
+                 'Hostile Aggressive Client', 'Severe Mental Health Status']
         )
         click_button 'Save'
       end
@@ -188,7 +188,7 @@ feature 'Edit Screening' do
             'safety_alerts' => array_including(
               'Dangerous Animal on Premises',
               'Firearms in Home',
-              'Hostile, Aggressive Client',
+              'Hostile Aggressive Client',
               'Severe Mental Health Status'
             ),
             'safety_information' => 'Potential safety alert: dangerous dog at home.'
@@ -199,7 +199,7 @@ feature 'Edit Screening' do
       within '#worker-safety-card.show', text: 'Worker Safety' do
         expect(page).to have_content('Dangerous Animal on Premises')
         expect(page).to have_content('Firearms in Home')
-        expect(page).to have_content('Hostile, Aggressive Client')
+        expect(page).to have_content('Hostile Aggressive Client')
         expect(page).to have_content('Severe Mental Health Status')
       end
     end
