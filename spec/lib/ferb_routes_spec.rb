@@ -18,9 +18,15 @@ describe FerbRoutes do
   end
 
   describe '.screening_participant_path' do
-    it 'returns /screenings/:id/participant' do
-      expect(described_class.screening_participant_path(97)).to eq(
-        '/screenings/97/participant'
+    it 'returns /screenings/:screening_id/participants/:participant_id' do
+      expect(described_class.screening_participant_path(1, 2)).to eq(
+        '/screenings/1/participants/2'
+      )
+    end
+
+    it 'returns /screenings/:screening_id/participant when there is no particpant id' do
+      expect(described_class.screening_participant_path(1)).to eq(
+        '/screenings/1/participant'
       )
     end
   end

@@ -120,7 +120,8 @@ feature 'edit allegations' do
     end
 
     marge.roles = ['Anonymous Reporter']
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 200))
 
     screening[:allegations] = []
@@ -145,7 +146,8 @@ feature 'edit allegations' do
     end
 
     marge[:roles] = ['Anonymous Reporter', 'Perpetrator']
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 200))
 
     screening[:participants] = [lisa.as_json.symbolize_keys, marge.as_json.symbolize_keys]
@@ -204,7 +206,8 @@ feature 'edit allegations' do
     within edit_participant_card_selector(marge.id) do
       fill_in_react_select('Role', with: 'Perpetrator')
       marge.roles = ['Perpetrator']
-      stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+      stub_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
         .and_return(json_body(marge.to_json, status: 200))
       click_button 'Save'
     end
@@ -214,7 +217,7 @@ feature 'edit allegations' do
     end
 
     lisa.roles = ['Victim']
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(lisa.id)))
+    stub_request(:put, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], lisa.id)))
       .and_return(json_body(lisa.to_json, status: 200))
 
     screening[:participants] = [marge.as_json.symbolize_keys, lisa.as_json.symbolize_keys]
@@ -561,7 +564,7 @@ feature 'edit allegations' do
     end
 
     lisa.roles = ['Anonymous Reporter']
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(lisa.id)))
+    stub_request(:put, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], lisa.id)))
       .and_return(json_body(lisa.to_json, status: 200))
 
     screening[:allegations] = []
@@ -591,7 +594,7 @@ feature 'edit allegations' do
     end
 
     lisa.roles = ['Anonymous Reporter', 'Victim']
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(lisa.id)))
+    stub_request(:put, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], lisa.id)))
       .and_return(json_body(lisa.to_json, status: 200))
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
@@ -655,7 +658,8 @@ feature 'edit allegations' do
     end
 
     marge.roles = ['Anonymous Reporter']
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 200))
 
     screening[:allegations] = []
@@ -685,7 +689,8 @@ feature 'edit allegations' do
     end
 
     marge.roles = ['Anonymous Reporter', 'Perpetrator']
-    stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    stub_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 200))
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))

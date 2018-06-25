@@ -112,12 +112,11 @@ describe Api::V1::ParticipantsController do
       }
     end
     let(:participant) { double(:participant) }
-    let(:updated_participant) { double(:participant, as_json: { 'id' => 'updated_participant' }) }
+    let(:updated_participant) { { 'id' => 'updated_participant' } }
 
     it 'updates and renders participant as json' do
-      expect(Participant).to receive(:new).with(participant_params).and_return(participant)
       expect(ParticipantRepository).to receive(:update)
-        .with(security_token, participant)
+        .with(security_token, participant_params)
         .and_return(updated_participant)
       process :update, method: :put, params: params, session: session
       expect(response).to be_successful

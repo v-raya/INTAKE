@@ -26,14 +26,14 @@ feature 'Participant Address' do
     expect(page).to_not have_field('Address', with: marge.addresses.first.street_address)
 
     marge[:addresses].push(
-      street_number: '1234 Some Lane',
+      street_address: '1234 Some Lane',
       city: 'Someplace',
       state: 'CA',
       zip: '55555',
       type: 'Home'
     )
     stub_request(
-      :put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id))
+      :put, ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id))
     ).and_return(json_body(marge.to_json, status: 200))
 
     within edit_participant_card_selector(marge.id) do
@@ -63,7 +63,8 @@ feature 'Participant Address' do
       click_button 'Save'
     end
 
-    expect(a_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(marge.id)))
+    expect(a_request(:put,
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
                .with(body: hash_including(
                  'addresses' => array_including(
                    hash_including(

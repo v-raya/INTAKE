@@ -47,7 +47,8 @@ feature 'CSEC validation' do
           csec_started_at: '06-11-2018'
         )
 
-        stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(victim.id)))
+        stub_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], victim.id)))
           .and_return(json_body(updated_participant.to_json, status: 200))
 
         click_button 'Save'
@@ -78,7 +79,8 @@ feature 'CSEC validation' do
           csec_types: ['At Risk']
         )
 
-        stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(victim.id)))
+        stub_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], victim.id)))
           .and_return(json_body(updated_participant.to_json, status: 200))
 
         click_button 'Save'
@@ -101,7 +103,8 @@ feature 'CSEC validation' do
           csec_types: ['At Risk']
         )
 
-        stub_request(:put, intake_api_url(ExternalRoutes.intake_api_participant_path(victim.id)))
+        stub_request(:put,
+          ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], victim.id)))
           .and_return(json_body(updated_participant.to_json, status: 200))
 
         click_button 'Save'

@@ -256,7 +256,12 @@ feature 'Relationship card' do
         visit edit_screening_path(id: participants_screening[:id])
 
         stub_request(:put,
-          intake_api_url(ExternalRoutes.intake_api_participant_path(participant.id)))
+          ferb_api_url(
+            FerbRoutes.screening_participant_path(
+              participants_screening[:id],
+              participant.id
+            )
+          ))
           .and_return(json_body(participant.to_json, status: 201))
 
         within edit_participant_card_selector(participant.id) do
@@ -265,8 +270,8 @@ feature 'Relationship card' do
 
         expect(
           a_request(:put,
-            intake_api_url(
-              ExternalRoutes.intake_api_participant_path(participant.id)
+            ferb_api_url(
+              FerbRoutes.screening_participant_path(participants_screening[:id], participant.id)
             ))
         ).to have_been_made
 

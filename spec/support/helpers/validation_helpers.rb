@@ -26,7 +26,7 @@ module ValidationHelpers
   end
 
   def validate_message_as_user_interacts_with_person_card(
-    error_message: nil, person:, person_updates:, error_messages: nil
+    screening_id:, error_message: nil, person:, person_updates:, error_messages: nil
   )
     error_messages ||= [error_message]
     within edit_participant_card_selector(person.id) do
@@ -37,7 +37,7 @@ module ValidationHelpers
 
     stub_request(
       :put,
-      intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+      ferb_api_url(FerbRoutes.screening_participant_path(screening_id, person.id))
     ).and_return(json_body(person.to_json))
 
     within('.card.edit.participant', text: person_name) { click_button 'Save' }
@@ -64,7 +64,7 @@ module ValidationHelpers
 
     stub_request(
       :put,
-      intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+      ferb_api_url(FerbRoutes.screening_participant_path(screening_id, person.id))
     ).and_return(json_body(person.to_json))
 
     within('.card.edit.participant', text: person_name) do

@@ -21,7 +21,7 @@ feature 'Person Information Validations' do
   before do
     stub_request(
       :put,
-      intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+      ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], person.id))
     ).and_return(json_body(person.to_json))
     stub_and_visit_edit_screening(screening)
   end
@@ -49,7 +49,7 @@ feature 'Person Information Validations' do
         scenario 'error not displayed even if approximate age is over 18 years' do
           stub_request(
             :put,
-            intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+            ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], person.id))
           ).and_return(json_body(person.to_json))
 
           within('.card.edit.participant', text: person_name) { click_button 'Save' }
@@ -71,6 +71,7 @@ feature 'Person Information Validations' do
 
         scenario 'error is displayed until user enters a valid approximate age' do
           validate_message_as_user_interacts_with_person_card(
+            screening_id: screening[:id],
             person: person,
             error_message: error_message,
             person_updates: {
@@ -87,6 +88,7 @@ feature 'Person Information Validations' do
 
         scenario 'error is not displayed if the victim role is removed' do
           validate_message_as_user_interacts_with_person_card(
+            screening_id: screening[:id],
             person: person,
             error_message: error_message,
             person_updates: { roles: [] }
@@ -100,6 +102,7 @@ feature 'Person Information Validations' do
 
       scenario 'error is displayed until user enters a valid approximate age' do
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: {
@@ -128,6 +131,7 @@ feature 'Person Information Validations' do
 
       scenario 'error is displayed until user enters a valid date of birth' do
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { date_of_birth: valid_date_of_birth }
@@ -140,6 +144,7 @@ feature 'Person Information Validations' do
 
       scenario 'validates error correctly even when the screeing date is changed' do
         validate_message_as_user_interacts_with_person_card(
+          screening_id: screening[:id],
           person: person,
           error_message: error_message,
           person_updates: { date_of_birth: valid_date_of_birth }
@@ -157,7 +162,7 @@ feature 'Person Information Validations' do
         scenario 'error not displayed even if dob is over 18 years' do
           stub_request(
             :put,
-            intake_api_url(ExternalRoutes.intake_api_participant_path(person.id))
+            ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], person.id))
 
           ).and_return(json_body(person.to_json))
 
@@ -180,6 +185,7 @@ feature 'Person Information Validations' do
 
         scenario 'error is displayed until user enters a valid date of birth' do
           validate_message_as_user_interacts_with_person_card(
+            screening_id: screening[:id],
             person: person,
             error_message: error_message,
             person_updates: { date_of_birth: valid_date_of_birth }
@@ -192,6 +198,7 @@ feature 'Person Information Validations' do
 
         scenario 'error is not displayed if the victim role is removed' do
           validate_message_as_user_interacts_with_person_card(
+            screening_id: screening[:id],
             person: person,
             error_message: error_message,
             person_updates: { roles: [] }
