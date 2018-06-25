@@ -5,21 +5,21 @@ import {
   COMMUNITY_CARE_LICENSING,
   COUNTY_LICENSING,
 } from 'enums/CrossReport'
-import {getCountyAgenciesSelector} from 'selectors/systemCodeSelectors'
+import {selectCountyAgencies} from 'selectors/systemCodeSelectors'
 
 export const getDistrictAttorneyAgenciesSelector = createSelector(
-  getCountyAgenciesSelector,
+  selectCountyAgencies,
   (countyAgencies) => countyAgencies.filter((countyAgency) => countyAgency.get('type') === DISTRICT_ATTORNEY)
 )
 export const getLawEnforcementAgenciesSelector = createSelector(
-  getCountyAgenciesSelector,
+  selectCountyAgencies,
   (countyAgencies) => countyAgencies.filter((countyAgency) => countyAgency.get('type') === LAW_ENFORCEMENT)
 )
 export const getCountyLicensingAgenciesSelector = createSelector(
-  getCountyAgenciesSelector,
+  selectCountyAgencies,
   (countyAgencies) => countyAgencies.filter((countyAgency) => countyAgency.get('type') === COUNTY_LICENSING)
 )
 export const getCommunityCareLicensingAgenciesSelector = createSelector(
-  getCountyAgenciesSelector,
+  selectCountyAgencies,
   (countyAgencies) => countyAgencies.filter((countyAgency) => countyAgency.get('type') === COMMUNITY_CARE_LICENSING)
 )

@@ -1,15 +1,15 @@
 import {
-  getAddressCountiesSelector,
-  getAddressTypesSelector,
-  getCountiesSelector,
-  getCountyAgenciesSelector,
-  getEthnicityTypesSelector,
-  getHispanicOriginCodesSelector,
-  getLanguagesSelector,
-  getRaceTypesSelector,
-  getRelationshipTypesSelector,
-  getScreenResponseTimesSelector,
-  getUnableToDetermineCodesSelector,
+  selectAddressCounties,
+  selectAddressTypes,
+  selectCounties,
+  selectCountyAgencies,
+  selectEthnicityTypes,
+  selectHispanicOriginCodes,
+  selectLanguages,
+  selectRaceTypes,
+  selectRelationshipTypes,
+  selectScreenResponseTimes,
+  selectUnableToDetermineCodes,
   systemCodeDisplayValue,
 } from 'selectors/systemCodeSelectors'
 import {fromJS} from 'immutable'
@@ -31,171 +31,171 @@ describe('systemCodeSelectors', () => {
     })
   })
 
-  describe('getAddressCountiesSelector', () => {
+  describe('selectAddressCounties', () => {
     it('returns a list of address counties', () => {
       const addressCounties = [{county_code: '99', value: 'State Of California'}]
       const otherSystemCodes = [{county_code: '1', value: 'invalid'}]
       const state = fromJS({systemCodes: {addressCounties, otherSystemCodes}})
-      expect(getAddressCountiesSelector(state).toJS()).toEqual(addressCounties)
+      expect(selectAddressCounties(state).toJS()).toEqual(addressCounties)
     })
 
     it('returns an empty list when address counties are empty', () => {
       const addressCounties = []
       const otherSystemCodes = [{county_code: '1', value: 'invalid'}]
       const state = fromJS({systemCodes: {addressCounties, otherSystemCodes}})
-      expect(getAddressCountiesSelector(state).toJS()).toEqual([])
+      expect(selectAddressCounties(state).toJS()).toEqual([])
     })
   })
 
-  describe('getAddressTypesSelector', () => {
+  describe('selectAddressTypes', () => {
     it('returns a list of address types', () => {
       const addressTypes = [{code: '1', value: 'ABC'}]
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {addressTypes, otherSystemCodes}})
-      expect(getAddressTypesSelector(state).toJS()).toEqual(addressTypes)
+      expect(selectAddressTypes(state).toJS()).toEqual(addressTypes)
     })
 
     it('returns an empty list when address types are empty', () => {
       const addressTypes = []
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {addressTypes, otherSystemCodes}})
-      expect(getAddressTypesSelector(state).toJS()).toEqual([])
+      expect(selectAddressTypes(state).toJS()).toEqual([])
     })
   })
 
-  describe('getCountiesSelector', () => {
+  describe('selectCounties', () => {
     it('returns a list of counties', () => {
       const counties = [{code: '1', value: 'ABC'}]
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {counties, otherSystemCodes}})
-      expect(getCountiesSelector(state).toJS()).toEqual(counties)
+      expect(selectCounties(state).toJS()).toEqual(counties)
     })
 
     it('returns an empty list when counties are empty', () => {
       const counties = []
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {counties, otherSystemCodes}})
-      expect(getCountiesSelector(state).toJS()).toEqual([])
+      expect(selectCounties(state).toJS()).toEqual([])
     })
   })
 
-  describe('getCountyAgenciesSelector', () => {
+  describe('selectCountyAgencies', () => {
     it('returns a list of counties', () => {
       const countyAgencies = [{code: '1', value: 'ABC'}]
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {countyAgencies, otherSystemCodes}})
-      expect(getCountyAgenciesSelector(state).toJS()).toEqual(countyAgencies)
+      expect(selectCountyAgencies(state).toJS()).toEqual(countyAgencies)
     })
 
     it('returns an empty list when counties are empty', () => {
       const countyAgencies = []
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {countyAgencies, otherSystemCodes}})
-      expect(getCountyAgenciesSelector(state).toJS()).toEqual([])
+      expect(selectCountyAgencies(state).toJS()).toEqual([])
     })
   })
 
-  describe('getEthnicityTypesSelector', () => {
+  describe('selectEthnicityTypes', () => {
     it('returns a list of ethnicity types', () => {
       const ethnicityTypes = [{code: '1', value: 'ABC'}]
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {ethnicityTypes, otherSystemCodes}})
-      expect(getEthnicityTypesSelector(state).toJS()).toEqual(ethnicityTypes)
+      expect(selectEthnicityTypes(state).toJS()).toEqual(ethnicityTypes)
     })
 
     it('returns an empty list when ethnicity types are empty', () => {
       const ethnicityTypes = []
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {ethnicityTypes, otherSystemCodes}})
-      expect(getEthnicityTypesSelector(state).toJS()).toEqual([])
+      expect(selectEthnicityTypes(state).toJS()).toEqual([])
     })
   })
 
-  describe('getHispanicOriginCodesSelector', () => {
+  describe('selectHispanicOriginCodes', () => {
     it('returns a list of hispanic origin codes', () => {
       const hispanicOriginCodes = [{code: '1', value: 'ABC'}]
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {hispanicOriginCodes, otherSystemCodes}})
-      expect(getHispanicOriginCodesSelector(state).toJS()).toEqual(hispanicOriginCodes)
+      expect(selectHispanicOriginCodes(state).toJS()).toEqual(hispanicOriginCodes)
     })
 
     it('returns an empty list when origin codes are empty', () => {
       const hispanicOriginCodes = []
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {hispanicOriginCodes, otherSystemCodes}})
-      expect(getHispanicOriginCodesSelector(state).toJS()).toEqual([])
+      expect(selectHispanicOriginCodes(state).toJS()).toEqual([])
     })
   })
 
-  describe('getLanguagesSelector', () => {
+  describe('selectLanguages', () => {
     it('returns a list of languages', () => {
       const languages = [{code: '1', value: 'ABC'}]
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {languages, otherSystemCodes}})
-      expect(getLanguagesSelector(state).toJS()).toEqual(languages)
+      expect(selectLanguages(state).toJS()).toEqual(languages)
     })
 
     it('returns an empty list when languages are empty', () => {
       const languages = []
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {languages, otherSystemCodes}})
-      expect(getLanguagesSelector(state).toJS()).toEqual([])
+      expect(selectLanguages(state).toJS()).toEqual([])
     })
   })
 
-  describe('getRaceTypesSelector', () => {
+  describe('selectRaceTypes', () => {
     it('returns a list of race types', () => {
       const raceTypes = [{county_code: '99', value: 'State Of California'}]
       const state = fromJS({systemCodes: {raceTypes}})
-      expect(getRaceTypesSelector(state).toJS()).toEqual(raceTypes)
+      expect(selectRaceTypes(state).toJS()).toEqual(raceTypes)
     })
 
     it('returns an empty list when relationship types are empty', () => {
       const raceTypes = []
       const state = fromJS({systemCodes: {raceTypes}})
-      expect(getRaceTypesSelector(state).toJS()).toEqual([])
+      expect(selectRaceTypes(state).toJS()).toEqual([])
     })
   })
 
-  describe('getRelationshipTypesSelector', () => {
+  describe('selectRelationshipTypes', () => {
     it('returns a list of relationship types', () => {
       const relationshipTypes = [{county_code: '99', value: 'State Of California'}]
       const state = fromJS({systemCodes: {relationshipTypes}})
-      expect(getRelationshipTypesSelector(state).toJS()).toEqual(relationshipTypes)
+      expect(selectRelationshipTypes(state).toJS()).toEqual(relationshipTypes)
     })
 
     it('returns an empty list when relationship types are empty', () => {
       const relationshipTypes = []
       const state = fromJS({systemCodes: {relationshipTypes}})
-      expect(getRelationshipTypesSelector(state).toJS()).toEqual([])
+      expect(selectRelationshipTypes(state).toJS()).toEqual([])
     })
   })
 
-  describe('getScreenResponseTimesSelector', () => {
+  describe('selectScreenResponseTimes', () => {
     it('returns a list of screen response times', () => {
       const screenResponseTimes = [{county_code: '99', value: 'State Of California'}]
       const state = fromJS({systemCodes: {screenResponseTimes}})
-      expect(getScreenResponseTimesSelector(state).toJS()).toEqual(screenResponseTimes)
+      expect(selectScreenResponseTimes(state).toJS()).toEqual(screenResponseTimes)
     })
 
     it('returns an empty list when screen response times are empty', () => {
       const screenResponseTimes = []
       const state = fromJS({systemCodes: {screenResponseTimes}})
-      expect(getScreenResponseTimesSelector(state).toJS()).toEqual([])
+      expect(selectScreenResponseTimes(state).toJS()).toEqual([])
     })
   })
 
-  describe('getUnableToDetermineCodesSelector', () => {
+  describe('selectUnableToDetermineCodes', () => {
     it('returns a list of relationship types', () => {
       const unableToDetermineCodes = [{county_code: '99', value: 'State Of California'}]
       const state = fromJS({systemCodes: {unableToDetermineCodes}})
-      expect(getUnableToDetermineCodesSelector(state).toJS()).toEqual(unableToDetermineCodes)
+      expect(selectUnableToDetermineCodes(state).toJS()).toEqual(unableToDetermineCodes)
     })
 
     it('returns an empty list when relationship types are empty', () => {
       const unableToDetermineCodes = []
       const state = fromJS({systemCodes: {unableToDetermineCodes}})
-      expect(getUnableToDetermineCodesSelector(state).toJS()).toEqual([])
+      expect(selectUnableToDetermineCodes(state).toJS()).toEqual([])
     })
   })
 })

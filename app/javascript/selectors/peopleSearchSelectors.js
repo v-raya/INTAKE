@@ -3,7 +3,7 @@ import {
   Map,
 } from 'immutable'
 import {
-  getCountiesSelector,
+  selectCounties,
   systemCodeDisplayValue,
 } from 'selectors/systemCodeSelectors'
 import {
@@ -84,7 +84,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       dateOfBirth: formatDOB(result.get('date_of_birth'), highlight.has('searchable_date_of_birth')),
       isDeceased: Boolean(result.get('date_of_death')),
       ssn: formatSSN(highlight.getIn(['ssn', 0], result.get('ssn'))),
-      clientCounty: systemCodeDisplayValue(result.getIn(['client_county', 'id']), getCountiesSelector(state)),
+      clientCounty: systemCodeDisplayValue(result.getIn(['client_county', 'id']), selectCounties(state)),
       address: mapAddress(state, result),
       phoneNumber: formatPhoneNumber(mapPhoneNumber(result).first()),
       isSensitive: mapIsSensitive(result),

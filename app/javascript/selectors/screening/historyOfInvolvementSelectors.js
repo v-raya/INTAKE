@@ -4,7 +4,7 @@ import nameFormatter from 'utils/nameFormatter'
 import {accessDescription} from 'utils/accessIndicator'
 import {dateRangeFormatter} from 'utils/dateFormatter'
 import COUNTIES from 'enums/Counties'
-import {systemCodeDisplayValue, getScreenResponseTimesSelector, getRelationshipTypesSelector} from 'selectors/systemCodeSelectors'
+import {systemCodeDisplayValue, selectScreenResponseTimes, selectRelationshipTypes} from 'selectors/systemCodeSelectors'
 import {hasNonReporter} from 'utils/roles'
 
 const getHistoryOfInvolvementsSelector = (state) => state.get('involvements', Map())
@@ -47,7 +47,7 @@ const getParentsNames = (hoiCase, relationshipTypes) => {
 
 export const getFormattedCasesSelector = createSelector(
   getCasesSelector,
-  getRelationshipTypesSelector,
+  selectRelationshipTypes,
   (cases, relationshipTypes) => cases.map((hoiCase) => {
     const {county, status} = getCaseCountyAndStatus(hoiCase)
     const limitedAccessCode = hoiCase.getIn(['access_limitation', 'limited_access_code'], 'NONE')
@@ -116,7 +116,7 @@ const getMixedReferralAllegations = (allegation) => Map({
 
 export const getFormattedReferralsSelector = createSelector(
   getReferralsSelector,
-  getScreenResponseTimesSelector,
+  selectScreenResponseTimes,
   (referrals, responseTimes) => referrals.map((referral) => {
     const {county, status} = getReferralCountyAndStatus(referral, responseTimes)
     const limitedAccessCode = referral.getIn(['access_limitation', 'limited_access_code'], 'NONE')

@@ -8,7 +8,7 @@ import {
   getLocationOfChildrenSelector,
   getVisibleErrorsSelector,
 } from 'selectors/screening/incidentInformationFormSelector'
-import {getAddressCountiesSelector} from 'selectors/systemCodeSelectors'
+import {selectAddressCounties} from 'selectors/systemCodeSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 import moment from 'moment'
 
@@ -44,8 +44,8 @@ describe('incidentInformationFormSelectors', () => {
         {code: '99', value: 'State Of California', category: 'address_county'},
       ]
       const state = fromJS({incidentInformationForm, systemCodes: {addressCounties}})
-      expect(getIncidentCountySelector(state, getAddressCountiesSelector)).toEqual('99')
-      expect(getIncidentCountySelector(emptyState, getAddressCountiesSelector)).toEqual('')
+      expect(getIncidentCountySelector(state, selectAddressCounties)).toEqual('99')
+      expect(getIncidentCountySelector(emptyState, selectAddressCounties)).toEqual('')
     })
   })
 
