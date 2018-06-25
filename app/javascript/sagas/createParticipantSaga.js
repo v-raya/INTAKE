@@ -1,5 +1,5 @@
 import {takeLatest, put, call, select} from 'redux-saga/effects'
-import {STATUS_CODES, post, get} from 'utils/http'
+import {STATUS_CODES, post} from 'utils/http'
 import {
   CREATE_PERSON,
   createPersonSuccess,
@@ -19,8 +19,7 @@ export function* sendPersonPayload(person) {
   const {legacy_id, legacy_source_table} = legacy_descriptor || {}
   let id
   if (screening_id === undefined) {
-    const newScreening = yield call(get, '/api/v1/screenings/new')
-    const screeningResponse = yield call(post, '/api/v1/screenings', {screening: newScreening})
+    const screeningResponse = yield call(post, '/api/v1/screenings')
     id = screeningResponse.id
     yield put(createScreeningSuccess(screeningResponse))
     const screeningEditPath = `/screenings/${id}/edit`

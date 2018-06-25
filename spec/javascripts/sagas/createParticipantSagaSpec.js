@@ -1,6 +1,6 @@
 import 'babel-polyfill'
 import {takeLatest, put, call, select} from 'redux-saga/effects'
-import {post, get} from 'utils/http'
+import {post} from 'utils/http'
 import {
   createParticipant,
   createParticipantSaga,
@@ -25,8 +25,7 @@ describe('createParticipant', () => {
     const screening = {id: undefined}
     const action = personCardActions.createPerson(screening)
     const gen = createParticipant(action)
-    expect(gen.next().value).toEqual(call(get, '/api/v1/screenings/new'))
-    expect(gen.next(screening).value).toEqual(call(post, '/api/v1/screenings', {screening}))
+    expect(gen.next(screening).value).toEqual(call(post, '/api/v1/screenings'))
     expect(gen.next(screening).value).toEqual(
       put(createScreeningSuccess(screening))
     )

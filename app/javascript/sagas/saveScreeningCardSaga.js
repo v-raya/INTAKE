@@ -85,7 +85,7 @@ export function* saveScreeningCard({payload: {card}}) {
       const response = yield call(api.put, path, {screening: screening.toJS()})
       yield put(saveSuccess(response))
     } else {
-      yield createScreeningBase(screening)
+      yield* createScreeningBase(screening)
     }
   } catch (error) {
     yield put(saveFailure(error))

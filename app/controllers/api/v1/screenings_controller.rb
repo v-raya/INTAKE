@@ -10,9 +10,9 @@ module Api
       end
 
       def create
-        screening = params.require(:screening).as_json.symbolize_keys
-        created_screening = ScreeningRepository.create(session[:security_token], screening)
-        render json: created_screening
+        has_params = params['screening'].blank?
+        screening = has_params ? new_screening : params.require(:screening).as_json.symbolize_keys
+        render json: ScreeningRepository.create(session[:security_token], screening)
       end
 
       def update
