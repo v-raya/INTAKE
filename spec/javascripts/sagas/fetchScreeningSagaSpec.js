@@ -16,9 +16,21 @@ describe('fetchScreeningSaga', () => {
 })
 
 describe('fetchScreening', () => {
-  const id = '123'
-  const action = actions.fetchScreening(id)
+  describe('without id', () => {
+    it('fetch screening without id', () => {
+      const action = actions.fetchScreening(null)
+      const gen = fetchScreening(action)
+      const screening = {id: null, cross_reports: []}
+      expect(gen.next().value).toEqual(call(get, '/api/v1/screenings/new'))
+      expect(gen.next(screening).value).toEqual(
+        put(actions.fetchScreeningSuccess(screening))
+      )
+    })
+  })
+
   describe('when successful', () => {
+    const id = '123'
+    const action = actions.fetchScreening(id)
     it('fetches and puts screening with cross report data', () => {
       const gen = fetchScreening(action)
       expect(gen.next().value).toEqual(call(get, '/api/v1/screenings/123'))
@@ -65,6 +77,8 @@ describe('fetchScreening', () => {
     })
   })
   describe('when unsuccessful', () => {
+    const id = '123'
+    const action = actions.fetchScreening(id)
     it('returns the error', () => {
       const gen = fetchScreening(action)
       const error = {responseJSON: 'some error'}

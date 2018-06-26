@@ -19,9 +19,14 @@ function* fetchCrossReports(cross_reports) {
 }
 
 function* tryToFetchScreening(id) {
-  const response = yield call(get, `/api/v1/screenings/${id}`)
-  const {cross_reports} = response
-  yield* fetchCrossReports(cross_reports)
+  let response
+  if (id) {
+    response = yield call(get, `/api/v1/screenings/${id}`)
+    const {cross_reports} = response
+    yield* fetchCrossReports(cross_reports)
+  } else {
+    response = yield call(get, '/api/v1/screenings/new')
+  }
   yield put(fetchScreeningSuccess(response))
   const clientIds = response.participants && response.participants.map(
     (p) => (p.legacy_id || p.legacy_descriptor && p.legacy_descriptor.legacy_id)
