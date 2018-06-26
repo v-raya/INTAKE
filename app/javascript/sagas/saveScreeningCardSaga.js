@@ -27,7 +27,7 @@ import {cardName as narrativeCardName} from 'containers/screenings/NarrativeForm
 import {cardName as decisionCardName} from 'containers/screenings/DecisionFormContainer'
 import {cardName as workerSafetyCardName} from 'containers/screenings/WorkerSafetyFormContainer'
 import {cardName as crossReportsCardName} from 'containers/screenings/CrossReportFormContainer'
-import {push} from 'react-router-redux'
+import {replace} from 'react-router-redux'
 
 export function* createScreeningBase(screening) {
   try {
@@ -35,7 +35,7 @@ export function* createScreeningBase(screening) {
     const {id} = response
     const screeningEditPath = `/screenings/${id}/edit`
     yield put(createScreeningSuccess(response))
-    yield put(push(screeningEditPath))
+    yield put(replace(screeningEditPath))
   } catch (error) {
     yield put(createScreeningFailure(error))
   }

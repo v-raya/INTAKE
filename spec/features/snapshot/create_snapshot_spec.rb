@@ -169,7 +169,6 @@ feature 'Create Snapshot' do
         end
 
         page.driver.go_back
-        page.driver.go_back
         click_button 'Start Snapshot'
 
         within '#snapshot-card' do

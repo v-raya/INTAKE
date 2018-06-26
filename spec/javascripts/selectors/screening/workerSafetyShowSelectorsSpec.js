@@ -16,11 +16,11 @@ describe('workerSafetyShowSelectors', () => {
         toEqualImmutable(List(['ABC']))
     })
 
-    it('returns undefined when safety_alerts not present', () => {
+    it('returns empty list when safety_alerts not present', () => {
       const screening = {}
       const state = fromJS({screening})
       expect(getAlertValuesSelector(state)).
-        toEqual(List([]))
+        toEqualImmutable(List([]))
     })
   })
 

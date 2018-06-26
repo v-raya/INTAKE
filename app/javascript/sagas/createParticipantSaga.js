@@ -9,7 +9,7 @@ import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {selectClientIds} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
-import {push} from 'react-router-redux'
+import {replace} from 'react-router-redux'
 import {
   createScreeningSuccess,
 } from 'actions/screeningActions'
@@ -23,7 +23,7 @@ export function* sendPersonPayload(person) {
     id = screeningResponse.id
     yield put(createScreeningSuccess(screeningResponse))
     const screeningEditPath = `/screenings/${id}/edit`
-    yield put(push(screeningEditPath))
+    yield put(replace(screeningEditPath))
   }
   const participantPayload = {
     participant: {

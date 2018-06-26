@@ -30,7 +30,7 @@ import {cardName as narrativeCardName} from 'containers/screenings/NarrativeForm
 import {cardName as decisionCardName} from 'containers/screenings/DecisionFormContainer'
 import {cardName as workerSafetyCardName} from 'containers/screenings/WorkerSafetyFormContainer'
 import {cardName as crossReportsCardName} from 'containers/screenings/CrossReportFormContainer'
-import {push} from 'react-router-redux'
+import {replace} from 'react-router-redux'
 
 describe('saveScreeningCardSaga', () => {
   it('saves screening on SAVE_SCREENING', () => {
@@ -51,7 +51,7 @@ describe('createScreeningBase', () => {
     )
     const screeningNew = fromJS({id: '123', allegations: [], participants: []})
     expect(gen.next().value).toEqual(
-      put(push(`/screenings/${screeningNew.id}/edit`))
+      put(replace(`/screenings/${screeningNew.id}/edit`))
     )
   })
 

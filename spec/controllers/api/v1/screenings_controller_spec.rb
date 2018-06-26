@@ -75,7 +75,13 @@ describe Api::V1::ScreeningsController do
         .and_return(created_screening)
     end
 
-    it 'creates and renders screening as json' do
+    it 'creates and renders screening as json without params' do
+      process :create, method: :post, session: session
+      expect(response).to be_successful
+      expect(JSON.parse(response.body)).to eq(created_screening.as_json)
+    end
+
+    it 'creates and renders screening as json with params' do
       process :create, method: :post, params: { screening: created_screening }, session: session
       expect(response).to be_successful
       expect(JSON.parse(response.body)).to eq(created_screening.as_json)
