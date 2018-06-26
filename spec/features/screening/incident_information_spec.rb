@@ -53,8 +53,8 @@ feature 'screening incident information card' do
 
   scenario 'character limitations by field' do
     within '#incident-information-card' do
-      fill_in 'Zip', with: '9i5%6Y1 8-_3.6+9*7='
-      expect(page).to have_field('Zip', with: '95618-3697')
+      fill_in 'Zip', with: '9i5%6Y1 8_3.6+9*7='
+      expect(page).to have_field('Zip', with: '956183697')
       fill_in 'Zip', with: '9i5%6Y1 8'
       expect(page).to have_field('Zip', with: '95618')
     end

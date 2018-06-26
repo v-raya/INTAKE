@@ -74,7 +74,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           gridClassName='col-md-4'
           id='zip'
           label='Zip'
-          maxLength='10'
+          maxLength='9'
           onChange={({target: {value}}) => onChange(['incident_address', 'zip'], value)}
           value={address.zip}
         />
