@@ -1,6 +1,6 @@
 import {takeEvery, put, call, select} from 'redux-saga/effects'
 import * as api from 'utils/http'
-import {saveSuccess, saveFailure, saveFailureFromNoParticipants, SAVE_SCREENING} from 'actions/screeningActions'
+import {saveSuccess, saveFailure, saveFailureFromNoParticipants, SAVE_SCREENING, createScreeningSuccess, createScreeningFailure} from 'actions/screeningActions'
 import {getScreeningWithAllegationsEditsSelector} from 'selectors/screening/allegationsFormSelectors'
 import {
   getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
@@ -27,6 +27,19 @@ import {cardName as narrativeCardName} from 'containers/screenings/NarrativeForm
 import {cardName as decisionCardName} from 'containers/screenings/DecisionFormContainer'
 import {cardName as workerSafetyCardName} from 'containers/screenings/WorkerSafetyFormContainer'
 import {cardName as crossReportsCardName} from 'containers/screenings/CrossReportFormContainer'
+import {replace} from 'react-router-redux'
+
+export function* createScreeningBase(screening) {
+  try {
+    const response = yield call(api.post, '/api/v1/screenings', {screening: screening.toJS()})
+    const {id} = response
+    const screeningEditPath = `/screenings/${id}/edit`
+    yield put(createScreeningSuccess(response))
+    yield put(replace(screeningEditPath))
+  } catch (error) {
+    yield put(createScreeningFailure(error))
+  }
+}
 
 export function* saveScreeningCard({payload: {card}}) {
   try {
@@ -67,9 +80,13 @@ export function* saveScreeningCard({payload: {card}}) {
       return
     }
     const id = screening.get('id')
-    const path = `/api/v1/screenings/${id}`
-    const response = yield call(api.put, path, {screening: screening.toJS()})
-    yield put(saveSuccess(response))
+    if (id) {
+      const path = `/api/v1/screenings/${id}`
+      const response = yield call(api.put, path, {screening: screening.toJS()})
+      yield put(saveSuccess(response))
+    } else {
+      yield* createScreeningBase(screening)
+    }
   } catch (error) {
     yield put(saveFailure(error))
   }

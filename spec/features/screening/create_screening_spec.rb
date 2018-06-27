@@ -20,41 +20,14 @@ feature 'Create Screening' do
         scenario 'via start screening link' do
           user_name_display = 'Joe B. Cool - Mendocino'
           allow(LUID).to receive(:generate).and_return(['DQJIYK'])
-          new_screening = {
-            id: '1',
-            reference: 'DQJIYK',
-            assignee: user_name_display,
-            assignee_staff_id: '1234',
-            incident_county: nil,
-            indexable: true,
-            incident_address: {},
-            addresses: [],
-            cross_reports: [],
-            participants: [],
-            allegations: []
-          }
-
-          stub_empty_history_for_screening(new_screening)
-          stub_empty_relationships
-          stub_request(:post, ferb_api_url(FerbRoutes.intake_screenings_path))
-            .with(body: new_screening.merge(incident_address: {}).as_json(except: :id))
-            .and_return(json_body(new_screening.to_json, status: 201))
 
           stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
             .and_return(json_body([].to_json, status: 200))
-
-          stub_request(
-            :get, ferb_api_url(FerbRoutes.intake_screening_path(new_screening[:id]))
-          ).and_return(json_body(new_screening.to_json, status: 200))
-
-          stub_request(:get, ferb_api_url(FerbRoutes.staff_path('1234')))
-            .and_return(json_body(staff_info.to_json, status: 200))
-
           visit root_path(accessCode: access_code)
           click_button 'Start Screening'
 
           within '.page-header-mast' do
-            expect(page).to have_content("Screening #{new_screening[:id]}")
+            expect(page).to have_content('New Screening')
           end
 
           expect(page).to have_field(
@@ -78,34 +51,10 @@ feature 'Create Screening' do
         end
 
         scenario 'via start screening link' do
-          user_name_display = 'Joe B. Cool - Mendocino'
           allow(LUID).to receive(:generate).and_return(['DQJIYK'])
-          new_screening = {
-            id: '1',
-            reference: 'DQJIYK',
-            assignee: user_name_display,
-            assignee_staff_id: '1234',
-            incident_county: '23',
-            indexable: true,
-            incident_address: {},
-            addresses: [],
-            cross_reports: [],
-            participants: [],
-            allegations: []
-          }
-
-          stub_empty_history_for_screening(new_screening)
-          stub_empty_relationships
-          stub_request(:post, ferb_api_url(FerbRoutes.intake_screenings_path))
-            .with(body: new_screening.merge(incident_address: {}).as_json(except: :id))
-            .and_return(json_body(new_screening.to_json, status: 201))
 
           stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
             .and_return(json_body([].to_json, status: 200))
-
-          stub_request(
-            :get, ferb_api_url(FerbRoutes.intake_screening_path(new_screening[:id]))
-          ).and_return(json_body(new_screening.to_json, status: 200))
 
           stub_request(:get, ferb_api_url(FerbRoutes.staff_path('1234')))
             .and_return(json_body(staff_info.to_json, status: 200))
@@ -114,7 +63,7 @@ feature 'Create Screening' do
           click_button 'Start Screening'
 
           within '.page-header-mast' do
-            expect(page).to have_content("Screening #{new_screening[:id]}")
+            expect(page).to have_content('New Screening')
           end
 
           expect(page).to have_select('Incident County', selected: 'Mendocino', disabled: true)
@@ -139,37 +88,15 @@ feature 'Create Screening' do
         scenario 'via start screening link' do
           user_name_display = 'Joe Cool - Mendocino'
           allow(LUID).to receive(:generate).and_return(['DQJIYK'])
-          new_screening = {
-            id: '1',
-            reference: 'DQJIYK',
-            assignee: user_name_display,
-            assignee_staff_id: '1234',
-            incident_county: nil,
-            indexable: true,
-            incident_address: {},
-            addresses: [],
-            cross_reports: [],
-            participants: [],
-            allegations: []
-          }
-          stub_empty_history_for_screening(new_screening)
-          stub_empty_relationships
-          stub_request(:post, ferb_api_url(FerbRoutes.intake_screenings_path))
-            .with(body: new_screening.merge(incident_address: {}).as_json(except: :id))
-            .and_return(json_body(new_screening.to_json, status: 201))
 
           stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
             .and_return(json_body([].to_json, status: 200))
-
-          stub_request(
-            :get, ferb_api_url(FerbRoutes.intake_screening_path(new_screening[:id]))
-          ).and_return(json_body(new_screening.to_json, status: 200))
 
           visit root_path(accessCode: access_code)
           click_button 'Start Screening'
 
           within '.page-header-mast' do
-            expect(page).to have_content("Screening #{new_screening[:id]}")
+            expect(page).to have_content('New Screening')
           end
 
           expect(page).to have_field(
@@ -184,37 +111,15 @@ feature 'Create Screening' do
         let(:staff_info) { {} }
         scenario 'via start screening link' do
           allow(LUID).to receive(:generate).and_return(['DQJIYK'])
-          new_screening = {
-            id: '1',
-            reference: 'DQJIYK',
-            assignee: '',
-            assignee_staff_id: nil,
-            incident_county: nil,
-            indexable: true,
-            incident_address: {},
-            addresses: [],
-            cross_reports: [],
-            participants: [],
-            allegations: []
-          }
-          stub_empty_history_for_screening(new_screening)
-          stub_empty_relationships
-          stub_request(:post, ferb_api_url(FerbRoutes.intake_screenings_path))
-            .with(body: new_screening.merge(incident_address: {}).as_json(except: :id))
-            .and_return(json_body(new_screening.to_json, status: 201))
 
           stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
             .and_return(json_body([].to_json, status: 200))
-
-          stub_request(
-            :get, ferb_api_url(FerbRoutes.intake_screening_path(new_screening[:id]))
-          ).and_return(json_body(new_screening.to_json, status: 200))
 
           visit root_path(accessCode: access_code)
           click_button 'Start Screening'
 
           within '.page-header-mast' do
-            expect(page).to have_content("Screening #{new_screening[:id]}")
+            expect(page).to have_content('New Screening')
           end
 
           expect(page).to have_field('Assigned Social Worker', with: '', disabled: false)
@@ -224,43 +129,15 @@ feature 'Create Screening' do
 
     scenario 'via start screening link' do
       allow(LUID).to receive(:generate).and_return(['DQJIYK'])
-      new_screening = {
-        id: '1',
-        reference: 'DQJIYK',
-        assignee: 'Joe Cool',
-        assignee_staff_id: nil,
-        incident_county: nil,
-        indexable: true,
-        incident_address: {},
-        addresses: [],
-        cross_reports: [],
-        participants: [],
-        allegations: []
-      }
-
-      stub_empty_history_for_screening(new_screening)
-      stub_empty_relationships
-      stub_request(:post, ferb_api_url(FerbRoutes.intake_screenings_path))
-        .with(body: new_screening.merge(incident_address: {}).as_json(except: :id))
-        .and_return(json_body(new_screening.to_json, status: 201))
 
       stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body([].to_json, status: 200))
 
-      stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(new_screening[:id])))
-        .and_return(json_body(new_screening.to_json, status: 200))
-
       visit root_path(accessCode: access_code)
       click_button 'Start Screening'
 
-      expect(
-        a_request(
-          :post, ferb_api_url(FerbRoutes.intake_screenings_path)
-        ).with(body: new_screening.merge(incident_address: {}).as_json(except: :id))
-      ).to have_been_made
-
       within '.page-header-mast' do
-        expect(page).to have_content("Screening #{new_screening[:id]}")
+        expect(page).to have_content('New Screening')
       end
     end
   end

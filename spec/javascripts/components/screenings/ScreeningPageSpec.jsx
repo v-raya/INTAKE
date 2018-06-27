@@ -62,21 +62,23 @@ describe('ScreeningPage', () => {
 
   describe('componentDidMount', () => {
     it("sets the page mode to 'edit' when url mode is 'edit' and editable is true", () => {
+      const id = '222'
       const setPageMode = jasmine.createSpy('setPageMode')
       renderScreeningPageWithLifecycle({
         editable: true,
         actions: {setPageMode},
-        params: {mode: 'edit'},
+        params: {mode: 'edit', id: id},
       })
       expect(setPageMode).toHaveBeenCalledWith('edit')
     })
 
     it("sets the page mode to 'show' when url mode is 'show' and editable is true", () => {
+      const id = '333'
       const setPageMode = jasmine.createSpy('setPageMode')
       renderScreeningPageWithLifecycle({
         editable: true,
         actions: {setPageMode},
-        params: {mode: 'show'},
+        params: {mode: 'show', id: id},
       })
       expect(setPageMode).toHaveBeenCalledWith('show')
     })
