@@ -683,12 +683,12 @@ describe('personFormSelectors', () => {
   describe('getRolesSelector', () => {
     it('returns roles with error if it has one', () => {
       const peopleForm = {
-        1: {roles: {value: 'Victim', errors: []}},
+        1: {roles: {value: ['Victim'], errors: []}},
       }
       const state = fromJS({peopleForm})
       expect(getRolesSelector(state, '1')).toEqualImmutable(fromJS(
         {
-          value: 'Victim',
+          value: ['Victim'],
           errors: [],
         }))
     })
