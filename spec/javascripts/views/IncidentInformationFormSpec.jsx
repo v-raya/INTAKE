@@ -162,19 +162,17 @@ describe('IncidentInformationForm', () => {
       it('renders the zip code field', () => {
         const component = renderIncidentInformationForm({
           address: {
-            zip: '123456789',
+            zip: '95675',
           },
         })
-        const zipInput = component.find('MaskedInputField')
-        expect(zipInput.props().value).toEqual('123456789')
-        expect(zipInput.props().mask).toEqual('11111-1111')
+        expect(component.find('InputField[label="Zip"]').props().value).toEqual('95675')
       })
 
       it('fires onChange callback', () => {
         const onChange = jasmine.createSpy('onChange')
         const component = renderIncidentInformationForm({onChange})
-        const zipInput = component.find('MaskedInputField')
-        expect(zipInput.props().onChange).toEqual(jasmine.any(Function))
+        component.find('InputField[label="Zip"]').simulate('change', {target: {value: 'new value'}})
+        expect(onChange).toHaveBeenCalledWith(['incident_address', 'zip'], 'new value')
       })
     })
   })
