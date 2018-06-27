@@ -43,14 +43,24 @@ export class ActionMenu extends Component {
     )
   }
 
+  renderModal() {
+    return (
+      <ModalComponent
+        closeModal={this.closeModal}
+        showModal={this.state.show}
+        modalBody={this.renderEditRelationshipForm()}
+        modalFooter={this.renderFooter(this.closeModal)}
+        modalSize='large'
+        modalTitle='Edit Relationship Type'
+      />
+    )
+  }
+
   render() {
     return (
       <div>
         <div className='dropdown' aria-label='Action Menu'>
-          <span
-            className='glyphicon glyphicon-option-vertical'
-            type='button' data-toggle='dropdown' aria-hidden='true'
-          />
+          <span className='glyphicon glyphicon-option-vertical' type='button' data-toggle='dropdown' aria-hidden='true'/>
           <ul className='dropdown-menu dropdown-menu-right' role='menu' aria-hidden='true'>
             <li className='dropdown-header'>Actions</li>
             <li role='separator' className='divider'/>
@@ -62,14 +72,7 @@ export class ActionMenu extends Component {
             </li>
           </ul>
         </div>
-        <ModalComponent
-          closeModal={this.closeModal}
-          showModal={this.state.show}
-          modalBody={this.renderEditRelationshipForm()}
-          modalFooter={this.renderFooter(this.closeModal)}
-          modalSize='large'
-          modalTitle='Edit Relationship Type'
-        />
+        {this.renderModal()}
       </div>
     )
   }
