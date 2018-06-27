@@ -4,15 +4,39 @@ import {
   RESET_INCIDENT_INFORMATION_FORM_FIELDS,
   TOUCH_INCIDENT_INFORMATION_FORM_FIELD,
 } from 'actions/incidentInformationFormActions'
-import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
+import {FETCH_SCREENING_COMPLETE, CREATE_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {createReducer} from 'utils/createReducer'
 import {untouched} from 'utils/formTouch'
 import {Map, fromJS} from 'immutable'
 
 export default createReducer(Map(), {
-  [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
+  [CREATE_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
     if (error) { return state }
 
+    const {
+      incident_date,
+      incident_county,
+      incident_address: {id, street_address, city, state: usState, zip},
+      location_type,
+      current_location_of_children,
+    } = screening
+
+    return fromJS({
+      incident_date: untouched(incident_date),
+      incident_county: untouched(incident_county),
+      incident_address: {
+        id: id,
+        city: untouched(city),
+        state: untouched(usState),
+        street_address: untouched(street_address),
+        zip: untouched(zip),
+      },
+      location_type: untouched(location_type),
+      current_location_of_children: untouched(current_location_of_children),
+    })
+  },
+  [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
+    if (error) { return state }
     const {
       incident_date,
       incident_county,
