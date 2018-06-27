@@ -20,7 +20,6 @@ const ScreeningRow = ({id, name, decision, decisionDetail, assignee, startedAt, 
     <td><Link to={`/screenings/${id}`}>{linkName(id, referralId, name)}</Link></td>
     <td>{decisionType(decision, decisionDetail)}</td>
     <td>{screening_status}</td>
-    <td>&nbsp;</td>
     <td>{assignee}</td>
     <td>
       {moment(startedAt).format('L LT')} <br/>
