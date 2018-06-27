@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import AttachLink from 'common/AttachLink'
+import AttachLink from 'common/relationship/AttachLink'
 
 describe('AttachLink', () => {
   let onClick

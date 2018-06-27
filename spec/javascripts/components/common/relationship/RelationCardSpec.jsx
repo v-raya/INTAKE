@@ -1,5 +1,5 @@
 import React from 'react'
-import RelationCard from 'common/RelationCard'
+import RelationCard from 'common/relationship/RelationCard'
 import {shallow} from 'enzyme'
 
 describe('RelationCard', () => {

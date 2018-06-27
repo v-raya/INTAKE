@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import ActionMenu from 'common/ActionMenu'
-import AttachLink from 'common/AttachLink'
-import RelationCard from 'common/RelationCard'
+import ActionMenu from 'common/relationship/ActionMenu'
+import AttachLink from 'common/relationship/AttachLink'
+import RelationCard from 'common/relationship/RelationCard'
 import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
 
 const actionsMenu = (row, pendingPeople, isScreening, screeningId, onClick) =>

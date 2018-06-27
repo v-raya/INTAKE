@@ -1,5 +1,5 @@
 import React from 'react'
-import AttachLink from 'common/AttachLink'
+import AttachLink from 'common/relationship/AttachLink'
 import {shallow, mount} from 'enzyme'
 import {EmptyRelationships, Relationships} from 'common/Relationships'
 

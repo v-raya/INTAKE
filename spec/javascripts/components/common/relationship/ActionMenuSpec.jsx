@@ -1,7 +1,7 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import ActionMenu from 'common/ActionMenu'
-import AttachLink from 'common/AttachLink'
+import ActionMenu from 'common/relationship/ActionMenu'
+import AttachLink from 'common/relationship/AttachLink'
 
 describe('ActionMenu', () => {
   const props = {

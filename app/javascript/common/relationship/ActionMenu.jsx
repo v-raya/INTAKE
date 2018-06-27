@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import AttachLink from 'common/AttachLink'
+import AttachLink from 'common/relationship/AttachLink'
 
 export const ActionMenu = ({isScreening, onClick, pendingPeople, relationship, screeningId}) => (
   <div className='dropdown'>
