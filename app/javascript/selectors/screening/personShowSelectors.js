@@ -72,8 +72,8 @@ const isOver18YearsOfAgeAtScreeningDate = (state, personId) => {
 }
 
 const getNameErrors = (firstName, lastName, roles) => combineCompact(
-  isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim'))),
-  isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim')))
+  isRequiredIfCreate(firstName, 'Please enter a first name.', () => hasNonReporter(roles)),
+  isRequiredIfCreate(lastName, 'Please enter a last name.', () => hasNonReporter(roles))
 )
 
 const getRoleErrors = (state, personId, roles) => combineCompact(
