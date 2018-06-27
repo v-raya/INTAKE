@@ -352,6 +352,9 @@ feature 'Relationship card' do
             scenario 'opens the modal edit relationship of a relatee' do
               assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Edit')
               within 'div.modal-body' do
+                expect(page).to have_content(
+                  "#{relationships.first[:first_name]} #{relationships.first[:last_name]}"
+                )
                 expect(page).to have_content('Jake Campbell')
               end
             end

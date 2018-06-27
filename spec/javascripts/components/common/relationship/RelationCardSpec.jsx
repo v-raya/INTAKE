@@ -4,8 +4,7 @@ import {shallow} from 'enzyme'
 
 describe('RelationCard', () => {
   const props = {
-    firstName: 'Han',
-    lastName: 'Solo',
+    name: 'Han Solo',
     data: [{
       name: 'Luke Skywalker',
       secondaryRelationship: 'No Relation',
