@@ -1,8 +1,8 @@
 import java.text.SimpleDateFormat
 
 node('intake-slave') {
-  checkout scm
-  def branch = env.BRANCH_NAME ?: (env.GIT_BRANCH ?: 'master')
+  def scmInfo = checkout scm
+  def branch = scmInfo.GIT_BRANCH ?: env.GIT_BRANCH
   def curStage = 'Start'
   def pipelineStatus = 'SUCCESS'
   def successColor = '11AB1B'
@@ -33,7 +33,7 @@ node('intake-slave') {
       sh './scripts/ci/rspec_test.rb'
     }
 
-    if (branch == 'master') {
+    if (branch == 'origin/master') {
       VERSION = sh(returnStdout: true, script: './scripts/ci/compute_version.rb').trim()
       VCS_REF = sh(
         script: 'git rev-parse --short HEAD',
