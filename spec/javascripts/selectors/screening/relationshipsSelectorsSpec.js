@@ -66,7 +66,7 @@ describe('relationshipsSelectors', () => {
           relationships: [
             {
               absent_parent_code: 'Y',
-              date_of_birth: '1990-03-15',
+              related_person_date_of_birth: '1990-03-15',
               related_person_gender: 'M',
               related_person_first_name: 'Johny',
               related_person_last_name: 'Robinson',
@@ -79,7 +79,7 @@ describe('relationshipsSelectors', () => {
             },
             {
               absent_parent_code: 'N',
-              date_of_birth: '1991-02-15',
+              related_person_date_of_birth: '1991-02-15',
               related_person_gender: 'M',
               related_person_first_name: 'Will',
               related_person_last_name: 'Carlson',
@@ -101,7 +101,7 @@ describe('relationshipsSelectors', () => {
           relationships: [
             {
               absent_parent_code: 'Y',
-              date_of_birth: '1986-01-15',
+              related_person_date_of_birth: '1986-01-15',
               related_person_gender: 'M',
               related_person_first_name: 'Ricky',
               related_person_last_name: 'Robinson',
@@ -114,7 +114,7 @@ describe('relationshipsSelectors', () => {
             },
             {
               absent_parent_code: 'N',
-              date_of_birth: '1991-02-15',
+              related_person_date_of_birth: '1991-02-15',
               related_person_gender: 'M',
               related_person_first_name: 'Will',
               related_person_last_name: 'Carlson',
