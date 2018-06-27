@@ -70,11 +70,11 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           {usStates.map((state) => <option key={state.code} value={state.code}>{state.name}</option>)}
         </SelectField>
         <InputField
-          allowCharacters={/[0-9-]/}
+          allowCharacters={/[0-9]/}
           gridClassName='col-md-4'
           id='zip'
           label='Zip'
-          maxLength='10'
+          maxLength='5'
           onChange={({target: {value}}) => onChange(['incident_address', 'zip'], value)}
           value={address.zip}
         />
