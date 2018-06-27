@@ -160,13 +160,14 @@ describe('IncidentInformationForm', () => {
 
     describe('Zip Code', () => {
       it('renders the zip code field', () => {
-       const component = renderIncidentInformationForm({
+        const component = renderIncidentInformationForm({
           address: {
             zip: '123456789',
           },
         })
         const zipInput = component.find('MaskedInputField')
         expect(zipInput.props().value).toEqual('123456789')
+        expect(zipInput.props().mask).toEqual('11111-1111')
       })
 
       it('fires onChange callback', () => {
@@ -174,7 +175,6 @@ describe('IncidentInformationForm', () => {
         const component = renderIncidentInformationForm({onChange})
         const zipInput = component.find('MaskedInputField')
         expect(zipInput.props().onChange).toEqual(jasmine.any(Function))
-        
       })
     })
   })
