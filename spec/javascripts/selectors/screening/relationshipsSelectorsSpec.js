@@ -12,23 +12,32 @@ describe('relationshipsSelectors', () => {
   describe('getPeopleSelector', () => {
     it('returns a list of people or an empty list if there are no people', () => {
       const relationships = [
-        {first_name: 'Ricky', last_name: 'Robinson'},
-        {first_name: 'Johny', last_name: 'Robinson'},
-        {first_name: 'Will', last_name: 'Carlson'},
+        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: 'M', date_of_birth: '1986-01-15'},
+        {legacy_id: '20', first_name: 'Johny', last_name: 'Robinson', gender: 'M', date_of_birth: '1990-03-15'},
+        {legacy_id: '30', first_name: 'Will', last_name: 'Carlson', gender: 'M', date_of_birth: '1991-02-15'},
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
         {
+          dateOfBirth: '01/15/1986',
+          legacy_id: '10',
           name: 'Ricky Robinson',
           relationships: [],
+          gender: 'M',
         },
         {
+          dateOfBirth: '03/15/1990',
+          legacy_id: '20',
           name: 'Johny Robinson',
           relationships: [],
+          gender: 'M',
         },
         {
+          dateOfBirth: '02/15/1991',
+          legacy_id: '30',
           name: 'Will Carlson',
           relationships: [],
+          gender: 'M',
         },
       ]))
       expect(getPeopleSelector(emptyState)).toEqualImmutable(fromJS([]))
@@ -49,11 +58,16 @@ describe('relationshipsSelectors', () => {
       ]
       const relationships = [
         {
+          date_of_birth: '1986-01-15',
           first_name: 'Ricky',
+          gender: 'M',
           last_name: 'Robinson',
           legacy_id: '3',
           relationships: [
             {
+              absent_parent_code: 'Y',
+              date_of_birth: '1990-03-15',
+              related_person_gender: 'M',
               related_person_first_name: 'Johny',
               related_person_last_name: 'Robinson',
               related_person_relationship: '17',
@@ -61,8 +75,12 @@ describe('relationshipsSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '2',
               },
+              same_home_code: 'Y',
             },
             {
+              absent_parent_code: 'N',
+              date_of_birth: '1991-02-15',
+              related_person_gender: 'M',
               related_person_first_name: 'Will',
               related_person_last_name: 'Carlson',
               related_person_relationship: '297',
@@ -70,15 +88,21 @@ describe('relationshipsSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '1',
               },
+              same_home_code: 'N',
             },
           ],
         },
         {
           first_name: 'Johny',
+          gender: 'M',
           last_name: 'Robinson',
           legacy_id: '2',
+          date_of_birth: '1990-03-15',
           relationships: [
             {
+              absent_parent_code: 'Y',
+              date_of_birth: '1986-01-15',
+              related_person_gender: 'M',
               related_person_first_name: 'Ricky',
               related_person_last_name: 'Robinson',
               related_person_relationship: '17',
@@ -86,8 +110,12 @@ describe('relationshipsSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '3',
               },
+              same_home_code: 'Y',
             },
             {
+              absent_parent_code: 'N',
+              date_of_birth: '1991-02-15',
+              related_person_gender: 'M',
               related_person_first_name: 'Will',
               related_person_last_name: 'Carlson',
               related_person_relationship: '297',
@@ -95,6 +123,7 @@ describe('relationshipsSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '1',
               },
+              same_home_code: 'N',
             },
           ],
         },
@@ -109,17 +138,67 @@ describe('relationshipsSelectors', () => {
 
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
         {
+          dateOfBirth: '01/15/1986',
+          legacy_id: '3',
           name: 'Ricky Robinson',
+          gender: 'M',
           relationships: [
-            {name: 'Johny Robinson', legacy_descriptor: {legacy_id: '2'}, type: 'Brother', secondaryRelationship: 'Brother', person_card_exists: false},
-            {name: 'Will Carlson', legacy_descriptor: {legacy_id: '1'}, type: 'Nephew (Paternal)', secondaryRelationship: 'Uncle (Paternal)', person_card_exists: true},
+            {
+              absent_parent_code: 'Y',
+              dateOfBirth: '03/15/1990',
+              gender: 'M',
+              name: 'Johny Robinson',
+              legacy_descriptor: {legacy_id: '2'},
+              type: 'Brother',
+              secondaryRelationship: 'Brother',
+              person_card_exists: false,
+              same_home_code: 'Y',
+              type_code: '17',
+            },
+            {
+              absent_parent_code: 'N',
+              dateOfBirth: '02/15/1991',
+              gender: 'M',
+              name: 'Will Carlson',
+              legacy_descriptor: {legacy_id: '1'},
+              type: 'Nephew (Paternal)',
+              secondaryRelationship: 'Uncle (Paternal)',
+              person_card_exists: true,
+              same_home_code: 'N',
+              type_code: '258',
+            },
           ],
         },
         {
+          dateOfBirth: '03/15/1990',
+          legacy_id: '2',
           name: 'Johny Robinson',
+          gender: 'M',
           relationships: [
-            {name: 'Ricky Robinson', legacy_descriptor: {legacy_id: '3'}, type: 'Brother', secondaryRelationship: 'Brother', person_card_exists: false},
-            {name: 'Will Carlson', legacy_descriptor: {legacy_id: '1'}, type: 'Nephew (Paternal)', secondaryRelationship: 'Uncle (Paternal)', person_card_exists: true},
+            {
+              absent_parent_code: 'Y',
+              dateOfBirth: '01/15/1986',
+              gender: 'M',
+              name: 'Ricky Robinson',
+              legacy_descriptor: {legacy_id: '3'},
+              type: 'Brother',
+              secondaryRelationship: 'Brother',
+              person_card_exists: false,
+              same_home_code: 'Y',
+              type_code: '17',
+            },
+            {
+              absent_parent_code: 'N',
+              dateOfBirth: '02/15/1991',
+              gender: 'M',
+              name: 'Will Carlson',
+              legacy_descriptor: {legacy_id: '1'},
+              type: 'Nephew (Paternal)',
+              secondaryRelationship: 'Uncle (Paternal)',
+              person_card_exists: true,
+              same_home_code: 'N',
+              type_code: '258',
+            },
           ],
         },
       ]))
