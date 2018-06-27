@@ -1,7 +1,10 @@
 import * as screeningActions from 'actions/screeningActions'
 import * as personCardActions from 'actions/personCardActions'
 import {setPageMode} from 'actions/screeningPageActions'
-import {fetchHistoryOfInvolvements, clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
+import {
+  fetchHistoryOfInvolvements,
+  clearHistoryOfInvolvement,
+} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
 import PersonCardView from 'screenings/PersonCardView'
 import PropTypes from 'prop-types'
@@ -61,11 +64,9 @@ export class ScreeningPage extends React.Component {
       },
       params: {mode, id},
     } = this.props
-    if (id) {
-      setPageMode(mode || 'show')
-      fetchScreening(id)
-      fetchHistoryOfInvolvements('screenings', id)
-    } else { fetchScreening(null) }
+    setPageMode(mode || 'show')
+    fetchScreening(id)
+    fetchHistoryOfInvolvements('screenings', id)
   }
 
   componentWillUnmount() {

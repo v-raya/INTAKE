@@ -5,14 +5,9 @@
 module Api
   module V1
     class ScreeningsController < ApiController # :nodoc:
-      def new
-        render json: new_screening
-      end
-
       def create
-        has_params = params['screening'].blank?
-        screening = has_params ? new_screening : params.require(:screening).as_json.symbolize_keys
-        render json: ScreeningRepository.create(session[:security_token], screening)
+        screening = ScreeningRepository.create(session[:security_token], new_screening)
+        render json: screening
       end
 
       def update

@@ -11,7 +11,6 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import * as personCardActions from 'actions/personCardActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
-import {createScreeningSuccess} from 'actions/screeningActions'
 
 describe('createParticipantSaga', () => {
   it('creates participant on CREATE_PERSON', () => {
@@ -21,16 +20,6 @@ describe('createParticipantSaga', () => {
 })
 
 describe('createParticipant', () => {
-  it('get new screening and post it if screening id is undefined', () => {
-    const screening = {id: undefined}
-    const action = personCardActions.createPerson(screening)
-    const gen = createParticipant(action)
-    expect(gen.next(screening).value).toEqual(call(post, '/api/v1/screenings'))
-    expect(gen.next(screening).value).toEqual(
-      put(createScreeningSuccess(screening))
-    )
-  })
-
   const params = {screening_id: '1', legacy_descriptor: {legacy_id: '1', legacy_table_name: 'table'}, sealed: false, sensitive: false}
   const participant = {
     first_name: 'Michael',
