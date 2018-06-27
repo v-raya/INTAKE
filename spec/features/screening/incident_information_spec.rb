@@ -53,10 +53,10 @@ feature 'screening incident information card' do
 
   scenario 'character limitations by field' do
     within '#incident-information-card' do
-      fill_in 'Zip', with: '9i5%6Y1 8_3.6+9*7='
-      expect(page).to have_field('Zip', with: '956183697')
       fill_in 'Zip', with: '9i5%6Y1 8'
-      expect(page).to have_field('Zip', with: '95618')
+      expect(page).to have_field('Zip', with: '95618-____')
+      fill_in 'Zip', with: '9i5%6Y1 8_3.6+9*7='
+      expect(page).to have_field('Zip', with: '95618-3697')
     end
   end
 
@@ -68,7 +68,7 @@ feature 'screening incident information card' do
       expect(page).to have_field('Address', with: '123 fake st')
       expect(page).to have_field('City', with: 'Springfield')
       expect(page).to have_field('State', with: 'NY')
-      expect(page).to have_field('Zip', with: '12345')
+      expect(page).to have_field('Zip', with: '12345-____')
       expect(page).to have_field('Location Of Children', with: 'Current location of children at LA')
       fill_in_datepicker 'Incident Date', with: '10-05-2015'
     end

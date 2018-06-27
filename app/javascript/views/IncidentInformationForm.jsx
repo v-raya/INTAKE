@@ -4,6 +4,7 @@ import DateField from 'common/DateField'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
 import TextAreaCount from 'common/TextAreaCount'
+import MaskedInputField from 'common/MaskedInputField'
 
 const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, address, usStates, selectedCounty, counties,
   selectedLocationType, locationTypes, locationOfChildren, onSave, onCancel}) => (
@@ -69,12 +70,14 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           <option key='' />
           {usStates.map((state) => <option key={state.code} value={state.code}>{state.name}</option>)}
         </SelectField>
-        <InputField
-          allowCharacters={/[0-9-]/}
+        <MaskedInputField
           gridClassName='col-md-4'
           id='zip'
           label='Zip'
-          maxLength='9'
+          mask='11111-1111'
+          placeholder='_____-____'
+          allowCharacters={/[0-9]/}
+          maxLength='10'
           onChange={({target: {value}}) => onChange(['incident_address', 'zip'], value)}
           value={address.zip}
         />

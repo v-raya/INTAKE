@@ -82,7 +82,7 @@ feature 'Edit Screening' do
         expect(page).to have_field('Address', with: '123 Fake St')
         expect(page).to have_field('City', with: 'Faketown')
         expect(page).to have_field('State', with: 'DE')
-        expect(page).to have_field('Zip', with: '20134')
+        expect(page).to have_field('Zip', with: '20134-____')
         expect(page).to have_button('Save')
         expect(page).to have_button('Cancel')
       end
