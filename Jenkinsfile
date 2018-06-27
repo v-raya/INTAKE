@@ -127,7 +127,7 @@ node('intake-slave') {
       currentBuild.result = 'FAILURE'
     }
 
-    if (branch == 'master') {
+    if (branch == 'origin/master') {
       slackAlertColor = successColor
       slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' completed for branch '${branch}' (${env.BUILD_URL})"
 
