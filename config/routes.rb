@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       get '/user_info' => 'user#user_info'
 
       resources :screenings,
-        only: %i[new index update show create],
+        only: %i[index update show create],
         constraints: Routes::ActiveScreeningsConstraint do
         member do
           get 'history_of_involvements'

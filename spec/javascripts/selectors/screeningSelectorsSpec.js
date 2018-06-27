@@ -58,12 +58,7 @@ describe('screeningSelectors', () => {
 
     it('returns the screening id if screening does not have a name', () => {
       const state = fromJS({screening: {id: 1}})
-      expect(getScreeningTitleSelector(state)).toEqual('Edit Screening 1')
-    })
-
-    it('returns the New screening if screening does not have a name or id', () => {
-      const state = fromJS({screening: {id: null}})
-      expect(getScreeningTitleSelector(state)).toEqual('New Screening')
+      expect(getScreeningTitleSelector(state)).toEqual('Screening 1')
     })
   })
 })
