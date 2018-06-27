@@ -50,21 +50,12 @@ describe('ActionMenu', () => {
   })
 
   describe('handleShowModal', () => {
-    it('sets the state show from false to true', () => {
+    it('sets the state show to true', () => {
       const instance = renderActionMenu(props).instance()
 
       expect(instance.state.show).toBe(false)
       instance.handleShowModal()
       expect(instance.state.show).toBe(true)
-    })
-
-    it('sets the state show from true to false', () => {
-      const instance = renderActionMenu(props).instance()
-
-      instance.setState({show: true})
-      expect(instance.state.show).toBe(true)
-      instance.handleShowModal()
-      expect(instance.state.show).toBe(false)
     })
   })
 

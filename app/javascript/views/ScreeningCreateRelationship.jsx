@@ -68,7 +68,7 @@ export default class ScreeningCreateRelationship extends React.Component {
 
   render() {
     return (
-      <div className='container'>
+      <div>
         <button onClick={this.handleShowModal}>
             Create Relationship
         </button>

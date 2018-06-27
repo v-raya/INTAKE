@@ -17,7 +17,7 @@ export class ActionMenu extends Component {
   }
 
   handleShowModal() {
-    this.setState({show: !this.state.show})
+    this.setState({show: true})
   }
 
   renderFooter(closeModal) {
