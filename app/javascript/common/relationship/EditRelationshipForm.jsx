@@ -28,14 +28,14 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
       <table className='table'>
         <thead>
           <tr>
-            <th className='col-md-3'>Focus Person</th>
+            <th className='col-md-3'>Person 1</th>
             <th className='col-md-6'>
               Relationship
               <div className='text-helper'>
                 Focus Person / Related Person
               </div>
             </th>
-            <th className='col-md-3'>Related Person</th>
+            <th className='col-md-3'>Person 2</th>
           </tr>
         </thead>
         <tbody>
@@ -76,7 +76,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
       <div className='row gap-top pad-left'>
         <div className='col-md-12'>
           <span>
-            {person.name} is the {type.index} of {type.secondary} {relationship.name}
+            <b>{person.name}</b> is the {type.index} of {type.secondary} <b>{relationship.name}</b>
           </span>
         </div>
       </div>
