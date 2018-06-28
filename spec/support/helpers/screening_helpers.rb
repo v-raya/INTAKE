@@ -97,7 +97,7 @@ module ScreeningHelpers
   end
 end
 
-def assign_relationship(tag:, element_text:, link_text: 'Attach')
+def assign_relationship(tag:, element_text:, link_text:)
   within '#relationships-card.card' do
     tr = find(tag, text: element_text).find(:xpath, '..')
     tr.find('div.dropdown').click

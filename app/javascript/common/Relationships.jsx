@@ -1,17 +1,27 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import ActionMenu from 'common/ActionMenu'
-import AttachLink from 'common/AttachLink'
-import RelationCard from 'common/RelationCard'
+import ActionMenu from 'common/relationship/ActionMenu'
+import AttachLink from 'common/relationship/AttachLink'
+import RelationCard from 'common/relationship/RelationCard'
 import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
 
-const actionsMenu = (row, pendingPeople, isScreening, screeningId, onClick) =>
+const actionsMenu = (
+  row,
+  pendingPeople,
+  person,
+  isScreening,
+  screeningId,
+  onChange,
+  onClick
+) =>
   <ActionMenu
-    relationship ={row}
-    pendingPeople={pendingPeople}
     isScreening={isScreening}
-    screeningId={screeningId}
+    onChange={onChange}
     onClick={onClick}
+    pendingPeople={pendingPeople}
+    person={person}
+    relationship ={row}
+    screeningId={screeningId}
   />
 
 const createRelationsData = (firstName, data) => {
@@ -20,7 +30,14 @@ const createRelationsData = (firstName, data) => {
   return relationData
 }
 
-export const Relationships = ({people, onClick, screeningId, isScreening, pendingPeople = []}) => (
+export const Relationships = ({
+  people,
+  onChange,
+  onClick,
+  screeningId,
+  isScreening,
+  pendingPeople = [],
+}) => (
   <div className='card-body no-pad-top'>
     {
       isScreening && people.map((person, index) => (
@@ -30,10 +47,11 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
               (person.relationships.length > 0) &&
               <span>
                 <RelationCard
-                  firstName={person.name}
+                  name={person.name}
                   data={person.relationships}
-                  tableActions={(cell, row) => (actionsMenu(row, pendingPeople, isScreening, screeningId, onClick)
-                  )}
+                  tableActions={(cell, row) =>
+                    (actionsMenu(row, pendingPeople, person, isScreening, screeningId, onChange, onClick)
+                    )}
                 />
               </span>
             }
@@ -91,6 +109,7 @@ export const Relationships = ({people, onClick, screeningId, isScreening, pendin
 
 Relationships.propTypes = {
   isScreening: PropTypes.bool,
+  onChange: PropTypes.func,
   onClick: PropTypes.func,
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
   people: PropTypes.arrayOf(PropTypes.shape({

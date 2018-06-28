@@ -11,25 +11,23 @@ const propTypes = {
   ),
   expandColumnComponent: PropTypes.any,
   expandComponent: PropTypes.func,
-  firstName: PropTypes.string,
   isExpandableRow: PropTypes.func,
-  lastName: PropTypes.string,
+  name: PropTypes.string,
   tableActions: PropTypes.func,
 }
 
 const RelationCard = ({
-  firstName,
-  lastName,
   data,
   isExpandableRow,
   expandComponent,
   expandColumnComponent,
+  name,
   tableActions,
 }) => (
   <div>
     <div className='child-name'>
       <b>
-        {firstName} {lastName}
+        {name}
       </b>
     </div>
     <div>

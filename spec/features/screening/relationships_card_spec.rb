@@ -305,7 +305,7 @@ feature 'Relationship card' do
         describe '#relationships-card' do
           describe '.unattached-person' do
             scenario 'allows attachment' do
-              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Attach')
               expect(
                 a_request(:post,
                   ferb_api_url(
@@ -316,7 +316,7 @@ feature 'Relationship card' do
             end
 
             scenario 'attached person should appear on the current screening' do
-              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Attach')
               expect(page).to have_css("div#participants-card-#{new_participant.id}")
             end
 
@@ -328,23 +328,43 @@ feature 'Relationship card' do
               ).with(query: hash_including({}))
                 .and_return(json_body(new_relationships.to_json, status: 200))
 
-              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Attach')
 
               expect(page).to have_content('Jane Campbell')
               expect(page).to have_content('Jake Campbell Brother (Half)')
             end
 
             scenario 'should display the name of the newly attached person in sidebar' do
-              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Attach')
               should_have_content('Jane Campbell', inside: 'div.side-bar')
             end
           end
 
           describe '.attached-person' do
             scenario 'does not show "Attach" link' do
-              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Attach')
               find('td', text: 'Jake Campbell').find(:xpath, '..').find('div.dropdown').click
               expect(page).to have_no_content('Attach')
+            end
+          end
+
+          describe 'edit relationship of participant' do
+            scenario 'opens the modal edit relationship of a relatee' do
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Edit')
+              within 'div.modal-body' do
+                expect(page).to have_content(
+                  "#{relationships.first[:first_name]} #{relationships.first[:last_name]}"
+                )
+                expect(page).to have_content('Jake Campbell')
+              end
+            end
+
+            scenario 'closes the modal edit relationship' do
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Edit')
+              within 'div.modal-footer' do
+                find('button', text: 'CANCEL').click
+              end
+              expect(page).to have_no_content('Edit Relationship Type')
             end
           end
         end
@@ -352,7 +372,7 @@ feature 'Relationship card' do
         describe '#history-of-involvement' do
           describe 'newly .attached-person to screening' do
             before(:each) do
-              assign_relationship(tag: 'td', element_text: 'Jake Campbell')
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Attach')
             end
 
             scenario 'should show existing screenings' do

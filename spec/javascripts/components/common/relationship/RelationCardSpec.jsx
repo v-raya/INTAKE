@@ -1,11 +1,10 @@
 import React from 'react'
-import RelationCard from 'common/RelationCard'
+import RelationCard from 'common/relationship/RelationCard'
 import {shallow} from 'enzyme'
 
 describe('RelationCard', () => {
   const props = {
-    firstName: 'Han',
-    lastName: 'Solo',
+    name: 'Han Solo',
     data: [{
       name: 'Luke Skywalker',
       secondaryRelationship: 'No Relation',

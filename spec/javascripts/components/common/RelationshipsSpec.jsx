@@ -1,5 +1,5 @@
 import React from 'react'
-import AttachLink from 'common/AttachLink'
+import AttachLink from 'common/relationship/AttachLink'
 import {shallow, mount} from 'enzyme'
 import {EmptyRelationships, Relationships} from 'common/Relationships'
 
@@ -51,18 +51,18 @@ describe('Relationships for Screening', () => {
     component = renderRelationships({people})
   })
 
-  it('1.renders a RelationCard component for each person with relationships', () => {
+  it('renders a RelationCard component for each person with relationships', () => {
     expect(component.find('RelationCard').length).toEqual(4)
   })
 
-  it('2.passes correct props (firstName) to RelationCard component', () => {
-    expect(getProps(component, 0).firstName).toEqual('Sally Jones')
-    expect(getProps(component, 1).firstName).toEqual('Nate Starbringer')
-    expect(getProps(component, 2).firstName).toEqual('Jim Johnson')
-    expect(getProps(component, 3).firstName).toEqual('Cecilia Gomez')
+  it('passes correct props name to RelationCard component', () => {
+    expect(getProps(component, 0).name).toEqual('Sally Jones')
+    expect(getProps(component, 1).name).toEqual('Nate Starbringer')
+    expect(getProps(component, 2).name).toEqual('Jim Johnson')
+    expect(getProps(component, 3).name).toEqual('Cecilia Gomez')
   })
 
-  it('3.passes correct props (data) to RelationCard component', () => {
+  it('passes correct props (data) to RelationCard component', () => {
     expect(getProps(component, 0).data[0].name).toEqual('Kim Johnson')
     expect(getProps(component, 0).data[0].secondaryRelationship).toEqual('mother')
     expect(getProps(component, 1).data[0].name).toEqual('Jim Johnson')
@@ -77,31 +77,31 @@ describe('Relationships for Screening', () => {
     expect(getProps(component, 3).data[1].secondaryRelationship).toEqual('daughter')
   })
 
-  it('4.shows Attach link for each unattached person', () => {
-    expect(getProps(component, 0).firstName).toEqual('Sally Jones')
+  it('shows Attach link for each unattached person', () => {
+    expect(getProps(component, 0).name).toEqual('Sally Jones')
     expect(getProps(component, 0).data[0].name).toEqual('Kim Johnson')
     expect(getCellValue(component, 0, 0, 2).text()).toContain('Attach')
 
-    expect(getProps(component, 1).firstName).toEqual('Nate Starbringer')
+    expect(getProps(component, 1).name).toEqual('Nate Starbringer')
     expect(getCellValue(component, 1, 0, 0).text()).toEqual('Jim Johnson')
     expect(getCellValue(component, 1, 0, 2).text()).not.toContain('Attach')
   })
 
-  it('6.hides Attach link for people in the pending list', () => {
-    expect(getProps(component, 3).firstName).toEqual('Cecilia Gomez')
+  it('hides Attach link for people in the pending list', () => {
+    expect(getProps(component, 3).name).toEqual('Cecilia Gomez')
     expect(getCellValue(component, 3, 0, 0).text()).toEqual('Jose Gomez')
     expect(getCellValue(component, 3, 0, 2).text()).not.toContain('Attach')
     expect(getCellValue(component, 3, 1, 0).text()).toEqual('Julie Gomez')
     expect(getCellValue(component, 3, 1, 2).text()).toContain('Attach')
   })
 
-  it('7.calls onClick when the Attach Link is clicked', () => {
-    const attachLink = getCellValue(component, 0, 0, 2).find('a')
+  it('calls onClick when the Attach Link is clicked', () => {
+    const attachLink = getCellValue(component, 0, 0, 2).find('a').first()
     attachLink.simulate('click')
     expect(onClick).toHaveBeenCalled()
   })
 
-  it('8.renders people with no relationships', () => {
+  it('renders people with no relationships', () => {
     expect(component.find('.no-relationships').at(0).text()).toContain('Nally Raymonds has no known relationships')
     expect(component.find('.no-relationships').at(1).text()).toContain('Kate Winslet has no known relationships')
     expect(component.find('.no-relationships').at(2).text()).toContain('Kim West has no known relationships')
@@ -187,4 +187,3 @@ describe('EmptyRelationships', () => {
     expect(component.find('.empty-relationships').text()).toEqual('Search for people and add them to see their relationships.')
   })
 })
-
