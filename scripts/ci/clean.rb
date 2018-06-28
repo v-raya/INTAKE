@@ -6,7 +6,7 @@ release_args = "-p #{project_name} -f docker/release/docker-compose.yml"
 test_args = "-p #{project_name}_test -f docker/test/docker-compose.yml"
 bubble_args = '-f integrated-test-environment/docker-compose.bubble.yml'
 
-if ENV['GIT_BRANCH'] == 'master'
+if ENV['GIT_BRANCH'] == 'origin/master'
   puts '==> Tearing down the bubble'
   `docker-compose #{bubble_args} down`
   `rm -rf integrated-test-environment`

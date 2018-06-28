@@ -13,6 +13,7 @@ node('cans-slave') {
 
   try {
 
+
     stage('Building testing bench') {
       curStage = 'Building testing bench'
       sh './scripts/ci/build_testing_bench.rb'
@@ -120,6 +121,8 @@ node('cans-slave') {
       stage('Clean') {
         withEnv(["GIT_BRANCH=${branch}"]){
           sh './scripts/ci/clean.rb'
+          echo 'Cleaning workspace'
+          cleanWs()
         }
       }
     } catch(e) {
