@@ -25,6 +25,33 @@ describe Api::V1::ScreeningsController do
     end
   end
 
+  describe '#new' do
+    let(:new_screening) do
+      {
+        reference: 'F3RBKY',
+        assignee: nil,
+        assignee_staff_id: nil,
+        incident_county: nil,
+        indexable: true,
+        addresses: [],
+        cross_reports: [],
+        participants: [],
+        allegations: [],
+        incident_address: {}
+      }
+    end
+
+    before do
+      allow(LUID).to receive(:generate).and_return(['F3RBKY'])
+    end
+
+    it 'renders new screening as json' do
+      process :new, method: :get
+      expect(response).to be_successful
+      expect(JSON.parse(response.body)).to eq(new_screening.as_json)
+    end
+  end
+
   describe '#create' do
     let(:created_screening) do
       {
@@ -44,12 +71,18 @@ describe Api::V1::ScreeningsController do
     before do
       allow(LUID).to receive(:generate).and_return(['123ABC'])
       expect(ScreeningRepository).to receive(:create)
-        .with(security_token, created_screening)
+        .with(security_token, anything)
         .and_return(created_screening)
     end
 
-    it 'creates and renders screening as json' do
+    it 'creates and renders screening as json without params' do
       process :create, method: :post, session: session
+      expect(response).to be_successful
+      expect(JSON.parse(response.body)).to eq(created_screening.as_json)
+    end
+
+    it 'creates and renders screening as json with params' do
+      process :create, method: :post, params: { screening: created_screening }, session: session
       expect(response).to be_successful
       expect(JSON.parse(response.body)).to eq(created_screening.as_json)
     end
@@ -72,7 +105,7 @@ describe Api::V1::ScreeningsController do
 
       it 'leaves assignee and assignee_staff_id as nil' do
         session = { 'security_token' => security_token }
-        process :create, method: :post, session: session
+        process :create, method: :post, params: { screening: created_screening }, session: session
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to eq(created_screening.as_json)
       end
@@ -97,7 +130,7 @@ describe Api::V1::ScreeningsController do
       it 'is blank if user_details is empty' do
         staff = FactoryBot.build(:staff, first_name: nil, last_name: nil, county: nil)
         session = { 'security_token' => security_token, 'user_details' => staff }
-        process :create, method: :post, session: session
+        process :create, method: :post, params: { screening: created_screening }, session: session
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to eq(created_screening.as_json)
       end
@@ -141,7 +174,7 @@ describe Api::V1::ScreeningsController do
             'security_token' => security_token,
             'user_details' => staff
           }
-          process :create, method: :post, session: session
+          process :create, method: :post, params: { screening: created_screening }, session: session
           expect(response).to be_successful
           expect(JSON.parse(response.body)).to eq(created_screening.as_json)
         end
@@ -169,7 +202,7 @@ describe Api::V1::ScreeningsController do
             'security_token' => security_token,
             'user_details' => staff
           }
-          process :create, method: :post, session: session
+          process :create, method: :post, params: { screening: created_screening }, session: session
           expect(response).to be_successful
           expect(JSON.parse(response.body)).to eq(created_screening.as_json)
         end
@@ -177,14 +210,14 @@ describe Api::V1::ScreeningsController do
         it 'returns the same name if run more than once' do
           # Added second expectation as in the before so both create calls are properly expected
           expect(ScreeningRepository).to receive(:create)
-            .with(security_token, created_screening)
+            .with(security_token, anything)
             .and_return(created_screening)
           session = {
             'security_token' => security_token,
             'user_details' => staff
           }
-          process :create, method: :post, session: session
-          process :create, method: :post, session: session
+          process :create, method: :post, params: { screening: created_screening }, session: session
+          process :create, method: :post, params: { screening: created_screening }, session: session
         end
       end
     end
@@ -210,7 +243,7 @@ describe Api::V1::ScreeningsController do
         end
 
         it 'leaves incident county as nil if user_details is not set' do
-          process :create, method: :post, session: session
+          process :create, method: :post, params: { screening: created_screening }, session: session
           expect(response).to be_successful
           expect(JSON.parse(response.body)).to eq(created_screening.as_json)
         end
@@ -241,7 +274,7 @@ describe Api::V1::ScreeningsController do
           }
         end
         it 'is blank if user_details is empty' do
-          process :create, method: :post, session: session
+          process :create, method: :post, params: { screening: created_screening }, session: session
           expect(response).to be_successful
           expect(JSON.parse(response.body)).to eq(created_screening.as_json)
         end
@@ -267,7 +300,7 @@ describe Api::V1::ScreeningsController do
         end
 
         it 'default to have user info county' do
-          process :create, method: :post, session: session
+          process :create, method: :post, params: { screening: created_screening }, session: session
           expect(response).to be_successful
           expect(JSON.parse(response.body)).to eq(created_screening.as_json)
         end

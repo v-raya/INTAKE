@@ -31,19 +31,19 @@ describe('Card View', () => {
 
   it('displays an edit button if editable is true', () => {
     const onEdit = jasmine.createSpy('onEdit')
-    const component = renderCardView({onEdit, editable: true})
+    const component = renderCardView({onEdit, editable: true, mode: 'show'})
     expect(component.find('EditLink').exists()).toEqual(true)
   })
 
   it('uses the card title for the edit link aria label', () => {
     const onEdit = jasmine.createSpy('onEdit')
-    const component = renderCardView({onEdit, title: 'My Title', editable: true})
+    const component = renderCardView({onEdit, title: 'My Title', editable: true, mode: 'show'})
     expect(component.find('EditLink').props().ariaLabel).toEqual('Edit my title')
   })
 
   it('calls onEdit when the edit button is clicked', () => {
     const onEdit = jasmine.createSpy('onEdit')
-    const component = renderCardView({onEdit, editable: true})
+    const component = renderCardView({onEdit, editable: true, mode: 'show'})
     component.find('EditLink').simulate('click', {preventDefault: () => {}})
     expect(onEdit).toHaveBeenCalled()
   })

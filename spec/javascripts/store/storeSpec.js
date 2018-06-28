@@ -109,6 +109,7 @@ describe('Store', () => {
       id: '1',
       name: 'Mock screening',
       participants: [],
+      incident_address: {id: '1111'},
     })
     const action = createScreeningSuccess(screening.toJS())
     store.dispatch(action)
@@ -117,6 +118,7 @@ describe('Store', () => {
         id: '1',
         name: 'Mock screening',
         fetch_status: 'FETCHED',
+        incident_address: {id: '1111'},
       })
     )
     expect(store.getState().get('participants').isEmpty()).toEqual(true)

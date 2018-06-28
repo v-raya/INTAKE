@@ -15,6 +15,77 @@ import incidentInformationFormReducer from 'reducers/incidentInformationFormRedu
 describe('incidentInformationFormReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
+  describe('on CREATE_SCREENING_COMPLETE', () => {
+    it('returns the current state on error', () => {
+      const action = fetchScreeningFailure('error')
+      const state = fromJS({
+        location: {
+          field: {
+            value: 'original value',
+            touched: true,
+          },
+        },
+      })
+      expect(incidentInformationFormReducer(state, action)).toEqual(state)
+    })
+
+    it('returns the new screening on success', () => {
+      const screening = {
+        incident_date: 'new incident date',
+        incident_county: 'new incident county',
+        incident_address: {
+          id: '1',
+          city: 'new city',
+          state: 'new state',
+          street_address: 'new street address',
+          zip: 'new zip',
+        },
+        location_type: 'new location type',
+        current_location_of_children: 'new location of children',
+      }
+      const state = fromJS({})
+      const action = fetchScreeningSuccess(screening)
+      const newState = fromJS({
+        incident_date: {
+          value: 'new incident date',
+          touched: false,
+        },
+        incident_county: {
+          value: 'new incident county',
+          touched: false,
+        },
+        incident_address: {
+          id: '1',
+          city: {
+            value: 'new city',
+            touched: false,
+          },
+          state: {
+            value: 'new state',
+            touched: false,
+          },
+          street_address: {
+            value: 'new street address',
+            touched: false,
+          },
+          zip: {
+            value: 'new zip',
+            touched: false,
+          },
+        },
+        location_type: {
+          value: 'new location type',
+          touched: false,
+        },
+        current_location_of_children: {
+          value: 'new location of children',
+          touched: false,
+        },
+      })
+      expect(incidentInformationFormReducer(state, action)).toEqual(newState)
+    })
+  })
+
   describe('on FETCH_SCREENING_COMPLETE', () => {
     it('returns the current state on error', () => {
       const action = fetchScreeningFailure('error')

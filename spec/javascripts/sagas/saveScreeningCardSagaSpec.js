@@ -2,8 +2,8 @@ import 'babel-polyfill'
 import {takeEvery, put, call, select} from 'redux-saga/effects'
 import * as Utils from 'utils/http'
 import {fromJS} from 'immutable'
-import {saveScreeningCardSaga, saveScreeningCard} from 'sagas/saveScreeningCardSaga'
-import {saveSuccess, saveFailure, saveFailureFromNoParticipants, saveCard, SAVE_SCREENING} from 'actions/screeningActions'
+import {saveScreeningCardSaga, saveScreeningCard, createScreeningBase} from 'sagas/saveScreeningCardSaga'
+import {saveSuccess, saveFailure, saveFailureFromNoParticipants, saveCard, SAVE_SCREENING, createScreeningSuccess, createScreeningFailure} from 'actions/screeningActions'
 import {getScreeningWithAllegationsEditsSelector} from 'selectors/screening/allegationsFormSelectors'
 import {
   getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
@@ -30,11 +30,41 @@ import {cardName as narrativeCardName} from 'containers/screenings/NarrativeForm
 import {cardName as decisionCardName} from 'containers/screenings/DecisionFormContainer'
 import {cardName as workerSafetyCardName} from 'containers/screenings/WorkerSafetyFormContainer'
 import {cardName as crossReportsCardName} from 'containers/screenings/CrossReportFormContainer'
+import {replace} from 'react-router-redux'
 
 describe('saveScreeningCardSaga', () => {
   it('saves screening on SAVE_SCREENING', () => {
     const gen = saveScreeningCardSaga()
     expect(gen.next().value).toEqual(takeEvery(SAVE_SCREENING, saveScreeningCard))
+  })
+})
+
+describe('createScreeningBase', () => {
+  it('creates and post screening if id is undefined', () => {
+    const screening = fromJS({id: undefined, allegations: [], participants: []})
+    const gen = createScreeningBase(screening)
+    expect(gen.next().value).toEqual(
+      call(Utils.post, '/api/v1/screenings', {screening: screening.toJS()})
+    )
+    expect(gen.next(screening).value).toEqual(
+      put(createScreeningSuccess(screening))
+    )
+    const screeningNew = fromJS({id: '123', allegations: [], participants: []})
+    expect(gen.next().value).toEqual(
+      put(replace(`/screenings/${screeningNew.id}/edit`))
+    )
+  })
+
+  it('puts errors when errors are thrown', () => {
+    const error = {responseJSON: 'some error'}
+    const screening = fromJS({id: undefined})
+    const gen = createScreeningBase(screening)
+    expect(gen.next().value).toEqual(
+      call(Utils.post, '/api/v1/screenings', {screening: screening.toJS()})
+    )
+    expect(gen.throw(error).value).toEqual(
+      put(createScreeningFailure(error))
+    )
   })
 })
 
