@@ -7,7 +7,7 @@ import moment from 'moment'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
-import {hasReporter} from 'utils/roles'
+import {hasReporter, hasNonReporter} from 'utils/roles'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
 
@@ -54,8 +54,8 @@ export const getErrorsSelector = (state, personId) => {
   const ssn = person.getIn(['ssn', 'value']) || ''
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   return fromJS({
-    first_name: combineCompact(isRequiredIfCreate(firstName, 'Please enter a first name.', () => (roles.includes('Victim')))),
-    last_name: combineCompact(isRequiredIfCreate(lastName, 'Please enter a last name.', () => (roles.includes('Victim')))),
+    first_name: combineCompact(isRequiredIfCreate(firstName, 'Please enter a first name.', () => (hasNonReporter(roles)))),
+    last_name: combineCompact(isRequiredIfCreate(lastName, 'Please enter a last name.', () => (hasNonReporter(roles)))),
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
   })

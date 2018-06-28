@@ -562,6 +562,20 @@ describe('personShowSelectors', () => {
       expect(getErrorsSelector(state, '1').get('name').first()).toEqual('Please enter a first name.')
     })
 
+    it('returns last name error if last name is empty and role includes Perpetrator', () => {
+      const people = [{id: '1', roles: ['Perpetrator', 'other role'],
+        first_name: 'John'}]
+      const state = fromJS({participants: people})
+      expect(getErrorsSelector(state, '1').get('name').first()).toEqual('Please enter a last name.')
+    })
+
+    it('returns first name error if first name is empty and role includes Perpetrator', () => {
+      const people = [{id: '1', roles: ['Perpetrator', 'other role'],
+        last_name: 'Smith'}]
+      const state = fromJS({participants: people})
+      expect(getErrorsSelector(state, '1').get('name').first()).toEqual('Please enter a first name.')
+    })
+
     it('returns undefined if first name and last name is not empty and role includes Victim', () => {
       const people = [{id: '1', roles: ['Victim', 'other role'],
         last_name: 'Smith', first_name: 'John'}]
