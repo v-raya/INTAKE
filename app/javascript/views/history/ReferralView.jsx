@@ -48,7 +48,7 @@ const ReferralView = ({
           }
           <tr>
             <td colSpan='2'>
-              <span className='semibold'>Reporter: </span>{reporter}
+              <span className='semibold reporter'>Reporter: </span><span className='reporter'>{reporter}</span>
             </td>
             <td>
               <span className='semibold'>Worker: </span>{worker}
