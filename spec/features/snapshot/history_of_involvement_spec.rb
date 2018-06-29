@@ -231,7 +231,7 @@ feature 'Snapshot History of Involvement' do
       end
     end
 
-    scenario 'copy button' do
+    scenario 'copying with the copy button copies the table without reporter information' do
       within '#history-card.card.show', text: 'History' do
         click_button 'Copy'
       end
@@ -250,6 +250,10 @@ feature 'Snapshot History of Involvement' do
       page.execute_script js
       find('#spec_meta').send_keys [:control, 'v']
       expect(find('#spec_meta').value).not_to be_empty
+      expect(find('#spec_meta').value).not_to have_text('Reporter1')
+      expect(find('#spec_meta').value).not_to have_text('r1LastName')
+      expect(find('#spec_meta').value).not_to have_text('Reporter2')
+      expect(find('#spec_meta').value).not_to have_text('r2LastName')
     end
 
     scenario 'viewing a snapshot displays HOI without screenings' do

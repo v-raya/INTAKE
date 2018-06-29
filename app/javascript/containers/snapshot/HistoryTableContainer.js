@@ -13,6 +13,7 @@ const resetCopyStyling = (copyContent) => {
     document.body.removeAttribute('style')
   }
   Array.from(copyContent.querySelectorAll('table, th, td')).forEach((el) => (el.removeAttribute('style')))
+  Array.from(copyContent.querySelectorAll('.reporter')).forEach((reporter) => reporter.removeAttribute('style'))
 }
 
 const mapStateToProps = (state) => ({
@@ -34,6 +35,7 @@ const mapStateToProps = (state) => ({
       el.style.borderCollapse = 'collapse'
       el.style.fontSize = '12px'
     })
+    Array.from(copyContent.querySelectorAll('.reporter')).forEach((reporter) => (reporter.style.display = 'none'))
     return copyContent
   },
   onSuccess: (copyContent) => {
