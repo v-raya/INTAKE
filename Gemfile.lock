@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/ca-cwds/capybara-accessible.git
+  revision: 2a0e6a73d445de5938e6174d3d1970633c94fbed
+  ref: 2a0e6a73d445de5938e6174d3d1970633c94fbed
+  specs:
+    capybara-accessible (0.2.1)
+      capybara (~> 2.0)
+
+GIT
   remote: https://github.com/jordansissel/fpm.git
   revision: 488863b3211572ba5488b6f3956aa365d847a48b
   ref: 488863b3211572ba5488b6f3956aa365d847a48b
@@ -78,8 +86,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-accessible (0.2.1)
-      capybara (~> 2.0)
     capybara-screenshot (1.0.18)
       capybara (>= 1.0, < 3)
       launchy
@@ -399,7 +405,7 @@ PLATFORMS
 
 DEPENDENCIES
   capybara (= 2.15.1)
-  capybara-accessible
+  capybara-accessible!
   capybara-screenshot
   factory_bot_rails
   faker
