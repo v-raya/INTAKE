@@ -80,7 +80,7 @@ describe('PersonInformationForm', () => {
     const field = renderPersonForm({firstName: {value: 'a sample first name', errors: []}})
       .find('InputField[label="First Name"]')
     expect(field.exists()).toEqual(true)
-    expect(field.props().id).toEqual('first_name')
+    expect(field.props().id).toEqual('first_name_123')
     expect(field.props().value).toEqual('a sample first name')
   })
 
@@ -96,7 +96,7 @@ describe('PersonInformationForm', () => {
     const field = renderPersonForm({middleName: 'a sample middle name'})
       .find('InputField[label="Middle Name"]')
     expect(field.exists()).toEqual(true)
-    expect(field.props().id).toEqual('middle_name')
+    expect(field.props().id).toEqual('middle_name_123')
     expect(field.props().value).toEqual('a sample middle name')
   })
 
@@ -112,7 +112,7 @@ describe('PersonInformationForm', () => {
     const field = renderPersonForm({lastName: {value: 'a sample last name', errors: []}})
       .find('InputField[label="Last Name"]')
     expect(field.exists()).toEqual(true)
-    expect(field.props().id).toEqual('last_name')
+    expect(field.props().id).toEqual('last_name_123')
     expect(field.props().value).toEqual('a sample last name')
   })
 
@@ -134,7 +134,7 @@ describe('PersonInformationForm', () => {
       ],
     }).find('SelectField[label="Suffix"]')
     expect(field.exists()).toEqual(true)
-    expect(field.props().id).toEqual('name_suffix')
+    expect(field.props().id).toEqual('name_suffix_123')
     expect(field.props().value).toEqual('Blah')
     expect(field.childAt(0).props().value).toEqual('')
     expect(field.childAt(1).props().value).toEqual('1')
@@ -155,7 +155,7 @@ describe('PersonInformationForm', () => {
       ssn: {value: 'example-ssn'},
     }).find('MaskedInputField[label="Social security number"]')
     expect(field.exists()).toEqual(true)
-    expect(field.props().id).toEqual('ssn')
+    expect(field.props().id).toEqual('ssn_123')
     expect(field.props().value).toEqual('example-ssn')
   })
 

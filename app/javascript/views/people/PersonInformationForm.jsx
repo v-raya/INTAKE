@@ -7,6 +7,8 @@ import MaskedInputField from 'common/MaskedInputField'
 import AlertErrorMessage from 'common/AlertErrorMessage'
 import ErrorMessages from 'common/ErrorMessages'
 
+const addPersonId = (id, field) => `${field}_${id}`
+
 const PersonInformationForm = ({
   firstName,
   lastName,
@@ -38,7 +40,7 @@ const PersonInformationForm = ({
         <Select
           multi
           tabSelectsValue={false}
-          inputProps={{id: `roles_${personId}`}}
+          inputProps={{id: addPersonId(personId, 'roles')}}
           value={roles.value}
           clearable={false}
           options={roleOptions}
@@ -53,7 +55,7 @@ const PersonInformationForm = ({
       <InputField
         errors={firstName.errors}
         gridClassName='col-md-4'
-        id='first_name'
+        id={addPersonId(personId, 'first_name')}
         label='First Name'
         maxLength='64'
         value={firstName.value || ''}
@@ -63,7 +65,7 @@ const PersonInformationForm = ({
       />
       <InputField
         gridClassName='col-md-4'
-        id='middle_name'
+        id={addPersonId(personId, 'middle_name')}
         label='Middle Name'
         maxLength='64'
         value={middleName || ''}
@@ -72,7 +74,7 @@ const PersonInformationForm = ({
       <InputField
         errors={lastName.errors}
         gridClassName='col-md-4'
-        id='last_name'
+        id={addPersonId(personId, 'last_name')}
         label='Last Name'
         maxLength='64'
         value={lastName.value || ''}
@@ -84,7 +86,7 @@ const PersonInformationForm = ({
     <div className='row'>
       <SelectField
         gridClassName='col-md-4'
-        id='name_suffix'
+        id={addPersonId(personId, 'name_suffix')}
         label='Suffix'
         value={nameSuffix}
         onChange={({target: {value}}) => onChange('name_suffix', value)}
@@ -94,7 +96,7 @@ const PersonInformationForm = ({
       </SelectField>
       <MaskedInputField
         gridClassName='col-md-4'
-        id='ssn'
+        id={addPersonId(personId, 'ssn')}
         label='Social security number'
         mask='111-11-1111'
         placeholder='___-__-____'
