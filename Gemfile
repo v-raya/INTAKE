@@ -14,10 +14,10 @@ gem 'puma'
 gem 'rails', '~> 5.1'
 gem 'redis-rails', '~> 5.0.2'
 gem 'responders'
+gem 'sprockets', '~>3.7.2'
 gem 'virtus'
 gem 'webpacker'
 gem 'yard', '~> 0.9.11'
-gem 'sprockets', '~>3.7.2'
 
 group :development, :test do
   gem 'factory_bot_rails', require: false
