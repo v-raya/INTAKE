@@ -9,6 +9,7 @@ import {
 const mapStateToProps = (state, {personId}) => ({
   addresses: getPersonEditableAddressesSelector(state, personId).toJS(),
   addressTypeOptions: getAddressTypeOptionsSelector(state).toJS(),
+  idPrefix: `person-${personId}`,
 })
 
 const mapDispatchToProps = (dispatch, {personId}) => ({

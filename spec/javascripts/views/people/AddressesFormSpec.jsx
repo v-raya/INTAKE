@@ -3,8 +3,8 @@ import {shallow} from 'enzyme'
 import AddressesForm from 'views/people/AddressesForm'
 
 describe('AddressForm', () => {
-  const renderAddressesForm = ({addresses = [], addressTypeOptions = [], ...options}) => {
-    const props = {addresses, addressTypeOptions, ...options}
+  const renderAddressesForm = ({addresses = [], addressTypeOptions = [], idPrefix = 'person-123', ...options}) => {
+    const props = {addresses, addressTypeOptions, idPrefix, ...options}
     return shallow(<AddressesForm {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -54,8 +54,10 @@ describe('AddressForm', () => {
     const addresses = [{street: '1234 Nowhere Lane'}]
     const component = renderAddressesForm({addresses})
     const streetInput = component.find('InputField[label="Address"]')
-    expect(streetInput.props().maxLength).toEqual('128')
-    expect(streetInput.props().value).toEqual('1234 Nowhere Lane')
+    const props = streetInput.props()
+    expect(props.id).toEqual('person-123-address-0-street')
+    expect(props.maxLength).toEqual('128')
+    expect(props.value).toEqual('1234 Nowhere Lane')
   })
 
   it('calls onChange when the street is updated', () => {
@@ -70,9 +72,11 @@ describe('AddressForm', () => {
   it('renders an input for city with default props and a value', () => {
     const addresses = [{city: 'Nowheresville'}]
     const component = renderAddressesForm({addresses})
-    const streetInput = component.find('InputField[label="City"]')
-    expect(streetInput.props().maxLength).toEqual('64')
-    expect(streetInput.props().value).toEqual('Nowheresville')
+    const cityInput = component.find('InputField[label="City"]')
+    const props = cityInput.props()
+    expect(props.id).toEqual('person-123-address-0-city')
+    expect(props.maxLength).toEqual('64')
+    expect(props.value).toEqual('Nowheresville')
   })
 
   it('calls onChange when the city is updated', () => {
@@ -88,7 +92,9 @@ describe('AddressForm', () => {
     const addresses = [{state: 'CA'}]
     const component = renderAddressesForm({addresses})
     const stateSelect = component.find('SelectField[label="State"]')
-    expect(stateSelect.props().value).toEqual('CA')
+    const props = stateSelect.props()
+    expect(props.id).toEqual('person-123-address-0-state')
+    expect(props.value).toEqual('CA')
   })
 
   it('renders stateOptions for the state select field', () => {
@@ -117,10 +123,12 @@ describe('AddressForm', () => {
   it('renders an input for zip with default props and a value', () => {
     const addresses = [{zip: '55555'}]
     const component = renderAddressesForm({addresses})
-    const streetInput = component.find('InputField[label="Zip"]')
-    expect(streetInput.props().maxLength).toEqual('5')
-    expect(streetInput.props().value).toEqual('55555')
-    expect(streetInput.props().allowCharacters).toEqual(/[0-9-]/)
+    const zipInput = component.find('InputField[label="Zip"]')
+    const props = zipInput.props()
+    expect(props.id).toEqual('person-123-address-0-zip')
+    expect(props.maxLength).toEqual('5')
+    expect(props.value).toEqual('55555')
+    expect(props.allowCharacters).toEqual(/[0-9-]/)
   })
   it('calls onChange when the zip is updated', () => {
     const onChange = jasmine.createSpy('onChange')
@@ -141,7 +149,9 @@ describe('AddressForm', () => {
     const addresses = [{type: 'Home'}]
     const component = renderAddressesForm({addresses})
     const typeSelect = component.find('SelectField[label="Address Type"]')
-    expect(typeSelect.props().value).toEqual('Home')
+    const props = typeSelect.props()
+    expect(props.id).toEqual('person-123-address-0-type')
+    expect(props.value).toEqual('Home')
   })
 
   it('renders typeOptions for the type select field', () => {
@@ -164,5 +174,32 @@ describe('AddressForm', () => {
     const typeSelect = component.find('SelectField[label="Address Type"]')
     typeSelect.simulate('change', {target: {value: 'Home'}})
     expect(onChange).toHaveBeenCalledWith(0, 'type', 'Home')
+  })
+
+  it('uses unique ids for multiple addresses', () => {
+    const addresses = [
+      {street: '1234 Nowhere Lane', city: 'Sacramento', state: 'CA', zip: '95811', type: 'Home'},
+      {street: '5555 Nowhere Lane', city: 'Sacramento', state: 'CA', zip: '95811', type: 'Home'},
+    ]
+    const component = renderAddressesForm({addresses})
+    const streetInputs = component.find('InputField[label="Address"]')
+    expect(streetInputs.get(0).props.id).toEqual('person-123-address-0-street')
+    expect(streetInputs.get(1).props.id).toEqual('person-123-address-1-street')
+
+    const cityInputs = component.find('InputField[label="City"]')
+    expect(cityInputs.get(0).props.id).toEqual('person-123-address-0-city')
+    expect(cityInputs.get(1).props.id).toEqual('person-123-address-1-city')
+
+    const stateSelects = component.find('SelectField[label="State"]')
+    expect(stateSelects.get(0).props.id).toEqual('person-123-address-0-state')
+    expect(stateSelects.get(1).props.id).toEqual('person-123-address-1-state')
+
+    const zipInputs = component.find('InputField[label="Zip"]')
+    expect(zipInputs.get(0).props.id).toEqual('person-123-address-0-zip')
+    expect(zipInputs.get(1).props.id).toEqual('person-123-address-1-zip')
+
+    const typeSelects = component.find('SelectField[label="Address Type"]')
+    expect(typeSelects.get(0).props.id).toEqual('person-123-address-0-type')
+    expect(typeSelects.get(1).props.id).toEqual('person-123-address-1-type')
   })
 })

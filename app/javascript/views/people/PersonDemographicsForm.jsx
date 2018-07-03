@@ -9,7 +9,7 @@ import React from 'react'
 import Select from 'react-select'
 import SelectField from 'common/SelectField'
 
-const addPersonId = (id, field) => `${field}_${id}`
+const id = (personId, field) => `person-${personId}-${field}`
 
 const PersonDemographicsForm = ({
   approximateAge,
@@ -30,7 +30,7 @@ const PersonDemographicsForm = ({
     <div className='row'>
       <DateField
         gridClassName='col-md-3 date-field-alignment-correction'
-        id={addPersonId(personId, 'date_of_birth')}
+        id={id(personId, 'date-of-birth')}
         label='Date of birth'
         hasTime={false}
         hasCalendar={false}
@@ -40,7 +40,7 @@ const PersonDemographicsForm = ({
       <div className='col-md-1 text-between-inputs'>or</div>
       <InputField
         gridClassName='col-md-3'
-        id={addPersonId(personId, 'approximate_age')}
+        id={id(personId, 'approximate-age')}
         label='Approximate Age'
         allowCharacters={/[0-9]/}
         maxLength='3'
@@ -50,7 +50,7 @@ const PersonDemographicsForm = ({
       />
       <div className='col-md-2 input-no-header'>
         <select
-          id={addPersonId(personId, 'approximate_age_units')}
+          id={id(personId, 'approximate-age-units')}
           aria-label='Approximate Age Units'
           value={approximateAgeUnit}
           onChange={({target: {value}}) => onChange('approximate_age_units', value)}
@@ -62,7 +62,7 @@ const PersonDemographicsForm = ({
       </div>
       <SelectField
         gridClassName='col-md-3'
-        id={addPersonId(personId, 'sex_at_birth')}
+        id={id(personId, 'sex-at-birth')}
         label='Sex at Birth'
         value={gender}
         onChange={({target: {value}}) => onChange('gender', value)}
@@ -75,11 +75,11 @@ const PersonDemographicsForm = ({
     </div>
     <div className='row'>
       <div className='col-md-12'>
-        <label htmlFor={addPersonId(personId, 'languages')}>Language(s) (Primary First)</label>
+        <label htmlFor={id(personId, 'languages')}>Language(s) (Primary First)</label>
         <Select
           multi
           tabSelectsValue={false}
-          inputProps={{id: addPersonId(personId, 'languages')}}
+          inputProps={{id: id(personId, 'languages')}}
           options={LANGUAGES.map((language) => ({value: language, label: language}))}
           value={languages}
           onChange={(languages) => onChange('languages', languages)}
