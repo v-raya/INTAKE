@@ -12,7 +12,7 @@ describe('PageError', () => {
       expect(component.find('div.page-error').exists()).toEqual(true)
     })
     it('does render the generic message', () => {
-      expect(component.text()).toContain('Something went wrong, sorry! Please try your last action again.')
+      expect(component.find('p').contains('Something went wrong, sorry! Please try your last action again.')).toEqual(true)
     })
   })
 
@@ -22,7 +22,7 @@ describe('PageError', () => {
       component = shallow(<PageError pageErrorMessage={pageErrorMessage} />, {disableLifecycleMethods: true})
     })
     it('does render pageErrorMessage', () => {
-      expect(component.text()).toContain('pageErrorMessage')
+      expect(component.find('p').contains('pageErrorMessage')).toEqual(true)
     })
   })
 })
