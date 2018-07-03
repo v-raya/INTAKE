@@ -37,7 +37,7 @@ const RelationCard = ({
         expandableRow={isExpandableRow}
         expandComponent={expandComponent}
         expandColumnOptions={expandColumnComponent}
-        search={true}
+        search={false}
         searchPlaceholder='Quick Filter'
         options={{expandBy: 'column'}}
       >
