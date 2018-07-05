@@ -108,13 +108,32 @@ const buildPerson = ({
 const loadPeopleFormPerson = (state, {payload: {person}, error}) => {
   if (error) {
     return state
-  } else {
-    return state.set(person.id, buildPerson(person))
   }
+  return state.set(person.id, buildPerson(person))
 }
+
+const updatePeopleFormPerson = (state, {payload: {person}, error}) => {
+  if (error) {
+    return state
+  }
+
+  const prevPerson = state.get(person.id, Map())
+  const newPerson = buildPerson(person)
+
+  return state.set(
+    person.id,
+    newPerson
+      .setIn(['csec_started_at', 'touched'], prevPerson.getIn(['csec_started_at', 'touched'], false))
+      .setIn(['csec_ended_at', 'touched'], prevPerson.getIn(['csec_ended_at', 'touched'], false))
+      .setIn(['first_name', 'touched'], prevPerson.getIn(['first_name', 'touched'], false))
+      .setIn(['last_name', 'touched'], prevPerson.getIn(['last_name', 'touched'], false))
+      .setIn(['ssn', 'touched'], prevPerson.getIn(['ssn', 'touched'], false))
+  )
+}
+
 export default createReducer(Map(), {
   [CREATE_PERSON_COMPLETE]: loadPeopleFormPerson,
-  [UPDATE_PERSON_COMPLETE]: loadPeopleFormPerson,
+  [UPDATE_PERSON_COMPLETE]: updatePeopleFormPerson,
   [FETCH_SCREENING_COMPLETE]: (state, {payload: {screening}, error}) => {
     if (error) {
       return state
