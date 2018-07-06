@@ -55,10 +55,12 @@ feature 'Screening Information Validations' do
       scenario 'displays errors if a user does not enter a communication method' do
         within '#screening-information-card.edit' do
           expect(page).not_to have_content(error_message)
+          find_field('Communication Method').click
           select '', from: 'Communication Method'
           expect(page).not_to have_content(error_message)
           blur_field
           expect(page).to have_content(error_message)
+          find_field('Communication Method').click
           select 'Email', from: 'Communication Method'
           expect(page).not_to have_content(error_message)
         end

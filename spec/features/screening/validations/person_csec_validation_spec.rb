@@ -70,8 +70,11 @@ feature 'CSEC validation' do
         click_button 'Cancel'
         expect(page).to have_content(csec_types_error_message)
         click_link 'Edit'
+        expect(page).not_to have_content(csec_types_error_message)
+        fill_in_react_select 'CSEC Types', with: ''
+        blur_field
         expect(page).to have_content(csec_types_error_message)
-        fill_in_react_select('CSEC Types', with: 'At Risk')
+        fill_in_react_select 'CSEC Types', with: 'At Risk'
         blur_field
         expect(page).not_to have_content(csec_types_error_message)
 

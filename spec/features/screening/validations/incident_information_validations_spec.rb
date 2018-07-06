@@ -52,7 +52,7 @@ feature 'Incident Information Validations' do
             invalid_screening: screening,
             screening_updates: { incident_date: valid_date }
           ) do
-            select_today_from_calendar '#incident_date'
+            select_today_from_calendar '#incident-date'
           end
         end
       end

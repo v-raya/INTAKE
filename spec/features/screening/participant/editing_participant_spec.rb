@@ -589,25 +589,24 @@ feature 'Edit Person' do
     visit edit_screening_path(id: screening[:id])
     within edit_participant_card_selector(marge.id) do
       expect(page).to have_field('Approximate Age', disabled: true)
-      expect(page).to have_field('approximate_age_units', disabled: true)
-
+      expect(page).to have_field('Approximate Age Units', disabled: true)
       fill_in_datepicker 'Date of birth', with: ''
       expect(page).to have_field('Approximate Age', disabled: false)
-      expect(page).to have_field('approximate_age_units', disabled: false)
+      expect(page).to have_field('Approximate Age Units', disabled: false)
 
       fill_in 'Approximate Age', with: 'abc1234'
-      select 'Days', from: 'approximate_age_units'
+      select 'Days', from: 'Approximate Age Units'
       expect(page).to have_field('Approximate Age', with: '123')
-      expect(page).to have_select('approximate_age_units', selected: 'Days')
+      expect(page).to have_select('Approximate Age Units', selected: 'Days')
 
       dob = Time.parse(marge.date_of_birth).strftime('%m/%d/%Y')
       fill_in_datepicker 'Date of birth', with: dob
       expect(page).to have_field('Approximate Age', disabled: true, with: '')
-      expect(page).to have_select('approximate_age_units', disabled: true, selected: '')
+      expect(page).to have_select('Approximate Age Units', disabled: true, selected: '')
 
       fill_in_datepicker 'Date of birth', with: ''
       fill_in 'Approximate Age', with: 'abc1234'
-      select 'Days', from: 'approximate_age_units'
+      select 'Days', from: 'Approximate Age Units'
       fill_in_datepicker 'Date of birth', with: dob, blur: false
       click_button 'Save'
       expect(a_request(:put,

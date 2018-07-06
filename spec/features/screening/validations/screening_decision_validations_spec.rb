@@ -220,7 +220,7 @@ feature 'Screening Decision Validations' do
       scenario 'Error message does not display until user has interacted with the field' do
         within '#decision-card.edit' do
           expect(page).not_to have_content(error_message)
-          select 'Promote to referral', from: 'Screening Decision'
+          find_field('Screening Decision').click
           blur_field
           expect(page).to have_content(error_message)
         end

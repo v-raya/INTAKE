@@ -15,6 +15,7 @@ module ShameHelpers
     # change events
     # also, the blur event is important to the component lifecycle so we
     # need to trigger that by clicking on an arbitrary element.
+    find_field(locator).click if blur
     fill_in(locator, with: date_string)
     fill_in(locator, with: date_string)
     first('*').click if blur

@@ -84,7 +84,7 @@ const buildPerson = ({
   addresses: buildAddresses(addresses),
   approximate_age: {value: approximate_age},
   approximate_age_units: {value: approximate_age_units},
-  csec_types: {value: csec_types},
+  csec_types: {value: csec_types, touched: false},
   csec_started_at: {value: csec_started_at, touched: false},
   csec_ended_at: {value: csec_ended_at, touched: false},
   date_of_birth: {value: date_of_birth},
@@ -123,6 +123,7 @@ const updatePeopleFormPerson = (state, {payload: {person}, error}) => {
   return state.set(
     person.id,
     newPerson
+      .setIn(['csec_types', 'touched'], prevPerson.getIn(['csec_types', 'touched'], false))
       .setIn(['csec_started_at', 'touched'], prevPerson.getIn(['csec_started_at', 'touched'], false))
       .setIn(['csec_ended_at', 'touched'], prevPerson.getIn(['csec_ended_at', 'touched'], false))
       .setIn(['first_name', 'touched'], prevPerson.getIn(['first_name', 'touched'], false))
@@ -150,6 +151,7 @@ export default createReducer(Map(), {
       'first_name',
       'last_name',
       'ssn',
+      'csec_types',
       'csec_started_at',
       'csec_ended_at',
     ]
