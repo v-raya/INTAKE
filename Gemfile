@@ -49,7 +49,9 @@ end
 
 group :test do
   gem 'capybara', '2.15.1'
-  gem 'capybara-accessible'
+  gem 'capybara-accessible',
+    git: 'https://github.com/ca-cwds/capybara-accessible.git',
+    ref: '2a0e6a73d445de5938e6174d3d1970633c94fbed'
   gem 'capybara-screenshot'
   gem 'faker'
   gem 'headless', '2.3.1', require: false

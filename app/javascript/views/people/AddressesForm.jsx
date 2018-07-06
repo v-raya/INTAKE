@@ -4,13 +4,23 @@ import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
 import US_STATE from 'enums/USState'
 
-const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress, onChange, onBlur}) => (
+const id = (idPrefix, index, field) => `${idPrefix}-address-${index}-${field}`
+
+const AddressesForm = ({
+  addAddress,
+  addresses,
+  addressTypeOptions,
+  deleteAddress,
+  idPrefix,
+  onChange,
+  onBlur,
+}) => (
   <div>
     {addresses.map(({city, state, street, type, zip, zipError}, index) => (
       <div key={index} className='row list-item'>
         <InputField
           gridClassName='col-md-6'
-          id='street_address'
+          id={id(idPrefix, index, 'street')}
           label='Address'
           maxLength='128'
           onChange={({target: {value}}) => onChange(index, 'street', value)}
@@ -18,7 +28,7 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
         />
         <InputField
           gridClassName='col-md-6'
-          id='city'
+          id={id(idPrefix, index, 'city')}
           label='City'
           maxLength='64'
           onChange={({target: {value}}) => onChange(index, 'city', value)}
@@ -26,7 +36,7 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
         />
         <SelectField
           gridClassName='col-md-4'
-          id='state'
+          id={id(idPrefix, index, 'state')}
           label='State'
           onChange={({target: {value}}) => onChange(index, 'state', value)}
           value={state}
@@ -37,7 +47,7 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
         <InputField
           allowCharacters={/[0-9-]/}
           gridClassName='col-md-2'
-          id='zip'
+          id={id(idPrefix, index, 'zip')}
           label='Zip'
           maxLength='5'
           onChange={({target: {value}}) => onChange(index, 'zip', value)}
@@ -47,7 +57,7 @@ const AddressesForm = ({addAddress, addresses, addressTypeOptions, deleteAddress
         />
         <SelectField
           gridClassName='col-md-6'
-          id='address_type'
+          id={id(idPrefix, index, 'type')}
           label='Address Type'
           onChange={({target: {value}}) => onChange(index, 'type', value)}
           value={type}
@@ -99,6 +109,7 @@ AddressesForm.propTypes = {
     addressErrors: PropTypes.string,
   })),
   deleteAddress: PropTypes.func,
+  idPrefix: PropTypes.string.isRequired,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
 }

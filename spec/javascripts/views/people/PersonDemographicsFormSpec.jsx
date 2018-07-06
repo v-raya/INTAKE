@@ -13,7 +13,7 @@ describe('PersonDemographicsForm', () => {
     genderError,
     languages,
     onChange,
-    personId,
+    personId = '456',
   }) {
     const props = {
       approximateAge,
@@ -33,12 +33,15 @@ describe('PersonDemographicsForm', () => {
   it('renders the date of birth field', () => {
     const field = renderPersonDemographicsForm({dateOfBirth: '2/22/2022'})
       .find('DateField[label="Date of birth"]')
+    expect(field.props().id).toEqual('person-456-date-of-birth')
     expect(field.props().value).toEqual('2/22/2022')
   })
 
   it('renders disabled approximate age fields', () => {
     const form = renderPersonDemographicsForm({approximateAgeIsDisabled: true})
-    expect(form.find('InputField[label="Approximate Age"]').props().disabled).toBe(true)
+    const field = form.find('InputField[label="Approximate Age"]')
+    expect(field.props().id).toEqual('person-456-approximate-age')
+    expect(field.props().disabled).toEqual(true)
     expect(form.find('select[aria-label="Approximate Age Units"]').props().disabled).toBe(true)
   })
 
@@ -52,6 +55,7 @@ describe('PersonDemographicsForm', () => {
     const field = renderPersonDemographicsForm({
       approximateAgeUnit: '5',
     }).find('select[aria-label="Approximate Age Units"]')
+    expect(field.props().id).toEqual('person-456-approximate-age-units')
     expect(field.props().value).toEqual('5')
     expect(field.childAt(0).props().value).toEqual('')
     expect(field.childAt(1).props().value).toEqual('days')
@@ -64,6 +68,7 @@ describe('PersonDemographicsForm', () => {
     const field = renderPersonDemographicsForm({
       gender: '0',
     }).find('SelectField[label="Sex at Birth"]')
+    expect(field.props().id).toEqual('person-456-sex-at-birth')
     expect(field.props().value).toEqual('0')
     expect(field.props().required).toEqual(false)
     expect(field.childAt(0).props().value).toEqual('')
@@ -76,20 +81,21 @@ describe('PersonDemographicsForm', () => {
   it('renders the gender field when required', () => {
     const field = renderPersonDemographicsForm({
       gender: 'Kraken',
-      genderError: 'Kraken is not a valid gender',
+      genderError: 'Kraken is not a valid sex',
       genderIsRequired: true,
     }).find('SelectField[label="Sex at Birth"]')
     expect(field.props().value).toEqual('Kraken')
     expect(field.props().required).toEqual(true)
-    expect(field.props().errors).toEqual(['Kraken is not a valid gender'])
+    expect(field.props().errors).toEqual(['Kraken is not a valid sex'])
   })
 
   it('renders the languages field and its options', () => {
     const form = renderPersonDemographicsForm({
       personId: '1', languages: ['0'], languageOptions: [{value: '1'}, {value: '2'}],
     })
-    expect(form.find('label[htmlFor="languages_1"]').props().children)
+    expect(form.find('label[htmlFor="person-1-languages"]').props().children)
       .toEqual('Language(s) (Primary First)')
+    expect(form.find('Select').props().inputProps.id).toEqual('person-1-languages')
     expect(form.find('Select').props().value).toEqual(['0'])
     expect(form.find('Select').props().options[0]).toEqual({value: 'American Sign Language', label: 'American Sign Language'})
     expect(form.find('Select').props().options[1]).toEqual({value: 'Arabic', label: 'Arabic'})

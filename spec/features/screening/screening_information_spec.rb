@@ -48,7 +48,9 @@ feature 'screening information card' do
     within '#screening-information-card.edit' do
       fill_in_datepicker 'Screening Start Date/Time', with: '08/15/2016 3:00 AM'
       fill_in_datepicker 'Screening End Date/Time', with: '08/17/2016 3:00 AM'
+      fill_in 'Title/Name of Screening', with: ''
       fill_in 'Title/Name of Screening', with: 'Cameron'
+      fill_in 'Assigned Social Worker', with: ''
       fill_in 'Assigned Social Worker', with: 'Mariko'
       select 'Safely Surrendered Baby', from: 'Report Type'
       select 'Phone', from: 'Communication Method'

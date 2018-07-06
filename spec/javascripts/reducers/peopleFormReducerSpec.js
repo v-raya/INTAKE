@@ -95,11 +95,11 @@ describe('peopleFormReducer', () => {
       expect(peopleFormReducer(Map(), action)).toEqualImmutable(
         fromJS({
           participant_one: {
-            roles: {value: ['a', 'b']},
+            roles: {value: ['a', 'b'], touched: false},
             addresses: [],
             approximate_age: {value: '2'},
             approximate_age_units: {value: 'days'},
-            csec_types: {value: ['At Risk']},
+            csec_types: {value: ['At Risk'], touched: false},
             csec_started_at: {value: '1/1/1111', touched: false},
             csec_ended_at: {value: '1/1/1111', touched: false},
             date_of_birth: {value: '2/2/2222'},
@@ -128,7 +128,7 @@ describe('peopleFormReducer', () => {
             },
           },
           participant_two: {
-            roles: {value: ['c']},
+            roles: {value: ['c'], touched: false},
             addresses: [{
               id: 'ABC123',
               street: {value: '1234 Some Lane'},
@@ -141,7 +141,7 @@ describe('peopleFormReducer', () => {
             }],
             approximate_age: {value: '3'},
             approximate_age_units: {value: 'months'},
-            csec_types: {value: ['Risk']},
+            csec_types: {value: ['Risk'], touched: false},
             csec_started_at: {value: '3/3/3333', touched: false},
             csec_ended_at: {value: '3/3/3333', touched: false},
             date_of_birth: {value: '3/3/3333'},
@@ -173,11 +173,11 @@ describe('peopleFormReducer', () => {
     it('returns the last state on failure', () => {
       const lastState = fromJS({
         participant_one: {
-          roles: {value: ['a', 'b']},
+          roles: {value: ['a', 'b'], touched: false},
           legacy_descriptor: {value: 'legacy descriptor one'},
         },
         participant_two: {
-          roles: {value: ['c']},
+          roles: {value: ['c'], touched: true},
           legacy_descriptor: {value: 'legacy descriptor two'},
         },
       })
@@ -185,11 +185,11 @@ describe('peopleFormReducer', () => {
       expect(peopleFormReducer(lastState, action)).toEqualImmutable(
         fromJS({
           participant_one: {
-            roles: {value: ['a', 'b']},
+            roles: {value: ['a', 'b'], touched: false},
             legacy_descriptor: {value: 'legacy descriptor one'},
           },
           participant_two: {
-            roles: {value: ['c']},
+            roles: {value: ['c'], touched: true},
             legacy_descriptor: {value: 'legacy descriptor two'},
           },
         })
@@ -200,20 +200,20 @@ describe('peopleFormReducer', () => {
     it('returns the updated form state', () => {
       const lastState = fromJS({
         participant_one: {
-          roles: {value: []},
+          roles: {value: [], touched: false},
         },
         participant_two: {
-          roles: {value: ['c']},
+          roles: {value: ['c'], touched: false},
         },
       })
       const action = setField('participant_one', ['roles'], ['a', 'b'])
       expect(peopleFormReducer(lastState, action)).toEqualImmutable(
         fromJS({
           participant_one: {
-            roles: {value: ['a', 'b']},
+            roles: {value: ['a', 'b'], touched: false},
           },
           participant_two: {
-            roles: {value: ['c']},
+            roles: {value: ['c'], touched: false},
           },
         })
       )
@@ -248,16 +248,20 @@ describe('peopleFormReducer', () => {
     it('returns people form with the fields updated to touched', () => {
       const state = fromJS({
         participant_one: {
+          roles: {touched: false},
           first_name: {touched: false},
           last_name: {touched: false},
           ssn: {touched: false},
+          csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
         },
         participant_two: {
+          roles: {touched: false},
           first_name: {touched: false},
           last_name: {touched: false},
           ssn: {touched: false},
+          csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
         },
@@ -265,16 +269,20 @@ describe('peopleFormReducer', () => {
       const action = touchAllFields('participant_one')
       expect(peopleFormReducer(state, action)).toEqualImmutable(fromJS({
         participant_one: {
+          roles: {touched: true},
           first_name: {touched: true},
           last_name: {touched: true},
           ssn: {touched: true},
+          csec_types: {touched: true},
           csec_started_at: {touched: true},
           csec_ended_at: {touched: true},
         },
         participant_two: {
+          roles: {touched: false},
           first_name: {touched: false},
           last_name: {touched: false},
           ssn: {touched: false},
+          csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
         },
@@ -322,7 +330,7 @@ describe('peopleFormReducer', () => {
         date_of_birth: {value: '2/2/2222'},
         gender: {value: 'male'},
         languages: {value: ['English']},
-        roles: {value: ['a', 'b']},
+        roles: {value: ['a', 'b'], touched: true},
         legacy_descriptor: {value: 'legacy descriptor one'},
         first_name: {value: 'first name one'},
         middle_name: {value: 'middle name one'},
@@ -387,7 +395,7 @@ describe('peopleFormReducer', () => {
           date_of_birth: {value: '2/2/2222'},
           gender: {value: 'male'},
           languages: {value: ['English']},
-          roles: {value: ['a', 'b']},
+          roles: {value: ['a', 'b'], touched: true},
           legacy_descriptor: {value: 'legacy descriptor one'},
           first_name: {value: 'first name one'},
           middle_name: {value: 'middle name one'},
@@ -408,13 +416,13 @@ describe('peopleFormReducer', () => {
         participant_two: {
           approximate_age: {value: '3'},
           approximate_age_units: {value: 'months'},
-          csec_types: {value: ['At Risk']},
+          csec_types: {value: ['At Risk'], touched: false},
           csec_started_at: {value: '1/1/1111', touched: false},
           csec_ended_at: {value: '1/1/1111', touched: false},
           date_of_birth: {value: '3/3/3333'},
           gender: {value: ''},
           languages: {value: []},
-          roles: {value: ['c']},
+          roles: {value: ['c'], touched: false},
           legacy_descriptor: {value: 'legacy descriptor two'},
           first_name: {value: 'first name two', touched: false},
           middle_name: {value: 'middle name two'},
@@ -449,14 +457,17 @@ describe('peopleFormReducer', () => {
       participant_one: {
         approximate_age: {value: '19'},
         approximate_age_units: {value: 'years'},
+        csec_types: {value: [], touched: true},
+        csec_started_at: {value: '1/1/1111', touched: true},
+        csec_ended_at: {value: '1/1/1111', touched: true},
         date_of_birth: {value: '9/9/1999'},
         gender: {value: 'male'},
         languages: {value: ['English']},
-        roles: {value: ['c']},
+        roles: {value: ['c'], touched: true},
         legacy_descriptor: {value: 'legacy descriptor one'},
-        first_name: {value: 'first name one'},
+        first_name: {value: 'first name one', touched: true},
         middle_name: {value: 'middle name one'},
-        last_name: {value: 'last name one'},
+        last_name: {value: 'last name one', touched: true},
         name_suffix: {value: 'name suffix one'},
         ssn: {value: 'ssn one', touched: true},
         sensitive: {value: false},
@@ -513,19 +524,19 @@ describe('peopleFormReducer', () => {
         participant_one: {
           approximate_age: {value: '19'},
           approximate_age_units: {value: 'years'},
-          csec_types: {value: ['At Risk']},
-          csec_started_at: {value: '1/1/1111', touched: false},
-          csec_ended_at: {value: '1/1/1111', touched: false},
+          csec_types: {value: ['At Risk'], touched: true},
+          csec_started_at: {value: '1/1/1111', touched: true},
+          csec_ended_at: {value: '1/1/1111', touched: true},
           date_of_birth: {value: '9/9/1999'},
           gender: {value: 'male'},
           languages: {value: ['English']},
-          roles: {value: ['c']},
+          roles: {value: ['c'], touched: true},
           legacy_descriptor: {value: 'legacy descriptor one'},
-          first_name: {value: 'first name two', touched: false},
+          first_name: {value: 'first name two', touched: true},
           middle_name: {value: 'middle name two'},
-          last_name: {value: 'last name two', touched: false},
+          last_name: {value: 'last name two', touched: true},
           name_suffix: {value: 'name suffix two'},
-          ssn: {value: 'ssn two', touched: false},
+          ssn: {value: 'ssn two', touched: true},
           sensitive: {value: false},
           sealed: {value: false},
           phone_numbers: [],

@@ -81,7 +81,7 @@ feature 'Person Information Validations' do
           ) do
             within edit_participant_card_selector(person.id) do
               fill_in 'Approximate Age', with: valid_approximate_age
-              select valid_approximate_age_units.capitalize, from: 'approximate_age_units'
+              select valid_approximate_age_units.capitalize, from: 'Approximate Age Units'
             end
           end
         end
@@ -112,7 +112,7 @@ feature 'Person Information Validations' do
         ) do
           within edit_participant_card_selector(person.id) do
             fill_in 'Approximate Age', with: valid_approximate_age
-            select valid_approximate_age_units.capitalize, from: 'approximate_age_units'
+            select valid_approximate_age_units.capitalize, from: 'Approximate Age Units'
           end
         end
       end

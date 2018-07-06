@@ -84,7 +84,7 @@ const buildPerson = ({
   addresses: buildAddresses(addresses),
   approximate_age: {value: approximate_age},
   approximate_age_units: {value: approximate_age_units},
-  csec_types: {value: csec_types},
+  csec_types: {value: csec_types, touched: false},
   csec_started_at: {value: csec_started_at, touched: false},
   csec_ended_at: {value: csec_ended_at, touched: false},
   date_of_birth: {value: date_of_birth},
@@ -96,7 +96,7 @@ const buildPerson = ({
   middle_name: {value: middle_name},
   name_suffix: {value: name_suffix},
   phone_numbers: buildPhoneNumbers(phone_numbers),
-  roles: {value: roles},
+  roles: {value: roles, touched: false},
   ssn: {value: ssn, touched: false},
   sensitive: {value: sensitive},
   sealed: {value: sealed},
@@ -108,13 +108,34 @@ const buildPerson = ({
 const loadPeopleFormPerson = (state, {payload: {person}, error}) => {
   if (error) {
     return state
-  } else {
-    return state.set(person.id, buildPerson(person))
   }
+  return state.set(person.id, buildPerson(person))
 }
+
+const updatePeopleFormPerson = (state, {payload: {person}, error}) => {
+  if (error) {
+    return state
+  }
+
+  const prevPerson = state.get(person.id, Map())
+  const newPerson = buildPerson(person)
+
+  return state.set(
+    person.id,
+    newPerson
+      .setIn(['roles', 'touched'], prevPerson.getIn(['roles', 'touched'], false))
+      .setIn(['csec_types', 'touched'], prevPerson.getIn(['csec_types', 'touched'], false))
+      .setIn(['csec_started_at', 'touched'], prevPerson.getIn(['csec_started_at', 'touched'], false))
+      .setIn(['csec_ended_at', 'touched'], prevPerson.getIn(['csec_ended_at', 'touched'], false))
+      .setIn(['first_name', 'touched'], prevPerson.getIn(['first_name', 'touched'], false))
+      .setIn(['last_name', 'touched'], prevPerson.getIn(['last_name', 'touched'], false))
+      .setIn(['ssn', 'touched'], prevPerson.getIn(['ssn', 'touched'], false))
+  )
+}
+
 export default createReducer(Map(), {
   [CREATE_PERSON_COMPLETE]: loadPeopleFormPerson,
-  [UPDATE_PERSON_COMPLETE]: loadPeopleFormPerson,
+  [UPDATE_PERSON_COMPLETE]: updatePeopleFormPerson,
   [FETCH_SCREENING_COMPLETE]: (state, {payload: {screening}, error}) => {
     if (error) {
       return state
@@ -128,9 +149,11 @@ export default createReducer(Map(), {
   [TOUCH_PEOPLE_FORM_FIELD]: (state, {payload: {personId, field}}) => state.setIn([personId, ...field, 'touched'], true),
   [TOUCH_ALL_PEOPLE_FORM_FIELDS]: (state, {payload: {personId}}) => {
     const fieldsWithTouch = [
+      'roles',
       'first_name',
       'last_name',
       'ssn',
+      'csec_types',
       'csec_started_at',
       'csec_ended_at',
     ]

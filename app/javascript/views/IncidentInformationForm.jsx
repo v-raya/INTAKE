@@ -11,7 +11,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
     <div className='row'>
       <DateField
         gridClassName='col-md-4'
-        id='incident_date'
+        id='incident-date'
         label='Incident Date'
         value={incidentDate}
         errors={errors.incident_date}
@@ -29,7 +29,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
       <div className='row'>
         <InputField
           gridClassName='col-md-4'
-          id='street_address'
+          id='incident-address-street'
           label='Address'
           maxLength='128'
           onBlur={() => onBlur(['incident_address', 'street_address'])}
@@ -40,7 +40,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         />
         <InputField
           gridClassName='col-md-4'
-          id='city'
+          id='incident-address-city'
           label= 'City'
           maxLength='64'
           onChange={({target: {value}}) => onChange(['incident_address', 'city'], value)}
@@ -49,7 +49,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         <SelectField
           disabled
           gridClassName='col-md-4'
-          id='incident_county'
+          id='incident-address-county'
           label='Incident County'
           value={selectedCounty}
           onChange={({target: {value}}) => onChange(['incident_county'], value)}
@@ -61,7 +61,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
       <div className='row'>
         <SelectField
           gridClassName='col-md-4'
-          id='state'
+          id='incident-address-state'
           label='State'
           value={address.state}
           onChange={({target: {value}}) => onChange(['incident_address', 'state'], value)}
@@ -72,7 +72,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         <InputField
           allowCharacters={/[0-9]/}
           gridClassName='col-md-4'
-          id='zip'
+          id='incident-address-zip'
           label='Zip'
           maxLength='5'
           onChange={({target: {value}}) => onChange(['incident_address', 'zip'], value)}
@@ -80,7 +80,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
         />
         <SelectField
           gridClassName='col-md-4'
-          id='location_type'
+          id='incident-address-type'
           label='Location Type'
           value={selectedLocationType}
           onChange={({target: {value}}) => onChange(['location_type'], value)}
@@ -98,9 +98,9 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
     </fieldset>
     <div className='col-md-12'>
       <div className='row'>
-        <label className='no-gap' htmlFor='current_location_of_children'>Location Of Children</label>
+        <label className='no-gap' htmlFor='current-location-of-children'>Location Of Children</label>
         <TextAreaCount
-          id='current_location_of_children'
+          id='current-location-of-children'
           onChange={({target: {value}}) => onChange(['current_location_of_children'], value)}
           value={locationOfChildren}
           maxLength='256'

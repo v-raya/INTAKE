@@ -156,7 +156,7 @@ feature 'safely surrendered baby' do
     within edit_participant_card_selector(caretaker_doe_response[:id]) do
       expect(page).to have_react_select_field('Role', with: %w[Perpetrator])
       expect(page).to have_field('Approximate Age', with: '0')
-      expect(page).to have_select('approximate_age_units', selected: 'Days')
+      expect(page).to have_select('Approximate Age Units', selected: 'Days')
     end
     within edit_participant_card_selector(baby_doe_response[:id]) do
       expect(page).to have_react_select_field('Role', with: %w[Victim])
