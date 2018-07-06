@@ -85,11 +85,15 @@ feature 'Edit Person' do
           expect(page).to have_field('Suffix', with: marge.name_suffix)
           expect(page).to have_field('Social security number', with: marge.ssn)
 
+          fill_in 'First Name', with: ''
           fill_in 'First Name', with: 'new first name'
+          fill_in 'Middle Name', with: ''
           fill_in 'Middle Name', with: 'new middle name'
+          fill_in 'Last Name', with: ''
           fill_in 'Last Name', with: 'new last name'
-          select 'Sr', from: 'Suffix'
+          fill_in 'Social security number', with: ''
           fill_in 'Social security number', with: 111_111_111
+          select 'Sr', from: 'Suffix'
         end
         click_button 'Save'
       end
@@ -169,7 +173,7 @@ feature 'Edit Person' do
           expect(page).to have_field('City', with: address.city)
           expect(page).to have_field('State', with: address.state)
           expect(page).to have_field('Zip', with: address.zip)
-          expect(find(:css, 'select#address_type').value).to eq(address.type)
+          expect(find_field('Address Type').value).to eq(address.type)
 
           click_button 'Add new address'
 
@@ -309,7 +313,7 @@ feature 'Edit Person' do
         expect(page).to have_field('City', with: marge.addresses.first.city)
         expect(page).to have_field('State', with: marge.addresses.first.state)
         expect(page).to have_field('Zip', with: marge.addresses.first.zip)
-        expect(find(:css, 'select#address_type').value).to eq(marge.addresses.first.type)
+        expect(find_field('Address Type').value).to eq(marge.addresses.first.type)
         within '#ethnicity' do
           expect(page.find('input[value="Yes"]')).to be_checked
           expect(page).to have_field("participant-#{marge.id}-ethnicity-detail", text: 'Mexican')
@@ -400,7 +404,7 @@ feature 'Edit Person' do
           expect(page).to have_field('City', with: marge.addresses.first.city)
           expect(page).to have_field('State', with: marge.addresses.first.state)
           expect(page).to have_field('Zip', with: marge.addresses.first.zip)
-          expect(find(:css, 'select#address_type').value).to eq(marge.addresses.first.type)
+          expect(find_field('Address Type').value).to eq(marge.addresses.first.type)
           click_link 'Delete address'
         end
 
