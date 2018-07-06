@@ -96,7 +96,7 @@ const buildPerson = ({
   middle_name: {value: middle_name},
   name_suffix: {value: name_suffix},
   phone_numbers: buildPhoneNumbers(phone_numbers),
-  roles: {value: roles},
+  roles: {value: roles, touched: false},
   ssn: {value: ssn, touched: false},
   sensitive: {value: sensitive},
   sealed: {value: sealed},
@@ -123,6 +123,7 @@ const updatePeopleFormPerson = (state, {payload: {person}, error}) => {
   return state.set(
     person.id,
     newPerson
+      .setIn(['roles', 'touched'], prevPerson.getIn(['roles', 'touched'], false))
       .setIn(['csec_types', 'touched'], prevPerson.getIn(['csec_types', 'touched'], false))
       .setIn(['csec_started_at', 'touched'], prevPerson.getIn(['csec_started_at', 'touched'], false))
       .setIn(['csec_ended_at', 'touched'], prevPerson.getIn(['csec_ended_at', 'touched'], false))
@@ -148,6 +149,7 @@ export default createReducer(Map(), {
   [TOUCH_PEOPLE_FORM_FIELD]: (state, {payload: {personId, field}}) => state.setIn([personId, ...field, 'touched'], true),
   [TOUCH_ALL_PEOPLE_FORM_FIELDS]: (state, {payload: {personId}}) => {
     const fieldsWithTouch = [
+      'roles',
       'first_name',
       'last_name',
       'ssn',

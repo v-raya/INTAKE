@@ -95,7 +95,7 @@ describe('peopleFormReducer', () => {
       expect(peopleFormReducer(Map(), action)).toEqualImmutable(
         fromJS({
           participant_one: {
-            roles: {value: ['a', 'b']},
+            roles: {value: ['a', 'b'], touched: false},
             addresses: [],
             approximate_age: {value: '2'},
             approximate_age_units: {value: 'days'},
@@ -128,7 +128,7 @@ describe('peopleFormReducer', () => {
             },
           },
           participant_two: {
-            roles: {value: ['c']},
+            roles: {value: ['c'], touched: false},
             addresses: [{
               id: 'ABC123',
               street: {value: '1234 Some Lane'},
@@ -173,11 +173,11 @@ describe('peopleFormReducer', () => {
     it('returns the last state on failure', () => {
       const lastState = fromJS({
         participant_one: {
-          roles: {value: ['a', 'b']},
+          roles: {value: ['a', 'b'], touched: false},
           legacy_descriptor: {value: 'legacy descriptor one'},
         },
         participant_two: {
-          roles: {value: ['c']},
+          roles: {value: ['c'], touched: true},
           legacy_descriptor: {value: 'legacy descriptor two'},
         },
       })
@@ -185,11 +185,11 @@ describe('peopleFormReducer', () => {
       expect(peopleFormReducer(lastState, action)).toEqualImmutable(
         fromJS({
           participant_one: {
-            roles: {value: ['a', 'b']},
+            roles: {value: ['a', 'b'], touched: false},
             legacy_descriptor: {value: 'legacy descriptor one'},
           },
           participant_two: {
-            roles: {value: ['c']},
+            roles: {value: ['c'], touched: true},
             legacy_descriptor: {value: 'legacy descriptor two'},
           },
         })
@@ -200,20 +200,20 @@ describe('peopleFormReducer', () => {
     it('returns the updated form state', () => {
       const lastState = fromJS({
         participant_one: {
-          roles: {value: []},
+          roles: {value: [], touched: false},
         },
         participant_two: {
-          roles: {value: ['c']},
+          roles: {value: ['c'], touched: false},
         },
       })
       const action = setField('participant_one', ['roles'], ['a', 'b'])
       expect(peopleFormReducer(lastState, action)).toEqualImmutable(
         fromJS({
           participant_one: {
-            roles: {value: ['a', 'b']},
+            roles: {value: ['a', 'b'], touched: false},
           },
           participant_two: {
-            roles: {value: ['c']},
+            roles: {value: ['c'], touched: false},
           },
         })
       )
@@ -248,6 +248,7 @@ describe('peopleFormReducer', () => {
     it('returns people form with the fields updated to touched', () => {
       const state = fromJS({
         participant_one: {
+          roles: {touched: false},
           first_name: {touched: false},
           last_name: {touched: false},
           ssn: {touched: false},
@@ -256,6 +257,7 @@ describe('peopleFormReducer', () => {
           csec_ended_at: {touched: false},
         },
         participant_two: {
+          roles: {touched: false},
           first_name: {touched: false},
           last_name: {touched: false},
           ssn: {touched: false},
@@ -267,6 +269,7 @@ describe('peopleFormReducer', () => {
       const action = touchAllFields('participant_one')
       expect(peopleFormReducer(state, action)).toEqualImmutable(fromJS({
         participant_one: {
+          roles: {touched: true},
           first_name: {touched: true},
           last_name: {touched: true},
           ssn: {touched: true},
@@ -275,6 +278,7 @@ describe('peopleFormReducer', () => {
           csec_ended_at: {touched: true},
         },
         participant_two: {
+          roles: {touched: false},
           first_name: {touched: false},
           last_name: {touched: false},
           ssn: {touched: false},
@@ -326,7 +330,7 @@ describe('peopleFormReducer', () => {
         date_of_birth: {value: '2/2/2222'},
         gender: {value: 'male'},
         languages: {value: ['English']},
-        roles: {value: ['a', 'b']},
+        roles: {value: ['a', 'b'], touched: true},
         legacy_descriptor: {value: 'legacy descriptor one'},
         first_name: {value: 'first name one'},
         middle_name: {value: 'middle name one'},
@@ -391,7 +395,7 @@ describe('peopleFormReducer', () => {
           date_of_birth: {value: '2/2/2222'},
           gender: {value: 'male'},
           languages: {value: ['English']},
-          roles: {value: ['a', 'b']},
+          roles: {value: ['a', 'b'], touched: true},
           legacy_descriptor: {value: 'legacy descriptor one'},
           first_name: {value: 'first name one'},
           middle_name: {value: 'middle name one'},
@@ -418,7 +422,7 @@ describe('peopleFormReducer', () => {
           date_of_birth: {value: '3/3/3333'},
           gender: {value: ''},
           languages: {value: []},
-          roles: {value: ['c']},
+          roles: {value: ['c'], touched: false},
           legacy_descriptor: {value: 'legacy descriptor two'},
           first_name: {value: 'first name two', touched: false},
           middle_name: {value: 'middle name two'},
@@ -459,7 +463,7 @@ describe('peopleFormReducer', () => {
         date_of_birth: {value: '9/9/1999'},
         gender: {value: 'male'},
         languages: {value: ['English']},
-        roles: {value: ['c']},
+        roles: {value: ['c'], touched: true},
         legacy_descriptor: {value: 'legacy descriptor one'},
         first_name: {value: 'first name one', touched: true},
         middle_name: {value: 'middle name one'},
@@ -526,7 +530,7 @@ describe('peopleFormReducer', () => {
           date_of_birth: {value: '9/9/1999'},
           gender: {value: 'male'},
           languages: {value: ['English']},
-          roles: {value: ['c']},
+          roles: {value: ['c'], touched: true},
           legacy_descriptor: {value: 'legacy descriptor one'},
           first_name: {value: 'first name two', touched: true},
           middle_name: {value: 'middle name two'},
