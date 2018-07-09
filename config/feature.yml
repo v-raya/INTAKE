@@ -7,6 +7,7 @@ development:
     hoi_from_intake_api: false
     snapshot: true
     screenings: true
+    enable_newrelic_analytics: true
 
 test:
   features:
@@ -16,6 +17,7 @@ test:
     hoi_from_intake_api: false
     snapshot: true
     screenings: true
+    enable_newrelic_analytics: true
 
 production:
   features:
@@ -25,3 +27,4 @@ production:
     hoi_from_intake_api: <%= ENV.fetch('HOI_FROM_INTAKE_API', false) %>
     snapshot: <%= ENV.fetch('SNAPSHOT', true) %>
     screenings: <%= ENV.fetch('SCREENINGS', true) %>
+    enable_newrelic_analytics: <%= ENV.fetch('ENABLE_NEWRELIC_ANALYTICS', true) %>

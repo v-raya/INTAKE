@@ -1,6 +1,7 @@
 import Autocompleter from 'common/Autocompleter'
 import React from 'react'
 import {shallow, mount} from 'enzyme'
+import * as Analytics from 'utils/analytics'
 
 describe('<Autocompleter />', () => {
   function mountAutocompleter({
@@ -59,7 +60,7 @@ describe('<Autocompleter />', () => {
   }
 
   beforeEach(() => {
-    window.newrelic = jasmine.createSpyObj('newrelic', ['addPageAction'])
+    spyOn(Analytics, 'logEvent')
   })
 
   describe('#onItemSelect', () => {
@@ -108,7 +109,7 @@ describe('<Autocompleter />', () => {
       })
 
       it('logs a search result event', () => {
-        expect(window.newrelic.addPageAction)
+        expect(Analytics.logEvent)
           .toHaveBeenCalledWith('searchResultClick', {
             searchIndex: 0,
           })
@@ -124,7 +125,7 @@ describe('<Autocompleter />', () => {
         .first()
         .simulate('click', null)
 
-      expect(window.newrelic.addPageAction)
+      expect(Analytics.logEvent)
         .toHaveBeenCalledWith('searchResultClick', {
           searchIndex: 2,
         })
