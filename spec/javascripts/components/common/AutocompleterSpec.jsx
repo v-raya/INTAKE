@@ -58,12 +58,20 @@ describe('<Autocompleter />', () => {
     )
   }
 
+  beforeEach(() => {
+    window.newrelic = jasmine.createSpyObj('newrelic', ['addPageAction'])
+  })
+
   describe('#onItemSelect', () => {
     let onClear
     let onChange
     let onSelect
-    const item = {legacyDescriptor: {legacy_id: 1}}
-    const results = [item]
+    const results = [
+      {legacyDescriptor: {legacy_id: 1}},
+      {legacyDescriptor: {legacy_id: 2}},
+      {legacyDescriptor: {legacy_id: 3}},
+    ]
+    const item = results[0]
     beforeEach(() => {
       onClear = jasmine.createSpy('onClear')
       onChange = jasmine.createSpy('onChange')
@@ -98,6 +106,28 @@ describe('<Autocompleter />', () => {
         const header = autocompleter.find('SuggestionHeader')
         expect(header.length).toBe(0)
       })
+
+      it('logs a search result event', () => {
+        expect(window.newrelic.addPageAction)
+          .toHaveBeenCalledWith('searchResultClick', {
+            searchIndex: 0,
+          })
+      })
+    })
+
+    it('logs a search result event when a deeper item is clicked', () => {
+      const autocompleter = mountAutocompleter({
+        results, onClear, onChange, onSelect,
+      })
+      autocompleter.find('input').simulate('change', {target: {value: 'te'}})
+      autocompleter.find('div[id="search-result-3"]')
+        .first()
+        .simulate('click', null)
+
+      expect(window.newrelic.addPageAction)
+        .toHaveBeenCalledWith('searchResultClick', {
+          searchIndex: 2,
+        })
     })
 
     describe('when an item is not selectable', () => {
