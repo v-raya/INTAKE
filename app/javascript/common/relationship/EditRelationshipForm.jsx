@@ -32,7 +32,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
             <th className='col-md-6'>
               Relationship
               <div className='text-helper'>
-                Focus Person / Related Person
+                Person 1/ Person 2
               </div>
             </th>
             <th className='col-md-3'>Person 2</th>
