@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
   referrals: getFormattedReferralsSelector(state).toJS(),
   screenings: [],
   // To make the copied table fit in MS Word, we have to temporarily restyle it.
-  onCopy: (copyContent) => {
+  formatTable: (copyContent) => {
     Array.from(copyContent.querySelectorAll('table, th, td')).forEach((el) => (el.style.border = '1px solid black'))
     Array.from(copyContent.querySelectorAll('table')).forEach((el) => {
       el.style.borderCollapse = 'collapse'
@@ -21,6 +21,30 @@ const mapStateToProps = (state) => ({
     Array.from(copyContent.querySelectorAll('.reporter')).forEach((reporter) => (reporter.parentNode.removeChild(reporter)))
     return copyContent
   },
+  replace: (target, value) => {
+    if (value && target.parentNode) {
+      target.parentNode.replaceChild(value, target)
+    }
+  },
 })
 
-export default connect(mapStateToProps)(HistoryTable)
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const {formatTable} = stateProps
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+    onCopy: (e) => {
+      const copyData = formatTable(e.target.cloneNode(true))
+      try {
+        e.clipboardData.setData('text/html', copyData.outerHTML)
+        e.preventDefault()
+      } catch (error) {
+        this.originalTable = e.target.cloneNode(true) // eslint-disable-line no-invalid-this
+        formatTable(e.target)
+      }
+    },
+  }
+}
+
+export default connect(mapStateToProps, null, mergeProps)(HistoryTable)

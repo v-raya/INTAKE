@@ -36,12 +36,15 @@ export default class HistoryTable extends React.Component {
   }
 
   renderButtonRow() {
+    const {replace} = this.props
     return (
       <div className='row'>
         <div className='centered'>
           <Clipboard
             className='btn btn-primary'
             data-clipboard-target='#history'
+            onSuccess={() => replace(this.historyTable, this.originalTable)}
+            onError={() => replace(this.historyTable, this.originalTable)}
           >
             Copy
           </Clipboard>
@@ -53,12 +56,12 @@ export default class HistoryTable extends React.Component {
   render() {
     const {cases, referrals, screenings, onCopy} = this.props
     return (<div className='card-body no-pad-top'>
-      <div className='table-responsive' id='history' onCopy={
-        (e) => {
-          e.clipboardData.setData('text/html', onCopy(e.target.cloneNode(true)).outerHTML)
-          e.preventDefault()
+      <div className='table-responsive' id='history'
+        ref={(history) => {
+          this.historyTable = history
         }
-      }
+        }
+        onCopy={onCopy.bind(this)}
       >
         <table className='table history-table ordered-table'>
           {this.renderColGroup()}
@@ -79,8 +82,7 @@ export default class HistoryTable extends React.Component {
 HistoryTable.propTypes = {
   cases: PropTypes.array,
   onCopy: PropTypes.func,
-  onError: PropTypes.func,
-  onSuccess: PropTypes.func,
   referrals: PropTypes.array,
+  replace: PropTypes.func,
   screenings: PropTypes.array,
 }

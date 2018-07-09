@@ -7,8 +7,9 @@ describe('HistoryTable', () => {
     cases = [],
     referrals = [],
     screenings = [],
+    onCopy = () => true,
   }) {
-    const props = {cases, referrals, screenings}
+    const props = {cases, referrals, screenings, onCopy}
     return shallow(<HistoryTable {...props}/>, {disableLifecycleMethods: true})
   }
 
