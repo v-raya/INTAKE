@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import Autocomplete from 'react-autocomplete'
 import SuggestionHeader from 'common/SuggestionHeader'
 import AutocompleterFooter from 'common/AutocompleterFooter'
+import {logEvent} from 'utils/analytics'
 
 const menuStyle = {
   backgroundColor: '#fff',
@@ -52,6 +53,9 @@ export class Autocompleter extends Component {
   onItemSelect(_value, item) {
     const {isSelectable, onClear, onChange, onSelect} = this.props
     if (isSelectable(item)) {
+      logEvent('searchResultClick', {
+        searchIndex: this.props.results.indexOf(item),
+      })
       onClear()
       onChange('')
       onSelect(item)
