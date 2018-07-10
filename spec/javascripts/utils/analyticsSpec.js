@@ -10,21 +10,42 @@ describe('Analytics', () => {
 
   describe('logEvent', () => {
     it('logs an event to newrelic', () => {
-      spyOn(IntakeConfig, 'isFeatureActive').and.returnValue(true)
+      spyOn(IntakeConfig, 'isFeatureInactive').and.returnValue(false)
 
-      logEvent('randomPageAction', {key1: 'value1'})
+      logEvent('someAction', {key1: 'value1'})
 
       expect(window.newrelic.addPageAction)
-        .toHaveBeenCalledWith('randomPageAction', {key1: 'value1'})
+        .toHaveBeenCalledWith('someAction', {key1: 'value1'})
     })
 
     it('noops when newrelic analytics are disabled', () => {
-      spyOn(IntakeConfig, 'isFeatureActive').and.returnValue(false)
+      spyOn(IntakeConfig, 'isFeatureInactive').and.returnValue(true)
 
-      logEvent('randomPageAction', {key1: 'value1'})
+      logEvent('someAction', {key1: 'value1'})
 
-      expect(window.newrelic.addPageAction)
-        .not.toHaveBeenCalled()
+      expect(window.newrelic.addPageAction).not.toHaveBeenCalled()
+    })
+
+    it('does not crash when newrelic is undefined', () => {
+      spyOn(IntakeConfig, 'isFeatureInactive').and.returnValue(false)
+      window.newrelic = undefined
+
+      expect(() =>
+        logEvent('someAction', {key1: 'value1'})
+      ).not.toThrow()
+    })
+
+    it('noops when there is no event name', () => {
+      spyOn(IntakeConfig, 'isFeatureInactive').and.returnValue(false)
+      logEvent(null, {key1: 'value1'})
+      logEvent(undefined, {key1: 'value1'})
+      expect(window.newrelic.addPageAction).not.toHaveBeenCalled()
+    })
+
+    it('logs an event with no custom attributes', () => {
+      spyOn(IntakeConfig, 'isFeatureInactive').and.returnValue(false)
+      logEvent('someAction')
+      expect(window.newrelic.addPageAction).toHaveBeenCalledWith('someAction')
     })
   })
 })
