@@ -284,7 +284,9 @@ feature 'History card' do
         'label.setAttribute("for", "spec_meta")',
         'spec_meta.setAttribute("id", "spec_meta")',
         'document.getElementById("history-card").appendChild(spec_meta)',
-        'document.getElementById("spec_meta").appendChild(label)'
+        'document.getElementById("spec_meta").appendChild(label)',
+        'document.getElementById("spec_meta").addEventListener("paste",'\
+        ' function(e) { e.target.value = e.clipboardData.getData("text/html") })'
       ].join(';')
       page.execute_script js
       find('#spec_meta').send_keys [:control, 'v']

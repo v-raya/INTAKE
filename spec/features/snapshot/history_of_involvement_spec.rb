@@ -232,7 +232,7 @@ feature 'Snapshot History of Involvement' do
     end
 
     scenario 'copying with the copy button copies the table without reporter information' do
-      within '#history-card.card.show', text: 'History' do
+      within '#history-card.card.show' do
         click_button 'Copy'
       end
       #
@@ -245,7 +245,9 @@ feature 'Snapshot History of Involvement' do
         'label.setAttribute("for", "spec_meta")',
         'spec_meta.setAttribute("id", "spec_meta")',
         'document.getElementById("history-card").appendChild(spec_meta)',
-        'document.getElementById("spec_meta").appendChild(label)'
+        'document.getElementById("spec_meta").appendChild(label)',
+        'document.getElementById("spec_meta").addEventListener("paste",'\
+        'function(e) { e.target.value = e.clipboardData.getData("text/html") })'
       ].join(';')
       page.execute_script js
       find('#spec_meta').send_keys [:control, 'v']
