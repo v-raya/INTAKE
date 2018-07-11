@@ -150,6 +150,12 @@ module SystemCodeHelpers
     ]
   end
 
+  def csec_type_codes
+    [
+      { code: '8688', value: 'At Risk', category: 'csec' }
+    ]
+  end
+
   def system_codes
     [
       *allegation_type_codes,
@@ -158,6 +164,7 @@ module SystemCodeHelpers
       *communication_method_codes,
       *contact_location_codes,
       *county_type_codes,
+      *csec_type_codes,
       *address_counties,
       *response_time_codes,
       *race_codes,
