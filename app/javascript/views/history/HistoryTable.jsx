@@ -36,15 +36,15 @@ export default class HistoryTable extends React.Component {
   }
 
   renderButtonRow() {
-    const {onCopy, onError, onSuccess} = this.props
+    const {replace} = this.props
     return (
       <div className='row'>
         <div className='centered'>
           <Clipboard
             className='btn btn-primary'
-            onSuccess={() => onSuccess(this.historyTable)}
-            onError={() => onError(this.historyTable)}
-            option-target={() => (onCopy(this.historyTable))}
+            data-clipboard-target='#history'
+            onSuccess={() => replace(this.historyTable, this.originalTable)}
+            onError={() => replace(this.historyTable, this.originalTable)}
           >
             Copy
           </Clipboard>
@@ -54,9 +54,15 @@ export default class HistoryTable extends React.Component {
   }
 
   render() {
-    const {cases, referrals, screenings} = this.props
+    const {cases, referrals, screenings, onCopy} = this.props
     return (<div className='card-body no-pad-top'>
-      <div className='table-responsive' ref={(history) => { this.historyTable = history }}>
+      <div className='table-responsive' id='history'
+        ref={(history) => {
+          this.historyTable = history
+        }
+        }
+        onCopy={onCopy.bind(this)}
+      >
         <table className='table history-table ordered-table'>
           {this.renderColGroup()}
           {this.renderTHead()}
@@ -76,8 +82,7 @@ export default class HistoryTable extends React.Component {
 HistoryTable.propTypes = {
   cases: PropTypes.array,
   onCopy: PropTypes.func,
-  onError: PropTypes.func,
-  onSuccess: PropTypes.func,
   referrals: PropTypes.array,
+  replace: PropTypes.func,
   screenings: PropTypes.array,
 }
