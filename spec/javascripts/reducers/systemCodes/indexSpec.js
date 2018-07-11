@@ -12,6 +12,7 @@ describe('systemCodesReducer', () => {
     communicationMethods: [],
     counties: [],
     countyAgencies: [],
+    csecTypes: [],
     ethnicityTypes: [],
     hispanicOriginCodes: [],
     languages: [],
