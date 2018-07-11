@@ -5,6 +5,7 @@ import React from 'react'
 import Select from 'react-select'
 import CSEC_TYPES from 'enums/CSECTypes'
 import ErrorMessages from 'common/ErrorMessages'
+import {systemCodeIdValue} from 'selectors/systemCodeSelectors'
 
 const PersonCSECForm = ({
   CSECTypes,
@@ -15,6 +16,7 @@ const PersonCSECForm = ({
   onChange,
   personId,
   showCSEC,
+  csecTypes,
 }) => (
   <div>
     {showCSEC &&
@@ -29,7 +31,7 @@ const PersonCSECForm = ({
               multi
               tabSelectsValue={false}
               inputProps={{id: `csec_types_${personId}`}}
-              options={CSEC_TYPES.map((csec_type) => ({value: csec_type, label: csec_type}))}
+              options={CSEC_TYPES.map((csec_type) => ({value: systemCodeIdValue(csec_type, csecTypes), label: csec_type}))}
               value={CSECTypes}
               onBlur={() => onBlur('csec_types')}
               onChange={(values) => onChange('csec_types', values.map(({value}) => value))}
@@ -66,6 +68,7 @@ PersonCSECForm.propTypes = {
   CSECTypes: PropTypes.array,
   csecEndedAt: PropTypes.string,
   csecStartedAt: PropTypes.string,
+  csecTypes: PropTypes.array,
   errors: PropTypes.object,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
