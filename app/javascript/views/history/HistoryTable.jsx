@@ -54,14 +54,19 @@ export default class HistoryTable extends React.Component {
   }
 
   render() {
-    const {cases, referrals, screenings, onCopy} = this.props
+    const {cases, referrals, screenings, onCopy, formatTable} = this.props
     return (<div className='card-body no-pad-top'>
       <div className='table-responsive' id='history'
         ref={(history) => {
           this.historyTable = history
         }
         }
-        onCopy={onCopy.bind(this)}
+        onCopy={(e) => {
+          onCopy(e, () => {
+            this.originalTable = e.target.cloneNode(true)
+            formatTable(e.target)
+          })
+        }}
       >
         <table className='table history-table ordered-table'>
           {this.renderColGroup()}
@@ -81,6 +86,7 @@ export default class HistoryTable extends React.Component {
 
 HistoryTable.propTypes = {
   cases: PropTypes.array,
+  formatTable: PropTypes.func,
   onCopy: PropTypes.func,
   referrals: PropTypes.array,
   replace: PropTypes.func,
