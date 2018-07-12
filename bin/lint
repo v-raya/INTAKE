@@ -10,6 +10,7 @@ scss() {
 }
 
 js_files() {
+  # Note that there is a separate .eslintrc in the spec/javascripts directory
   find spec/javascripts/ app/javascript -type f \( -name "*.js" -o -name "*.jsx" \)
 }
 
