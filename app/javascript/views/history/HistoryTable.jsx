@@ -57,10 +57,7 @@ export default class HistoryTable extends React.Component {
     const {cases, referrals, screenings, onCopy, formatTable} = this.props
     return (<div className='card-body no-pad-top'>
       <div className='table-responsive' id='history'
-        ref={(history) => {
-          this.historyTable = history
-        }
-        }
+        ref={(history) => { this.historyTable = history }}
         onCopy={(e) => {
           onCopy(e, () => {
             this.originalTable = e.target.cloneNode(true)
