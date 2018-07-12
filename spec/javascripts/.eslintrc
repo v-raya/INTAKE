@@ -15,6 +15,7 @@
     "constructor-super": [2],
     "curly": [2, "multi-line"],
     "dot-notation": [2],
+    "eol-last": [2, "always"],
     "eqeqeq": [2],
     "func-names": [2],
     "func-style": [2, "declaration", { "allowArrowFunctions": true }],
