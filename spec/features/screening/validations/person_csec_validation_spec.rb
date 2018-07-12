@@ -24,6 +24,7 @@ feature 'CSEC validation' do
   end
 
   before do
+    stub_system_codes
     stub_and_visit_edit_screening(screening)
   end
   context 'csec start date field' do
@@ -44,7 +45,11 @@ feature 'CSEC validation' do
         expect(page).not_to have_content(csec_start_date_error_message)
 
         updated_participant = victim.as_json.merge(
-          csec_started_at: '06-11-2018'
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            start_date: '06-11-2018'
+          }]
         )
 
         stub_request(:put,
@@ -79,7 +84,11 @@ feature 'CSEC validation' do
         expect(page).not_to have_content(csec_types_error_message)
 
         updated_participant = victim.as_json.merge(
-          csec_types: ['At Risk']
+          csec: [{
+            id: '2',
+            participant_id: victim.id,
+            csec_code_id: '8688'
+          }]
         )
 
         stub_request(:put,
@@ -101,9 +110,13 @@ feature 'CSEC validation' do
         expect(page).to have_content('CSEC Types')
 
         updated_participant = victim.as_json.merge(
-          csec_ended_at: '2018-11-13',
-          csec_started_at: '2018-11-12',
-          csec_types: ['At Risk']
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            end_date: '2018-11-13',
+            start_date: '2018-11-12',
+            csec_code_id: '8688'
+          }]
         )
 
         stub_request(:put,

@@ -163,6 +163,16 @@ const combineAddresses = (person, personId, allReadOnlyAddresses) => [
   ...getAddresses(person),
 ].map((address) => address.set('street_address', address.get('street', address.get('street_address'))).delete('street'))
 
+const csecPersonInfo = (person) => (
+  person.getIn(['csec_types', 'value'], List()).map((type, index) => Map({
+    id: person.getIn(['csec_ids', index]),
+    participant_id: person.get('id'),
+    csec_code_id: type,
+    start_date: person.getIn(['csec_started_at', 'value']),
+    end_date: person.getIn(['csec_ended_at', 'value']),
+  }))
+)
+
 export const getPeopleWithEditsSelector = createSelector(
   getPeopleSelector,
   getScreeningIdValueSelector,
@@ -173,9 +183,7 @@ export const getPeopleWithEditsSelector = createSelector(
       id: personId,
       approximate_age: isAgeDisabled ? null : person.getIn(['approximate_age', 'value']),
       approximate_age_units: isAgeDisabled ? null : person.getIn(['approximate_age_units', 'value']),
-      csec_types: person.getIn(['csec_types', 'value']),
-      csec_started_at: person.getIn(['csec_started_at', 'value']),
-      csec_ended_at: person.getIn(['csec_ended_at', 'value']),
+      csec: csecPersonInfo(person),
       date_of_birth: person.getIn(['date_of_birth', 'value']),
       first_name: person.getIn(['first_name', 'value']),
       gender: person.getIn(['gender', 'value']),

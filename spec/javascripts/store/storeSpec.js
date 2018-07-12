@@ -58,6 +58,7 @@ describe('Store', () => {
         addressTypes: [],
         allegationTypes: [],
         communicationMethods: [],
+        csecTypes: [],
         counties: [],
         countyAgencies: [],
         ethnicityTypes: [],

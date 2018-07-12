@@ -18,6 +18,15 @@ import * as matchers from 'jasmine-immutable-matchers'
 describe('personFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
+  const csecTypes = [
+    {code: '1', value: 'At Risk'},
+    {code: '2', value: 'Victim Before Foster Care'},
+  ]
+
+  const systemCodes = {
+    csecTypes,
+  }
+
   describe('getPeopleWithEditsSelector', () => {
     it('returns formatted people object map', () => {
       const screening = {id: '123456'}
@@ -26,7 +35,7 @@ describe('personFormSelectors', () => {
           legacy_descriptor: {value: 'a legacy descriptor'},
           approximate_age: {value: ''},
           approximate_age_units: {value: ''},
-          csec_types: {value: ['At Risk', 'Victim Before Foster Care']},
+          csec_types: {value: ['1', '2']},
           csec_started_at: {value: '0/0/0000'},
           csec_ended_at: {value: '0/0/0000'},
           date_of_birth: {value: '13/0/-514'},
@@ -76,7 +85,7 @@ describe('personFormSelectors', () => {
           legacy_descriptor: {value: 'a legacy descriptor'},
           approximate_age: {value: '1'},
           approximate_age_units: {value: 'year'},
-          csec_types: {value: ['Victim Before Foster Care']},
+          csec_types: {value: ['1']},
           csec_started_at: {value: '1/1/1111'},
           csec_ended_at: {value: '1/1/1111'},
           date_of_birth: {value: ''},
@@ -116,7 +125,7 @@ describe('personFormSelectors', () => {
           legacy_descriptor: {value: 'a legacy descriptor'},
           approximate_age: {value: ''},
           approximate_age_units: {value: 'days'},
-          csec_types: {value: ['At Risk']},
+          csec_types: {value: ['1']},
           csec_started_at: {value: '2/2/2222'},
           csec_ended_at: {value: '2/2/2222'},
           date_of_birth: {value: ''},
@@ -140,7 +149,7 @@ describe('personFormSelectors', () => {
           race_details: {},
         },
       }
-      const state = fromJS({peopleForm, screening})
+      const state = fromJS({peopleForm, screening, systemCodes})
       expect(getPeopleWithEditsSelector(state)).toEqualImmutable(fromJS({
         one: {
           id: 'one',
@@ -148,9 +157,19 @@ describe('personFormSelectors', () => {
           screening_id: '123456',
           approximate_age: null,
           approximate_age_units: null,
-          csec_types: ['At Risk', 'Victim Before Foster Care'],
-          csec_started_at: '0/0/0000',
-          csec_ended_at: '0/0/0000',
+          csec: [{
+            id: undefined,
+            participant_id: undefined,
+            csec_code_id: '1',
+            start_date: '0/0/0000',
+            end_date: '0/0/0000',
+          }, {
+            id: undefined,
+            participant_id: undefined,
+            csec_code_id: '2',
+            start_date: '0/0/0000',
+            end_date: '0/0/0000',
+          }],
           date_of_birth: '13/0/-514',
           first_name: 'one',
           gender: 'known',
@@ -184,9 +203,13 @@ describe('personFormSelectors', () => {
           screening_id: '123456',
           approximate_age: '1',
           approximate_age_units: 'year',
-          csec_types: ['Victim Before Foster Care'],
-          csec_started_at: '1/1/1111',
-          csec_ended_at: '1/1/1111',
+          csec: [{
+            id: undefined,
+            participant_id: undefined,
+            csec_code_id: '1',
+            start_date: '1/1/1111',
+            end_date: '1/1/1111',
+          }],
           date_of_birth: '',
           first_name: 'two',
           gender: 'unknown',
@@ -215,9 +238,13 @@ describe('personFormSelectors', () => {
           screening_id: '123456',
           approximate_age: '',
           approximate_age_units: 'days',
-          csec_types: ['At Risk'],
-          csec_started_at: '2/2/2222',
-          csec_ended_at: '2/2/2222',
+          csec: [{
+            id: undefined,
+            participant_id: undefined,
+            csec_code_id: '1',
+            start_date: '2/2/2222',
+            end_date: '2/2/2222',
+          }],
           date_of_birth: '',
           first_name: 'three',
           gender: '',
@@ -320,16 +347,14 @@ describe('personFormSelectors', () => {
           race_details: {},
         },
       }
-      const state = fromJS({peopleForm, screening, participants})
+      const state = fromJS({peopleForm, screening, participants, systemCodes})
       expect(getPeopleWithEditsSelector(state)).toEqualImmutable(fromJS({
         one: {
           id: 'one',
           screening_id: '123456',
           approximate_age: null,
           approximate_age_units: null,
-          csec_types: [],
-          csec_started_at: '',
-          csec_ended_at: '',
+          csec: [],
           date_of_birth: '13/0/-514',
           first_name: '',
           gender: '',
@@ -380,7 +405,7 @@ describe('personFormSelectors', () => {
         one: {
           approximate_age: {value: '1'},
           approximate_age_units: {value: 'years'},
-          csec_types: {value: ['At Risk']},
+          csec_types: {value: ['1']},
           csec_started_at: {value: '2/2/2222'},
           csec_ended_at: {value: '2/2/2222'},
           date_of_birth: {value: '13/0/-514'},
@@ -405,16 +430,20 @@ describe('personFormSelectors', () => {
           race_details: {},
         },
       }
-      const state = fromJS({peopleForm, screening})
+      const state = fromJS({peopleForm, screening, systemCodes})
       expect(getPeopleWithEditsSelector(state)).toEqualImmutable(fromJS({
         one: {
           id: 'one',
           screening_id: '123456',
           approximate_age: null,
           approximate_age_units: null,
-          csec_types: ['At Risk'],
-          csec_started_at: '2/2/2222',
-          csec_ended_at: '2/2/2222',
+          csec: [{
+            id: undefined,
+            participant_id: undefined,
+            csec_code_id: '1',
+            start_date: '2/2/2222',
+            end_date: '2/2/2222',
+          }],
           date_of_birth: '13/0/-514',
           first_name: '',
           gender: '',
@@ -956,6 +985,7 @@ describe('personFormSelectors', () => {
         last_name: {value: 'last two'},
         name_suffix: {value: 'suffix two'},
         phone_numbers: [{id: null, number: {value: null}, type: {value: null}}],
+        csec: {},
         addresses: [{
           id: null,
           street: {value: null},
@@ -1019,7 +1049,7 @@ describe('personFormSelectors', () => {
         med_questionaire_return_date: '2018-01-01',
       },
     }
-    const state = fromJS({peopleForm, screening, safelySurrenderedBaby})
+    const state = fromJS({peopleForm, screening, safelySurrenderedBaby, systemCodes})
 
     it('returns formatted person object map', () => {
       const personId = 'one'
@@ -1029,9 +1059,7 @@ describe('personFormSelectors', () => {
         screening_id: '123456',
         approximate_age: null,
         approximate_age_units: null,
-        csec_types: undefined,
-        csec_started_at: undefined,
-        csec_ended_at: undefined,
+        csec: [],
         date_of_birth: '13/0/-514',
         first_name: 'one',
         gender: 'known',

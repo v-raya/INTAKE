@@ -58,13 +58,31 @@ const buildEthnicity = (ethnicity = {}) => {
   }
 }
 
+const buildCsecDates = (csec) => {
+  const firstCsec = csec && csec[0]
+  return {
+    csec_started_at: {value: firstCsec ? firstCsec.start_date || '' : '', touched: false},
+    csec_ended_at: {value: firstCsec ? firstCsec.end_date || '' : '', touched: false},
+  }
+}
+
+const buildCsec = (csec) => ({
+  csec_ids: csec ? csec.map((entry) => entry.id) : [],
+  csec_types: {
+    value: csec ? csec.reduce((result, entry) => {
+      result.push(entry.csec_code_id); return result
+    }, []
+    ) : [],
+    touched: false,
+  },
+  ...buildCsecDates(csec),
+})
+
 const buildPerson = ({
   addresses,
   approximate_age,
   approximate_age_units,
-  csec_types,
-  csec_started_at,
-  csec_ended_at,
+  csec,
   date_of_birth,
   first_name,
   gender,
@@ -84,9 +102,6 @@ const buildPerson = ({
   addresses: buildAddresses(addresses),
   approximate_age: {value: approximate_age},
   approximate_age_units: {value: approximate_age_units},
-  csec_types: {value: csec_types, touched: false},
-  csec_started_at: {value: csec_started_at, touched: false},
-  csec_ended_at: {value: csec_ended_at, touched: false},
   date_of_birth: {value: date_of_birth},
   first_name: {value: first_name, touched: false},
   gender: {value: gender},
@@ -103,6 +118,7 @@ const buildPerson = ({
   races: buildRaces(races),
   race_details: buildRaceDetails(races),
   ethnicity: buildEthnicity(ethnicity),
+  ...buildCsec(csec),
 })
 
 const loadPeopleFormPerson = (state, {payload: {person}, error}) => {
