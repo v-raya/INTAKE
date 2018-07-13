@@ -34,14 +34,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
     ...dispatchProps,
     ...ownProps,
-    onCopy: (e) => {
+    onCopy: (e, fallback) => {
       const copyData = formatTable(e.target.cloneNode(true))
       try {
         e.clipboardData.setData('text/html', copyData.outerHTML)
         e.preventDefault()
       } catch (error) {
-        this.originalTable = e.target.cloneNode(true) // eslint-disable-line no-invalid-this
-        formatTable(e.target)
+        fallback()
       }
     },
   }
