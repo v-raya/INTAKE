@@ -80,23 +80,23 @@ describe('Relationships for Screening', () => {
   it('shows Attach link for each unattached person', () => {
     expect(getProps(component, 0).name).toEqual('Sally Jones')
     expect(getProps(component, 0).data[0].name).toEqual('Kim Johnson')
-    expect(getCellValue(component, 0, 0, 2).text()).toContain('Attach')
+    expect(getCellValue(component, 0, 0, 3).text()).toContain('Attach')
 
     expect(getProps(component, 1).name).toEqual('Nate Starbringer')
     expect(getCellValue(component, 1, 0, 0).text()).toEqual('Jim Johnson')
-    expect(getCellValue(component, 1, 0, 2).text()).not.toContain('Attach')
+    expect(getCellValue(component, 1, 0, 3).text()).not.toContain('Attach')
   })
 
   it('hides Attach link for people in the pending list', () => {
     expect(getProps(component, 3).name).toEqual('Cecilia Gomez')
     expect(getCellValue(component, 3, 0, 0).text()).toEqual('Jose Gomez')
-    expect(getCellValue(component, 3, 0, 2).text()).not.toContain('Attach')
+    expect(getCellValue(component, 3, 0, 3).text()).not.toContain('Attach')
     expect(getCellValue(component, 3, 1, 0).text()).toEqual('Julie Gomez')
-    expect(getCellValue(component, 3, 1, 2).text()).toContain('Attach')
+    expect(getCellValue(component, 3, 1, 3).text()).toContain('Attach')
   })
 
   it('calls onClick when the Attach Link is clicked', () => {
-    const attachLink = getCellValue(component, 0, 0, 2).find('a').first()
+    const attachLink = getCellValue(component, 0, 0, 3).find('a').first()
     attachLink.simulate('click')
     expect(onClick).toHaveBeenCalled()
   })

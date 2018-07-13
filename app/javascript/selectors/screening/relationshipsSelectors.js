@@ -24,10 +24,12 @@ export const getPeopleSelector = createSelector(
     legacy_id: person.get('legacy_id'),
     name: nameFormatter({...person.toJS()}),
     gender: person.get('gender') || '',
+    age: person.get('age'),
     relationships: person.get('relationships', List()).map((relationship) => (
       Map({
         absent_parent_code: relationship.get('absent_parent_code'),
         dateOfBirth: dateFormatter(relationship.get('related_person_date_of_birth')),
+        related_person_age: relationship.get('related_person_age'),
         gender: relationship.get('related_person_gender'),
         name: nameFormatter({
           first_name: relationship.get('related_person_first_name'),

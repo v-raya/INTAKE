@@ -8,6 +8,7 @@ describe('RelationCard', () => {
     data: [{
       name: 'Luke Skywalker',
       secondaryRelationship: 'No Relation',
+      related_person_age: '30',
     }],
     attachActions: () => {},
     expandableRow: () => {},
@@ -21,7 +22,7 @@ describe('RelationCard', () => {
   })
 
   it('has a TableHeaderColumn', () => {
-    expect(renderRelationCard(props).find('TableHeaderColumn').length).toBe(3)
+    expect(renderRelationCard(props).find('TableHeaderColumn').length).toBe(4)
   })
 
   it('renders the firstName and lastName', () => {

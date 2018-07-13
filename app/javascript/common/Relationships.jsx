@@ -52,6 +52,7 @@ export const Relationships = ({
                   tableActions={(cell, row) =>
                     (actionsMenu(row, pendingPeople, person, isScreening, screeningId, onChange, onClick)
                     )}
+                  ageDisplayFormatter={(cell, row) => `${row.dateOfBirth} | ${row.related_person_age}`}
                 />
               </span>
             }
@@ -62,7 +63,7 @@ export const Relationships = ({
             <div className='row'>
               <div className='col-md-9' />
               <div className='col-md-3'>
-                <ScreeningCreateRelationship data={createRelationsData(person.name, person.relationships)}/>
+                <ScreeningCreateRelationship data={createRelationsData(person.name, person.relationships, person.related_person_age, person.dateOfBirth)}/>
               </div>
             </div>
           </div>
@@ -118,6 +119,7 @@ Relationships.propTypes = {
       name: PropTypes.string,
       type: PropTypes.string,
       secondaryRelationship: PropTypes.string,
+      related_person_age: PropTypes.string,
     })),
   })),
   screeningId: PropTypes.string,
