@@ -30,6 +30,7 @@ export const getPeopleSelector = createSelector(
         absent_parent_code: relationship.get('absent_parent_code'),
         dateOfBirth: dateFormatter(relationship.get('related_person_date_of_birth')),
         related_person_age: relationship.get('related_person_age'),
+        related_person_age_unit: relationship.get('related_person_age_unit'),
         gender: relationship.get('related_person_gender'),
         name: nameFormatter({
           first_name: relationship.get('related_person_first_name'),

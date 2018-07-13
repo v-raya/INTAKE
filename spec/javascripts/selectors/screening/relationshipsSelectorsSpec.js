@@ -88,6 +88,7 @@ describe('relationshipsSelectors', () => {
               related_person_relationship: '17',
               indexed_person_relationship: '17',
               related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '2',
               },
@@ -102,6 +103,7 @@ describe('relationshipsSelectors', () => {
               related_person_relationship: '297',
               indexed_person_relationship: '258',
               related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '1',
               },
@@ -126,6 +128,7 @@ describe('relationshipsSelectors', () => {
               related_person_relationship: '17',
               indexed_person_relationship: '17',
               related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '3',
               },
@@ -140,6 +143,7 @@ describe('relationshipsSelectors', () => {
               related_person_relationship: '297',
               indexed_person_relationship: '258',
               related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '1',
               },
@@ -176,6 +180,7 @@ describe('relationshipsSelectors', () => {
               same_home_code: 'Y',
               type_code: '17',
               related_person_age: 30,
+              related_person_age_unit: 'Y',
             },
             {
               absent_parent_code: 'N',
@@ -189,6 +194,7 @@ describe('relationshipsSelectors', () => {
               same_home_code: 'N',
               type_code: '258',
               related_person_age: 30,
+              related_person_age_unit: 'Y',
             },
           ],
         },
@@ -211,6 +217,7 @@ describe('relationshipsSelectors', () => {
               same_home_code: 'Y',
               type_code: '17',
               related_person_age: 30,
+              related_person_age_unit: 'Y',
             },
             {
               absent_parent_code: 'N',
@@ -224,6 +231,7 @@ describe('relationshipsSelectors', () => {
               same_home_code: 'N',
               type_code: '258',
               related_person_age: 30,
+              related_person_age_unit: 'Y',
             },
           ],
         },

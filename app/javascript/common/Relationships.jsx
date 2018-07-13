@@ -4,6 +4,7 @@ import ActionMenu from 'common/relationship/ActionMenu'
 import AttachLink from 'common/relationship/AttachLink'
 import RelationCard from 'common/relationship/RelationCard'
 import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
+import AGE_UNITS from 'enums/AgeUnits'
 
 const actionsMenu = (
   row,
@@ -52,7 +53,7 @@ export const Relationships = ({
                   tableActions={(cell, row) =>
                     (actionsMenu(row, pendingPeople, person, isScreening, screeningId, onChange, onClick)
                     )}
-                  ageDisplayFormatter={(cell, row) => `${row.dateOfBirth} | ${row.related_person_age}`}
+                  ageDisplayFormatter={(cell, row) => `${row.dateOfBirth} (${row.related_person_age} ${AGE_UNITS[row.related_person_age_unit || '']})`}
                 />
               </span>
             }
@@ -119,7 +120,7 @@ Relationships.propTypes = {
       name: PropTypes.string,
       type: PropTypes.string,
       secondaryRelationship: PropTypes.string,
-      related_person_age: PropTypes.string,
+      related_person_age: PropTypes.number,
     })),
   })),
   screeningId: PropTypes.string,

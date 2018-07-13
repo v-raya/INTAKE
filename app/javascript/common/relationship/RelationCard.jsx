@@ -8,10 +8,8 @@ const propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       secondaryRelationship: PropTypes.string,
-      related_person_age: PropTypes.string,
     })
   ),
-  // displayAgeFormat: PropTypes.func,
   expandColumnComponent: PropTypes.any,
   expandComponent: PropTypes.func,
   isExpandableRow: PropTypes.func,
@@ -61,8 +59,8 @@ const RelationCard = ({
             Relationship
         </TableHeaderColumn>
         <TableHeaderColumn
-          // dataField='related_person_age'
           dataFormat={ageDisplayFormatter}
+          dataField='age'
           dataSort={true}
           sortHeaderColumnClassName='sorted-header'
         >
