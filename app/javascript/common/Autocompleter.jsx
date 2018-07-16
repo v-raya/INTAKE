@@ -43,6 +43,7 @@ export class Autocompleter extends Component {
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
+    this.inputRef = React.createRef()
   }
 
   isSearchable(value) {
@@ -105,8 +106,12 @@ export class Autocompleter extends Component {
   renderItem(item, isHighlighted, _styles) {
     const key = item.legacyDescriptor.legacy_id
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
+    const id = `search-result-${key}`
+    if (isHighlighted && this.inputRef) {
+      this.inputRef.setAttribute('aria-activedescendant', id)
+    }
     return (
-      <div id={`search-result-${key}`} key={key} style={style}>
+      <div id={id} key={key} style={style}>
         <PersonSuggestion
           address={item.address}
           dateOfBirth={item.dateOfBirth}
@@ -137,6 +142,19 @@ export class Autocompleter extends Component {
     onChange(value)
   }
 
+    renderInput(props) {
+      const newProps = {
+      ...props,
+        ref: (el) => {
+          this.inputRef = el
+          props.ref(el)
+        }
+      }
+    return <input
+        {...newProps}
+    />
+  }
+
   render() {
     const {searchTerm, id, results} = this.props
     const {menuVisible} = this.state
@@ -148,11 +166,12 @@ export class Autocompleter extends Component {
         items={results}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
-        renderItem={this.renderItem}
+        renderItem={(...args) => this.renderItem(...args)}
         open={menuVisible}
         renderMenu={this.renderMenu}
         value={searchTerm}
         wrapperStyle={{display: 'block', position: 'relative'}}
+        renderInput={(props) => this.renderInput(props)}
       />
     )
   }
