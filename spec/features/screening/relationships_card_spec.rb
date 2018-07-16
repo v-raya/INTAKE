@@ -41,6 +41,8 @@ feature 'Relationship card' do
         first_name: participant.first_name,
         last_name: participant.last_name,
         relationships: [].push(jane, jake),
+        age: '20',
+        age_unit: 'Y',
         legacy_id: 'jane_legacy_id'
       }
     ]
@@ -363,6 +365,7 @@ feature 'Relationship card' do
                   "#{relationships.first[:first_name]} #{relationships.first[:last_name]}"
                 )
                 expect(page).to have_content('Jake Campbell')
+                expect(page).to have_content('20 yrs')
               end
             end
 
