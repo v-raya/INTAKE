@@ -62,6 +62,9 @@ feature 'Relationship card' do
       indexed_person_relationship: '277',
       relationship_context: 'Half',
       related_person_id: '7',
+      related_person_date_of_birth: '1990-05-05',
+      related_person_age: '28',
+      related_person_age_unit: 'Y',
       legacy_descriptor: {
         legacy_id: 'jake_legacy_id'
       }
@@ -77,6 +80,9 @@ feature 'Relationship card' do
       related_person_relationship: '280',
       indexed_person_relationship: '280',
       relationship_context: 'Half',
+      related_person_date_of_birth: '1990-05-05',
+      related_person_age: '28',
+      related_person_age_unit: 'Y',
       legacy_descriptor: {
         legacy_id: 'jane_legacy_id'
       }
@@ -332,6 +338,7 @@ feature 'Relationship card' do
 
               expect(page).to have_content('Jane Campbell')
               expect(page).to have_content('Jake Campbell Brother (Half)')
+              expect(page).to have_content('05/05/1990 (28 yrs)')
             end
 
             scenario 'should display the name of the newly attached person in sidebar' do

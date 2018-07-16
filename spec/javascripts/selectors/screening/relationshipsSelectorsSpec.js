@@ -12,9 +12,9 @@ describe('relationshipsSelectors', () => {
   describe('getPeopleSelector', () => {
     it('returns a list of people or an empty list if there are no people', () => {
       const relationships = [
-        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: 'M', date_of_birth: '1986-01-15'},
-        {legacy_id: '20', first_name: 'Johny', last_name: 'Robinson', gender: 'M', date_of_birth: '1990-03-15'},
-        {legacy_id: '30', first_name: 'Will', last_name: 'Carlson', gender: 'M', date_of_birth: '1991-02-15'},
+        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: 'M', date_of_birth: '1986-01-15', age: 20},
+        {legacy_id: '20', first_name: 'Johny', last_name: 'Robinson', gender: 'M', date_of_birth: '1990-03-15', age: 30},
+        {legacy_id: '30', first_name: 'Will', last_name: 'Carlson', gender: 'M', date_of_birth: '1991-02-15', age: 40},
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
@@ -82,6 +82,8 @@ describe('relationshipsSelectors', () => {
               related_person_last_name: 'Robinson',
               related_person_relationship: '17',
               indexed_person_relationship: '17',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '2',
               },
@@ -95,6 +97,8 @@ describe('relationshipsSelectors', () => {
               related_person_last_name: 'Carlson',
               related_person_relationship: '297',
               indexed_person_relationship: '258',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '1',
               },
@@ -117,6 +121,8 @@ describe('relationshipsSelectors', () => {
               related_person_last_name: 'Robinson',
               related_person_relationship: '17',
               indexed_person_relationship: '17',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '3',
               },
@@ -130,6 +136,8 @@ describe('relationshipsSelectors', () => {
               related_person_last_name: 'Carlson',
               related_person_relationship: '297',
               indexed_person_relationship: '258',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '1',
               },
@@ -164,6 +172,8 @@ describe('relationshipsSelectors', () => {
               person_card_exists: false,
               same_home_code: 'Y',
               type_code: '17',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
             },
             {
               absent_parent_code: 'N',
@@ -176,6 +186,8 @@ describe('relationshipsSelectors', () => {
               person_card_exists: true,
               same_home_code: 'N',
               type_code: '258',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
             },
           ],
         },
@@ -196,6 +208,8 @@ describe('relationshipsSelectors', () => {
               person_card_exists: false,
               same_home_code: 'Y',
               type_code: '17',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
             },
             {
               absent_parent_code: 'N',
@@ -208,6 +222,8 @@ describe('relationshipsSelectors', () => {
               person_card_exists: true,
               same_home_code: 'N',
               type_code: '258',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
             },
           ],
         },
