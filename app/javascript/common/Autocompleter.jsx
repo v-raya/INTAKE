@@ -44,6 +44,7 @@ export class Autocompleter extends Component {
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
+    this.renderItem = this.renderItem.bind(this)
   }
 
   isSearchable(value) {
