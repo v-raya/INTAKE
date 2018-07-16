@@ -143,7 +143,8 @@ export class Autocompleter extends Component {
   }
 
   render() {
-    const {searchTerm, id, results} = this.props
+    const {searchTerm, id} = this.props
+    var {results} = this.props
     const {menuVisible} = this.state
     return (
       <Autocomplete
