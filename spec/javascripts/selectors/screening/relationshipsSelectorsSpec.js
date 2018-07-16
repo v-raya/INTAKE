@@ -24,7 +24,6 @@ describe('relationshipsSelectors', () => {
           name: 'Ricky Robinson',
           relationships: [],
           gender: 'M',
-          age: 20,
         },
         {
           dateOfBirth: '03/15/1990',
@@ -32,7 +31,6 @@ describe('relationshipsSelectors', () => {
           name: 'Johny Robinson',
           relationships: [],
           gender: 'M',
-          age: 30,
         },
         {
           dateOfBirth: '02/15/1991',
@@ -40,8 +38,6 @@ describe('relationshipsSelectors', () => {
           name: 'Will Carlson',
           relationships: [],
           gender: 'M',
-          age: 40,
-
         },
       ]))
       expect(getPeopleSelector(emptyState)).toEqualImmutable(fromJS([]))
@@ -49,11 +45,11 @@ describe('relationshipsSelectors', () => {
 
     it('returns a list of people with an empty gender', () => {
       const relationships = [
-        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15', age: 20},
+        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15'},
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS(
-        [{dateOfBirth: '01/15/1986', legacy_id: '10', name: 'Ricky Robinson', relationships: [], gender: '', age: 20}]
+        [{dateOfBirth: '01/15/1986', legacy_id: '10', name: 'Ricky Robinson', relationships: [], gender: ''}]
       ))
     })
 
@@ -77,7 +73,6 @@ describe('relationshipsSelectors', () => {
           gender: 'M',
           last_name: 'Robinson',
           legacy_id: '3',
-          age: 20,
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -117,7 +112,6 @@ describe('relationshipsSelectors', () => {
           last_name: 'Robinson',
           legacy_id: '2',
           date_of_birth: '1990-03-15',
-          age: 20,
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -166,7 +160,6 @@ describe('relationshipsSelectors', () => {
           legacy_id: '3',
           name: 'Ricky Robinson',
           gender: 'M',
-          age: 20,
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -203,7 +196,6 @@ describe('relationshipsSelectors', () => {
           legacy_id: '2',
           name: 'Johny Robinson',
           gender: 'M',
-          age: 20,
           relationships: [
             {
               absent_parent_code: 'Y',

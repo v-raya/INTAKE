@@ -64,7 +64,7 @@ export const Relationships = ({
             <div className='row'>
               <div className='col-md-9' />
               <div className='col-md-3'>
-                <ScreeningCreateRelationship data={createRelationsData(person.name, person.relationships, person.related_person_age, person.dateOfBirth)}/>
+                <ScreeningCreateRelationship data={createRelationsData(person.name, person.relationships)}/>
               </div>
             </div>
           </div>

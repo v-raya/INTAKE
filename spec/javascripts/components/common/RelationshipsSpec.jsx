@@ -157,6 +157,37 @@ describe('Relationships for Snapshot', () => {
     expect(component.at(3).prop('relationship')).toEqual({name: 'Sally Jones', type: 'son', person_card_exists: true})
   })
 
+  it('renders Age & Age_Units for each person', () => {
+    const people = [
+      {
+        name: 'Sally Jones',
+        relationships: [
+          {name: 'Jim Johnson', type: 'mother', related_person_age: 30, related_person_age_unit: 'Y', person_card_exists: true},
+        ],
+      },
+      {
+        name: 'Nate Starbringer',
+        relationships: [
+          {name: 'Jim Johnson', type: 'father', related_person_age: 30, related_person_age_unit: 'Y', person_card_exists: false},
+        ],
+      },
+      {
+        name: 'Jim Johnson',
+        relationships: [
+          {name: 'Nate Starbringer', type: 'son', related_person_age: 20, related_person_age_unit: 'Y', person_card_exists: true},
+          {name: 'Sally Jones', type: 'son', related_person_age: 10, related_person_age_unit: 'Y', person_card_exists: true},
+        ],
+      },
+    ]
+    const component = renderRelationships({people}).find(AttachLink)
+
+    expect(component.length).toBe(4)
+    expect(component.at(0).prop('relationship')).toEqual({name: 'Jim Johnson', type: 'mother', related_person_age: 30, related_person_age_unit: 'Y', person_card_exists: true})
+    expect(component.at(1).prop('relationship')).toEqual({name: 'Jim Johnson', type: 'father', related_person_age: 30, related_person_age_unit: 'Y', person_card_exists: false})
+    expect(component.at(2).prop('relationship')).toEqual({name: 'Nate Starbringer', type: 'son', related_person_age: 20, related_person_age_unit: 'Y', person_card_exists: true})
+    expect(component.at(3).prop('relationship')).toEqual({name: 'Sally Jones', type: 'son', related_person_age: 10, related_person_age_unit: 'Y', person_card_exists: true})
+  })
+
   it('hides Attach link for people in the pending list', () => {
     const people = [
       {

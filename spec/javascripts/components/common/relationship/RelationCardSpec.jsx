@@ -8,7 +8,8 @@ describe('RelationCard', () => {
     data: [{
       name: 'Luke Skywalker',
       secondaryRelationship: 'No Relation',
-      related_person_age: '30',
+      related_person_age: 30,
+      related_person_age_unit: 'Y',
     }],
     attachActions: () => {},
     expandableRow: () => {},
