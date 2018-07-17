@@ -79,7 +79,7 @@ export class Autocompleter extends Component {
   }
 
   renderMenu(items, searchTerm, _style) {
-    const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, onSelect, total} = this.props
+    const {total} = this.props
     return (
       <div style={menuStyle} className='autocomplete-menu'>
         <SuggestionHeader
@@ -88,47 +88,55 @@ export class Autocompleter extends Component {
           searchTerm={searchTerm}
         />
         {items}
-        <AutocompleterFooter
-          canCreateNewPerson={canCreateNewPerson}
-          canLoadMoreResults={items && total !== items.length}
-          onLoadMoreResults={onLoadMoreResults}
-          onCreateNewPerson={() => {
-            onClear()
-            onChange('')
-            onSelect({id: null})
-            this.setState({menuVisible: false})
-            // This is required because react-autcompleter onMouseLeave event is never fired.
-            // So the autocompleter maintains focus and ignore blur events.
-            // We are manually forcing a blur event here so we can get out.
-            this.element_ref._ignoreBlur = false
-          }}
-        />
       </div>
     )
   }
 
   renderItem(item, isHighlighted, _styles) {
-    const key = item.legacyDescriptor.legacy_id
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
-    return (
-      <div id={`search-result-${key}`} key={key} style={style}>
-        <PersonSuggestion
-          address={item.address}
-          dateOfBirth={item.dateOfBirth}
-          isDeceased={item.isDeceased}
-          ethnicity={item.ethnicity}
-          fullName={item.fullName}
-          gender={item.gender}
-          isSealed={item.isSealed}
-          isSensitive={item.isSensitive}
-          languages={item.languages}
-          legacyDescriptor={item.legacyDescriptor}
-          phoneNumber={item.phoneNumber}
-          races={item.races}
-          ssn={item.ssn}
-        />
-      </div>
-    )
+    if (item.legacyDescriptor) {
+      const key = item.legacyDescriptor.legacy_id
+      return (
+        <div id={`search-result-${key}`} key={key} style={style}>
+          <PersonSuggestion
+            address={item.address}
+            dateOfBirth={item.dateOfBirth}
+            isDeceased={item.isDeceased}
+            ethnicity={item.ethnicity}
+            fullName={item.fullName}
+            gender={item.gender}
+            isSealed={item.isSealed}
+            isSensitive={item.isSensitive}
+            languages={item.languages}
+            legacyDescriptor={item.legacyDescriptor}
+            phoneNumber={item.phoneNumber}
+            races={item.races}
+            ssn={item.ssn}
+          />
+        </div>
+      )
+    } else {
+      const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, onSelect, total, results} = this.props
+      return (
+        <div style={style}>
+          <AutocompleterFooter
+            canCreateNewPerson={canCreateNewPerson}
+            canLoadMoreResults={results && total !== results.length}
+            onLoadMoreResults={onLoadMoreResults}
+            onCreateNewPerson={() => {
+              onClear()
+              onChange('')
+              onSelect({id: null})
+              this.setState({menuVisible: false})
+              // This is required because react-autcompleter onMouseLeave event is never fired.
+              // So the autocompleter maintains focus and ignore blur events.
+              // We are manually forcing a blur event here so we can get out.
+              this.element_ref._ignoreBlur = false
+            }}
+          />
+        </div>
+      )
+    }
   }
 
   onChangeInput(_, value) {
@@ -145,13 +153,15 @@ export class Autocompleter extends Component {
   render() {
     const {searchTerm, id} = this.props
     var {results} = this.props
+    const showMoreResults = {showMoreResults: 'Show More Results'}
+    var newResults = results.concat(showMoreResults)
     const {menuVisible} = this.state
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
         inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
-        items={results}
+        items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
