@@ -20,6 +20,8 @@ export const getPeopleSelector = createSelector(
   getScreeningRelationships,
   selectRelationshipTypes,
   (participants, people, relationshipTypes) => people.map((person) => Map({
+    age: person.get('age'),
+    age_unit: person.get('age_unit'),
     dateOfBirth: dateFormatter(person.get('date_of_birth')),
     legacy_id: person.get('legacy_id'),
     name: nameFormatter({...person.toJS()}),
