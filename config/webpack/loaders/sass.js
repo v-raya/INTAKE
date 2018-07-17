@@ -7,7 +7,13 @@ module.exports = {
     fallback: 'style-loader',
     use: [
       { loader: 'css-loader', options: { minimize: env.NODE_ENV === 'production' } },
-      { loader: 'postcss-loader', options: { sourceMap: true } },
+      { 
+        loader: 'postcss-loader',
+        options: {
+          sourceMap: true,
+          plugins: function() { return []; }
+        }
+      },
       'resolve-url-loader',
       { loader: 'sass-loader', options: { sourceMap: true } }
     ]
