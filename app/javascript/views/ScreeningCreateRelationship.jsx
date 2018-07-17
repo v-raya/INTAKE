@@ -4,6 +4,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import SelectField from 'common/SelectField'
 import PropTypes from 'prop-types'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
+import { throws } from 'assert';
 
 export default class ScreeningCreateRelationship extends React.Component {
   constructor(props) {
@@ -60,9 +61,12 @@ export default class ScreeningCreateRelationship extends React.Component {
 
   modalFooter() {
     return (
+      <div>
       <button aria-label='Create Relationship' className='pull-right btn btn-primary'>
       Create Relationship
       </button>
+      <button className='btn btn-default' onClick={this.closeModal}> Cancel </button>
+      </div>
     )
   }
 
