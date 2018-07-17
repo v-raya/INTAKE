@@ -142,17 +142,14 @@ export class Autocompleter extends Component {
     onChange(value)
   }
 
-    renderInput(props) {
-      const newProps = {
+  renderInput(props) {
+    const newProps = {
       ...props,
-        ref: (el) => {
-          this.inputRef = el
-          props.ref(el)
-        }
-      }
-    return <input
-        {...newProps}
-    />
+      ref: (el) => {
+        this.inputRef = el
+        props.ref(el)
+      }}
+    return <input{...newProps}/>
   }
 
   render() {
