@@ -341,7 +341,7 @@ feature 'History card' do
               within allegation_rows[0] do
                 expect(page).to have_content('Victim')
                 expect(page).to have_content('Perpetrator')
-                expect(page).to have_content('Allegation(s) & Disposition')
+                expect(page).to have_content('Allegation(s) & Conclusion(s)')
               end
 
               within allegation_rows[1] do
@@ -369,7 +369,7 @@ feature 'History card' do
               within allegation_rows[0] do
                 expect(page).to have_content('Victim')
                 expect(page).to have_content('Perpetrator')
-                expect(page).to have_content('Allegation(s) & Disposition')
+                expect(page).to have_content('Allegation(s) & Conclusion(s)')
               end
 
               within allegation_rows[1] do
@@ -478,7 +478,7 @@ feature 'History card' do
               within allegation_rows[0] do
                 expect(page).to have_content('Victim')
                 expect(page).to have_content('Perpetrator')
-                expect(page).to have_content('Allegation(s) & Disposition')
+                expect(page).to have_content('Allegation(s) & Conclusion(s)')
               end
 
               within allegation_rows[1] do
@@ -506,7 +506,7 @@ feature 'History card' do
               within allegation_rows[0] do
                 expect(page).to have_content('Victim')
                 expect(page).to have_content('Perpetrator')
-                expect(page).to have_content('Allegation(s) & Disposition')
+                expect(page).to have_content('Allegation(s) & Conclusion(s)')
               end
 
               within allegation_rows[1] do
@@ -665,7 +665,7 @@ feature 'History card' do
                 within allegation_rows[0] do
                   expect(page).to have_content('Victim')
                   expect(page).to have_content('Perpetrator')
-                  expect(page).to have_content('Allegation(s) & Disposition')
+                  expect(page).to have_content('Allegation(s) & Conclusion(s)')
                 end
 
                 within allegation_rows[1] do
@@ -693,7 +693,7 @@ feature 'History card' do
                 within allegation_rows[0] do
                   expect(page).to have_content('Victim')
                   expect(page).to have_content('Perpetrator')
-                  expect(page).to have_content('Allegation(s) & Disposition')
+                  expect(page).to have_content('Allegation(s) & Conclusion(s)')
                 end
 
                 within allegation_rows[1] do
