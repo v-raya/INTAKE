@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import Autocomplete from 'react-autocomplete'
 import SuggestionHeader from 'common/SuggestionHeader'
 import AutocompleterFooter from 'common/AutocompleterFooter'
+import AutocompleterCreateNewPersonFooter from 'common/AutocompleterCreateNewPersonFooter'
 import {logEvent} from 'utils/analytics'
 
 const menuStyle = {
@@ -52,17 +53,26 @@ export class Autocompleter extends Component {
   }
 
   onItemSelect(_value, item) {
-    const {isSelectable, onClear, onChange, onSelect} = this.props
-    if (isSelectable(item)) {
-      logEvent('searchResultClick', {
-        searchIndex: this.props.results.indexOf(item),
-      })
+    const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults} = this.props
+    if (item.legacyDescriptor) {
+      if (isSelectable(item)) {
+        logEvent('searchResultClick', {
+          searchIndex: this.props.results.indexOf(item),
+        })
+        onClear()
+        onChange('')
+        onSelect(item)
+        this.setState({menuVisible: false})
+      } else {
+        alert('You are not authorized to add this person.') // eslint-disable-line no-alert
+      }
+    } else if (item.showMoreResults) {
+      onLoadMoreResults()
+    } else {
       onClear()
       onChange('')
-      onSelect(item)
+      onSelect({id: null})
       this.setState({menuVisible: false})
-    } else {
-      alert('You are not authorized to add this person.') // eslint-disable-line no-alert
     }
   }
 
@@ -94,6 +104,7 @@ export class Autocompleter extends Component {
 
   renderItem(item, isHighlighted, _styles) {
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
+    const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, onSelect, total, results} = this.props
     if (item.legacyDescriptor) {
       const key = item.legacyDescriptor.legacy_id
       return (
@@ -115,14 +126,20 @@ export class Autocompleter extends Component {
           />
         </div>
       )
-    } else {
-      const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, onSelect, total, results} = this.props
+    } else if (item.showMoreResults) {
       return (
         <div style={style}>
           <AutocompleterFooter
-            canCreateNewPerson={canCreateNewPerson}
             canLoadMoreResults={results && total !== results.length}
             onLoadMoreResults={onLoadMoreResults}
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div style={style}>
+          <AutocompleterCreateNewPersonFooter
+            canCreateNewPerson={canCreateNewPerson}
             onCreateNewPerson={() => {
               onClear()
               onChange('')
@@ -152,9 +169,10 @@ export class Autocompleter extends Component {
 
   render() {
     const {searchTerm, id} = this.props
-    var {results} = this.props
+    var {results, canCreateNewPerson} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results'}
-    var newResults = results.concat(showMoreResults)
+    const createNewPerson = {createNewPerson: 'Create New Person'}
+    var newResults = results.concat(showMoreResults, canCreateNewPerson ? createNewPerson : [])
     const {menuVisible} = this.state
     return (
       <Autocomplete

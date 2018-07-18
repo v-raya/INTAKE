@@ -338,7 +338,6 @@ describe('<Autocompleter />', () => {
         .simulate('change', {target: {value: 'ab'}})
       const footer = autocompleter.find('AutocompleterFooter')
       expect(footer.length).toBe(1)
-      expect(footer.props().canCreateNewPerson).toEqual(true)
       expect(footer.props().canLoadMoreResults).toEqual(true)
       expect(footer.props().onLoadMoreResults).toEqual(onLoadMoreResults)
     })
