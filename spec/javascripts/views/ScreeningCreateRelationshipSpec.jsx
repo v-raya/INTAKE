@@ -22,7 +22,18 @@ describe('ScreeningCreateRelationship', () => {
   })
 
   it('closes the modal', () => {
+    wrapper.setState({show: true})
+    expect(wrapper.instance().state.show).toBe(true)
     wrapper.instance().closeModal()
     expect(wrapper.instance().state.show).toEqual(false)
+  })
+
+  it('closes the modal when the cancel button is clicked', () => {
+    wrapper.setState({show: true})
+    const footer = wrapper.find('ModalComponent').props().modalFooter
+    const cancel = footer.props.children[0]
+    expect(wrapper.state().show).toEqual(true)
+    cancel.props.onClick()
+    expect(wrapper.state().show).toEqual(false)
   })
 })
