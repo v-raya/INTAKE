@@ -24,8 +24,7 @@ describe('relationshipsSelectors', () => {
           name: 'Ricky Robinson',
           relationships: [],
           gender: 'M',
-          age: 20,
-          age_unit: 'Y',
+          age: '(20 yrs)',
         },
         {
           dateOfBirth: '03/15/1990',
@@ -33,8 +32,7 @@ describe('relationshipsSelectors', () => {
           name: 'Johny Robinson',
           relationships: [],
           gender: 'M',
-          age: 30,
-          age_unit: 'Y',
+          age: '(30 yrs)',
         },
         {
           dateOfBirth: '02/15/1991',
@@ -42,9 +40,7 @@ describe('relationshipsSelectors', () => {
           name: 'Will Carlson',
           relationships: [],
           gender: 'M',
-          age: 40,
-          age_unit: 'Y',
-
+          age: '(40 yrs)',
         },
       ]))
       expect(getPeopleSelector(emptyState)).toEqualImmutable(fromJS([]))
@@ -56,7 +52,7 @@ describe('relationshipsSelectors', () => {
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS(
-        [{dateOfBirth: '01/15/1986', legacy_id: '10', name: 'Ricky Robinson', relationships: [], gender: '', age: 20, age_unit: 'Y'}]
+        [{dateOfBirth: '01/15/1986', legacy_id: '10', name: 'Ricky Robinson', relationships: [], gender: '', age: '(20 yrs)'}]
       ))
     })
 
@@ -171,8 +167,7 @@ describe('relationshipsSelectors', () => {
           legacy_id: '3',
           name: 'Ricky Robinson',
           gender: 'M',
-          age: 20,
-          age_unit: 'Y',
+          age: '(20 yrs)',
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -185,8 +180,7 @@ describe('relationshipsSelectors', () => {
               person_card_exists: false,
               same_home_code: 'Y',
               type_code: '17',
-              related_person_age: 30,
-              related_person_age_unit: 'Y',
+              age: '(30 yrs)',
             },
             {
               absent_parent_code: 'N',
@@ -199,8 +193,7 @@ describe('relationshipsSelectors', () => {
               person_card_exists: true,
               same_home_code: 'N',
               type_code: '258',
-              related_person_age: 30,
-              related_person_age_unit: 'Y',
+              age: '(30 yrs)',
             },
           ],
         },
@@ -209,8 +202,7 @@ describe('relationshipsSelectors', () => {
           legacy_id: '2',
           name: 'Johny Robinson',
           gender: 'M',
-          age: 20,
-          age_unit: 'Y',
+          age: '(20 yrs)',
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -223,8 +215,7 @@ describe('relationshipsSelectors', () => {
               person_card_exists: false,
               same_home_code: 'Y',
               type_code: '17',
-              related_person_age: 30,
-              related_person_age_unit: 'Y',
+              age: '(30 yrs)',
             },
             {
               absent_parent_code: 'N',
@@ -237,8 +228,7 @@ describe('relationshipsSelectors', () => {
               person_card_exists: true,
               same_home_code: 'N',
               type_code: '258',
-              related_person_age: 30,
-              related_person_age_unit: 'Y',
+              age: '(30 yrs)',
             },
           ],
         },
