@@ -4,13 +4,13 @@ import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
 
 export class AutocompleterCreateNewPersonFooter extends Component {
   render() {
-    const {canCreateNewPerson, onCreateNewPerson} = this.props
+    const {canCreateNewPerson} = this.props
     return (
       <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
         {
           canCreateNewPerson &&
             <div>
-              <CreateUnknownPerson onClick={onCreateNewPerson} />
+              <CreateUnknownPerson />
             </div>
         }
       </div>

@@ -4,13 +4,13 @@ import ShowMoreResults from 'common/ShowMoreResults'
 
 export class AutocompleterFooter extends Component {
   render() {
-    const {canLoadMoreResults, onLoadMoreResults} = this.props
+    const {canLoadMoreResults} = this.props
     return (
       <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
         {
           canLoadMoreResults &&
             <div>
-              <ShowMoreResults onClick={onLoadMoreResults} />
+              <ShowMoreResults />
             </div>
         }
       </div>

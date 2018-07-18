@@ -28,6 +28,5 @@ describe('<AutocompleterFooter />', () => {
       onLoadMoreResults,
     }).find('ShowMoreResults')
     expect(component.exists()).toEqual(true)
-    expect(component.props().onClick).toEqual(onLoadMoreResults)
   })
 })
