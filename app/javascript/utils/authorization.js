@@ -9,7 +9,8 @@ export const canUserAddClient = (userInfo, hasAddSensitivePerson, client, hasOve
     return true
   }
 
-  const {isSensitive, clientCounty} = client
+  const {isSensitive, clientCounties} = client
+  const clientCounty = clientCounties[0]
   const {county: userCounty} = userInfo || {}
 
   return !isSensitive || (hasAddSensitivePerson && !areDifferentCounties(userCounty, clientCounty))

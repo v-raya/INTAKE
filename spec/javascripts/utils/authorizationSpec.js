@@ -8,19 +8,19 @@ describe('Authorization Helpers', () => {
   const clients = {
     sensitive_sacramentan: {
       isSensitive: true,
-      clientCounty: 'Sacramento',
+      clientCounties: ['Sacramento'],
     },
     sensitive_siskiyouan: {
       isSensitive: true,
-      clientCounty: 'Siskiyou',
+      clientCounties: ['Siskiyou'],
     },
     sensitive_somewhere: {
       isSensitive: true,
-      clientCounty: null,
+      clientCounties: [],
     },
     nonsensitive: {
       isSensitive: false,
-      clientCounty: 'Sacramento',
+      clientCounties: ['Sacramento'],
     },
   }
   describe('canUserAddClient', () => {

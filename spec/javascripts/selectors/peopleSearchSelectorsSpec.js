@@ -38,7 +38,8 @@ describe('peopleSearchSelectors', () => {
   ]
 
   const counties = [
-    {code: '999', value: 'Nowhere'},
+    {code: '999', value: 'SysCode Nowhere'},
+    {code: '998', value: 'SysCode Places'},
   ]
 
   const systemCodes = {
@@ -89,10 +90,13 @@ describe('peopleSearchSelectors', () => {
             date_of_birth: '1990-02-13',
             date_of_death: '2000-02-18',
             ssn: '123456789',
-            client_county: {
+            client_counties: [{
               description: 'Nowhere',
               id: '999',
-            },
+            }, {
+              description: 'Places',
+              id: '998',
+            }],
             addresses: [{
               id: '1',
               street_number: '234',
@@ -144,7 +148,7 @@ describe('peopleSearchSelectors', () => {
           dateOfBirth: '1990-02-13',
           isDeceased: true,
           ssn: '123-45-6789',
-          clientCounty: 'Nowhere',
+          clientCounties: ['SysCode Nowhere', 'SysCode Places'],
           address: {
             city: 'Flushing',
             state: 'state',

@@ -22,10 +22,10 @@ class PersonSearchResultBuilder
         phone_numbers: [],
         languages: [],
         race_ethnicity: {},
-        client_county: {
+        client_counties: [{
           description: 'Nowhere',
           id: 999
-        },
+        }],
         addresses: [],
         date_of_birth: '',
         legacy_descriptor: {},
