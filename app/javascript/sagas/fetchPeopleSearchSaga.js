@@ -1,6 +1,7 @@
 import {takeLatest, put, call} from 'redux-saga/effects'
 import {delay} from 'redux-saga'
 import {get} from 'utils/http'
+import {logEvent} from 'utils/analytics'
 import {PEOPLE_SEARCH_FETCH, fetchSuccess, fetchFailure} from 'actions/peopleSearchActions'
 
 export function* fetchPeopleSearch({payload: {searchTerm}}) {
@@ -9,6 +10,7 @@ export function* fetchPeopleSearch({payload: {searchTerm}}) {
     yield call(delay, TIME_TO_DEBOUNCE)
     const response = yield call(get, '/api/v1/people/search', {search_term: searchTerm})
     yield put(fetchSuccess(response))
+    yield call(logEvent, 'personSearch', {totalResults: response.hits.total})
   } catch (error) {
     yield put(fetchFailure(error))
   }
