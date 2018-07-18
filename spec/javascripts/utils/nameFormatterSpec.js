@@ -1,9 +1,33 @@
 import {
+  addSuffix,
   isCommaSuffix,
   formatNameSuffix,
   formatHighlightedSuffix,
+  removeLooseSuffix,
   default as nameFormatter,
 } from 'utils/nameFormatter'
+
+describe('addSuffix', () => {
+  it('should add suffix', () => {
+    expect(addSuffix('Luke Skywalker', 'jr')).toEqual('Luke Skywalker, Jr')
+    expect(addSuffix('Anakin Skywalker', 'Phd')).toEqual('Anakin Skywalker, PhD')
+    expect(addSuffix('Ben Solo', '2')).toEqual('Ben Solo II')
+    expect(addSuffix('Ben Solo', 'ii')).toEqual('Ben Solo II')
+  })
+
+  it('should add suffix even if there is special character in suffix', () => {
+    expect(addSuffix('Luke Skywalker', 'jr.')).toEqual('Luke Skywalker, Jr')
+    expect(addSuffix('Anakin Skywalker', 'md!')).toEqual('Anakin Skywalker, MD')
+    expect(addSuffix('Ben Solo', '2.')).toEqual('Ben Solo II')
+    expect(addSuffix('Ben Solo', '.ii')).toEqual('Ben Solo II')
+  })
+
+  it('should not add suffix when it is not a string or an invalid suffix', () => {
+    expect(addSuffix('Luke Skywalker', 2)).toEqual('Luke Skywalker')
+    expect(addSuffix('Anakin Skywalker', null)).toEqual('Anakin Skywalker')
+    expect(addSuffix('Han Solo', undefined)).toEqual('Han Solo')
+  })
+})
 
 describe('isCommaSuffix', () => {
   it('should be true for name suffixes', () => {
@@ -34,6 +58,28 @@ describe('isCommaSuffix', () => {
     expect(isCommaSuffix('Primate of Italy')).toEqual(false)
     expect(isCommaSuffix(null)).toEqual(false)
     expect(isCommaSuffix(3)).toEqual(false)
+  })
+})
+
+describe('removeLooseSuffix', () => {
+  it('should remove special characters', () => {
+    expect(removeLooseSuffix('jr.')).toEqual('jr')
+    expect(removeLooseSuffix('sr/')).toEqual('sr')
+    expect(removeLooseSuffix('/sr')).toEqual('sr')
+    expect(removeLooseSuffix('!')).toEqual('')
+    expect(removeLooseSuffix('2?')).toEqual('2')
+    expect(removeLooseSuffix('ii.')).toEqual('ii')
+    expect(removeLooseSuffix('l!')).toEqual('l')
+  })
+
+  it('should return empty string if suffix is an empty string', () => {
+    expect(removeLooseSuffix('')).toEqual('')
+  })
+
+  it('should return false if the suffix is not a string', () => {
+    expect(removeLooseSuffix(null)).toBe(false)
+    expect(removeLooseSuffix(2)).toBe(false)
+    expect(removeLooseSuffix(undefined)).toBe(false)
   })
 })
 
@@ -227,6 +273,7 @@ describe('nameFormatter', () => {
         name_suffix: '4',
       })).toEqual('Bill S. Preston IV')
     })
+
     it('returns empty for suffix name is undefined', () => {
       expect(nameFormatter({
         first_name: 'Bill',
@@ -234,6 +281,36 @@ describe('nameFormatter', () => {
         last_name: 'Preston',
         name_suffix: undefined,
       })).toEqual('Bill S. Preston')
+    })
+
+    it('returns the name with suffix for a suffix with special char.', () => {
+      expect(nameFormatter({
+        first_name: 'Bill',
+        middle_name: 'S.',
+        last_name: 'Preston',
+        name_suffix: 'jr.',
+      })).toEqual('Bill S. Preston, Jr')
+
+      expect(nameFormatter({
+        first_name: 'Bill',
+        middle_name: 'S.',
+        last_name: 'Preston',
+        name_suffix: '.pHD',
+      })).toEqual('Bill S. Preston, PhD')
+
+      expect(nameFormatter({
+        first_name: 'Bill',
+        middle_name: 'S.',
+        last_name: 'Preston',
+        name_suffix: 'V.',
+      })).toEqual('Bill S. Preston V')
+
+      expect(nameFormatter({
+        first_name: 'Bill',
+        middle_name: 'S.',
+        last_name: 'Preston',
+        name_suffix: '5 ',
+      })).toEqual('Bill S. Preston V')
     })
   })
 

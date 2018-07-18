@@ -22,12 +22,17 @@ export const formatHighlightedSuffix = (highlightedSuffix) => {
   return rehighlightedSuffix
 }
 
+export const removeLooseSuffix = (suffix) => (
+  (typeof suffix === 'string') && suffix.replace(/([^\w])/g, '')
+)
+
 export const addSuffix = (name, suffix) => {
-  const validSuffix = formatNameSuffix(suffix)
+  const filteredSuffix = removeLooseSuffix(suffix)
+  const validSuffix = formatNameSuffix(filteredSuffix)
 
   if (!validSuffix) { return name }
 
-  return `${name}${isCommaSuffix(suffix) ? ',' : ''} ${validSuffix}`
+  return `${name}${isCommaSuffix(filteredSuffix) ? ',' : ''} ${validSuffix}`
 }
 
 const nameFormatter = ({
