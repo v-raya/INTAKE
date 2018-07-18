@@ -4,7 +4,6 @@ import CheckboxField from 'common/CheckboxField'
 import DateField from 'common/DateField'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
 import {GENDERS_LEGACY} from 'enums/Genders'
-import AGE_UNITS from 'enums/AgeUnits'
 
 const propTypes = {
   onChange: PropTypes.func,
@@ -44,7 +43,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
             <td>
               <ul className='unstyled-list'>
                 <li>{person.name}</li>
-                <li>{person.age} {AGE_UNITS[person.age_unit]}</li>
+                <li>{person.age}</li>
                 <li>{GENDERS_LEGACY[person.gender] || ''}</li>
               </ul>
             </td>
@@ -67,7 +66,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
             <td>
               <ul className='unstyled-list'>
                 <li>{relationship.name}</li>
-                <li>{relationship.related_person_age} {AGE_UNITS[relationship.related_person_age_unit]}</li>
+                <li>{relationship.age}</li>
                 <li>{GENDERS_LEGACY[relationship.gender]}</li>
               </ul>
             </td>

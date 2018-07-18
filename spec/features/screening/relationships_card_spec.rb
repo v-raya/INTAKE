@@ -41,7 +41,7 @@ feature 'Relationship card' do
         first_name: participant.first_name,
         last_name: participant.last_name,
         relationships: [].push(jane, jake),
-        age: '20',
+        age: 20,
         age_unit: 'Y',
         legacy_id: 'jane_legacy_id'
       }
@@ -65,7 +65,7 @@ feature 'Relationship card' do
       relationship_context: 'Half',
       related_person_id: '7',
       related_person_date_of_birth: '1990-05-05',
-      related_person_age: '28',
+      related_person_age: 28,
       related_person_age_unit: 'Y',
       legacy_descriptor: {
         legacy_id: 'jake_legacy_id'
@@ -83,7 +83,7 @@ feature 'Relationship card' do
       indexed_person_relationship: '280',
       relationship_context: 'Half',
       related_person_date_of_birth: '1990-05-05',
-      related_person_age: '28',
+      related_person_age: 28,
       related_person_age_unit: 'Y',
       legacy_descriptor: {
         legacy_id: 'jane_legacy_id'
