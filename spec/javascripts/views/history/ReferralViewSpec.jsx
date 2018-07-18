@@ -59,7 +59,7 @@ describe('ReferralView', () => {
       const component = renderReferralView({})
       expect(component.find('.people-and-roles').find('th.victim').text()).toEqual('Victim')
       expect(component.find('.people-and-roles').find('th.perpetrator').text()).toEqual('Perpetrator')
-      expect(component.find('.people-and-roles').find('th.allegations.disposition').text()).toEqual('Allegation(s) & Disposition')
+      expect(component.find('.people-and-roles').find('th.allegations.disposition').text()).toEqual('Allegation(s) & Conclusion(s)')
     })
 
     it('renders a victim for each person', () => {

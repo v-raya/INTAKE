@@ -33,7 +33,7 @@ const ReferralView = ({
           <tr>
             <th scope='col' className='victim semibold'>Victim</th>
             <th scope='col' className='perpetrator semibold'>Perpetrator</th>
-            <th scope='col' className='allegations disposition semibold'>Allegation(s) &amp; Disposition</th>
+            <th scope='col' className='allegations disposition semibold'>Allegation(s) &amp; Conclusion(s)</th>
           </tr>
         </thead>
         <tbody>
