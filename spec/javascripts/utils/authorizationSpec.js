@@ -22,6 +22,10 @@ describe('Authorization Helpers', () => {
       isSensitive: false,
       clientCounties: ['Sacramento'],
     },
+    multiple: {
+      isSensitive: true,
+      clientCounties: ['Sacramento', 'Siskiyou'],
+    },
   }
   describe('canUserAddClient', () => {
     it('should deny nonsensitive users from adding sensitive clients', () => {
@@ -66,6 +70,12 @@ describe('Authorization Helpers', () => {
     it('should defer to the API if the user has an override authority', () => {
       expect(
         canUserAddClient(sacramentan, true, clients.sensitive_siskiyouan, true)
+      ).toBe(true)
+    })
+
+    it('should defer to the API if the client is in multiple counties', () => {
+      expect(
+        canUserAddClient(sacramentan, false, clients.multiple, false)
       ).toBe(true)
     })
   })
