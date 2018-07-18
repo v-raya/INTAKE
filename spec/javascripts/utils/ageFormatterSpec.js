@@ -7,10 +7,10 @@ describe('ageFormatter', () => {
     expect(ageFormatter({age: 20, ageUnit: 'D'})).toEqual('(20 dys)')
   })
 
-  it('should be empty if age is empty and ageUnits are valid', () => {
-    expect(ageFormatter({age: '', ageUnit: 'Y'})).toEqual('')
-    expect(ageFormatter({age: '', ageUnit: 'M'})).toEqual('')
-    expect(ageFormatter({age: '', ageUnit: 'D'})).toEqual('')
+  it('should be empty if age is a string/empty and ageUnits are valid', () => {
+    expect(ageFormatter({age: '20', ageUnit: 'Y'})).toEqual('')
+    expect(ageFormatter({age: null, ageUnit: 'M'})).toEqual('')
+    expect(ageFormatter({age: null, ageUnit: 'D'})).toEqual('')
   })
 
   it('should be empty if age is valid and ageUnits are empty', () => {

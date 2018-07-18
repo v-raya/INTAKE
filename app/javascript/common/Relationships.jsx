@@ -119,7 +119,7 @@ Relationships.propTypes = {
       name: PropTypes.string,
       type: PropTypes.string,
       secondaryRelationship: PropTypes.string,
-      related_person_age: PropTypes.number,
+      age: PropTypes.string,
     })),
   })),
   screeningId: PropTypes.string,

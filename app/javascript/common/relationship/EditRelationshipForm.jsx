@@ -4,7 +4,6 @@ import CheckboxField from 'common/CheckboxField'
 import DateField from 'common/DateField'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
 import {GENDERS_LEGACY} from 'enums/Genders'
-import AGE_UNITS from 'enums/AgeUnits'
 
 const propTypes = {
   onChange: PropTypes.func,

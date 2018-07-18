@@ -8,15 +8,13 @@ describe('EditRelationshipForm', () => {
   const props = {
     person: {
       name: 'Luke Skywalker',
-      age: 20,
-      age_unit: 'Y',
+      age: '(20 yrs)',
       gender: 'M',
     },
     relationship: {
       absent_parent_code: 'Y',
       name: 'Darth Vader',
-      related_person_age: '30',
-      related_person_age_unit: 'Y',
+      age: '(30 yrs)',
       gender: 'M',
       secondaryRelationship: 'Father',
       same_home_code: 'N',
@@ -45,10 +43,10 @@ describe('EditRelationshipForm', () => {
     const component = renderEditRelationshipForm(props)
 
     expect(component.find('ul').first().find('li').first().text()).toEqual('Luke Skywalker')
-    expect(component.find('ul').first().find('li').at(1).text()).toEqual('20 yrs')
+    expect(component.find('ul').first().find('li').at(1).text()).toEqual('(20 yrs)')
     expect(component.find('ul').first().find('li').last().text()).toEqual('Male')
     expect(component.find('ul').last().find('li').first().text()).toEqual('Darth Vader')
-    expect(component.find('ul').last().find('li').at(1).text()).toEqual('30 yrs')
+    expect(component.find('ul').last().find('li').at(1).text()).toEqual('(30 yrs)')
     expect(component.find('ul').last().find('li').last().text()).toEqual('Male')
   })
 
@@ -56,15 +54,13 @@ describe('EditRelationshipForm', () => {
     const propsDisableCheckbox = {
       person: {
         name: 'Luke Skywalker',
-        age: 20,
-        age_unit: 'Y',
+        age: '(20 yrs)',
         gender: 'M',
       },
       relationship: {
         absent_parent_code: 'Y',
         name: 'Darth Vader',
-        related_person_age: '30',
-        related_person_age_unit: 'Y',
+        age: '(30 yrs)',
         gender: 'M',
         secondaryRelationship: 'No Relation',
         same_home_code: 'N',
@@ -74,15 +70,13 @@ describe('EditRelationshipForm', () => {
     const propsEnablesCheckbox = {
       person: {
         name: 'Luke Skywalker',
-        age: 20,
-        age_unit: 'Y',
+        age: '(20 yrs)',
         gender: 'M',
       },
       relationship: {
         absent_parent_code: 'Y',
         name: 'Darth Vader',
-        related_person_age: '30',
-        related_person_age_unit: 'Y',
+        age: '(30 yrs)',
         gender: 'M',
         secondaryRelationship: 'Father (Birth)',
         same_home_code: 'N',
