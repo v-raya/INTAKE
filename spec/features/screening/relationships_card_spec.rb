@@ -40,7 +40,7 @@ feature 'Relationship card' do
         id: participant.id.to_s,
         first_name: participant.first_name,
         last_name: participant.last_name,
-        relationships: [].push(jane, jake),
+        relationships: [].push(jane, jake, john),
         age: 20,
         age_unit: 'Y',
         legacy_id: 'jane_legacy_id'
@@ -90,13 +90,31 @@ feature 'Relationship card' do
       }
     }
   end
+  let(:john) do
+    {
+      related_person_first_name: 'John',
+      related_person_last_name: 'Florence',
+      related_person_name_suffix: 'phd.',
+      relationship: 'Sister/Brother (Half)',
+      related_person_relationship: '18',
+      indexed_person_relationship: '277',
+      relationship_context: 'Half',
+      related_person_id: '10',
+      related_person_date_of_birth: '1986-05-05',
+      related_person_age: 32,
+      related_person_age_unit: 'Y',
+      legacy_descriptor: {
+        legacy_id: 'jake_legacy_id'
+      }
+    }
+  end
   let(:new_relationships) do
     [
       {
         id: participant.id.to_s,
         first_name: participant.first_name,
         last_name: participant.last_name,
-        relationships: [].push(jane, jake)
+        relationships: [].push(jane, jake, john)
       },
       {
         id: new_participant.id.to_s,
@@ -180,6 +198,7 @@ feature 'Relationship card' do
         )
         expect(page).to have_content('Jane Campbell Sister (Half)')
         expect(page).to have_content('Jake Campbell Brother (Half)')
+        expect(page).to have_content('John Florence, PhD Brother (Half)')
       end
 
       expect(
@@ -202,6 +221,7 @@ feature 'Relationship card' do
 
           expect(page).to have_content('Jane Campbell Sister (Half)')
           expect(page).to have_content('Jake Campbell Brother (Half)')
+          expect(page).to have_content('John Florence, PhD Brother (Half)')
         end
 
         expect(
@@ -341,6 +361,8 @@ feature 'Relationship card' do
               expect(page).to have_content('Jane Campbell')
               expect(page).to have_content('Jake Campbell Brother (Half)')
               expect(page).to have_content('05/05/1990 (28 yrs)')
+              expect(page).to have_content('John Florence, PhD Brother (Half)')
+              expect(page).to have_content('05/05/1986 (32 yrs)')
             end
 
             scenario 'should display the name of the newly attached person in sidebar' do
