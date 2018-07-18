@@ -61,17 +61,15 @@ export default class ScreeningCreateRelationship extends React.Component {
   modalFooter() {
     return (
       <div>
-        <button aria-label='Create Relationship' className='pull-right btn btn-primary'>
-          Create Relationship
-        </button>
         <button aria-label='Cancel' className='btn btn-default' onClick={this.closeModal}> Cancel </button>
+        <button aria-label='Create Relationship' className='btn btn-primary'>Create Relationship </button>
       </div>
     )
   }
 
   render() {
     return (
-      <div className='Aman'>
+      <div>
         <button onClick={this.handleShowModal}>
             Create Relationship
         </button>
