@@ -52,7 +52,7 @@ export const Relationships = ({
                   tableActions={(cell, row) =>
                     (actionsMenu(row, pendingPeople, person, isScreening, screeningId, onChange, onClick)
                     )}
-                  ageDisplayFormatter={(cell, row) => `${row.dateOfBirth || ''} ${row.age}`}
+                  ageDisplayFormatter={(cell, row) => <div> {row.dateOfBirth || ''} {row.age === '' ? '' : `(${row.age})`}</div>}
                 />
               </span>
             }

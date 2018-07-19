@@ -2,9 +2,9 @@ import {ageFormatter} from 'utils/ageFormatter'
 
 describe('ageFormatter', () => {
   it('should return fortmatted age when age and ageUnits are valid ', () => {
-    expect(ageFormatter({age: 20, ageUnit: 'Y'})).toEqual('(20 yrs)')
-    expect(ageFormatter({age: 20, ageUnit: 'M'})).toEqual('(20 mos)')
-    expect(ageFormatter({age: 20, ageUnit: 'D'})).toEqual('(20 dys)')
+    expect(ageFormatter({age: 20, ageUnit: 'Y'})).toEqual('20 yrs')
+    expect(ageFormatter({age: 20, ageUnit: 'M'})).toEqual('20 mos')
+    expect(ageFormatter({age: 20, ageUnit: 'D'})).toEqual('20 dys')
   })
 
   it('should be empty if age is a string/empty and ageUnits are valid', () => {
