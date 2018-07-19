@@ -30,10 +30,13 @@ describe('createSnapshotPerson', () => {
       hispanic_codes: [],
       hispanic_unable_to_determine_code: '',
     },
-    client_county: {
+    client_counties: [{
       description: 'Nowhere',
       id: '999',
-    },
+    }, {
+      description: 'Somewhere',
+      id: '997',
+    }],
     addresses: [{
       zip: '99999',
       city: 'Al Haad',
