@@ -406,7 +406,7 @@ feature 'searching a participant in autocompleter' do
       search_path = dora_api_url(ExternalRoutes.dora_people_light_index_path)
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Fi'
-        expect(page).to have_content 'Showing 1-27 of 51 results for "Fi"', wait: 3
+        expect(page).to have_content 'Showing 1-25 of 51 results for "Fi"', wait: 3
         expect(page).to have_content 'Result 24'
       end
       expect(a_request(:post, search_path)).to have_been_made
@@ -415,7 +415,7 @@ feature 'searching a participant in autocompleter' do
         click_button 'Show more results'
       end
       within '#search-card', text: 'Search' do
-        expect(page).to have_content 'Showing 1-52 of 51 results for "Fi"'
+        expect(page).to have_content 'Showing 1-50 of 51 results for "Fi"'
         expect(page).to have_content 'Result 49'
       end
       expect(
@@ -427,7 +427,7 @@ feature 'searching a participant in autocompleter' do
         click_button 'Show more results'
       end
       within '#search-card', text: 'Search' do
-        expect(page).to have_content 'Showing 1-53 of 51 results for "Fi"'
+        expect(page).to have_content 'Showing 1-51 of 51 results for "Fi"'
         expect(page).to have_content 'Result 50'
       end
       expect(

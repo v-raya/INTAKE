@@ -323,7 +323,7 @@ describe('<Autocompleter />', () => {
       autocompleter.find('input')
         .simulate('change', {target: {value: 'ab'}})
       const suggestionHeader = autocompleter.find('SuggestionHeader')
-      expect(suggestionHeader.html()).toContain('Showing 1-6 of 10 results for "Simpson"')
+      expect(suggestionHeader.html()).toContain('Showing 1-5 of 10 results for "Simpson"')
     })
 
     it('displays the autocompleter footer', () => {

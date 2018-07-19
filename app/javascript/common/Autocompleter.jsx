@@ -34,6 +34,29 @@ const resultStyleHighlighted = {
 }
 const MIN_SEARCHABLE_CHARS = 2
 
+const perosnSuggestion = (item) =>
+  <PersonSuggestion
+    address={item.address}
+    dateOfBirth={item.dateOfBirth}
+    isDeceased={item.isDeceased}
+    ethnicity={item.ethnicity}
+    fullName={item.fullName}
+    gender={item.gender}
+    isSealed={item.isSealed}
+    isSensitive={item.isSensitive}
+    languages={item.languages}
+    legacyDescriptor={item.legacyDescriptor}
+    phoneNumber={item.phoneNumber}
+    races={item.races}
+    ssn={item.ssn}
+  />
+
+const autocompleterFooter = (results, total, onLoadMoreResults) =>
+  <AutocompleterFooter
+    canLoadMoreResults={results && total !== results.length}
+    onLoadMoreResults={onLoadMoreResults}
+  />
+
 export class Autocompleter extends Component {
   constructor(props) {
     super(props)
@@ -63,16 +86,17 @@ export class Autocompleter extends Component {
         onChange('')
         onSelect(item)
         this.setState({menuVisible: false})
-      } else {
-        alert('You are not authorized to add this person.') // eslint-disable-line no-alert
+        return
       }
-    } else if (item.showMoreResults) {
-      onLoadMoreResults()
-    } else {
+      alert('You are not authorized to add this person.') // eslint-disable-line no-alert
+    }
+    if (item.createNewPerson) {
       onClear()
       onChange('')
       onSelect({id: null})
       this.setState({menuVisible: false})
+    } else {
+      onLoadMoreResults()
     }
   }
 
@@ -89,11 +113,14 @@ export class Autocompleter extends Component {
   }
 
   renderMenu(items, searchTerm, _style) {
-    const {total} = this.props
+    const {total, canCreateNewPerson} = this.props
+    const one = 1
+    const two = 2
+    const actualItemsLength = canCreateNewPerson ? (items.length - two) : (items.length - one)
     return (
       <div style={menuStyle} className='autocomplete-menu'>
         <SuggestionHeader
-          currentNumberOfResults={items.length}
+          currentNumberOfResults={actualItemsLength}
           total={total}
           searchTerm={searchTerm}
         />
@@ -107,52 +134,29 @@ export class Autocompleter extends Component {
     const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, onSelect, total, results} = this.props
     if (item.legacyDescriptor) {
       const key = item.legacyDescriptor.legacy_id
-      return (
-        <div id={`search-result-${key}`} key={key} style={style}>
-          <PersonSuggestion
-            address={item.address}
-            dateOfBirth={item.dateOfBirth}
-            isDeceased={item.isDeceased}
-            ethnicity={item.ethnicity}
-            fullName={item.fullName}
-            gender={item.gender}
-            isSealed={item.isSealed}
-            isSensitive={item.isSensitive}
-            languages={item.languages}
-            legacyDescriptor={item.legacyDescriptor}
-            phoneNumber={item.phoneNumber}
-            races={item.races}
-            ssn={item.ssn}
-          />
-        </div>
-      )
+      return (<div id={`search-result-${key}`} key={key} style={style}>
+        {perosnSuggestion(item)}
+      </div>)
     } else if (item.showMoreResults) {
-      return (
-        <div style={style}>
-          <AutocompleterFooter
-            canLoadMoreResults={results && total !== results.length}
-            onLoadMoreResults={onLoadMoreResults}
-          />
-        </div>
-      )
+      return (<div style={style}>
+        {autocompleterFooter(results, total, onLoadMoreResults)}
+      </div>)
     } else {
-      return (
-        <div style={style}>
-          <AutocompleterCreateNewPersonFooter
-            canCreateNewPerson={canCreateNewPerson}
-            onCreateNewPerson={() => {
-              onClear()
-              onChange('')
-              onSelect({id: null})
-              this.setState({menuVisible: false})
-              // This is required because react-autcompleter onMouseLeave event is never fired.
-              // So the autocompleter maintains focus and ignore blur events.
-              // We are manually forcing a blur event here so we can get out.
-              this.element_ref._ignoreBlur = false
-            }}
-          />
-        </div>
-      )
+      return (<div style={style}>
+        <AutocompleterCreateNewPersonFooter
+          canCreateNewPerson={canCreateNewPerson}
+          onCreateNewPerson={() => {
+            onClear()
+            onChange('')
+            onSelect({id: null})
+            this.setState({menuVisible: false})
+            // This is required because react-autcompleter onMouseLeave event is never fired.
+            // So the autocompleter maintains focus and ignore blur events.
+            // We are manually forcing a blur event here so we can get out.
+            this.element_ref._ignoreBlur = false
+          }}
+        />
+      </div>)
     }
   }
 
