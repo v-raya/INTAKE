@@ -44,9 +44,9 @@ const nameFormatter = ({
 }) => {
   if (first_name || last_name) {
     const name = [
-      first_name || '(Unknown first name)',
-      middle_name,
-      last_name || '(Unknown last name)',
+      (first_name || '(Unknown first name)').trim(),
+      middle_name && middle_name.trim(),
+      (last_name || '(Unknown last name)').trim(),
     ].filter(Boolean).join(' ')
 
     return addSuffix(name, name_suffix)

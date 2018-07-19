@@ -151,6 +151,14 @@ describe('nameFormatter', () => {
     })).toEqual('Foo Bar')
   })
 
+  it('trims spaces from the ends of names', () => {
+    expect(nameFormatter({
+      first_name: ' Foo Foo ',
+      middle_name: '  Inigo Montoya  ',
+      last_name: ' Van Der Bar  ',
+    })).toEqual('Foo Foo Inigo Montoya Van Der Bar')
+  })
+
   it('renders with a blank first name', () => {
     expect(nameFormatter({
       first_name: null,
