@@ -1,6 +1,7 @@
 import {takeLatest, put, call} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {delay} from 'redux-saga'
+import {logEvent} from 'utils/analytics'
 import {fetchPeopleSearchSaga, fetchPeopleSearch} from 'sagas/fetchPeopleSearchSaga'
 import {PEOPLE_SEARCH_FETCH, search, fetchSuccess, fetchFailure} from 'actions/peopleSearchActions'
 
@@ -33,5 +34,6 @@ describe('fetchPeopleSearch', () => {
     expect(peopleSeachGenerator.next().value).toEqual(call(delay, 400))
     expect(peopleSeachGenerator.next().value).toEqual(call(get, '/api/v1/people/search', {search_term: 'hello'}))
     expect(peopleSeachGenerator.next(searchResults).value).toEqual(put(fetchSuccess(searchResults)))
+    expect(peopleSeachGenerator.next().value).toEqual(call(logEvent, 'personSearch', {totalResults: searchResults.hits.total}))
   })
 })
