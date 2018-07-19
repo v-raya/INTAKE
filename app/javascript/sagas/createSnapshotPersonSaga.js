@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable'
-import {takeLatest, put, call, select} from 'redux-saga/effects'
+import {takeEvery, put, call, select} from 'redux-saga/effects'
 import {STATUS_CODES, get} from 'utils/http'
 import {
   CREATE_SNAPSHOT_PERSON,
@@ -29,5 +29,5 @@ export function* createSnapshotPerson({payload: {id}}) {
   }
 }
 export function* createSnapshotPersonSaga() {
-  yield takeLatest(CREATE_SNAPSHOT_PERSON, createSnapshotPerson)
+  yield takeEvery(CREATE_SNAPSHOT_PERSON, createSnapshotPerson)
 }
