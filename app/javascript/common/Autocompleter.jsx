@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import Autocomplete from 'react-autocomplete'
 import SuggestionHeader from 'common/SuggestionHeader'
-import AutocompleterFooter from 'common/AutocompleterFooter'
-import AutocompleterCreateNewPersonFooter from 'common/AutocompleterCreateNewPersonFooter'
+import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
+import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
 
 const menuStyle = {
@@ -51,11 +51,14 @@ const perosnSuggestion = (item) =>
     ssn={item.ssn}
   />
 
-const autocompleterFooter = (results, total, onLoadMoreResults) =>
-  <AutocompleterFooter
-    canLoadMoreResults={results && total !== results.length}
-    onLoadMoreResults={onLoadMoreResults}
-  />
+const showMoreResults = () =>
+  <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
+    {
+      <div>
+        <ShowMoreResults />
+      </div>
+    }
+  </div>
 
 export class Autocompleter extends Component {
   constructor(props) {
@@ -131,31 +134,28 @@ export class Autocompleter extends Component {
 
   renderItem(item, isHighlighted, _styles) {
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
-    const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, onSelect, total, results} = this.props
     if (item.legacyDescriptor) {
       const key = item.legacyDescriptor.legacy_id
-      return (<div id={`search-result-${key}`} key={key} style={style}>
-        {perosnSuggestion(item)}
-      </div>)
+      return (
+        <div id={`search-result-${key}`} key={key} style={style}>
+          {perosnSuggestion(item)}
+        </div>
+      )
     } else if (item.showMoreResults) {
-      return (<div style={style}>
-        {autocompleterFooter(results, total, onLoadMoreResults)}
-      </div>)
+      return (
+        <div style={style}>
+          {showMoreResults()}
+        </div>
+      )
     } else {
       return (<div style={style}>
-        <AutocompleterCreateNewPersonFooter
-          canCreateNewPerson={canCreateNewPerson}
-          onCreateNewPerson={() => {
-            onClear()
-            onChange('')
-            onSelect({id: null})
-            this.setState({menuVisible: false})
-            // This is required because react-autcompleter onMouseLeave event is never fired.
-            // So the autocompleter maintains focus and ignore blur events.
-            // We are manually forcing a blur event here so we can get out.
-            this.element_ref._ignoreBlur = false
-          }}
-        />
+        <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
+          {
+            <div>
+              <CreateUnknownPerson />
+            </div>
+          }
+        </div>
       </div>)
     }
   }
@@ -173,10 +173,11 @@ export class Autocompleter extends Component {
 
   render() {
     const {searchTerm, id} = this.props
-    var {results, canCreateNewPerson} = this.props
+    var {results, canCreateNewPerson, total} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results'}
     const createNewPerson = {createNewPerson: 'Create New Person'}
-    var newResults = results.concat(showMoreResults, canCreateNewPerson ? createNewPerson : [])
+    const canLoadMoreResults = results && total !== results.length
+    const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
     const {menuVisible} = this.state
     return (
       <Autocomplete

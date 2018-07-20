@@ -325,21 +325,5 @@ describe('<Autocompleter />', () => {
       const suggestionHeader = autocompleter.find('SuggestionHeader')
       expect(suggestionHeader.html()).toContain('Showing 1-5 of 10 results for "Simpson"')
     })
-
-    it('displays the autocompleter footer', () => {
-      const onLoadMoreResults = jasmine.createSpy('onLoadMoreResults')
-      const autocompleter = mountAutocompleter({
-        canCreateNewPerson: true,
-        results: [],
-        total: 2,
-        onLoadMoreResults,
-      })
-      autocompleter.find('input')
-        .simulate('change', {target: {value: 'ab'}})
-      const footer = autocompleter.find('AutocompleterFooter')
-      expect(footer.length).toBe(1)
-      expect(footer.props().canLoadMoreResults).toEqual(true)
-      expect(footer.props().onLoadMoreResults).toEqual(onLoadMoreResults)
-    })
   })
 })
