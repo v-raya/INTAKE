@@ -1,4 +1,4 @@
-import {takeEvery, put, call} from 'redux-saga/effects'
+import {takeLatest, put, call} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {
   fetchHistoryOfInvolvementsSuccess,
@@ -33,5 +33,5 @@ export function fetchHistoryOfInvolvements({payload: {type, id, ids}}) {
   return fetchHistoryForUnitOfWork(type, id)
 }
 export function* fetchHistoryOfInvolvementsSaga() {
-  yield takeEvery(FETCH_HISTORY_OF_INVOLVEMENTS, fetchHistoryOfInvolvements)
+  yield takeLatest(FETCH_HISTORY_OF_INVOLVEMENTS, fetchHistoryOfInvolvements)
 }
