@@ -1,5 +1,5 @@
 import 'babel-polyfill'
-import {takeEvery, put, call} from 'redux-saga/effects'
+import {takeLatest, put, call} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {
   fetchRelationshipsSaga,
@@ -12,7 +12,7 @@ describe('fetchRelationshipsSaga', () => {
   it('fetches relationships on FETCH_RELATIONSHIPS', () => {
     const gen = fetchRelationshipsSaga()
     expect(gen.next().value).toEqual(
-      takeEvery(FETCH_RELATIONSHIPS, fetchRelationships)
+      takeLatest(FETCH_RELATIONSHIPS, fetchRelationships)
     )
   })
 })
