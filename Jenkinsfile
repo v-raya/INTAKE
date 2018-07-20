@@ -71,12 +71,15 @@ node('intake-slave') {
       }
 
       stage('Deploy Preint') {
-        sh "curl -v 'http://${JENKINS_USER}:${JENKINS_API_TOKEN}@jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
-          "?token=${JENKINS_TRIGGER_TOKEN}" +
-          "&cause=Caused%20by%20Build%20${env.BUILD_ID}" +
-          "&INTAKE_APP_VERSION=${VERSION}'"
-          pipelineStatus = 'SUCCEEDED'
-          currentBuild.result = 'SUCCESS'
+
+        withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
+          sh "curl -v -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
+            "?token=${JENKINS_TRIGGER_TOKEN}" +
+            "&cause=Caused%20by%20Build%20${env.BUILD_ID}" +
+            "&INTAKE_APP_VERSION=${VERSION}'"
+        }
+        pipelineStatus = 'SUCCEEDED'
+        currentBuild.result = 'SUCCESS'
       }
 
       stage('Trigger Security scan') {
