@@ -6,44 +6,52 @@ import {
 } from 'selectors/screening/historyOfInvolvementSelectors'
 import * as IntakeConfig from 'common/config'
 
+const copyTable = (table, callback) => {
+  // browsers have different functions for creating text ranges and selections
+  if (document.createRange && window.getSelection) {
+    const range = document.createRange()
+    const selection = window.getSelection()
+    selection.removeAllRanges()
+    try {
+      range.selectNodeContents(table)
+      selection.addRange(range)
+    } catch (e) {
+      range.selectNode(table)
+      selection.addRange(range)
+    }
+    document.execCommand('copy')
+  } else if (document.body.createTextRange) {
+    const range = document.body.createTextRange()
+    range.moveToElementText(table)
+    range.select()
+    range.execCommand('copy')
+  }
+  callback()
+}
+
 const mapStateToProps = (state) => ({
   showCopyButton: IntakeConfig.jsClipboardSupported(),
   cases: getFormattedCasesSelector(state).toJS(),
   referrals: getFormattedReferralsSelector(state).toJS(),
   screenings: [],
-  // To make the copied table fit in MS Word, we have to temporarily restyle it.
-  formatTable: (copyContent) => {
-    Array.from(copyContent.querySelectorAll('table, th, td')).forEach((el) => (el.style.border = '1px solid black'))
-    Array.from(copyContent.querySelectorAll('table')).forEach((el) => {
-      el.style.borderCollapse = 'collapse'
-      el.style.fontSize = '12px'
-    })
-    Array.from(copyContent.querySelectorAll('.reporter')).forEach((reporter) => (reporter.parentNode.removeChild(reporter)))
-    return copyContent
-  },
-  replace: (target, value) => {
-    if (value && target.parentNode) {
-      target.parentNode.replaceChild(value, target)
+  onCopy: (e, target, callback) => {
+    const data = target.cloneNode(true)
+    try {
+      data.style.display = 'block'
+      e.clipboardData.setData('text/html', data.outerHTML)
+      e.preventDefault()
+      e.stopPropagation()
+      e.nativeEvent.stopImmediatePropagation()
+    } catch (error) {
+      if (callback) {
+        callback()
+      }
     }
+  },
+  friendlyCopy: (callback) => {
+    const table = document.getElementById('history-copy-friendly')
+    copyTable(table, callback)
   },
 })
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const {formatTable} = stateProps
-  return {
-    ...stateProps,
-    ...dispatchProps,
-    ...ownProps,
-    onCopy: (e, fallback) => {
-      const copyData = formatTable(e.target.cloneNode(true))
-      try {
-        e.clipboardData.setData('text/html', copyData.outerHTML)
-        e.preventDefault()
-      } catch (error) {
-        fallback()
-      }
-    },
-  }
-}
-
-export default connect(mapStateToProps, null, mergeProps)(HistoryTable)
+export default connect(mapStateToProps)(HistoryTable)
