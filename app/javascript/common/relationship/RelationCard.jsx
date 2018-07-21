@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
+import {sortDateOfBirth} from 'utils/sortDateOfBirth'
 
 const propTypes = {
   ageDisplayFormatter: PropTypes.func,
@@ -63,6 +64,7 @@ const RelationCard = ({
           dataField='age'
           dataSort={true}
           sortHeaderColumnClassName='sorted-header'
+          sortFunc={sortDateOfBirth}
         >
             Age
         </TableHeaderColumn>
