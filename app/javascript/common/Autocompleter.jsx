@@ -143,20 +143,19 @@ export class Autocompleter extends Component {
       )
     } else if (item.showMoreResults) {
       return (
-        <div style={style}>
+        <div id='show-more-results' style={style}>
           {showMoreResults()}
         </div>
       )
     } else {
-      return (<div style={style}>
-        <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
-          {
-            <div>
+      return (
+        <div id='create-new-results' style={style}>
+          <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
+            {<div>
               <CreateUnknownPerson />
-            </div>
-          }
-        </div>
-      </div>)
+            </div>}
+          </div>
+        </div>)
     }
   }
 
@@ -173,7 +172,7 @@ export class Autocompleter extends Component {
 
   render() {
     const {searchTerm, id} = this.props
-    var {results, canCreateNewPerson, total} = this.props
+    const {results, canCreateNewPerson, total} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results'}
     const createNewPerson = {createNewPerson: 'Create New Person'}
     const canLoadMoreResults = results && total !== results.length
