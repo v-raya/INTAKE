@@ -78,7 +78,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="search-result-1"]')
+        autocompleter.find('div[id="search-result-1-of-1"]')
           .first()
           .simulate('click', null)
       })
@@ -109,7 +109,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect, isSelectable,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="search-result-1"]')
+        autocompleter.find('div[id="search-result-1-of-1"]')
           .first()
           .simulate('click', null)
       })
@@ -299,15 +299,18 @@ describe('<Autocompleter />', () => {
       it('marks any highlighted item as activedescendant', () => {
         const renderItem = autocompleter.find('Autocomplete').props().renderItem
 
-        renderItem(results[0], true)
+        const setSize = results.length
+        var posInSet = 1
+        renderItem(results[posInSet - 1], true)
 
         expect(autocompleter.instance().inputRef.getAttribute('aria-activedescendant'))
-          .toEqual('search-result-some-legacy-id')
+          .toEqual(`search-result-${posInSet}-of-${setSize}`)
 
-        renderItem(results[1], true)
+        posInSet = 2
+        renderItem(results[posInSet - 1], true)
 
         expect(autocompleter.instance().inputRef.getAttribute('aria-activedescendant'))
-          .toEqual('search-result-some-other-legacy-id')
+          .toEqual(`search-result-${posInSet}-of-${setSize}`)
       })
     })
 
