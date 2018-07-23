@@ -1,5 +1,6 @@
 import Autocompleter from 'common/Autocompleter'
 import React from 'react'
+import Autocomplete from 'react-autocomplete'
 import {shallow, mount} from 'enzyme'
 
 describe('<Autocompleter />', () => {
@@ -183,6 +184,28 @@ describe('<Autocompleter />', () => {
     })
   })
 
+  describe('renderInput', () => {
+    it('renders an input element', () => {
+      const autocompleter = renderAutocompleter({})
+      const input = shallow(autocompleter.find('Autocomplete').props().renderInput())
+      expect(input.name())
+        .toEqual('input')
+    })
+
+    it('stores a ref of the input', () => {
+      const autocompleter = mountAutocompleter({})
+      const inputRef = autocompleter.instance().inputRef
+      expect(inputRef).toBeDefined()
+      expect(inputRef.tagName).toEqual('INPUT')
+    })
+
+    it('calls the ref callback that ReactAutocomplete provides', () => {
+      const internalRef = spyOn(Autocomplete.prototype, 'exposeAPI')
+      mountAutocompleter({})
+      expect(internalRef).toHaveBeenCalled()
+    })
+  })
+
   describe('render', () => {
     it('displays an Autocomplete component', () => {
       const autocomplete = renderAutocompleter({
@@ -271,6 +294,20 @@ describe('<Autocompleter />', () => {
         input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
         const result = autocompleter.find('div[id="search-result-some-legacy-id"]')
         expect(result.props().style.backgroundColor).toEqual('#d4d4d4')
+      })
+
+      it('marks any highlighted item as activedescendant', () => {
+        const renderItem = autocompleter.find('Autocomplete').props().renderItem
+
+        renderItem(results[0], true)
+
+        expect(autocompleter.instance().inputRef.getAttribute('aria-activedescendant'))
+          .toEqual('search-result-some-legacy-id')
+
+        renderItem(results[1], true)
+
+        expect(autocompleter.instance().inputRef.getAttribute('aria-activedescendant'))
+          .toEqual('search-result-some-other-legacy-id')
       })
     })
 
