@@ -43,7 +43,6 @@ export class Autocompleter extends Component {
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
-    this.inputRef = React.createRef()
   }
 
   isSearchable(value) {
@@ -148,8 +147,9 @@ export class Autocompleter extends Component {
       ref: (el) => {
         this.inputRef = el
         props.ref(el)
-      }}
-    return <input{...newProps}/>
+      },
+    }
+    return <input {...newProps}/>
   }
 
   render() {
