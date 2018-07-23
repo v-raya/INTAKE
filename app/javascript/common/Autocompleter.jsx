@@ -104,7 +104,7 @@ export class Autocompleter extends Component {
   }
 
   renderItem(item, isHighlighted, _styles) {
-    const key = item.legacyDescriptor.legacy_id
+    const key = `${item.posInSet}-of-${item.setSize}`
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
     const id = `search-result-${key}`
     if (isHighlighted && this.inputRef) {
@@ -155,6 +155,11 @@ export class Autocompleter extends Component {
   render() {
     const {searchTerm, id, results} = this.props
     const {menuVisible} = this.state
+    //Sequentually numbering items
+    for (var len = results.length, i = 0; i < len; ++i) {
+      results[i].posInSet = i + 1
+      results[i].setSize = len
+    }
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
