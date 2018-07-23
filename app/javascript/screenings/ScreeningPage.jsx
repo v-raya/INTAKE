@@ -40,6 +40,8 @@ import {
   getScreeningHasErrorsSelector,
   getPeopleHaveErrorsSelector,
 } from 'selectors/screening/screeningPageSelectors'
+import {selectStaffId} from 'selectors/userInfoSelectors'
+import {logEvent} from 'utils/analytics'
 
 const isDuplicatePerson = (participants, personOnScreening) => (
   participants
@@ -66,6 +68,9 @@ export class ScreeningPage extends React.Component {
       fetchScreening(id)
       fetchHistoryOfInvolvements('screenings', id)
     } else { fetchScreening(null) }
+    logEvent('ScreeningPage', {
+      staffId: this.props.staffId,
+    })
   }
 
   componentWillUnmount() {
@@ -232,6 +237,7 @@ ScreeningPage.propTypes = {
   reference: PropTypes.string,
   referralId: PropTypes.string,
   screeningTitle: PropTypes.string,
+  staffId: PropTypes.string,
   submitReferralErrors: PropTypes.array,
 }
 
@@ -253,6 +259,7 @@ export function mapStateToProps(state, _ownProps) {
     hasApiValidationErrors: Boolean(getApiValidationErrorsSelector(state).size),
     screeningTitle: getScreeningTitleSelector(state),
     submitReferralErrors: getScreeningSubmissionErrorsSelector(state).toJS(),
+    staffId: selectStaffId(state),
   }
 }
 

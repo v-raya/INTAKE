@@ -3,6 +3,7 @@ import {
   getUserNameSelector,
   userPrivilegesSelector,
   getStaffIdSelector,
+  selectStaffId,
 } from 'selectors/userInfoSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -40,6 +41,13 @@ describe('userInfoSelectors', () => {
     it('returns an empty list when there are no privileges', () => {
       const state = fromJS({userInfo: {}})
       expect(userPrivilegesSelector(state)).toEqual(List())
+    })
+  })
+  describe('staffId selector', () => {
+    it('returns the staff id of the user', () => {
+      const userInfo = {staff_id: '0X5'}
+      const state = fromJS({userInfo})
+      expect(selectStaffId(state)).toEqual('0X5')
     })
   })
 })

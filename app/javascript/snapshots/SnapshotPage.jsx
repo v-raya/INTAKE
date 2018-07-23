@@ -14,7 +14,9 @@ import EmptyHistory from 'views/history/EmptyHistory'
 import RelationshipsCardContainer from 'containers/snapshot/RelationshipsCardContainer'
 import PageHeader from 'common/PageHeader'
 import SnapshotSideBar from 'snapshots/SnapshotSideBar'
+import {selectStaffId} from 'selectors/userInfoSelectors'
 import {selectParticipants} from 'selectors/participantSelectors'
+import {logEvent} from 'utils/analytics'
 
 const isDuplicatePerson = (participants, id) => (
   participants.some((x) => x.legacy_id === id)
@@ -23,6 +25,9 @@ const isDuplicatePerson = (participants, id) => (
 export class SnapshotPage extends React.Component {
   componentDidMount() {
     this.props.createSnapshot()
+    logEvent('snapShotPage', {
+      staffId: this.props.staffId,
+    })
   }
 
   componentWillUnmount() {
@@ -111,12 +116,14 @@ SnapshotPage.propTypes = {
   createSnapshot: PropTypes.func,
   createSnapshotPerson: PropTypes.func,
   participants: PropTypes.array,
+  staffId: PropTypes.string,
   startOver: PropTypes.func,
   unmount: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
   participants: selectParticipants(state).toJS(),
+  staffId: selectStaffId(state),
 })
 
 export const mapDispatchToProps = (dispatch) => ({
