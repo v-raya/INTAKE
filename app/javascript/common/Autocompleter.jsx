@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import Autocomplete from 'react-autocomplete'
 import SuggestionHeader from 'common/SuggestionHeader'
-import AutocompleterFooter from 'common/AutocompleterFooter'
+import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
+import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
 
 const menuStyle = {
@@ -33,6 +34,32 @@ const resultStyleHighlighted = {
 }
 const MIN_SEARCHABLE_CHARS = 2
 
+const perosnSuggestion = (item) =>
+  <PersonSuggestion
+    address={item.address}
+    dateOfBirth={item.dateOfBirth}
+    isDeceased={item.isDeceased}
+    ethnicity={item.ethnicity}
+    fullName={item.fullName}
+    gender={item.gender}
+    isSealed={item.isSealed}
+    isSensitive={item.isSensitive}
+    languages={item.languages}
+    legacyDescriptor={item.legacyDescriptor}
+    phoneNumber={item.phoneNumber}
+    races={item.races}
+    ssn={item.ssn}
+  />
+
+const showMoreResults = () =>
+  <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
+    {
+      <div>
+        <ShowMoreResults />
+      </div>
+    }
+  </div>
+
 export class Autocompleter extends Component {
   constructor(props) {
     super(props)
@@ -44,6 +71,7 @@ export class Autocompleter extends Component {
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
+    this.renderItem = this.renderItem.bind(this)
   }
 
   isSearchable(value) {
@@ -51,17 +79,27 @@ export class Autocompleter extends Component {
   }
 
   onItemSelect(_value, item) {
-    const {isSelectable, onClear, onChange, onSelect} = this.props
-    if (isSelectable(item)) {
-      logEvent('searchResultClick', {
-        searchIndex: this.props.results.indexOf(item),
-      })
+    const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults} = this.props
+    if (item.legacyDescriptor) {
+      if (isSelectable(item)) {
+        logEvent('searchResultClick', {
+          searchIndex: this.props.results.indexOf(item),
+        })
+        onClear()
+        onChange('')
+        onSelect(item)
+        this.setState({menuVisible: false})
+        return
+      }
+      alert('You are not authorized to add this person.') // eslint-disable-line no-alert
+    }
+    if (item.createNewPerson) {
       onClear()
       onChange('')
-      onSelect(item)
+      onSelect({id: null})
       this.setState({menuVisible: false})
     } else {
-      alert('You are not authorized to add this person.') // eslint-disable-line no-alert
+      onLoadMoreResults()
     }
   }
 
@@ -78,56 +116,45 @@ export class Autocompleter extends Component {
   }
 
   renderMenu(items, searchTerm, _style) {
-    const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, onSelect, total} = this.props
+    const {total, results} = this.props
+    const resultsLength = results.length
     return (
       <div style={menuStyle} className='autocomplete-menu'>
         <SuggestionHeader
-          currentNumberOfResults={items.length}
+          currentNumberOfResults={resultsLength}
           total={total}
           searchTerm={searchTerm}
         />
         {items}
-        <AutocompleterFooter
-          canCreateNewPerson={canCreateNewPerson}
-          canLoadMoreResults={items && total !== items.length}
-          onLoadMoreResults={onLoadMoreResults}
-          onCreateNewPerson={() => {
-            onClear()
-            onChange('')
-            onSelect({id: null})
-            this.setState({menuVisible: false})
-            // This is required because react-autcompleter onMouseLeave event is never fired.
-            // So the autocompleter maintains focus and ignore blur events.
-            // We are manually forcing a blur event here so we can get out.
-            this.element_ref._ignoreBlur = false
-          }}
-        />
       </div>
     )
   }
 
   renderItem(item, isHighlighted, _styles) {
-    const key = item.legacyDescriptor.legacy_id
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
-    return (
-      <div id={`search-result-${key}`} key={key} style={style}>
-        <PersonSuggestion
-          address={item.address}
-          dateOfBirth={item.dateOfBirth}
-          isDeceased={item.isDeceased}
-          ethnicity={item.ethnicity}
-          fullName={item.fullName}
-          gender={item.gender}
-          isSealed={item.isSealed}
-          isSensitive={item.isSensitive}
-          languages={item.languages}
-          legacyDescriptor={item.legacyDescriptor}
-          phoneNumber={item.phoneNumber}
-          races={item.races}
-          ssn={item.ssn}
-        />
-      </div>
-    )
+    if (item.legacyDescriptor) {
+      const key = item.legacyDescriptor.legacy_id
+      return (
+        <div id={`search-result-${key}`} key={key} style={style}>
+          {perosnSuggestion(item)}
+        </div>
+      )
+    } else if (item.showMoreResults) {
+      return (
+        <div id='show-more-results' style={style}>
+          {showMoreResults()}
+        </div>
+      )
+    } else {
+      return (
+        <div id='create-new-results' style={style}>
+          <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
+            {<div>
+              <CreateUnknownPerson />
+            </div>}
+          </div>
+        </div>)
+    }
   }
 
   onChangeInput(_, value) {
@@ -142,14 +169,19 @@ export class Autocompleter extends Component {
   }
 
   render() {
-    const {searchTerm, id, results} = this.props
+    const {searchTerm, id} = this.props
+    const {results, canCreateNewPerson, total} = this.props
+    const showMoreResults = {showMoreResults: 'Show More Results'}
+    const createNewPerson = {createNewPerson: 'Create New Person'}
+    const canLoadMoreResults = results && total !== results.length
+    const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
     const {menuVisible} = this.state
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
         inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
-        items={results}
+        items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
