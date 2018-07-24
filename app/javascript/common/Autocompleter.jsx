@@ -116,14 +116,12 @@ export class Autocompleter extends Component {
   }
 
   renderMenu(items, searchTerm, _style) {
-    const {total, canCreateNewPerson} = this.props
-    const one = 1
-    const two = 2
-    const actualItemsLength = canCreateNewPerson ? (items.length - two) : (items.length - one)
+    const {total, results} = this.props
+    const resultsLength = results.length
     return (
       <div style={menuStyle} className='autocomplete-menu'>
         <SuggestionHeader
-          currentNumberOfResults={actualItemsLength}
+          currentNumberOfResults={resultsLength}
           total={total}
           searchTerm={searchTerm}
         />
