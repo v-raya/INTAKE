@@ -2,7 +2,7 @@ import React from 'react'
 import {Router, Route, IndexRoute} from 'react-router'
 import App from 'common/App'
 import {default as HomePageContainer} from 'containers/HomePageContainer'
-import ScreeningPage from 'screenings/ScreeningPage'
+import ScreeningPageContainer from 'screenings/screeningPageContainer'
 import SnapshotPage from 'snapshots/SnapshotPage'
 import ConditionsOfUse from 'views/pages/ConditionsOfUse'
 import PrivacyPolicy from 'views/pages/PrivacyPolicy'
@@ -26,9 +26,9 @@ export default (
     <Router history={history} >
       <Route path='/' component={App}>
         <IndexRoute component={HomePageContainer} />
-        {screeningActive && <Route path='screenings/new' component={ScreeningPage}/>}
-        {screeningActive && <Route path='screenings/:id' component={ScreeningPage}/>}
-        {screeningActive && <Route path='screenings/:id/:mode' component={ScreeningPage} />}
+        {screeningActive && <Route path='screenings/new' component={ScreeningPageContainer}/>}
+        {screeningActive && <Route path='screenings/:id' component={ScreeningPageContainer}/>}
+        {screeningActive && <Route path='screenings/:id/:mode' component={ScreeningPageContainer} />}
         {snapshotActive && <Route path='snapshot' component={SnapshotPage}/>}
         <Route path='logout' component={() => (window.location = IntakeConfig.config().authentication_logout_url)}/>
         <Route path='pages/conditions_of_use' component={ConditionsOfUse}/>
