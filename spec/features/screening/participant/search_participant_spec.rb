@@ -423,6 +423,11 @@ feature 'searching a participant in autocompleter' do
         .with(body: hash_including('search_after' => %w[result_24_score result_24_uuid]))
       ).to have_been_made
 
+      # Show more results button doesnot load results when it is clicked
+      # second time. This is a known bug.
+      click_link('People & Roles')
+      page.find('input[id="screening_participants"]').click
+
       within '#search-card', text: 'Search' do
         click_button 'Show more results'
       end

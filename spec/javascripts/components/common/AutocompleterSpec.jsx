@@ -64,6 +64,7 @@ describe('<Autocompleter />', () => {
   })
 
   describe('#onItemSelect', () => {
+    let onLoadMoreResults
     let onClear
     let onChange
     let onSelect
@@ -71,12 +72,15 @@ describe('<Autocompleter />', () => {
       {legacyDescriptor: {legacy_id: 1}},
       {legacyDescriptor: {legacy_id: 2}},
       {legacyDescriptor: {legacy_id: 3}},
+      {showMoreResults: 'Show More Results'},
+      {createNewPerson: 'Create New Person'},
     ]
     const item = results[0]
     beforeEach(() => {
       onClear = jasmine.createSpy('onClear')
       onChange = jasmine.createSpy('onChange')
       onSelect = jasmine.createSpy('onSelect')
+      onLoadMoreResults = jasmine.createSpy('onLoadMoreResults')
     })
 
     describe('when an item is selectable', () => {
@@ -113,6 +117,53 @@ describe('<Autocompleter />', () => {
           .toHaveBeenCalledWith('searchResultClick', {
             searchIndex: 0,
           })
+      })
+    })
+
+    describe('when an item is selectable and is create new person', () => {
+      let autocompleter
+      beforeEach(() => {
+        autocompleter = mountAutocompleter({
+          results, onClear, onChange, onSelect,
+        })
+        autocompleter.find('input').simulate('change', {target: {value: 'te'}})
+        autocompleter.find('div[id="create-new-results"]')
+          .first()
+          .simulate('click', null)
+      })
+
+      it('clears the results', () => {
+        expect(onClear).toHaveBeenCalled()
+      })
+
+      it('clears the search field', () => {
+        expect(onChange).toHaveBeenCalledWith('')
+      })
+
+      it('calls onSelect with the selected result', () => {
+        expect(onSelect).toHaveBeenCalled()
+      })
+
+      it('hides the menu', () => {
+        const header = autocompleter.find('SuggestionHeader')
+        expect(header.length).toBe(0)
+      })
+    })
+
+    describe('when an item is selectable and is show more results', () => {
+      let autocompleter
+      beforeEach(() => {
+        autocompleter = mountAutocompleter({
+          results, onClear, onChange, onSelect, onLoadMoreResults,
+        })
+        autocompleter.find('input').simulate('change', {target: {value: 'te'}})
+        autocompleter.find('div[id="show-more-results"]')
+          .first()
+          .simulate('click', null)
+      })
+
+      it('calls loadMoreResults', () => {
+        expect(onLoadMoreResults).toHaveBeenCalled()
       })
     })
 
@@ -324,23 +375,6 @@ describe('<Autocompleter />', () => {
         .simulate('change', {target: {value: 'ab'}})
       const suggestionHeader = autocompleter.find('SuggestionHeader')
       expect(suggestionHeader.html()).toContain('Showing 1-5 of 10 results for "Simpson"')
-    })
-
-    it('displays the autocompleter footer', () => {
-      const onLoadMoreResults = jasmine.createSpy('onLoadMoreResults')
-      const autocompleter = mountAutocompleter({
-        canCreateNewPerson: true,
-        results: [],
-        total: 2,
-        onLoadMoreResults,
-      })
-      autocompleter.find('input')
-        .simulate('change', {target: {value: 'ab'}})
-      const footer = autocompleter.find('AutocompleterFooter')
-      expect(footer.length).toBe(1)
-      expect(footer.props().canCreateNewPerson).toEqual(true)
-      expect(footer.props().canLoadMoreResults).toEqual(true)
-      expect(footer.props().onLoadMoreResults).toEqual(onLoadMoreResults)
     })
   })
 })
