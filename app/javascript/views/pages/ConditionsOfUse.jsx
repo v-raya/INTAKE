@@ -1,6 +1,8 @@
 import React from 'react'
 
-const ConditionsOfUse = () => (
+const ConditionsOfUse = () => {
+  window.scrollToTop(0, 0)
+  return (
   <div>
     <h1>Conditions of Use</h1>
     <h3>Use Policy</h3>
@@ -81,5 +83,6 @@ const ConditionsOfUse = () => (
     </script>
   </div>
 )
+}
 
 export default ConditionsOfUse
