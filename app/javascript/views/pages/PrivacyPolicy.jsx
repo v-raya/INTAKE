@@ -49,6 +49,11 @@ const PrivacyPolicy = () => (
       <li><strong>CWDS provides people who provide personal information with an opportunity to review that information.</strong> Individuals, who provide personal information, are allowed to review the information and contest its accuracy or completeness.</li>
       <li><strong>CWDS Privacy Program Coordinator will provide additional explanations of this Privacy Policy, if requested.</strong> If any individuals have any further questions about the CWDS Privacy Policy, they are encouraged to <a href='mailto:CWDSIntake@osi.ca.gov'>contact us</a>.</li>
     </ul>
+<script>
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0)
+}
+</script>
   </div>
 )
 

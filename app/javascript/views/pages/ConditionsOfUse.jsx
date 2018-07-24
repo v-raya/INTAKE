@@ -74,6 +74,11 @@ const ConditionsOfUse = () => (
     <p>This Use Policy is subject to change without notice.</p>
     <h3 id='ownership'>OWNERSHIP</h3>
     <p>In general, information presented on this web site, unless otherwise indicated, is considered in the public domain. It may be distributed or copied as permitted by law. However, the State does make use of copyrighted data (e.g., photographs) which may require additional permissions prior to your use. In order to use any information on this web site not owned or created by the State, you must seek permission directly from the owning (or holding) sources. The State shall have the unlimited right to use for any purpose, free of any charge, all information submitted via this site except those submissions made under separate legal contract. The State shall be free to use, for any purpose, any ideas, concepts, or techniques contained in information provided through this site.</p>
+<script>
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0)
+}
+</script>
   </div>
 )
 
