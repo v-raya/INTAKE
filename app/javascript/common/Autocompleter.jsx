@@ -60,6 +60,14 @@ const showMoreResults = () =>
     }
   </div>
 
+const addPosAndSetAttr = (results) => {
+  const one = 1
+  for (var len = results.length, i = 0; i < len; ++i) {
+    results[i].posInSet = i + one
+    results[i].setSize = len
+  }
+}
+
 export class Autocompleter extends Component {
   constructor(props) {
     super(props)
@@ -137,28 +145,22 @@ export class Autocompleter extends Component {
     if (isHighlighted && this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', id)
     }
-    if (item.legacyDescriptor) {
-      return (
-        <div id={id} key={key} style={style}>
-          {perosnSuggestion(item)}
-        </div>
-      )
-    } else if (item.showMoreResults) {
-      return (
-        <div id={id} key={key} style={style}>
-          {showMoreResults()}
-        </div>
-      )
+    if (item.showMoreResults) {
+      return (<div id={id} key={key} style={style}>
+        {showMoreResults()}
+      </div>)
     } else if (item.createNewPerson) {
-      return (
-        <div id={id} key={key} style={style}>
-          <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
-            {<div>
-              <CreateUnknownPerson />
-            </div>}
-          </div>
-        </div>)
+      return (<div id={id} key={key} style={style}>
+        <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
+          {<div>
+            <CreateUnknownPerson />
+          </div>}
+        </div>
+      </div>)
     }
+    return (<div id={id} key={key} style={style}>
+      {perosnSuggestion(item)}
+    </div>)
   }
 
   onChangeInput(_, value) {
@@ -184,18 +186,13 @@ export class Autocompleter extends Component {
   }
 
   render() {
-    const {searchTerm, id} = this.props
-    const {results, canCreateNewPerson, total} = this.props
+    const {searchTerm, id, results, canCreateNewPerson, total} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const canLoadMoreResults = results && total !== results.length
     const {menuVisible} = this.state
     //Sequentually numbering items
-    const one = 1
-    for (var len = results.length, i = 0; i < len; ++i) {
-      results[i].posInSet = i + one
-      results[i].setSize = len
-    }
+    addPosAndSetAttr(results)
     const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
     return (
       <Autocomplete
