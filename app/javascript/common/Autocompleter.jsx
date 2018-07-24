@@ -145,13 +145,13 @@ export class Autocompleter extends Component {
       )
     } else if (item.showMoreResults) {
       return (
-        <div id='show-more-results' style={style}>
+        <div id={id} key={key} style={style}>
           {showMoreResults()}
         </div>
       )
     } else {
       return (
-        <div id='create-new-results' style={style}>
+        <div id={id} key={key} style={style}>
           <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
             {<div>
               <CreateUnknownPerson />
@@ -186,13 +186,14 @@ export class Autocompleter extends Component {
   render() {
     const {searchTerm, id} = this.props
     const {results, canCreateNewPerson, total} = this.props
-    const showMoreResults = {showMoreResults: 'Show More Results'}
-    const createNewPerson = {createNewPerson: 'Create New Person'}
+    const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
+    const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const canLoadMoreResults = results && total !== results.length
     const {menuVisible} = this.state
     //Sequentually numbering items
+    const one = 1
     for (var len = results.length, i = 0; i < len; ++i) {
-      results[i].posInSet = i + 1
+      results[i].posInSet = i + one
       results[i].setSize = len
     }
     const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
