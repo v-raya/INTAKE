@@ -5,7 +5,6 @@ export const sortDateOfBirth = (a, b, order) => {
   if (a.dateOfBirth === '' && b.dateOfBirth === '') {
     return 0
   }
-
   if (order === 'desc') {
     if (a.dateOfBirth === '') {
       return SORT_DOWN
@@ -21,13 +20,7 @@ export const sortDateOfBirth = (a, b, order) => {
       return SORT_DOWN
     }
   }
-  var aDOB = a.dateOfBirth
-  var bDOB = b.dateOfBirth
-  var dateObject1 = new Date(aDOB)
-  var dateObject2 = new Date(bDOB)
-  if (order === 'desc') {
-    return dateObject2 - dateObject1
-  } else {
-    return dateObject1 - dateObject2
-  }
+  const dateObject1 = new Date(a.dateOfBirth)
+  const dateObject2 = new Date(b.dateOfBirth)
+  return (order === 'desc') ? dateObject2 - dateObject1 : dateObject1 - dateObject2
 }
