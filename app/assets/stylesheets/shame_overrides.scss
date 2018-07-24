@@ -63,6 +63,25 @@
 
 // History Styling //
 
+.copy-friendly {
+  width: 6.5in;
+
+  table,
+  table td {
+    border: 1px solid $darkest-grey;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+  }
+
+  table table {
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+  }
+}
+
 .history-table {
   background-color: transparent;
 
@@ -130,4 +149,12 @@
       overflow: visible;
     }
   }
+}
+
+.reporter,
+.un-selectable {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }

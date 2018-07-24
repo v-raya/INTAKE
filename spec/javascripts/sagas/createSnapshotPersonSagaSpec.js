@@ -1,6 +1,6 @@
 import 'babel-polyfill'
 import {fromJS} from 'immutable'
-import {takeLatest, put, call, select} from 'redux-saga/effects'
+import {takeEvery, put, call, select} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {
   createSnapshotPerson,
@@ -16,7 +16,7 @@ import {RESIDENCE_TYPE} from 'enums/AddressType'
 describe('createSnapshotPersonSaga', () => {
   it('creates participant on CREATE_SNAPSHOT_PERSON', () => {
     const gen = createSnapshotPersonSaga()
-    expect(gen.next().value).toEqual(takeLatest(CREATE_SNAPSHOT_PERSON, createSnapshotPerson))
+    expect(gen.next().value).toEqual(takeEvery(CREATE_SNAPSHOT_PERSON, createSnapshotPerson))
   })
 })
 
@@ -30,10 +30,13 @@ describe('createSnapshotPerson', () => {
       hispanic_codes: [],
       hispanic_unable_to_determine_code: '',
     },
-    client_county: {
+    client_counties: [{
       description: 'Nowhere',
       id: '999',
-    },
+    }, {
+      description: 'Somewhere',
+      id: '997',
+    }],
     addresses: [{
       zip: '99999',
       city: 'Al Haad',

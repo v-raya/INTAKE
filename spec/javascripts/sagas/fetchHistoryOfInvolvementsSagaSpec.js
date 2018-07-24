@@ -1,5 +1,5 @@
 import 'babel-polyfill'
-import {takeEvery, put, call} from 'redux-saga/effects'
+import {takeLatest, put, call} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {
   fetchHistoryOfInvolvementsSaga,
@@ -12,7 +12,7 @@ describe('fetchHistoryOfInvolvementsSaga', () => {
   it('fetches involvements on FETCH_HISTORY_OF_INVOLVEMENTS', () => {
     const gen = fetchHistoryOfInvolvementsSaga()
     expect(gen.next().value).toEqual(
-      takeEvery(FETCH_HISTORY_OF_INVOLVEMENTS, fetchHistoryOfInvolvements)
+      takeLatest(FETCH_HISTORY_OF_INVOLVEMENTS, fetchHistoryOfInvolvements)
     )
   })
 })

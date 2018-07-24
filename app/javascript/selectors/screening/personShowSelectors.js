@@ -13,6 +13,7 @@ import {hasNonReporter} from 'utils/roles'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
 import moment from 'moment'
+import {systemCodeDisplayValue, selectCsecTypes} from 'selectors/systemCodeSelectors'
 
 const selectPersonOrEmpty = (state, personId) =>
   selectParticipant(state, personId).valueOrElse(Map())
@@ -101,6 +102,12 @@ const getGenderErrors = (person, roles) => combineCompact(
     () => hasNonReporter(roles))
 )
 
+const csecTypesSelector = (state, personId) => {
+  const person = selectPersonOrEmpty(state, personId)
+  const csecTypes = selectCsecTypes(state)
+  return person.get('csec_types', List()).map((typeId) => systemCodeDisplayValue(typeId, csecTypes))
+}
+
 export const getErrorsSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const ssn = person.get('ssn') || ''
@@ -114,7 +121,7 @@ export const getErrorsSelector = (state, personId) => {
       getZIPErrors(newAddress.get('zip'))
     )).flatten()
   const roles = person.get('roles', List())
-  const csecTypes = person.get('csec_types', List())
+  const csecTypes = csecTypesSelector(state, personId)
   const csecStartedAt = person.get('csec_started_at')
   const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const rolesTypes = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
@@ -148,18 +155,26 @@ const getEthnicity = (person) => {
   return `${ethnicityText}${hispanicLatinoOrigin}`
 }
 
+const personApproximateAge = (person) => {
+  const showApproximateAge = !person.get('date_of_birth') && person.get('approximate_age')
+  if (showApproximateAge) {
+    return [person.get('approximate_age'), person.get('approximate_age_units')].join(' ')
+  } else {
+    return undefined
+  }
+}
+
 export const getFormattedPersonInformationSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const legacyDescriptor = person.get('legacy_descriptor')
-  const showApproximateAge = !person.get('date_of_birth') && person.get('approximate_age')
-  const approximateAge = showApproximateAge ? [person.get('approximate_age'), person.get('approximate_age_units')].join(' ') : undefined
+  const approximateAge = personApproximateAge(person)
   const dateOfBirth = person.get('date_of_birth') && dateFormatter(person.get('date_of_birth'))
   const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   const showCSEC = roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'
   return fromJS({
     approximateAge: approximateAge,
-    CSECTypes: {value: person.get('csec_types', List()), errors: []},
+    CSECTypes: {value: csecTypesSelector(state, personId), errors: []},
     csecStartedAt: {value: (person.get('csec_started_at') && dateFormatter(person.get('csec_started_at'))), errors: []},
     csecEndedAt: person.get('csec_ended_at') && dateFormatter(person.get('csec_ended_at')),
     dateOfBirth: dateOfBirth,

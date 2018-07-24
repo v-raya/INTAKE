@@ -1,19 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ReferralView = ({
+const CopyableReferralView = ({
   county,
   dateRange,
   index,
   notification,
   peopleAndRoles,
   referralId,
-  reporter,
   status,
   worker,
 }) => (
   <tr>
-    <td className='ordered-table__index-row'><span>{index ? `${index}.` : ''}</span></td>
+    <td><span>{index ? `${index}.` : ''}</span></td>
     <td>{dateRange}</td>
     <td>
       <div className='referral'>Referral</div>
@@ -23,17 +22,17 @@ const ReferralView = ({
     </td>
     <td>{county}</td>
     <td>
-      <table className='table people-and-roles'>
+      <table className='people-and-roles' style={{border: '1px solid black'}}>
         <colgroup>
-          <col className='col-md-3'/>
-          <col className='col-md-3'/>
-          <col className='col-md-6'/>
+          <col/>
+          <col/>
+          <col/>
         </colgroup>
         <thead>
           <tr>
-            <th scope='col' className='victim semibold'>Victim</th>
-            <th scope='col' className='perpetrator semibold'>Perpetrator</th>
-            <th scope='col' className='allegations disposition semibold'>Allegation(s) &amp; Conclusion(s)</th>
+            <th className='victim semibold'>Victim</th>
+            <th className='perpetrator semibold'>Perpetrator</th>
+            <th className='allegations disposition semibold'>Allegation(s) &amp; Disposition</th>
           </tr>
         </thead>
         <tbody>
@@ -47,9 +46,7 @@ const ReferralView = ({
             ))
           }
           <tr>
-            <td colSpan='2' className='un-selectable'>
-              <span className='semibold reporter'>Reporter: </span><span className='reporter'>{reporter}</span>
-            </td>
+            <td colSpan='2' className='un-selectable'/>
             <td>
               <span className='semibold'>Worker: </span>{worker}
             </td>
@@ -60,7 +57,7 @@ const ReferralView = ({
   </tr>
 )
 
-ReferralView.propTypes = {
+CopyableReferralView.propTypes = {
   county: PropTypes.string,
   dateRange: PropTypes.string,
   index: PropTypes.number,
@@ -72,9 +69,8 @@ ReferralView.propTypes = {
     victim: PropTypes.string,
   })),
   referralId: PropTypes.string,
-  reporter: PropTypes.string,
   status: PropTypes.string,
   worker: PropTypes.string,
 }
 
-export default ReferralView
+export default CopyableReferralView

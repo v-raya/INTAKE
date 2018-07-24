@@ -12,9 +12,9 @@ describe('relationshipsSelectors', () => {
   describe('getPeopleSelector', () => {
     it('returns a list of people or an empty list if there are no people', () => {
       const relationships = [
-        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: 'M', date_of_birth: '1986-01-15'},
-        {legacy_id: '20', first_name: 'Johny', last_name: 'Robinson', gender: 'M', date_of_birth: '1990-03-15'},
-        {legacy_id: '30', first_name: 'Will', last_name: 'Carlson', gender: 'M', date_of_birth: '1991-02-15'},
+        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: 'M', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y'},
+        {legacy_id: '20', first_name: 'Johny', last_name: 'Robinson', gender: 'M', date_of_birth: '1990-03-15', age: 30, age_unit: 'Y'},
+        {legacy_id: '30', first_name: 'Will', last_name: 'Carlson', gender: 'M', date_of_birth: '1991-02-15', age: 40, age_unit: 'Y'},
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
@@ -24,6 +24,7 @@ describe('relationshipsSelectors', () => {
           name: 'Ricky Robinson',
           relationships: [],
           gender: 'M',
+          age: '20 yrs',
         },
         {
           dateOfBirth: '03/15/1990',
@@ -31,6 +32,7 @@ describe('relationshipsSelectors', () => {
           name: 'Johny Robinson',
           relationships: [],
           gender: 'M',
+          age: '30 yrs',
         },
         {
           dateOfBirth: '02/15/1991',
@@ -38,6 +40,7 @@ describe('relationshipsSelectors', () => {
           name: 'Will Carlson',
           relationships: [],
           gender: 'M',
+          age: '40 yrs',
         },
       ]))
       expect(getPeopleSelector(emptyState)).toEqualImmutable(fromJS([]))
@@ -45,11 +48,11 @@ describe('relationshipsSelectors', () => {
 
     it('returns a list of people with an empty gender', () => {
       const relationships = [
-        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15'},
+        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y'},
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS(
-        [{dateOfBirth: '01/15/1986', legacy_id: '10', name: 'Ricky Robinson', relationships: [], gender: ''}]
+        [{dateOfBirth: '01/15/1986', legacy_id: '10', name: 'Ricky Robinson', relationships: [], gender: '', age: '20 yrs'}]
       ))
     })
 
@@ -73,6 +76,8 @@ describe('relationshipsSelectors', () => {
           gender: 'M',
           last_name: 'Robinson',
           legacy_id: '3',
+          age: 20,
+          age_unit: 'Y',
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -82,6 +87,8 @@ describe('relationshipsSelectors', () => {
               related_person_last_name: 'Robinson',
               related_person_relationship: '17',
               indexed_person_relationship: '17',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '2',
               },
@@ -95,6 +102,8 @@ describe('relationshipsSelectors', () => {
               related_person_last_name: 'Carlson',
               related_person_relationship: '297',
               indexed_person_relationship: '258',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '1',
               },
@@ -108,6 +117,8 @@ describe('relationshipsSelectors', () => {
           last_name: 'Robinson',
           legacy_id: '2',
           date_of_birth: '1990-03-15',
+          age: 20,
+          age_unit: 'Y',
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -117,6 +128,8 @@ describe('relationshipsSelectors', () => {
               related_person_last_name: 'Robinson',
               related_person_relationship: '17',
               indexed_person_relationship: '17',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '3',
               },
@@ -130,6 +143,8 @@ describe('relationshipsSelectors', () => {
               related_person_last_name: 'Carlson',
               related_person_relationship: '297',
               indexed_person_relationship: '258',
+              related_person_age: 30,
+              related_person_age_unit: 'Y',
               legacy_descriptor: {
                 legacy_id: '1',
               },
@@ -152,6 +167,7 @@ describe('relationshipsSelectors', () => {
           legacy_id: '3',
           name: 'Ricky Robinson',
           gender: 'M',
+          age: '20 yrs',
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -164,6 +180,7 @@ describe('relationshipsSelectors', () => {
               person_card_exists: false,
               same_home_code: 'Y',
               type_code: '17',
+              age: '30 yrs',
             },
             {
               absent_parent_code: 'N',
@@ -176,6 +193,7 @@ describe('relationshipsSelectors', () => {
               person_card_exists: true,
               same_home_code: 'N',
               type_code: '258',
+              age: '30 yrs',
             },
           ],
         },
@@ -184,6 +202,7 @@ describe('relationshipsSelectors', () => {
           legacy_id: '2',
           name: 'Johny Robinson',
           gender: 'M',
+          age: '20 yrs',
           relationships: [
             {
               absent_parent_code: 'Y',
@@ -196,6 +215,7 @@ describe('relationshipsSelectors', () => {
               person_card_exists: false,
               same_home_code: 'Y',
               type_code: '17',
+              age: '30 yrs',
             },
             {
               absent_parent_code: 'N',
@@ -208,6 +228,7 @@ describe('relationshipsSelectors', () => {
               person_card_exists: true,
               same_home_code: 'N',
               type_code: '258',
+              age: '30 yrs',
             },
           ],
         },

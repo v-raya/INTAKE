@@ -43,7 +43,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
             <td>
               <ul className='unstyled-list'>
                 <li>{person.name}</li>
-                <li>{person.dateOfBirth}</li>
+                <li>{person.age}</li>
                 <li>{GENDERS_LEGACY[person.gender] || ''}</li>
               </ul>
             </td>
@@ -66,7 +66,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
             <td>
               <ul className='unstyled-list'>
                 <li>{relationship.name}</li>
-                <li>{relationship.dateOfBirth}</li>
+                <li>{relationship.age}</li>
                 <li>{GENDERS_LEGACY[relationship.gender]}</li>
               </ul>
             </td>

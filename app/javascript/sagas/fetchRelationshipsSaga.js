@@ -1,4 +1,4 @@
-import {takeEvery, put, call} from 'redux-saga/effects'
+import {takeLatest, put, call} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {
   fetchRelationshipsSuccess,
@@ -18,5 +18,5 @@ export function* fetchRelationships({payload: {ids}}) {
 }
 
 export function* fetchRelationshipsSaga() {
-  yield takeEvery(FETCH_RELATIONSHIPS, fetchRelationships)
+  yield takeLatest(FETCH_RELATIONSHIPS, fetchRelationships)
 }

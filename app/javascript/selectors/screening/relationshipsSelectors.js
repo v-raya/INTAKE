@@ -2,6 +2,7 @@ import {createSelector} from 'reselect'
 import {Map, List} from 'immutable'
 import nameFormatter from 'utils/nameFormatter'
 import {dateFormatter} from 'utils/dateFormatter'
+import {ageFormatter} from 'utils/ageFormatter'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {systemCodeDisplayValue, selectRelationshipTypes} from 'selectors/systemCodeSelectors'
 
@@ -24,6 +25,10 @@ export const getPeopleSelector = createSelector(
     legacy_id: person.get('legacy_id'),
     name: nameFormatter({...person.toJS()}),
     gender: person.get('gender') || '',
+    age: ageFormatter({
+      age: person.get('age'),
+      ageUnit: person.get('age_unit'),
+    }),
     relationships: person.get('relationships', List()).map((relationship) => (
       Map({
         absent_parent_code: relationship.get('absent_parent_code'),
@@ -38,6 +43,10 @@ export const getPeopleSelector = createSelector(
         legacy_descriptor: relationship.get('legacy_descriptor'),
         type: systemCodeDisplayValue(relationship.get('indexed_person_relationship'), relationshipTypes),
         type_code: relationship.get('indexed_person_relationship'),
+        age: ageFormatter({
+          age: relationship.get('related_person_age'),
+          ageUnit: relationship.get('related_person_age_unit'),
+        }),
         secondaryRelationship: systemCodeDisplayValue(relationship.get('related_person_relationship'), relationshipTypes),
         person_card_exists: isPersonCardExists(participants, relationship.toJS()),
         same_home_code: relationship.get('same_home_code'),

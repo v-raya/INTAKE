@@ -2,6 +2,7 @@ import {combineReducers} from 'redux-immutable'
 import addressTypes from 'reducers/systemCodes/addressTypesReducer'
 import allegationTypes from 'reducers/systemCodes/allegationTypesReducer'
 import communicationMethods from 'reducers/systemCodes/communicationMethodsReducer'
+import csecTypes from 'reducers/systemCodes/csecTypesReducer'
 import counties from 'reducers/systemCodes/countiesReducer'
 import addressCounties from 'reducers/systemCodes/addressCountiesReducer'
 import countyAgencies from 'reducers/systemCodes/countyAgenciesReducer'
@@ -20,6 +21,7 @@ const systemCodesReducer = combineReducers({
   addressTypes,
   allegationTypes,
   communicationMethods,
+  csecTypes,
   counties,
   countyAgencies,
   ethnicityTypes,

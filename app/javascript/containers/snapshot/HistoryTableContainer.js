@@ -6,13 +6,27 @@ import {
 } from 'selectors/screening/historyOfInvolvementSelectors'
 import * as IntakeConfig from 'common/config'
 
-const resetCopyStyling = (copyContent) => {
-  if (window.clipboardData === undefined) {
-    Array.from(document.querySelectorAll('link[rel="stylesheet"]')).forEach((el) => (el.removeAttribute('disabled')))
-    copyContent.removeAttribute('style')
-    document.body.removeAttribute('style')
+const copyTable = (table, callback) => {
+  // browsers have different functions for creating text ranges and selections
+  if (document.createRange && window.getSelection) {
+    const range = document.createRange()
+    const selection = window.getSelection()
+    selection.removeAllRanges()
+    try {
+      range.selectNodeContents(table)
+      selection.addRange(range)
+    } catch (e) {
+      range.selectNode(table)
+      selection.addRange(range)
+    }
+    document.execCommand('copy')
+  } else if (document.body.createTextRange) {
+    const range = document.body.createTextRange()
+    range.moveToElementText(table)
+    range.select()
+    range.execCommand('copy')
   }
-  Array.from(copyContent.querySelectorAll('table, th, td')).forEach((el) => (el.removeAttribute('style')))
+  callback()
 }
 
 const mapStateToProps = (state) => ({
@@ -20,27 +34,23 @@ const mapStateToProps = (state) => ({
   cases: getFormattedCasesSelector(state).toJS(),
   referrals: getFormattedReferralsSelector(state).toJS(),
   screenings: [],
-  // To make the copied table fit in MS Word, we have to temporarily restyle it.
-  onCopy: (copyContent) => {
-    // >= IE11 does not need this hack
-    if (window.clipboardData === undefined) {
-      // hack to prevent scrolling when styles disappear
-      document.body.style.height = `${document.body.clientHeight}px`
-      Array.from(document.querySelectorAll('link[rel="stylesheet"]')).forEach((el) => (el.setAttribute('disabled', 'disabled')))
-      copyContent.style.width = '1%'
+  onCopy: (e, target, callback) => {
+    const data = target.cloneNode(true)
+    try {
+      data.style.display = 'block'
+      e.clipboardData.setData('text/html', data.outerHTML)
+      e.preventDefault()
+      e.stopPropagation()
+      e.nativeEvent.stopImmediatePropagation()
+    } catch (error) {
+      if (callback) {
+        callback()
+      }
     }
-    Array.from(copyContent.querySelectorAll('table, th, td')).forEach((el) => (el.style.border = '1px solid black'))
-    Array.from(copyContent.querySelectorAll('table')).forEach((el) => {
-      el.style.borderCollapse = 'collapse'
-      el.style.fontSize = '12px'
-    })
-    return copyContent
   },
-  onSuccess: (copyContent) => {
-    resetCopyStyling(copyContent)
-  },
-  onError: (copyContent) => {
-    resetCopyStyling(copyContent)
+  friendlyCopy: (callback) => {
+    const table = document.getElementById('history-copy-friendly')
+    copyTable(table, callback)
   },
 })
 

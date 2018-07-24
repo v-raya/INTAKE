@@ -7,8 +7,9 @@ describe('HistoryTable', () => {
     cases = [],
     referrals = [],
     screenings = [],
+    onCopy = () => true,
   }) {
-    const props = {cases, referrals, screenings}
+    const props = {cases, referrals, screenings, onCopy}
     return shallow(<HistoryTable {...props}/>, {disableLifecycleMethods: true})
   }
 
@@ -84,9 +85,7 @@ describe('HistoryTable', () => {
         const copyButton = component.find('ClipboardButton')
 
         expect(copyButton.exists()).toEqual(true)
-        expect(copyButton.props()['option-target']).toBeDefined()
-        expect(copyButton.props().onSuccess).toBeDefined()
-        expect(copyButton.props().onError).toBeDefined()
+        expect(copyButton.props()['data-clipboard-target']).toBeDefined()
       })
     })
   })

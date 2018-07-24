@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base # :nodoc:
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  def append_info_to_payload(payload)
+    super
+    payload[:staff_id] = session[:user_details].try(:staff_id)
+    payload[:staff_county] = session[:user_details].try(:county_code)
+    payload[:staff_county_description] = session[:user_details].try(:county)
+  end
+
   private
 
   def authenticate_user

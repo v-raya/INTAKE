@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 
 const propTypes = {
+  ageDisplayFormatter: PropTypes.func,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
@@ -23,6 +24,7 @@ const RelationCard = ({
   expandColumnComponent,
   name,
   tableActions,
+  ageDisplayFormatter,
 }) => (
   <div>
     <div className='child-name'>
@@ -55,6 +57,14 @@ const RelationCard = ({
           sortHeaderColumnClassName='sorted-header'
         >
             Relationship
+        </TableHeaderColumn>
+        <TableHeaderColumn
+          dataFormat={ageDisplayFormatter}
+          dataField='age'
+          dataSort={true}
+          sortHeaderColumnClassName='sorted-header'
+        >
+            Age
         </TableHeaderColumn>
         <TableHeaderColumn dataFormat={tableActions} width='5%'/>
       </BootstrapTable>

@@ -269,7 +269,7 @@ feature 'History card' do
       stub_empty_relationships
     end
 
-    scenario 'copy button' do
+    scenario 'copying with the copy button copies the table without reporter information' do
       visit screening_path(id: existing_screening[:id])
       within '#history-card.card.show', text: 'History' do
         click_button 'Copy'
@@ -284,11 +284,17 @@ feature 'History card' do
         'label.setAttribute("for", "spec_meta")',
         'spec_meta.setAttribute("id", "spec_meta")',
         'document.getElementById("history-card").appendChild(spec_meta)',
-        'document.getElementById("spec_meta").appendChild(label)'
+        'document.getElementById("spec_meta").appendChild(label)',
+        'document.getElementById("spec_meta").addEventListener("paste",'\
+        ' function(e) { e.target.value = e.clipboardData.getData("text/html") })'
       ].join(';')
       page.execute_script js
       find('#spec_meta').send_keys [:control, 'v']
       expect(find('#spec_meta').value).not_to be_empty
+      expect(find('#spec_meta').value).not_to have_text('Reporter1')
+      expect(find('#spec_meta').value).not_to have_text('r1LastName')
+      expect(find('#spec_meta').value).not_to have_text('Reporter2')
+      expect(find('#spec_meta').value).not_to have_text('r2LastName')
     end
 
     scenario 'viewing a screening' do
@@ -335,7 +341,7 @@ feature 'History card' do
               within allegation_rows[0] do
                 expect(page).to have_content('Victim')
                 expect(page).to have_content('Perpetrator')
-                expect(page).to have_content('Allegation(s) & Disposition')
+                expect(page).to have_content('Allegation(s) & Conclusion(s)')
               end
 
               within allegation_rows[1] do
@@ -363,7 +369,7 @@ feature 'History card' do
               within allegation_rows[0] do
                 expect(page).to have_content('Victim')
                 expect(page).to have_content('Perpetrator')
-                expect(page).to have_content('Allegation(s) & Disposition')
+                expect(page).to have_content('Allegation(s) & Conclusion(s)')
               end
 
               within allegation_rows[1] do
@@ -472,7 +478,7 @@ feature 'History card' do
               within allegation_rows[0] do
                 expect(page).to have_content('Victim')
                 expect(page).to have_content('Perpetrator')
-                expect(page).to have_content('Allegation(s) & Disposition')
+                expect(page).to have_content('Allegation(s) & Conclusion(s)')
               end
 
               within allegation_rows[1] do
@@ -500,7 +506,7 @@ feature 'History card' do
               within allegation_rows[0] do
                 expect(page).to have_content('Victim')
                 expect(page).to have_content('Perpetrator')
-                expect(page).to have_content('Allegation(s) & Disposition')
+                expect(page).to have_content('Allegation(s) & Conclusion(s)')
               end
 
               within allegation_rows[1] do
@@ -659,7 +665,7 @@ feature 'History card' do
                 within allegation_rows[0] do
                   expect(page).to have_content('Victim')
                   expect(page).to have_content('Perpetrator')
-                  expect(page).to have_content('Allegation(s) & Disposition')
+                  expect(page).to have_content('Allegation(s) & Conclusion(s)')
                 end
 
                 within allegation_rows[1] do
@@ -687,7 +693,7 @@ feature 'History card' do
                 within allegation_rows[0] do
                   expect(page).to have_content('Victim')
                   expect(page).to have_content('Perpetrator')
-                  expect(page).to have_content('Allegation(s) & Disposition')
+                  expect(page).to have_content('Allegation(s) & Conclusion(s)')
                 end
 
                 within allegation_rows[1] do

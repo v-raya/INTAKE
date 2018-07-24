@@ -68,6 +68,10 @@ const formatFullName = (result, highlight) => combineFullName(
   isCommaSuffix(result.get('name_suffix'))
 )
 
+const mapCounties = (counties, countyCodes) => counties.map((county) =>
+  systemCodeDisplayValue(county.get('id'), countyCodes)
+)
+
 export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state)
   .get('results')
   .map((fullResult) => {
@@ -84,7 +88,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       dateOfBirth: formatDOB(result.get('date_of_birth'), highlight.has('searchable_date_of_birth')),
       isDeceased: Boolean(result.get('date_of_death')),
       ssn: formatSSN(highlight.getIn(['ssn', 0], result.get('ssn'))),
-      clientCounty: systemCodeDisplayValue(result.getIn(['client_county', 'id']), selectCounties(state)),
+      clientCounties: mapCounties(result.get('client_counties', List()), selectCounties(state)),
       address: mapAddress(state, result),
       phoneNumber: formatPhoneNumber(mapPhoneNumber(result).first()),
       isSensitive: mapIsSensitive(result),

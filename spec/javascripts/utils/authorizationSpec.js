@@ -8,19 +8,23 @@ describe('Authorization Helpers', () => {
   const clients = {
     sensitive_sacramentan: {
       isSensitive: true,
-      clientCounty: 'Sacramento',
+      clientCounties: ['Sacramento'],
     },
     sensitive_siskiyouan: {
       isSensitive: true,
-      clientCounty: 'Siskiyou',
+      clientCounties: ['Siskiyou'],
     },
     sensitive_somewhere: {
       isSensitive: true,
-      clientCounty: null,
+      clientCounties: [],
     },
     nonsensitive: {
       isSensitive: false,
-      clientCounty: 'Sacramento',
+      clientCounties: ['Sacramento'],
+    },
+    multiple: {
+      isSensitive: true,
+      clientCounties: ['Sacramento', 'Siskiyou'],
     },
   }
   describe('canUserAddClient', () => {
@@ -66,6 +70,12 @@ describe('Authorization Helpers', () => {
     it('should defer to the API if the user has an override authority', () => {
       expect(
         canUserAddClient(sacramentan, true, clients.sensitive_siskiyouan, true)
+      ).toBe(true)
+    })
+
+    it('should defer to the API if the client is in multiple counties', () => {
+      expect(
+        canUserAddClient(sacramentan, false, clients.multiple, false)
       ).toBe(true)
     })
   })

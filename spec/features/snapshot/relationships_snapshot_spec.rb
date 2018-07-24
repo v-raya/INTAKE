@@ -56,6 +56,16 @@ feature 'Snapshot relationship card' do
             related_person_relationship: '280',
             indexed_person_relationship: '280',
             relationship_context: 'Half'
+          }, {
+            related_person_id: nil,
+            related_person_legacy_id: '808',
+            related_person_first_name: 'John',
+            related_person_last_name: 'Florence',
+            related_person_name_suffix: 'phd.',
+            relationship: 'Sister/Brother (Half)',
+            related_person_relationship: '18',
+            indexed_person_relationship: '277',
+            relationship_context: 'Half'
           }]
         }
       ]
@@ -120,6 +130,7 @@ feature 'Snapshot relationship card' do
         )
         expect(page).to have_content('Sister (Half) of Jake Campbell')
         expect(page).to have_content('Sister (Half) of Jane Campbell')
+        expect(page).to have_content('Sister (Half) of John Florence, PhD')
       end
     end
 
