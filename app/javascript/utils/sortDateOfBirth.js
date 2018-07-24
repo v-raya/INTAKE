@@ -5,15 +5,6 @@ export const sortDateOfBirth = (a, b, order) => {
   if (a.dateOfBirth === '' && b.dateOfBirth === '') {
     return 0
   }
-  // } else if (a.dateOfBirth === '' && b.dateOfBirth !== '' && order === 'asc') {
-  //   return SORT_UP
-  // } else if (b.dateOfBirth === '' && a.dateOfBirth !== '' && order === 'asc') {
-  //   return SORT_DOWN
-  // } else if (a.dateOfBirth === '' && b.dateOfBirth !== '' && order === 'desc') {
-  //   return SORT_DOWN
-  // } else if (b.dateOfBirth === '' && a.dateOfBirth !== '' && order === 'desc') {
-  //   return SORT_UP
-  // }
 
   if (order === 'desc') {
     if (a.dateOfBirth === '') {
