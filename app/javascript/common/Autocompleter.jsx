@@ -86,6 +86,17 @@ export class Autocompleter extends Component {
     return value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS
   }
 
+  hideMenu() {
+    if (this.inputRef) {
+      this.inputRef.setAttribute('aria-activedescendant', '')
+    }
+    this.setState({menuVisible: false})
+  }
+
+  showMenu() {
+    this.setState({menuVisible: true})
+  }
+
   onItemSelect(_value, item) {
     const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults} = this.props
     if (item.legacyDescriptor) {
@@ -96,7 +107,7 @@ export class Autocompleter extends Component {
         onClear()
         onChange('')
         onSelect(item)
-        this.setState({menuVisible: false})
+        this.hideMenu()
         return
       }
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
@@ -113,14 +124,14 @@ export class Autocompleter extends Component {
 
   onFocus() {
     if (this.isSearchable(this.props.searchTerm)) {
-      this.setState({menuVisible: true})
+      this.showMenu()
     } else {
-      this.setState({menuVisible: false})
+      this.hideMenu()
     }
   }
 
   onBlur() {
-    this.setState({menuVisible: false})
+    this.hideMenu()
   }
 
   renderMenu(items, searchTerm, _style) {
@@ -167,9 +178,9 @@ export class Autocompleter extends Component {
     const {onSearch, onChange} = this.props
     if (this.isSearchable(value)) {
       onSearch(value)
-      this.setState({menuVisible: true})
+      this.showMenu()
     } else {
-      this.setState({menuVisible: false})
+      this.hideMenu()
     }
     onChange(value)
   }
