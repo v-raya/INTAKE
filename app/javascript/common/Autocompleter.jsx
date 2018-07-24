@@ -149,7 +149,7 @@ export class Autocompleter extends Component {
           {showMoreResults()}
         </div>
       )
-    } else {
+    } else if (item.createNewPerson) {
       return (
         <div id={id} key={key} style={style}>
           <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>

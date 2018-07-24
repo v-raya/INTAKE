@@ -6,7 +6,7 @@ import * as Analytics from 'utils/analytics'
 
 describe('<Autocompleter />', () => {
   function mountAutocompleter({
-    canCreateNewPerson,
+    canCreateNewPerson = true,
     onLoadMoreResults = () => null,
     isSelectable = () => true,
     onChange = () => null,
@@ -73,8 +73,6 @@ describe('<Autocompleter />', () => {
       {legacyDescriptor: {legacy_id: 1}},
       {legacyDescriptor: {legacy_id: 2}},
       {legacyDescriptor: {legacy_id: 3}},
-      {showMoreResults: 'Show More Results'},
-      {createNewPerson: 'Create New Person'},
     ]
     const item = results[0]
     beforeEach(() => {
@@ -91,7 +89,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="search-result-1-of-1"]')
+        autocompleter.find('div[id="search-result-1-of-3"]')
           .first()
           .simulate('click', null)
       })
@@ -128,7 +126,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="create-new-results"]')
+        autocompleter.find('div[id="search-result-create-new-of-the-same"]')
           .first()
           .simulate('click', null)
       })
@@ -158,7 +156,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect, onLoadMoreResults,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="show-more-results"]')
+        autocompleter.find('div[id="search-result-show-more-of-the-same"]')
           .first()
           .simulate('click', null)
       })
@@ -173,7 +171,7 @@ describe('<Autocompleter />', () => {
         results, onClear, onChange, onSelect,
       })
       autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-      autocompleter.find('div[id="search-result-3"]')
+      autocompleter.find('div[id="search-result-3-of-3"]')
         .first()
         .simulate('click', null)
 
@@ -191,7 +189,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect, isSelectable,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="search-result-1-of-1"]')
+        autocompleter.find('div[id="search-result-1-of-3"]')
           .first()
           .simulate('click', null)
       })
