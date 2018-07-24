@@ -7,6 +7,11 @@ export const getUserNameSelector = createSelector(
   (userInfo) => userInfo.toJS()
 )
 
+export const getStaffIdSelector = createSelector(
+  getUserInfo,
+  (userInfo) => userInfo.get('staff_id')
+)
+
 export const userPrivilegesSelector = createSelector(
   getUserInfo,
   (userInfo) => userInfo.get('privileges') || List()
