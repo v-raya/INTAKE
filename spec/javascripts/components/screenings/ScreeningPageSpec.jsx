@@ -19,6 +19,7 @@ describe('ScreeningPage', () => {
     loaded = true,
     params = {},
     participants = [],
+    staffId,
     hasApiValidationErrors = false,
     submitReferralErrors = [],
     ...args
@@ -29,6 +30,7 @@ describe('ScreeningPage', () => {
       loaded,
       params,
       participants,
+      staffId,
       hasApiValidationErrors,
       submitReferralErrors,
       ...args,
@@ -43,6 +45,7 @@ describe('ScreeningPage', () => {
     },
     participants = [],
     screening = {},
+    staffId = 'X05',
     params = {},
     editable,
   }) {
@@ -54,6 +57,7 @@ describe('ScreeningPage', () => {
       },
       params,
       participants,
+      staffId,
       screening,
       editable,
     }

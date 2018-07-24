@@ -25,9 +25,23 @@ const isDuplicatePerson = (participants, id) => (
 export class SnapshotPage extends React.Component {
   componentDidMount() {
     this.props.createSnapshot()
-    logEvent('snapShotPage', {
-      staffId: this.props.staffId,
-    })
+    if (this.props.staffId !== undefined) {
+      logEvent('SnapshotPage', {
+        staffId: this.props.staffId,
+        action: 'visited',
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.staffId !== prevProps.staffId) {
+      if (this.props.staffId !== undefined) {
+        logEvent('SnapshotPage', {
+          staffId: this.props.staffId,
+          action: 'visited',
+        })
+      }
+    }
   }
 
   componentWillUnmount() {

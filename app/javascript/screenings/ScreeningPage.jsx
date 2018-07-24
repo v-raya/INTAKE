@@ -68,9 +68,23 @@ export class ScreeningPage extends React.Component {
       fetchScreening(id)
       fetchHistoryOfInvolvements('screenings', id)
     } else { fetchScreening(null) }
-    logEvent('ScreeningPage', {
-      staffId: this.props.staffId,
-    })
+    if (this.props.staffId !== undefined) {
+      logEvent('screeningPage', {
+        staffId: this.props.staffId,
+        action: 'visited',
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.staffId !== prevProps.staffId) {
+      if (this.props.staffId !== undefined) {
+        logEvent('screeningPage', {
+          staffId: this.props.staffId,
+          action: 'visited',
+        })
+      }
+    }
   }
 
   componentWillUnmount() {
