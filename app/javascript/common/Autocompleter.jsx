@@ -62,7 +62,7 @@ const showMoreResults = () =>
 
 const addPosAndSetAttr = (results) => {
   const one = 1
-  for (var len = results.length, i = 0; i < len; ++i) {
+  for (let len = results.length, i = 0; i < len; ++i) {
     results[i].posInSet = i + one
     results[i].setSize = len
   }
