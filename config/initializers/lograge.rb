@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
-  if ENV['LOGSTASH_HOST']
+  unless Rails.env.development?
     config.lograge.enabled = true
     config.lograge.formatter = Lograge::Formatters::Logstash.new
-    config.lograge.logger = LogStashLogger.new(type: ENV.fetch('LOGSTASH_HOST_TYPE', 'udp').to_sym,
-                                               host: ENV['LOGSTASH_HOST'],
-                                               port: ENV.fetch('LOGSTASH_PORT', '5228').to_i)
     config.lograge.base_controller_class = 'ActionController::Base'
     config.lograge.custom_options = lambda do |event|
       exceptions = %w[controller action format accessCode search_term]
