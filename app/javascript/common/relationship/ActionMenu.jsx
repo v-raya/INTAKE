@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import AttachLink from 'common/relationship/AttachLink'
-import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
-import {ModalComponent} from 'react-wood-duck'
+import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
 
 export class ActionMenu extends Component {
   constructor(props) {
@@ -20,38 +19,16 @@ export class ActionMenu extends Component {
     this.setState({show: true})
   }
 
-  renderFooter(closeModal) {
-    return (
-      <div className='row'>
-        <div className='col-md-12'>
-          <div className='pull-right'>
-            <button className='btn btn-default' onClick={closeModal}>Cancel</button>
-            <button className='btn btn-primary'>Save Relationship</button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  renderEditRelationshipForm() {
-    return (
-      <EditRelationshipForm
-        onChange={this.props.onChange}
-        person={this.props.person}
-        relationship={this.props.relationship}
-      />
-    )
-  }
-
   renderModal() {
+    const {onChange, person, relationship} = this.props
+
     return (
-      <ModalComponent
+      <EditRelationshipModal
         closeModal={this.closeModal}
-        showModal={this.state.show}
-        modalBody={this.renderEditRelationshipForm()}
-        modalFooter={this.renderFooter(this.closeModal)}
-        modalSize='large'
-        modalTitle='Edit Relationship Type'
+        onChange={onChange}
+        person={person}
+        relationship={relationship}
+        show={this.state.show}
       />
     )
   }
@@ -72,19 +49,40 @@ export class ActionMenu extends Component {
             </li>
           </ul>
         </div>
-        {this.renderModal()}
+        {this.state.show && this.renderModal()}
       </div>
     )
   }
 }
+
+const personPropType = PropTypes.shape({
+  age: PropTypes.string,
+  dateOfBirth: PropTypes.string,
+  legacy_id: PropTypes.string,
+  gender: PropTypes.string,
+  name: PropTypes.string,
+})
+const relationshipPropType = PropTypes.shape({
+  absent_parent_code: PropTypes.string,
+  age: PropTypes.string,
+  dateOfBirth: PropTypes.string,
+  legacy_descriptor: PropTypes.object,
+  gender: PropTypes.string,
+  name: PropTypes.string,
+  person_card_exists: PropTypes.bool,
+  same_home_code: PropTypes.string,
+  secondaryRelationship: PropTypes.string,
+  type: PropTypes.string,
+  type_code: PropTypes.string,
+})
 
 ActionMenu.propTypes = {
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
-  person: PropTypes.object,
-  relationship: PropTypes.object,
+  person: personPropType,
+  relationship: relationshipPropType,
   screeningId: PropTypes.string,
 }
 

@@ -8,7 +8,6 @@ import {
   clearRelationships,
   fetchRelationshipsSuccess,
   fetchRelationshipsFailure,
-  setField,
 } from 'actions/relationshipsActions'
 import {List, fromJS} from 'immutable'
 
@@ -85,44 +84,6 @@ describe('relationshipsReducer', () => {
       const oldState = fromJS([{id: 1, legacy_id: 'ABC'}])
       const action = clearRelationships()
       expect(relationshipsReducer(oldState, action).isEmpty()).toEqual(true)
-    })
-  })
-
-  describe('on SET_RELATIONSHIP_FORM_FIELD', () => {
-    it('returns the edit relationship form with the newly updated value', () => {
-      const relationship = {
-        legacy_descriptor: {legacy_id: '50'},
-        indexed_person_relationship: '189',
-        related_person_first_name: 'Joe',
-        related_person_gender: 'M',
-        related_person_last_name: 'Atkyns',
-      }
-      const action = setField('indexed_person_relationship', '1', relationship, '140')
-      const state = fromJS([{
-        legacy_id: '1',
-        legacy_descriptor: {legacy_id: '20'},
-        relationships: [{
-          legacy_descriptor: {legacy_id: '50'},
-          indexed_person_relationship: '189',
-          related_person_first_name: 'Joe',
-          related_person_gender: 'M',
-          related_person_last_name: 'Atkyns',
-        }],
-      }])
-
-      expect(relationshipsReducer(state, action)).toEqualImmutable(
-        fromJS([{
-          legacy_id: '1',
-          legacy_descriptor: {legacy_id: '20'},
-          relationships: [{
-            legacy_descriptor: {legacy_id: '50'},
-            indexed_person_relationship: '140',
-            related_person_first_name: 'Joe',
-            related_person_gender: 'M',
-            related_person_last_name: 'Atkyns',
-          }],
-        }])
-      )
     })
   })
 })
