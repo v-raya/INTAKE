@@ -60,6 +60,14 @@ const showMoreResults = () =>
     }
   </div>
 
+const addPosAndSetAttr = (results) => {
+  const one = 1
+  for (var len = results.length, i = 0; i < len; ++i) {
+    results[i].posInSet = i + one
+    results[i].setSize = len
+  }
+}
+
 export class Autocompleter extends Component {
   constructor(props) {
     super(props)
@@ -78,6 +86,17 @@ export class Autocompleter extends Component {
     return value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS
   }
 
+  hideMenu() {
+    if (this.inputRef) {
+      this.inputRef.setAttribute('aria-activedescendant', '')
+    }
+    this.setState({menuVisible: false})
+  }
+
+  showMenu() {
+    this.setState({menuVisible: true})
+  }
+
   onItemSelect(_value, item) {
     const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults} = this.props
     if (item.legacyDescriptor) {
@@ -88,7 +107,7 @@ export class Autocompleter extends Component {
         onClear()
         onChange('')
         onSelect(item)
-        this.setState({menuVisible: false})
+        this.hideMenu()
         return
       }
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
@@ -105,14 +124,14 @@ export class Autocompleter extends Component {
 
   onFocus() {
     if (this.isSearchable(this.props.searchTerm)) {
-      this.setState({menuVisible: true})
+      this.showMenu()
     } else {
-      this.setState({menuVisible: false})
+      this.hideMenu()
     }
   }
 
   onBlur() {
-    this.setState({menuVisible: false})
+    this.hideMenu()
   }
 
   renderMenu(items, searchTerm, _style) {
@@ -132,50 +151,60 @@ export class Autocompleter extends Component {
 
   renderItem(item, isHighlighted, _styles) {
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
-    if (item.legacyDescriptor) {
-      const key = item.legacyDescriptor.legacy_id
-      return (
-        <div id={`search-result-${key}`} key={key} style={style}>
-          {perosnSuggestion(item)}
-        </div>
-      )
-    } else if (item.showMoreResults) {
-      return (
-        <div id='show-more-results' style={style}>
-          {showMoreResults()}
-        </div>
-      )
-    } else {
-      return (
-        <div id='create-new-results' style={style}>
-          <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
-            {<div>
-              <CreateUnknownPerson />
-            </div>}
-          </div>
-        </div>)
+    const key = `${item.posInSet}-of-${item.setSize}`
+    const id = `search-result-${key}`
+    if (isHighlighted && this.inputRef) {
+      this.inputRef.setAttribute('aria-activedescendant', id)
     }
+    if (item.showMoreResults) {
+      return (<div id={id} key={key} style={style}>
+        {showMoreResults()}
+      </div>)
+    } else if (item.createNewPerson) {
+      return (<div id={id} key={key} style={style}>
+        <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
+          {<div>
+            <CreateUnknownPerson />
+          </div>}
+        </div>
+      </div>)
+    }
+    return (<div id={id} key={key} style={style}>
+      {perosnSuggestion(item)}
+    </div>)
   }
 
   onChangeInput(_, value) {
     const {onSearch, onChange} = this.props
     if (this.isSearchable(value)) {
       onSearch(value)
-      this.setState({menuVisible: true})
+      this.showMenu()
     } else {
-      this.setState({menuVisible: false})
+      this.hideMenu()
     }
     onChange(value)
   }
 
+  renderInput(props) {
+    const newProps = {
+      ...props,
+      ref: (el) => {
+        this.inputRef = el
+        props.ref(el)
+      },
+    }
+    return <input {...newProps}/>
+  }
+
   render() {
-    const {searchTerm, id} = this.props
-    const {results, canCreateNewPerson, total} = this.props
-    const showMoreResults = {showMoreResults: 'Show More Results'}
-    const createNewPerson = {createNewPerson: 'Create New Person'}
+    const {searchTerm, id, results, canCreateNewPerson, total} = this.props
+    const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
+    const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const canLoadMoreResults = results && total !== results.length
-    const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
     const {menuVisible} = this.state
+    //Sequentually numbering items
+    addPosAndSetAttr(results)
+    const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
@@ -189,6 +218,7 @@ export class Autocompleter extends Component {
         renderMenu={this.renderMenu}
         value={searchTerm}
         wrapperStyle={{display: 'block', position: 'relative'}}
+        renderInput={(props) => this.renderInput(props)}
       />
     )
   }
