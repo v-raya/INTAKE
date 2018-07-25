@@ -6204,9 +6204,9 @@ react-widgets@^3.4.8:
     deconstruct-number-format "0.0.1"
     format-number-with-string "0.0.2"
 
-react-wood-duck@^0.1.71:
-  version "0.1.71"
-  resolved "https://registry.yarnpkg.com/react-wood-duck/-/react-wood-duck-0.1.71.tgz#c8d85684a1194ff0b4866ab0f528347f183ebede"
+react-wood-duck@0.1.73:
+  version "0.1.73"
+  resolved "https://registry.yarnpkg.com/react-wood-duck/-/react-wood-duck-0.1.73.tgz#ba942998a048859b576a6f8cd9d2b25d86429f01"
   dependencies:
     babel-runtime "^6.6.1"
     bootstrap "^3.3.7"
