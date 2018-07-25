@@ -8,7 +8,6 @@ import {
   clearRelationships,
   fetchRelationshipsSuccess,
   fetchRelationshipsFailure,
-  setField,
 } from 'actions/relationshipsActions'
 import {List, fromJS} from 'immutable'
 
