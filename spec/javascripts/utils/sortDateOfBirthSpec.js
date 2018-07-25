@@ -52,21 +52,3 @@ describe('Sort Date Of Birth if DOB is empty string', () => {
     expect(sortDateOfBirth(c, d, descOrder) < 0).toBe(true)
   })
 })
-
-describe('Return 0 if DOBs are empty', () => {
-  const a = {
-    dateOfBirth: '',
-  }
-
-  const b = {
-    dateOfBirth: '',
-  }
-
-  it('sorts by ascending order and return a negative value', () => {
-    expect(sortDateOfBirth(a, b, ascOrder) === 0).toBe(true)
-  })
-
-  it('sorts by descending order and return a positive value', () => {
-    expect(sortDateOfBirth(a, b, descOrder) === 0).toBe(true)
-  })
-})
