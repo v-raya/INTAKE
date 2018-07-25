@@ -18,7 +18,7 @@ export default class CheckboxListFilter extends React.Component {
   }
 
   render() {
-    var {
+    const {
       collection,
       name,
       selected,
