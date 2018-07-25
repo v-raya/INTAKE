@@ -5,13 +5,10 @@ export const sortDateOfBirth = (a, b, order) => {
   switch (true) {
     case (a.dateOfBirth === '' && order === 'asc'):
       return SORT_UP
-      // break
     case (b.dateOfBirth === '' && order === 'asc'):
       return SORT_DOWN
-      // break
     case (a.dateOfBirth === '' && order === 'desc'):
       return SORT_DOWN
-      // break
     case (b.dateOfBirth === '' && order === 'desc'):
       return SORT_UP
   }
