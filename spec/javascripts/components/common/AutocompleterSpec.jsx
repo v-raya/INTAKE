@@ -1,11 +1,12 @@
 import Autocompleter from 'common/Autocompleter'
 import React from 'react'
+import Autocomplete from 'react-autocomplete'
 import {shallow, mount} from 'enzyme'
 import * as Analytics from 'utils/analytics'
 
 describe('<Autocompleter />', () => {
   function mountAutocompleter({
-    canCreateNewPerson,
+    canCreateNewPerson = true,
     onLoadMoreResults = () => null,
     isSelectable = () => true,
     onChange = () => null,
@@ -72,8 +73,6 @@ describe('<Autocompleter />', () => {
       {legacyDescriptor: {legacy_id: 1}},
       {legacyDescriptor: {legacy_id: 2}},
       {legacyDescriptor: {legacy_id: 3}},
-      {showMoreResults: 'Show More Results'},
-      {createNewPerson: 'Create New Person'},
     ]
     const item = results[0]
     beforeEach(() => {
@@ -90,7 +89,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="search-result-1"]')
+        autocompleter.find('div[id="search-result-1-of-3"]')
           .first()
           .simulate('click', null)
       })
@@ -127,7 +126,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="create-new-results"]')
+        autocompleter.find('div[id="search-result-create-new-of-the-same"]')
           .first()
           .simulate('click', null)
       })
@@ -157,7 +156,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect, onLoadMoreResults,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="show-more-results"]')
+        autocompleter.find('div[id="search-result-show-more-of-the-same"]')
           .first()
           .simulate('click', null)
       })
@@ -172,7 +171,7 @@ describe('<Autocompleter />', () => {
         results, onClear, onChange, onSelect,
       })
       autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-      autocompleter.find('div[id="search-result-3"]')
+      autocompleter.find('div[id="search-result-3-of-3"]')
         .first()
         .simulate('click', null)
 
@@ -190,7 +189,7 @@ describe('<Autocompleter />', () => {
           results, onClear, onChange, onSelect, isSelectable,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="search-result-1"]')
+        autocompleter.find('div[id="search-result-1-of-3"]')
           .first()
           .simulate('click', null)
       })
@@ -262,6 +261,28 @@ describe('<Autocompleter />', () => {
       it('calls props onChange', () => {
         expect(onChange).toHaveBeenCalledWith(value)
       })
+    })
+  })
+
+  describe('renderInput', () => {
+    it('renders an input element', () => {
+      const autocompleter = renderAutocompleter({})
+      const input = shallow(autocompleter.find('Autocomplete').props().renderInput())
+      expect(input.name())
+        .toEqual('input')
+    })
+
+    it('stores a ref of the input', () => {
+      const autocompleter = mountAutocompleter({})
+      const inputRef = autocompleter.instance().inputRef
+      expect(inputRef).toBeDefined()
+      expect(inputRef.tagName).toEqual('INPUT')
+    })
+
+    it('calls the ref callback that ReactAutocomplete provides', () => {
+      const internalRef = spyOn(Autocomplete.prototype, 'exposeAPI')
+      mountAutocompleter({})
+      expect(internalRef).toHaveBeenCalled()
     })
   })
 
@@ -351,8 +372,25 @@ describe('<Autocompleter />', () => {
       it('changes background colour when highlighted', () => {
         const input = autocompleter.find('input')
         input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
-        const result = autocompleter.find('div[id="search-result-some-legacy-id"]')
+        const result = autocompleter.find('div[id="search-result-1-of-2"]')
         expect(result.props().style.backgroundColor).toEqual('#d4d4d4')
+      })
+
+      it('marks any highlighted item as activedescendant', () => {
+        const renderItem = autocompleter.find('Autocomplete').props().renderItem
+
+        const setSize = results.length
+        var posInSet = 1
+        renderItem(results[posInSet - 1], true)
+
+        expect(autocompleter.instance().inputRef.getAttribute('aria-activedescendant'))
+          .toEqual(`search-result-${posInSet}-of-${setSize}`)
+
+        posInSet = 2
+        renderItem(results[posInSet - 1], true)
+
+        expect(autocompleter.instance().inputRef.getAttribute('aria-activedescendant'))
+          .toEqual(`search-result-${posInSet}-of-${setSize}`)
       })
     })
 
