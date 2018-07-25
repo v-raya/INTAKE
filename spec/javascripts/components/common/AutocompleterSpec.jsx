@@ -380,7 +380,7 @@ describe('<Autocompleter />', () => {
         const renderItem = autocompleter.find('Autocomplete').props().renderItem
 
         const setSize = results.length
-        var posInSet = 1
+        let posInSet = 1
         renderItem(results[posInSet - 1], true)
 
         expect(autocompleter.instance().inputRef.getAttribute('aria-activedescendant'))
