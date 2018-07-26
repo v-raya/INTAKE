@@ -28,9 +28,12 @@ export default class ScreeningCreateRelationship extends React.Component {
 
   modalTable(data) {
     return (
-      <BootstrapTable data={data}>
-        <TableHeaderColumn dataField='focus_person' dataAlign='center'>Focus Person</TableHeaderColumn>
-        <TableHeaderColumn dataField='relationship' dataFormat={this.selectFieldFormat}> Relationship<br/>
+      <BootstrapTable bordered={false} data={data}>
+        <TableHeaderColumn dataField='focus_person' dataAlign='center'>
+          Focus Person
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField='relationship' dataFormat={this.selectFieldFormat}>
+          Relationship<br/>
           <div className='text-helper'>Focus Person / Related Person</div>
         </TableHeaderColumn>
         <TableHeaderColumn dataField='related_person' isKey={true}
@@ -53,7 +56,9 @@ export default class ScreeningCreateRelationship extends React.Component {
         label=''
       >
         <option key=''/>
-        {RELATIONSHIP_TYPES.map((relationship) => <option key={relationship.value} value={relationship.value}>{relationship.label}</option>)}
+        {RELATIONSHIP_TYPES.map((relationship) =>
+          <option key={relationship.value} value={relationship.value}>{relationship.label}</option>)
+        }
       </SelectField>
     )
   }
@@ -69,18 +74,28 @@ export default class ScreeningCreateRelationship extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.handleShowModal}>
-            Create Relationship
-        </button>
-        <ModalComponent
-          closeModal={this.closeModal}
-          showModal={this.state.show}
-          modalBody={this.modalTable(this.props.data)}
-          modalFooter={this.modalFooter()}
-          modalSize='large'
-          modalTitle={'Create Relationship'}
-        />
+      <div className='row'>
+        <div className='col-md-12' >
+          <div className='pull-right'>
+            <button
+              aria-label='Create Relationship'
+              className='btn btn-primary'
+              onClick={this.handleShowModal}
+            >
+              Create Relationship
+            </button>
+          </div>
+        </div>
+        <div className='col-md-12' >
+          <ModalComponent
+            closeModal={this.closeModal}
+            showModal={this.state.show}
+            modalBody={this.modalTable(this.props.data)}
+            modalFooter={this.modalFooter()}
+            modalSize='large'
+            modalTitle={'Create Relationship'}
+          />
+        </div>
       </div>
     )
   }

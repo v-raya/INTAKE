@@ -41,32 +41,29 @@ export const Relationships = ({
   <div className='card-body no-pad-top'>
     {
       isScreening && people.map((person, index) => (
-        <div className='row' key={`new-${index}`}>
-          <div className='col-md-12'>
-            {
-              (person.relationships.length > 0) &&
-              <span>
-                <RelationCard
-                  name={person.name}
-                  data={person.relationships}
-                  tableActions={(cell, row) =>
-                    (actionsMenu(row, pendingPeople, person, isScreening, screeningId, onChange, onClick)
-                    )}
-                  ageDisplayFormatter={(cell, row) => <div> {row.dateOfBirth || ''} {row.age === '' ? '' : `(${row.age})`}</div>}
-                />
-              </span>
-            }
-            {
-              (person.relationships.length === 0) &&
-              <div className='no-relationships well'><strong>{person.name}</strong> has no known relationships</div>
-            }
-            <div className='row'>
-              <div className='col-md-9' />
-              <div className='col-md-3'>
-                <ScreeningCreateRelationship data={createRelationsData(person.name, person.relationships)}/>
-              </div>
+        <div key={index}>
+          <div className='row' key={`new-${index}`}>
+            <div className='col-md-12'>
+              {
+                (person.relationships.length > 0) &&
+                <span>
+                  <RelationCard
+                    name={person.name}
+                    data={person.relationships}
+                    tableActions={(cell, row) =>
+                      (actionsMenu(row, pendingPeople, person, isScreening, screeningId, onChange, onClick)
+                      )}
+                    ageDisplayFormatter={(cell, row) => <div> {row.dateOfBirth || ''} {row.age === '' ? '' : `(${row.age})`}</div>}
+                  />
+                </span>
+              }
+              {
+                (person.relationships.length === 0) &&
+                <div className='no-relationships well'><strong>{person.name}</strong> has no known relationships</div>
+              }
             </div>
           </div>
+          <ScreeningCreateRelationship data={createRelationsData(person.name, person.relationships)}/>
         </div>
       ))
     }
