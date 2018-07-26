@@ -186,7 +186,7 @@ describe('<Autocompleter />', () => {
         spyOn(window, 'alert')
         const isSelectable = jasmine.createSpy('isSelectable').and.returnValue(false)
         const autocompleter = mountAutocompleter({
-          results, onClear, onChange, onSelect, isSelectable,
+          results, onClear, onChange, onSelect, isSelectable, onLoadMoreResults,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
         autocompleter.find('div[id="search-result-1-of-3"]')
@@ -199,6 +199,7 @@ describe('<Autocompleter />', () => {
         expect(onChange).not.toHaveBeenCalledWith('')
         expect(onSelect).not.toHaveBeenCalled()
         expect(window.alert).toHaveBeenCalledWith('You are not authorized to add this person.')
+        expect(onLoadMoreResults).not.toHaveBeenCalled()
       })
     })
   })
