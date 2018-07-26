@@ -111,6 +111,7 @@ export class Autocompleter extends Component {
         return
       }
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
+      return
     }
     if (item.createNewPerson) {
       onClear()
