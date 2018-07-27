@@ -35,5 +35,5 @@ import '../../assets/stylesheets/shame_overrides'
 import '../../assets/stylesheets/screening_relationship.scss'
 
 if (document.getElementById('app')) {
-  ReactDOM.render(Routes, document.getElementById('app'))
+  ReactDOM.render(Routes(), document.getElementById('app'))
 }
