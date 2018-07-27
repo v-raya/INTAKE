@@ -49,7 +49,7 @@ describe('AttachLink', () => {
   })
 
   it('has href and aria-label', () => {
-    expect(renderAttachLink(props).find('a[aria-label="attachRelationship"]').props().href)
+    expect(renderAttachLink(props).find('a[aria-label="Attach Relationship"]').props().href)
       .toBe('#')
   })
 })
