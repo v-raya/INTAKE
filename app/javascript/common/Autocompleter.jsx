@@ -61,6 +61,15 @@ const showMoreResults = () =>
     }
   </div>
 
+const suggestionHeader = (resultsLength, total, searchTerm) => (<div>
+
+  <SuggestionHeader
+    currentNumberOfResults={resultsLength}
+    total={total}
+    searchTerm={searchTerm}
+  />
+</div>)
+
 const addPosAndSetAttr = (results) => {
   const one = 1
   for (let len = results.length, i = 0; i < len; ++i) {
@@ -121,6 +130,8 @@ export class Autocompleter extends Component {
       onChange('')
       onSelect({id: null})
       this.setState({menuVisible: false})
+    } else if (item.suggestionHeader) {
+      return
     } else {
       onLoadMoreResults()
     }
@@ -138,22 +149,24 @@ export class Autocompleter extends Component {
     this.hideMenu()
   }
 
-  renderMenu(items, searchTerm, _style) {
-    const {total, results} = this.props
-    const resultsLength = results.length
+  renderMenu(items, _style) {
+    //const {total, results} = this.props
+    // const resultsLength = results.length
     return (
       <div style={menuStyle} className='autocomplete-menu'>
-        <SuggestionHeader
+        {/* <SuggestionHeader
           currentNumberOfResults={resultsLength}
           total={total}
           searchTerm={searchTerm}
-        />
+        /> */}
         {items}
       </div>
     )
   }
 
   renderItem(item, isHighlighted, _styles) {
+    const {total, results, searchTerm} = this.props
+    const resultsLength = results.length
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
@@ -172,6 +185,12 @@ export class Autocompleter extends Component {
           </div>}
         </div>
       </div>)
+    } else if (item.suggestionHeader) {
+      return (
+        <div>
+          {suggestionHeader(resultsLength, total, searchTerm)}
+        </div>
+      )
     }
     return (<div id={id} key={key} style={style}>
       {perosnSuggestion(item)}
@@ -204,17 +223,22 @@ export class Autocompleter extends Component {
     const {searchTerm, id, results, canCreateNewPerson, total} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
-    const canLoadMoreResults = results && total > results.length
+    const suggestionHeader = {suggestionHeader: 'suggestion Header'}
+    const canLoadMoreResults = results && total !== results.length
     const {menuVisible} = this.state
     //Sequentually numbering items
     addPosAndSetAttr(results)
+    const suggestionResults = []
+    const suggestionResults2 = suggestionResults.concat(suggestionHeader)
     const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
+    const latestArray = [...suggestionResults2, ...newResults]
+    console.log('latestArray', latestArray)
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
         inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
-        items={newResults}
+        items={latestArray}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
