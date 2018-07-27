@@ -13,4 +13,15 @@ class RelationshipsRepository
       clientIds: client_ids
     ).body
   end
+  def self.get_relationships_for_screening_id(security_token, screeing_id)
+    return [] if screeing_id.blank?
+
+    FerbAPI.make_api_call(
+      security_token,
+      FerbRoutes.relationships_for_screening_path,
+      :get,
+      screeningId: screeing_id
+    ).body
+  end
+
 end
