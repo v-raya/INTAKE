@@ -29,16 +29,16 @@ export default class ScreeningCreateRelationship extends React.Component {
   modalTable(data) {
     return (
       <BootstrapTable bordered={false} data={data}>
-        <TableHeaderColumn dataField='focus_person' dataAlign='center'>
+        <TableHeaderColumn dataField='focus_person' dataAlign='center' tdStyle={{whiteSpace: 'normal'}}>
           Focus Person
         </TableHeaderColumn>
         <TableHeaderColumn dataField='relationship' dataFormat={this.selectFieldFormat}>
           Relationship<br/>
           <div className='text-helper'>Focus Person / Related Person</div>
         </TableHeaderColumn>
-        <TableHeaderColumn dataField='related_person' isKey={true}
-          dataAlign='center'
-        >Related Person</TableHeaderColumn>
+        <TableHeaderColumn dataField='related_person' isKey={true} dataAlign='center' tdStyle={{whiteSpace: 'normal'}}>
+          Related Person
+        </TableHeaderColumn>
       </BootstrapTable>
     )
   }

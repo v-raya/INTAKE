@@ -45,6 +45,7 @@ const RelationCard = ({
         options={{expandBy: 'column'}}
       >
         <TableHeaderColumn
+          tdStyle={{whiteSpace: 'normal'}}
           dataField='name'
           dataSort={true}
           isKey={true}
