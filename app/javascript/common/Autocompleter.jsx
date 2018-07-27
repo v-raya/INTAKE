@@ -62,7 +62,6 @@ const showMoreResults = () =>
   </div>
 
 const suggestionHeader = (resultsLength, total, searchTerm) => (<div>
-
   <SuggestionHeader
     currentNumberOfResults={resultsLength}
     total={total}
@@ -150,15 +149,8 @@ export class Autocompleter extends Component {
   }
 
   renderMenu(items, _style) {
-    //const {total, results} = this.props
-    // const resultsLength = results.length
     return (
       <div style={menuStyle} className='autocomplete-menu'>
-        {/* <SuggestionHeader
-          currentNumberOfResults={resultsLength}
-          total={total}
-          searchTerm={searchTerm}
-        /> */}
         {items}
       </div>
     )
@@ -187,7 +179,7 @@ export class Autocompleter extends Component {
       </div>)
     } else if (item.suggestionHeader) {
       return (
-        <div>
+        <div id={id} key={key}>
           {suggestionHeader(resultsLength, total, searchTerm)}
         </div>
       )
@@ -225,24 +217,22 @@ export class Autocompleter extends Component {
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = {suggestionHeader: 'suggestion Header'}
     const canLoadMoreResults = results && total !== results.length
-    const {menuVisible} = this.state
     //Sequentually numbering items
     addPosAndSetAttr(results)
     const suggestionResults = []
     const suggestionResults2 = suggestionResults.concat(suggestionHeader)
-    const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
-    const latestArray = [...suggestionResults2, ...newResults]
-    console.log('latestArray', latestArray)
+    const newResults = suggestionResults2.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
+    //const latestArray = [...suggestionResults2, ...newResults]
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
         inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
-        items={latestArray}
+        items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
-        open={menuVisible}
+        open={this.state.menuVisible}
         renderMenu={this.renderMenu}
         value={searchTerm}
         wrapperStyle={{display: 'block', position: 'relative'}}

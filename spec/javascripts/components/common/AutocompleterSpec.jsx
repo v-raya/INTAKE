@@ -386,6 +386,7 @@ describe('<Autocompleter />', () => {
       it('changes background colour when highlighted', () => {
         const input = autocompleter.find('input')
         input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
+        input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
         const result = autocompleter.find('div[id="search-result-1-of-2"]')
         expect(result.props().style.backgroundColor).toEqual('#d4d4d4')
       })
