@@ -47,4 +47,9 @@ describe('AttachLink', () => {
     expect(onClick).toHaveBeenCalled()
     expect(onClick).toHaveBeenCalledWith({name: 'Gohan', type: 'son', person_card_exists: true}, '1')
   })
+
+  it('has href and aria-label', () => {
+    expect(renderAttachLink(props).find('a[aria-label="attachRelationship"]').props().href)
+      .toBe('#')
+  })
 })
