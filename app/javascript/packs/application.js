@@ -12,7 +12,7 @@ import 'common/jquery-helpers'
 
 import 'bootstrap'
 import ReactDOM from 'react-dom'
-import routes from 'common/routes'
+import Routes from 'common/app/Routes'
 
 // CSS
 import 'react-bootstrap-table/css/react-bootstrap-table.css'
@@ -35,5 +35,5 @@ import '../../assets/stylesheets/shame_overrides'
 import '../../assets/stylesheets/screening_relationship.scss'
 
 if (document.getElementById('app')) {
-  ReactDOM.render(routes, document.getElementById('app'))
+  ReactDOM.render(Routes, document.getElementById('app'))
 }

@@ -1,4 +1,4 @@
-import {App} from 'common/App'
+import {App} from 'common/app/App'
 import React from 'react'
 import {shallow, mount} from 'enzyme'
 import * as IntakeConfig from 'common/config'

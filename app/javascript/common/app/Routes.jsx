@@ -1,6 +1,6 @@
 import React from 'react'
 import {Router, Route, IndexRoute} from 'react-router'
-import App from 'common/App'
+import App from 'common/app/App'
 import {default as HomePageContainer} from 'containers/HomePageContainer'
 import ScreeningPageContainer from 'containers/screenings/screeningPageContainer'
 import SnapshotPage from 'snapshots/SnapshotPage'

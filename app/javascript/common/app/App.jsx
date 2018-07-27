@@ -7,9 +7,9 @@ import {fetch as fetchSystemCodesAction} from 'actions/systemCodesActions'
 import {checkStaffPermission} from 'actions/staffActions'
 import {bindActionCreators} from 'redux'
 import {GlobalHeader} from 'react-wood-duck'
-import Footer from '../views/Footer'
+import Footer from 'views/Footer'
 import userNameFormatter from 'utils/userNameFormatter'
-import {config} from '../common/config'
+import {config} from 'common/config'
 
 export class App extends React.Component {
   componentDidMount() {
