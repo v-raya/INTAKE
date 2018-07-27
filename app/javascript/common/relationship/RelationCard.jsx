@@ -18,6 +18,8 @@ const propTypes = {
   tableActions: PropTypes.func,
 }
 
+const textWrap = {whiteSpace: 'normal'}
+
 const RelationCard = ({
   data,
   isExpandableRow,
@@ -45,6 +47,7 @@ const RelationCard = ({
         options={{expandBy: 'column'}}
       >
         <TableHeaderColumn
+          tdStyle= {textWrap}
           dataField='name'
           dataSort={true}
           isKey={true}
