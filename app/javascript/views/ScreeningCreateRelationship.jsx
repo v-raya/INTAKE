@@ -5,6 +5,7 @@ import SelectField from 'common/SelectField'
 import PropTypes from 'prop-types'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
 
+const textWrap = {whiteSpace: 'normal'}
 export default class ScreeningCreateRelationship extends React.Component {
   constructor(props) {
     super(props)
@@ -29,14 +30,14 @@ export default class ScreeningCreateRelationship extends React.Component {
   modalTable(data) {
     return (
       <BootstrapTable bordered={false} data={data}>
-        <TableHeaderColumn dataField='focus_person' dataAlign='center' tdStyle={{whiteSpace: 'normal'}}>
+        <TableHeaderColumn dataField='focus_person' dataAlign='center' tdStyle= {textWrap}>
           Focus Person
         </TableHeaderColumn>
         <TableHeaderColumn dataField='relationship' dataFormat={this.selectFieldFormat}>
           Relationship<br/>
           <div className='text-helper'>Focus Person / Related Person</div>
         </TableHeaderColumn>
-        <TableHeaderColumn dataField='related_person' isKey={true} dataAlign='center' tdStyle={{whiteSpace: 'normal'}}>
+        <TableHeaderColumn dataField='related_person' isKey={true} dataAlign='center' tdStyle= {textWrap}>
           Related Person
         </TableHeaderColumn>
       </BootstrapTable>
