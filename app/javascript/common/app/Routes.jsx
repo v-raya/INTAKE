@@ -29,7 +29,7 @@ export const Routes = ({
   screeningActive,
 }) => (
   <Provider store={store}>
-    <Router history={history} >
+    <Router history={history}>
       <Route path='/' component={App}>
         <IndexRoute component={HomePageContainer} />
         {screeningActive && <Route path='screenings/new' component={ScreeningPageContainer}/>}

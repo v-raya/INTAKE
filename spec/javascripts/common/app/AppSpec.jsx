@@ -19,6 +19,12 @@ describe('App', () => {
     expect(checkStaffPermission).toHaveBeenCalledWith('add_sensitive_people')
   })
 
+  it('renders a ScrollToTop wrapper', () => {
+    const app = shallow(<App actions={{}}><div/></App>, {disableLifecycleMethods: true})
+    const scrollToTop = app.find('withRouter(ScrollToTop)')
+    expect(scrollToTop.exists()).toBe(true)
+  })
+
   it('renders the global header component on all app views', () => {
     const app = shallow(<App actions={{}}><div/></App>, {disableLifecycleMethods: true})
     expect(app.find('GlobalHeader').exists()).toBe(true)
