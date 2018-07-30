@@ -25,7 +25,7 @@ describe('fetchRelationships', () => {
     const gen = fetchRelationships(action)
 
     expect(gen.next().value).toEqual(
-      call(get, '/api/v1/relationships?clientIds=a,b,c')
+      call(get, '/api/v1/relationships?clientIds=a,b,c&screeningId=a,b,c')
     )
 
     const relationships = [{id: 'a'}, {id: 'b'}, {id: 'c'}]
@@ -37,7 +37,7 @@ describe('fetchRelationships', () => {
   it('should put errors when errors are thrown', () => {
     const gen = fetchRelationships(action)
     expect(gen.next().value).toEqual(
-      call(get, '/api/v1/relationships?clientIds=a,b,c')
+      call(get, '/api/v1/relationships?clientIds=a,b,c&screeningId=a,b,c')
     )
     const error = {responseJSON: 'some error'}
     expect(gen.throw(error).value).toEqual(

@@ -31,7 +31,8 @@ function* tryToFetchScreening(id) {
   const clientIds = response.participants && response.participants.map(
     (p) => (p.legacy_id || p.legacy_descriptor && p.legacy_descriptor.legacy_id)
   )
-  yield put(fetchRelationships(clientIds))
+  const screeningId = response.id
+  yield put(fetchRelationships(clientIds, screeningId))
 }
 
 function* redirectOrFail(error) {

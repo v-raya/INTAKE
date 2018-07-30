@@ -38,7 +38,7 @@ describe('deleteParticipant', () => {
     expect(gen.next().value).toEqual(select(selectClientIds))
     const clientIds = ['456', '789']
     expect(gen.next(clientIds).value).toEqual(
-      put(fetchRelationships(clientIds))
+      put(fetchRelationships(clientIds, screeningId))
     )
     expect(gen.next('444').value).toEqual(
       put(fetchHistoryOfInvolvements('screenings', '444'))
