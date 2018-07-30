@@ -13,6 +13,12 @@ describe('SnapshotSideBar', () => {
     expect(component.find('div.col-md-3 div.col-xs-4').exists()).toBe(true)
   })
 
+  it('renders an invisible header for accessibility outline', () => {
+    const header = component.find('h2')
+    expect(header.exists()).toEqual(true)
+    expect(header.props().className).toEqual('hidden')
+  })
+
   it('renders the SideBar component', () => {
     expect(component.find('SideBar').exists()).toBe(true)
   })
@@ -35,4 +41,3 @@ describe('SnapshotSideBar', () => {
       .toBe('#history-card-anchor')
   })
 })
-

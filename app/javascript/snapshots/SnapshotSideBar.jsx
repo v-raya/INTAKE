@@ -5,6 +5,7 @@ import nameFormatter from 'utils/nameFormatter'
 
 const SnapshotSideBar = (props) => (
   <div className='col-md-3 col-xs-4 hide-mobile hidden-print'>
+    <h2 className='hidden'>Navigation</h2>
     <SideBar>
       <NavLinks>
         <NavLink key={1} text='People & Roles' href='#search-card-anchor' >
