@@ -111,7 +111,15 @@ class PersonSearchQueryBuilder
       number_of_fragments: NUMBER_OF_FRAGMENTS,
       require_field_match: false,
       fields: {
-        '*': {}
+        'autocomplete_search_bar': {
+          'matched_fields':
+          [
+            'autocomplete_search_bar',
+            'autocomplete_search_bar.phonetic',
+            'autocomplete_search_bar.diminutive'
+          ]
+        },
+        'searchable_date_of_birth': {}
       }
     }
   end
