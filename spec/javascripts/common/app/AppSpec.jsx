@@ -1,4 +1,4 @@
-import {App} from 'common/App'
+import {App} from 'common/app/App'
 import React from 'react'
 import {shallow, mount} from 'enzyme'
 import * as IntakeConfig from 'common/config'
@@ -17,6 +17,12 @@ describe('App', () => {
     expect(fetchUserInfoAction).toHaveBeenCalled()
     expect(fetchSystemCodesAction).toHaveBeenCalled()
     expect(checkStaffPermission).toHaveBeenCalledWith('add_sensitive_people')
+  })
+
+  it('renders a ScrollToTop wrapper', () => {
+    const app = shallow(<App actions={{}}><div/></App>, {disableLifecycleMethods: true})
+    const scrollToTop = app.find('withRouter(ScrollToTop)')
+    expect(scrollToTop.exists()).toBe(true)
   })
 
   it('renders the global header component on all app views', () => {

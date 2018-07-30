@@ -46,6 +46,11 @@ describe('intake config', () => {
         expect(isFeatureActive('enabled_feature')).toEqual(false)
       })
     })
+
+    it('returns false when there is no config', () => {
+      delete window.org
+      expect(isFeatureActive('enabled_feature')).toEqual(false)
+    })
   })
 
   describe('.isFeatureInactive', () => {

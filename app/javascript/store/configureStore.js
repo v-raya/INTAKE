@@ -22,6 +22,6 @@ function configureStore(initialState) {
 
 export const store = configureStore(fromJS({
   userInfo: {
-    privileges: window.org.privileges || [],
+    privileges: window.org && window.org.privileges || [],
   },
 }))

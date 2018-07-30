@@ -1,15 +1,19 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
 import {getUserNameSelector} from 'selectors/userInfoSelectors'
 import {fetch as fetchUserInfoAction} from 'actions/userInfoActions'
 import {fetch as fetchSystemCodesAction} from 'actions/systemCodesActions'
 import {checkStaffPermission} from 'actions/staffActions'
 import {bindActionCreators} from 'redux'
 import {GlobalHeader} from 'react-wood-duck'
-import Footer from '../views/Footer'
+import Footer from 'views/Footer'
 import userNameFormatter from 'utils/userNameFormatter'
-import {config} from '../common/config'
+import {config} from 'common/config'
+import {ScrollToTop} from 'common/app/ScrollToTop'
+
+const RouterScrollToTop = withRouter(ScrollToTop)
 
 export class App extends React.Component {
   componentDidMount() {
@@ -23,11 +27,11 @@ export class App extends React.Component {
   render() {
     const logoutUrl = `${config().base_path.replace(/\/$/, '')}/logout`
     return (
-      <div>
+      <RouterScrollToTop>
         <GlobalHeader profileName={this.props.fullName} logoutCallback={() => (window.location.href = logoutUrl)} />
         {this.props.children}
         <Footer />
-      </div>
+      </RouterScrollToTop>
     )
   }
 }

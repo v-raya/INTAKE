@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import {Router, Route, IndexRoute} from 'react-router'
-import App from 'common/App'
+import App from 'common/app/App'
 import {default as HomePageContainer} from 'containers/HomePageContainer'
 import ScreeningPageContainer from 'containers/screenings/screeningPageContainer'
 import SnapshotPage from 'snapshots/SnapshotPage'
@@ -21,9 +22,14 @@ const history = syncHistoryWithStore(routerHistory, store, {selectLocationState:
 const snapshotActive = IntakeConfig.isFeatureActive('snapshot')
 const screeningActive = IntakeConfig.isFeatureActive('screenings')
 
-export default (
+export const Routes = ({
+  store,
+  history,
+  snapshotActive,
+  screeningActive,
+}) => (
   <Provider store={store}>
-    <Router history={history} >
+    <Router history={history}>
       <Route path='/' component={App}>
         <IndexRoute component={HomePageContainer} />
         {screeningActive && <Route path='screenings/new' component={ScreeningPageContainer}/>}
@@ -40,3 +46,12 @@ export default (
     </Router>
   </Provider>
 )
+
+Routes.propTypes = {
+  history: PropTypes.object.isRequired,
+  screeningActive: PropTypes.bool.isRequired,
+  snapshotActive: PropTypes.bool.isRequired,
+  store: PropTypes.object.isRequired,
+}
+
+export default () => Routes({store, history, snapshotActive, screeningActive})
