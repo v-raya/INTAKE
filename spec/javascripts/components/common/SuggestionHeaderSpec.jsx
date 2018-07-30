@@ -18,7 +18,7 @@ describe('SuggestionHeader', () => {
   })
 
   it('renders the current and total number of results', () => {
-    const component = renderSuggestionHeader({currentNumberOfResults: 25, total: 50})
-    expect(component.text()).toContain('Showing 1-25 of 50 results for "search term"')
+    const component = renderSuggestionHeader({currentNumberOfResults: 10, total: 50})
+    expect(component.text()).toContain('Showing 1-10 of 50 results for "search term"')
   })
 })

@@ -142,7 +142,7 @@ describe PersonSearchRepository do
         let(:search_after) { %w[one two] }
         let(:request_body) do
           {
-            size: 25,
+            size: 10,
             track_scores: true,
             sort: [{ _score: 'desc', _uid: 'desc' }],
             search_after: search_after,
@@ -173,7 +173,7 @@ describe PersonSearchRepository do
       context 'when search_after is not present' do
         let(:request_body) do
           {
-            size: 25,
+            size: 10,
             track_scores: true,
             sort: [{ _score: 'desc', _uid: 'desc' }],
             query: query,
@@ -205,7 +205,7 @@ describe PersonSearchRepository do
       let(:response) { double(:response, body: 'Some error payload', status: 401) }
       let(:request_body) do
         {
-          size: 25,
+          size: 10,
           track_scores: true,
           sort: [{ _score: 'desc', _uid: 'desc' }],
           query: query,
