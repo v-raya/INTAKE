@@ -32,7 +32,7 @@ module WebmockHelpers
     request_path = dora_api_url(ExternalRoutes.dora_people_light_index_path)
     request_payload = {
       'body' => {
-        'size' => 25,
+        'size' => 10,
         'track_scores' => true,
         'sort' => [{ '_score' => 'desc', '_uid' => 'desc' }],
         'query' => {

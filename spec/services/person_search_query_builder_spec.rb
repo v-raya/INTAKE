@@ -58,7 +58,7 @@ describe PersonSearchQueryBuilder do
             require_field_match: false,
             fields: { '*': {} }
           },
-          size: 25,
+          size: 10,
           track_scores: true,
           sort: [{ _score: 'desc', _uid: 'desc' }],
           search_after: %w[one two],
@@ -213,7 +213,7 @@ describe PersonSearchQueryBuilder do
             require_field_match: false,
             fields: { '*': {} }
           },
-          size: 25,
+          size: 10,
           track_scores: true,
           sort: [{ _score: 'desc', _uid: 'desc' }],
           query: {
