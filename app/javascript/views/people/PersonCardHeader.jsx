@@ -4,7 +4,7 @@ import EditLink from 'common/EditLink'
 
 const PersonCardHeader = ({informationFlag, title, onDelete, onEdit, showDelete, showEdit}) => (
   <div className='card-header'>
-    <span>{title}</span>
+    <h2>{title}</h2>
     { informationFlag && <span className='information-flag'>{informationFlag}</span>}
     { showDelete &&
       <button aria-label='Remove person'

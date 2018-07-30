@@ -25,7 +25,7 @@ describe('Card View', () => {
 
   it('renders the title of the card in the header', () => {
     const card = renderCardView({title: 'My Title'})
-    const title = card.find('.card-header').children('span').text()
+    const title = card.find('.card-header').children('h2').text()
     expect(title).toEqual('My Title')
   })
 

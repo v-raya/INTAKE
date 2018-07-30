@@ -60,7 +60,7 @@ describe('PersonSearchForm', () => {
 
   it('renders the card header', () => {
     const component = renderPersonSearchForm({})
-    expect(component.find('.card-header').children('span').text()).toContain('Search')
+    expect(component.find('.card-header').children('h2').text()).toContain('Search')
   })
 
   it('renders the search prompt', () => {

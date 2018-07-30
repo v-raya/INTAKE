@@ -29,9 +29,18 @@ $bold-weight: 700;
 
 $small-font: 1.5rem;
 $base-font: 1.7rem;
+$medium-large-font: 2.0rem;
 $large-font: 2.4rem;
 $larger-font: 3rem;
 $largest-font: 4rem;
+
+/////////////////////////////////////////
+
+// - Line Heights - //
+
+/////////////////////////////////////////
+
+$default-line-height: (20 / 14);
 
 /////////////////////////////////////////
 
@@ -72,4 +81,3 @@ $large-border-radius: 3px;
   border: .1rem solid $red;
   width: calc(100% +1.9rem);
 }
-
