@@ -88,11 +88,7 @@ class PersonSearchQueryBuilder
   end
 
   def client_only
-    {
-      match: {
-        'legacy_descriptor.legacy_table_name': 'CLIENT_T'
-      }
-    }
+    { match: { 'legacy_descriptor.legacy_table_name': 'CLIENT_T' } }
   end
 
   def fields
@@ -105,22 +101,20 @@ class PersonSearchQueryBuilder
        highlight legacy_descriptor sensitivity_indicator race_ethnicity]
   end
 
+  def auto_bar_highlight
+    { 'matched_fields':
+      ['autocomplete_search_bar',
+       'autocomplete_search_bar.phonetic',
+       'autocomplete_search_bar.diminutive'] }
+  end
+
   def highlight
-    {
-      order: 'score',
+    { order: 'score',
       number_of_fragments: NUMBER_OF_FRAGMENTS,
       require_field_match: false,
       fields: {
-        'autocomplete_search_bar': {
-          'matched_fields':
-          [
-            'autocomplete_search_bar',
-            'autocomplete_search_bar.phonetic',
-            'autocomplete_search_bar.diminutive'
-          ]
-        },
+        'autocomplete_search_bar': auto_bar_highlight,
         'searchable_date_of_birth': {}
-      }
-    }
+      } }
   end
 end
