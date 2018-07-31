@@ -4,11 +4,17 @@ require 'rails_helper'
 
 describe PersonSearchQueryBuilder do
   let(:search_term) { 'This is my search term' }
-  let(:number_of_fragments) { 5 }
+  let(:number_of_fragments) { 10 }
   let(:low_boost) { 2 }
   let(:medium_boost) { 3 }
   let(:high_boost) { 7 }
   let(:no_boost) { 1 }
+  let(:auto_bar_highlight) do
+    { 'matched_fields':
+      ['autocomplete_search_bar',
+       'autocomplete_search_bar.phonetic',
+       'autocomplete_search_bar.diminutive'] }
+  end
 
   describe '.build' do
     context 'when search_after is present' do
@@ -56,7 +62,10 @@ describe PersonSearchQueryBuilder do
             order: 'score',
             number_of_fragments:  number_of_fragments,
             require_field_match: false,
-            fields: { '*': {} }
+            fields: {
+              'autocomplete_search_bar': auto_bar_highlight,
+              'searchable_date_of_birth': {}
+            }
           },
           size: 10,
           track_scores: true,
@@ -211,7 +220,10 @@ describe PersonSearchQueryBuilder do
             order: 'score',
             number_of_fragments:  number_of_fragments,
             require_field_match: false,
-            fields: { '*': {} }
+            fields: {
+              'autocomplete_search_bar': auto_bar_highlight,
+              'searchable_date_of_birth': {}
+            }
           },
           size: 10,
           track_scores: true,

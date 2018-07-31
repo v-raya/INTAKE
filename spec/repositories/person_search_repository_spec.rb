@@ -8,11 +8,17 @@ describe PersonSearchRepository do
 
   describe '.search' do
     let(:search_term) { 'Robert Barathian' }
-    let(:number_of_fragments) { 5 }
+    let(:number_of_fragments) { 10 }
     let(:low_boost) { 2 }
     let(:medium_boost) { 3 }
     let(:high_boost) { 7 }
     let(:no_boost) { 1 }
+    let(:auto_bar_highlight) do
+      { 'matched_fields':
+        ['autocomplete_search_bar',
+         'autocomplete_search_bar.phonetic',
+         'autocomplete_search_bar.diminutive'] }
+    end
 
     let(:source) do
       [
@@ -51,12 +57,13 @@ describe PersonSearchRepository do
       ]
     end
     let(:highlight) do
-      {
-        order: 'score',
+      { order: 'score',
         number_of_fragments: number_of_fragments,
         require_field_match: false,
-        fields: { :* => {} }
-      }
+        fields: {
+          'autocomplete_search_bar': auto_bar_highlight,
+          'searchable_date_of_birth': {}
+        } }
     end
     let(:query) do
       {
