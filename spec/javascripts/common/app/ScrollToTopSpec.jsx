@@ -6,7 +6,7 @@ describe('ScrollToTop', () => {
   let root
   beforeEach(() => {
     // Must use mount, as refs are important part of functionality
-    root = mount(<ScrollToTop location='/'>Hello, World</ScrollToTop>)
+    root = mount(<ScrollToTop location={{path: '/'}}>Hello, World</ScrollToTop>)
   })
 
   it('renders a div and keeps it as a ref', () => {
@@ -25,7 +25,7 @@ describe('ScrollToTop', () => {
 
   it('scrolls to top after update when location changes', () => {
     const scrollTo = spyOn(window, 'scrollTo')
-    root.setProps({location: '/new_page'})
+    root.setProps({location: {path: '/new_page'}})
     expect(scrollTo).toHaveBeenCalledWith(0, 0)
   })
 
@@ -37,7 +37,7 @@ describe('ScrollToTop', () => {
 
   it('focuses on the div after update when location changes', () => {
     const focus = spyOn(root.instance().focusTarget.current, 'focus')
-    root.setProps({location: '/new_page'})
+    root.setProps({location: {path: '/new_page'}})
     expect(focus).toHaveBeenCalled()
   })
 
@@ -45,5 +45,20 @@ describe('ScrollToTop', () => {
     const focus = spyOn(root.instance().focusTarget.current, 'focus')
     root.setProps({children: 'Goodbye, Cruel World'})
     expect(focus).not.toHaveBeenCalled()
+  })
+
+  it('lets the browser handle scroll and focus when there is a hash', () => {
+    const scrollTo = spyOn(window, 'scrollTo')
+    const focus = spyOn(root.instance().focusTarget.current, 'focus')
+
+    root.setProps({location: {hash: '#from_none_to_one'}})
+    root.setProps({location: {hash: '#from_one_to_another'}})
+
+    expect(scrollTo).not.toHaveBeenCalled()
+    expect(focus).not.toHaveBeenCalled()
+
+    root.setProps({location: {hash: ''}})
+    expect(scrollTo).toHaveBeenCalled()
+    expect(focus).toHaveBeenCalled()
   })
 })
