@@ -16,8 +16,14 @@ describe('HistoryTable', () => {
   describe('HistoryTable', () => {
     it('displays column headings', () => {
       const component = renderHistoryTable({})
-      const columnHeadings = component.find('table').find('thead').find('tr').find('th')
-      expect(columnHeadings.at(0).text()).toEqual('') // Empty label for indices
+      const headingRow = component.find('table').find('thead').find('tr')
+      const columnHeadings = headingRow.children()
+
+      // For accessibility, empty column heading should not be a th
+      expect(columnHeadings.at(0).name()).toEqual('td')
+      expect(columnHeadings.at(0).text()).toEqual('')
+
+      // Visible headings
       expect(columnHeadings.at(1).text()).toEqual('Date')
       expect(columnHeadings.at(2).text()).toEqual('Type/Status')
       expect(columnHeadings.at(3).text()).toEqual('County/Office')
