@@ -4,7 +4,7 @@ export function config() {
 }
 
 export function isFeatureActive(feature) {
-  return config().active_features.includes(feature)
+  return Boolean(config().active_features) && config().active_features.includes(feature)
 }
 
 export function isFeatureInactive(feature) {

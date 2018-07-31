@@ -17,7 +17,7 @@ class PersonSearchQueryBuilder
 
   def build
     {
-      size: 25,
+      size: 10,
       track_scores: true,
       sort: [{ _score: 'desc', _uid: 'desc' }],
       query: query,

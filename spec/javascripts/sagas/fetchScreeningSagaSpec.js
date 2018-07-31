@@ -71,8 +71,8 @@ describe('fetchScreening', () => {
       expect(gen.next(screening).value).toEqual(
         put(actions.fetchScreeningSuccess(screening))
       )
-      expect(gen.next().value).toEqual(
-        put(fetchRelationships(['ABC', 'DEF']))
+      expect(gen.next(screening).value).toEqual(
+        put(fetchRelationships(['ABC', 'DEF'], '123'))
       )
     })
   })

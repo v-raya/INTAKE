@@ -360,9 +360,9 @@ feature 'searching a participant in autocompleter' do
 
     scenario 'person search supports pagination' do
       search_results_one = PersonSearchResponseBuilder.build do |builder|
-        builder.with_total(51)
+        builder.with_total(21)
         builder.with_hits do
-          Array.new(25) do |index|
+          Array.new(10) do |index|
             PersonSearchResultBuilder.build do |result|
               result.with_first_name("Result #{index}")
               result.with_sort(["result_#{index}_score", "result_#{index}_uuid"])
@@ -371,23 +371,23 @@ feature 'searching a participant in autocompleter' do
         end
       end
       search_results_two = PersonSearchResponseBuilder.build do |builder|
-        builder.with_total(51)
+        builder.with_total(21)
         builder.with_hits do
-          Array.new(25) do |index|
+          Array.new(10) do |index|
             PersonSearchResultBuilder.build do |result|
-              result.with_first_name("Result #{index + 25}")
-              result.with_sort(["result_#{index + 25}_score", "result_#{index + 25}_uuid"])
+              result.with_first_name("Result #{index + 10}")
+              result.with_sort(["result_#{index + 10}_score", "result_#{index + 10}_uuid"])
             end
           end
         end
       end
       search_results_three = PersonSearchResponseBuilder.build do |builder|
-        builder.with_total(51)
+        builder.with_total(21)
         builder.with_hits do
           [
             PersonSearchResultBuilder.build do |result|
-              result.with_first_name('Result 50')
-              result.with_sort(%w[result_50_score result_50_uuid])
+              result.with_first_name('Result 20')
+              result.with_sort(%w[result_20_score result_20_uuid])
             end
           ]
         end
@@ -396,18 +396,18 @@ feature 'searching a participant in autocompleter' do
       stub_person_search(
         search_term: 'Fi',
         person_response: search_results_two,
-        search_after: %w[result_24_score result_24_uuid]
+        search_after: %w[result_9_score result_9_uuid]
       )
       stub_person_search(
         search_term: 'Fi',
         person_response: search_results_three,
-        search_after: %w[result_49_score result_49_uuid]
+        search_after: %w[result_19_score result_19_uuid]
       )
       search_path = dora_api_url(ExternalRoutes.dora_people_light_index_path)
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Fi'
-        expect(page).to have_content 'Showing 1-25 of 51 results for "Fi"', wait: 3
-        expect(page).to have_content 'Result 24'
+        expect(page).to have_content 'Showing 1-10 of 21 results for "Fi"', wait: 3
+        expect(page).to have_content 'Result 9'
       end
       expect(a_request(:post, search_path)).to have_been_made
 
@@ -415,12 +415,12 @@ feature 'searching a participant in autocompleter' do
         click_button 'Show more results'
       end
       within '#search-card', text: 'Search' do
-        expect(page).to have_content 'Showing 1-50 of 51 results for "Fi"'
-        expect(page).to have_content 'Result 49'
+        expect(page).to have_content 'Showing 1-20 of 21 results for "Fi"'
+        expect(page).to have_content 'Result 19'
       end
       expect(
         a_request(:post, search_path)
-        .with(body: hash_including('search_after' => %w[result_24_score result_24_uuid]))
+        .with(body: hash_including('search_after' => %w[result_9_score result_9_uuid]))
       ).to have_been_made
 
       # Show more results button doesnot load results when it is clicked
@@ -432,12 +432,12 @@ feature 'searching a participant in autocompleter' do
         click_button 'Show more results'
       end
       within '#search-card', text: 'Search' do
-        expect(page).to have_content 'Showing 1-51 of 51 results for "Fi"'
-        expect(page).to have_content 'Result 50'
+        expect(page).to have_content 'Showing 1-21 of 21 results for "Fi"'
+        expect(page).to have_content 'Result 20'
       end
       expect(
         a_request(:post, search_path)
-        .with(body: hash_including('search_after' => %w[result_49_score result_49_uuid]))
+        .with(body: hash_including('search_after' => %w[result_19_score result_19_uuid]))
       ).to have_been_made
 
       within '#search-card', text: 'Search' do
