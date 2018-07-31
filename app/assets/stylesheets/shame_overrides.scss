@@ -10,9 +10,11 @@
     flex-direction: row;
     justify-content: flex-start;
 
-    span {
+    h2 {
+      clear: none;
       display: inline-block;
-      margin-right: auto;
+      margin: 0 auto 0 0;
+      padding: $base-spacing $double-spacing;
     }
 
     .btn.btn-default {

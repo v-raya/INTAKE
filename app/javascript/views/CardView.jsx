@@ -8,7 +8,7 @@ const CardView = ({edit, editable, id, mode, onEdit, show, title}) => (
     <a className='anchor' id={`${id}-anchor`}/>
     <div className={ClassNames('card', mode || 'edit', 'double-gap-bottom', 'position-relative')} id={id}>
       <div className='card-header'>
-        <span>{title}</span>
+        <h2>{title}</h2>
         {(editable && mode === 'show') &&
           <EditLink
             ariaLabel={`Edit ${title && title.toLowerCase()}`}

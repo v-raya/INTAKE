@@ -159,7 +159,7 @@ export class ScreeningPage extends React.Component {
     const {referralId, editable, hasApiValidationErrors, submitReferralErrors} = this.props
     return (
       <div className='col-xs-8 col-md-9'>
-        <h1>{referralId && `Referral #${referralId}`}</h1>
+        {referralId && <h1>Referral #{referralId}</h1>}
         {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
         {this.renderScreeningInformationCard()}
         {editable && this.renderPersonSearchForm()}
@@ -223,4 +223,3 @@ ScreeningPage.propTypes = {
 ScreeningPage.defaultProps = {
   mode: 'show',
 }
-

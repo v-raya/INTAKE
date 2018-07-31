@@ -62,8 +62,9 @@ h1 {
 }
 
 h2 {
-  font-size: $larger-font;
-  font-weight: $semibold-weight;
+  font-size: $medium-large-font;
+  font-weight: $normal-weight;
+  line-height: $default-line-height;
 }
 
 h3 {

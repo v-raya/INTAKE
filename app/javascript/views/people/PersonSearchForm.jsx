@@ -19,7 +19,7 @@ export class PersonSearchForm extends React.Component {
         <a className='anchor' id='search-card-anchor'/>
         <div className='card double-gap-bottom hidden-print' id='search-card'>
           <div className='card-header'>
-            <span>Search</span>
+            <h2>Search</h2>
           </div>
           <div className='card-body'>
             <div className='row'>
