@@ -3,7 +3,7 @@
 # PeopleSearchQueryBuilder is a service class responsible for creation
 # of an elastic search person search query
 class PersonSearchQueryBuilder
-  NUMBER_OF_FRAGMENTS = 5
+  NUMBER_OF_FRAGMENTS = 10
   LOW_BOOST = 2
   MEDIUM_BOOST = 3
   HIGH_BOOST = 7
