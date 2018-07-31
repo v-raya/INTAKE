@@ -7,6 +7,7 @@ import {
   SET_SEARCH_TERM,
   LOAD_MORE_RESULTS_COMPLETE,
 } from 'actions/peopleSearchActions'
+import moment from 'moment'
 
 const initialState = fromJS({
   results: [],
@@ -29,9 +30,15 @@ export default createReducer(initialState, {
   [PEOPLE_SEARCH_CLEAR](state, _action) {
     return state.set('results', fromJS([]))
       .set('total', 0)
+      .set('startTime', null)
   },
   [SET_SEARCH_TERM](state, {payload: {searchTerm}}) {
-    return state.set('searchTerm', searchTerm)
+    if (state.get('startTime')) {
+      return state.set('searchTerm', searchTerm)
+    } else {
+      return state.set('searchTerm', searchTerm)
+        .set('startTime', moment().toISOString())
+    }
   },
   [LOAD_MORE_RESULTS_COMPLETE](state, {payload: {results}, error}) {
     if (error) {
