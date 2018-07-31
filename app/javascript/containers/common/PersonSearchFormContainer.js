@@ -5,6 +5,7 @@ import {
   getPeopleResultsSelector,
   getResultsTotalValueSelector,
   getSearchTermValueSelector,
+  getStartTimeSelector,
 } from 'selectors/peopleSearchSelectors'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
@@ -21,6 +22,7 @@ const mapStateToProps = (state) => {
     total: getResultsTotalValueSelector(state),
     searchTerm: getSearchTermValueSelector(state),
     staffId: getStaffIdSelector(state),
+    startTime: getStartTimeSelector(state),
     participants: selectParticipants(state).toJS(),
     isSelectable,
   }

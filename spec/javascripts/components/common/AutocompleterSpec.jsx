@@ -31,6 +31,7 @@ describe('<Autocompleter />', () => {
         searchTerm={searchTerm}
         onSearch={onSearch}
         staffId={staffId}
+        startTime={500}
       />
     )
   }
@@ -60,6 +61,7 @@ describe('<Autocompleter />', () => {
         searchTerm={searchTerm}
         onSearch={onSearch}
         staffId={staffId}
+        startTime={500}
       />, {disableLifecycleMethods: true}
     )
   }
@@ -120,6 +122,7 @@ describe('<Autocompleter />', () => {
           .toHaveBeenCalledWith('searchResultClick', {
             searchIndex: 0,
             staffId: '0x3',
+            startTime: 500,
           })
       })
     })
@@ -184,6 +187,7 @@ describe('<Autocompleter />', () => {
         .toHaveBeenCalledWith('searchResultClick', {
           searchIndex: 2,
           staffId: '0x3',
+          startTime: 500,
         })
     })
 
