@@ -7,7 +7,9 @@ export class ScrollToTop extends PureComponent {
     this.focusTarget = React.createRef()
   }
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
+    const location = this.props.location
+    const hasNoHash = location && !location.hash
+    if (location !== prevProps.location && hasNoHash) {
       window.scrollTo(0, 0)
       this.focusTarget.current.focus()
     }
@@ -23,6 +25,8 @@ export class ScrollToTop extends PureComponent {
 
 ScrollToTop.propTypes = {
   children: PropTypes.node.isRequired,
-  // A location from react-router, but we don't actually care about its shape:
-  location: PropTypes.any,
+  // A location from react-router:
+  location: PropTypes.shape({
+    hash: PropTypes.string,
+  }),
 }
