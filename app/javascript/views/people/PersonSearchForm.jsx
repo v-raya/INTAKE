@@ -46,6 +46,7 @@ PersonSearchForm.propTypes = {
   results: PropTypes.array,
   searchPrompt: PropTypes.string.isRequired,
   searchTerm: PropTypes.string,
+  staffId: PropTypes.string,
   total: PropTypes.number,
 }
 

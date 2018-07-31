@@ -98,11 +98,12 @@ export class Autocompleter extends Component {
   }
 
   onItemSelect(_value, item) {
-    const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults} = this.props
+    const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults, staffId} = this.props
     if (item.legacyDescriptor) {
       if (isSelectable(item)) {
         logEvent('searchResultClick', {
           searchIndex: this.props.results.indexOf(item),
+          staffId,
         })
         onClear()
         onChange('')
@@ -236,6 +237,7 @@ Autocompleter.propTypes = {
   onSelect: PropTypes.func.isRequired,
   results: PropTypes.array,
   searchTerm: PropTypes.string,
+  staffId: PropTypes.string,
   total: PropTypes.number,
 }
 

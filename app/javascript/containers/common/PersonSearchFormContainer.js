@@ -8,6 +8,7 @@ import {
 } from 'selectors/peopleSearchSelectors'
 import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
+import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
 const mapStateToProps = (state) => {
   const userInfo = state.get('userInfo').toJS()
@@ -19,6 +20,7 @@ const mapStateToProps = (state) => {
     results: getPeopleResultsSelector(state).toJS(),
     total: getResultsTotalValueSelector(state),
     searchTerm: getSearchTermValueSelector(state),
+    staffId: getStaffIdSelector(state),
     participants: selectParticipants(state).toJS(),
     isSelectable,
   }

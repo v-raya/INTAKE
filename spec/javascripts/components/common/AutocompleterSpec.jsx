@@ -16,6 +16,7 @@ describe('<Autocompleter />', () => {
     results = [],
     searchTerm = '',
     total = 0,
+    staffId = '0x3',
   }) {
     return mount(
       <Autocompleter
@@ -29,6 +30,7 @@ describe('<Autocompleter />', () => {
         results={results}
         searchTerm={searchTerm}
         onSearch={onSearch}
+        staffId={staffId}
       />
     )
   }
@@ -43,6 +45,7 @@ describe('<Autocompleter />', () => {
     results = [],
     total = 0,
     id = null,
+    staffId = '0x3',
   }) {
     return shallow(
       <Autocompleter
@@ -56,6 +59,7 @@ describe('<Autocompleter />', () => {
         results={results}
         searchTerm={searchTerm}
         onSearch={onSearch}
+        staffId={staffId}
       />, {disableLifecycleMethods: true}
     )
   }
@@ -115,6 +119,7 @@ describe('<Autocompleter />', () => {
         expect(Analytics.logEvent)
           .toHaveBeenCalledWith('searchResultClick', {
             searchIndex: 0,
+            staffId: '0x3',
           })
       })
     })
@@ -178,6 +183,7 @@ describe('<Autocompleter />', () => {
       expect(Analytics.logEvent)
         .toHaveBeenCalledWith('searchResultClick', {
           searchIndex: 2,
+          staffId: '0x3',
         })
     })
 
