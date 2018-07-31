@@ -4,6 +4,7 @@ import {RESIDENCE_TYPE} from 'enums/AddressType'
 import {
   getPeopleResultsSelector,
   getLastResultsSortValueSelector,
+  getStartTimeSelector,
 } from 'selectors/peopleSearchSelectors'
 
 describe('peopleSearchSelectors', () => {
@@ -433,6 +434,24 @@ describe('peopleSearchSelectors', () => {
       })
       const peopleResults = getPeopleResultsSelector(state)
       expect(peopleResults.getIn([0, 'ssn'])).toEqual('<em>123-45-6789</em>')
+    })
+  })
+
+  describe('getStartTimeSelector', () => {
+    it('gets the start time when there is a start time', () => {
+      const peopleSearch = {
+        startTime: '10-10-2001',
+      }
+      const state = fromJS({peopleSearch})
+      expect(getStartTimeSelector(state)).toEqual('10-10-2001')
+    })
+
+    it('gets the start time when there is no start time', () => {
+      const peopleSearch = {
+        startTime: null,
+      }
+      const state = fromJS({peopleSearch})
+      expect(getStartTimeSelector(state)).toEqual(null)
     })
   })
 })

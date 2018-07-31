@@ -95,3 +95,6 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       isSealed: mapIsSealed(result),
     })
   })
+
+export const getStartTimeSelector = (state) => getPeopleSearchSelector(state)
+  .get('startTime')
