@@ -6,8 +6,8 @@ module Api
   module V1
     class RelationshipsController < ApiController # :nodoc:
       def index
-        if params[:screening_id].present?
-          relationships = RelationshipsRepository.get_relationships_for_screening_id(session[:security_token], params[:screening_id])
+        if params[:screeningId].present?
+          relationships = RelationshipsRepository.get_relationships_for_screening_id(session[:security_token], params[:screeningId])
         else
           client_ids = params[:clientIds]&.split ','
           relationships = RelationshipsRepository.search(session[:security_token], client_ids)
