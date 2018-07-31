@@ -41,7 +41,7 @@ export default class HistoryTable extends React.Component {
     return (
       <thead>
         <tr>
-          <th scope='col'/>
+          <td />
           <th scope='col'>Date</th>
           <th scope='col'>Type/Status</th>
           <th scope='col'>County/Office</th>
