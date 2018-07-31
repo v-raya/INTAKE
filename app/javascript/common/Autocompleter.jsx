@@ -6,6 +6,7 @@ import SuggestionHeader from 'common/SuggestionHeader'
 import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
 import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
+import moment from 'moment'
 
 const menuStyle = {
   backgroundColor: '#fff',
@@ -98,11 +99,13 @@ export class Autocompleter extends Component {
   }
 
   onItemSelect(_value, item) {
-    const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults} = this.props
+    const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults, staffId, startTime} = this.props
     if (item.legacyDescriptor) {
       if (isSelectable(item)) {
         logEvent('searchResultClick', {
           searchIndex: this.props.results.indexOf(item),
+          staffId,
+          startTime: moment(startTime).valueOf(),
         })
         onClear()
         onChange('')
@@ -236,6 +239,8 @@ Autocompleter.propTypes = {
   onSelect: PropTypes.func.isRequired,
   results: PropTypes.array,
   searchTerm: PropTypes.string,
+  staffId: PropTypes.string,
+  startTime: PropTypes.string,
   total: PropTypes.number,
 }
 
