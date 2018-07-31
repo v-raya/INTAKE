@@ -64,7 +64,7 @@ class FerbRoutes
     end
 
     def relationships_for_screening_path
-      "/screenings/#{screeningId}/relationships"
+      "/screenings/#{screeningId}/relationships_with_candidates"
     end
   end
 end
