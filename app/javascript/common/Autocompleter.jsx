@@ -83,7 +83,7 @@ const addPosAndSetAttr = (results) => {
   }
 }
 
-export class Autocompleter extends Component {
+export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -221,20 +221,17 @@ export class Autocompleter extends Component {
     const {searchTerm, id, results, canCreateNewPerson, total} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
-    const suggestionHeader = {suggestionHeader: 'suggestion Header'}
-    const canLoadMoreResults = results && total !== results.length
+    const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
+    const canLoadMoreResults = results && total > results.length
     //Sequentually numbering items
     addPosAndSetAttr(results)
-    const suggestionResults = []
-    const suggestionResults2 = suggestionResults.concat(suggestionHeader)
-    const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
-    const latestArray = [...suggestionResults2, ...newResults]
+    const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
         inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
-        items={latestArray}
+        items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
@@ -269,5 +266,3 @@ Autocompleter.defaultProps = {
 }
 
 Autocompleter.displayName = 'Autocompleter'
-
-export default Autocompleter
