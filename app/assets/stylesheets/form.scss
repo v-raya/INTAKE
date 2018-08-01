@@ -221,3 +221,12 @@ input.rw-input {
 .text-area-show {
   word-wrap: break-word;
 }
+
+.show-label {
+  color: #707070;
+  margin-top: 0.75rem;
+  display: block;
+  font-size: $small-font;
+  font-weight: $normal-weight;
+}
+

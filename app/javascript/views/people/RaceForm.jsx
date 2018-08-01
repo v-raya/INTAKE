@@ -15,7 +15,7 @@ const RaceForm = ({
     <div className='col-md-12 gap-top'>
       <div className='gap-top' id='race'>
         <fieldset className='fieldset-inputs'>
-          <label>Race (Primary First)</label>
+          <legend>Race (Primary First)</legend>
           <div className='row'>
             <div className='col-md-6'>
               <ul className='unstyled-list'>

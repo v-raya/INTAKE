@@ -50,8 +50,10 @@ feature 'show cross reports' do
 
     within '#cross-report-card.show' do
       expect(page).to have_content('must be cross-reported to law enforcement')
-      expect(page.find('label', text: 'Cross Reported on Date')[:class]).to include('required')
-      expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
+      expect(page.find('div.show-label', text: 'Cross Reported on Date')[:class])
+        .to include('required')
+      expect(page.find('div.show-label', text: 'Communication Method')[:class])
+        .to include('required')
     end
   end
 
