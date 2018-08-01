@@ -76,6 +76,7 @@ describe('<Autocompleter />', () => {
     let onClear
     let onChange
     let onSelect
+    let total
     const results = [
       {legacyDescriptor: {legacy_id: 1}},
       {legacyDescriptor: {legacy_id: 2}},
@@ -160,9 +161,10 @@ describe('<Autocompleter />', () => {
 
     describe('when an item is selectable and is show more results', () => {
       let autocompleter
+      total = 11
       beforeEach(() => {
         autocompleter = mountAutocompleter({
-          results, onClear, onChange, onSelect, onLoadMoreResults,
+          results, onClear, onChange, onSelect, onLoadMoreResults, total,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
         autocompleter.find('div[id="search-result-show-more-of-the-same"]')

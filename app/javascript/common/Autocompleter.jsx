@@ -204,7 +204,7 @@ export class Autocompleter extends Component {
     const {searchTerm, id, results, canCreateNewPerson, total} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
-    const canLoadMoreResults = results && total !== results.length
+    const canLoadMoreResults = results && total > results.length
     const {menuVisible} = this.state
     //Sequentually numbering items
     addPosAndSetAttr(results)
