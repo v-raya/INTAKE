@@ -15,7 +15,8 @@ const ConditionsOfUse = () => (
       <li><a href='#if_you_send_us_email'>If You Send Us E-mail</a></li>
       <li><a href='#order_forms'>Order Forms</a></li>
       <li><a href='#public_disclosure'>Public Disclosure</a></li>
-      <li><a href='#personal_information'>Automatic Collection of Information/Cookies</a></li>
+      <li><a href='#personal_information'>Personal Information</a></li>
+      <li><a href='#automatic_collection_of_info'>Automatic Collection of Information/Cookies</a></li>
       <li><a href='#security'>Security</a></li>
       <li><a href='#links_to_other_sites'>Links to Other Sites</a></li>
       <li><a href='#limitation_of_liability'>Limitation of Liability</a></li>
