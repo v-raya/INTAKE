@@ -4,6 +4,10 @@
 // Card Header Fix //
 
 .card {
+  .show-label {
+    color: #707070;
+    margin-top: 0.75rem;
+  }
   .card-header {
     align-items: center;
     display: flex;
