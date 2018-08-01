@@ -3,6 +3,7 @@ import React from 'react'
 import Autocomplete from 'react-autocomplete'
 import {shallow, mount} from 'enzyme'
 import * as Analytics from 'utils/analytics'
+import moment from 'moment'
 
 describe('<Autocompleter />', () => {
   function mountAutocompleter({
@@ -31,7 +32,7 @@ describe('<Autocompleter />', () => {
         searchTerm={searchTerm}
         onSearch={onSearch}
         staffId={staffId}
-        startTime={500}
+        startTime='2018-08-01T16:42:59.674Z'
       />
     )
   }
@@ -61,7 +62,7 @@ describe('<Autocompleter />', () => {
         searchTerm={searchTerm}
         onSearch={onSearch}
         staffId={staffId}
-        startTime={500}
+        startTime='2018-08-01T16:42:59.674Z'
       />, {disableLifecycleMethods: true}
     )
   }
@@ -122,7 +123,7 @@ describe('<Autocompleter />', () => {
           .toHaveBeenCalledWith('searchResultClick', {
             searchIndex: 0,
             staffId: '0x3',
-            startTime: 500,
+            startTime: moment('2018-08-01T16:42:59.674Z').valueOf(),
           })
       })
     })
@@ -187,7 +188,7 @@ describe('<Autocompleter />', () => {
         .toHaveBeenCalledWith('searchResultClick', {
           searchIndex: 2,
           staffId: '0x3',
-          startTime: 500,
+          startTime: moment('2018-08-01T16:42:59.674Z').valueOf(),
         })
     })
 

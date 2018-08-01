@@ -35,9 +35,12 @@ export default createReducer(initialState, {
   [SET_SEARCH_TERM](state, {payload: {searchTerm}}) {
     if (state.get('startTime')) {
       return state.set('searchTerm', searchTerm)
-    } else {
+    } else if (searchTerm) {
       return state.set('searchTerm', searchTerm)
         .set('startTime', moment().toISOString())
+    } else {
+      return state.set('searchTerm', searchTerm)
+        .set('startTime', null)
     }
   },
   [LOAD_MORE_RESULTS_COMPLETE](state, {payload: {results}, error}) {
