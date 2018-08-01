@@ -20,7 +20,7 @@ describe('peopleSearchReducer', () => {
       expect(peopleSearchReducer(Map(), action)).toEqualImmutable(
         fromJS({
           searchTerm: 'newSearchTerm',
-          total: 0,
+          total: '',
         })
       )
     })
@@ -65,7 +65,7 @@ describe('peopleSearchReducer', () => {
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
           searchTerm: 'newSearchTerm',
-          total: 0,
+          total: '',
           results: [],
           startTime: null,
         })

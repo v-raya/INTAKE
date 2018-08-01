@@ -61,13 +61,19 @@ const showMoreResults = () =>
     }
   </div>
 
-const suggestionHeader = (resultsLength, total, searchTerm) => (<div>
-  <SuggestionHeader
-    currentNumberOfResults={resultsLength}
-    total={total}
-    searchTerm={searchTerm}
-  />
-</div>)
+const suggestionHeader = (resultsLength, total, searchTerm) => {
+  if (total === '') {
+    return ''
+  } else {
+    return <div>
+      <SuggestionHeader
+        currentNumberOfResults={resultsLength}
+        total={total}
+        searchTerm={searchTerm}
+      />
+    </div>
+  }
+}
 
 const addPosAndSetAttr = (results) => {
   const one = 1
@@ -179,7 +185,7 @@ export class Autocompleter extends Component {
       </div>)
     } else if (item.suggestionHeader) {
       return (
-        <div id={id} key={key}>
+        <div id={id} key={key} aria-live='polite'>
           {suggestionHeader(resultsLength, total, searchTerm)}
         </div>
       )
@@ -221,14 +227,14 @@ export class Autocompleter extends Component {
     addPosAndSetAttr(results)
     const suggestionResults = []
     const suggestionResults2 = suggestionResults.concat(suggestionHeader)
-    const newResults = suggestionResults2.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
-    //const latestArray = [...suggestionResults2, ...newResults]
+    const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
+    const latestArray = [...suggestionResults2, ...newResults]
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
         inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
-        items={newResults}
+        items={latestArray}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}

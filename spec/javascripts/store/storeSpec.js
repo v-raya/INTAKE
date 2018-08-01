@@ -30,7 +30,7 @@ describe('Store', () => {
       peopleSearch: {
         results: [],
         searchTerm: '',
-        total: 0,
+        total: '',
       },
       relationships: [],
       routing: {locationBeforeTransitions: null},
