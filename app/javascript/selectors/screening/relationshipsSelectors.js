@@ -47,7 +47,7 @@ export const getPeopleSelector = createSelector(
           age: relationship.get('related_person_age'),
           ageUnit: relationship.get('related_person_age_unit'),
         }),
-        secondaryRelationship: systemCodeDisplayValue(relationship.get('related_person_relationship'), relationshipTypes),
+        secondaryRelationship: systemCodeDisplayValue(relationship.get('indexed_person_relationship'), relationshipTypes),
         person_card_exists: isPersonCardExists(participants, relationship.toJS()),
         same_home_code: relationship.get('same_home_code'),
       })
