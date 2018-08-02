@@ -35,7 +35,7 @@ const resultStyleHighlighted = {
 }
 const MIN_SEARCHABLE_CHARS = 2
 
-const perosnSuggestion = (item) =>
+const personSuggestion = (item) =>
   <PersonSuggestion
     address={item.address}
     dateOfBirth={item.dateOfBirth}
@@ -52,20 +52,6 @@ const perosnSuggestion = (item) =>
     ssn={item.ssn}
   />
 
-const suggestionHeader = (resultsLength, total, searchTerm) => {
-  if (total === '') {
-    return ''
-  } else {
-    return <div>
-      <SuggestionHeader
-        currentNumberOfResults={resultsLength}
-        total={total}
-        searchTerm={searchTerm}
-      />
-    </div>
-  }
-}
-
 const addPosAndSetAttr = (results) => {
   const one = 1
   for (let len = results.length, i = 0; i < len; ++i) {
@@ -80,6 +66,12 @@ export default class Autocompleter extends Component {
     this.state = {
       menuVisible: false,
     }
+    this.onFocus = this.onFocus.bind(this)
+    this.onBlur = this.onBlur.bind(this)
+    this.onItemSelect = this.onItemSelect.bind(this)
+    this.renderMenu = this.renderMenu.bind(this)
+    this.onChangeInput = this.onChangeInput.bind(this)
+    this.renderItem = this.renderItem.bind(this)
   }
 
   isSearchable(value) {
@@ -97,8 +89,22 @@ export default class Autocompleter extends Component {
     this.setState({menuVisible: true})
   }
 
+  onButtonSelect(item) {
+    const {onClear, onChange, onSelect, onLoadMoreResults} = this.props
+    if (item.createNewPerson) {
+      onClear()
+      onChange('')
+      onSelect({id: null})
+      this.setState({menuVisible: false})
+    } else if (item.suggestionHeader) {
+      return
+    } else {
+      onLoadMoreResults()
+    }
+  }
+
   onItemSelect(_value, item) {
-    const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults, staffId, startTime} = this.props
+    const {isSelectable, onClear, onChange, onSelect, staffId, startTime} = this.props
     if (item.legacyDescriptor) {
       if (isSelectable(item)) {
         logEvent('searchResultClick', {
@@ -115,16 +121,7 @@ export default class Autocompleter extends Component {
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
       return
     }
-    if (item.createNewPerson) {
-      onClear()
-      onChange('')
-      onSelect({id: null})
-      this.setState({menuVisible: false})
-    } else if (item.suggestionHeader) {
-      return
-    } else {
-      onLoadMoreResults()
-    }
+    this.onButtonSelect(item)
   }
 
   onFocus() {
@@ -139,7 +136,7 @@ export default class Autocompleter extends Component {
     this.hideMenu()
   }
 
-  renderMenu(items, _style) {
+  renderMenu(items, _searchTerm, _style) {
     return (
       <div style={menuStyle} className='autocomplete-menu'>
         {items}
@@ -147,9 +144,28 @@ export default class Autocompleter extends Component {
     )
   }
 
-  renderItem(item, isHighlighted, _styles) {
+  renderEachItem(item, id, isHighlighted) {
     const {total, results, searchTerm} = this.props
     const resultsLength = results.length
+    const key = `${item.posInSet}-of-${item.setSize}`
+    const style = isHighlighted ? resultStyleHighlighted : resultStyle
+    if (item.suggestionHeader) {
+      return (
+        <div id={id} key={key} aria-live='polite'>
+          <SuggestionHeader
+            currentNumberOfResults={resultsLength}
+            total={total}
+            searchTerm={searchTerm}
+          />
+        </div>
+      )
+    }
+    return (<div id={id} key={key} style={style}>
+      {personSuggestion(item)}
+    </div>)
+  }
+
+  renderItem(item, isHighlighted, _styles) {
     const style = isHighlighted ? resultStyleHighlighted : resultStyle
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
@@ -160,20 +176,13 @@ export default class Autocompleter extends Component {
       return (<div id={id} key={key} style={style}>
         {<ShowMoreResults />}
       </div>)
-    } else if (item.createNewPerson) {
+    }
+    if (item.createNewPerson) {
       return (<div id={id} key={key} style={style}>
         {<CreateUnknownPerson />}
       </div>)
-    } else if (item.suggestionHeader) {
-      return (
-        <div id={id} key={key} aria-live='polite'>
-          {suggestionHeader(resultsLength, total, searchTerm)}
-        </div>
-      )
     }
-    return (<div id={id} key={key} style={style}>
-      {perosnSuggestion(item)}
-    </div>)
+    return this.renderEachItem(item, id, isHighlighted)
   }
 
   onChangeInput(_, value) {
@@ -211,13 +220,13 @@ export default class Autocompleter extends Component {
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, onBlur: this.onBlur.bind(this), onFocus: this.onFocus.bind(this)}}
+        inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
         items={newResults}
-        onChange={this.onChangeInput.bind(this)}
-        onSelect={this.onItemSelect.bind(this)}
-        renderItem={this.renderItem.bind(this)}
+        onChange={this.onChangeInput}
+        onSelect={this.onItemSelect}
+        renderItem={this.renderItem}
         open={this.state.menuVisible}
-        renderMenu={this.renderMenu.bind(this)}
+        renderMenu={this.renderMenu}
         value={searchTerm}
         wrapperStyle={{display: 'block', position: 'relative'}}
         renderInput={(props) => this.renderInput(props)}
