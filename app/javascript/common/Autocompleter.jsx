@@ -52,15 +52,6 @@ const perosnSuggestion = (item) =>
     ssn={item.ssn}
   />
 
-const showMoreResults = () =>
-  <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
-    {
-      <div>
-        <ShowMoreResults />
-      </div>
-    }
-  </div>
-
 const suggestionHeader = (resultsLength, total, searchTerm) => {
   if (total === '') {
     return ''
@@ -89,12 +80,6 @@ export default class Autocompleter extends Component {
     this.state = {
       menuVisible: false,
     }
-    this.onFocus = this.onFocus.bind(this)
-    this.onBlur = this.onBlur.bind(this)
-    this.onItemSelect = this.onItemSelect.bind(this)
-    this.renderMenu = this.renderMenu.bind(this)
-    this.onChangeInput = this.onChangeInput.bind(this)
-    this.renderItem = this.renderItem.bind(this)
   }
 
   isSearchable(value) {
@@ -173,15 +158,11 @@ export default class Autocompleter extends Component {
     }
     if (item.showMoreResults) {
       return (<div id={id} key={key} style={style}>
-        {showMoreResults()}
+        {<ShowMoreResults />}
       </div>)
     } else if (item.createNewPerson) {
       return (<div id={id} key={key} style={style}>
-        <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
-          {<div>
-            <CreateUnknownPerson />
-          </div>}
-        </div>
+        {<CreateUnknownPerson />}
       </div>)
     } else if (item.suggestionHeader) {
       return (
@@ -230,13 +211,13 @@ export default class Autocompleter extends Component {
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
+        inputProps={{id, onBlur: this.onBlur.bind(this), onFocus: this.onFocus.bind(this)}}
         items={newResults}
-        onChange={this.onChangeInput}
-        onSelect={this.onItemSelect}
-        renderItem={this.renderItem}
+        onChange={this.onChangeInput.bind(this)}
+        onSelect={this.onItemSelect.bind(this)}
+        renderItem={this.renderItem.bind(this)}
         open={this.state.menuVisible}
-        renderMenu={this.renderMenu}
+        renderMenu={this.renderMenu.bind(this)}
         value={searchTerm}
         wrapperStyle={{display: 'block', position: 'relative'}}
         renderInput={(props) => this.renderInput(props)}
