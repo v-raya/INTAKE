@@ -4,6 +4,14 @@
 // Card Header Fix //
 
 .card {
+  .show-label {
+    color: $dark-grey-woodduck;
+    margin-bottom: 5px;
+    margin-top: $half-spacing;
+    max-width: 100%;
+    padding-top: $half-spacing;
+   }
+
   .card-header {
     align-items: center;
     display: flex;
