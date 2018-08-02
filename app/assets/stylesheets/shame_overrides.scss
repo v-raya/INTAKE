@@ -6,11 +6,12 @@
 .card {
   .show-label {
     color: $dark-grey-woodduck;
-    margin-top: $half-spacing;
-    padding-top:$half-spacing;
-    max-width: 100%;
     margin-bottom: 5px;
-  }
+    margin-top: $half-spacing;
+    max-width: 100%;
+    padding-top: $half-spacing;
+   }
+
   .card-header {
     align-items: center;
     display: flex;
