@@ -24,7 +24,7 @@ const PersonSuggestion = ({
   return (
     <div className='row'>
       <div className='col-md-2 profile-picture'>
-        <img src={AvatarImg} />
+        <img src={AvatarImg} alt='Avatar' />
         {isSensitive && <div className='information-flag image-caption'>Sensitive</div>}
         {isSealed && <div className='information-flag image-caption'>Sealed</div>}
       </div>
