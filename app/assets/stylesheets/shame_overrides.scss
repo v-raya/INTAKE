@@ -5,12 +5,12 @@
 
 .card {
   .show-label {
-    color: #707070;
-    margin-top: 0.75rem;
+    color: $dark-grey-woodduck;
+    margin-top: $half-spacing;
     display: block;
-    font-size: 1.5rem;
-    font-weight: 400;
-    padding-top:0.75rem;
+    font-size: $small-font;
+    font-weight: $normal-weight;
+    padding-top:$half-spacing;
     max-width: 100%;
     margin-bottom: 5px;
   }
