@@ -13,7 +13,7 @@ const PersonEthnicityForm = ({
 }) => (
   <div className='gap-top' id='ethnicity'>
     <fieldset className='fieldset-inputs'>
-      <legend>Hispanic/Latino Origin</legend>
+      <label>Hispanic/Latino Origin</label>
       <div className='row'>
         <div className='col-md-6'>
           <ul className='unstyled-list'>
