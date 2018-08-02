@@ -14,6 +14,15 @@ class RelationshipsRepository
     ).body
   end
 
+  def self.find(security_token, id)
+    raise 'Error updating relationship: id is required' unless id
+    FerbAPI.make_api_call(
+      security_token,
+      FerbRoutes.screening_relationship_path(id),
+      :get
+    ).body
+  end
+
   def self.update(security_token, id, relationship)
     raise 'Error updating relationship: id is required' unless id
     FerbAPI.make_api_call(

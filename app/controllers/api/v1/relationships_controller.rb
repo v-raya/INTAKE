@@ -11,6 +11,11 @@ module Api
         render json: relationships
       end
 
+      def show
+        relationship = RelationshipsRepository.find(session[:security_token], params[:id])
+        render json: relationship
+      end
+
       def update
         relationship = params.require(:relationship).as_json.symbolize_keys
         update_relationship = RelationshipsRepository.update(
