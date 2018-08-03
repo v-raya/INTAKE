@@ -23,17 +23,10 @@ describe('SnapshotSideBar', () => {
     expect(component.find('SideBar').exists()).toBe(true)
   })
 
-  describe('People & Roles', () => {
-    it('renders a link to the People Search card', () => {
-      expect(component.find('NavLink[text="People & Roles"]').props().href
-      ).toBe('#search-card-anchor')
-    })
-
-    it('renders a link to the People selected from search', () => {
-      expect(component.find('NavLink[text="Ultra Goku"]').exists()).toBe(true)
-      expect(component.find('NavLink[text="Ultra Goku"]').props().href
-      ).toBe('#participants-card-23')
-    })
+  it('renders People & Roles', () => {
+    const sidebarPeople = component.find('SideBarPeople')
+    expect(sidebarPeople.exists()).toEqual(true)
+    expect(sidebarPeople.props().participants).toEqual(participants)
   })
 
   it('renders a link to the History card', () => {

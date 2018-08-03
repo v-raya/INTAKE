@@ -1,8 +1,7 @@
 import React from 'react'
 import {SideBar, NavLinks, NavLink} from 'react-wood-duck'
 import PropTypes from 'prop-types'
-
-import nameFormatter from 'utils/nameFormatter'
+import SideBarPeople from 'views/SideBarPeople'
 
 const ScreeningSideBar = (props) => (
   <div className='col-xs-4 col-md-3 hide-mobile hidden-print pad-top'>
@@ -10,20 +9,7 @@ const ScreeningSideBar = (props) => (
     <SideBar>
       <NavLinks>
         <NavLink text='Screening Information' href='#screening-information-card-anchor' />
-        <NavLink key={1} text='People & Roles' href='#search-card-anchor'>
-          <NavLinks nested={true} >
-            <div className='nested-block'>
-              {props.participants.map(({id, first_name, last_name, name_suffix}) =>
-                <NavLink
-                  key={id}
-                  text={nameFormatter({first_name, last_name, name_suffix})}
-                  href={`#participants-card-${id}`}
-                  preIcon='fa fa-user'
-                />
-              )}
-            </div>
-          </NavLinks>
-        </NavLink>
+        <SideBarPeople participants={props.participants} />
         <NavLink text='Narrative' href='#narrative-card-anchor' />
         <NavLink text='Incident Information' href='#incident-information-card-anchor' />
         <NavLink text='Allegations' href='#allegations-card-anchor' />
