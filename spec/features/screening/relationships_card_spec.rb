@@ -183,7 +183,7 @@ feature 'Relationship card' do
           FerbRoutes.intake_screening_path(participants_screening[:id])
         )).and_return(json_body(participants_screening.to_json))
       stub_empty_history_for_screening(participants_screening)
-      
+
       stub_screening_relationships(existing_screening)
       # stub_request(
       #   :get,
@@ -301,13 +301,14 @@ feature 'Relationship card' do
             ferb_api_url(
               FerbRoutes.screening_participant_path(participants_screening[:id], participant.id)
             ))
-        ).to have_been_made.times
+        ).to have_been_made
 
         expect(
           a_request(
             :get,
             ferb_api_url(FerbRoutes.relationships_for_screening_path(existing_screening[:id]))
-          )).to have_been_made
+          )
+        ).to have_been_made.times(2)
       end
 
       context '#attach-relationships to screening' do
