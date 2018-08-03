@@ -35,7 +35,7 @@ const resultStyleHighlighted = {
 }
 const MIN_SEARCHABLE_CHARS = 2
 
-const perosnSuggestion = (item) =>
+const personSuggestion = (item) =>
   <PersonSuggestion
     address={item.address}
     dateOfBirth={item.dateOfBirth}
@@ -52,15 +52,6 @@ const perosnSuggestion = (item) =>
     ssn={item.ssn}
   />
 
-const showMoreResults = () =>
-  <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
-    {
-      <div>
-        <ShowMoreResults />
-      </div>
-    }
-  </div>
-
 const addPosAndSetAttr = (results) => {
   const one = 1
   for (let len = results.length, i = 0; i < len; ++i) {
@@ -69,7 +60,7 @@ const addPosAndSetAttr = (results) => {
   }
 }
 
-export class Autocompleter extends Component {
+export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -98,8 +89,22 @@ export class Autocompleter extends Component {
     this.setState({menuVisible: true})
   }
 
+  onButtonSelect(item) {
+    const {onClear, onChange, onSelect, onLoadMoreResults} = this.props
+    if (item.createNewPerson) {
+      onClear()
+      onChange('')
+      onSelect({id: null})
+      this.setState({menuVisible: false})
+    } else if (item.suggestionHeader) {
+      return
+    } else {
+      onLoadMoreResults()
+    }
+  }
+
   onItemSelect(_value, item) {
-    const {isSelectable, onClear, onChange, onSelect, onLoadMoreResults, staffId, startTime} = this.props
+    const {isSelectable, onClear, onChange, onSelect, staffId, startTime} = this.props
     if (item.legacyDescriptor) {
       if (isSelectable(item)) {
         logEvent('searchResultClick', {
@@ -116,14 +121,7 @@ export class Autocompleter extends Component {
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
       return
     }
-    if (item.createNewPerson) {
-      onClear()
-      onChange('')
-      onSelect({id: null})
-      this.setState({menuVisible: false})
-    } else {
-      onLoadMoreResults()
-    }
+    this.onButtonSelect(item)
   }
 
   onFocus() {
@@ -138,19 +136,33 @@ export class Autocompleter extends Component {
     this.hideMenu()
   }
 
-  renderMenu(items, searchTerm, _style) {
-    const {total, results} = this.props
-    const resultsLength = results.length
+  renderMenu(items, _searchTerm, _style) {
     return (
       <div style={menuStyle} className='autocomplete-menu'>
-        <SuggestionHeader
-          currentNumberOfResults={resultsLength}
-          total={total}
-          searchTerm={searchTerm}
-        />
         {items}
       </div>
     )
+  }
+
+  renderEachItem(item, id, isHighlighted) {
+    const {total, results, searchTerm} = this.props
+    const resultsLength = results.length
+    const key = `${item.posInSet}-of-${item.setSize}`
+    const style = isHighlighted ? resultStyleHighlighted : resultStyle
+    if (item.suggestionHeader) {
+      return (
+        <div id={id} key={key} aria-live='polite'>
+          <SuggestionHeader
+            currentNumberOfResults={resultsLength}
+            total={total}
+            searchTerm={searchTerm}
+          />
+        </div>
+      )
+    }
+    return (<div id={id} key={key} style={style}>
+      {personSuggestion(item)}
+    </div>)
   }
 
   renderItem(item, isHighlighted, _styles) {
@@ -162,20 +174,15 @@ export class Autocompleter extends Component {
     }
     if (item.showMoreResults) {
       return (<div id={id} key={key} style={style}>
-        {showMoreResults()}
-      </div>)
-    } else if (item.createNewPerson) {
-      return (<div id={id} key={key} style={style}>
-        <div className='row half-pad-top half-pad-bottom half-pad-right half-pad-left'>
-          {<div>
-            <CreateUnknownPerson />
-          </div>}
-        </div>
+        {<ShowMoreResults />}
       </div>)
     }
-    return (<div id={id} key={key} style={style}>
-      {perosnSuggestion(item)}
-    </div>)
+    if (item.createNewPerson) {
+      return (<div id={id} key={key} style={style}>
+        {<CreateUnknownPerson />}
+      </div>)
+    }
+    return this.renderEachItem(item, id, isHighlighted)
   }
 
   onChangeInput(_, value) {
@@ -204,11 +211,11 @@ export class Autocompleter extends Component {
     const {searchTerm, id, results, canCreateNewPerson, total} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
+    const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
     const canLoadMoreResults = results && total > results.length
-    const {menuVisible} = this.state
     //Sequentually numbering items
     addPosAndSetAttr(results)
-    const newResults = results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
+    const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
@@ -218,7 +225,7 @@ export class Autocompleter extends Component {
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
-        open={menuVisible}
+        open={this.state.menuVisible}
         renderMenu={this.renderMenu}
         value={searchTerm}
         wrapperStyle={{display: 'block', position: 'relative'}}
@@ -249,5 +256,3 @@ Autocompleter.defaultProps = {
 }
 
 Autocompleter.displayName = 'Autocompleter'
-
-export default Autocompleter

@@ -386,8 +386,16 @@ describe('<Autocompleter />', () => {
       it('changes background colour when highlighted', () => {
         const input = autocompleter.find('input')
         input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
+        input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
         const result = autocompleter.find('div[id="search-result-1-of-2"]')
         expect(result.props().style.backgroundColor).toEqual('#d4d4d4')
+      })
+
+      it('when enter is pressed it should not highlight', () => {
+        const input = autocompleter.find('input')
+        input.simulate('keyDown', {key: 'Enter', keyCode: 13, which: 13})
+        const result = autocompleter.find('div[id="search-result-1-of-2"]')
+        expect(result.props().style.backgroundColor).not.toEqual('#d4d4d4')
       })
 
       it('marks any highlighted item as activedescendant', () => {
