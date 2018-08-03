@@ -17,13 +17,18 @@ module Api
       end
 
       def update
-        relationship = params.require(:relationship).as_json.symbolize_keys
         update_relationship = RelationshipsRepository.update(
           session[:security_token],
           params[:id],
-          relationship
+          relationship_params
         )
         render json: update_relationship
+      end
+
+      private
+
+      def relationship_params
+        params.require(:relationship).as_json.symbolize_keys
       end
     end
   end

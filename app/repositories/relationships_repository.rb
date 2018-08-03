@@ -15,7 +15,7 @@ class RelationshipsRepository
   end
 
   def self.find(security_token, id)
-    raise 'Error updating relationship: id is required' unless id
+    raise StandardError, 'Error updating relationship: id is required' if id.blank?
     FerbAPI.make_api_call(
       security_token,
       FerbRoutes.screening_relationship_path(id),
@@ -24,7 +24,7 @@ class RelationshipsRepository
   end
 
   def self.update(security_token, id, relationship)
-    raise 'Error updating relationship: id is required' unless id
+    raise StandardError, 'Error updating relationship: id is required' if id.blank?
     FerbAPI.make_api_call(
       security_token,
       FerbRoutes.screening_relationship_path(id),
