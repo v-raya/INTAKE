@@ -184,11 +184,10 @@ feature 'Relationship card' do
         )).and_return(json_body(participants_screening.to_json))
       stub_empty_history_for_screening(participants_screening)
 
-      stub_screening_relationships(existing_screening)
-      # stub_request(
-      #   :get,
-      #   ferb_api_url(FerbRoutes.relationships_path)
-      # ).with(query: hash_including({})).and_return(json_body(relationships.to_json, status: 200))
+      stub_request(
+        :get,
+        ferb_api_url(FerbRoutes.relationships_for_screening_path(existing_screening[:id]))
+      ).and_return(json_body(relationships.to_json, status: 200))
     end
     scenario '1.viewing a screening' do
       visit screening_path(id: participants_screening[:id])
