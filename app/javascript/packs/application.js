@@ -31,6 +31,7 @@ import '../../assets/stylesheets/multi-select'
 import '../../assets/stylesheets/ie'
 import '../../assets/stylesheets/google-api'
 import '../../assets/stylesheets/page-error'
+import '../../assets/stylesheets/search'
 import '../../assets/stylesheets/shame_overrides'
 import '../../assets/stylesheets/screening_relationship.scss'
 

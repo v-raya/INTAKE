@@ -356,14 +356,6 @@ describe('<Autocompleter />', () => {
         expect(suggestions.length).toEqual(2)
       })
 
-      it('scrolls when there are many results', () => {
-        const menu = autocompleter.find('.autocomplete-menu')
-        const menuStyle = menu.prop('style')
-        expect(menuStyle.maxHeight).toEqual(jasmine.any(String))
-        expect(menuStyle.overflowY).toBe('scroll')
-        expect(menuStyle.overflowX).not.toBe('scroll') // No need to horizontally scroll
-      })
-
       it('displays person suggestion', () => {
         const suggestions = autocompleter.find('PersonSuggestion')
         const suggestion = suggestions.at(0)
@@ -383,19 +375,22 @@ describe('<Autocompleter />', () => {
         expect(suggestion.props().ssn).toEqual('test ssn')
       })
 
-      it('changes background colour when highlighted', () => {
+      it('changes className when highlighted', () => {
         const input = autocompleter.find('input')
+        const resultBefore = autocompleter.find('div[id="search-result-1-of-2"]')
+        expect(resultBefore.props().className).not.toEqual('search-item highlighted-search-item')
+
         input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
         input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
         const result = autocompleter.find('div[id="search-result-1-of-2"]')
-        expect(result.props().style.backgroundColor).toEqual('#d4d4d4')
+        expect(result.props().className).toEqual('search-item highlighted-search-item')
       })
 
       it('when enter is pressed it should not highlight', () => {
         const input = autocompleter.find('input')
         input.simulate('keyDown', {key: 'Enter', keyCode: 13, which: 13})
         const result = autocompleter.find('div[id="search-result-1-of-2"]')
-        expect(result.props().style.backgroundColor).not.toEqual('#d4d4d4')
+        expect(result.props().className).not.toEqual('search-item highlighted-search-item')
       })
 
       it('marks any highlighted item as activedescendant', () => {
