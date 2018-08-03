@@ -8,49 +8,7 @@ import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
 import moment from 'moment'
 
-const menuStyle = {
-  backgroundColor: '#fff',
-  border: '1px solid #d4d4d4',
-  borderBottomLeftRadius: '4px',
-  borderBottomRightRadius: '4px',
-  display: 'block',
-  fontFamily: 'Helvetica, sans-serif',
-  fontSize: '16px',
-  fontWeight: 300,
-  maxHeight: '32em',
-  overflowX: 'hidden',
-  overflowY: 'scroll',
-  position: 'absolute',
-  width: '100%',
-  zIndex: 2,
-}
-const resultStyle = {
-  borderBottom: '2px solid #d4d4d4',
-  cursor: 'pointer',
-  padding: '10px 20px',
-}
-const resultStyleHighlighted = {
-  ...resultStyle,
-  backgroundColor: '#d4d4d4',
-}
 const MIN_SEARCHABLE_CHARS = 2
-
-const personSuggestion = (item) =>
-  <PersonSuggestion
-    address={item.address}
-    dateOfBirth={item.dateOfBirth}
-    isDeceased={item.isDeceased}
-    ethnicity={item.ethnicity}
-    fullName={item.fullName}
-    gender={item.gender}
-    isSealed={item.isSealed}
-    isSensitive={item.isSensitive}
-    languages={item.languages}
-    legacyDescriptor={item.legacyDescriptor}
-    phoneNumber={item.phoneNumber}
-    races={item.races}
-    ssn={item.ssn}
-  />
 
 const addPosAndSetAttr = (results) => {
   const one = 1
@@ -59,6 +17,9 @@ const addPosAndSetAttr = (results) => {
     results[i].setSize = len
   }
 }
+
+const itemClassName = (isHighlighted) =>
+  `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
 
 export default class Autocompleter extends Component {
   constructor(props) {
@@ -137,18 +98,13 @@ export default class Autocompleter extends Component {
   }
 
   renderMenu(items, _searchTerm, _style) {
-    return (
-      <div style={menuStyle} className='autocomplete-menu'>
-        {items}
-      </div>
-    )
+    return (<div className='autocomplete-menu'>{items}</div>)
   }
 
   renderEachItem(item, id, isHighlighted) {
     const {total, results, searchTerm} = this.props
     const resultsLength = results.length
     const key = `${item.posInSet}-of-${item.setSize}`
-    const style = isHighlighted ? resultStyleHighlighted : resultStyle
     if (item.suggestionHeader) {
       return (
         <div id={id} key={key} aria-live='polite'>
@@ -160,25 +116,26 @@ export default class Autocompleter extends Component {
         </div>
       )
     }
-    return (<div id={id} key={key} style={style}>
-      {personSuggestion(item)}
-    </div>)
+    return (
+      <div id={id} key={key} className={itemClassName(isHighlighted)}>
+        <PersonSuggestion {...item} />
+      </div>)
   }
 
   renderItem(item, isHighlighted, _styles) {
-    const style = isHighlighted ? resultStyleHighlighted : resultStyle
+    const className = itemClassName(isHighlighted)
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
     if (isHighlighted && this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', id)
     }
     if (item.showMoreResults) {
-      return (<div id={id} key={key} style={style}>
+      return (<div id={id} key={key} className={className}>
         {<ShowMoreResults />}
       </div>)
     }
     if (item.createNewPerson) {
-      return (<div id={id} key={key} style={style}>
+      return (<div id={id} key={key} className={className}>
         {<CreateUnknownPerson />}
       </div>)
     }
