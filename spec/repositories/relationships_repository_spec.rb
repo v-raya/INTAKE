@@ -123,7 +123,7 @@ describe RelationshipsRepository do
       end
     end
 
-    context 'when participant has no id' do
+    context 'when relationship has no id' do
       let(:id) { nil }
 
       it 'raises an error' do
@@ -171,7 +171,7 @@ describe RelationshipsRepository do
       end
     end
 
-    context 'when participant has no id' do
+    context 'when relationship has no id' do
       let(:id) { nil }
 
       it 'raises an error' do
