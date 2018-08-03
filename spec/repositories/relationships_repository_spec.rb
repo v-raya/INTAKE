@@ -118,8 +118,8 @@ describe RelationshipsRepository do
       end
 
       it 'should return a relationship' do
-        updated_relationship = described_class.find(security_token, id)
-        expect(updated_relationship.as_json).to eq(relationship.as_json)
+        relationship = described_class.find(security_token, id)
+        expect(relationship.as_json).to eq(relationship.as_json)
       end
     end
 
