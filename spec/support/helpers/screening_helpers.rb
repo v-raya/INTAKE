@@ -21,6 +21,20 @@ module ScreeningHelpers
     end
   end
 
+  def stub_screening_relationships(screening)
+    stub_request(
+      :get,
+      ferb_api_url(FerbRoutes.relationships_for_screening_path(screening[:id]))
+    ).and_return(json_body(relationships.to_json, status: 200))
+  end
+
+  def stub_empty_screening_relationships(screening)
+    stub_request(
+      :get,
+      ferb_api_url(FerbRoutes.relationships_for_screening_path(screening[:id]))
+    ).and_return(json_body([].to_json, status: 200))
+  end
+
   def stub_empty_relationships
     stub_request(
       :get,
@@ -55,7 +69,7 @@ module ScreeningHelpers
   def stub_and_visit_edit_screening(screening)
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
-    stub_empty_relationships
+    stub_empty_screening_relationships(screening)
     stub_empty_history_for_screening(screening)
 
     visit edit_screening_path(id: screening[:id])
@@ -67,7 +81,7 @@ module ScreeningHelpers
   def stub_and_visit_show_screening(screening)
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
-    stub_empty_relationships
+    stub_empty_screening_relationships(screening)
     stub_empty_history_for_screening(screening)
 
     visit screening_path(id: screening[:id])
