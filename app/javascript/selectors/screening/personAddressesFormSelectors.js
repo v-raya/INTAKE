@@ -2,7 +2,7 @@ import {List, Map} from 'immutable'
 import {selectAddressTypes} from 'selectors/systemCodeSelectors'
 import {getZIPErrors} from 'utils/zipValidator'
 
-const getAddresses = (person) => person.get('addresses', List()).map((address) => Map({
+export const getAddresses = (person) => person.get('addresses', List()).map((address) => Map({
   id: address.get('id'),
   street: address.getIn(['street', 'value']),
   city: address.getIn(['city', 'value']),

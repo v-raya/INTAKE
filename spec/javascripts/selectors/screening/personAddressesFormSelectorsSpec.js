@@ -1,5 +1,6 @@
 import {fromJS, List} from 'immutable'
 import {
+  getAddresses,
   getPersonEditableAddressesSelector,
   getAddressTypeOptionsSelector,
 } from 'selectors/screening/personAddressesFormSelectors'
@@ -7,6 +8,50 @@ import * as matchers from 'jasmine-immutable-matchers'
 
 describe('personAddressesFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
+
+  describe('getAddresses', () => {
+    const person = fromJS({
+      addresses: [{
+        id: 2212,
+        street: {value: '1234 Nowhere Lane'},
+        city: {value: 'Somewhereville'},
+        state: {value: 'CA'},
+        zip: {value: '55555'},
+        type: {value: 'Home'},
+        legacy_descriptor: {value: {legacy_id: 'xyz122'}},
+      },
+      {
+        id: 3,
+        street: {value: '223 Van der Burgh Ave'},
+        city: {value: 'Calistoga'},
+        state: {value: 'CA'},
+        zip: {value: '839893'},
+        type: {value: 'Home'},
+      }],
+    })
+
+    it('returns all addresses for the given person', () => {
+      expect(getAddresses(person)).toEqualImmutable(fromJS(
+        [{
+          id: 2212,
+          street: '1234 Nowhere Lane',
+          city: 'Somewhereville',
+          state: 'CA',
+          zip: '55555',
+          type: 'Home',
+          legacy_id: 'xyz122',
+        }, {
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
+          state: 'CA',
+          zip: '839893',
+          type: 'Home',
+          legacy_id: null,
+        }]
+      ))
+    })
+  })
 
   describe('getAddressTypeOptionsSelector', () => {
     const state = fromJS({

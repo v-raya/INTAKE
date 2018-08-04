@@ -7,6 +7,7 @@ import moment from 'moment'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
+import {getAddresses} from 'selectors/screening/personAddressesFormSelectors'
 import {hasReporter, hasNonReporter} from 'utils/roles'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
@@ -124,16 +125,6 @@ const getPhoneNumbers = (person) => person.get('phone_numbers', List()).map((pho
   id: phoneNumber.get('id'),
   number: phoneNumber.getIn(['number', 'value']),
   type: phoneNumber.getIn(['type', 'value']),
-}))
-
-const getAddresses = (person) => person.get('addresses', List()).map((address) => Map({
-  id: address.get('id'),
-  street: address.getIn(['street', 'value']),
-  city: address.getIn(['city', 'value']),
-  state: address.getIn(['state', 'value']),
-  zip: address.getIn(['zip', 'value']),
-  type: address.getIn(['type', 'value']),
-  legacy_id: address.getIn(['legacy_descriptor', 'value', 'legacy_id'], null),
 }))
 
 const getEthnicity = (person) => {
