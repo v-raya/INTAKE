@@ -16,6 +16,7 @@ import PageHeader from 'common/PageHeader'
 import SnapshotIntro from 'snapshots/SnapshotIntro'
 import SnapshotSideBar from 'snapshots/SnapshotSideBar'
 import {selectParticipants} from 'selectors/participantSelectors'
+import {BreadCrumb} from 'common/BreadCrumb'
 
 const isDuplicatePerson = (participants, id) => (
   participants.some((x) => x.legacy_id === id)
@@ -54,6 +55,7 @@ export class SnapshotPage extends React.Component {
     return (
       <div className='col-md-9 col-xs-8 '>
         <div className='row'>
+          <BreadCrumb />
           <SnapshotIntro />
           <PersonSearchFormContainer
             onSelect={(person) => this.onSelectPerson(person)}
