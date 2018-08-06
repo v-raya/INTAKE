@@ -95,7 +95,7 @@ describe Api::V1::RelationshipsController do
 
       process :index,
         method: :get,
-        params: { clientIds: client_ids.join(','), screeningId: 'null' },
+        params: { clientIds: client_ids.join(',') },
         session: session
       expect(JSON.parse(response.body)).to match array_including(
         a_hash_including(
