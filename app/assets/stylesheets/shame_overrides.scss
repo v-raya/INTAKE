@@ -182,3 +182,38 @@
   padding: 0 1.5rem;
   text-align: center;
 }
+
+// set page header to fixed
+header {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+.page-header-container {
+  margin-top: 61px;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+}
+
+.snapshot-inner-container,
+.hotline-inner-container {
+  left: 308px;
+  z-index: 999;
+}
+
+.side-bar-container {
+  position: fixed;
+}
+
+.shim {
+  display: block;
+  padding: 71px;
+  width: 100%;
+  z-index: -1;
+}
+
+.page-header-mast {
+  z-index: 1001;
+}
