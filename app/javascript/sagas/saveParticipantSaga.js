@@ -18,11 +18,11 @@ export function* saveParticipant({payload: {personId}}) {
     const person = personWithEdits.toJS()
     const response = yield call(Utils.put, `/api/v1/participants/${personId}`, person)
     yield put(updatePersonSuccess(response))
-    const screeningId = yield select(getScreeningIdValueSelector)
-    yield put(fetchHistoryOfInvolvements('screenings', screeningId))
-    yield put(fetchAllegations(screeningId))
     const clientIds = yield select(selectClientIds)
+    const screeningId = yield select(getScreeningIdValueSelector)
+    yield put(fetchAllegations(screeningId))
     yield put(fetchRelationships(clientIds, screeningId))
+    yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {
     yield put(updatePersonFailure(error.responseJSON))
   }
