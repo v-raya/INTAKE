@@ -37,7 +37,7 @@ module Api
       end
 
       def client_ids
-        params[:clientIds]&.split ','
+        params[:clientIds].split ','
       end
     end
   end
