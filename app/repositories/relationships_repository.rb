@@ -21,7 +21,7 @@ class RelationshipsRepository
       :get
     ).body
   end
-  
+
   def self.find(security_token, id)
     raise StandardError, 'Error updating relationship: id is required' if id.blank?
     FerbAPI.make_api_call(

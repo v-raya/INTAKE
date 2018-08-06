@@ -5,19 +5,16 @@
 module Api
   module V1
     class RelationshipsController < ApiController # :nodoc:
-      # rubocop:disable Metrics/AbcSize
       def index
-        if params[:screeningId].present? && params[:screeningId] != 'null'
-          relationships = RelationshipsRepository.get_relationships_for_screening_id(
-            session[:security_token], params[:screeningId]
-          )
-        else
-          client_ids = params[:clientIds]&.split ','
-          relationships = RelationshipsRepository.search(session[:security_token], client_ids)
-        end
+        relationships = if params[:screening_id].present?
+                          RelationshipsRepository.get_relationships_for_screening_id(
+                            session[:security_token], params[:screening_id]
+                          )
+                        else
+                          RelationshipsRepository.search(session[:security_token], client_ids)
+                        end
         render json: relationships
       end
-      # rubocop:enable Metrics/AbcSize
 
       def show
         relationship = RelationshipsRepository.find(session[:security_token], params[:id])
@@ -37,6 +34,10 @@ module Api
 
       def relationship_params
         params.require(:relationship).as_json.symbolize_keys
+      end
+
+      def client_ids
+        params[:clientIds]&.split ','
       end
     end
   end
