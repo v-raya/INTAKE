@@ -18,7 +18,7 @@ export function* deleteParticipant({payload: {id}}) {
     yield put(deletePersonSuccess(id))
     yield put(fetchAllegations(screeningId))
     const clientIds = yield select(selectClientIds)
-    yield put(fetchRelationships(clientIds))
+    yield put(fetchRelationships(clientIds, screeningId))
     yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {
     yield put(deletePersonFailure(error.responseJSON))

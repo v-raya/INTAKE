@@ -44,8 +44,8 @@ export function* createParticipant({payload: {person}}) {
     const response = yield* sendPersonPayload(person)
     yield put(createPersonSuccess(response))
     const clientIds = yield select(selectClientIds)
-    yield put(fetchRelationships(clientIds))
     const screeningId = yield select(getScreeningIdValueSelector)
+    yield put(fetchRelationships(clientIds, screeningId))
     yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {
     if (error.status === STATUS_CODES.forbidden) {

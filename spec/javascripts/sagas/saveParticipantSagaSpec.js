@@ -40,15 +40,16 @@ describe('saveParticipant', () => {
     )
     expect(gen.next().value).toEqual(select(selectClientIds))
     const clientIds = ['123', '456']
-    expect(gen.next(clientIds).value).toEqual(
-      put(fetchRelationships(clientIds))
+    expect(gen.next(clientIds).value).toEqual(select(getScreeningIdValueSelector))
+    const screeninngId = '444'
+    expect(gen.next(screeninngId).value).toEqual(
+      put(fetchAllegations(screeninngId))
     )
-    expect(gen.next().value).toEqual(select(getScreeningIdValueSelector))
-    expect(gen.next('444').value).toEqual(
-      put(fetchHistoryOfInvolvements('screenings', '444'))
+    expect(gen.next().value).toEqual(
+      put(fetchRelationships(clientIds, screeninngId))
     )
-    expect(gen.next('444').value).toEqual(
-      put(fetchAllegations('444'))
+    expect(gen.next().value).toEqual(
+      put(fetchHistoryOfInvolvements('screenings', screeninngId))
     )
   })
 

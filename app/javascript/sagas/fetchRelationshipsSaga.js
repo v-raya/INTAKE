@@ -8,9 +8,9 @@ import {
   FETCH_RELATIONSHIPS,
 } from 'actions/actionTypes'
 
-export function* fetchRelationships({payload: {ids}}) {
+export function* fetchRelationships({payload: {ids, screeningId}}) {
   try {
-    const response = yield call(get, `/api/v1/relationships?clientIds=${ids.join(',')}`)
+    const response = yield call(get, `/api/v1/relationships?clientIds=${ids.join(',')}&screeningId=${screeningId}`)
     yield put(fetchRelationshipsSuccess(response))
   } catch (error) {
     yield put(fetchRelationshipsFailure(error.responseJSON))

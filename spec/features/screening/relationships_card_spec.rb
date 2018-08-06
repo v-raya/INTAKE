@@ -186,8 +186,8 @@ feature 'Relationship card' do
 
       stub_request(
         :get,
-        ferb_api_url(FerbRoutes.relationships_path)
-      ).with(query: hash_including({})).and_return(json_body(relationships.to_json, status: 200))
+        ferb_api_url(FerbRoutes.relationships_for_screening_path(existing_screening[:id]))
+      ).and_return(json_body(relationships.to_json, status: 200))
     end
     scenario '1.viewing a screening' do
       visit screening_path(id: participants_screening[:id])
@@ -204,12 +204,12 @@ feature 'Relationship card' do
       expect(
         a_request(
           :get,
-          ferb_api_url(FerbRoutes.relationships_path)
-        ).with(query: { 'clientIds' => participant.legacy_descriptor.legacy_id })
+          ferb_api_url(FerbRoutes.relationships_for_screening_path(existing_screening[:id]))
+        )
       ).to have_been_made
     end
 
-    describe '2.editing a screening' do
+    describe 'editing a screening' do
       scenario 'loads relationships on initial page load' do
         stub_empty_history_for_screening(participants_screening)
         visit edit_screening_path(id: participants_screening[:id])
@@ -227,8 +227,8 @@ feature 'Relationship card' do
         expect(
           a_request(
             :get,
-            ferb_api_url(FerbRoutes.relationships_path)
-          ).with(query: { 'clientIds' => participant.legacy_descriptor.legacy_id })
+            ferb_api_url(FerbRoutes.relationships_for_screening_path(existing_screening[:id]))
+          )
         ).to have_been_made
       end
 
@@ -242,9 +242,8 @@ feature 'Relationship card' do
 
         stub_request(
           :get,
-          ferb_api_url(FerbRoutes.relationships_path)
-        ).with(query: hash_including({}))
-          .and_return(json_body(new_relationships.to_json, status: 200))
+          ferb_api_url(FerbRoutes.relationships_for_screening_path(existing_screening[:id]))
+        ).and_return(json_body(new_relationships.to_json, status: 200))
 
         stub_person_search(search_term: 'ma', person_response: empty_response)
         stub_person_search(search_term: 'undefined undefined', person_response: empty_response)
@@ -264,9 +263,9 @@ feature 'Relationship card' do
         expect(
           a_request(
             :get,
-            ferb_api_url(FerbRoutes.relationships_path)
-          ).with(query: { 'clientIds' => participant.legacy_descriptor.legacy_id })
-        ).to have_been_made.twice
+            ferb_api_url(FerbRoutes.relationships_for_screening_path(existing_screening[:id]))
+          )
+        ).to have_been_made.times(2)
 
         within '#relationships-card.card.show', text: 'Relationships' do
           expect(page).to have_content(
@@ -306,8 +305,8 @@ feature 'Relationship card' do
         expect(
           a_request(
             :get,
-            ferb_api_url(FerbRoutes.relationships_path)
-          ).with(query: { 'clientIds' => participant.legacy_descriptor.legacy_id })
+            ferb_api_url(FerbRoutes.relationships_for_screening_path(existing_screening[:id]))
+          )
         ).to have_been_made.times(2)
       end
 

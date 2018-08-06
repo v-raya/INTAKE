@@ -24,8 +24,8 @@ module ScreeningHelpers
   def stub_empty_relationships
     stub_request(
       :get,
-      ferb_api_url(FerbRoutes.relationships_path)
-    ).with(query: hash_including({})).and_return(json_body([].to_json, status: 200))
+      ferb_api_url(FerbRoutes.relationships_for_screening_path(1))
+    ).and_return(json_body([].to_json, status: 200))
   end
 
   def stub_empty_history_for_screening(screening, response: { cases: [],

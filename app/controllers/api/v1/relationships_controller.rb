@@ -6,8 +6,14 @@ module Api
   module V1
     class RelationshipsController < ApiController # :nodoc:
       def index
-        client_ids = params[:clientIds]&.split ','
-        relationships = RelationshipsRepository.search(session[:security_token], client_ids)
+        relationships = if screening_id_given?
+                          RelationshipsRepository.get_relationships_for_screening_id(
+                            session[:security_token], params[:screeningId]
+
+                          )
+                        else
+                          RelationshipsRepository.search(session[:security_token], client_ids)
+                        end
         render json: relationships
       end
 
@@ -29,6 +35,14 @@ module Api
 
       def relationship_params
         params.require(:relationship).as_json.symbolize_keys
+      end
+
+      def client_ids
+        params[:clientIds].split ','
+      end
+
+      def screening_id_given?
+        params[:screeningId].present? && params[:screeningId] != 'null'
       end
     end
   end

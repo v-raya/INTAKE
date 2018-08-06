@@ -13,6 +13,6 @@ export function fetchRelationshipsSuccess(relationships) {
 export function fetchRelationshipsFailure(error) {
   return {type: FETCH_RELATIONSHIPS_COMPLETE, payload: {error}, error: true}
 }
-export function fetchRelationships(ids) {
-  return {type: FETCH_RELATIONSHIPS, payload: {ids}}
+export function fetchRelationships(ids, screeningId = null) {
+  return {type: FETCH_RELATIONSHIPS, payload: {ids, screeningId}}
 }

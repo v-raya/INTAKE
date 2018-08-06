@@ -50,15 +50,14 @@ describe('createParticipant', () => {
     expect(gen.next(participant).value).toEqual(
       put(personCardActions.createPersonSuccess(participant))
     )
-
     expect(gen.next().value).toEqual(select(selectClientIds))
     const clientIds = ['123', '456']
-    expect(gen.next(clientIds).value).toEqual(
-      put(fetchRelationships(clientIds))
-    )
-    expect(gen.next().value).toEqual(select(getScreeningIdValueSelector))
+    expect(gen.next(clientIds).value).toEqual(select(getScreeningIdValueSelector))
     const screeningId = '444'
     expect(gen.next(screeningId).value).toEqual(
+      put(fetchRelationships(['123', '456'], '444'))
+    )
+    expect(gen.next().value).toEqual(
       put(fetchHistoryOfInvolvements('screenings', screeningId))
     )
   })

@@ -19,13 +19,14 @@ describe('fetchRelationshipsSaga', () => {
 
 describe('fetchRelationships', () => {
   const ids = ['a', 'b', 'c']
-  const action = actions.fetchRelationships(ids)
+  const screeningId = '123'
+  const action = actions.fetchRelationships(ids, screeningId)
 
   it('should fetch and put relationships', () => {
     const gen = fetchRelationships(action)
 
     expect(gen.next().value).toEqual(
-      call(get, '/api/v1/relationships?clientIds=a,b,c')
+      call(get, '/api/v1/relationships?clientIds=a,b,c&screeningId=123')
     )
 
     const relationships = [{id: 'a'}, {id: 'b'}, {id: 'c'}]
@@ -37,7 +38,7 @@ describe('fetchRelationships', () => {
   it('should put errors when errors are thrown', () => {
     const gen = fetchRelationships(action)
     expect(gen.next().value).toEqual(
-      call(get, '/api/v1/relationships?clientIds=a,b,c')
+      call(get, '/api/v1/relationships?clientIds=a,b,c&screeningId=123')
     )
     const error = {responseJSON: 'some error'}
     expect(gen.throw(error).value).toEqual(
