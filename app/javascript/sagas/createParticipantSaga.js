@@ -43,10 +43,10 @@ export function* createParticipant({payload: {person}}) {
   try {
     const response = yield* sendPersonPayload(person)
     yield put(createPersonSuccess(response))
-    const screeningId = yield select(getScreeningIdValueSelector)
-    yield put(fetchHistoryOfInvolvements('screenings', screeningId))
     const clientIds = yield select(selectClientIds)
+    const screeningId = yield select(getScreeningIdValueSelector)
     yield put(fetchRelationships(clientIds, screeningId))
+    yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {
     if (error.status === STATUS_CODES.forbidden) {
       yield call(alert, 'You are not authorized to add this person.')
