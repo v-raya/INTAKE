@@ -4,6 +4,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import SelectField from 'common/SelectField'
 import PropTypes from 'prop-types'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
+import {GENDERS_LEGACY} from 'enums/Genders'
 
 const textWrap = {whiteSpace: 'normal'}
 export default class ScreeningCreateRelationship extends React.Component {
@@ -27,17 +28,29 @@ export default class ScreeningCreateRelationship extends React.Component {
     })
   }
 
+  displayFormatter(cell) {
+    return (
+      <div>
+        <ul className='unstyled-list'>
+          <li>{cell.name}</li>
+          <li>{cell.age}</li>
+          <li>{GENDERS_LEGACY[cell.gender]}</li>
+        </ul>
+      </div>
+    )
+  }
+
   modalTable(data) {
     return (
       <BootstrapTable bordered={false} data={data}>
-        <TableHeaderColumn dataField='focus_person' dataAlign='center' tdStyle= {textWrap}>
+        <TableHeaderColumn dataField='focus_person' dataFormat={this.displayFormatter} tdStyle= {textWrap}>
           Focus Person
         </TableHeaderColumn>
         <TableHeaderColumn dataField='relationship' dataFormat={this.selectFieldFormat}>
           Relationship<br/>
           <div className='text-helper'>Focus Person / Related Person</div>
         </TableHeaderColumn>
-        <TableHeaderColumn dataField='related_person' isKey={true} dataAlign='center' tdStyle= {textWrap}>
+        <TableHeaderColumn dataField='related_person' dataFormat={this.displayFormatter} isKey={true} tdStyle= {textWrap}>
           Related Person
         </TableHeaderColumn>
       </BootstrapTable>
@@ -103,8 +116,5 @@ export default class ScreeningCreateRelationship extends React.Component {
 }
 
 ScreeningCreateRelationship.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    focus_person: PropTypes.string,
-    related_person: PropTypes.string,
-  })),
+  data: PropTypes.array,
 }
