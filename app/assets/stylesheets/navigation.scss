@@ -126,11 +126,17 @@
     padding: 1rem;
 
     .pre-icon {
-      margin-left: 0;
+      margin-left: 1rem;
       margin-right: 1rem;
       margin-top: .4rem;
     }
   }
+}
+
+.side-bar {
+  max-height: 80vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .social-worker {

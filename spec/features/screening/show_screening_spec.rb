@@ -108,9 +108,12 @@ feature 'Show Screening' do
     end
 
     within '#screening-information-card.show', text: 'Screening Information' do
-      expect(page.find('label', text: 'Assigned Social Worker')[:class]).to include('required')
-      expect(page.find('label', text: 'Screening Start Date/Time')[:class]).to include('required')
-      expect(page.find('label', text: 'Communication Method')[:class]).to include('required')
+      expect(page.find('div.show-label', text: 'Assigned Social Worker')[:class])
+        .to include('required')
+      expect(page.find('div.show-label', text: 'Screening Start Date/Time')[:class])
+        .to include('required')
+      expect(page.find('div.show-label', text: 'Communication Method')[:class])
+        .to include('required')
       expect(page).to have_content 'The Rocky Horror Picture Show'
       expect(page).to have_content 'Bob Loblaw'
       expect(page).to have_content 'Commercially Sexually Exploited Children (CSEC)'
@@ -121,7 +124,7 @@ feature 'Show Screening' do
 
     within '#narrative-card.show', text: 'Narrative' do
       expect(page).to have_content 'some narrative'
-      expect(page.find('label', text: 'Report Narrative')[:class]).to include('required')
+      expect(page.find('div.show-label', text: 'Report Narrative')[:class]).to include('required')
     end
 
     within '#incident-information-card.show', text: 'Incident Information' do
@@ -135,7 +138,7 @@ feature 'Show Screening' do
     end
 
     within '#decision-card.show', text: 'Decision' do
-      expect(page.find('label', text: 'Screening Decision')[:class]).to include('required')
+      expect(page.find('div.show-label', text: 'Screening Decision')[:class]).to include('required')
       expect(page).to have_content 'Screen out'
       expect(page).to have_content 'Category'
       expect(page).to have_content 'Consultation'

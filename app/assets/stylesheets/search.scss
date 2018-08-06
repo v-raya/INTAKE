@@ -1,0 +1,28 @@
+@import 'constants';
+
+.autocomplete-menu {
+  background-color: $white;
+  border: $thin-border solid $light-grey;
+  border-bottom-left-radius: $larger-border-radius;
+  border-bottom-right-radius: $larger-border-radius;
+  display: block;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.6rem;
+  font-weight: $light-weight;
+  max-height: 52rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+}
+
+.search-item {
+  border-bottom: $regular-border solid $light-grey;
+  cursor: pointer;
+  padding: 1rem 2rem;
+
+  &.highlighted-search-item {
+    background-color: $light-grey;
+  }
+}

@@ -18,6 +18,11 @@ describe('PersonInformationShow', () => {
     expect(view.find('img').props().src).toContain('default-profile.svg')
   })
 
+  it('has alternative text', () => {
+    const view = renderPersonShow({})
+    expect(view.find('img').props().alt).toContain('Avatar')
+  })
+
   it('renders the legacy source of the person', () => {
     const view = renderPersonShow({legacySource: '4, 8, 15, 16, 23'})
     expect(view.text()).toContain('4, 8, 15, 16, 23')

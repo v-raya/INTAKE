@@ -9,6 +9,9 @@ const style = {
 const SuggestionHeader = ({currentNumberOfResults, total, searchTerm}) => {
   const oneResult = 1
   const noResults = total < oneResult
+  if (total === '') {
+    return ''
+  }
   return (
     <div style={style}>
       <strong>{noResults ? `No results were found for "${searchTerm}"` :

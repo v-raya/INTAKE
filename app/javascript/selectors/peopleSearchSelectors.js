@@ -87,7 +87,7 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       ethnicity: mapEthnicities(state, result),
       dateOfBirth: formatDOB(result.get('date_of_birth'), highlight.has('searchable_date_of_birth')),
       isDeceased: Boolean(result.get('date_of_death')),
-      ssn: formatSSN(highlight.getIn(['ssn', 0], result.get('ssn'))),
+      ssn: formatSSN(maybeHighlightedField(result, highlight, 'ssn') || result.get('ssn')),
       clientCounties: mapCounties(result.get('client_counties', List()), selectCounties(state)),
       address: mapAddress(state, result),
       phoneNumber: formatPhoneNumber(mapPhoneNumber(result).first()),
@@ -95,3 +95,6 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
       isSealed: mapIsSealed(result),
     })
   })
+
+export const getStartTimeSelector = (state) => getPeopleSearchSelector(state)
+  .get('startTime')

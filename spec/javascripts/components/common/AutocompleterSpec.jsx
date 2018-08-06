@@ -3,6 +3,7 @@ import React from 'react'
 import Autocomplete from 'react-autocomplete'
 import {shallow, mount} from 'enzyme'
 import * as Analytics from 'utils/analytics'
+import moment from 'moment'
 
 describe('<Autocompleter />', () => {
   function mountAutocompleter({
@@ -16,6 +17,7 @@ describe('<Autocompleter />', () => {
     results = [],
     searchTerm = '',
     total = 0,
+    staffId = '0x3',
   }) {
     return mount(
       <Autocompleter
@@ -29,6 +31,8 @@ describe('<Autocompleter />', () => {
         results={results}
         searchTerm={searchTerm}
         onSearch={onSearch}
+        staffId={staffId}
+        startTime='2018-08-01T16:42:59.674Z'
       />
     )
   }
@@ -43,6 +47,7 @@ describe('<Autocompleter />', () => {
     results = [],
     total = 0,
     id = null,
+    staffId = '0x3',
   }) {
     return shallow(
       <Autocompleter
@@ -56,6 +61,8 @@ describe('<Autocompleter />', () => {
         results={results}
         searchTerm={searchTerm}
         onSearch={onSearch}
+        staffId={staffId}
+        startTime='2018-08-01T16:42:59.674Z'
       />, {disableLifecycleMethods: true}
     )
   }
@@ -69,6 +76,7 @@ describe('<Autocompleter />', () => {
     let onClear
     let onChange
     let onSelect
+    let total
     const results = [
       {legacyDescriptor: {legacy_id: 1}},
       {legacyDescriptor: {legacy_id: 2}},
@@ -115,6 +123,8 @@ describe('<Autocompleter />', () => {
         expect(Analytics.logEvent)
           .toHaveBeenCalledWith('searchResultClick', {
             searchIndex: 0,
+            staffId: '0x3',
+            startTime: moment('2018-08-01T16:42:59.674Z').valueOf(),
           })
       })
     })
@@ -151,9 +161,10 @@ describe('<Autocompleter />', () => {
 
     describe('when an item is selectable and is show more results', () => {
       let autocompleter
+      total = 11
       beforeEach(() => {
         autocompleter = mountAutocompleter({
-          results, onClear, onChange, onSelect, onLoadMoreResults,
+          results, onClear, onChange, onSelect, onLoadMoreResults, total,
         })
         autocompleter.find('input').simulate('change', {target: {value: 'te'}})
         autocompleter.find('div[id="search-result-show-more-of-the-same"]')
@@ -178,6 +189,8 @@ describe('<Autocompleter />', () => {
       expect(Analytics.logEvent)
         .toHaveBeenCalledWith('searchResultClick', {
           searchIndex: 2,
+          staffId: '0x3',
+          startTime: moment('2018-08-01T16:42:59.674Z').valueOf(),
         })
     })
 
@@ -343,14 +356,6 @@ describe('<Autocompleter />', () => {
         expect(suggestions.length).toEqual(2)
       })
 
-      it('scrolls when there are many results', () => {
-        const menu = autocompleter.find('.autocomplete-menu')
-        const menuStyle = menu.prop('style')
-        expect(menuStyle.maxHeight).toEqual(jasmine.any(String))
-        expect(menuStyle.overflowY).toBe('scroll')
-        expect(menuStyle.overflowX).not.toBe('scroll') // No need to horizontally scroll
-      })
-
       it('displays person suggestion', () => {
         const suggestions = autocompleter.find('PersonSuggestion')
         const suggestion = suggestions.at(0)
@@ -370,11 +375,22 @@ describe('<Autocompleter />', () => {
         expect(suggestion.props().ssn).toEqual('test ssn')
       })
 
-      it('changes background colour when highlighted', () => {
+      it('changes className when highlighted', () => {
         const input = autocompleter.find('input')
+        const resultBefore = autocompleter.find('div[id="search-result-1-of-2"]')
+        expect(resultBefore.props().className).not.toEqual('search-item highlighted-search-item')
+
+        input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
         input.simulate('keyDown', {key: 'ArrowDown', keyCode: 40, which: 40})
         const result = autocompleter.find('div[id="search-result-1-of-2"]')
-        expect(result.props().style.backgroundColor).toEqual('#d4d4d4')
+        expect(result.props().className).toEqual('search-item highlighted-search-item')
+      })
+
+      it('when enter is pressed it should not highlight', () => {
+        const input = autocompleter.find('input')
+        input.simulate('keyDown', {key: 'Enter', keyCode: 13, which: 13})
+        const result = autocompleter.find('div[id="search-result-1-of-2"]')
+        expect(result.props().className).not.toEqual('search-item highlighted-search-item')
       })
 
       it('marks any highlighted item as activedescendant', () => {

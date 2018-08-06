@@ -1,7 +1,7 @@
 import React from 'react'
 
 const PrivacyPolicy = () => (
-  <div>
+  <div className='container'>
     <h1>CWDS Privacy - Effective 8/1/2017</h1>
     <p>The California Health and Human Services Agency, Office of Systems Integration (OSI), Child Welfare Digital Services (CWDS) is committed to promoting and protecting the privacy rights of individuals, as enumerated in Article 1 of the California Constitution, the Information Practices Act of 1977, and other state and federal laws.</p>
     <p>It is the policy of CWDS to limit the collection and safeguard the privacy of personal information collected or maintained by the CWDS. The CWDS information management practices conform to the requirements of the Information Practices Act (California Civil Code Section 1798 et seq.), the California Public Records Act (Government Code Section 6250 et seq.), California Government Code Sections 11015.5 and 11019.9, and other applicable laws pertaining to information privacy. This Privacy Policy applies only to CWDS.</p>

@@ -4,43 +4,114 @@ import ShowField from 'common/ShowField'
 
 describe('ShowField', () => {
   let component
-  let formField
 
-  const requiredProps = {
-    gridClassName: 'myWrapperTest',
-    labelClassName: 'myLabelTest',
-    label: 'this is my label',
-  }
-
-  beforeEach(() => {
-    component = shallow(
-      <ShowField {...requiredProps}>This is the show field value</ShowField>, {disableLifecycleMethods: true}
-    )
-    formField = component.find('FormField')
+  describe('when only required props are passed', () => {
+    it('renders a label with a div wrapper', () => {
+      const props = {
+        children: <div>Italy</div>,
+        label: 'L1',
+      }
+      component = shallow(<ShowField {...props}/>, {disableLifecycleMethods: true})
+      expect(component.html())
+        .toEqual('<div class=""><div class="show-label">L1</div><div class=""></div><div></div><span><div>Italy</div></span></div>')
+    })
   })
 
-  it('passes props to the FormField', () => {
-    expect(formField.props().labelClassName).toEqual('myLabelTest')
-    expect(formField.props().gridClassName).toEqual('myWrapperTest')
-    expect(formField.props().label).toEqual('this is my label')
-    expect(formField.childAt(0).getElement().type).toEqual('span')
-  })
-
-  it('renders the show field value', () => {
-    expect(component.find('span').text()).toEqual('This is the show field value')
-  })
-})
-
-describe('when field is required and has errors', () => {
-  it('renders the label as required', () => {
+  describe('when label and className props are passed', () => {
     const props = {
-      label: 'this is my label',
-      required: true,
-      errors: ['Error 1', 'Error 2'],
+      children: <br/>,
+      label: 'Do not judge a component by its label',
+      labelClassName: 'working-class object-oriented-class',
+      gridClassName: 'giggidy',
     }
-    const component = shallow(<ShowField {...props} >show field value</ShowField>, {disableLifecycleMethods: true})
-    const formField = component.find('FormField')
-    expect(formField.props().required).toEqual(true)
-    expect(formField.props().errors).toEqual(['Error 1', 'Error 2'])
+
+    it('renders the label inside the grid wrapper with the classes', () => {
+      component = shallow(<ShowField {...props}/>, {disableLifecycleMethods: true})
+      expect(component.html())
+        .toEqual('<div class="giggidy"><div class="working-class object-oriented-class show-label">Do not judge a component by its label</div><div class=""></div><div></div><span><br/></span></div>')
+      expect(component.find('div.giggidy').props()
+        .className).toEqual('giggidy')
+    })
+  })
+
+  describe('when children are passed', () => {
+    const props = {
+      children: <h1>Child</h1>,
+      label: 'Do not judge a component by its label',
+      labelClassName: 'working-class object-oriented-class',
+      gridClassName: 'giggidy',
+    }
+
+    it('renders the children between the label and ErrorMessages', () => {
+      const wrapper = shallow(<ShowField {...props}/>, {disableLifecycleMethods: true}).first('div')
+      expect(wrapper.children().length).toEqual(4)
+      expect(wrapper.childAt(3).html()).toEqual('<span><h1>Child</h1></span>')
+      expect(wrapper.find('ErrorMessages').exists()).toEqual(true)
+    })
+  })
+
+  describe('when errors are passed', () => {
+    const props = {
+      children: <br/>,
+      label: 'Do not judge a component by its label',
+      gridClassName: 'working-class object-oriented-class',
+      labelClassName: 'trouble-maker',
+      errors: ['Please choose wisely.', 'Stick to the plan!'],
+    }
+
+    it('renders label and its wrapper with error classes', () => {
+      component = shallow(<ShowField {...props}/>, {disableLifecycleMethods: true})
+      expect(component.find('div.input-error-label').parent().props()
+        .className).toEqual('working-class object-oriented-class input-error')
+    })
+
+    it('renders ErrorMessages and passes it errors', () => {
+      component = shallow(<ShowField {...props}/>, {disableLifecycleMethods: true})
+      expect(component.find('ErrorMessages').props().errors)
+        .toEqual(['Please choose wisely.', 'Stick to the plan!'])
+    })
+
+    describe('when required', () => {
+      beforeEach(() => {
+        component = shallow(<ShowField {...props} required/>, {disableLifecycleMethods: true})
+      })
+
+      it('renders label as required', () => {
+        expect(component.find('div.trouble-maker').props().className).toContain('required')
+      })
+    })
+  })
+
+  describe('when no errors passed', () => {
+    const props = {
+      children: <br/>,
+      label: 'Do not judge a component by its label',
+      gridClassName: 'working-class object-oriented-class',
+      labelClassName: 'trouble-maker',
+    }
+
+    beforeEach(() => {
+      component = shallow(<ShowField {...props} required/>, {disableLifecycleMethods: true})
+    })
+
+    it('does not display any errors', () => {
+      expect(component.find('.input-error').length).toEqual(0)
+    })
+
+    it('does not render the label as if it has an error', () => {
+      expect(component.find('.input-error-label').length).toEqual(0)
+    })
+
+    it('renders ErrorMessages but with no errors', () => {
+      expect(component.find('ErrorMessages').exists()).toEqual(true)
+      expect(component.find('ErrorMessages').props().errors).toEqual(undefined)
+    })
+
+    describe('when is required', () => {
+      it('renders required class', () => {
+        expect(component.find('div.trouble-maker').props().className)
+          .toEqual('trouble-maker show-label required')
+      })
+    })
   })
 })

@@ -226,7 +226,8 @@ feature 'decision card' do
       end
 
       within '#decision-card.show' do
-        expect(page.find('label', text: 'Case or Referral Id')[:class]).to include('required')
+        expect(page.find('div.show-label', text: 'Case or Referral Id')[:class])
+          .to include('required')
         expect(page).to have_text(
           'Please enter a valid Case or Referral Id'
         )
@@ -251,7 +252,8 @@ feature 'decision card' do
       end
 
       within '#decision-card.show' do
-        expect(page.find('label', text: 'Case or Referral Id')[:class]).to include('required')
+        expect(page.find('div.show-label', text: 'Case or Referral Id')[:class])
+          .to include('required')
         expect(page).to_not have_text('Please enter a valid Case or Referral Id')
       end
     end
@@ -266,7 +268,7 @@ feature 'decision card' do
     end
 
     within '#decision-card.show' do
-      expect(page.find('label', text: 'Response Time')[:class]).to include('required')
+      expect(page.find('div.show-label', text: 'Response Time')[:class]).to include('required')
       expect(page).to have_content('Promote to referral')
       expect(page).to have_content('Response Time')
       expect(page).to have_content('3 days')

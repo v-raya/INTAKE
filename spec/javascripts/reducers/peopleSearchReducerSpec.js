@@ -10,6 +10,7 @@ import {
 } from 'actions/peopleSearchActions'
 import peopleSearchReducer from 'reducers/peopleSearchReducer'
 import {Map, fromJS} from 'immutable'
+import moment from 'moment'
 
 describe('peopleSearchReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -19,7 +20,7 @@ describe('peopleSearchReducer', () => {
       expect(peopleSearchReducer(Map(), action)).toEqualImmutable(
         fromJS({
           searchTerm: 'newSearchTerm',
-          total: 0,
+          total: '',
         })
       )
     })
@@ -60,29 +61,51 @@ describe('peopleSearchReducer', () => {
       results: ['result_one', 'result_two', 'result_three'],
     })
     const action = clear()
-    it('resets results and total', () => {
+    it('resets results, total, and startTime', () => {
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
           searchTerm: 'newSearchTerm',
-          total: 0,
+          total: '',
           results: [],
+          startTime: null,
         })
       )
     })
   })
   describe('on SET_SEARCH_TERM', () => {
-    const initialState = fromJS({
-      searchTerm: 'newSearchTerm',
-      total: 3,
-      results: ['result_one', 'result_two', 'result_three'],
-    })
-    const action = setSearchTerm('something')
-    it('resets results and total', () => {
+    it('resets results, total and sets startTime', () => {
+      const action = setSearchTerm('something')
+      const initialState = fromJS({
+        searchTerm: 'newSearchTerm',
+        total: 3,
+        results: ['result_one', 'result_two', 'result_three'],
+      })
+      const today = moment('2015-10-19').toDate()
+      jasmine.clock().mockDate(today)
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
           searchTerm: 'something',
           total: 3,
           results: ['result_one', 'result_two', 'result_three'],
+          startTime: today.toISOString(),
+        })
+      )
+      jasmine.clock().uninstall()
+    })
+
+    it('resets the start time when there is no search term', () => {
+      const action = setSearchTerm('')
+      const initialState = fromJS({
+        searchTerm: '',
+        total: 0,
+        results: [],
+      })
+      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+        fromJS({
+          searchTerm: '',
+          total: 0,
+          results: [],
+          startTime: null,
         })
       )
     })

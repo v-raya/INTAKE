@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ConditionsOfUse = () => (
-  <div>
+  <div className='container'>
     <h1>Conditions of Use</h1>
     <h3>Use Policy</h3>
     <p>Thank you for visiting the State of California&apos;s web site and reviewing our Use Policy. You should also be aware that the State has a Privacy Policy, also available on this web site. The State wants you to know about the collection, use, security, and access to information that may be obtained through use of the State&apos;s web portal. By visiting this web site, you are accepting the policies and practices described in this Notice. This Notice covers the following topics:</p>
@@ -15,7 +15,8 @@ const ConditionsOfUse = () => (
       <li><a href='#if_you_send_us_email'>If You Send Us E-mail</a></li>
       <li><a href='#order_forms'>Order Forms</a></li>
       <li><a href='#public_disclosure'>Public Disclosure</a></li>
-      <li><a href='#personal_information'>Automatic Collection of Information/Cookies</a></li>
+      <li><a href='#personal_information'>Personal Information</a></li>
+      <li><a href='#automatic_collection_of_info'>Automatic Collection of Information/Cookies</a></li>
       <li><a href='#security'>Security</a></li>
       <li><a href='#links_to_other_sites'>Links to Other Sites</a></li>
       <li><a href='#limitation_of_liability'>Limitation of Liability</a></li>
