@@ -2,7 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const attachLink = (onClick, relationship, maybeId) => (
-  <a href='#attach' aria-label='Attach Relationship' className='hidden-print' onClick = {() => { onClick(relationship, maybeId) }}>&nbsp;Attach</a>
+  <a
+    href='#relationships-list'
+    aria-label='Attach Relationship'
+    className='hidden-print'
+    onClick = {() => {
+      onClick(relationship, maybeId)
+    }}
+  >&nbsp;Attach</a>
 )
 
 const isPending = (relationship, pendingPeople) =>

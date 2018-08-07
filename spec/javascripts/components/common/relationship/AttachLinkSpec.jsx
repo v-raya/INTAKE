@@ -50,6 +50,6 @@ describe('AttachLink', () => {
 
   it('has href and aria-label', () => {
     expect(renderAttachLink(props).find('a[aria-label="Attach Relationship"]').props().href)
-      .toBe('#attach')
+      .toBe('#relationships-list')
   })
 })
