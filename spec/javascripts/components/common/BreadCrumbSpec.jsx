@@ -9,6 +9,6 @@ describe('BreadCrumb', () => {
 
   it("renders back to 'Dashboard' link", () => {
     expect(breadCrumb.text()).toContain('Back to:')
-    expect(breadCrumb.find('Link').props().to).toContain('/dashboard')
+    expect(breadCrumb.find('Link').props().to).toContain('/../')
   })
 })
