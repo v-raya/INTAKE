@@ -98,6 +98,7 @@ export const Relationships = ({
               (person.relationships.length === 0) &&
               <strong className='relationships'> has no known relationships</strong>
             }
+            <div id='relationships-list'/>
           </div>
         </div>
       ))
