@@ -1,4 +1,4 @@
-@import 'colors';
+@import 'constants';
 /////////////////////////////////////////
 
 // - Accessibility - //
@@ -30,4 +30,8 @@
   top: 0;
   -webkit-transition: all .2s ease-in-out;
   transition: all .2s ease-in-out;
+}
+
+.footer a {
+  color: $transparent-black;
 }
