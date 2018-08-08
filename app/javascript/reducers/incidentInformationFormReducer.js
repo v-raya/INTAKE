@@ -9,56 +9,37 @@ import {createReducer} from 'utils/createReducer'
 import {untouched} from 'utils/formTouch'
 import {Map, fromJS} from 'immutable'
 
+const extractFromScreening = (screening) => {
+  const {
+    incident_date,
+    incident_county,
+    incident_address: {id, street_address, city, state, zip},
+    location_type,
+    current_location_of_children,
+  } = screening
+
+  return fromJS({
+    incident_date: untouched(incident_date),
+    incident_county: untouched(incident_county),
+    incident_address: {
+      id: id,
+      city: untouched(city),
+      state: untouched(state),
+      street_address: untouched(street_address),
+      zip: untouched(zip),
+    },
+    location_type: untouched(location_type),
+    current_location_of_children: untouched(current_location_of_children),
+  })
+}
+
+const reduceFromScreeningResponse = (state, {payload: {screening}, error}) => (
+  error ? state : extractFromScreening(screening)
+)
+
 export default createReducer(Map(), {
-  [CREATE_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
-    if (error) { return state }
-
-    const {
-      incident_date,
-      incident_county,
-      incident_address: {id, street_address, city, state: usState, zip},
-      location_type,
-      current_location_of_children,
-    } = screening
-
-    return fromJS({
-      incident_date: untouched(incident_date),
-      incident_county: untouched(incident_county),
-      incident_address: {
-        id: id,
-        city: untouched(city),
-        state: untouched(usState),
-        street_address: untouched(street_address),
-        zip: untouched(zip),
-      },
-      location_type: untouched(location_type),
-      current_location_of_children: untouched(current_location_of_children),
-    })
-  },
-  [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
-    if (error) { return state }
-    const {
-      incident_date,
-      incident_county,
-      incident_address: {id, street_address, city, state: usState, zip},
-      location_type,
-      current_location_of_children,
-    } = screening
-
-    return fromJS({
-      incident_date: untouched(incident_date),
-      incident_county: untouched(incident_county),
-      incident_address: {
-        id: id,
-        city: untouched(city),
-        state: untouched(usState),
-        street_address: untouched(street_address),
-        zip: untouched(zip),
-      },
-      location_type: untouched(location_type),
-      current_location_of_children: untouched(current_location_of_children),
-    })
-  },
+  [CREATE_SCREENING_COMPLETE]: reduceFromScreeningResponse,
+  [FETCH_SCREENING_COMPLETE]: reduceFromScreeningResponse,
   [SET_INCIDENT_INFORMATION_FORM_FIELD](state, {payload: {fieldSet, value}}) {
     return state.setIn([...fieldSet, 'value'], value)
   },

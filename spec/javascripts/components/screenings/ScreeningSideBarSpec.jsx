@@ -28,17 +28,10 @@ describe('ScreeningSideBar', () => {
       .toBe('#screening-information-card-anchor')
   })
 
-  describe('People & Roles', () => {
-    it('renders a link to the People Search card', () => {
-      expect(component.find('NavLink[text="People & Roles"]').props().href
-      ).toBe('#search-card-anchor')
-    })
-
-    it('renders a link to the People selected/created based on search', () => {
-      expect(component.find('NavLink[text="scooby doo"]').exists()).toBe(true)
-      expect(component.find('NavLink[text="scooby doo"]').props().href
-      ).toBe('#participants-card-1')
-    })
+  it('renders People & Roles', () => {
+    const sidebarPeople = component.find('SideBarPeople')
+    expect(sidebarPeople.exists()).toEqual(true)
+    expect(sidebarPeople.props().participants).toEqual(participants)
   })
 
   it('renders a link to the Narrative card', () => {
