@@ -4,6 +4,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import SelectField from 'common/SelectField'
 import PropTypes from 'prop-types'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
+import {GENDERS_LEGACY} from 'enums/Genders'
 
 const textWrap = {whiteSpace: 'normal'}
 export default class ScreeningCreateRelationship extends React.Component {
@@ -12,6 +13,7 @@ export default class ScreeningCreateRelationship extends React.Component {
     this.state = {show: false}
     this.handleShowModal = this.handleShowModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
+    this.displayFormatter = this.displayFormatter.bind(this)
     this.modalTable = this.modalTable.bind(this)
   }
 
@@ -27,17 +29,29 @@ export default class ScreeningCreateRelationship extends React.Component {
     })
   }
 
+  displayFormatter({name, age, gender}) {
+    return (
+      <div>
+        <ul className='unstyled-list'>
+          <li>{name}</li>
+          <li>{age}</li>
+          <li>{GENDERS_LEGACY[gender]}</li>
+        </ul>
+      </div>
+    )
+  }
+
   modalTable(data) {
     return (
-      <BootstrapTable bordered={false} data={data}>
-        <TableHeaderColumn dataField='focus_person' dataAlign='center' tdStyle= {textWrap}>
+      <BootstrapTable className='displayTable' bordered={false} data={data}>
+        <TableHeaderColumn className = 'FocusPersonDetails' dataField='focus_person' dataFormat={this.displayFormatter} tdStyle= {textWrap}>
           Focus Person
         </TableHeaderColumn>
         <TableHeaderColumn dataField='relationship' dataFormat={this.selectFieldFormat}>
           Relationship<br/>
           <div className='text-helper'>Focus Person / Related Person</div>
         </TableHeaderColumn>
-        <TableHeaderColumn dataField='related_person' isKey={true} dataAlign='center' tdStyle= {textWrap}>
+        <TableHeaderColumn className = 'relatedPersonDetails' dataField='related_person' dataFormat={this.displayFormatter} isKey={true} tdStyle= {textWrap}>
           Related Person
         </TableHeaderColumn>
       </BootstrapTable>
@@ -55,6 +69,7 @@ export default class ScreeningCreateRelationship extends React.Component {
       <SelectField
         id='change_relationship_type'
         label=''
+        onChange={() => {}}
       >
         <option key=''/>
         {RELATIONSHIP_TYPES.map((relationship) =>
@@ -103,8 +118,5 @@ export default class ScreeningCreateRelationship extends React.Component {
 }
 
 ScreeningCreateRelationship.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    focus_person: PropTypes.string,
-    related_person: PropTypes.string,
-  })),
+  data: PropTypes.array,
 }
