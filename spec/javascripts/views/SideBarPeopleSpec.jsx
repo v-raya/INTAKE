@@ -17,8 +17,8 @@ describe('SideBarPeople', () => {
 
   describe('with participants', () => {
     const participants = [
-      {id: '1', first_name: 'Scooby', last_name: 'Doo', name_suffix: ''},
-      {id: '2', first_name: 'Shaggy', last_name: 'Rogers', name_suffix: 'esq'},
+      {id: '1', first_name: 'Scooby', last_name: 'Doo', name_suffix: 'esq'},
+      {id: '2', first_name: 'Ultra', last_name: 'Goku', name_suffix: ''},
     ]
 
     beforeEach(() => {
@@ -31,12 +31,12 @@ describe('SideBarPeople', () => {
     })
 
     it('renders a link to the People selected/created based on search', () => {
-      expect(component.find('NavLink[text="Scooby Doo"]').exists()).toBe(true)
-      expect(component.find('NavLink[text="Scooby Doo"]').props().href)
+      expect(component.find('NavLink[text="Scooby Doo, Esq"]').exists()).toBe(true)
+      expect(component.find('NavLink[text="Scooby Doo, Esq"]').props().href)
         .toBe('#participants-card-1')
 
-      expect(component.find('NavLink[text="Shaggy Rogers, Esq"]').exists()).toBe(true)
-      expect(component.find('NavLink[text="Shaggy Rogers, Esq"]').props().href)
+      expect(component.find('NavLink[text="Ultra Goku"]').exists()).toBe(true)
+      expect(component.find('NavLink[text="Ultra Goku"]').props().href)
         .toBe('#participants-card-2')
     })
   })
