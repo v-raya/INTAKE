@@ -4,9 +4,10 @@ import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
 
 describe('ScreeningCreateRelationship', () => {
   const data = [{
-    focus_person: 'Sally Fields 25yrs Male',
-    related_person: 'Sam Fields 30yrs Male',
+    focus_person: 'Sally Fields 25 yrs Male',
+    related_person: 'Sam Fields 30 yrs Male',
   }]
+  const cell = {name: 'Sally Fields', age: '25 yrs', gender: 'M'}
   const wrapper = shallow(<ScreeningCreateRelationship data={data}/>)
 
   it('has a button', () => {
@@ -35,5 +36,14 @@ describe('ScreeningCreateRelationship', () => {
     expect(wrapper.state().show).toEqual(true)
     cancel.props.onClick()
     expect(wrapper.state().show).toEqual(false)
+  })
+
+  it('displayFormatter has name, age and gender', () => {
+    const displayTable = shallow(wrapper.instance().displayFormatter(cell))
+    expect(displayTable.find('ul').length).toBe(1)
+    expect(displayTable.find('li').length).toBe(3)
+    expect(displayTable.find('ul').first().find('li').first().text()).toEqual('Sally Fields')
+    expect(displayTable.find('ul').first().find('li').at(1).text()).toEqual('25 yrs')
+    expect(displayTable.find('ul').first().find('li').last().text()).toEqual('Male')
   })
 })
