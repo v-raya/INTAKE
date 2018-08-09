@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import DateField from 'common/DateField'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
-import {GENDERS_LEGACY} from 'enums/Genders'
+import GENDERS, {GENDERS_LEGACY} from 'enums/Genders'
 
 const isAbsentParentDisabled = (type) => (
   !type.toLowerCase().match(/\bfather\b|\bmother\b|\bparent\b/)
@@ -39,7 +39,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
               <ul className='unstyled-list'>
                 <li>{person.name}</li>
                 <li>{person.age}</li>
-                <li>{GENDERS_LEGACY[person.gender] || ''}</li>
+                <li>{GENDERS_LEGACY[person.gender] || GENDERS[person.gender] || ''}</li>
               </ul>
             </td>
             <td>
@@ -62,7 +62,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
               <ul className='unstyled-list'>
                 <li>{relationship.name}</li>
                 <li>{relationship.age}</li>
-                <li>{GENDERS_LEGACY[relationship.gender]}</li>
+                <li>{GENDERS_LEGACY[relationship.gender] || GENDERS[relationship.gender] || ''}</li>
               </ul>
             </td>
           </tr>

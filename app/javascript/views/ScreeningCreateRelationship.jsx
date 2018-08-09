@@ -5,6 +5,7 @@ import SelectField from 'common/SelectField'
 import PropTypes from 'prop-types'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
 import {GENDERS_LEGACY} from 'enums/Genders'
+import GENDERS from 'enums/Genders'
 
 const textWrap = {whiteSpace: 'normal'}
 export default class ScreeningCreateRelationship extends React.Component {
@@ -35,7 +36,7 @@ export default class ScreeningCreateRelationship extends React.Component {
         <ul className='unstyled-list'>
           <li>{name}</li>
           <li>{age}</li>
-          <li>{GENDERS_LEGACY[gender]}</li>
+          <li>{GENDERS_LEGACY[gender] || GENDERS[gender] || ''}</li>
         </ul>
       </div>
     )
