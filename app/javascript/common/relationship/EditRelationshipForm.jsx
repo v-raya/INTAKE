@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import DateField from 'common/DateField'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
-import {GENDERS_LEGACY} from 'enums/Genders'
-import GENDERS from '../../enums/Genders'
+import GENDERS, {GENDERS_LEGACY} from 'enums/Genders'
 
 const isAbsentParentDisabled = (type) => (
   !type.toLowerCase().match(/\bfather\b|\bmother\b|\bparent\b/)
