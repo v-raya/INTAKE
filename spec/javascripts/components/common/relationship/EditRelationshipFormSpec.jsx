@@ -9,13 +9,13 @@ describe('EditRelationshipForm', () => {
     person: {
       name: 'Luke Skywalker',
       age: '20 yrs',
-      gender: 'M' || 'male',
+      gender: 'M',
     },
     relationship: {
       absent_parent_code: 'Y',
       name: 'Darth Vader',
       age: '30 yrs',
-      gender: 'M' || 'male',
+      gender: 'M',
       secondaryRelationship: 'Father',
       same_home_code: 'N',
       type_code: '210',
@@ -55,13 +55,13 @@ describe('EditRelationshipForm', () => {
       person: {
         name: 'Luke Skywalker',
         age: '20 yrs',
-        gender: 'M' || 'male',
+        gender: 'M',
       },
       relationship: {
         absent_parent_code: 'Y',
         name: 'Darth Vader',
         age: '30 yrs',
-        gender: 'M' || 'male',
+        gender: 'M',
         secondaryRelationship: 'No Relation',
         same_home_code: 'N',
         type_code: '175',
@@ -71,13 +71,13 @@ describe('EditRelationshipForm', () => {
       person: {
         name: 'Luke Skywalker',
         age: '20 yrs',
-        gender: 'M' || 'male',
+        gender: 'M',
       },
       relationship: {
         absent_parent_code: 'Y',
         name: 'Darth Vader',
         age: '30 yrs',
-        gender: 'M' || 'male',
+        gender: 'M',
         secondaryRelationship: 'Father (Birth)',
         same_home_code: 'N',
         type_code: '190',
