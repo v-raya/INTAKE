@@ -1,5 +1,9 @@
-import {addressFromFerb} from 'data/address'
-import {Map} from 'immutable'
+import {
+  addressFromFerb,
+  isReadWrite,
+  isReadOnly,
+} from 'data/address'
+import {fromJS, Map} from 'immutable'
 
 describe('Address', () => {
   describe('addressFromFerb', () => {
@@ -130,6 +134,35 @@ describe('Address', () => {
         expect(legacy_descriptor.has('errors')).toEqual(false)
         expect(legacy_descriptor.get('touched')).toEqual(false)
       })
+    })
+  })
+
+  describe('isReadWrite', () => {
+    it('is false for a touchable address with a legacy_id', () => {
+      const address = fromJS({
+        legacy_id: {touched: false, value: '123'},
+      })
+      expect(isReadWrite(address)).toEqual(false)
+    })
+    it('is true for a touchable address with no legacy_id', () => {
+      const address = fromJS({
+        legacy_id: {touched: false, value: undefined},
+      })
+      expect(isReadWrite(address)).toEqual(true)
+    })
+  })
+  describe('isReadOnly', () => {
+    it('is true for a touchable address with a legacy_id', () => {
+      const address = fromJS({
+        legacy_id: {touched: false, value: '123'},
+      })
+      expect(isReadOnly(address)).toEqual(true)
+    })
+    it('is false for a touchable address with no legacy_id', () => {
+      const address = fromJS({
+        legacy_id: {touched: false, value: undefined},
+      })
+      expect(isReadOnly(address)).toEqual(false)
     })
   })
 })

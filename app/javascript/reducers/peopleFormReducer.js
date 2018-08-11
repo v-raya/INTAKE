@@ -14,13 +14,9 @@ import {
   CREATE_PERSON_COMPLETE,
   UPDATE_PERSON_COMPLETE,
 } from 'actions/personCardActions'
-import {addressFromFerb} from 'data/address'
+import {addressFromFerb, isReadWrite} from 'data/address'
 
-const buildAddresses = (addresses) => {
-  if (!addresses) { return [] }
-
-  return addresses.map(addressFromFerb).filter((address) => !address.getIn(['legacy_id', 'value']))
-}
+const buildAddresses = (addresses) => (addresses || []).map(addressFromFerb).filter(isReadWrite)
 
 const buildPhoneNumbers = (phoneNumbers) => {
   if (phoneNumbers) {

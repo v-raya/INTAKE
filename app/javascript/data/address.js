@@ -19,3 +19,6 @@ export const addressFromFerb = ({
   legacy_id: {touched: false, value: legacy_id},
   legacy_descriptor: {touched: false, value: legacy_descriptor},
 })
+
+export const isReadWrite = (address) => !address.getIn(['legacy_id', 'value'])
+export const isReadOnly = (address) => Boolean(address.getIn(['legacy_id', 'value']))
