@@ -1,15 +1,15 @@
 import {fromJS, List} from 'immutable'
 import {
-  getAddresses,
-  getPersonEditableAddressesSelector,
-  getAddressTypeOptionsSelector,
+  selectAddresses,
+  selectReadWriteAddresses,
+  selectAddressTypeOptions,
 } from 'selectors/screening/personAddressesFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
 describe('personAddressesFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('getAddresses', () => {
+  describe('selectAddresses', () => {
     const person = fromJS({
       addresses: [{
         id: 2212,
@@ -34,7 +34,7 @@ describe('personAddressesFormSelectors', () => {
     })
 
     it('returns all addresses for the given person', () => {
-      expect(getAddresses(person)).toEqualImmutable(fromJS(
+      expect(selectAddresses(person)).toEqualImmutable(fromJS(
         [{
           id: 2212,
           street: '1234 Nowhere Lane',
@@ -58,7 +58,7 @@ describe('personAddressesFormSelectors', () => {
     })
   })
 
-  describe('getAddressTypeOptionsSelector', () => {
+  describe('selectAddressTypeOptions', () => {
     const state = fromJS({
       systemCodes: {
         addressTypes: [
@@ -75,7 +75,7 @@ describe('personAddressesFormSelectors', () => {
       },
     })
     it('returns formatted options for address types', () => {
-      expect(getAddressTypeOptionsSelector(state)).toEqualImmutable(fromJS([
+      expect(selectAddressTypeOptions(state)).toEqualImmutable(fromJS([
         {label: 'Common'},
         {label: 'Day Care'},
         {label: 'Residence'},
@@ -88,7 +88,7 @@ describe('personAddressesFormSelectors', () => {
       ]))
     })
   })
-  describe('getPersonEditableAddressesSelector', () => {
+  describe('selectReadWriteAddresses', () => {
     it('returns the editable addresses for the person with the passed id', () => {
       const peopleForm = {
         one: {addresses: [{
@@ -123,7 +123,7 @@ describe('personAddressesFormSelectors', () => {
         }]},
       }
       const state = fromJS({peopleForm})
-      expect(getPersonEditableAddressesSelector(state, 'one')).toEqualImmutable(fromJS(
+      expect(selectReadWriteAddresses(state, 'one')).toEqualImmutable(fromJS(
         [{
           id: 3,
           street: '223 Van der Burgh Ave',

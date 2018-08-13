@@ -8,7 +8,7 @@ import moment from 'moment'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
-import {getAddresses} from 'selectors/screening/personAddressesFormSelectors'
+import {selectAddresses} from 'selectors/screening/personAddressesFormSelectors'
 import {hasReporter, hasNonReporter} from 'utils/roles'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
@@ -152,7 +152,7 @@ const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
 
 const combineAddresses = (person, personId, allReadOnlyAddresses) => [
   ...filterLegacyAddresses(personId, allReadOnlyAddresses),
-  ...getAddresses(person).filter(isReadWrite),
+  ...selectAddresses(person).filter(isReadWrite),
 ].map((address) => address.set('street_address', address.get('street', address.get('street_address'))).delete('street'))
 
 const csecPersonInfo = (person) => (
