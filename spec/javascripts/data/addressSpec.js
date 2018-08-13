@@ -72,6 +72,11 @@ describe('Address', () => {
       expect(Map.isMap(addressFromFerb({}))).toEqual(true)
     })
 
+    it('strips unknown fields', () => {
+      const address = addressFromFerb({foo: 'bar'})
+      expect(address.has('foo')).toEqual(false)
+    })
+
     describe('a blank address', () => {
       let address
 
@@ -79,61 +84,36 @@ describe('Address', () => {
         address = addressFromFerb({})
       })
 
-      it('has an undefined id', () => {
-        expect(address.has('id')).toEqual(true)
-        expect(address.get('id')).toBeUndefined()
+      it('has an empty touched Map', () => {
+        expect(address.get('touched')).toEqualImmutable(Map())
       })
 
-      it('has an empty, untouched street', () => {
-        const street = address.get('street')
-        expect(street.has('value')).toEqual(true)
-        expect(street.get('value')).toBeUndefined()
-        expect(street.has('errors')).toEqual(false)
-        expect(street.get('touched')).toEqual(false)
+      it('has undefined fields', () => {
+        expect(address.has('id')).toEqual(true)
+        expect(address.get('id')).toBeUndefined()
+        expect(address.has('street')).toEqual(true)
+        expect(address.get('street')).toBeUndefined()
+        expect(address.has('city')).toEqual(true)
+        expect(address.get('city')).toBeUndefined()
+        expect(address.has('state')).toEqual(true)
+        expect(address.get('state')).toBeUndefined()
+        expect(address.has('zip')).toEqual(true)
+        expect(address.get('zip')).toBeUndefined()
+        expect(address.has('type')).toEqual(true)
+        expect(address.get('type')).toBeUndefined()
       })
-      it('has an empty, untouched city', () => {
-        const city = address.get('city')
-        expect(city.has('value')).toEqual(true)
-        expect(city.get('value')).toBeUndefined()
-        expect(city.has('errors')).toEqual(false)
-        expect(city.get('touched')).toEqual(false)
+
+      it('has a null legacy_descriptor', () => {
+        expect(address.has('legacy_descriptor')).toEqual(true)
+        expect(address.get('legacy_descriptor')).toEqual(null)
       })
-      it('has an empty, untouched state', () => {
-        const state = address.get('state')
-        expect(state.has('value')).toEqual(true)
-        expect(state.get('value')).toBeUndefined()
-        expect(state.has('errors')).toEqual(false)
-        expect(state.get('touched')).toEqual(false)
-      })
-      it('has an empty, untouched zip', () => {
-        const zip = address.get('zip')
-        expect(zip.has('value')).toEqual(true)
-        expect(zip.get('value')).toBeUndefined()
-        expect(zip.has('errors')).toEqual(false)
-        expect(zip.get('touched')).toEqual(false)
-      })
-      it('has an empty, untouched type', () => {
-        const type = address.get('type')
-        expect(type.has('value')).toEqual(true)
-        expect(type.get('value')).toBeUndefined()
-        expect(type.has('errors')).toEqual(false)
-        expect(type.get('touched')).toEqual(false)
-      })
-      it('has an empty, untouched legacy_id', () => {
-        const legacy_id = address.get('legacy_id')
-        expect(legacy_id.has('value')).toEqual(true)
-        expect(legacy_id.get('value')).toBeUndefined()
-        expect(legacy_id.has('errors')).toEqual(false)
-        expect(legacy_id.get('touched')).toEqual(false)
-      })
-      it('has an empty, untouched legacy_descriptor', () => {
-        const legacy_descriptor = address.get('legacy_descriptor')
-        expect(legacy_descriptor.has('value')).toEqual(true)
-        expect(legacy_descriptor.get('value')).toBeUndefined()
-        expect(legacy_descriptor.has('errors')).toEqual(false)
-        expect(legacy_descriptor.get('touched')).toEqual(false)
+
+      it('has no legacy_id', () => {
+        // Use the legacy_descriptor instead
+        expect(address.has('legacy_id')).toEqual(false)
       })
     })
+
     describe('a full address', () => {
       let address
 
@@ -150,108 +130,45 @@ describe('Address', () => {
         })
       })
 
-      it('has an id', () => {
+      it('has an empty touched fields Map', () => {
+        expect(address.get('touched')).toEqualImmutable(Map())
+      })
+
+      it('has all of its fields', () => {
         expect(address.get('id')).toEqual('ABC')
+        expect(address.get('street')).toEqual('2870 Gateway Oaks Drive')
+        expect(address.get('city')).toEqual('Sacramento')
+        expect(address.get('state')).toEqual('CA')
+        expect(address.get('zip')).toEqual('95833')
+        expect(address.get('type')).toEqual('Some Type')
+        expect(address.get('legacy_descriptor')).toEqual('Some Descriptor')
       })
-      it('has the street_address from API as street', () => {
-        const street = address.get('street')
-        expect(street.get('value')).toEqual('2870 Gateway Oaks Drive')
-        expect(street.has('errors')).toEqual(false)
-        expect(street.get('touched')).toEqual(false)
-      })
-      it('has an untouched city', () => {
-        const city = address.get('city')
-        expect(city.get('value')).toEqual('Sacramento')
-        expect(city.has('errors')).toEqual(false)
-        expect(city.get('touched')).toEqual(false)
-      })
-      it('has an untouched state', () => {
-        const state = address.get('state')
-        expect(state.get('value')).toEqual('CA')
-        expect(state.has('errors')).toEqual(false)
-        expect(state.get('touched')).toEqual(false)
-      })
-      it('has an untouched zip', () => {
-        const zip = address.get('zip')
-        expect(zip.get('value')).toEqual('95833')
-        expect(zip.has('errors')).toEqual(false)
-        expect(zip.get('touched')).toEqual(false)
-      })
-      it('has an untouched type', () => {
-        const type = address.get('type')
-        expect(type.get('value')).toEqual('Some Type')
-        expect(type.has('errors')).toEqual(false)
-        expect(type.get('touched')).toEqual(false)
-      })
-      it('has an untouched legacy_id', () => {
-        const legacy_id = address.get('legacy_id')
-        expect(legacy_id.get('value')).toEqual('123')
-        expect(legacy_id.has('errors')).toEqual(false)
-        expect(legacy_id.get('touched')).toEqual(false)
-      })
-      it('has an untouched legacy_descriptor', () => {
-        const legacy_descriptor = address.get('legacy_descriptor')
-        expect(legacy_descriptor.get('value')).toEqual('Some Descriptor')
-        expect(legacy_descriptor.has('errors')).toEqual(false)
-        expect(legacy_descriptor.get('touched')).toEqual(false)
+
+      it('has no legacy_id', () => {
+        // Use the legacy_descriptor instead
+        expect(address.has('legacy_id')).toEqual(false)
       })
     })
   })
 
   describe('isReadWrite', () => {
-    it('is false for a touchable address with a legacy_id', () => {
-      const address = fromJS({
-        legacy_id: {touched: false, value: '123'},
-      })
+    it('is false for an address with a legacy_id', () => {
+      const address = fromJS({legacy_descriptor: {legacy_id: '123'}})
       expect(isReadWrite(address)).toEqual(false)
     })
-    it('is true for a touchable address with no legacy_id', () => {
-      const address = fromJS({
-        legacy_id: {touched: false, value: undefined},
-      })
+    it('is true for an address with no legacy_id', () => {
+      const address = fromJS({legacy_descriptor: null})
       expect(isReadWrite(address)).toEqual(true)
     })
   })
   describe('isReadOnly', () => {
-    it('is true for a touchable address with a legacy_id', () => {
-      const address = fromJS({
-        legacy_id: {touched: false, value: '123'},
-      })
+    it('is true for an address with a legacy_id', () => {
+      const address = fromJS({legacy_descriptor: {legacy_id: '123'}})
       expect(isReadOnly(address)).toEqual(true)
     })
-    it('is false for a touchable address with no legacy_id', () => {
-      const address = fromJS({
-        legacy_id: {touched: false, value: undefined},
-      })
+    it('is false for an address with no legacy_id', () => {
+      const address = fromJS({legacy_descriptor: null})
       expect(isReadOnly(address)).toEqual(false)
-    })
-  })
-
-  describe('unwrap', () => {
-    it('returns an immutable map of values', () => {
-      const address = fromJS({
-        id: 'ABC',
-        street: {touched: false, value: '2870 Gateway Oaks Drive'},
-        city: {touched: false, value: 'Sacramento'},
-        state: {touched: false, value: 'CA'},
-        zip: {touched: false, value: '95833'},
-        type: {touched: false, value: 'Some Type'},
-        legacy_id: {touched: false, value: '123'},
-        legacy_descriptor: {touched: false, value: 'Some Descriptor'},
-      })
-
-      const unwrappedAddress = unwrap(address)
-
-      expect(unwrappedAddress).toEqualImmutable(fromJS({
-        id: 'ABC',
-        street: '2870 Gateway Oaks Drive',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Some Type',
-        legacy_id: '123',
-        legacy_descriptor: 'Some Descriptor',
-      }))
     })
   })
 

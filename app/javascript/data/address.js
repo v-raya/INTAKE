@@ -28,32 +28,20 @@ export const addressFromFerb = ({
   state,
   zip,
   type,
-  legacy_id,
   legacy_descriptor,
 }) => fromJS({
+  touched: {},
   id,
-  street: {touched: false, value: street_address},
-  city: {touched: false, value: city},
-  state: {touched: false, value: state},
-  zip: {touched: false, value: zip},
-  type: {touched: false, value: type},
-  legacy_id: {touched: false, value: legacy_id},
-  legacy_descriptor: {touched: false, value: legacy_descriptor},
+  street: street_address,
+  city,
+  state,
+  zip,
+  type,
+  legacy_descriptor: legacy_descriptor || null,
 })
 
-export const isReadWrite = (address) => !address.getIn(['legacy_id', 'value'])
-export const isReadOnly = (address) => Boolean(address.getIn(['legacy_id', 'value']))
-
-const getValue = (wrapped) => wrapped.get('value')
-
-export const unwrap = (address) => address
-  .update('street', getValue)
-  .update('city', getValue)
-  .update('state', getValue)
-  .update('zip', getValue)
-  .update('type', getValue)
-  .update('legacy_id', getValue)
-  .update('legacy_descriptor', getValue)
+export const isReadWrite = (address) => !address.getIn(['legacy_descriptor', 'legacy_id'])
+export const isReadOnly = (address) => Boolean(address.getIn(['legacy_descriptor', 'legacy_id']))
 
 const formatState = (stateCode) => {
   const state = US_STATE.find((state) => state.code === stateCode)

@@ -165,15 +165,7 @@ export default createReducer(Map(), {
   },
   [ADD_PEOPLE_FORM_ADDRESS]: (state, {payload: {personId}}) => {
     const currentAddresses = state.getIn([personId, 'addresses'])
-    const nullValue = {value: null}
-    const newAddress = fromJS({
-      id: null,
-      street: nullValue,
-      city: nullValue,
-      state: nullValue,
-      zip: nullValue,
-      type: nullValue,
-    })
+    const newAddress = addressFromFerb({})
     return state.setIn([personId, 'addresses'], currentAddresses.push(newAddress))
   },
   [ADD_PEOPLE_FORM_PHONE_NUMBER]: (state, {payload: {personId}}) => {
