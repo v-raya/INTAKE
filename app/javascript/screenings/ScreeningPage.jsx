@@ -25,6 +25,8 @@ import CrossReportShowContainer from 'containers/screenings/CrossReportShowConta
 import DecisionFormContainer from 'containers/screenings/DecisionFormContainer'
 import DecisionShowContainer from 'containers/screenings/DecisionShowContainer'
 import PageHeader from 'common/PageHeader'
+import {BreadCrumb} from 'common/BreadCrumb'
+import {urlHelper} from 'common/url_helper.js.erb'
 
 const isDuplicatePerson = (participants, personOnScreening) => (
   participants
@@ -159,6 +161,7 @@ export class ScreeningPage extends React.Component {
     const {referralId, editable, hasApiValidationErrors, submitReferralErrors} = this.props
     return (
       <div className='col-xs-8 col-md-9'>
+        <BreadCrumb navigationElements={[<Link key={this.props.params.id} to={urlHelper('/')}>CaseLoad</Link>]}/>
         {referralId && <h1>Referral #{referralId}</h1>}
         {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
         {this.renderScreeningInformationCard()}
