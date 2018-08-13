@@ -2,10 +2,14 @@ import {
   addressFromFerb,
   isReadWrite,
   isReadOnly,
+  unwrap,
 } from 'data/address'
 import {fromJS, Map} from 'immutable'
+import * as matchers from 'jasmine-immutable-matchers'
 
 describe('Address', () => {
+  beforeEach(() => jasmine.addMatchers(matchers))
+
   describe('addressFromFerb', () => {
     it('returns an Immutable Map', () => {
       expect(Map.isMap(addressFromFerb({}))).toEqual(true)
@@ -163,6 +167,34 @@ describe('Address', () => {
         legacy_id: {touched: false, value: undefined},
       })
       expect(isReadOnly(address)).toEqual(false)
+    })
+  })
+
+  describe('unwrap', () => {
+    it('returns an immutable map of values', () => {
+      const address = fromJS({
+        id: 'ABC',
+        street: {touched: false, value: '2870 Gateway Oaks Drive'},
+        city: {touched: false, value: 'Sacramento'},
+        state: {touched: false, value: 'CA'},
+        zip: {touched: false, value: '95833'},
+        type: {touched: false, value: 'Some Type'},
+        legacy_id: {touched: false, value: '123'},
+        legacy_descriptor: {touched: false, value: 'Some Descriptor'},
+      })
+
+      const unwrappedAddress = unwrap(address)
+
+      expect(unwrappedAddress).toEqualImmutable(fromJS({
+        id: 'ABC',
+        street: '2870 Gateway Oaks Drive',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Some Type',
+        legacy_id: '123',
+        legacy_descriptor: 'Some Descriptor',
+      }))
     })
   })
 })

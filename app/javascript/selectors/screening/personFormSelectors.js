@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
+import {isReadWrite} from 'data/address'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
@@ -151,7 +152,7 @@ const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
 
 const combineAddresses = (person, personId, allReadOnlyAddresses) => [
   ...filterLegacyAddresses(personId, allReadOnlyAddresses),
-  ...getAddresses(person),
+  ...getAddresses(person).filter(isReadWrite),
 ].map((address) => address.set('street_address', address.get('street', address.get('street_address'))).delete('street'))
 
 const csecPersonInfo = (person) => (

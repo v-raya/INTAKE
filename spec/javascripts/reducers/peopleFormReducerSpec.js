@@ -104,7 +104,16 @@ describe('peopleFormReducer', () => {
         fromJS({
           participant_one: {
             roles: {value: ['a', 'b'], touched: false},
-            addresses: [],
+            addresses: [{
+              id: 'ABC123',
+              street: {value: '1234 Some Lane', touched: false},
+              city: {value: 'Somewhere', touched: false},
+              state: {value: 'CA', touched: false},
+              zip: {value: '55555', touched: false},
+              type: {value: 'Home', touched: false},
+              legacy_id: {value: 'xxeddw', touched: false},
+              legacy_descriptor: {value: 'address legacy descriptor participant one', touched: false},
+            }],
             approximate_age: {value: '2'},
             approximate_age_units: {value: 'days'},
             csec_ids: [undefined],
@@ -451,7 +460,16 @@ describe('peopleFormReducer', () => {
             number: {value: '1234567890'},
             type: {value: 'Home'},
           }],
-          addresses: [],
+          addresses: [{
+            id: 'ABC123',
+            street: {value: '1234 Some Lane', touched: false},
+            city: {value: 'Somewhere', touched: false},
+            state: {value: 'CA', touched: false},
+            zip: {value: '55555', touched: false},
+            type: {value: 'Home', touched: false},
+            legacy_id: {value: '65TT6lc0Qc', touched: false},
+            legacy_descriptor: {value: null, touched: false},
+          }],
           races: {},
           race_details: {},
           ethnicity: {

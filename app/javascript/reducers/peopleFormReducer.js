@@ -14,9 +14,9 @@ import {
   CREATE_PERSON_COMPLETE,
   UPDATE_PERSON_COMPLETE,
 } from 'actions/personCardActions'
-import {addressFromFerb, isReadWrite} from 'data/address'
+import {addressFromFerb} from 'data/address'
 
-const buildAddresses = (addresses) => (addresses || []).map(addressFromFerb).filter(isReadWrite)
+const buildAddresses = (addresses) => (addresses || []).map(addressFromFerb)
 
 const buildPhoneNumbers = (phoneNumbers) => {
   if (phoneNumbers) {

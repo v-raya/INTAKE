@@ -18,6 +18,7 @@ describe('personAddressesFormSelectors', () => {
         state: {value: 'CA'},
         zip: {value: '55555'},
         type: {value: 'Home'},
+        legacy_id: {value: 'xyz122'},
         legacy_descriptor: {value: {legacy_id: 'xyz122'}},
       },
       {
@@ -27,6 +28,8 @@ describe('personAddressesFormSelectors', () => {
         state: {value: 'CA'},
         zip: {value: '839893'},
         type: {value: 'Home'},
+        legacy_id: {value: undefined},
+        legacy_descriptor: {value: undefined},
       }],
     })
 
@@ -40,6 +43,7 @@ describe('personAddressesFormSelectors', () => {
           zip: '55555',
           type: 'Home',
           legacy_id: 'xyz122',
+          legacy_descriptor: {legacy_id: 'xyz122'},
         }, {
           id: 3,
           street: '223 Van der Burgh Ave',
@@ -47,7 +51,8 @@ describe('personAddressesFormSelectors', () => {
           state: 'CA',
           zip: '839893',
           type: 'Home',
-          legacy_id: null,
+          legacy_id: undefined,
+          legacy_descriptor: undefined,
         }]
       ))
     })
@@ -93,6 +98,7 @@ describe('personAddressesFormSelectors', () => {
           state: {value: 'CA'},
           zip: {value: '55555'},
           type: {value: 'Home'},
+          legacy_id: {value: 'xyz122'},
           legacy_descriptor: {value: {legacy_id: 'xyz122'}},
         },
         {
@@ -102,6 +108,8 @@ describe('personAddressesFormSelectors', () => {
           state: {value: 'CA'},
           zip: {value: '839893'},
           type: {value: 'Home'},
+          legacy_id: {value: undefined},
+          legacy_descriptor: {value: undefined},
         },
         ]},
         two: {addresses: [{
@@ -110,6 +118,8 @@ describe('personAddressesFormSelectors', () => {
           state: {value: 'CA'},
           zip: {value: '55555'},
           type: {value: 'Cell'},
+          legacy_id: {value: undefined},
+          legacy_descriptor: {value: undefined},
         }]},
       }
       const state = fromJS({peopleForm})

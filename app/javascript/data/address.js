@@ -22,3 +22,14 @@ export const addressFromFerb = ({
 
 export const isReadWrite = (address) => !address.getIn(['legacy_id', 'value'])
 export const isReadOnly = (address) => Boolean(address.getIn(['legacy_id', 'value']))
+
+const getValue = (wrapped) => wrapped.get('value')
+
+export const unwrap = (address) => address
+  .update('street', getValue)
+  .update('city', getValue)
+  .update('state', getValue)
+  .update('zip', getValue)
+  .update('type', getValue)
+  .update('legacy_id', getValue)
+  .update('legacy_descriptor', getValue)
