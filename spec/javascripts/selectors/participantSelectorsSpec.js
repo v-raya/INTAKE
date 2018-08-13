@@ -3,6 +3,7 @@ import {
   selectClientIds,
   selectParticipant,
   selectParticipants,
+  selectParticipantsForAPI,
   selectRoles,
   selectAllRoles,
   selectFormattedAddresses,
@@ -27,6 +28,50 @@ describe('participantSelectors', () => {
 
     it('should select an empty list if no participants', () => {
       expect(selectParticipants(Map())).toEqualImmutable(List())
+    })
+  })
+
+  describe('selectParticipantsForAPI', () => {
+    it('should select participants from state', () => {
+      const state = fromJS({
+        participants: [
+          {id: '1', first_name: 'Mario', addresses: []},
+          {id: '2', first_name: 'Luigi', addresses: []},
+          {id: '3', first_name: 'Peach', addresses: []},
+        ],
+      })
+
+      expect(selectParticipantsForAPI(state)).toEqualImmutable(state.get('participants'))
+    })
+
+    it('should update address format for posting to Ferb', () => {
+      const state = fromJS({
+        participants: [{
+          id: '1',
+          first_name: 'Mario',
+          addresses: [{
+            id: '1',
+            street: '1000 Peach Castle',
+            city: 'World 1-1',
+            state: 'Mushroom Kingdom',
+            zip: '00001',
+            type: 'Home',
+            legacy_descriptor: {legacy_id: 'ABC123'},
+          }],
+        }],
+      })
+
+      expect(
+        selectParticipantsForAPI(state).first().get('addresses')
+      ).toEqualImmutable(fromJS([{
+        id: '1',
+        street_address: '1000 Peach Castle',
+        city: 'World 1-1',
+        state: 'Mushroom Kingdom',
+        zip: '00001',
+        type: 'Home',
+        legacy_descriptor: {legacy_id: 'ABC123'},
+      }]))
     })
   })
 

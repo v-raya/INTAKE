@@ -67,3 +67,8 @@ export const formatForDisplay = (address) => address
     null : getZIPErrors(address.get('zip')))
   .delete('id')
   .delete('legacy_descriptor')
+
+export const plainToFerb = (address) => address
+  .set('street_address', address.get('street'))
+  .delete('street')
+  .filterNot((value, key) => key === 'legacy_descriptor' && value === null)

@@ -1,8 +1,14 @@
 import {List} from 'immutable'
 import {Maybe} from 'utils/maybe'
-import {formatForDisplay} from 'data/address'
+import {formatForDisplay, plainToFerb} from 'data/address'
 
 export const selectParticipants = (state) => state.get('participants', List())
+
+export const selectParticipantsForAPI = (state) =>
+  selectParticipants(state)
+    .map((participant) =>
+      participant.update('addresses', (addresses) => addresses.map(plainToFerb))
+    )
 
 const hasId = (id) => (participant) => participant.get('id') === id
 

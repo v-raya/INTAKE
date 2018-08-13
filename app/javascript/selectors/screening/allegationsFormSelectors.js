@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {Map, List, fromJS} from 'immutable'
-import {selectParticipants} from 'selectors/participantSelectors'
+import {selectParticipants, selectParticipantsForAPI} from 'selectors/participantSelectors'
 import {getScreeningSelector, getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getAllegationsWithTypesSelector} from 'selectors/screening/allegationsTypeFormSelectors'
 import nameFormatter from 'utils/nameFormatter'
@@ -53,7 +53,7 @@ const getAllegationsToSaveSelector = createSelector(
 export const getScreeningWithAllegationsEditsSelector = createSelector(
   getScreeningSelector,
   getAllegationsToSaveSelector,
-  selectParticipants,
+  selectParticipantsForAPI,
   (screening, allegations, participants) => screening
     .set('allegations', allegations)
     .set('participants', participants)

@@ -645,12 +645,56 @@ describe('crossReportFormSelectors', () => {
           touched: true,
         },
       })
-      const participants = [{id: '123', first_name: 'Mario'}]
+      const participants = [{id: '123', first_name: 'Mario', addresses: []}]
       const state = fromJS({screening, crossReportForm, participants})
       expect(getScreeningWithEditsSelector(state))
         .toEqualImmutable(fromJS({
           cross_reports: [],
           participants,
+        }))
+    })
+
+    it('converts addresses to the format Ferb expects', () => {
+      const screening = {
+        cross_reports: [],
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const crossReportForm = getCrossReportState({
+        county_id: {
+          value: '',
+          touched: true,
+        },
+      })
+      const participants = [{
+        id: '1',
+        first_name: 'Mario',
+        addresses: [{
+          id: '1',
+          street: '1000 Peach Castle',
+          city: 'World 1-1',
+          state: 'Mushroom Kingdom',
+          zip: '00001',
+          type: 'Home',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+        }],
+      }]
+      const state = fromJS({screening, crossReportForm, participants})
+      expect(getScreeningWithEditsSelector(state))
+        .toEqualImmutable(fromJS({
+          cross_reports: [],
+          participants: [{
+            id: '1',
+            first_name: 'Mario',
+            addresses: [{
+              id: '1',
+              street_address: '1000 Peach Castle',
+              city: 'World 1-1',
+              state: 'Mushroom Kingdom',
+              zip: '00001',
+              type: 'Home',
+              legacy_descriptor: {legacy_id: 'ABC123'},
+            }],
+          }],
         }))
     })
   })

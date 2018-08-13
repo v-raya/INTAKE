@@ -5,7 +5,7 @@ import {isRequiredIfCreate, isRequiredCreate, combineCompact} from 'utils/valida
 import SCREENING_DECISION from 'enums/ScreeningDecision'
 import ACCESS_RESTRICTIONS from 'enums/AccessRestrictions'
 import SCREENING_DECISION_OPTIONS from 'enums/ScreeningDecisionOptions'
-import {selectParticipants, selectAllRoles} from 'selectors/participantSelectors'
+import {selectParticipantsForAPI, selectAllRoles} from 'selectors/participantSelectors'
 import {getAllegationsWithTypesSelector} from 'selectors/screening/allegationsTypeFormSelectors'
 import {
   validateReporterRequired,
@@ -166,7 +166,7 @@ export const getScreeningWithEditsSelector = createSelector(
   (state) => state.getIn(['screeningDecisionForm', 'additional_information', 'value']),
   (state) => state.getIn(['screeningDecisionForm', 'access_restrictions', 'value']),
   (state) => state.getIn(['screeningDecisionForm', 'restrictions_rationale', 'value']),
-  selectParticipants,
+  selectParticipantsForAPI,
   (screening, decision, decisionDetail, contactReference, additionalInformation, accessRestriction, restrictionRationale, participants) => (
     screening.set('screening_decision', decision)
       .set('screening_decision_detail', decisionDetail)

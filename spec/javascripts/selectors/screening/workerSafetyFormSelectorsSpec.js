@@ -58,10 +58,53 @@ describe('workerSafetyFormSelectors', () => {
         safety_alerts: {value: ['123'], touched: true},
         safety_information: {value: '456', touched: true},
       }
-      const participants = [{id: '123', first_name: 'Mario'}]
+      const participants = [{id: '123', first_name: 'Mario', addresses: []}]
       const state = fromJS({screening, workerSafetyForm, participants})
       expect(getScreeningWithEditsSelector(state))
         .toEqualImmutable(fromJS({safety_alerts: List(['123']), safety_information: '456', participants}))
+    })
+    it('converts addresses to the format Ferb expects', () => {
+      const screening = {
+        safety_alerts: ['ABC'],
+        safety_information: 'DEF',
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const workerSafetyForm = {
+        safety_alerts: {value: ['123'], touched: true},
+        safety_information: {value: '456', touched: true},
+      }
+      const participants = [{
+        id: '1',
+        first_name: 'Mario',
+        addresses: [{
+          id: '1',
+          street: '1000 Peach Castle',
+          city: 'World 1-1',
+          state: 'Mushroom Kingdom',
+          zip: '00001',
+          type: 'Home',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+        }],
+      }]
+      const state = fromJS({screening, workerSafetyForm, participants})
+      expect(getScreeningWithEditsSelector(state))
+        .toEqualImmutable(fromJS({
+          safety_alerts: List(['123']),
+          safety_information: '456',
+          participants: [{
+            id: '1',
+            first_name: 'Mario',
+            addresses: [{
+              id: '1',
+              street_address: '1000 Peach Castle',
+              city: 'World 1-1',
+              state: 'Mushroom Kingdom',
+              zip: '00001',
+              type: 'Home',
+              legacy_descriptor: {legacy_id: 'ABC123'},
+            }],
+          }],
+        }))
     })
   })
 })

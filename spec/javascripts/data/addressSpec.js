@@ -1,5 +1,6 @@
 import {
   ferbToPlain,
+  plainToFerb,
   addressFromFerb,
   isReadWrite,
   isReadOnly,
@@ -284,6 +285,55 @@ describe('Address', () => {
       const zipErrors = formatForDisplay(badZipAddress).get('zipError')
       expect(zipErrors).not.toEqual(null)
       expect(zipErrors.length).toEqual(1)
+    })
+  })
+
+  describe('plainToFerb', () => {
+    it('returns an Immutable Map', () => {
+      expect(Map.isMap(plainToFerb(Map()))).toEqual(true)
+    })
+
+    it('handles an address persisted to legacy', () => {
+      const address = plainToFerb(fromJS({
+        id: '1',
+        street: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+        legacy_descriptor: {legacy_id: 'ABC123'},
+      }))
+
+      expect(address).toEqualImmutable(fromJS({
+        id: '1',
+        street_address: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+        legacy_descriptor: {legacy_id: 'ABC123'},
+      }))
+    })
+
+    it('handles an editable address from Postgres', () => {
+      const address = plainToFerb(fromJS({
+        id: '1',
+        street: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+        legacy_descriptor: null,
+      }))
+
+      expect(address).toEqualImmutable(fromJS({
+        id: '1',
+        street_address: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+      }))
     })
   })
 })

@@ -54,9 +54,9 @@ describe('screeningInformationFormSelectors', () => {
         ended_at: 'old value',
         assignee: 'old value',
         communication_method: 'old value',
-        participants: [{id: '456', first_name: 'Luigi'}],
+        participants: [{id: '456', first_name: 'Luigi', addresses: []}],
       }
-      const participants = [{id: '123', first_name: 'Mario'}]
+      const participants = [{id: '123', first_name: 'Mario', addresses: []}]
       const state = fromJS({screening, screeningInformationForm, participants})
       expect(getScreeningWithEditsSelector(state))
         .toEqualImmutable(
@@ -69,6 +69,59 @@ describe('screeningInformationFormSelectors', () => {
             assignee: 'an edited assignee',
             communication_method: 'an edited communication method',
             participants,
+          })
+        )
+    })
+
+    it('converts addresses to the format Ferb expects', () => {
+      const screening = {
+        id: 'existing_screening_id',
+        name: 'old value',
+        report_type: 'old value',
+        started_at: 'old value',
+        ended_at: 'old value',
+        assignee: 'old value',
+        communication_method: 'old value',
+        participants: [],
+      }
+      const participants = [{
+        id: '1',
+        first_name: 'Mario',
+        addresses: [{
+          id: '1',
+          street: '1000 Peach Castle',
+          city: 'World 1-1',
+          state: 'Mushroom Kingdom',
+          zip: '00001',
+          type: 'Home',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+        }],
+      }]
+
+      const state = fromJS({screening, screeningInformationForm, participants})
+      expect(getScreeningWithEditsSelector(state))
+        .toEqualImmutable(
+          fromJS({
+            id: 'existing_screening_id',
+            name: 'an edited name',
+            report_type: 'an edited report type',
+            started_at: 'an edited start date time',
+            ended_at: 'an edited end date time',
+            assignee: 'an edited assignee',
+            communication_method: 'an edited communication method',
+            participants: [{
+              id: '1',
+              first_name: 'Mario',
+              addresses: [{
+                id: '1',
+                street_address: '1000 Peach Castle',
+                city: 'World 1-1',
+                state: 'Mushroom Kingdom',
+                zip: '00001',
+                type: 'Home',
+                legacy_descriptor: {legacy_id: 'ABC123'},
+              }],
+            }],
           })
         )
     })
