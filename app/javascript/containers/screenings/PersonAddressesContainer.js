@@ -1,10 +1,9 @@
 import {connect} from 'react-redux'
 import AddressesShow from 'views/people/AddressesShow'
-import {getAllPersonFormattedAddressesSelector} from 'selectors/screening/personShowSelectors'
+import {selectAddresses} from 'selectors/participantSelectors'
 
 const mapStateToProps = (state, {personId}) => (
-  {addresses: getAllPersonFormattedAddressesSelector(state, personId).toJS()}
+  {addresses: selectAddresses(state, personId).toJS()}
 )
 
 export default connect(mapStateToProps)(AddressesShow)
-

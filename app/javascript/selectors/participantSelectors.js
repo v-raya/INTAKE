@@ -1,5 +1,6 @@
 import {List} from 'immutable'
 import {Maybe} from 'utils/maybe'
+import {formatForDisplay} from 'data/address'
 
 export const selectParticipants = (state) => state.get('participants', List())
 
@@ -24,3 +25,12 @@ export const selectAllRoles = (state) =>
     .reduce((allRoles, participantRoles) => allRoles.concat(
       participantRoles.filter((role) => !allRoles.includes(role))
     ), List())
+
+const selectAddresses = (state, personId) =>
+  selectParticipant(state, personId)
+    .map((person) => person.get('addresses'))
+    .valueOrElse(List())
+
+export const selectFormattedAddresses = (state, personId) =>
+  selectAddresses(state, personId)
+    .map(formatForDisplay)

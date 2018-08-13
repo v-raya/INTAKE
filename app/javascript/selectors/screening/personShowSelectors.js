@@ -1,8 +1,7 @@
 import {List, Map, fromJS} from 'immutable'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
-import {formatForDisplay} from 'data/address'
 import GENDERS from 'enums/Genders'
-import {selectParticipant} from 'selectors/participantSelectors'
+import {selectParticipant, selectFormattedAddresses} from 'selectors/participantSelectors'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
 import nameFormatter from 'utils/nameFormatter'
 import ssnFormatter from 'utils/ssnFormatter'
@@ -213,12 +212,6 @@ export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
     )
 )
 
-export const getAllPersonFormattedAddressesSelector = (state, personId) =>
-  selectParticipant(state, personId)
-    .map((person) => person.get('addresses'))
-    .valueOrElse(List())
-    .map(formatForDisplay)
-
 export const getReadOnlyPersonFormattedAddressesSelector = (state, personId) => (
-  getAllPersonFormattedAddressesSelector(state, personId)
+  selectFormattedAddresses(state, personId)
 ).filter((address) => address.get('legacy_id')).map((address) => address.delete('zipError'))
