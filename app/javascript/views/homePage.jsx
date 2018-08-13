@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ScreeningsTable from 'screenings/ScreeningsTableContainer'
 import PageHeader from 'common/PageHeader'
+import {BreadCrumb} from 'common/BreadCrumb'
 
 const HomePageButtons = ({snapshot, hotline, createSnapshot, createScreening}) => (
   <div>
@@ -50,6 +51,7 @@ export const HomePage = ({snapshot, hotline, actions: {createSnapshot, createScr
           />
         }
       />
+      <BreadCrumb />
     </div>
     <div className='container'>
       <div className='row gap-top'>
