@@ -4,6 +4,7 @@ import {
   isReadWrite,
   isReadOnly,
   unwrap,
+  formatForDisplay,
 } from 'data/address'
 import {fromJS, Map} from 'immutable'
 import * as matchers from 'jasmine-immutable-matchers'
@@ -250,6 +251,39 @@ describe('Address', () => {
         legacy_id: '123',
         legacy_descriptor: 'Some Descriptor',
       }))
+    })
+  })
+
+  describe('formatForDisplay', () => {
+    const address = fromJS({
+      id: '1',
+      street: '2870 Gateway Oaks Dr',
+      city: 'Sacramento',
+      state: 'CA',
+      zip: '95833',
+      type: 'Work',
+      legacy_descriptor: {legacy_id: 'ABC123'},
+    })
+
+    it('copies over basic fields', () => {
+      expect(formatForDisplay(address)).toEqualImmutable(fromJS({
+        street: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'California',
+        zip: '95833',
+        type: 'Work',
+        legacy_id: 'ABC123',
+        zipError: null,
+      }))
+    })
+
+    it('includes zip validation errors', () => {
+      const badZipAddress = address
+        .set('zip', '012')
+        .deleteIn(['legacy_descriptor', 'legacy_id'])
+      const zipErrors = formatForDisplay(badZipAddress).get('zipError')
+      expect(zipErrors).not.toEqual(null)
+      expect(zipErrors.length).toEqual(1)
     })
   })
 })

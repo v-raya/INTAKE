@@ -1,7 +1,7 @@
 import {List, Map, fromJS} from 'immutable'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
+import {formatForDisplay} from 'data/address'
 import GENDERS from 'enums/Genders'
-import US_STATE from 'enums/USState'
 import {selectParticipant} from 'selectors/participantSelectors'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
 import nameFormatter from 'utils/nameFormatter'
@@ -213,25 +213,11 @@ export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
     )
 )
 
-const formattedState = (stateCode) => {
-  const state = US_STATE.find((state) => state.code === stateCode)
-  return state ? state.name : ''
-}
-
-export const getAllPersonFormattedAddressesSelector = (state, personId) => (
-  selectPersonOrEmpty(state, personId)
-    .get('addresses', List()).map((address) =>
-      Map({
-        street: address.get('street_address'),
-        city: address.get('city'),
-        state: formattedState(address.get('state')),
-        zip: address.get('zip'),
-        zipError: address.get(['legacy_descriptor', 'legacy_id']) ? null : getZIPErrors(address.get('zip')),
-        type: address.get('type'),
-        legacy_id: address.getIn(['legacy_descriptor', 'legacy_id']),
-      })
-    )
-)
+export const getAllPersonFormattedAddressesSelector = (state, personId) =>
+  selectParticipant(state, personId)
+    .map((person) => person.get('addresses'))
+    .valueOrElse(List())
+    .map(formatForDisplay)
 
 export const getReadOnlyPersonFormattedAddressesSelector = (state, personId) => (
   getAllPersonFormattedAddressesSelector(state, personId)

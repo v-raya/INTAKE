@@ -271,7 +271,7 @@ describe('personShowSelectors', () => {
     })
 
     it('returns the street for an address', () => {
-      const people = [{id: '1', addresses: [{street_address: '1234 Nowhere Lane'}]}]
+      const people = [{id: '1', addresses: [{street: '1234 Nowhere Lane'}]}]
       const state = fromJS({participants: people})
       expect(getAllPersonFormattedAddressesSelector(state, '1').first().get('street'))
         .toEqual('1234 Nowhere Lane')

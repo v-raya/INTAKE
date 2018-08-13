@@ -1,4 +1,16 @@
 import {fromJS, Set} from 'immutable'
+import PropTypes from 'prop-types'
+import US_STATE from 'enums/USState'
+import {getZIPErrors} from 'utils/zipValidator'
+
+export const AddressPropType = PropTypes.shape({
+  city: PropTypes.string,
+  state: PropTypes.string,
+  street: PropTypes.string,
+  type: PropTypes.string,
+  zip: PropTypes.string,
+  zipError: PropTypes.arrayOf(PropTypes.string),
+})
 
 const keySet = Set(['id', 'street', 'city', 'state', 'zip', 'type', 'legacy_descriptor'])
 const isKeyValid = (_value, key) => keySet.has(key)
@@ -42,3 +54,16 @@ export const unwrap = (address) => address
   .update('type', getValue)
   .update('legacy_id', getValue)
   .update('legacy_descriptor', getValue)
+
+const formatState = (stateCode) => {
+  const state = US_STATE.find((state) => state.code === stateCode)
+  return state ? state.name : ''
+}
+
+export const formatForDisplay = (address) => address
+  .update('state', formatState)
+  .set('legacy_id', address.getIn(['legacy_descriptor', 'legacy_id']))
+  .set('zipError', address.getIn(['legacy_descriptor', 'legacy_id']) ?
+    null : getZIPErrors(address.get('zip')))
+  .delete('id')
+  .delete('legacy_descriptor')
