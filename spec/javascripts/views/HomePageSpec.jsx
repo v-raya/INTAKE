@@ -66,4 +66,9 @@ describe('HomePage', () => {
       expect(homePage.find('Connect(ScreeningsTable)').length).toBe(1)
     })
   })
+  it('renders a breadCrumb', () => {
+    const props = {snapshot: true, hotline: true, actions: {}}
+    const homePage = shallow(<HomePage {...props}/>)
+    expect(homePage.find('BreadCrumb').exists()).toEqual(true)
+  })
 })
