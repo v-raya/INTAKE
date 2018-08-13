@@ -1,4 +1,5 @@
 import {
+  ferbToPlain,
   addressFromFerb,
   isReadWrite,
   isReadOnly,
@@ -9,6 +10,60 @@ import * as matchers from 'jasmine-immutable-matchers'
 
 describe('Address', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
+
+  describe('ferbToPlain', () => {
+    it('returns an Immutable Map', () => {
+      expect(Map.isMap(ferbToPlain(Map()))).toEqual(true)
+    })
+
+    it('filters out unknown fields', () => {
+      const address = ferbToPlain(fromJS({foo: 'bar'}))
+      expect(address.get('foo')).toBeUndefined()
+    })
+
+    it('handles an address persisted to legacy', () => {
+      const address = ferbToPlain(fromJS({
+        id: '1',
+        street_address: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+        legacy_descriptor: {legacy_id: 'ABC123'},
+      }))
+
+      expect(address).toEqualImmutable(fromJS({
+        id: '1',
+        street: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+        legacy_descriptor: {legacy_id: 'ABC123'},
+      }))
+    })
+
+    it('handles an editable address from Postgres', () => {
+      const address = ferbToPlain(fromJS({
+        id: '1',
+        street_address: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+      }))
+
+      expect(address).toEqualImmutable(fromJS({
+        id: '1',
+        street: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+        legacy_descriptor: null,
+      }))
+    })
+  })
 
   describe('addressFromFerb', () => {
     it('returns an Immutable Map', () => {

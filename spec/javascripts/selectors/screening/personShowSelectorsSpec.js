@@ -248,7 +248,7 @@ describe('personShowSelectors', () => {
         {id: '1', addresses: [{type: '32', legacy_descriptor: {legacy_id: '23'}}, {type: 'Cell'}]},
         {id: '2', addresses: [{type: 'Cell', legacy_descriptor: {legacy_id: '33'}}]},
       ]
-      const state = fromJS({participants: people, systemCodes})
+      const state = fromJS({participants: people})
       expect(getReadOnlyPersonFormattedAddressesSelector(state, '1').size).toEqual(1)
     })
   })

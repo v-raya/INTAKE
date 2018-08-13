@@ -86,7 +86,7 @@ describe('Store', () => {
     const screening = fromJS({
       id: '1',
       name: 'Mock screening',
-      participants: [{id: '2', legacy_id: '3', screening_id: '1'}],
+      participants: [{id: '2', legacy_id: '3', screening_id: '1', addresses: []}],
       allegations: [],
       incident_address: {},
     })
@@ -139,7 +139,7 @@ describe('Store', () => {
     })
 
     it('handles update screening', () => {
-      const participants = fromJS([{id: '2', legacy_id: '3', screening_id: '1'}])
+      const participants = fromJS([{id: '2', legacy_id: '3', screening_id: '1', addresses: []}])
       const updatedScreening = initialState.get('screening').set('participants', participants)
       const action = saveSuccess(updatedScreening.toJS())
       store.dispatch(action)
@@ -155,7 +155,7 @@ describe('Store', () => {
 
     it('handles create participant', () => {
       spyOn(IntakeConfig, 'isFeatureActive').and.returnValue(false)
-      const participant = {id: '2', legacy_id: '3', screening_id: '1'}
+      const participant = {id: '2', legacy_id: '3', screening_id: '1', addresses: []}
       const participants = fromJS([participant])
       const action = createPersonSuccess(participant)
       store.dispatch(action)

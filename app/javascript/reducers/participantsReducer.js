@@ -9,10 +9,11 @@ import {
   CLEAR_PEOPLE,
 } from 'actions/personCardActions'
 import {SAVE_SCREENING_COMPLETE} from 'actions/screeningActions'
+import {ferbToPlain} from 'data/address'
 import {createReducer} from 'utils/createReducer'
 import {List, fromJS} from 'immutable'
 
-const transformPerson = (person) => {
+const transformCsec = (person) => {
   if (person.get('csec')) {
     return person.merge({
       csec_ids: person.get('csec').map((entry) => entry.get('id')),
@@ -26,6 +27,10 @@ const transformPerson = (person) => {
     return person
   }
 }
+
+const transformPerson = (person) =>
+  transformCsec(person)
+    .update('addresses', (addresses) => (addresses || List()).map(ferbToPlain))
 
 const getParticipantsOnScreening = (state, {payload, error}) => {
   if (error) {

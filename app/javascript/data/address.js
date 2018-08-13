@@ -1,4 +1,13 @@
-import {fromJS} from 'immutable'
+import {fromJS, Set} from 'immutable'
+
+const keySet = Set(['id', 'street', 'city', 'state', 'zip', 'type', 'legacy_descriptor'])
+const isKeyValid = (_value, key) => keySet.has(key)
+
+export const ferbToPlain = (ferbAddress) =>
+  ferbAddress
+    .set('street', ferbAddress.get('street_address'))
+    .update('legacy_descriptor', (value) => (value || null))
+    .filter(isKeyValid)
 
 export const addressFromFerb = ({
   id,
