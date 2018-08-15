@@ -202,7 +202,7 @@ describe RelationshipsRepository do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
             security_token,
-            "/screening_relationships/batch",
+            '/screening_relationships/batch',
             :post,
             relationships
           ).and_return(relationships_response)

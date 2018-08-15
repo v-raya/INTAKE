@@ -78,6 +78,61 @@ describe Api::V1::RelationshipsController do
       start_date: '1999-10-01'
     }
   end
+  let(:relationships_params) do
+    [
+      {
+        absent_parent_indicator: false,
+        client_id: 'ZXY123',
+        end_date: '2010-10-01',
+        legacy_id: 'A1b2x',
+        relationship_id: '26',
+        relationship_type: '190',
+        relative_id: 'ABC987',
+        same_home_status: 'Y',
+        start_date: '1999-10-01'
+      },
+      {
+        absent_parent_indicator: true,
+        client_id: 'ABC123',
+        end_date: '2011-10-01',
+        legacy_id: 'BEb2x',
+        relationship_id: '31',
+        relationship_type: '200',
+        relative_id: 'ZED987',
+        same_home_status: 'N',
+        start_date: '1999-10-01'
+      }
+    ]
+  end
+
+  let(:created_relationships) do
+    [
+      {
+        id: '1',
+        absent_parent_indicator: false,
+        client_id: 'ZXY123',
+        end_date: '2010-10-01',
+        legacy_id: 'A1b2x',
+        relationship_id: '26',
+        relationship_type: '190',
+        relative_id: 'ABC987',
+        same_home_status: 'Y',
+        start_date: '1999-10-01'
+      },
+      {
+        id: '2',
+        absent_parent_indicator: true,
+        client_id: 'ABC123',
+        end_date: '2011-10-01',
+        legacy_id: 'BEb2x',
+        relationship_id: '31',
+        relationship_type: '200',
+        relative_id: 'ZED987',
+        same_home_status: 'N',
+        start_date: '1999-10-01'
+      }
+    ]
+  end
 
   let(:client_ids) do
     ['12']
@@ -85,6 +140,28 @@ describe Api::V1::RelationshipsController do
 
   let(:screening_id) do
     '1'
+  end
+
+  describe '#create' do
+    it 'has a route' do
+      expect(post: 'api/v1/relationships').to route_to(
+        format: :json,
+        controller: 'api/v1/relationships',
+        action: 'create'
+      )
+    end
+
+    it 'responds with success and return a collections of relationships' do
+      allow(RelationshipsRepository).to receive(:create)
+        .with(security_token, anything)
+        .and_return(created_relationships)
+      process :create,
+        method: :post,
+        params: { relationships: relationships_params },
+        session: session
+      expect(response).to be_successful
+      expect(JSON.parse(response.body)).to eq created_relationships.as_json
+    end
   end
 
   describe '#index' do
