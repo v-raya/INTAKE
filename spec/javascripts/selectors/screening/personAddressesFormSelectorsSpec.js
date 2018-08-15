@@ -37,6 +37,7 @@ describe('personAddressesFormSelectors', () => {
     it('returns all addresses for the given person', () => {
       expect(selectAddresses(person)).toEqualImmutable(fromJS(
         [{
+          touched: {},
           id: 2212,
           street: '1234 Nowhere Lane',
           city: 'Somewhereville',
@@ -45,6 +46,7 @@ describe('personAddressesFormSelectors', () => {
           type: 'Home',
           legacy_descriptor: {legacy_id: 'xyz122'},
         }, {
+          touched: {},
           id: 3,
           street: '223 Van der Burgh Ave',
           city: 'Calistoga',
@@ -125,6 +127,7 @@ describe('personAddressesFormSelectors', () => {
       const state = fromJS({peopleForm})
       expect(selectReadWriteAddresses(state, 'one')).toEqualImmutable(fromJS(
         [{
+          touched: {},
           id: 3,
           street: '223 Van der Burgh Ave',
           city: 'Calistoga',

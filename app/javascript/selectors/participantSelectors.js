@@ -1,13 +1,13 @@
 import {List} from 'immutable'
 import {Maybe} from 'utils/maybe'
-import {formatForDisplay, toFerbAddress} from 'data/address'
+import {toFerbAddress, setErrors, expandState} from 'data/address'
 
 export const selectParticipants = (state) => state.get('participants', List())
 
 export const selectParticipantsForAPI = (state) =>
   selectParticipants(state)
     .map((participant) =>
-      participant.update('addresses', (addresses) => addresses.map(toFerbAddress))
+      participant.update('addresses', (addrs) => addrs.map(toFerbAddress))
     )
 
 const hasId = (id) => (participant) => participant.get('id') === id
@@ -39,4 +39,5 @@ const selectAddresses = (state, personId) =>
 
 export const selectFormattedAddresses = (state, personId) =>
   selectAddresses(state, personId)
-    .map(formatForDisplay)
+    .map(setErrors)
+    .map(expandState)

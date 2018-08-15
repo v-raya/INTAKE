@@ -1,4 +1,4 @@
-import {Set, Map} from 'immutable'
+import {Set, Map, List} from 'immutable'
 import PropTypes from 'prop-types'
 import US_STATE from 'enums/USState'
 import {getZIPErrors} from 'utils/zipValidator'
@@ -24,6 +24,12 @@ export const fromFerbAddress = (ferbAddress) =>
     .update('legacy_descriptor', defaultToNull)
     .filter(isKeyValid)
 
+export const toFerbAddress = (address) => address
+  .set('street_address', address.get('street'))
+  .delete('street')
+  .delete('touched')
+  .filterNot((value, key) => key === 'legacy_descriptor' && value === null)
+
 export const setTouchable = (address) => address.set('touched', Map())
 
 export const isReadOnly = (address) => Boolean(address.getIn(['legacy_descriptor', 'legacy_id']))
@@ -34,13 +40,12 @@ const formatState = (stateCode) => {
   return state ? state.name : ''
 }
 
-export const formatForDisplay = (address) => address
-  .update('state', formatState)
-  .set('zipError', address.getIn(['legacy_descriptor', 'legacy_id']) ?
-    null : getZIPErrors(address.get('zip')))
-  .delete('id')
+export const expandState = (address) => address.update('state', formatState)
 
-export const toFerbAddress = (address) => address
-  .set('street_address', address.get('street'))
-  .delete('street')
-  .filterNot((value, key) => key === 'legacy_descriptor' && value === null)
+export const setErrors = (address) => address
+  .set('zipError', isReadWrite(address) ? getZIPErrors(address.get('zip')) : null)
+
+export const setVisibleErrors = (address) => address.set(
+  'zipError',
+  address.getIn(['touched', 'zip']) ? getZIPErrors(address.get('zip')) : List()
+)
