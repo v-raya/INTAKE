@@ -1,4 +1,5 @@
 import {List, Map, fromJS} from 'immutable'
+import {isReadWrite} from 'data/address'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import GENDERS from 'enums/Genders'
 import {selectParticipant, selectFormattedAddresses} from 'selectors/participantSelectors'
@@ -113,12 +114,10 @@ export const getErrorsSelector = (state, personId) => {
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   const lastName = person.get('last_name')
   const firstName = person.get('first_name')
-  const addressZip =
-  person.get('addresses') === undefined ? [] : person.get('addresses')
-    .filter((address) => !address.get('legacy_id'))
-    .map((newAddress) => (
-      getZIPErrors(newAddress.get('zip'))
-    )).flatten()
+  const addressZip = (person.get('addresses') || List())
+    .filter(isReadWrite)
+    .map((address) => getZIPErrors(address.get('zip')))
+    .flatten()
   const roles = person.get('roles', List())
   const csecTypes = csecTypesSelector(state, personId)
   const csecStartedAt = person.get('csec_started_at')

@@ -1,4 +1,4 @@
-import {fromJS, Set} from 'immutable'
+import {Set, Map} from 'immutable'
 import PropTypes from 'prop-types'
 import US_STATE from 'enums/USState'
 import {getZIPErrors} from 'utils/zipValidator'
@@ -24,27 +24,10 @@ export const ferbToPlain = (ferbAddress) =>
     .update('legacy_descriptor', defaultToNull)
     .filter(isKeyValid)
 
-export const addressFromFerb = ({
-  id,
-  street_address,
-  city,
-  state,
-  zip,
-  type,
-  legacy_descriptor,
-}) => fromJS({
-  touched: {},
-  id: id || null,
-  street: street_address,
-  city,
-  state,
-  zip,
-  type,
-  legacy_descriptor: legacy_descriptor || null,
-})
+export const setTouchable = (address) => address.set('touched', Map())
 
-export const isReadWrite = (address) => !address.getIn(['legacy_descriptor', 'legacy_id'])
 export const isReadOnly = (address) => Boolean(address.getIn(['legacy_descriptor', 'legacy_id']))
+export const isReadWrite = (address) => !isReadOnly(address)
 
 const formatState = (stateCode) => {
   const state = US_STATE.find((state) => state.code === stateCode)

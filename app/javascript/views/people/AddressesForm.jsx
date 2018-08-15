@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
+import {AddressPropType} from 'data/address'
 import US_STATE from 'enums/USState'
 
 const id = (idPrefix, index, field) => `${idPrefix}-address-${index}-${field}`
@@ -100,14 +101,7 @@ AddressesForm.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
   })),
-  addresses: PropTypes.arrayOf(PropTypes.shape({
-    city: PropTypes.string,
-    state: PropTypes.string,
-    street: PropTypes.string,
-    type: PropTypes.string,
-    zip: PropTypes.string,
-    addressErrors: PropTypes.string,
-  })),
+  addresses: PropTypes.arrayOf(AddressPropType),
   deleteAddress: PropTypes.func,
   idPrefix: PropTypes.string.isRequired,
   onBlur: PropTypes.func,

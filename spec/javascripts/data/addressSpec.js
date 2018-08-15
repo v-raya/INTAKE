@@ -1,7 +1,7 @@
 import {
   ferbToPlain,
   plainToFerb,
-  addressFromFerb,
+  setTouchable,
   isReadWrite,
   isReadOnly,
   formatForDisplay,
@@ -66,90 +66,12 @@ describe('Address', () => {
     })
   })
 
-  describe('addressFromFerb', () => {
-    it('returns an Immutable Map', () => {
-      expect(Map.isMap(addressFromFerb({}))).toEqual(true)
-    })
-
-    it('strips unknown fields', () => {
-      const address = addressFromFerb({foo: 'bar'})
-      expect(address.has('foo')).toEqual(false)
-    })
-
-    describe('a blank address', () => {
-      let address
-
-      beforeEach(() => {
-        address = addressFromFerb({})
-      })
-
-      it('has an empty touched Map', () => {
-        expect(address.get('touched')).toEqualImmutable(Map())
-      })
-
-      it('has undefined fields', () => {
-        expect(address.has('street')).toEqual(true)
-        expect(address.get('street')).toBeUndefined()
-        expect(address.has('city')).toEqual(true)
-        expect(address.get('city')).toBeUndefined()
-        expect(address.has('state')).toEqual(true)
-        expect(address.get('state')).toBeUndefined()
-        expect(address.has('zip')).toEqual(true)
-        expect(address.get('zip')).toBeUndefined()
-        expect(address.has('type')).toEqual(true)
-        expect(address.get('type')).toBeUndefined()
-      })
-
-      it('has a null id', () => {
-        expect(address.has('id')).toEqual(true)
-        expect(address.get('id')).toEqual(null)
-      })
-
-      it('has a null legacy_descriptor', () => {
-        expect(address.has('legacy_descriptor')).toEqual(true)
-        expect(address.get('legacy_descriptor')).toEqual(null)
-      })
-
-      it('has no legacy_id', () => {
-        // Use the legacy_descriptor instead
-        expect(address.has('legacy_id')).toEqual(false)
-      })
-    })
-
-    describe('a full address', () => {
-      let address
-
-      beforeEach(() => {
-        address = addressFromFerb({
-          id: 'ABC',
-          street_address: '2870 Gateway Oaks Drive',
-          city: 'Sacramento',
-          state: 'CA',
-          zip: '95833',
-          type: 'Some Type',
-          legacy_id: '123',
-          legacy_descriptor: 'Some Descriptor',
-        })
-      })
-
-      it('has an empty touched fields Map', () => {
-        expect(address.get('touched')).toEqualImmutable(Map())
-      })
-
-      it('has all of its fields', () => {
-        expect(address.get('id')).toEqual('ABC')
-        expect(address.get('street')).toEqual('2870 Gateway Oaks Drive')
-        expect(address.get('city')).toEqual('Sacramento')
-        expect(address.get('state')).toEqual('CA')
-        expect(address.get('zip')).toEqual('95833')
-        expect(address.get('type')).toEqual('Some Type')
-        expect(address.get('legacy_descriptor')).toEqual('Some Descriptor')
-      })
-
-      it('has no legacy_id', () => {
-        // Use the legacy_descriptor instead
-        expect(address.has('legacy_id')).toEqual(false)
-      })
+  describe('setTouchable', () => {
+    it('sets an empty touched object on the address', () => {
+      const address = ferbToPlain(Map())
+      const touchable = setTouchable(address)
+      expect(touchable.has('touched')).toEqual(true)
+      expect(touchable.get('touched')).toEqualImmutable(Map())
     })
   })
 
