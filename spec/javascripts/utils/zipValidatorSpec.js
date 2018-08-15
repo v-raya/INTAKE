@@ -1,11 +1,11 @@
-import {getZIPErrors} from 'utils/zipValidator'
 import {List} from 'immutable'
+import {getZIPErrors} from 'utils/zipValidator'
 
 describe('zipValidator', () => {
   describe('getZipErrors', () => {
     it('zip must be 5 digits long', () => {
       expect(getZIPErrors('1234'))
-        .toEqual(['zip code should be 5 digits'])
+        .toEqual(List(['zip code should be 5 digits']))
     })
     it('when zip length is 5 itb should return no validation message', () => {
       expect(getZIPErrors('12345'))
@@ -17,4 +17,3 @@ describe('zipValidator', () => {
     })
   })
 })
-

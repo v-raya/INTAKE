@@ -1,13 +1,13 @@
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
-import {isReadWrite, plainToFerb} from 'data/address'
+import {isReadOnly, plainToFerb} from 'data/address'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import moment from 'moment'
-import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
+import {selectParticipants} from 'selectors/participantSelectors'
 import {selectAddresses} from 'selectors/screening/personAddressesFormSelectors'
 import {hasReporter, hasNonReporter} from 'utils/roles'
 
@@ -150,10 +150,23 @@ const csecPersonInfo = (person) => (
   }))
 )
 
+const selectAllReadOnlyAddresses = (state) => selectParticipants(state)
+  .map((participant) => Map({
+    personId: participant.get('id'),
+    addresses: participant.get('addresses').filter(isReadOnly),
+  }))
+
+const combineAddresses = (person, personId, readOnlyAddressMap) => {
+  const personAddress = readOnlyAddressMap.find((addrs) => addrs.get('personId') === personId)
+  const readOnlyAddresses = personAddress ? personAddress.get('addresses') : List()
+  return readOnlyAddresses.concat(selectAddresses(person)).map(plainToFerb)
+}
+
 export const getPeopleWithEditsSelector = createSelector(
   getPeopleSelector,
   getScreeningIdValueSelector,
-  (people, screeningId) => people.map((person, personId) => {
+  selectAllReadOnlyAddresses,
+  (people, screeningId, readOnlyAddressMap) => people.map((person, personId) => {
     const isAgeDisabled = Boolean(person.getIn(['date_of_birth', 'value']))
     return fromJS({screening_id: screeningId,
       id: personId,
@@ -169,7 +182,7 @@ export const getPeopleWithEditsSelector = createSelector(
       last_name: person.getIn(['last_name', 'value']),
       name_suffix: person.getIn(['name_suffix', 'value']),
       phone_numbers: getPhoneNumbers(person),
-      addresses: selectAddresses(person).map(plainToFerb),
+      addresses: combineAddresses(person, personId, readOnlyAddressMap),
       roles: person.getIn(['roles', 'value']),
       ssn: person.getIn(['ssn', 'value']),
       sensitive: person.getIn(['sensitive', 'value']),

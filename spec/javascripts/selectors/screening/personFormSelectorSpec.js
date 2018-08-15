@@ -347,15 +347,6 @@ describe('personFormSelectors', () => {
           phone_numbers: [],
           addresses: [
             {
-              id: '1782',
-              street: '123 Delaware Crossing',
-              city: 'Davis',
-              state: 'CA',
-              zip: '95616',
-              type: 'Residence',
-              legacy_descriptor: {legacy_id: '65TT6lc0Qc'},
-            },
-            {
               touched: {},
               id: '3',
               street: '223 Van der Burgh Ave',

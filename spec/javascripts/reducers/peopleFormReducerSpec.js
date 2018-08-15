@@ -4,6 +4,8 @@ import {createPersonSuccess, createPersonFailure, updatePersonSuccess} from 'act
 import {
   setField,
   touchField,
+  setAddressField,
+  touchAddressField,
   touchAllFields,
   addAddress,
   deleteAddress,
@@ -28,8 +30,6 @@ describe('peopleFormReducer', () => {
             state: 'CA',
             zip: '55555',
             type: 'Home',
-            legacy_id: 'xxeddw',
-            legacy_descriptor: 'address legacy descriptor participant one',
           }],
           approximate_age: '2',
           approximate_age_units: 'days',
@@ -112,7 +112,7 @@ describe('peopleFormReducer', () => {
               state: 'CA',
               zip: '55555',
               type: 'Home',
-              legacy_descriptor: 'address legacy descriptor participant one',
+              legacy_descriptor: null,
             }],
             approximate_age: {value: '2'},
             approximate_age_units: {value: 'days'},
@@ -189,6 +189,89 @@ describe('peopleFormReducer', () => {
         })
       )
     })
+    it('only saves read-write addresses to the peopleForm', () => {
+      const action = fetchScreeningSuccess({
+        participants: [{
+          id: 'participant_one',
+          addresses: [{
+            id: 'ABC123',
+            street_address: '1234 Some Lane',
+            city: 'Somewhere',
+            state: 'CA',
+            zip: '55555',
+            type: 'Home',
+            legacy_descriptor: {legacy_id: 'address legacy descriptor participant one'},
+          }, {
+            id: 'ABC123',
+            street_address: '5555 Some Lane',
+            city: 'Somewhere',
+            state: 'CA',
+            zip: '55555',
+            type: 'Home',
+          }, {
+            id: 'ABC123',
+            street_address: '6666 Some Lane',
+            city: 'Somewhere',
+            state: 'CA',
+            zip: '55555',
+            type: 'Home',
+          }],
+          approximate_age: '2',
+          approximate_age_units: 'days',
+          csec: [{
+            id: undefined,
+            participant_id: undefined,
+            csec_code_id: '1',
+            start_date: '1/1/1111',
+            end_date: '1/1/1111',
+          }],
+          date_of_birth: '2/2/2222',
+          gender: 'male',
+          languages: ['English'],
+          roles: ['a', 'b'],
+          legacy_descriptor: 'legacy descriptor one',
+          first_name: 'first name one',
+          middle_name: 'middle name one',
+          last_name: 'last name one',
+          name_suffix: 'name suffix one',
+          phone_numbers: [],
+          ssn: 'ssn one',
+          sensitive: true,
+          sealed: true,
+          races: [
+            {race: 'race_1', race_detail: 'race_detail_1'},
+            {race: 'race_2', race_detail: 'race_detail_2'},
+          ],
+          ethnicity: {
+            ethnicity_detail: ['Mexican'],
+            hispanic_latino_origin: 'Yes',
+          },
+        }],
+      })
+      expect(
+        peopleFormReducer(Map(), action).getIn(['participant_one', 'addresses'])
+      ).toEqualImmutable(
+        fromJS([{
+          touched: {},
+          id: 'ABC123',
+          street: '5555 Some Lane',
+          city: 'Somewhere',
+          state: 'CA',
+          zip: '55555',
+          type: 'Home',
+          legacy_descriptor: null,
+        }, {
+          touched: {},
+          id: 'ABC123',
+          street: '6666 Some Lane',
+          city: 'Somewhere',
+          state: 'CA',
+          zip: '55555',
+          type: 'Home',
+          legacy_descriptor: null,
+        }])
+      )
+    })
     it('returns the last state on failure', () => {
       const lastState = fromJS({
         participant_one: {
@@ -257,6 +340,56 @@ describe('peopleFormReducer', () => {
           },
           participant_two: {
             ssn: {touched: false},
+          },
+        })
+      )
+    })
+  })
+
+  describe('on set person address form field', () => {
+    it('returns the updated form state', () => {
+      const lastState = fromJS({
+        participant_one: {
+          addresses: [{
+            touched: {},
+            zip: '123',
+          }],
+        },
+      })
+      const action = setAddressField('participant_one', 0, 'zip', '95811')
+      expect(peopleFormReducer(lastState, action)).toEqualImmutable(
+        fromJS({
+          participant_one: {
+            addresses: [{
+              touched: {},
+              zip: '95811',
+            }],
+          },
+        })
+      )
+    })
+  })
+
+  describe('on touch person address form field', () => {
+    it('returns the updated form state', () => {
+      const lastState = fromJS({
+        participant_one: {
+          addresses: [{
+            touched: {},
+            zip: '123',
+          }],
+        },
+      })
+      const action = touchAddressField('participant_one', 0, 'zip')
+      expect(peopleFormReducer(lastState, action)).toEqualImmutable(
+        fromJS({
+          participant_one: {
+            addresses: [{
+              touched: {
+                zip: true,
+              },
+              zip: '123',
+            }],
           },
         })
       )
@@ -400,7 +533,6 @@ describe('peopleFormReducer', () => {
           state: 'CA',
           zip: '55555',
           type: 'Home',
-          legacy_descriptor: {legacy_id: '65TT6lc0Qc'},
         }],
         races: [],
         ethnicity: {
@@ -466,7 +598,7 @@ describe('peopleFormReducer', () => {
             state: 'CA',
             zip: '55555',
             type: 'Home',
-            legacy_descriptor: {legacy_id: '65TT6lc0Qc'},
+            legacy_descriptor: null,
           }],
           races: {},
           race_details: {},
@@ -545,7 +677,6 @@ describe('peopleFormReducer', () => {
           state: 'CA',
           zip: '55555',
           type: 'Home',
-          legacy_descriptor: 'address legacy descriptor',
         }],
         races: [],
         race_details: {},
@@ -584,7 +715,7 @@ describe('peopleFormReducer', () => {
             state: 'CA',
             zip: '55555',
             type: 'Home',
-            legacy_descriptor: 'address legacy descriptor',
+            legacy_descriptor: null,
           }],
           races: {},
           race_details: {},

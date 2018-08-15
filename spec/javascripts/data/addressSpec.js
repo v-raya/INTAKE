@@ -4,7 +4,6 @@ import {
   addressFromFerb,
   isReadWrite,
   isReadOnly,
-  unwrap,
   formatForDisplay,
 } from 'data/address'
 import {fromJS, Map} from 'immutable'
@@ -201,7 +200,7 @@ describe('Address', () => {
         .deleteIn(['legacy_descriptor', 'legacy_id'])
       const zipErrors = formatForDisplay(badZipAddress).get('zipError')
       expect(zipErrors).not.toEqual(null)
-      expect(zipErrors.length).toEqual(1)
+      expect(zipErrors.size).toEqual(1)
     })
   })
 

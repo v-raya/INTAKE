@@ -13,10 +13,6 @@ import * as matchers from 'jasmine-immutable-matchers'
 describe('personShowSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  const systemCodes = {
-    addressTypes: [{code: '32', value: 'Residence'}],
-  }
-
   describe('getFormattedPersonInformationSelector', () => {
     it('returns a blank person when person does not exist', () => {
       const participants = [{id: '1', date_of_birth: '2014-01-15'}]

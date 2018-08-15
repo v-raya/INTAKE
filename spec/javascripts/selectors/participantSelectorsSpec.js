@@ -288,7 +288,7 @@ describe('participantSelectors', () => {
       const people = [{id: '1', addresses: [{zip: '1234'}]}]
       const state = fromJS({participants: people})
       expect(selectFormattedAddresses(state, '1').first().get('zipError'))
-        .toEqual(['zip code should be 5 digits'])
+        .toEqualImmutable(List(['zip code should be 5 digits']))
     })
 
     it('returns the type for an address', () => {

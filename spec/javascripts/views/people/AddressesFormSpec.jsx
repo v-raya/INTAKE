@@ -138,6 +138,14 @@ describe('AddressForm', () => {
     zipInput.simulate('change', {target: {value: '55555'}})
     expect(onChange).toHaveBeenCalledWith(0, 'zip', '55555')
   })
+  it('calls onBlur when the zip is blurred', () => {
+    const onBlur = jasmine.createSpy('onBlur')
+    const addresses = [{}]
+    const component = renderAddressesForm({addresses, onBlur})
+    const zipInput = component.find('InputField[label="Zip"]')
+    zipInput.simulate('blur')
+    expect(onBlur).toHaveBeenCalledWith(0, 'zip')
+  })
   it('renders errors for the zip field', () => {
     const addresses = [{zipError: ['zip code should be 5']}]
     const field = renderAddressesForm({addresses}).find('InputField[label="Zip"]')

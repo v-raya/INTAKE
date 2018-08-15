@@ -51,7 +51,7 @@ const AddressesForm = ({
           label='Zip'
           maxLength='5'
           onChange={({target: {value}}) => onChange(index, 'zip', value)}
-          onBlur={() => onBlur('zip')}
+          onBlur={() => onBlur(index, 'zip')}
           value={zip}
           errors={zipError}
         />

@@ -4,6 +4,8 @@ import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {
   SET_PEOPLE_FORM_FIELD,
   TOUCH_PEOPLE_FORM_FIELD,
+  SET_PEOPLE_ADDRESS_FORM_FIELD,
+  TOUCH_PEOPLE_ADDRESS_FORM_FIELD,
   ADD_PEOPLE_FORM_ADDRESS,
   DELETE_PEOPLE_FORM_ADDRESS,
   ADD_PEOPLE_FORM_PHONE_NUMBER,
@@ -14,9 +16,11 @@ import {
   CREATE_PERSON_COMPLETE,
   UPDATE_PERSON_COMPLETE,
 } from 'actions/personCardActions'
-import {addressFromFerb} from 'data/address'
+import {addressFromFerb, isReadWrite} from 'data/address'
 
-const buildAddresses = (addresses) => (addresses || []).map(addressFromFerb)
+const buildAddresses = (addresses) => (addresses || [])
+  .map(addressFromFerb)
+  .filter(isReadWrite)
 
 const buildPhoneNumbers = (phoneNumbers) => {
   if (phoneNumbers) {
@@ -151,6 +155,10 @@ export default createReducer(Map(), {
   },
   [SET_PEOPLE_FORM_FIELD]: (state, {payload: {personId, fieldSet, value}}) => state.setIn([personId, ...fieldSet, 'value'], fromJS(value)),
   [TOUCH_PEOPLE_FORM_FIELD]: (state, {payload: {personId, field}}) => state.setIn([personId, ...field, 'touched'], true),
+  [SET_PEOPLE_ADDRESS_FORM_FIELD]: (state, {payload: {personId, addressIndex, field, value}}) =>
+    state.setIn([personId, 'addresses', addressIndex, field], value),
+  [TOUCH_PEOPLE_ADDRESS_FORM_FIELD]: (state, {payload: {personId, addressIndex, field}}) =>
+    state.setIn([personId, 'addresses', addressIndex, 'touched', field], true),
   [TOUCH_ALL_PEOPLE_FORM_FIELDS]: (state, {payload: {personId}}) => {
     const fieldsWithTouch = [
       'roles',
