@@ -98,3 +98,9 @@ export const getPeopleResultsSelector = (state) => getPeopleSearchSelector(state
 
 export const getStartTimeSelector = (state) => getPeopleSearchSelector(state)
   .get('startTime')
+
+export const getPersonCreatedAtTimeSelector = (state) =>
+  state.get('relationshipsQueryCycleTime').toJS()
+    .map((t) => t.personCreatedAtTime)
+    .pop()
+

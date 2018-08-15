@@ -5,6 +5,7 @@ import {
   getPeopleResultsSelector,
   getLastResultsSortValueSelector,
   getStartTimeSelector,
+  getPersonCreatedAtTimeSelector,
 } from 'selectors/peopleSearchSelectors'
 
 describe('peopleSearchSelectors', () => {
@@ -452,6 +453,16 @@ describe('peopleSearchSelectors', () => {
       }
       const state = fromJS({peopleSearch})
       expect(getStartTimeSelector(state)).toEqual(null)
+    })
+  })
+
+  describe('getPersonCreatedAtTimeSelector', () => {
+    it('gets person created at time', () => {
+      const relationshipsQueryCycleTime = [{
+        personCreatedAtTime: 1534190832860,
+      }]
+      const state = fromJS({relationshipsQueryCycleTime})
+      expect(getPersonCreatedAtTimeSelector(state)).toEqual(1534190832860)
     })
   })
 })
