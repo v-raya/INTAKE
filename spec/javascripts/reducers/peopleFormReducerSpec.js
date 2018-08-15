@@ -739,7 +739,7 @@ describe('peopleFormReducer', () => {
         fromJS({
           person_one: {addresses: [{
             touched: {},
-            id: undefined,
+            id: null,
             street: undefined,
             city: undefined,
             state: undefined,

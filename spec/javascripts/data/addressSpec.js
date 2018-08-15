@@ -88,8 +88,6 @@ describe('Address', () => {
       })
 
       it('has undefined fields', () => {
-        expect(address.has('id')).toEqual(true)
-        expect(address.get('id')).toBeUndefined()
         expect(address.has('street')).toEqual(true)
         expect(address.get('street')).toBeUndefined()
         expect(address.has('city')).toEqual(true)
@@ -100,6 +98,11 @@ describe('Address', () => {
         expect(address.get('zip')).toBeUndefined()
         expect(address.has('type')).toEqual(true)
         expect(address.get('type')).toBeUndefined()
+      })
+
+      it('has a null id', () => {
+        expect(address.has('id')).toEqual(true)
+        expect(address.get('id')).toEqual(null)
       })
 
       it('has a null legacy_descriptor', () => {
@@ -244,6 +247,27 @@ describe('Address', () => {
 
       expect(address).toEqualImmutable(fromJS({
         id: '1',
+        street_address: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+      }))
+    })
+
+    it('handles a new address, including a new id', () => {
+      const address = plainToFerb(fromJS({
+        id: null,
+        street: '2870 Gateway Oaks Dr',
+        city: 'Sacramento',
+        state: 'CA',
+        zip: '95833',
+        type: 'Work',
+        legacy_descriptor: null,
+      }))
+
+      expect(address).toEqualImmutable(fromJS({
+        id: null,
         street_address: '2870 Gateway Oaks Dr',
         city: 'Sacramento',
         state: 'CA',

@@ -15,10 +15,13 @@ export const AddressPropType = PropTypes.shape({
 const keySet = Set(['id', 'street', 'city', 'state', 'zip', 'type', 'legacy_descriptor'])
 const isKeyValid = (_value, key) => keySet.has(key)
 
+const defaultToNull = (value) => (value || null)
+
 export const ferbToPlain = (ferbAddress) =>
   ferbAddress
     .set('street', ferbAddress.get('street_address'))
-    .update('legacy_descriptor', (value) => (value || null))
+    .update('id', defaultToNull)
+    .update('legacy_descriptor', defaultToNull)
     .filter(isKeyValid)
 
 export const addressFromFerb = ({
@@ -31,7 +34,7 @@ export const addressFromFerb = ({
   legacy_descriptor,
 }) => fromJS({
   touched: {},
-  id,
+  id: id || null,
   street: street_address,
   city,
   state,

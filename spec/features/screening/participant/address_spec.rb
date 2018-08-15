@@ -73,8 +73,7 @@ feature 'Participant Address' do
                      'city' => 'Someplace',
                      'state' => 'CA',
                      'zip' => '55555',
-                     'type' => 'Home',
-                     'legacy_id' => nil
+                     'type' => 'Home'
                    )
                  )
                ))).to have_been_made
