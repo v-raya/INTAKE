@@ -3,7 +3,7 @@ import {
   selectClientIds,
   selectParticipant,
   selectParticipants,
-  selectParticipantsForAPI,
+  selectParticipantsForFerb,
   selectRoles,
   selectAllRoles,
   selectFormattedAddresses,
@@ -31,7 +31,7 @@ describe('participantSelectors', () => {
     })
   })
 
-  describe('selectParticipantsForAPI', () => {
+  describe('selectParticipantsForFerb', () => {
     it('should select participants from state', () => {
       const state = fromJS({
         participants: [
@@ -41,7 +41,7 @@ describe('participantSelectors', () => {
         ],
       })
 
-      expect(selectParticipantsForAPI(state)).toEqualImmutable(state.get('participants'))
+      expect(selectParticipantsForFerb(state)).toEqualImmutable(state.get('participants'))
     })
 
     it('should update address format for posting to Ferb', () => {
@@ -62,7 +62,7 @@ describe('participantSelectors', () => {
       })
 
       expect(
-        selectParticipantsForAPI(state).first().get('addresses')
+        selectParticipantsForFerb(state).first().get('addresses')
       ).toEqualImmutable(fromJS([{
         id: '1',
         street_address: '1000 Peach Castle',

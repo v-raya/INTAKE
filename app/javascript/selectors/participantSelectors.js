@@ -4,7 +4,7 @@ import {toFerbAddress, setErrors, expandState} from 'data/address'
 
 export const selectParticipants = (state) => state.get('participants', List())
 
-export const selectParticipantsForAPI = (state) =>
+export const selectParticipantsForFerb = (state) =>
   selectParticipants(state)
     .map((participant) =>
       participant.update('addresses', (addrs) => addrs.map(toFerbAddress))
