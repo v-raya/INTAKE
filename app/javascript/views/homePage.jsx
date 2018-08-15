@@ -5,14 +5,13 @@ import PageHeader from 'common/PageHeader'
 import {BreadCrumb} from 'common/BreadCrumb'
 
 const HomePageButtons = ({snapshot, hotline, createSnapshot, createScreening}) => (
-  <div>
+  <div className='pull-right'>
     {
       snapshot &&
       <button type='button'
-        className='btn primary-btn pull-right'
+        className='btn primary-btn'
         disabled={false}
         onClick={createSnapshot}
-        style={{marginRight: '10px'}}
       >
       Start Snapshot
       </button>
@@ -20,7 +19,7 @@ const HomePageButtons = ({snapshot, hotline, createSnapshot, createScreening}) =
     {
       hotline &&
       <button type='button'
-        className='btn primary-btn pull-right'
+        className='btn primary-btn'
         disabled={false}
         onClick={createScreening}
       >
