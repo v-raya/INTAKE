@@ -12,7 +12,7 @@ import moment from 'moment'
 import {getPersonCreatedAtTimeSelector} from 'selectors/peopleSearchSelectors'
 import {logEvent} from 'utils/analytics'
 
-export const currentTime = () => moment.valueOf()
+export const currentTime = () => moment().valueOf()
 
 export function* fetchRelationships({payload: {ids, screeningId}}) {
   try {
