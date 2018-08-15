@@ -4,6 +4,7 @@ import {get} from 'utils/http'
 import {
   fetchRelationshipsSaga,
   fetchRelationships,
+  currentTime,
 } from 'sagas/fetchRelationshipsSaga'
 import {FETCH_RELATIONSHIPS} from 'actions/actionTypes'
 import * as actions from 'actions/relationshipsActions'
@@ -42,9 +43,9 @@ describe('fetchRelationships', () => {
       select(getPersonCreatedAtTimeSelector)
     )
     const fetchRelationshipTime = moment().valueOf()
-
     const relationshipsQueryCycleTime = fetchRelationshipTime - personCreatedAtTime
-    expect(gen.next(personCreatedAtTime).value).toEqual(call(logEvent, 'relationshipsQueryCycleTime', {
+    expect(gen.next(personCreatedAtTime).value).toEqual(select(currentTime))
+    expect(gen.next(fetchRelationshipTime).value).toEqual(call(logEvent, 'relationshipsQueryCycleTime', {
       relationshipsQueryCycleTime: relationshipsQueryCycleTime,
     }))
     expect(gen.next().value).toEqual(
