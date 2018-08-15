@@ -9,7 +9,7 @@ import {
   CLEAR_PEOPLE,
 } from 'actions/personCardActions'
 import {SAVE_SCREENING_COMPLETE} from 'actions/screeningActions'
-import {ferbToPlain} from 'data/address'
+import {fromFerbAddress} from 'data/address'
 import {createReducer} from 'utils/createReducer'
 import {List, fromJS} from 'immutable'
 
@@ -30,7 +30,7 @@ const transformCsec = (person) => {
 
 const transformPerson = (person) =>
   transformCsec(person)
-    .update('addresses', (addresses) => (addresses || List()).map(ferbToPlain))
+    .update('addresses', (addresses) => (addresses || List()).map(fromFerbAddress))
 
 const getParticipantsOnScreening = (state, {payload, error}) => {
   if (error) {

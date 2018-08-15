@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
-import {isReadOnly, plainToFerb} from 'data/address'
+import {isReadOnly, toFerbAddress} from 'data/address'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
@@ -159,7 +159,7 @@ const selectAllReadOnlyAddresses = (state) => selectParticipants(state)
 const combineAddresses = (person, personId, readOnlyAddressMap) => {
   const personAddress = readOnlyAddressMap.find((addrs) => addrs.get('personId') === personId)
   const readOnlyAddresses = personAddress ? personAddress.get('addresses') : List()
-  return readOnlyAddresses.concat(selectAddresses(person)).map(plainToFerb)
+  return readOnlyAddresses.concat(selectAddresses(person)).map(toFerbAddress)
 }
 
 export const getPeopleWithEditsSelector = createSelector(

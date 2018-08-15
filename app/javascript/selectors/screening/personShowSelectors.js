@@ -1,5 +1,5 @@
 import {List, Map, fromJS} from 'immutable'
-import {isReadWrite} from 'data/address'
+import {isReadWrite, isReadOnly} from 'data/address'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import GENDERS from 'enums/Genders'
 import {selectParticipant, selectFormattedAddresses} from 'selectors/participantSelectors'
@@ -213,4 +213,4 @@ export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
 
 export const getReadOnlyPersonFormattedAddressesSelector = (state, personId) => (
   selectFormattedAddresses(state, personId)
-).filter((address) => address.get('legacy_id')).map((address) => address.delete('zipError'))
+).filter(isReadOnly).map((address) => address.delete('zipError'))

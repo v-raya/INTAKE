@@ -1,6 +1,6 @@
 import {
-  ferbToPlain,
-  plainToFerb,
+  fromFerbAddress,
+  toFerbAddress,
   setTouchable,
   isReadWrite,
   isReadOnly,
@@ -12,18 +12,18 @@ import * as matchers from 'jasmine-immutable-matchers'
 describe('Address', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('ferbToPlain', () => {
+  describe('fromFerbAddress', () => {
     it('returns an Immutable Map', () => {
-      expect(Map.isMap(ferbToPlain(Map()))).toEqual(true)
+      expect(Map.isMap(fromFerbAddress(Map()))).toEqual(true)
     })
 
     it('filters out unknown fields', () => {
-      const address = ferbToPlain(fromJS({foo: 'bar'}))
+      const address = fromFerbAddress(fromJS({foo: 'bar'}))
       expect(address.get('foo')).toBeUndefined()
     })
 
     it('handles an address persisted to legacy', () => {
-      const address = ferbToPlain(fromJS({
+      const address = fromFerbAddress(fromJS({
         id: '1',
         street_address: '2870 Gateway Oaks Dr',
         city: 'Sacramento',
@@ -45,7 +45,7 @@ describe('Address', () => {
     })
 
     it('handles an editable address from Postgres', () => {
-      const address = ferbToPlain(fromJS({
+      const address = fromFerbAddress(fromJS({
         id: '1',
         street_address: '2870 Gateway Oaks Dr',
         city: 'Sacramento',
@@ -68,7 +68,7 @@ describe('Address', () => {
 
   describe('setTouchable', () => {
     it('sets an empty touched object on the address', () => {
-      const address = ferbToPlain(Map())
+      const address = fromFerbAddress(Map())
       const touchable = setTouchable(address)
       expect(touchable.has('touched')).toEqual(true)
       expect(touchable.get('touched')).toEqualImmutable(Map())
@@ -114,7 +114,7 @@ describe('Address', () => {
         state: 'California',
         zip: '95833',
         type: 'Work',
-        legacy_id: 'ABC123',
+        legacy_descriptor: {legacy_id: 'ABC123'},
         zipError: null,
       }))
     })
@@ -129,13 +129,13 @@ describe('Address', () => {
     })
   })
 
-  describe('plainToFerb', () => {
+  describe('toFerbAddress', () => {
     it('returns an Immutable Map', () => {
-      expect(Map.isMap(plainToFerb(Map()))).toEqual(true)
+      expect(Map.isMap(toFerbAddress(Map()))).toEqual(true)
     })
 
     it('handles an address persisted to legacy', () => {
-      const address = plainToFerb(fromJS({
+      const address = toFerbAddress(fromJS({
         id: '1',
         street: '2870 Gateway Oaks Dr',
         city: 'Sacramento',
@@ -157,7 +157,7 @@ describe('Address', () => {
     })
 
     it('handles an editable address from Postgres', () => {
-      const address = plainToFerb(fromJS({
+      const address = toFerbAddress(fromJS({
         id: '1',
         street: '2870 Gateway Oaks Dr',
         city: 'Sacramento',
@@ -178,7 +178,7 @@ describe('Address', () => {
     })
 
     it('handles a new address, including a new id', () => {
-      const address = plainToFerb(fromJS({
+      const address = toFerbAddress(fromJS({
         id: null,
         street: '2870 Gateway Oaks Dr',
         city: 'Sacramento',

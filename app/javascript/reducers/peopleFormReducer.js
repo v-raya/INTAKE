@@ -16,10 +16,10 @@ import {
   CREATE_PERSON_COMPLETE,
   UPDATE_PERSON_COMPLETE,
 } from 'actions/personCardActions'
-import {ferbToPlain, setTouchable, isReadWrite} from 'data/address'
+import {fromFerbAddress, setTouchable, isReadWrite} from 'data/address'
 
 const buildAddresses = (addresses) => fromJS(addresses || [])
-  .map(ferbToPlain)
+  .map(fromFerbAddress)
   .map(setTouchable)
   .filter(isReadWrite)
 
@@ -174,7 +174,7 @@ export default createReducer(Map(), {
   },
   [ADD_PEOPLE_FORM_ADDRESS]: (state, {payload: {personId}}) => {
     const currentAddresses = state.getIn([personId, 'addresses'])
-    const newAddress = setTouchable(ferbToPlain(Map()))
+    const newAddress = setTouchable(fromFerbAddress(Map()))
     return state.setIn([personId, 'addresses'], currentAddresses.push(newAddress))
   },
   [ADD_PEOPLE_FORM_PHONE_NUMBER]: (state, {payload: {personId}}) => {
