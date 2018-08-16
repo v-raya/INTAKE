@@ -1,23 +1,28 @@
 import {connect} from 'react-redux'
-import {setField, addAddress, deleteAddress, touchField} from 'actions/peopleFormActions'
+import {
+  setAddressField,
+  addAddress,
+  deleteAddress,
+  touchAddressField,
+} from 'actions/peopleFormActions'
 import AddressesForm from 'views/people/AddressesForm'
 import {
-  getPersonEditableAddressesSelector,
-  getAddressTypeOptionsSelector,
+  selectReadWriteAddressesWithVisibleErrors,
+  selectAddressTypeOptions,
 } from 'selectors/screening/personAddressesFormSelectors'
 
 const mapStateToProps = (state, {personId}) => ({
-  addresses: getPersonEditableAddressesSelector(state, personId).toJS(),
-  addressTypeOptions: getAddressTypeOptionsSelector(state).toJS(),
+  addresses: selectReadWriteAddressesWithVisibleErrors(state, personId).toJS(),
+  addressTypeOptions: selectAddressTypeOptions(state).toJS(),
   idPrefix: `person-${personId}`,
 })
 
 const mapDispatchToProps = (dispatch, {personId}) => ({
   addAddress: () => dispatch(addAddress(personId)),
   deleteAddress: (addressIndex) => dispatch(deleteAddress(personId, addressIndex)),
-  onBlur: (field) => dispatch(touchField(personId, [field])),
+  onBlur: (addressIndex, field) => dispatch(touchAddressField(personId, addressIndex, field)),
   onChange: (addressIndex, field, value) => {
-    dispatch(setField(personId, ['addresses', addressIndex, field], value))
+    dispatch(setAddressField(personId, addressIndex, field, value))
   },
 })
 

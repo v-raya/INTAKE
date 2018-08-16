@@ -4,6 +4,8 @@ import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {
   SET_PEOPLE_FORM_FIELD,
   TOUCH_PEOPLE_FORM_FIELD,
+  SET_PEOPLE_ADDRESS_FORM_FIELD,
+  TOUCH_PEOPLE_ADDRESS_FORM_FIELD,
   ADD_PEOPLE_FORM_ADDRESS,
   DELETE_PEOPLE_FORM_ADDRESS,
   ADD_PEOPLE_FORM_PHONE_NUMBER,
@@ -14,21 +16,12 @@ import {
   CREATE_PERSON_COMPLETE,
   UPDATE_PERSON_COMPLETE,
 } from 'actions/personCardActions'
+import {fromFerbAddress, setTouchable, isReadWrite} from 'data/address'
 
-const buildAddresses = (addresses) => {
-  if (!addresses) { return [] }
-
-  return addresses.map(({id, street_address, city, state, zip, type, legacy_descriptor, legacy_id}) => ({
-    id,
-    street: {value: street_address},
-    city: {value: city},
-    state: {value: state},
-    zip: {value: zip},
-    type: {value: type},
-    legacy_id: {value: legacy_id},
-    legacy_descriptor: {value: legacy_descriptor},
-  })).filter((address) => !address.legacy_id.value)
-}
+const buildAddresses = (addresses) => fromJS(addresses || [])
+  .map(fromFerbAddress)
+  .map(setTouchable)
+  .filter(isReadWrite)
 
 const buildPhoneNumbers = (phoneNumbers) => {
   if (phoneNumbers) {
@@ -163,6 +156,10 @@ export default createReducer(Map(), {
   },
   [SET_PEOPLE_FORM_FIELD]: (state, {payload: {personId, fieldSet, value}}) => state.setIn([personId, ...fieldSet, 'value'], fromJS(value)),
   [TOUCH_PEOPLE_FORM_FIELD]: (state, {payload: {personId, field}}) => state.setIn([personId, ...field, 'touched'], true),
+  [SET_PEOPLE_ADDRESS_FORM_FIELD]: (state, {payload: {personId, addressIndex, field, value}}) =>
+    state.setIn([personId, 'addresses', addressIndex, field], value),
+  [TOUCH_PEOPLE_ADDRESS_FORM_FIELD]: (state, {payload: {personId, addressIndex, field}}) =>
+    state.setIn([personId, 'addresses', addressIndex, 'touched', field], true),
   [TOUCH_ALL_PEOPLE_FORM_FIELDS]: (state, {payload: {personId}}) => {
     const fieldsWithTouch = [
       'roles',
@@ -177,15 +174,7 @@ export default createReducer(Map(), {
   },
   [ADD_PEOPLE_FORM_ADDRESS]: (state, {payload: {personId}}) => {
     const currentAddresses = state.getIn([personId, 'addresses'])
-    const nullValue = {value: null}
-    const newAddress = fromJS({
-      id: null,
-      street: nullValue,
-      city: nullValue,
-      state: nullValue,
-      zip: nullValue,
-      type: nullValue,
-    })
+    const newAddress = setTouchable(fromFerbAddress(Map()))
     return state.setIn([personId, 'addresses'], currentAddresses.push(newAddress))
   },
   [ADD_PEOPLE_FORM_PHONE_NUMBER]: (state, {payload: {personId}}) => {

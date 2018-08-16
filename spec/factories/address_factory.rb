@@ -9,6 +9,7 @@ FactoryBot.define do
     end
 
     trait :with_legacy do
+      legacy_descriptor { FactoryBot.create(:legacy_descriptor) }
       legacy_id { FFaker::Guid.guid }
       legacy_source_table { 'ADDR_T' }
     end

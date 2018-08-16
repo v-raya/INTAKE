@@ -1,6 +1,5 @@
 import {connect} from 'react-redux'
 import PersonCard from 'views/people/PersonCard'
-import {getPeopleWithEditsSelector} from 'selectors/screening/personFormSelectors'
 import {
   getModeValueSelector,
   getPersonNamesSelector,
@@ -16,7 +15,6 @@ const mapStateToProps = (state, {personId}) => ({
   deletable: !state.getIn(['screening', 'referral_id']),
   informationFlag: getPersonInformationFlagValuesSelector(state).get(personId),
   personName: getPersonNamesSelector(state).get(personId),
-  personWithEdits: getPeopleWithEditsSelector(state).get(personId).toJS(),
 })
 
 const mapDispatchToProps = (dispatch, {personId}) => ({

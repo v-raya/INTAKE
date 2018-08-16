@@ -49,7 +49,7 @@ describe('allegationsFormSelectors', () => {
         participants: [{id: '456', first_name: 'Luigi'}],
       }
 
-      const participants = [{id: '123', first_name: 'Mario'}]
+      const participants = [{id: '123', first_name: 'Mario', addresses: []}]
       const state = fromJS({allegationsForm, screening, participants})
       expect(getScreeningWithAllegationsEditsSelector(state)).toEqualImmutable(fromJS({
         id: 'ABCDEF',
@@ -62,6 +62,59 @@ describe('allegationsFormSelectors', () => {
           screening_id: 'ABCDEF',
         }],
         participants,
+      }))
+    })
+
+    it('converts addresses to the format Ferb expects', () => {
+      const allegationsForm = [
+        {id: '123', victimId: '1', perpetratorId: '2', allegationTypes: ['General neglect']},
+      ]
+      const screening = {
+        id: 'ABCDEF',
+        screening_decision: 'promote_to_referral',
+        allegations: [
+          {id: '456', victim_person_id: '3', perpetrator_person_id: '4', types: ['General neglect']},
+        ],
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+
+      const participants = [{
+        id: '1',
+        first_name: 'Mario',
+        addresses: [{
+          id: '1',
+          street: '1000 Peach Castle',
+          city: 'World 1-1',
+          state: 'Mushroom Kingdom',
+          zip: '00001',
+          type: 'Home',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+        }],
+      }]
+      const state = fromJS({allegationsForm, screening, participants})
+      expect(getScreeningWithAllegationsEditsSelector(state)).toEqualImmutable(fromJS({
+        id: 'ABCDEF',
+        screening_decision: 'promote_to_referral',
+        allegations: [{
+          id: '123',
+          victim_person_id: '1',
+          perpetrator_person_id: '2',
+          types: ['General neglect'],
+          screening_id: 'ABCDEF',
+        }],
+        participants: [{
+          id: '1',
+          first_name: 'Mario',
+          addresses: [{
+            id: '1',
+            street_address: '1000 Peach Castle',
+            city: 'World 1-1',
+            state: 'Mushroom Kingdom',
+            zip: '00001',
+            type: 'Home',
+            legacy_descriptor: {legacy_id: 'ABC123'},
+          }],
+        }],
       }))
     })
 

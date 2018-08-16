@@ -25,7 +25,9 @@ feature 'Participant Address' do
     visit edit_screening_path(id: screening[:id])
     expect(page).to_not have_field('Address', with: marge.addresses.first.street_address)
 
-    marge[:addresses].push(
+    legacy_address = marge[:addresses].first
+
+    marge[:addresses].unshift(
       street_address: '1234 Some Lane',
       city: 'Someplace',
       state: 'CA',
@@ -66,22 +68,30 @@ feature 'Participant Address' do
     expect(a_request(:put,
       ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
                .with(body: hash_including(
-                 'addresses' => array_including(
-                   hash_including(
-                     'id' => nil,
-                     'street_address' => '1234 Some Lane',
-                     'city' => 'Someplace',
-                     'state' => 'CA',
-                     'zip' => '55555',
-                     'type' => 'Home',
-                     'legacy_id' => nil
-                   )
-                 )
+                 'addresses' => [{
+                   'id' => nil,
+                   'street_address' => '1234 Some Lane',
+                   'city' => 'Someplace',
+                   'state' => 'CA',
+                   'zip' => '55555',
+                   'type' => 'Home'
+                 }, {
+                   'id' => legacy_address.id,
+                   'street_address' => legacy_address.street_address,
+                   'city' => legacy_address.city,
+                   'state' => legacy_address.state,
+                   'zip' => legacy_address.zip,
+                   'type' => legacy_address.type,
+                   'legacy_descriptor' => legacy_address.legacy_descriptor.as_json
+                 }]
                ))).to have_been_made
 
     within show_participant_card_selector(marge.id) do
+      expect(page.text).to match(
+        Regexp.new('1234 Some Lane.*' + legacy_address.street_address)
+      )
       click_link 'Edit'
-      expect(page).to_not have_field('Address', with: marge.addresses.first.street_address)
+      expect(page).to_not have_field('Address', with: legacy_address.street_address)
       expect(page).to have_field('Address', with: '1234 Some Lane')
     end
   end

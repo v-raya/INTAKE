@@ -1,22 +1,24 @@
 import {List, Map} from 'immutable'
+import {isReadWrite, setVisibleErrors} from 'data/address'
 import {selectAddressTypes} from 'selectors/systemCodeSelectors'
-import {getZIPErrors} from 'utils/zipValidator'
 
-export const getAddresses = (person) => person.get('addresses', List()).map((address) => Map({
-  id: address.get('id'),
-  street: address.getIn(['street', 'value']),
-  city: address.getIn(['city', 'value']),
-  state: address.getIn(['state', 'value']),
-  zip: address.getIn(['zip', 'value']),
-  type: address.getIn(['type', 'value']),
-  legacy_id: address.getIn(['legacy_descriptor', 'value', 'legacy_id'], null),
-}))
+export const selectAddresses = (person) => person.get('addresses', List())
 
-export const getPersonEditableAddressesSelector = (state, personId) => getAddresses(state.get('peopleForm', Map()).get(personId))
-  .filter((address) => !address.get('legacy_id'))
-  .map((address) => address.delete('legacy_id'))
-  .map((address) => address.set('zipError', getZIPErrors(address.get('zip'))))
+const selectAddressesById = (state, personId) =>
+  selectAddresses(state.get('peopleForm', Map()).get(personId))
 
-export const getAddressTypeOptionsSelector = (state) => selectAddressTypes(state).map((addressType) => Map({
-  label: addressType.get('value'),
-}))
+const selectReadWriteAddressesById = (state, personId) =>
+  selectAddressesById(state, personId)
+    .filter(isReadWrite)
+
+export const selectReadWriteAddresses = (state, personId) =>
+  selectReadWriteAddressesById(state, personId)
+    .map((address) => address.delete('legacy_descriptor'))
+
+export const selectAddressTypeOptions = (state) => selectAddressTypes(state)
+  .map((addressType) => Map({label: addressType.get('value')}))
+
+export const selectReadWriteAddressesWithVisibleErrors = (state, personId) =>
+  selectReadWriteAddressesById(state, personId)
+    .map(setVisibleErrors)
+    .map((address) => address.delete('legacy_descriptor').delete('touched'))

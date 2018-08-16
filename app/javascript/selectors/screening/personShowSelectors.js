@@ -1,8 +1,8 @@
 import {List, Map, fromJS} from 'immutable'
+import {isReadWrite, isReadOnly} from 'data/address'
 import {flagPrimaryLanguage} from 'common/LanguageInfo'
 import GENDERS from 'enums/Genders'
-import US_STATE from 'enums/USState'
-import {selectParticipant} from 'selectors/participantSelectors'
+import {selectParticipant, selectFormattedAddresses} from 'selectors/participantSelectors'
 import legacySourceFormatter from 'utils/legacySourceFormatter'
 import nameFormatter from 'utils/nameFormatter'
 import ssnFormatter from 'utils/ssnFormatter'
@@ -114,12 +114,10 @@ export const getErrorsSelector = (state, personId) => {
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   const lastName = person.get('last_name')
   const firstName = person.get('first_name')
-  const addressZip =
-  person.get('addresses') === undefined ? [] : person.get('addresses')
-    .filter((address) => !address.get('legacy_id'))
-    .map((newAddress) => (
-      getZIPErrors(newAddress.get('zip'))
-    )).flatten()
+  const addressZip = (person.get('addresses') || List())
+    .filter(isReadWrite)
+    .map((address) => getZIPErrors(address.get('zip')))
+    .flatten()
   const roles = person.get('roles', List())
   const csecTypes = csecTypesSelector(state, personId)
   const csecStartedAt = person.get('csec_started_at')
@@ -213,26 +211,6 @@ export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
     )
 )
 
-const formattedState = (stateCode) => {
-  const state = US_STATE.find((state) => state.code === stateCode)
-  return state ? state.name : ''
-}
-
-export const getAllPersonFormattedAddressesSelector = (state, personId) => (
-  selectPersonOrEmpty(state, personId)
-    .get('addresses', List()).map((address) =>
-      Map({
-        street: address.get('street_address'),
-        city: address.get('city'),
-        state: formattedState(address.get('state')),
-        zip: address.get('zip'),
-        zipError: address.get(['legacy_descriptor', 'legacy_id']) ? null : getZIPErrors(address.get('zip')),
-        type: address.get('type'),
-        legacy_id: address.getIn(['legacy_descriptor', 'legacy_id']),
-      })
-    )
-)
-
 export const getReadOnlyPersonFormattedAddressesSelector = (state, personId) => (
-  getAllPersonFormattedAddressesSelector(state, personId)
-).filter((address) => address.get('legacy_id')).map((address) => address.delete('zipError'))
+  selectFormattedAddresses(state, personId)
+).filter(isReadOnly).map((address) => address.delete('zipError'))

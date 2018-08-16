@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ShowField from 'common/ShowField'
+import {AddressPropType} from 'data/address'
 
 const AddressesShow = ({addresses}) => (
   <div>
@@ -22,13 +23,7 @@ const AddressesShow = ({addresses}) => (
 )
 
 AddressesShow.propTypes = {
-  addresses: PropTypes.arrayOf(PropTypes.shape({
-    city: PropTypes.string,
-    state: PropTypes.string,
-    street: PropTypes.string,
-    type: PropTypes.string,
-    zip: PropTypes.string,
-  })),
+  addresses: PropTypes.arrayOf(AddressPropType),
 }
 
 export default AddressesShow

@@ -307,7 +307,7 @@ describe('decisionFormSelectors', () => {
         access_restrictions: {value: '4'},
         restrictions_rationale: {value: '5'},
       }
-      const participants = [{id: '123', first_name: 'Mario'}]
+      const participants = [{id: '123', first_name: 'Mario', addresses: []}]
       const state = fromJS({screening, screeningDecisionForm, participants})
       expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
         screening_decision: '1',
@@ -318,6 +318,63 @@ describe('decisionFormSelectors', () => {
         restrictions_rationale: '5',
         narrative: 'Hello',
         participants,
+      }))
+    })
+
+    it('converts addresses to the format Ferb expects', () => {
+      const screening = {
+        screening_decision: 'ABC',
+        screening_decision_detail: 'DEF',
+        screening_contact_reference: 'REF',
+        additional_information: 'GHI',
+        access_restrictions: 'JKL',
+        restrictions_rationale: 'MNO',
+        narrative: 'Hello',
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const screeningDecisionForm = {
+        screening_decision: {value: '1'},
+        screening_decision_detail: {value: '2'},
+        screening_contact_reference: {value: 'REF'},
+        additional_information: {value: '3'},
+        access_restrictions: {value: '4'},
+        restrictions_rationale: {value: '5'},
+      }
+      const participants = [{
+        id: '1',
+        first_name: 'Mario',
+        addresses: [{
+          id: '1',
+          street: '1000 Peach Castle',
+          city: 'World 1-1',
+          state: 'Mushroom Kingdom',
+          zip: '00001',
+          type: 'Home',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+        }],
+      }]
+      const state = fromJS({screening, screeningDecisionForm, participants})
+      expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
+        screening_decision: '1',
+        screening_decision_detail: '2',
+        screening_contact_reference: 'REF',
+        additional_information: '3',
+        access_restrictions: '4',
+        restrictions_rationale: '5',
+        narrative: 'Hello',
+        participants: [{
+          id: '1',
+          first_name: 'Mario',
+          addresses: [{
+            id: '1',
+            street_address: '1000 Peach Castle',
+            city: 'World 1-1',
+            state: 'Mushroom Kingdom',
+            zip: '00001',
+            type: 'Home',
+            legacy_descriptor: {legacy_id: 'ABC123'},
+          }],
+        }],
       }))
     })
   })

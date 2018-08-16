@@ -1,13 +1,14 @@
 import {createSelector} from 'reselect'
 import {fromJS, List, Map} from 'immutable'
+import {isReadOnly, toFerbAddress} from 'data/address'
 import {ROLE_TYPE_NON_REPORTER, ROLE_TYPE_REPORTER} from 'enums/RoleType'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {isRequiredIfCreate, combineCompact} from 'utils/validator'
 import moment from 'moment'
-import {selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
-import {getAddresses} from 'selectors/screening/personAddressesFormSelectors'
+import {selectParticipants} from 'selectors/participantSelectors'
+import {selectAddresses} from 'selectors/screening/personAddressesFormSelectors'
 import {hasReporter, hasNonReporter} from 'utils/roles'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
@@ -139,21 +140,6 @@ const getRaces = (person) => person.get('races', Map()).reduce((races, raceValue
   return (raceValue.get('value')) ? [...races, {race: raceKey, race_detail: raceDetails}] : races
 }, [])
 
-const getAllReadOnlyAddresses = (state) => selectParticipants(state).map((person) => Map({
-  personId: person.get('id'),
-  addresses: person.get('addresses').filter((address) => address.get('legacy_id')),
-}))
-
-const filterLegacyAddresses = (personId, allReadOnlyAddresses) => {
-  const personAddress = allReadOnlyAddresses.find((personAddress) => personAddress.get('personId') === personId)
-  return personAddress ? personAddress.get('addresses') : List()
-}
-
-const combineAddresses = (person, personId, allReadOnlyAddresses) => [
-  ...filterLegacyAddresses(personId, allReadOnlyAddresses),
-  ...getAddresses(person),
-].map((address) => address.set('street_address', address.get('street', address.get('street_address'))).delete('street'))
-
 const csecPersonInfo = (person) => (
   person.getIn(['csec_types', 'value'], List()).map((type, index) => Map({
     id: person.getIn(['csec_ids', index]),
@@ -164,11 +150,23 @@ const csecPersonInfo = (person) => (
   }))
 )
 
+const selectAllReadOnlyAddresses = (state) => selectParticipants(state)
+  .map((participant) => Map({
+    personId: participant.get('id'),
+    addresses: participant.get('addresses').filter(isReadOnly),
+  }))
+
+const combineAddresses = (person, personId, readOnlyAddressMap) => {
+  const personAddress = readOnlyAddressMap.find((addrs) => addrs.get('personId') === personId)
+  const readOnlyAddresses = personAddress ? personAddress.get('addresses') : List()
+  return selectAddresses(person).concat(readOnlyAddresses).map(toFerbAddress)
+}
+
 export const getPeopleWithEditsSelector = createSelector(
   getPeopleSelector,
   getScreeningIdValueSelector,
-  getAllReadOnlyAddresses,
-  (people, screeningId, allReadOnlyAddresses) => people.map((person, personId) => {
+  selectAllReadOnlyAddresses,
+  (people, screeningId, readOnlyAddressMap) => people.map((person, personId) => {
     const isAgeDisabled = Boolean(person.getIn(['date_of_birth', 'value']))
     return fromJS({screening_id: screeningId,
       id: personId,
@@ -184,7 +182,7 @@ export const getPeopleWithEditsSelector = createSelector(
       last_name: person.getIn(['last_name', 'value']),
       name_suffix: person.getIn(['name_suffix', 'value']),
       phone_numbers: getPhoneNumbers(person),
-      addresses: combineAddresses(person, personId, allReadOnlyAddresses),
+      addresses: combineAddresses(person, personId, readOnlyAddressMap),
       roles: person.getIn(['roles', 'value']),
       ssn: person.getIn(['ssn', 'value']),
       sensitive: person.getIn(['sensitive', 'value']),

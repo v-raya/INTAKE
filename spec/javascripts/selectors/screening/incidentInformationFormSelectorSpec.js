@@ -188,7 +188,7 @@ describe('incidentInformationFormSelectors', () => {
         current_location_of_children: 'Old location of children',
         participants: [{id: '456', first_name: 'Luigi'}],
       }
-      const participants = [{id: '123', first_name: 'Mario'}]
+      const participants = [{id: '123', first_name: 'Mario', addresses: []}]
       const state = fromJS({incidentInformationForm, screening, participants})
       expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
         incident_date: '1/3/2009',
@@ -203,6 +203,63 @@ describe('incidentInformationFormSelectors', () => {
         location_type: 'new location type',
         current_location_of_children: 'new location of children',
         participants,
+      }))
+    })
+
+    it('converts addresses to the format Ferb expects', () => {
+      const screening = {
+        incident_date: '1/2/2009',
+        incident_county: 'old county',
+        incident_address: {
+          id: '1',
+          street_address: 'old address',
+          city: 'old city',
+          state: 'old state',
+          zip: 'old zip',
+        },
+        location_type: 'old location type',
+        current_location_of_children: 'Old location of children',
+        participants: [{id: '456', first_name: 'Luigi'}],
+      }
+      const participants = [{
+        id: '1',
+        first_name: 'Mario',
+        addresses: [{
+          id: '1',
+          street: '1000 Peach Castle',
+          city: 'World 1-1',
+          state: 'Mushroom Kingdom',
+          zip: '00001',
+          type: 'Home',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+        }],
+      }]
+      const state = fromJS({incidentInformationForm, screening, participants})
+      expect(getScreeningWithEditsSelector(state)).toEqualImmutable(fromJS({
+        incident_date: '1/3/2009',
+        incident_county: 'new county',
+        incident_address: {
+          id: '1',
+          street_address: 'new address',
+          city: 'new city',
+          state: 'new state',
+          zip: 'new zip',
+        },
+        location_type: 'new location type',
+        current_location_of_children: 'new location of children',
+        participants: [{
+          id: '1',
+          first_name: 'Mario',
+          addresses: [{
+            id: '1',
+            street_address: '1000 Peach Castle',
+            city: 'World 1-1',
+            state: 'Mushroom Kingdom',
+            zip: '00001',
+            type: 'Home',
+            legacy_descriptor: {legacy_id: 'ABC123'},
+          }],
+        }],
       }))
     })
 

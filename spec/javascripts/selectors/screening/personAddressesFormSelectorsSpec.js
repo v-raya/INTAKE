@@ -1,59 +1,65 @@
 import {fromJS, List} from 'immutable'
 import {
-  getAddresses,
-  getPersonEditableAddressesSelector,
-  getAddressTypeOptionsSelector,
+  selectAddresses,
+  selectReadWriteAddresses,
+  selectReadWriteAddressesWithVisibleErrors,
+  selectAddressTypeOptions,
 } from 'selectors/screening/personAddressesFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
 describe('personAddressesFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('getAddresses', () => {
+  describe('selectAddresses', () => {
     const person = fromJS({
       addresses: [{
+        touched: {},
         id: 2212,
-        street: {value: '1234 Nowhere Lane'},
-        city: {value: 'Somewhereville'},
-        state: {value: 'CA'},
-        zip: {value: '55555'},
-        type: {value: 'Home'},
-        legacy_descriptor: {value: {legacy_id: 'xyz122'}},
+        street: '1234 Nowhere Lane',
+        city: 'Somewhereville',
+        state: 'CA',
+        zip: '55555',
+        type: 'Home',
+        legacy_descriptor: {legacy_id: 'xyz122'},
       },
       {
+        touched: {},
         id: 3,
-        street: {value: '223 Van der Burgh Ave'},
-        city: {value: 'Calistoga'},
-        state: {value: 'CA'},
-        zip: {value: '839893'},
-        type: {value: 'Home'},
+        street: '223 Van der Burgh Ave',
+        city: 'Calistoga',
+        state: 'CA',
+        zip: '839893',
+        type: 'Home',
+        legacy_descriptor: null,
       }],
     })
 
     it('returns all addresses for the given person', () => {
-      expect(getAddresses(person)).toEqualImmutable(fromJS(
+      expect(selectAddresses(person)).toEqualImmutable(fromJS(
         [{
+          touched: {},
           id: 2212,
           street: '1234 Nowhere Lane',
           city: 'Somewhereville',
           state: 'CA',
           zip: '55555',
           type: 'Home',
-          legacy_id: 'xyz122',
+          legacy_descriptor: {legacy_id: 'xyz122'},
         }, {
+          touched: {},
           id: 3,
           street: '223 Van der Burgh Ave',
           city: 'Calistoga',
           state: 'CA',
           zip: '839893',
           type: 'Home',
-          legacy_id: null,
+          legacy_descriptor: null,
         }]
       ))
     })
   })
 
-  describe('getAddressTypeOptionsSelector', () => {
+  describe('selectAddressTypeOptions', () => {
     const state = fromJS({
       systemCodes: {
         addressTypes: [
@@ -70,7 +76,7 @@ describe('personAddressesFormSelectors', () => {
       },
     })
     it('returns formatted options for address types', () => {
-      expect(getAddressTypeOptionsSelector(state)).toEqualImmutable(fromJS([
+      expect(selectAddressTypeOptions(state)).toEqualImmutable(fromJS([
         {label: 'Common'},
         {label: 'Day Care'},
         {label: 'Residence'},
@@ -83,37 +89,92 @@ describe('personAddressesFormSelectors', () => {
       ]))
     })
   })
-  describe('getPersonEditableAddressesSelector', () => {
+  describe('selectReadWriteAddresses', () => {
     it('returns the editable addresses for the person with the passed id', () => {
       const peopleForm = {
         one: {addresses: [{
+          touched: {},
           id: 2212,
-          street: {value: '1234 Nowhere Lane'},
-          city: {value: 'Somewhereville'},
-          state: {value: 'CA'},
-          zip: {value: '55555'},
-          type: {value: 'Home'},
-          legacy_descriptor: {value: {legacy_id: 'xyz122'}},
+          street: '1234 Nowhere Lane',
+          city: 'Somewhereville',
+          state: 'CA',
+          zip: '55555',
+          type: 'Home',
+          legacy_descriptor: {legacy_id: 'xyz122'},
         },
         {
+          touched: {},
           id: 3,
-          street: {value: '223 Van der Burgh Ave'},
-          city: {value: 'Calistoga'},
-          state: {value: 'CA'},
-          zip: {value: '839893'},
-          type: {value: 'Home'},
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
+          state: 'CA',
+          zip: '839893',
+          type: 'Home',
+          legacy_descriptor: null,
         },
         ]},
         two: {addresses: [{
-          street: {value: '9674 Somewhere Street'},
-          city: {value: 'Nowhereville'},
-          state: {value: 'CA'},
-          zip: {value: '55555'},
-          type: {value: 'Cell'},
+          touched: {},
+          id: null,
+          street: '9674 Somewhere Street',
+          city: 'Nowhereville',
+          state: 'CA',
+          zip: '55555',
+          type: 'Cell',
+          legacy_descriptor: null,
         }]},
       }
       const state = fromJS({peopleForm})
-      expect(getPersonEditableAddressesSelector(state, 'one')).toEqualImmutable(fromJS(
+      expect(selectReadWriteAddresses(state, 'one')).toEqualImmutable(fromJS(
+        [{
+          touched: {},
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
+          state: 'CA',
+          zip: '839893',
+          type: 'Home',
+        }]
+      ))
+    })
+  })
+  describe('selectReadWriteAddressesWithVisibleErrors', () => {
+    it('returns the editable addresses for the person with the passed id', () => {
+      const peopleForm = {
+        one: {addresses: [{
+          touched: {},
+          id: 2212,
+          street: '1234 Nowhere Lane',
+          city: 'Somewhereville',
+          state: 'CA',
+          zip: '55555',
+          type: 'Home',
+          legacy_descriptor: {legacy_id: '123ABC'},
+        },
+        {
+          touched: {},
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
+          state: 'CA',
+          zip: '839893',
+          type: 'Home',
+          legacy_descriptor: null,
+        },
+        ]},
+        two: {addresses: [{
+          touched: {},
+          id: null,
+          street: '9674 Somewhere Street',
+          city: 'Nowhereville',
+          state: 'CA',
+          zip: '55555',
+          type: 'Cell',
+          legacy_descriptor: null,
+        }]},
+      }
+      const state = fromJS({peopleForm})
+      expect(selectReadWriteAddressesWithVisibleErrors(state, 'one')).toEqualImmutable(fromJS(
         [{
           id: 3,
           street: '223 Van der Burgh Ave',
@@ -122,6 +183,60 @@ describe('personAddressesFormSelectors', () => {
           zip: '839893',
           type: 'Home',
           zipError: List(),
+        }]
+      ))
+    })
+    it('displays zip errors if the field is touched', () => {
+      const peopleForm = {
+        one: {addresses: [{
+          touched: {zip: true},
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
+          state: 'CA',
+          zip: '555',
+          type: 'Home',
+          legacy_descriptor: null,
+        }]},
+      }
+      const state = fromJS({peopleForm})
+      expect(selectReadWriteAddressesWithVisibleErrors(state, 'one')).toEqualImmutable(fromJS(
+        [{
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
+          state: 'CA',
+          zip: '555',
+          type: 'Home',
+          zipError: ['zip code should be 5 digits'],
+        }]
+      ))
+    })
+
+    it('displays no zip errors if the field is untouched', () => {
+      const peopleForm = {
+        one: {addresses: [{
+          touched: {zip: false},
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
+          state: 'CA',
+          zip: '839893',
+          type: 'Home',
+          legacy_descriptor: null,
+        },
+        ]},
+      }
+      const state = fromJS({peopleForm})
+      expect(selectReadWriteAddressesWithVisibleErrors(state, 'one')).toEqualImmutable(fromJS(
+        [{
+          id: 3,
+          street: '223 Van der Burgh Ave',
+          city: 'Calistoga',
+          state: 'CA',
+          zip: '839893',
+          type: 'Home',
+          zipError: [],
         }]
       ))
     })
