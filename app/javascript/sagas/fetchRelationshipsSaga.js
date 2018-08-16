@@ -11,6 +11,7 @@ import {clearTime} from 'actions/personCardActions'
 import moment from 'moment'
 import {getPersonCreatedAtTimeSelector} from 'selectors/peopleSearchSelectors'
 import {logEvent} from 'utils/analytics'
+import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
 export const currentTime = () => moment().valueOf()
 
@@ -18,12 +19,14 @@ export function* fetchRelationships({payload: {ids, screeningId}}) {
   try {
     const response = yield call(get, `/api/v1/relationships?clientIds=${ids.join(',')}&screeningId=${screeningId}`)
     yield put(fetchRelationshipsSuccess(response))
+    const staffId = yield select(getStaffIdSelector)
     const personCreatedAtTime = yield select(getPersonCreatedAtTimeSelector)
     const fetchRelationshipTime = yield select(currentTime)
     if (personCreatedAtTime) {
       const relationshipsQueryCycleTime = fetchRelationshipTime - personCreatedAtTime
       yield call(logEvent, 'relationshipsQueryCycleTime', {
         relationshipsQueryCycleTime: relationshipsQueryCycleTime,
+        staffId: staffId,
       })
       yield put(clearTime())
     }
