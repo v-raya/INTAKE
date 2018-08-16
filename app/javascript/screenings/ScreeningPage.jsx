@@ -161,7 +161,6 @@ export class ScreeningPage extends React.Component {
     const {referralId, editable, hasApiValidationErrors, submitReferralErrors} = this.props
     return (
       <div className='col-xs-8 col-md-9'>
-        <BreadCrumb navigationElements={[<Link key={this.props.params.id} to={urlHelper('/')}>CaseLoad</Link>]}/>
         {referralId && <h1>Referral #{referralId}</h1>}
         {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
         {this.renderScreeningInformationCard()}
@@ -199,6 +198,7 @@ export class ScreeningPage extends React.Component {
       <div>
         <div>
           <PageHeader pageTitle={this.props.screeningTitle} button={this.submitButton()} />
+          <BreadCrumb navigationElements={[<Link key={this.props.params.id} to={urlHelper('/')}>CaseLoad</Link>]}/>
         </div>
         <div className='container'>
           {this.renderScreening()}
