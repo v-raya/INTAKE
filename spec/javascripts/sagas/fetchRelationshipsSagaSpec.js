@@ -12,6 +12,7 @@ import {getPersonCreatedAtTimeSelector} from 'selectors/peopleSearchSelectors'
 import moment from 'moment'
 import {logEvent} from 'utils/analytics'
 import {clearTime} from 'actions/personCardActions'
+import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
 describe('fetchRelationshipsSaga', () => {
   it('fetches relationships on FETCH_RELATIONSHIPS', () => {
@@ -27,6 +28,7 @@ describe('fetchRelationships', () => {
   const screeningId = '123'
   const action = actions.fetchRelationships(ids, screeningId)
   const personCreatedAtTime = 1534190832860
+  const staffId = '0X5'
 
   it('should fetch and put relationships', () => {
     const gen = fetchRelationships(action)
@@ -40,6 +42,9 @@ describe('fetchRelationships', () => {
       put(actions.fetchRelationshipsSuccess(relationships))
     )
     expect(gen.next().value).toEqual(
+      select(getStaffIdSelector)
+    )
+    expect(gen.next(staffId).value).toEqual(
       select(getPersonCreatedAtTimeSelector)
     )
     const fetchRelationshipTime = moment().valueOf()
@@ -47,6 +52,7 @@ describe('fetchRelationships', () => {
     expect(gen.next(personCreatedAtTime).value).toEqual(select(currentTime))
     expect(gen.next(fetchRelationshipTime).value).toEqual(call(logEvent, 'relationshipsQueryCycleTime', {
       relationshipsQueryCycleTime: relationshipsQueryCycleTime,
+      staffId: staffId,
     }))
     expect(gen.next().value).toEqual(
       put(clearTime())
