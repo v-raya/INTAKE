@@ -55,7 +55,6 @@ export class SnapshotPage extends React.Component {
     return (
       <div className='col-md-9 col-xs-8 '>
         <div className='row'>
-          <BreadCrumb />
           <SnapshotIntro />
           <PersonSearchFormContainer
             onSelect={(person) => this.onSelectPerson(person)}
@@ -78,6 +77,7 @@ export class SnapshotPage extends React.Component {
       <div>
         <div>
           <PageHeader pageTitle='Snapshot' button={this.startOverButton()} />
+          <BreadCrumb />
         </div>
         <div className='container'>
           <div className='row'>
