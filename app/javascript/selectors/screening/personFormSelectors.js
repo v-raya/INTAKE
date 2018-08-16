@@ -159,7 +159,7 @@ const selectAllReadOnlyAddresses = (state) => selectParticipants(state)
 const combineAddresses = (person, personId, readOnlyAddressMap) => {
   const personAddress = readOnlyAddressMap.find((addrs) => addrs.get('personId') === personId)
   const readOnlyAddresses = personAddress ? personAddress.get('addresses') : List()
-  return readOnlyAddresses.concat(selectAddresses(person)).map(toFerbAddress)
+  return selectAddresses(person).concat(readOnlyAddresses).map(toFerbAddress)
 }
 
 export const getPeopleWithEditsSelector = createSelector(

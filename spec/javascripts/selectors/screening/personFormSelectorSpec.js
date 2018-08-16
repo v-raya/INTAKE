@@ -388,6 +388,14 @@ describe('personFormSelectors', () => {
           phone_numbers: [],
           addresses: [
             {
+              id: '3',
+              street_address: '223 Van der Burgh Ave',
+              city: 'Calistoga',
+              state: 'CA',
+              zip: '839893',
+              type: 'Home',
+            },
+            {
               id: '1782',
               street_address: '123 Delaware Crossing',
               city: 'Davis',
@@ -395,14 +403,6 @@ describe('personFormSelectors', () => {
               zip: '95616',
               type: 'Residence',
               legacy_descriptor: {legacy_id: '65TT6lc0Qc'},
-            },
-            {
-              id: '3',
-              street_address: '223 Van der Burgh Ave',
-              city: 'Calistoga',
-              state: 'CA',
-              zip: '839893',
-              type: 'Home',
             },
           ],
           roles: [],
