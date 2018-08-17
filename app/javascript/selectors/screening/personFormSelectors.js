@@ -176,6 +176,7 @@ export const getPeopleWithEditsSelector = createSelector(
       approximate_age_units: isAgeDisabled ? null : person.getIn(['approximate_age_units', 'value']),
       csec: csecPersonInfo(person),
       date_of_birth: person.getIn(['date_of_birth', 'value']),
+      date_of_death: person.getIn(['date_of_death', 'value']),
       first_name: person.getIn(['first_name', 'value']),
       gender: person.getIn(['gender', 'value']),
       languages: person.getIn(['languages', 'value']),

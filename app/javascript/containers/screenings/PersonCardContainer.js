@@ -4,6 +4,7 @@ import {getPeopleWithEditsSelector} from 'selectors/screening/personFormSelector
 import {
   getModeValueSelector,
   getPersonNamesSelector,
+  selectDeceased,
   getPersonInformationFlagValuesSelector,
 } from 'selectors/screening/personCardSelectors'
 import {savePerson, deletePerson} from 'actions/personCardActions'
@@ -17,6 +18,7 @@ const mapStateToProps = (state, {personId}) => ({
   informationFlag: getPersonInformationFlagValuesSelector(state).get(personId),
   personName: getPersonNamesSelector(state).get(personId),
   personWithEdits: getPeopleWithEditsSelector(state).get(personId).toJS(),
+  informationPill: selectDeceased(state).get(personId) ? 'Deceased' : null,
 })
 
 const mapDispatchToProps = (dispatch, {personId}) => ({

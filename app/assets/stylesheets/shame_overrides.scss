@@ -168,3 +168,17 @@
   -webkit-user-select: none;
   user-select: none;
 }
+
+.edit-remove {
+  position: absolute;
+  right: 0;
+}
+
+.information-flag-rounded {
+  background-color: $transparent-black;
+  border-radius: $border-radius-rounded;
+  color: $white;
+  margin-left: $margin-left-rounded;
+  padding: 0 1.5rem;
+  text-align: center;
+}

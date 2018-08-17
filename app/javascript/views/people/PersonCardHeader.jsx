@@ -2,19 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EditLink from 'common/EditLink'
 
-const PersonCardHeader = ({informationFlag, title, onDelete, onEdit, showDelete, showEdit}) => (
+const PersonCardHeader = ({informationFlag, title, onDelete, onEdit, informationPill, showDelete, showEdit}) => (
   <div className='card-header'>
-    <h2>{title}</h2>
+    <div><h2>{title}</h2></div>
+    { informationPill && <div className='information-flag-rounded'>{informationPill}</div>}
     { informationFlag && <span className='information-flag'>{informationFlag}</span>}
-    { showDelete &&
-      <button aria-label='Remove person'
-        className='pull-right btn btn-warning'
-        onClick={onDelete}
-      >
-        Remove
-      </button>
-    }
-    { showEdit &&
+    <div className='edit-remove'>
+      { showEdit &&
       <EditLink
         ariaLabel='Edit person'
         onClick={(event) => {
@@ -22,12 +16,22 @@ const PersonCardHeader = ({informationFlag, title, onDelete, onEdit, showDelete,
           onEdit()
         }}
       />
-    }
+      }
+      { showDelete &&
+      <button aria-label='Remove person'
+        className='pull-right btn btn-warning'
+        onClick={onDelete}
+      >
+        Remove
+      </button>
+      }
+    </div>
   </div>
 )
 
 PersonCardHeader.propTypes = {
   informationFlag: PropTypes.string,
+  informationPill: PropTypes.string,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
   showDelete: PropTypes.bool.isRequired,

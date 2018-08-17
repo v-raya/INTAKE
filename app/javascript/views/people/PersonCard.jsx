@@ -7,6 +7,7 @@ const PersonCard = ({
   edit,
   editable,
   informationFlag,
+  informationPill,
   mode,
   onCancel,
   onDelete,
@@ -24,6 +25,7 @@ const PersonCard = ({
       onEdit={onEdit}
       showEdit={editable && mode === 'show'}
       title={personName}
+      informationPill={informationPill}
     />
     <div className='card-body'>
       {mode === 'show' && show}
@@ -47,6 +49,7 @@ PersonCard.propTypes = {
   edit: PropTypes.object,
   editable: PropTypes.bool.isRequired,
   informationFlag: PropTypes.string,
+  informationPill: PropTypes.string,
   mode: PropTypes.oneOf(['edit', 'show']).isRequired,
   onCancel: PropTypes.func,
   onDelete: PropTypes.func,

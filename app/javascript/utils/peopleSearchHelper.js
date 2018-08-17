@@ -96,6 +96,7 @@ export const mapPhoneNumber = (result) =>
 
 export const mapDoraPersonToParticipant = (state, person) => Map({
   date_of_birth: person.get('date_of_birth'),
+  date_of_death: person.get('date_of_death'),
   approximate_age: null,
   approximate_age_units: null,
   first_name: person.get('first_name'),

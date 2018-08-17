@@ -11,8 +11,8 @@ describe('PersonCardHeader', () => {
     onEdit = jasmine.createSpy('onEdit')
   })
 
-  function renderComponent({title = 'J Doe', showEdit = true, showDelete = true, informationFlag = null}) {
-    const props = {informationFlag, title, showDelete, showEdit, onEdit, onDelete}
+  function renderComponent({title = 'J Doe', showEdit = true, showDelete = true, informationFlag = null, informationPill = null}) {
+    const props = {informationFlag, title, showDelete, showEdit, informationPill, onEdit, onDelete}
     return shallow(<PersonCardHeader {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -38,6 +38,20 @@ describe('PersonCardHeader', () => {
       const informationFlag = component.find('span').filter('.information-flag')
       expect(informationFlag.exists()).toEqual(true)
       expect(informationFlag.text()).toEqual('Sensitive')
+    })
+  })
+  describe('deceased flag', () => {
+    it('does not render a deceased flag element if no flag is present', () => {
+      const component = renderComponent({informationPill: null})
+      const informationPillFlag = component.find('span').filter('.information-flag-rounded')
+      expect(informationPillFlag.exists()).toEqual(false)
+    })
+
+    it('displays the flag if one is passed', () => {
+      const component = renderComponent({informationPill: 'Deceased'})
+      const informationPillFlag = component.find('div').filter('.information-flag-rounded')
+      expect(informationPillFlag.exists()).toEqual(true)
+      expect(informationPillFlag.text()).toEqual('Deceased')
     })
   })
 

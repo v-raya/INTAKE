@@ -122,7 +122,9 @@ pre {
 }
 
 .search-result {
+  border-radius: $border-radius-rounded;
   margin-left: $half-spacing;
+  padding: 0 1.5rem;
 }
 
 .card .card-header span.information-flag {
