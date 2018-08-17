@@ -13,7 +13,6 @@ node('intake-slave') {
 
   try {
 
-
     stage('Building testing bench') {
       curStage = 'Building testing bench'
       sh './scripts/ci/build_testing_bench.rb'
@@ -34,7 +33,7 @@ node('intake-slave') {
       sh './scripts/ci/rspec_test.rb'
     }
 
-    if (branch == 'origin/master') {
+    if (true) {
       VERSION = sh(returnStdout: true, script: './scripts/ci/compute_version.rb').trim()
       VCS_REF = sh(
         script: 'git rev-parse --short HEAD',
@@ -68,18 +67,6 @@ node('intake-slave') {
             sh './scripts/ci/publish.rb'
           }
         }
-      }
-
-      stage('Deploy Preint') {
-
-        withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-          sh "curl -v -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
-            "?token=${JENKINS_TRIGGER_TOKEN}" +
-            "&cause=Caused%20by%20Build%20${env.BUILD_ID}" +
-            "&INTAKE_APP_VERSION=${VERSION}'"
-        }
-        pipelineStatus = 'SUCCEEDED'
-        currentBuild.result = 'SUCCESS'
       }
 
       stage('Trigger Security scan') {
