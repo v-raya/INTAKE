@@ -1,6 +1,6 @@
-import {CREATE_RELATIONSHP} from 'actions/actionTypes'
+import {CREATE_RELATIONSHIP} from 'actions/actionTypes'
 
 export const createRelationship = (person, relationship) => ({
-  type: CREATE_RELATIONSHP,
+  type: CREATE_RELATIONSHIP,
   payload: {person, relationship},
 })
