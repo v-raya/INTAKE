@@ -16,7 +16,9 @@ export class ActionMenu extends Component {
   }
 
   handleShowModal() {
+    const {onEdit, person, relationship} = this.props
     this.setState({show: true})
+    onEdit(person, relationship)
   }
 
   renderModal() {
@@ -80,6 +82,7 @@ ActionMenu.propTypes = {
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
+  onEdit: PropTypes.func,
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
   person: personPropType,
   relationship: relationshipPropType,
