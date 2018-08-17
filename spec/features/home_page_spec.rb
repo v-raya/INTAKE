@@ -16,28 +16,28 @@ feature 'home page' do
       },
       {
         id: 2,
-        started_at: 1.year.ago.strftime('%FT%T.%LZ'),
+        started_at: '2017-08-17T23:02:06.680Z',
         screening_decision: 'promote_to_referral',
         screening_decision_detail: 'immediate',
         screening_status: 'submitted'
       },
       {
         id: 3,
-        started_at: 2.hours.ago.strftime('%FT%T.%LZ'),
+        started_at: '2018-08-17T21:02:35.454Z',
         screening_decision: 'promote_to_referral',
         screening_decision_detail: '3_days',
         screening_status: 'submitted'
       },
       {
         id: 4,
-        started_at: 6.hours.ago.strftime('%FT%T.%LZ'),
+        started_at: '2018-08-17T17:02:45.103Z',
         screening_decision: 'promote_to_referral',
         screening_decision_detail: '5_days',
         screening_status: 'submitted'
       },
       {
         id: 5,
-        started_at: 3.minutes.ago.strftime('%FT%T.%LZ'),
+        started_at: '2018-08-17T22:59:54.689Z',
         screening_decision: 'promote_to_referral',
         screening_decision_detail: '10_days',
         screening_status: 'submitted'
@@ -281,10 +281,10 @@ feature 'home page' do
             expect(find_all('td').last).to have_text('08/11/2016')
           end
           within rows[5] do
-            expect(find_all('td').last).to have_text('08/16/2017')
+            expect(find_all('td').last).to have_text('08/17/2017')
           end
           within rows[6] do
-            expect(find_all('td').last).to have_text('08/16/2018')
+            expect(find_all('td').last).to have_text('08/17/2018')
           end
         end
 
@@ -296,10 +296,10 @@ feature 'home page' do
           # 'ordered list by "Report Date and Time", ascending order'
           rows = all('tr')
           within rows[2] do
-            expect(find_all('td').last).to have_text('08/16/2018')
+            expect(find_all('td').last).to have_text('08/17/2018')
           end
           within rows[3] do
-            expect(find_all('td').last).to have_text('08/16/2017')
+            expect(find_all('td').last).to have_text('08/17/2017')
           end
           within rows[4] do
             expect(find_all('td').last).to have_text('08/11/2016')
