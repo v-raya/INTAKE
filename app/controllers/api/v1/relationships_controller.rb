@@ -5,6 +5,14 @@
 module Api
   module V1
     class RelationshipsController < ApiController # :nodoc:
+      def create
+        created_relationships = RelationshipsRepository.create(
+          session[:security_token],
+          relationships_params
+        )
+        render json: created_relationships
+      end
+
       def index
         relationships = if screening_id_given?
                           RelationshipsRepository.get_relationships_for_screening_id(
@@ -35,6 +43,10 @@ module Api
 
       def relationship_params
         params.require(:relationship).as_json.symbolize_keys
+      end
+
+      def relationships_params
+        params.require(:relationships).as_json
       end
 
       def client_ids

@@ -155,6 +155,73 @@ describe RelationshipsRepository do
     end
   end
 
+  describe '.create' do
+    let(:relationships) do
+      [
+        {
+          id: '23',
+          client_id: 'ZXY123',
+          relative_id: 'ABC987',
+          relationship_type: '190',
+          absent_parent_indicator: false,
+          same_home_status: 'Y',
+          start_date: '1999-10-01',
+          end_date: '2010-10-01',
+          legacy_id: 'A1b2x'
+        },
+        {
+          id: '30',
+          client_id: 'ZED123',
+          relative_id: 'EFG987',
+          relationship_type: '200',
+          absent_parent_indicator: false,
+          same_home_status: 'Y',
+          start_date: '1986-10-01',
+          end_date: '2010-10-01',
+          legacy_id: 'A1b2x'
+        },
+        {
+          id: '01',
+          client_id: 'TIESTO123',
+          relative_id: 'HIJ987',
+          relationship_type: '210',
+          absent_parent_indicator: true,
+          same_home_status: 'N',
+          start_date: '1989-10-01',
+          end_date: '2010-10-01',
+          legacy_id: 'A1b2x'
+        }
+      ]
+    end
+    let(:relationships_response) do
+      double(:response, body: relationships)
+    end
+
+    context 'when there are relationships' do
+      before do
+        expect(FerbAPI).to receive(:make_api_call)
+          .with(
+            security_token,
+            '/screening_relationships/batch',
+            :post,
+            relationships
+          ).and_return(relationships_response)
+      end
+
+      it 'should return a collection of relationships' do
+        created_relationships = described_class.create(security_token, relationships)
+        expect(created_relationships.as_json).to eq(relationships.as_json)
+      end
+    end
+
+    context 'when there are no relationships' do
+      it 'returns an empty array' do
+        empty = described_class.create(security_token, [])
+        expect(empty.as_json).to eq([])
+      end
+    end
+  end
+
   describe '.find' do
     let(:id) { '12345' }
     let(:relationship) do

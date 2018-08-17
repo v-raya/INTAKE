@@ -3,6 +3,16 @@
 # RelationshipsRepository is a service class responsible for retrieval of
 # relationships via the API
 class RelationshipsRepository
+  def self.create(security_token, relationships)
+    return [] if relationships.blank?
+    FerbAPI.make_api_call(
+      security_token,
+      FerbRoutes.screening_relationships,
+      :post,
+      relationships
+    ).body
+  end
+
   def self.search(security_token, client_ids)
     return [] if client_ids.blank?
     FerbAPI.make_api_call(
