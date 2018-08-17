@@ -14,6 +14,7 @@ describe('PersonCard', () => {
     onSave = () => null,
     personId = '123',
     personName = 'Bob Smith',
+    informationPill = null,
   }) {
     const props = {
       deletable,
@@ -26,6 +27,7 @@ describe('PersonCard', () => {
       onSave,
       personId,
       personName,
+      informationPill,
     }
     return shallow(<PersonCard {...props}/>, {disableLifecycleMethods: true})
   }
@@ -37,12 +39,14 @@ describe('PersonCard', () => {
         deletable: true,
         informationFlag: 'Sensitive Or Sealed',
         personName: 'John Q. Public',
+        informationPill: 'Deceased',
       })
       const cardHead = component.find('PersonCardHeader')
       expect(cardHead.props().informationFlag).toEqual('Sensitive Or Sealed')
       expect(cardHead.props().showDelete).toEqual(true)
       expect(cardHead.props().showEdit).toEqual(true)
       expect(cardHead.props().title).toEqual('John Q. Public')
+      expect(cardHead.props().informationPill).toEqual('Deceased')
     })
     it('renders div with id', () => {
       const component = renderPersonCard({
@@ -62,6 +66,7 @@ describe('PersonCard', () => {
           mode='show'
           personId='1234'
           personName='Bob Smith'
+          isDeceased={true}
           show={<p>Showing</p>}
         />
       )
@@ -82,6 +87,7 @@ describe('PersonCard', () => {
         deletable: false,
         informationFlag: 'Sensitive Or Sealed',
         personName: 'John Q. Public',
+        informationPill: 'Deceased',
         mode: 'edit',
         onDelete,
         onEdit,
@@ -93,6 +99,7 @@ describe('PersonCard', () => {
       expect(cardHead.props().onDelete).toEqual(onDelete)
       expect(cardHead.props().onEdit).toEqual(onEdit)
       expect(cardHead.props().title).toEqual('John Q. Public')
+      expect(cardHead.props().informationPill).toEqual('Deceased')
     })
     it('renders div with id', () => {
       const component = renderPersonCard({

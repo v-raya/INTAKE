@@ -3,6 +3,7 @@ import {
   getPersonNamesSelector,
   getPersonInformationFlagValuesSelector,
   getModeValueSelector,
+  selectDeceased,
 } from 'selectors/screening/personCardSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -21,6 +22,21 @@ describe('personCardSelectors', () => {
         123: 'Unknown Person',
         124: 'John Q Public',
         125: 'Jane Public',
+      }))
+    })
+  })
+  describe('selectDeceased', () => {
+    it('return date of death when participant has a date of death', () => {
+      const participants = [
+        {id: '123', first_name: '', middle_name: '', last_name: ''},
+        {id: '124', first_name: 'John', middle_name: 'Q', last_name: 'Public', date_of_death: '05/19/1993'},
+        {id: '125', first_name: 'Jane', middle_name: '', last_name: 'Public', date_of_death: '05/11/1990'},
+      ]
+      const state = fromJS({participants})
+      expect(selectDeceased(state)).toEqualImmutable(fromJS({
+        123: undefined,
+        124: '05/19/1993',
+        125: '05/11/1990',
       }))
     })
   })

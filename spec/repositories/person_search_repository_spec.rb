@@ -275,7 +275,7 @@ describe PersonSearchRepository do
         path = ExternalRoutes.dora_people_light_index_path
         fields = %w[
           id legacy_source_table first_name middle_name last_name name_suffix gender
-          date_of_birth ssn languages addresses phone_numbers legacy_descriptor
+          date_of_birth date_of_death ssn languages addresses phone_numbers legacy_descriptor
           sensitivity_indicator race_ethnicity
         ]
         query = {

@@ -10,6 +10,14 @@ export const getPersonNamesSelector = createSelector(
     namesMap.set(person.get('id'), nameFormatter(person.toJS()))
   ), Map())
 )
+
+export const selectDeceased = createSelector(
+  selectParticipants,
+  (people) => people.reduce((namesMap, person) => (
+    namesMap.set(person.get('id'), person.get('date_of_death'))
+  ), Map())
+)
+
 export const getPersonInformationFlagValuesSelector = createSelector(
   selectParticipants,
   (people) => people.reduce((informationFlagMap, person) => (
