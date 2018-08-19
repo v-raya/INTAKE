@@ -2,7 +2,7 @@ import {connect} from 'react-redux'
 import {Relationships} from 'common/Relationships'
 import {getPeopleSelector} from 'selectors/screening/relationshipsSelectors'
 import {createPerson} from 'actions/personCardActions'
-import {createRelationship} from 'actions/relationshipActions'
+import {createRelationship, setRelationshipForm} from 'actions/relationshipActions'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 
 const mapStateToProps = (state, _ownProps) => ({
@@ -23,9 +23,8 @@ const mapDispatchToProps = (dispatch) => ({
     }
     dispatch(createPerson(relationshipsPerson))
   },
-  onEdit: ((person, relationship) =>
-    dispatch(createRelationship(person, relationship))
-  ),
+  onChange: ((field, value) => dispatch(setRelationshipForm(field, value))),
+  onEdit: ((person, relationship) => dispatch(createRelationship(person, relationship))),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Relationships)
