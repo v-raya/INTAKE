@@ -1,76 +1,43 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
 
-export class EditRelationshipModal extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      person: {},
-      relationship: {},
-    }
-    this.onChange = this.onChange.bind(this)
-  }
+const renderBody = (onChange, person, relationship) => (
+  <EditRelationshipForm onChange={onChange} person={person} relationship={relationship}/>
+)
 
-  componentDidMount() {
-    this.update()
-  }
-
-  update() {
-    const {person, relationship} = this.props
-
-    if (this.state.relationship !== this.props.relationship) {
-      this.setState({person: person, relationship: relationship})
-    }
-  }
-
-  onChange(field, value) {
-    this.setState({relationship: {...this.state.relationship, [field]: value}})
-  }
-
-  renderBody() {
-    return (
-      <EditRelationshipForm
-        onChange={this.onChange}
-        person={this.state.person}
-        relationship={this.state.relationship}
-      />
-    )
-  }
-
-  renderFooter() {
-    return (
-      <div className='row'>
-        <div className='col-md-12'>
-          <div className='pull-right'>
-            <button className='btn btn-default' onClick={this.props.closeModal}>
-              Cancel
-            </button>
-            <button className='btn btn-primary' onClick={this.props.onChange}>
-              Save Relationship
-            </button>
-          </div>
-        </div>
+const renderFooter = (closeModal, onChange) => (
+  <div className='row'>
+    <div className='col-md-12'>
+      <div className='pull-right'>
+        <button className='btn btn-default' onClick={closeModal}>
+          Cancel
+        </button>
+        <button className='btn btn-primary' onClick={onChange}>
+          Save Relationship
+        </button>
       </div>
-    )
-  }
+    </div>
+  </div>
+)
 
-  render() {
-    const {closeModal, show} = this.props
-
-    return (
-      <ModalComponent
-        closeModal={closeModal}
-        showModal={show}
-        modalBody={this.renderBody()}
-        modalFooter={this.renderFooter()}
-        modalSize='large'
-        modalTitle='Edit Relationship Type'
-      />
-    )
-  }
-}
+const EditRelationshipModal = ({
+  closeModal,
+  onChange,
+  person,
+  relationship,
+  show,
+}) => (
+  <ModalComponent
+    closeModal={closeModal}
+    showModal={show}
+    modalBody={renderBody(onChange, person, relationship)}
+    modalFooter={renderFooter(closeModal, onChange)}
+    modalSize='large'
+    modalTitle='Edit Relationship Type'
+  />
+)
 
 const personPropType = PropTypes.shape({
   age: PropTypes.string,
