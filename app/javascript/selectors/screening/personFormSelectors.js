@@ -9,7 +9,7 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {selectAddresses} from 'selectors/screening/personAddressesFormSelectors'
-import {hasReporter, hasNonReporter} from 'utils/roles'
+import {hasReporter} from 'utils/roles'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
 
