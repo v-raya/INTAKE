@@ -4,8 +4,10 @@ import {getPeopleSelector} from 'selectors/screening/relationshipsSelectors'
 import {createPerson} from 'actions/personCardActions'
 import {createRelationship, setRelationshipForm} from 'actions/relationshipActions'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
+import {selectRelationship} from 'selectors/screening/relationshipFormSelectors'
 
 const mapStateToProps = (state, _ownProps) => ({
+  editFormRelationship: selectRelationship(state).toJS(),
   people: getPeopleSelector(state).toJS(),
   screeningId: getScreeningIdValueSelector(state),
   isScreening: true,

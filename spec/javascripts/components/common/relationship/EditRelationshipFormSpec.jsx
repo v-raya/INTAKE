@@ -6,6 +6,17 @@ import {shallow} from 'enzyme'
 
 describe('EditRelationshipForm', () => {
   const props = {
+    editFormRelationship: {
+      absent_parent_indicator: false,
+      client_id: 'ZXY123',
+      end_date: '2010-10-01',
+      id: '12345',
+      relationship_type: 181,
+      relative_id: 'ABC987',
+      same_home_status: 'Y',
+      start_date: '1999-10-01',
+    },
+    onChange: () => {},
     person: {
       name: 'Luke Skywalker',
       age: '20 yrs',
@@ -16,7 +27,6 @@ describe('EditRelationshipForm', () => {
       name: 'Darth Vader',
       age: '30 yrs',
       gender: 'M',
-      secondaryRelationship: 'Father',
       same_home_code: 'N',
       type_code: '210',
     },
@@ -40,64 +50,39 @@ describe('EditRelationshipForm', () => {
   })
 
   it('renders the person props and relationship props in the table with the gender key map', () => {
-    const component = renderEditRelationshipForm(props)
+    const element = renderEditRelationshipForm(props).find('ul')
 
-    expect(component.find('ul').first().find('li').first().text()).toEqual('Luke Skywalker')
-    expect(component.find('ul').first().find('li').at(1).text()).toEqual('20 yrs')
-    expect(component.find('ul').first().find('li').last().text()).toEqual('Male')
-    expect(component.find('ul').last().find('li').first().text()).toEqual('Darth Vader')
-    expect(component.find('ul').last().find('li').at(1).text()).toEqual('30 yrs')
-    expect(component.find('ul').last().find('li').last().text()).toEqual('Male')
+    expect(element.first().find('li').first().text()).toEqual('Luke Skywalker')
+    expect(element.first().find('li').at(1).text()).toEqual('20 yrs')
+    expect(element.first().find('li').last().text()).toEqual('Male')
+    expect(element.last().find('li').first().text()).toEqual('Darth Vader')
+    expect(element.last().find('li').at(1).text()).toEqual('30 yrs')
+    expect(element.last().find('li').last().text()).toEqual('Male')
   })
 
   describe('absent parent checkbox', () => {
-    const propsDisableCheckbox = {
-      person: {
-        name: 'Luke Skywalker',
-        age: '20 yrs',
-        gender: 'M',
-      },
-      relationship: {
-        absent_parent_code: 'Y',
-        name: 'Darth Vader',
-        age: '30 yrs',
-        gender: 'M',
-        secondaryRelationship: 'No Relation',
-        same_home_code: 'N',
-        type_code: '175',
-      },
-    }
-    const propsEnablesCheckbox = {
-      person: {
-        name: 'Luke Skywalker',
-        age: '20 yrs',
-        gender: 'M',
-      },
-      relationship: {
-        absent_parent_code: 'Y',
-        name: 'Darth Vader',
-        age: '30 yrs',
-        gender: 'M',
-        secondaryRelationship: 'Father (Birth)',
-        same_home_code: 'N',
-        type_code: '190',
-      },
-    }
     it('disables the absent parent checkbox when it does not matches father/mother/parent', () => {
       expect(
-        renderEditRelationshipForm(propsDisableCheckbox)
-          .find('#absent_parent_code')
+        renderEditRelationshipForm(props)
+          .find('#absent_parent_indicator')
           .prop('disabled'))
         .toBe(true)
     })
     it('enables the absent parent checkbox when it matches father/mother/parent', () => {
       expect(
-        renderEditRelationshipForm(propsEnablesCheckbox)
-          .find('#absent_parent_code')
+        renderEditRelationshipForm({
+          ...props,
+          editFormRelationship: {
+            ...props.editFormRelationship,
+            relationship_type: 285,
+          },
+        })
+          .find('#absent_parent_indicator')
           .prop('disabled'))
         .toBe(false)
     })
   })
+
   describe('Display Gender if the data is male/female/unknown/intersex', () => {
     const genderProps = {
       person: {

@@ -22,10 +22,11 @@ export class ActionMenu extends Component {
   }
 
   renderModal() {
-    const {onChange, person, relationship} = this.props
+    const {editFormRelationship, onChange, person, relationship} = this.props
 
     return (
       <EditRelationshipModal
+        editFormRelationship={editFormRelationship}
         closeModal={this.closeModal}
         onChange={onChange}
         person={person}
@@ -79,6 +80,16 @@ const relationshipPropType = PropTypes.shape({
 })
 
 ActionMenu.propTypes = {
+  editFormRelationship: PropTypes.shape({
+    absent_parent_indicator: PropTypes.bool,
+    client_id: PropTypes.string,
+    end_date: PropTypes.string,
+    id: PropTypes.string,
+    relationship_type: PropTypes.number,
+    relative_id: PropTypes.string,
+    same_home_status: PropTypes.string,
+    start_date: PropTypes.string,
+  }),
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,

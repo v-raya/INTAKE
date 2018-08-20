@@ -12,6 +12,7 @@ const createRelationsData = (person, data) => {
 }
 
 export const Relationships = ({
+  editFormRelationship,
   people,
   onChange,
   onClick,
@@ -34,6 +35,7 @@ export const Relationships = ({
                     data={person.relationships}
                     tableActions={(cell, row) =>
                       <ActionMenu
+                        editFormRelationship={editFormRelationship}
                         isScreening={isScreening}
                         onChange={onChange}
                         onClick={onClick}
@@ -98,6 +100,16 @@ export const Relationships = ({
 )
 
 Relationships.propTypes = {
+  editFormRelationship: PropTypes.shape({
+    absent_parent_indicator: PropTypes.bool,
+    client_id: PropTypes.string,
+    end_date: PropTypes.string,
+    id: PropTypes.string,
+    relationship_type: PropTypes.number,
+    relative_id: PropTypes.string,
+    same_home_status: PropTypes.string,
+    start_date: PropTypes.string,
+  }),
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
