@@ -31,6 +31,7 @@ describe('personDemographicFormSelectors', () => {
         approximateAge: '',
         approximateAgeUnit: '',
         dateOfBirth: '',
+        dateOfBirthIsRequired: false,
         gender: '',
         genderIsRequired: false,
         genderError: undefined,
