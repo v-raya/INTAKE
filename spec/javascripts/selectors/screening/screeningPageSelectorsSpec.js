@@ -76,7 +76,7 @@ describe('screeningPageSelectors', () => {
         communication_method: 'fax',
         assignee: 'Bob Smith',
         started_at: '2002-01-02',
-        incident_address: {street_address: '123 Main St'},
+        incident_address: {street_address: '123 Main St', city: 'Sacramento'},
       }
       const state = fromJS({screening})
       expect(getScreeningHasErrorsSelector(state)).toEqual(false)

@@ -76,8 +76,10 @@ const selectTouchedAddressFields = (state) => {
 
 const selectAddressErrors = (state) => {
   const street_address = state.getIn(['incidentInformationForm', 'incident_address', 'street_address', 'value'])
+  const city = state.getIn(['incidentInformationForm', 'incident_address', 'city', 'value'])
   return fromJS({
     street_address: combineCompact(isRequiredCreate(street_address, 'The incident address must be provided.')),
+    city: combineCompact(isRequiredCreate(city, 'The incident address city must be provided.')),
   })
 }
 

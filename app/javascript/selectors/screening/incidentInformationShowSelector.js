@@ -42,8 +42,10 @@ export const getCurrentLocationOfChildrenSelector = createSelector(
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['screening', 'incident_date']),
   (state) => state.getIn(['screening', 'incident_address', 'street_address']),
-  (incident_date, incident_address) => (fromJS({
+  (state) => state.getIn(['screening', 'incident_address', 'city']),
+  (incident_date, incident_address, incident_city) => (fromJS({
     incident_date: combineCompact(isFutureDatetimeCreate(incident_date, 'The incident date and time cannot be in the future.')),
     incident_address: combineCompact(isRequiredCreate(incident_address, 'The incident address must be provided.')),
+    incident_city: combineCompact(isRequiredCreate(incident_city, 'The incident address city must be provided.')),
   }))
 )

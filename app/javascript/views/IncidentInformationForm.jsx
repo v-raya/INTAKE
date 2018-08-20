@@ -45,6 +45,8 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           maxLength='64'
           onChange={({target: {value}}) => onChange(['incident_address', 'city'], value)}
           value={address.city}
+          errors={errors.incident_address.city}
+          required={true}
         />
         <SelectField
           disabled
@@ -133,6 +135,7 @@ IncidentInformationForm.propTypes = {
     incident_date: PropTypes.arrayOf(PropTypes.string),
     incident_address: PropTypes.shape({
       street_address: PropTypes.array,
+      city: PropTypes.array,
     }),
   }),
   incidentDate: PropTypes.string,
