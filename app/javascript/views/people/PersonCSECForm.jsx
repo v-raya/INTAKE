@@ -68,7 +68,7 @@ PersonCSECForm.propTypes = {
   CSECTypes: PropTypes.array,
   csecEndedAt: PropTypes.string,
   csecStartedAt: PropTypes.string,
-  csecTypes: PropTypes.array,
+  csecTypes: PropTypes.object,
   errors: PropTypes.object,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
