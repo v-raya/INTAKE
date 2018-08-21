@@ -301,7 +301,7 @@ describe('incidentInformationFormSelectors', () => {
       }
       const state = fromJS({incidentInformationForm})
       expect(getVisibleErrorsSelector(state).get('incident_date'))
-        .toEqualImmutable(List(['The incident date and time cannot be in the future.']))
+        .toEqualImmutable(List(['The incident date cannot be in the future.']))
     })
 
     it('returns an error if the street_address has a validation and is touched', () => {

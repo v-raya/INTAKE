@@ -13,7 +13,7 @@ feature 'Incident Information Validations' do
       safety_alerts: []
     }
   end
-  let(:error_message) { 'The incident date and time cannot be in the future.' }
+  let(:error_message) { 'The incident date cannot be in the future.' }
 
   context 'On the edit page' do
     before do
