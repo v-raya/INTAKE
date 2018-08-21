@@ -60,7 +60,7 @@ feature 'CSEC validation' do
         expect(page).to have_content('CSEC Start Date')
         expect(page).not_to have_content(csec_start_date_error_message)
         click_link 'Edit'
-        fill_in_datepicker 'CSEC Start Date', with: '', blur: false
+        find_field('CSEC Start Date').set('', clear: :backspace)
         blur_field
         expect(page).to have_content(csec_start_date_error_message)
       end
