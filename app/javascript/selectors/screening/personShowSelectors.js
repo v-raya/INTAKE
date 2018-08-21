@@ -105,7 +105,9 @@ const getGenderErrors = (person, roles) => combineCompact(
 const csecTypesSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const csecTypes = selectCsecTypes(state)
-  return person.get('csec_types', List()).map((typeId) => systemCodeDisplayValue(typeId, csecTypes))
+  return person.get('csec', List()).map((csec) =>
+    systemCodeDisplayValue(csec.get('csec_code_id'), csecTypes)
+  )
 }
 
 export const getErrorsSelector = (state, personId) => {
@@ -120,7 +122,7 @@ export const getErrorsSelector = (state, personId) => {
     .flatten()
   const roles = person.get('roles', List())
   const csecTypes = csecTypesSelector(state, personId)
-  const csecStartedAt = person.get('csec_started_at')
+  const csecStartedAt = person.getIn(['csec', 0, 'start_date'])
   const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const rolesTypes = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   return fromJS({
@@ -173,8 +175,8 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
   return fromJS({
     approximateAge: approximateAge,
     CSECTypes: {value: csecTypesSelector(state, personId), errors: []},
-    csecStartedAt: {value: (person.get('csec_started_at') && dateFormatter(person.get('csec_started_at'))), errors: []},
-    csecEndedAt: person.get('csec_ended_at') && dateFormatter(person.get('csec_ended_at')),
+    csecStartedAt: {value: (person.getIn(['csec', 0, 'start_date']) && dateFormatter(person.getIn(['csec', 0, 'start_date']))), errors: []},
+    csecEndedAt: person.getIn(['csec', 0, 'end_date']) && dateFormatter(person.getIn(['csec', 0, 'end_date'])),
     dateOfBirth: dateOfBirth,
     ethnicity: getEthnicity(person),
     gender: {value: GENDERS[person.get('gender')]},

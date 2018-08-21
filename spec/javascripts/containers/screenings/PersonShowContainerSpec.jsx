@@ -7,7 +7,7 @@ import {shallow} from 'enzyme'
 describe('PersonShowContainer', () => {
   const state = fromJS({
     participants: [{id: '1', ssn: '123456789', approximate_age: '9', approximate_age_units: 'dog years',
-      csec_types: ['1'], csec_started_at: '2222-02-02', csec_ended_at: '2222-02-02',
+      csec: [{id: '137', csec_code_id: '6867', start_date: '2018-08-20', end_date: '2017-09-11'}],
       date_of_birth: '2014-01-15', languages: ['Javascript', 'Ruby'], gender: 'female',
       roles: ['super-hero', 'anti-hero'], first_name: 'John', middle_name: 'Q', last_name: 'Public',
       legacy_descriptor: {legacy_ui_id: '1-4', legacy_table_description: 'Client'},
@@ -16,7 +16,7 @@ describe('PersonShowContainer', () => {
     }],
     systemCodes: {
       csecTypes: [
-        {code: '1', value: 'At Risk'},
+        {code: '6867', value: 'At Risk'},
         {code: '2', value: 'Victim Before Foster Care'},
       ],
     },
@@ -36,10 +36,10 @@ describe('PersonShowContainer', () => {
         errors: [],
       },
       csecStartedAt: {
-        value: '02/02/2222',
+        value: '08/20/2018',
         errors: [],
       },
-      csecEndedAt: '02/02/2222',
+      csecEndedAt: '09/11/2017',
       dateOfBirth: '01/15/2014',
       name: {
         value: 'John Q Public',
