@@ -24,7 +24,7 @@ describe('relationshipsSelectors', () => {
           legacy_id: '10',
           name: 'Ricky Robinson',
           relationships: [],
-          gender: 'M',
+          gender: 'Male',
           age: '20 yrs',
         },
         {
@@ -33,7 +33,7 @@ describe('relationshipsSelectors', () => {
           legacy_id: '20',
           name: 'Johny Robinson',
           relationships: [],
-          gender: 'M',
+          gender: 'Male',
           age: '30 yrs',
         },
         {
@@ -42,7 +42,7 @@ describe('relationshipsSelectors', () => {
           legacy_id: '30',
           name: 'Will Carlson',
           relationships: [],
-          gender: 'M',
+          gender: 'Male',
           age: '40 yrs',
         },
       ]))
@@ -179,14 +179,14 @@ describe('relationshipsSelectors', () => {
           dateOfBirth: '01/15/1986',
           legacy_id: '3',
           name: 'Ricky Robinson',
-          gender: 'M',
+          gender: 'Male',
           id: '23',
           age: '20 yrs',
           relationships: [
             {
               absent_parent_code: 'Y',
               dateOfBirth: '03/15/1990',
-              gender: 'M',
+              gender: 'Male',
               name: 'Johny Robinson',
               legacy_descriptor: {legacy_id: '2'},
               type: 'Brother',
@@ -201,7 +201,7 @@ describe('relationshipsSelectors', () => {
             {
               absent_parent_code: 'N',
               dateOfBirth: '02/15/1991',
-              gender: 'M',
+              gender: 'Male',
               name: 'Will Carlson',
               legacy_descriptor: {legacy_id: '1'},
               type: 'Nephew (Paternal)',
@@ -220,13 +220,13 @@ describe('relationshipsSelectors', () => {
           legacy_id: '2',
           name: 'Johny Robinson',
           id: '805',
-          gender: 'M',
+          gender: 'Male',
           age: '20 yrs',
           relationships: [
             {
               absent_parent_code: 'Y',
               dateOfBirth: '01/15/1986',
-              gender: 'M',
+              gender: 'Male',
               name: 'Ricky Robinson',
               legacy_descriptor: {legacy_id: '3'},
               type: 'Brother',
@@ -241,7 +241,7 @@ describe('relationshipsSelectors', () => {
             {
               absent_parent_code: 'N',
               dateOfBirth: '02/15/1991',
-              gender: 'M',
+              gender: 'Male',
               name: 'Will Carlson',
               legacy_descriptor: {legacy_id: '1'},
               type: 'Nephew (Paternal)',
@@ -256,6 +256,84 @@ describe('relationshipsSelectors', () => {
           ],
         },
       ]))
+    })
+  })
+
+  describe('Maps different gender keys from Postgres and DB2', () => {
+    it('Displays gender as Female if the data is female', () => {
+      const relationships = [{
+        id: '808',
+        legacy_id: '10',
+        first_name: 'Android',
+        last_name: '18',
+        gender: 'female',
+        date_of_birth: '1986-01-15',
+        age: 18,
+        age_unit: 'Y',
+      }]
+      const state = fromJS({relationships})
+      expect(getPeopleSelector(state)).toEqualImmutable(fromJS([{
+        id: '808',
+        dateOfBirth: '01/15/1986',
+        legacy_id: '10',
+        name: 'Android 18',
+        relationships: [],
+        gender: 'Female',
+        age: '18 yrs',
+      }]))
+    })
+
+    it('Displays gender as Unknown if the data is u', () => {
+      const relationships = [{
+        id: '808',
+        legacy_id: '10',
+        first_name: 'Android',
+        last_name: '18',
+        gender: 'F',
+        date_of_birth: '1986-01-15',
+        age: 18,
+        age_unit: 'Y',
+        relationships: [{
+          absent_parent_code: 'Y',
+          relationship_id: '415',
+          related_person_id: '3970',
+          related_person_date_of_birth: '1990-03-15',
+          related_person_gender: 'U',
+          related_person_first_name: 'Cell',
+          related_person_last_name: 'Android',
+          related_person_relationship: '17',
+          indexed_person_relationship: '17',
+          related_person_age: 30,
+          related_person_age_unit: 'Y',
+          legacy_descriptor: {legacy_id: '2'},
+          same_home_code: 'Y',
+        }],
+      }]
+      const relationshipTypes = [{code: '17', value: 'Brother'}]
+      const state = fromJS({relationships, systemCodes: {relationshipTypes}})
+      expect(getPeopleSelector(state)).toEqualImmutable(fromJS([{
+        id: '808',
+        dateOfBirth: '01/15/1986',
+        legacy_id: '10',
+        name: 'Android 18',
+        gender: 'Female',
+        age: '18 yrs',
+        relationships: [{
+          absent_parent_code: 'Y',
+          dateOfBirth: '03/15/1990',
+          gender: 'Unknown',
+          name: 'Cell Android',
+          legacy_descriptor: {legacy_id: '2'},
+          type: 'Brother',
+          person_card_exists: true,
+          relationshipId: '415',
+          relativeId: '3970',
+          secondaryRelationship: 'Brother',
+          same_home_code: 'Y',
+          type_code: '17',
+          age: '30 yrs',
+        }],
+      }]))
     })
   })
 })

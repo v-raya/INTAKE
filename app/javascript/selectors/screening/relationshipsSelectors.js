@@ -5,8 +5,11 @@ import {dateFormatter} from 'utils/dateFormatter'
 import {ageFormatter} from 'utils/ageFormatter'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {systemCodeDisplayValue, selectRelationshipTypes} from 'selectors/systemCodeSelectors'
+import GENDERS, {GENDERS_LEGACY} from 'enums/Genders'
 
 export const getScreeningRelationships = (state) => (state.get('relationships', List()))
+
+const genderMap = (gender) => GENDERS_LEGACY[gender] || GENDERS[gender] || ''
 
 const isPersonCardExists = (people, relationship) => {
   if (people && people.size > 0 && relationship.legacy_descriptor) {
@@ -25,7 +28,7 @@ export const getPeopleSelector = createSelector(
     legacy_id: person.get('legacy_id'),
     id: person.get('id'),
     name: nameFormatter({...person.toJS()}),
-    gender: person.get('gender') || '',
+    gender: genderMap(person.get('gender')),
     age: ageFormatter({
       age: person.get('age'),
       ageUnit: person.get('age_unit'),
@@ -34,7 +37,7 @@ export const getPeopleSelector = createSelector(
       Map({
         absent_parent_code: relationship.get('absent_parent_code'),
         dateOfBirth: dateFormatter(relationship.get('related_person_date_of_birth')),
-        gender: relationship.get('related_person_gender'),
+        gender: genderMap(relationship.get('related_person_gender')),
         name: nameFormatter({
           first_name: relationship.get('related_person_first_name'),
           last_name: relationship.get('related_person_last_name'),

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import DateField from 'common/DateField'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
-import GENDERS, {GENDERS_LEGACY} from 'enums/Genders'
 
 const isAbsentParentDisabled = (type) => (
   !type.toLowerCase().match(/\bfather\b|\bmother\b|\bparent\b/)
@@ -41,7 +40,7 @@ const EditRelationshipForm = ({editFormRelationship, onChange, person, relations
               <ul className='unstyled-list'>
                 <li>{person.name}</li>
                 <li>{person.age}</li>
-                <li>{GENDERS_LEGACY[person.gender] || GENDERS[person.gender] || ''}</li>
+                <li>{person.gender}</li>
               </ul>
             </td>
             <td>
@@ -51,7 +50,7 @@ const EditRelationshipForm = ({editFormRelationship, onChange, person, relations
                 value={editFormRelationship.relationship_type}
                 aria-label='Relationship Type'
                 onChange={({target}) => {
-                  onChange('relationship_type', target.value)
+                  onChange('relationship_type', parseInt(target.value, 10))
                   if (!isAbsentParentDisabled(type.secondary)) {
                     onChange('absent_parent_indicator', false)
                   }
@@ -69,7 +68,7 @@ const EditRelationshipForm = ({editFormRelationship, onChange, person, relations
               <ul className='unstyled-list'>
                 <li>{relationship.name}</li>
                 <li>{relationship.age}</li>
-                <li>{GENDERS_LEGACY[relationship.gender] || GENDERS[relationship.gender] || ''}</li>
+                <li>{relationship.gender}</li>
               </ul>
             </td>
           </tr>
@@ -101,7 +100,7 @@ const EditRelationshipForm = ({editFormRelationship, onChange, person, relations
             id='absent_parent_indicator'
             label='Parents Whereabouts Unknown'
             onChange={({target}) => onChange('absent_parent_indicator', (target.checked))}
-            value={editFormRelationship.absent_parent_indicator}
+            value={editFormRelationship.absent_parent_indicator.toString()}
           />
         </div>
       </div>
@@ -110,7 +109,7 @@ const EditRelationshipForm = ({editFormRelationship, onChange, person, relations
           gridClassName='col-md-4'
           id='relationship_start_date'
           label='Start Date'
-          value={''}
+          value={editFormRelationship.start_date}
           onChange={(value) => onChange('start_date', value)}
           hasTime={false}
         />
@@ -118,7 +117,7 @@ const EditRelationshipForm = ({editFormRelationship, onChange, person, relations
           gridClassName='col-md-4'
           id='relationship_end_date'
           label='End Date'
-          value={''}
+          value={editFormRelationship.end_date}
           onChange={(value) => onChange('end_date', value)}
           hasTime={false}
         />
