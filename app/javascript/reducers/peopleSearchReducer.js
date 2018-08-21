@@ -17,7 +17,7 @@ const initialState = fromJS({
 export default createReducer(initialState, {
   [PEOPLE_SEARCH_FETCH](state, {payload: {searchTerm}}) {
     return state.set('searchTerm', searchTerm)
-      .set('total', '')
+      .set('total', null)
   },
   [PEOPLE_SEARCH_FETCH_COMPLETE](state, {payload: {results, total}, error}) {
     if (error) {
@@ -30,7 +30,7 @@ export default createReducer(initialState, {
   [PEOPLE_SEARCH_CLEAR](state, _action) {
     return state.set('results', fromJS([]))
       .set('startTime', null)
-      .set('total', '')
+      .set('total', null)
   },
   [SET_SEARCH_TERM](state, {payload: {searchTerm}}) {
     if (state.get('startTime')) {
