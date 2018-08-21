@@ -43,6 +43,7 @@ const IncidentInformationForm = ({incidentDate, errors, onChange, onBlur, addres
           id='incident-address-city'
           label= 'City'
           maxLength='64'
+          onBlur={() => onBlur(['incident_address', 'city'])}
           onChange={({target: {value}}) => onChange(['incident_address', 'city'], value)}
           value={address.city}
           errors={errors.incident_address.city}
