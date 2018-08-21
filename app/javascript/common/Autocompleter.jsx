@@ -206,7 +206,6 @@ Autocompleter.propTypes = {
   staffId: PropTypes.string,
   startTime: PropTypes.string,
   total: PropTypes.number,
-
 }
 
 Autocompleter.defaultProps = {
