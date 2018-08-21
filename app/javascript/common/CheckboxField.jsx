@@ -24,7 +24,7 @@ const CheckboxField = ({
       onChange={onChange}
       onBlur={onBlur}
     />
-    <label className={required && 'required'} htmlFor={id}>{label}</label>
+    <label className={required ? 'required' : undefined} htmlFor={id}>{label}</label>
     <ErrorMessages ariaDescribedBy={id} errors={errors}/>
   </div>
 )
