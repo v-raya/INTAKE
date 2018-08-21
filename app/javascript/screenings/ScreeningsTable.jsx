@@ -42,18 +42,18 @@ class ScreeningsTable extends React.Component {
 
   render() {
     return (
-      <div className='responsive'>
-        <BootstrapTable
+      <div className='table-responsive'>
+        <BootstrapTable withoutTabIndex
           bordered={false} data={this.props.screenings} options={{sortName: 'started_at', sortOrder: 'asc'}} tdStyle={textWrap}
         >
-          <TableHeaderColumn dataField='name' dataFormat={screeningNameLink} dataSort={true} tdStyle= {textWrap} isKey={true}>
+          <TableHeaderColumn headerTitle={false} dataField='name' dataFormat={screeningNameLink} dataSort={true} tdStyle= {textWrap} isKey={true}>
           Screening Name</TableHeaderColumn>
-          <TableHeaderColumn dataField='screening_decision' dataFormat={decisionType} dataSort={false} tdStyle={textWrap}>
+          <TableHeaderColumn headerTitle={false} dataField='screening_decision' dataFormat={decisionType} dataSort={false} tdStyle={textWrap}>
           Type/Decision</TableHeaderColumn>
-          <TableHeaderColumn dataField='screening_status' dataSort={true}>Status</TableHeaderColumn>
-          <TableHeaderColumn dataField='assignee' tdStyle= {textWrap} dataSort={false}>Assignee</TableHeaderColumn>
-          <TableHeaderColumn dataField='started_at' dataFormat={reportDateAndTime} dataSort={true} tdStyle={textWrap}>
-          Report Date <br/>and Time</TableHeaderColumn>
+          <TableHeaderColumn headerTitle={false} dataField='screening_status' dataSort={true}>Status</TableHeaderColumn>
+          <TableHeaderColumn headerTitle={false} dataField='assignee' tdStyle= {textWrap} dataSort={false}>Assignee</TableHeaderColumn>
+          <TableHeaderColumn headerTitle={false} dataField='started_at' dataFormat={reportDateAndTime} dataSort={true} tdStyle={textWrap}>
+          Report Date and Time</TableHeaderColumn>
         </BootstrapTable>
       </div>
     )
