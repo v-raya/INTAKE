@@ -4,19 +4,27 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {selectClientIds} from 'selectors/participantSelectors'
 import {selectRelationship} from 'selectors/screening/relationshipFormSelectors'
 import {UPDATE_RELATIONSHIP} from 'actions/actionTypes'
-import {updatePersonFailure} from 'actions/personCardActions'
+import {
+  updateRelationshipFailure,
+  updateRelationshipSuccess,
+} from 'actions/relationshipActions'
+
 import * as Utils from 'utils/http'
 
 export function* saveRelationship({payload: {id}}) {
   try {
     const relationship = yield select(selectRelationship)
-    const updateRelationship = relationship.toJS()
-    yield call(Utils.put, `/api/v1/relationships/${id}`, updateRelationship)
-    const screeningId = yield select(getScreeningIdValueSelector)
-    const clientIds = yield select(selectClientIds)
-    yield put(fetchRelationships(clientIds, screeningId))
+    if (!relationship.get('reversed')) {
+      relationship.delete('reversed')
+      const updateRelationship = relationship.toJS()
+      const response = yield call(Utils.put, `/api/v1/relationships/${id}`, updateRelationship)
+      yield put(updateRelationshipSuccess(response))
+      const screeningId = yield select(getScreeningIdValueSelector)
+      const clientIds = yield select(selectClientIds)
+      yield put(fetchRelationships(clientIds, screeningId))
+    }
   } catch (error) {
-    yield put(updatePersonFailure(error.responseJSON))
+    yield put(updateRelationshipFailure(error))
   }
 }
 

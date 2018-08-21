@@ -55,6 +55,7 @@ export const getPeopleSelector = createSelector(
         relativeId: relationship.get('related_person_id'),
         secondaryRelationship: systemCodeDisplayValue(relationship.get('related_person_relationship'), relationshipTypes),
         person_card_exists: isPersonCardExists(participants, relationship.toJS()),
+        reversed: relationship.get('reversed'),
         same_home_code: relationship.get('same_home_code'),
       })
     )),

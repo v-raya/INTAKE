@@ -1,6 +1,11 @@
 import * as matchers from 'jasmine-immutable-matchers'
 import relationshipReducer from 'reducers/relationshipReducer'
-import {createRelationship, setRelationshipForm} from 'actions/relationshipActions'
+import {
+  createRelationship,
+  setRelationshipForm,
+  updateRelationshipFailure,
+  updateRelationshipSuccess,
+} from 'actions/relationshipActions'
 import {Map, fromJS} from 'immutable'
 
 describe('relationshipReducer', () => {
@@ -15,6 +20,7 @@ describe('relationshipReducer', () => {
         relationshipId: '12345',
         type_code: '190',
         relativeId: 'ABC987',
+        reversed: false,
         same_home_code: 'Y',
         startDate: '1999-10-01',
       }
@@ -28,6 +34,7 @@ describe('relationshipReducer', () => {
           id: '12345',
           relationship_type: 190,
           relative_id: 'ABC987',
+          reversed: false,
           same_home_status: 'Y',
           start_date: '1999-10-01',
         })
@@ -44,6 +51,7 @@ describe('relationshipReducer', () => {
         id: '12345',
         relationship_type: 190,
         relative_id: 'ABC987',
+        reversed: false,
         same_home_status: 'Y',
         start_date: '1999-10-01',
       })
@@ -57,6 +65,7 @@ describe('relationshipReducer', () => {
           id: '12345',
           relationship_type: 191,
           relative_id: 'ABC987',
+          reversed: false,
           same_home_status: 'Y',
           start_date: '1999-10-01',
         })
@@ -70,10 +79,42 @@ describe('relationshipReducer', () => {
           id: '12345',
           relationship_type: 190,
           relative_id: 'ABC987',
+          reversed: false,
           same_home_status: 'Y',
           start_date: '1999-10-01',
         })
       )
+    })
+  })
+
+  describe('on UPDATE_RELATIONSHIP_COMPLETE', () => {
+    it('returns the relationship with updated on success', () => {
+      const relationship = {
+        absent_parent_code: 'Y',
+        endDate: '2010-10-01',
+        relationshipId: '12345',
+        type_code: '190',
+        relativeId: 'ABC987',
+        reversed: false,
+        same_home_code: 'Y',
+        startDate: '1999-10-01',
+      }
+      const action = updateRelationshipSuccess(relationship)
+      expect(relationshipReducer(fromJS(relationship), action)).toEqualImmutable(fromJS({
+        absent_parent_code: 'Y',
+        endDate: '2010-10-01',
+        relationshipId: '12345',
+        type_code: '190',
+        relativeId: 'ABC987',
+        reversed: false,
+        same_home_code: 'Y',
+        startDate: '1999-10-01',
+      }))
+    })
+
+    it('returns the last state on failure', () => {
+      const action = updateRelationshipFailure()
+      expect(relationshipReducer(Map(), action)).toEqualImmutable(Map())
     })
   })
 })

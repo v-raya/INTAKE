@@ -98,6 +98,7 @@ describe('relationshipsSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '2',
               },
+              reversed: false,
               same_home_code: 'Y',
             },
             {
@@ -115,6 +116,7 @@ describe('relationshipsSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '1',
               },
+              reversed: false,
               same_home_code: 'N',
             },
           ],
@@ -144,6 +146,7 @@ describe('relationshipsSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '3',
               },
+              reversed: false,
               same_home_code: 'Y',
             },
             {
@@ -161,6 +164,7 @@ describe('relationshipsSelectors', () => {
               legacy_descriptor: {
                 legacy_id: '1',
               },
+              reversed: false,
               same_home_code: 'N',
             },
           ],
@@ -194,6 +198,7 @@ describe('relationshipsSelectors', () => {
               relativeId: '3970',
               secondaryRelationship: 'Brother',
               person_card_exists: false,
+              reversed: false,
               same_home_code: 'Y',
               type_code: '17',
               age: '30 yrs',
@@ -209,6 +214,7 @@ describe('relationshipsSelectors', () => {
               relativeId: '650',
               secondaryRelationship: 'Uncle (Paternal)',
               person_card_exists: true,
+              reversed: false,
               same_home_code: 'N',
               type_code: '258',
               age: '30 yrs',
@@ -234,6 +240,7 @@ describe('relationshipsSelectors', () => {
               relativeId: '910',
               secondaryRelationship: 'Brother',
               person_card_exists: false,
+              reversed: false,
               same_home_code: 'Y',
               type_code: '17',
               age: '30 yrs',
@@ -249,6 +256,7 @@ describe('relationshipsSelectors', () => {
               relativeId: '650',
               secondaryRelationship: 'Uncle (Paternal)',
               person_card_exists: true,
+              reversed: false,
               same_home_code: 'N',
               type_code: '258',
               age: '30 yrs',
@@ -306,6 +314,7 @@ describe('relationshipsSelectors', () => {
           related_person_age: 30,
           related_person_age_unit: 'Y',
           legacy_descriptor: {legacy_id: '2'},
+          reversed: false,
           same_home_code: 'Y',
         }],
       }]
@@ -329,6 +338,7 @@ describe('relationshipsSelectors', () => {
           relationshipId: '415',
           relativeId: '3970',
           secondaryRelationship: 'Brother',
+          reversed: false,
           same_home_code: 'Y',
           type_code: '17',
           age: '30 yrs',
