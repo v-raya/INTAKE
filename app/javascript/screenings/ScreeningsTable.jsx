@@ -6,7 +6,7 @@ import moment from 'moment'
 import {Link} from 'react-router'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 
-const decisionType = (cell, row) => {
+export const decisionType = (_cell, row) => {
   if (['promote_to_referral', 'screen_out'].includes(row.screening_decision)) {
     const responseTimes = SCREENING_DECISION_OPTIONS[row.screening_decision]
     return responseTimes.values[row.screening_decision_detail]
@@ -18,11 +18,11 @@ const textWrap = {whiteSpace: 'normal'}
 
 const linkName = (id, referralId, name) => (name || referralId || id)
 
-const screeningNameLink = (cell, row) => (
+export const screeningNameLink = (_cell, row) => (
   <Link to={`/screenings/${row.id}`}>{linkName(row.id, row.referralId, row.name)}</Link>
 )
 
-const reportDateAndTime = (startedAt) => {
+export const reportDateAndTime = (startedAt) => {
   if (moment(startedAt).isValid()) {
     return (
       <div>
