@@ -17,6 +17,7 @@ export const Relationships = ({
   onChange,
   onClick,
   onEdit,
+  onSave,
   screeningId,
   isScreening,
   pendingPeople = [],
@@ -40,6 +41,7 @@ export const Relationships = ({
                         onChange={onChange}
                         onClick={onClick}
                         onEdit={onEdit}
+                        onSave={onSave}
                         pendingPeople={pendingPeople}
                         person={person}
                         relationship ={row}
@@ -114,6 +116,7 @@ Relationships.propTypes = {
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   onEdit: PropTypes.func,
+  onSave: PropTypes.func,
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
   people: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,

@@ -22,13 +22,20 @@ export class ActionMenu extends Component {
   }
 
   renderModal() {
-    const {editFormRelationship, onChange, person, relationship} = this.props
+    const {
+      editFormRelationship,
+      onChange,
+      onSave,
+      person,
+      relationship,
+    } = this.props
 
     return (
       <EditRelationshipModal
         editFormRelationship={editFormRelationship}
         closeModal={this.closeModal}
         onChange={onChange}
+        onSave={onSave}
         person={person}
         relationship={relationship}
         show={this.state.show}
@@ -94,6 +101,7 @@ ActionMenu.propTypes = {
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   onEdit: PropTypes.func,
+  onSave: PropTypes.func,
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
   person: personPropType,
   relationship: relationshipPropType,

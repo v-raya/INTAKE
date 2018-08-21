@@ -8,6 +8,16 @@ describe('EditRelationshipModal', () => {
   const props = {
     closeModal: () => {},
     onClick: () => {},
+    onSave: () => {},
+    editFormRelationship: {
+      absent_parent_code: 'Y',
+      endDate: '2010-10-01',
+      relationshipId: '12345',
+      type_code: '210',
+      relativeId: 'ABC987',
+      same_home_code: 'N',
+      startDate: '1999-10-01',
+    },
     person: {
       age: '20 yrs',
       legacy_id: '1',

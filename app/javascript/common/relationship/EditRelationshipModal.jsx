@@ -12,14 +12,20 @@ const renderBody = (editFormRelationship, onChange, person, relationship) => (
   />
 )
 
-const renderFooter = (closeModal, onChange) => (
+const renderFooter = (closeModal, onSave, id) => (
   <div className='row'>
     <div className='col-md-12'>
       <div className='pull-right'>
         <button className='btn btn-default' onClick={closeModal}>
           Cancel
         </button>
-        <button className='btn btn-primary' onClick={onChange}>
+        <button
+          className='btn btn-primary'
+          onClick={() => {
+            onSave(id)
+            closeModal()
+          }}
+        >
           Save Relationship
         </button>
       </div>
@@ -31,6 +37,7 @@ const EditRelationshipModal = ({
   closeModal,
   editFormRelationship,
   onChange,
+  onSave,
   person,
   relationship,
   show,
@@ -39,7 +46,7 @@ const EditRelationshipModal = ({
     closeModal={closeModal}
     showModal={show}
     modalBody={renderBody(editFormRelationship, onChange, person, relationship)}
-    modalFooter={renderFooter(closeModal, onChange)}
+    modalFooter={renderFooter(closeModal, onSave, editFormRelationship.id)}
     modalSize='large'
     modalTitle='Edit Relationship Type'
   />
@@ -79,6 +86,7 @@ EditRelationshipModal.propTypes = {
     start_date: PropTypes.string,
   }),
   onChange: PropTypes.func,
+  onSave: PropTypes.func,
   person: personPropType,
   relationship: relationshipPropType,
   show: PropTypes.bool.isRequired,
