@@ -13,7 +13,8 @@ feature 'Submit Screening' do
       screening_decision: 'differential_response',
       communication_method: 'fax',
       incident_address: {
-        street_address: '123 Main St'
+        street_address: '123 Main St',
+        city: 'Sacramento'
       },
       addresses: [],
       cross_reports: [],

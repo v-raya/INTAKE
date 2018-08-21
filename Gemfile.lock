@@ -91,6 +91,8 @@ GEM
       launchy
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
+    chronic_duration (0.10.6)
+      numerizer (~> 0.1.1)
     circleci-parallel (0.5.0)
     clamp (1.0.1)
     cliver (0.3.2)
@@ -205,6 +207,7 @@ GEM
     nio4r (2.3.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    numerizer (0.1.1)
     parallel (1.12.1)
     parallel_tests (2.21.2)
       parallel
@@ -360,6 +363,8 @@ GEM
       circleci-parallel (~> 0.5)
       simplecov (~> 0.15)
     slop (3.6.0)
+    spec (5.3.4)
+      chronic_duration (~> 0.10.2)
     spring (2.0.2)
       activesupport (>= 4.2)
     sprockets (3.7.2)
@@ -457,6 +462,7 @@ DEPENDENCIES
   scss_lint
   selenium-webdriver (= 3.8.0)
   simplecov-parallel
+  spec
   spring
   sprockets (~> 3.7.2)
   virtus
@@ -466,4 +472,4 @@ DEPENDENCIES
   yard (~> 0.9.11)
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
