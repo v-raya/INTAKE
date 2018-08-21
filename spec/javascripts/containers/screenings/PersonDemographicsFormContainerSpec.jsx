@@ -25,6 +25,7 @@ describe('PersonDemographicsFormContainer', () => {
       approximateAgeUnit: '',
       approximateAgeIsDisabled: true,
       dateOfBirth: '2014-01-15',
+      dateOfBirthIsRequired: false,
       gender: 'female',
       genderIsRequired: false,
       genderError: undefined,

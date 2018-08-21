@@ -24,6 +24,7 @@ export const getPersonDemographicsSelector = (state, personId) => {
     approximateAge: person.getIn(['approximate_age', 'value']) || '',
     approximateAgeUnit: person.getIn(['approximate_age_units', 'value']) || '',
     dateOfBirth: person.getIn(['date_of_birth', 'value']) || '',
+    dateOfBirthIsRequired: roles.includes('Victim'),
     gender,
     genderError: genderError.valueOrElse(),
     genderIsRequired: isGenderRequired(roles),

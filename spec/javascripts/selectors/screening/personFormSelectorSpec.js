@@ -671,14 +671,14 @@ describe('personFormSelectors', () => {
       expect(getErrorsSelector(state, '1').get('last_name').first()).toEqual(undefined)
     })
 
-    it('returns undefined if first name is empty and role does not include Victim', () => {
-      const peopleForm = {1: {roles: {value: ['Some role']}}}
+    it('returns undefined if first name is empty and role is Anonymous Reporter', () => {
+      const peopleForm = {1: {roles: {value: ['Anonymous Reporter']}}}
       const state = fromJS({peopleForm})
       expect(getErrorsSelector(state, '1').get('first_name').first()).toEqual(undefined)
     })
 
-    it('returns undefined if last name is empty and role does not include Victim', () => {
-      const peopleForm = {1: {roles: {value: ['Some role']}}}
+    it('returns undefined if last name is empty and role is Anonymous Reporter', () => {
+      const peopleForm = {1: {roles: {value: ['Anonymous Reporter']}}}
       const state = fromJS({peopleForm})
       expect(getErrorsSelector(state, '1').get('last_name').first()).toEqual(undefined)
     })

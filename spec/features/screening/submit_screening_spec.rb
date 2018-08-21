@@ -13,7 +13,8 @@ feature 'Submit Screening' do
       screening_decision: 'differential_response',
       communication_method: 'fax',
       incident_address: {
-        street_address: '123 Main St'
+        street_address: '123 Main St',
+        city: 'Sacramento'
       },
       addresses: [],
       cross_reports: [],
@@ -135,11 +136,12 @@ feature 'Submit Screening' do
         existing_screening,
         with_updated_attributes: {
           communication_method: 'fax',
-          incident_address: { street_address: '123 Main St' }
+          incident_address: { street_address: '123 Main St', city: 'Sacramento' }
         }
       )
       within('.card', text: 'Incident Information') do
         fill_in 'Address', with: '123 Main St'
+        fill_in 'City', with: 'Sacramento'
         click_button 'Save'
       end
       expect(page).to have_button('Submit', disabled: false)

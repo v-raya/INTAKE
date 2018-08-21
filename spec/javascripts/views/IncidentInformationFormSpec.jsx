@@ -94,6 +94,13 @@ describe('IncidentInformationForm', () => {
         component.find('InputField[label="City"]').simulate('change', {target: {value: 'new value'}})
         expect(onChange).toHaveBeenCalledWith(['incident_address', 'city'], 'new value')
       })
+
+      it('touches on blur', () => {
+        const onBlur = jasmine.createSpy('onBlur')
+        const component = renderIncidentInformationForm({onBlur})
+        component.find('InputField[label="City"]').simulate('blur')
+        expect(onBlur).toHaveBeenCalledWith(['incident_address', 'city'])
+      })
     })
 
     describe('Incident County', () => {

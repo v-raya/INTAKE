@@ -9,7 +9,7 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {getReportType} from 'selectors/screening/screeningInformationShowSelectors'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {selectAddresses} from 'selectors/screening/personAddressesFormSelectors'
-import {hasReporter, hasNonReporter} from 'utils/roles'
+import {hasReporter} from 'utils/roles'
 
 export const getPeopleSelector = (state) => state.get('peopleForm')
 
@@ -48,6 +48,13 @@ const getRoleErrors = (state, personId, roles) => combineCompact(() => {
   return undefined
 })
 
+export const getNamesRequiredSelector = (state, personId) => {
+  const roles = state.getIn(['peopleForm', personId, 'roles', 'value']) || List()
+  return (
+    roles.size !== 0 && !List(['Anonymous Reporter']).equals(roles)
+  )
+}
+
 export const getErrorsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId]) || Map()
   const firstName = person.getIn(['first_name', 'value'])
@@ -56,8 +63,8 @@ export const getErrorsSelector = (state, personId) => {
   const ssn = person.getIn(['ssn', 'value']) || ''
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   return fromJS({
-    first_name: combineCompact(isRequiredIfCreate(firstName, 'Please enter a first name.', () => (hasNonReporter(roles)))),
-    last_name: combineCompact(isRequiredIfCreate(lastName, 'Please enter a last name.', () => (hasNonReporter(roles)))),
+    first_name: combineCompact(isRequiredIfCreate(firstName, 'Please enter a first name.', () => (getNamesRequiredSelector(state, personId)))),
+    last_name: combineCompact(isRequiredIfCreate(lastName, 'Please enter a last name.', () => (getNamesRequiredSelector(state, personId)))),
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
   })
@@ -75,13 +82,6 @@ export const getVisibleErrorsSelector = (state, personId) => {
     (filteredErrors, fieldErrors, field) => (
       filteredErrors.set(field, touchedFields.includes(field) ? fieldErrors : List())
     ), Map())
-}
-
-export const getNamesRequiredSelector = (state, personId) => {
-  const roles = state.getIn(['peopleForm', personId, 'roles', 'value']) || List()
-  return (
-    roles.size !== 0 && !List(['Anonymous Reporter']).equals(roles)
-  )
 }
 
 export const getRolesSelector = (state, personId) => {
