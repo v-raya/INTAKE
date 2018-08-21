@@ -10,7 +10,8 @@ import * as Utils from 'utils/http'
 export function* saveRelationship({payload: {id}}) {
   try {
     const relationship = yield select(selectRelationship)
-    yield call(Utils.put, `/api/v1/relationships/${id}`, relationship.toJS())
+    const updateRelationship = relationship.toJS()
+    yield call(Utils.put, `/api/v1/relationships/${id}`, updateRelationship)
     const screeningId = yield select(getScreeningIdValueSelector)
     const clientIds = yield select(selectClientIds)
     yield put(fetchRelationships(clientIds, screeningId))

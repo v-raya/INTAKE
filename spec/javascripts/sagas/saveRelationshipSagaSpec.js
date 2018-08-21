@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import {call, put, select, takeEvery} from 'redux-saga/effects'
 import {fetchRelationships} from 'actions/relationshipsActions'
+import {fromJS} from 'immutable'
 import {selectRelationship} from 'selectors/screening/relationshipFormSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {saveRelationshipSaga, saveRelationship} from 'sagas/saveRelationshipSaga'
@@ -8,7 +9,6 @@ import {selectClientIds} from 'selectors/participantSelectors'
 import {UPDATE_RELATIONSHIP} from 'actions/actionTypes'
 import * as relationshipAction from 'actions/relationshipActions'
 import * as Utils from 'utils/http'
-import { fromJS } from 'immutable';
 
 describe('saveRelationshipSaga', () => {
   it('updates relationship on UPDATE_RELATIONSHIP', () => {
@@ -19,7 +19,7 @@ describe('saveRelationshipSaga', () => {
 })
 
 describe('updateRelationship', () => {
-  const relationship = fromJS({
+  const relationship = {
     id: '12345',
     client_id: 'ZXY123',
     relative_id: 'ABC987',
@@ -29,7 +29,7 @@ describe('updateRelationship', () => {
     start_date: '1999-10-01',
     end_date: '2010-10-01',
     legacy_id: 'A1b2x',
-  })
+  }
   const action = relationshipAction.updateRelationship(relationship.id)
 
   it('updates relationship and fetches relationships', () => {
@@ -40,8 +40,8 @@ describe('updateRelationship', () => {
     expect(gen.next().value).toEqual(
       select(selectRelationship)
     )
-    expect(gen.next(relationship).value).toEqual(
-      call(Utils.put, `/api/v1/relationships/${relationship.id}`, relationship.toJS())
+    expect(gen.next(fromJS(relationship)).value).toEqual(
+      call(Utils.put, `/api/v1/relationships/${relationship.id}`, relationship)
     )
     expect(gen.next().value).toEqual(
       select(getScreeningIdValueSelector)
