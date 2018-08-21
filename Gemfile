@@ -38,7 +38,6 @@ group :development, :test do
   gem 'pry-remote'
   gem 'pry-stack_explorer'
   gem 'pry-theme'
-  gem 'spec'
   gem 'rspec-rails', '~> 3.4'
   gem 'rubocop', '0.50.0'
   gem 'rubocop-junit-formatter'
