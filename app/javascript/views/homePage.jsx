@@ -53,11 +53,8 @@ export const HomePage = ({snapshot, hotline, actions: {createSnapshot, createScr
       <BreadCrumb />
     </div>
     <div className='container'>
-      <div className='row gap-top'>
-        <div className='col-md-3' />
-        <div className='col-md-9'>
-          { hotline && <ScreeningsTable /> }
-        </div>
+      <div className='col-sm-12 gap-top'>
+        { hotline && <ScreeningsTable /> }
       </div>
     </div>
   </div>
@@ -71,4 +68,3 @@ HomePage.propTypes = {
   hotline: PropTypes.bool,
   snapshot: PropTypes.bool,
 }
-
