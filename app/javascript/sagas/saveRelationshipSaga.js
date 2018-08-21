@@ -15,7 +15,6 @@ export function* saveRelationship({payload: {id}}) {
   try {
     const relationship = yield select(selectRelationship)
     if (!relationship.get('reversed')) {
-      relationship.delete('reversed')
       const updateRelationship = relationship.toJS()
       const response = yield call(Utils.put, `/api/v1/relationships/${id}`, updateRelationship)
       yield put(updateRelationshipSuccess(response))
