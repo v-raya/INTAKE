@@ -53,6 +53,7 @@ export const getFormattedCasesSelector = createSelector(
     const limitedAccessCode = hoiCase.getIn(['access_limitation', 'limited_access_code'], 'NONE')
     return fromJS({
       caseId: hoiCase.getIn(['legacy_descriptor', 'legacy_ui_id']),
+      caseLegacyId: hoiCase.getIn(['legacy_descriptor', 'legacy_id']),
       county: county,
       dateRange: dateRangeFormatter(hoiCase.toJS()),
       focusChild: nameFormatter(hoiCase.get('focus_child', Map()).toJS()),
@@ -127,6 +128,7 @@ export const getFormattedReferralsSelector = createSelector(
       dateRange: dateRangeFormatter(referral.toJS()),
       notification: accessDescription(limitedAccessCode),
       peopleAndRoles: peopleAndRoles,
+      referralLegacyId: referral.getIn(['legacy_descriptor', 'legacy_id']),
       referralId: referral.getIn(['legacy_descriptor', 'legacy_ui_id']),
       reporter: nameFormatter({name_default: '', ...referral.get('reporter', Map()).toJS()}),
       status: status,
