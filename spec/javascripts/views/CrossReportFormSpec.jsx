@@ -357,6 +357,12 @@ describe('CrossReportForm', () => {
     })
   })
   describe('clicking on save', () => {
+    beforeEach(() => {
+      window.location.hash = ''
+    })
+    afterEach(() => {
+      window.location.hash = ''
+    })
     it('fires toggleShow, saveCard', () => {
       const saveCard = jasmine.createSpy('saveCard')
       const touchAllFields = jasmine.createSpy('touchAllFields')
@@ -370,6 +376,7 @@ describe('CrossReportForm', () => {
       expect(saveCrossReport).toHaveBeenCalledWith(screeningWithEdits)
       expect(touchAllFields).toHaveBeenCalled()
       expect(setCardMode).toHaveBeenCalledWith(cardName, SHOW_MODE)
+      expect(window.location.hash).toEqual('#cross-report-card-anchor')
     })
   })
 })

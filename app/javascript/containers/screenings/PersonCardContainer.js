@@ -19,7 +19,7 @@ const mapStateToProps = (state, {personId}) => ({
   informationPill: selectDeceased(state).get(personId) ? 'Deceased' : null,
 })
 
-const mapDispatchToProps = (dispatch, {personId}) => ({
+export const mapDispatchToProps = (dispatch, {personId}) => ({
   onCancel: () => dispatch(setPersonCardMode(personId, 'show')),
   onDelete: () => dispatch(deletePerson(personId)),
   onEdit: () => dispatch(setPersonCardMode(personId, 'edit')),
@@ -27,6 +27,7 @@ const mapDispatchToProps = (dispatch, {personId}) => ({
     dispatch(savePerson(personId))
     dispatch(touchAllFields(personId))
     dispatch(setPersonCardMode(personId, 'show'))
+    window.location.hash = `#participants-card-${personId}`
   },
 })
 

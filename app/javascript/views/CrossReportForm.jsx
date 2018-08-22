@@ -58,6 +58,7 @@ const CrossReportForm = ({
     saveCrossReport(screeningWithEdits)
     touchAllFields()
     setCardMode(cardName, SHOW_MODE)
+    window.location.hash = '#cross-report-card-anchor'
   }
   const agencyFieldActions = {
     setAgencyTypeField,

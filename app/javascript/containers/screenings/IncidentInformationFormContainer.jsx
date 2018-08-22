@@ -33,7 +33,7 @@ const mapStateToProps = (state) => ({
   locationOfChildren: getLocationOfChildrenSelector(state),
 })
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   onBlur: (fieldName) => dispatch(touchField(fieldName)),
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
@@ -45,6 +45,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(saveCard(cardName))
     dispatch(touchAllFields())
     dispatch(setCardMode(cardName, SHOW_MODE))
+    window.location.hash = '#incident-information-card-anchor'
   },
 })
 

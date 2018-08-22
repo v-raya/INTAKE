@@ -21,7 +21,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
@@ -32,9 +32,9 @@ const mapDispatchToProps = (dispatch) => ({
   onSave: () => {
     dispatch(saveCard(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
+    window.location.hash = '#allegations-card-anchor'
   },
   dispatch,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllegationsForm)
-
