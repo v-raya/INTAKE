@@ -86,7 +86,7 @@ const selectAddressErrors = (state) => {
 export const getErrorsSelector = createSelector(
   (state) => state.getIn(['incidentInformationForm', 'incident_date', 'value']),
   (incident_date) => (fromJS({
-    incident_date: combineCompact(isFutureDatetimeCreate(incident_date, 'The incident date and time cannot be in the future.')),
+    incident_date: combineCompact(isFutureDatetimeCreate(incident_date, 'The incident date cannot be in the future.')),
   }))
 )
 

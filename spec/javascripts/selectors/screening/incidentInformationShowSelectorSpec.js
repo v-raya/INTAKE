@@ -89,7 +89,7 @@ describe('incidentInformationShowSelectors', () => {
       }
       const state = fromJS({screening})
       expect(getErrorsSelector(state)).toEqualImmutable(fromJS({
-        incident_date: ['The incident date and time cannot be in the future.'],
+        incident_date: ['The incident date cannot be in the future.'],
         incident_address: [],
         incident_city: [],
       }))
