@@ -57,6 +57,8 @@ feature 'Relationship card' do
   end
   let(:jake) do
     {
+      absent_parent_code: 'Y',
+      relationship_id: '23',
       related_person_first_name: 'Jake',
       related_person_last_name: 'Campbell',
       relationship: 'Sister/Brother (Half)',
@@ -67,6 +69,7 @@ feature 'Relationship card' do
       related_person_date_of_birth: '1990-05-05',
       related_person_age: 28,
       related_person_age_unit: 'Y',
+      same_home_code: 'Y',
       legacy_descriptor: {
         legacy_id: 'jake_legacy_id'
       }
@@ -74,6 +77,7 @@ feature 'Relationship card' do
   end
   let(:jane) do
     {
+      relationship_id: '24',
       related_person_id: new_participant.id,
       related_person_legacy_id: '280',
       related_person_first_name: 'Jane',
@@ -92,6 +96,7 @@ feature 'Relationship card' do
   end
   let(:john) do
     {
+      relationship_id: '25',
       related_person_first_name: 'John',
       related_person_last_name: 'Florence',
       related_person_name_suffix: 'phd.',
@@ -123,6 +128,18 @@ feature 'Relationship card' do
         relationships: []
       }
     ]
+  end
+  let(:edit_relationship) do
+    {
+      id: '23',
+      client_id: participant.id.to_s,
+      relative_id: '7',
+      relationship_type: 301,
+      absent_parent_indicator: true,
+      same_home_status: 'Y',
+      start_date: '',
+      end_date: ''
+    }
   end
   let(:hoi) do
     {
@@ -379,6 +396,13 @@ feature 'Relationship card' do
           end
 
           describe 'edit relationship of participant' do
+            before(:each) do
+              stub_request(:put,
+                ferb_api_url(FerbRoutes.screening_relationship_path(edit_relationship[:id])))
+                .with(body: hash_including(edit_relationship))
+                .and_return(json_body(edit_relationship.to_json))
+            end
+
             scenario 'opens the modal edit relationship of a relatee' do
               assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Edit')
               within 'div.modal-body' do
@@ -388,6 +412,21 @@ feature 'Relationship card' do
                 expect(page).to have_content('Jake Campbell')
                 expect(page).to have_content('20 yrs')
               end
+            end
+
+            scenario 'allows saving relationship' do
+              assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Edit')
+              within 'div.modal-content' do
+                select 'Ward/Guardian', from: 'edit_relationship'
+                click_button 'Save Relationship'
+              end
+
+              expect(
+                a_request(:put,
+                  ferb_api_url(
+                    FerbRoutes.screening_relationship_path(edit_relationship[:id])
+                  )).with(json_body(edit_relationship))
+              ).to have_been_made
             end
 
             scenario 'closes the modal edit relationship' do

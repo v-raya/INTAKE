@@ -8,6 +8,7 @@ describe('ActionMenu', () => {
   const props = {
     isScreening: true,
     onClick: () => {},
+    onEdit: () => {},
     pendingPeople: [],
     person: {
       name: 'Goku',

@@ -1,5 +1,5 @@
 import React from 'react'
-import {shallow, mount} from 'enzyme'
+import {shallow} from 'enzyme'
 import {ModalComponent} from 'react-wood-duck'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
@@ -8,6 +8,16 @@ describe('EditRelationshipModal', () => {
   const props = {
     closeModal: () => {},
     onClick: () => {},
+    onSave: () => {},
+    editFormRelationship: {
+      absent_parent_code: 'Y',
+      endDate: '2010-10-01',
+      relationshipId: '12345',
+      type_code: '210',
+      relativeId: 'ABC987',
+      same_home_code: 'N',
+      startDate: '1999-10-01',
+    },
     person: {
       age: '20 yrs',
       legacy_id: '1',
@@ -26,7 +36,6 @@ describe('EditRelationshipModal', () => {
     show: true,
   }
   const renderEditRelationshipModal = (props) => shallow(<EditRelationshipModal {...props}/>)
-  const renderEditRelationshipModalMount = (props) => mount(<EditRelationshipModal {...props}/>)
 
   describe('rendersModal', () => {
     it('renders a ModalComponent', () => {
@@ -66,44 +75,6 @@ describe('EditRelationshipModal', () => {
         secondaryRelationship: 'Father',
         same_home_code: 'N',
         type_code: '210',
-      })
-    })
-  })
-
-  describe('onChange', () => {
-    it('sets the state', () => {
-      const render = renderEditRelationshipModalMount(props)
-
-      expect(render.state('relationship').same_home_code).toEqual('N')
-      expect(render.state('relationship').absent_parent_code).toEqual('Y')
-      expect(render.state('relationship').type_code).toEqual('210')
-      render.instance().onChange('same_home_code', 'Y')
-      render.instance().onChange('absent_parent_code', 'N')
-      render.instance().onChange('type_code', '211')
-      expect(render.state('relationship').same_home_code).toEqual('Y')
-      expect(render.state('relationship').absent_parent_code).toEqual('N')
-      expect(render.state('relationship').type_code).toEqual('211')
-    })
-  })
-
-  describe('update', () => {
-    it('sets the state with the parents props', () => {
-      const render = renderEditRelationshipModalMount(props)
-
-      expect(render.state('relationship')).toEqual({
-        absent_parent_code: 'Y',
-        name: 'Darth Vader',
-        age: '30 yrs',
-        gender: 'M',
-        secondaryRelationship: 'Father',
-        same_home_code: 'N',
-        type_code: '210',
-      })
-      expect(render.state('person')).toEqual({
-        age: '20 yrs',
-        legacy_id: '1',
-        gender: 'M',
-        name: 'Luke Skywalker',
       })
     })
   })

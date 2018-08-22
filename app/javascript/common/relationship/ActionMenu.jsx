@@ -16,16 +16,26 @@ export class ActionMenu extends Component {
   }
 
   handleShowModal() {
+    const {onEdit, person, relationship} = this.props
     this.setState({show: true})
+    onEdit(person, relationship)
   }
 
   renderModal() {
-    const {onChange, person, relationship} = this.props
+    const {
+      editFormRelationship,
+      onChange,
+      onSave,
+      person,
+      relationship,
+    } = this.props
 
     return (
       <EditRelationshipModal
+        editFormRelationship={editFormRelationship}
         closeModal={this.closeModal}
         onChange={onChange}
+        onSave={onSave}
         person={person}
         relationship={relationship}
         show={this.state.show}
@@ -77,9 +87,21 @@ const relationshipPropType = PropTypes.shape({
 })
 
 ActionMenu.propTypes = {
+  editFormRelationship: PropTypes.shape({
+    absent_parent_indicator: PropTypes.bool,
+    client_id: PropTypes.string,
+    end_date: PropTypes.string,
+    id: PropTypes.string,
+    relationship_type: PropTypes.number,
+    relative_id: PropTypes.string,
+    same_home_status: PropTypes.string,
+    start_date: PropTypes.string,
+  }),
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
+  onEdit: PropTypes.func,
+  onSave: PropTypes.func,
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
   person: personPropType,
   relationship: relationshipPropType,

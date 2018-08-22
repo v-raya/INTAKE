@@ -3,20 +3,21 @@ import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import DateField from 'common/DateField'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
-import GENDERS, {GENDERS_LEGACY} from 'enums/Genders'
 
 const isAbsentParentDisabled = (type) => (
   !type.toLowerCase().match(/\bfather\b|\bmother\b|\bparent\b/)
 )
 const findTypeLabel = (typeCode) => {
-  const types = (RELATIONSHIP_TYPES.find((type) => type.value === typeCode).label).split('/')
+  const types = (RELATIONSHIP_TYPES.find((type) =>
+    type.value === typeCode.toString()
+  ).label).split('/')
   return {
     secondary: types.pop(),
     index: types.pop(),
   }
 }
-const EditRelationshipForm = ({onChange, person, relationship}) => {
-  const type = findTypeLabel(relationship.type_code)
+const EditRelationshipForm = ({editFormRelationship, onChange, person, relationship}) => {
+  const type = findTypeLabel(editFormRelationship.relationship_type)
 
   return (
     <div>
@@ -39,16 +40,21 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
               <ul className='unstyled-list'>
                 <li>{person.name}</li>
                 <li>{person.age}</li>
-                <li>{GENDERS_LEGACY[person.gender] || GENDERS[person.gender] || ''}</li>
+                <li>{person.gender}</li>
               </ul>
             </td>
             <td>
               <select
                 id='edit_relationship'
                 label='Relationship Type'
-                value={relationship.type_code}
+                value={editFormRelationship.relationship_type}
                 aria-label='Relationship Type'
-                onChange={({target}) => onChange('type_code', target.value)}
+                onChange={({target}) => {
+                  onChange('relationship_type', parseInt(target.value, 10))
+                  if (!isAbsentParentDisabled(type.secondary)) {
+                    onChange('absent_parent_indicator', false)
+                  }
+                }}
               >
                 <option key=''/>
                 {RELATIONSHIP_TYPES.map((relationship) =>
@@ -62,7 +68,7 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
               <ul className='unstyled-list'>
                 <li>{relationship.name}</li>
                 <li>{relationship.age}</li>
-                <li>{GENDERS_LEGACY[relationship.gender] || GENDERS[relationship.gender] || ''}</li>
+                <li>{relationship.gender}</li>
               </ul>
             </td>
           </tr>
@@ -78,25 +84,23 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
       <div className='row pad-left'>
         <div className='col-md-4'>
           <CheckboxField
-            checked={relationship.same_home_code === 'Y'}
-            id='same_home_code'
+            checked={editFormRelationship.same_home_status === 'Y'}
+            id='same_home_status'
             label='Live at the Same Location'
             onChange={({target}) => {
-              onChange('same_home_code', (target.value === 'Y') ? 'N' : 'Y')
+              onChange('same_home_status', (target.value === 'Y') ? 'N' : 'Y')
             }}
-            value={relationship.same_home_code}
+            value={editFormRelationship.same_home_status}
           />
         </div>
         <div className='col-md-4'>
           <CheckboxField
-            checked={relationship.absent_parent_code === 'Y'}
+            checked={editFormRelationship.absent_parent_indicator}
             disabled={isAbsentParentDisabled(type.secondary)}
-            id='absent_parent_code'
+            id='absent_parent_indicator'
             label='Parents Whereabouts Unknown'
-            onChange={({target}) => {
-              onChange('absent_parent_code', (target.value === 'Y') ? 'N' : 'Y')
-            }}
-            value={relationship.absent_parent_code}
+            onChange={({target}) => onChange('absent_parent_indicator', (target.checked))}
+            value={editFormRelationship.absent_parent_indicator.toString()}
           />
         </div>
       </div>
@@ -105,16 +109,16 @@ const EditRelationshipForm = ({onChange, person, relationship}) => {
           gridClassName='col-md-4'
           id='relationship_start_date'
           label='Start Date'
-          value={''}
-          onChange={({target}) => onChange('start_date', (target.value))}
+          value={editFormRelationship.start_date}
+          onChange={(value) => onChange('start_date', value)}
           hasTime={false}
         />
         <DateField
           gridClassName='col-md-4'
           id='relationship_end_date'
           label='End Date'
-          value={''}
-          onChange={({target}) => onChange('end_date', (target.value))}
+          value={editFormRelationship.end_date}
+          onChange={(value) => onChange('end_date', value)}
           hasTime={false}
         />
       </div>
@@ -130,7 +134,7 @@ const personPropType = PropTypes.shape({
   name: PropTypes.string,
 })
 const relationshipPropType = PropTypes.shape({
-  absent_parent_code: PropTypes.string,
+  absent_parent_indicator: PropTypes.string,
   age: PropTypes.string,
   dateOfBirth: PropTypes.string,
   legacy_descriptor: PropTypes.object,
@@ -138,12 +142,21 @@ const relationshipPropType = PropTypes.shape({
   name: PropTypes.string,
   person_card_exists: PropTypes.bool,
   same_home_code: PropTypes.string,
-  secondaryRelationship: PropTypes.string,
   type: PropTypes.string,
   type_code: PropTypes.string,
 })
 
 EditRelationshipForm.propTypes = {
+  editFormRelationship: PropTypes.shape({
+    absent_parent_indicator: PropTypes.bool,
+    client_id: PropTypes.string,
+    end_date: PropTypes.string,
+    id: PropTypes.string,
+    relationship_type: PropTypes.number,
+    relative_id: PropTypes.string,
+    same_home_status: PropTypes.string,
+    start_date: PropTypes.string,
+  }),
   onChange: PropTypes.func,
   person: personPropType,
   relationship: relationshipPropType,
