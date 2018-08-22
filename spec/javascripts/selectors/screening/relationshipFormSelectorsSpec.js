@@ -17,7 +17,7 @@ describe('relationshipSelectors', () => {
     start_date: '1999-10-01',
   })
 
-  it('returns a an empty object', () => {
+  it('returns a an empty Map', () => {
     expect(selectRelationship(emptyState)).toEqualImmutable(fromJS({}))
   })
 

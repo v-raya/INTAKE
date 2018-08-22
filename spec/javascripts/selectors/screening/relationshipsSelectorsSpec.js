@@ -267,7 +267,7 @@ describe('relationshipsSelectors', () => {
     })
   })
 
-  describe('Maps different gender keys from Postgres and DB2', () => {
+  describe('Maps different gender keys', () => {
     it('Displays gender as Female if the data is female', () => {
       const relationships = [{
         id: '808',
