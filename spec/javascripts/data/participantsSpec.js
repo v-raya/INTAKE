@@ -20,7 +20,7 @@ describe('Participants', () => {
     })
 
     it('has SSB info', () => {
-      expect(babyDoe.safelySurrenderedBabies).toBeDefined()
+      expect(babyDoe.safely_surrendered_babies).toBeDefined()
     })
   })
 

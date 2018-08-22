@@ -45,7 +45,7 @@ feature 'safely surrendered baby' do
       screening_id: '1',
       sealed: false,
       sensitive: false,
-      safelySurrenderedBabies: {
+      safely_surrendered_babies: {
         surrendered_by: 'Unknown Doe'
       }
     }
@@ -54,7 +54,7 @@ feature 'safely surrendered baby' do
   let(:baby_doe_response) do
     baby_doe.merge(
       id: '111',
-      safelySurrenderedBabies: {
+      safely_surrendered_babies: {
         surrendered_by: 'Unknown Doe',
         relation_to_child: nil,
         bracelet_id: nil,

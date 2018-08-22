@@ -128,7 +128,7 @@ describe('safelySurrenderedBabyReducer', () => {
       const action = updatePersonSuccess({
         id: '3',
         roles: ['Victim'],
-        safelySurrenderedBabies: payload,
+        safely_surrendered_babies: payload,
       })
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
         persisted: fromJS(payload),
@@ -162,7 +162,7 @@ describe('safelySurrenderedBabyReducer', () => {
       const action = createPersonSuccess({
         id: '3',
         roles: ['Victim'],
-        safelySurrenderedBabies: payload,
+        safely_surrendered_babies: payload,
       })
 
       expect(safelySurrenderedBabyReducer(Map(), action)).toEqualImmutable(Map({
@@ -188,7 +188,7 @@ describe('safelySurrenderedBabyReducer', () => {
         {id: '2'},
         {
           id: '3',
-          safelySurrenderedBabies: payload,
+          safely_surrendered_babies: payload,
         },
         {id: '4'},
       ],

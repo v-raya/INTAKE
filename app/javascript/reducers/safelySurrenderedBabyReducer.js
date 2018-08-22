@@ -29,17 +29,17 @@ const initialState = fromJS({
 const reduceSSBFromParticipants = (state, {payload: {screening: {participants} = {}}, error}) => {
   if (error || !participants) { return state }
 
-  const baby = participants.find((participant) => participant.safelySurrenderedBabies)
+  const baby = participants.find((participant) => participant.safely_surrendered_babies)
   if (!baby) { return state }
   return state
-    .set('persisted', fromJS(baby.safelySurrenderedBabies))
-    .set('form', fromJS(baby.safelySurrenderedBabies))
+    .set('persisted', fromJS(baby.safely_surrendered_babies))
+    .set('form', fromJS(baby.safely_surrendered_babies))
 }
 
-const reduceSSBFromParticipant = (state, {payload: {person: {safelySurrenderedBabies} = {}}, error}) => {
-  if (error || !safelySurrenderedBabies) { return state }
+const reduceSSBFromParticipant = (state, {payload: {person: {safely_surrendered_babies} = {}}, error}) => {
+  if (error || !safely_surrendered_babies) { return state }
 
-  const immutablePayload = fromJS(safelySurrenderedBabies)
+  const immutablePayload = fromJS(safely_surrendered_babies)
   return state.set('persisted', immutablePayload).set('form', immutablePayload)
 }
 
@@ -61,11 +61,11 @@ export default createReducer(initialState, {
   [SAVE_SCREENING_COMPLETE]: reduceSSBFromParticipants,
   [CREATE_PERSON_COMPLETE]: reduceSSBFromParticipant,
   [UPDATE_PERSON_COMPLETE]: (state, {payload: {person = {}}, error}) => {
-    const {roles, safelySurrenderedBabies} = person
+    const {roles, safely_surrendered_babies} = person
     if (error) { return state }
 
-    if (safelySurrenderedBabies) {
-      const immutablePayload = fromJS(safelySurrenderedBabies)
+    if (safely_surrendered_babies) {
+      const immutablePayload = fromJS(safely_surrendered_babies)
       return state.set('persisted', immutablePayload).set('form', immutablePayload)
     }
 

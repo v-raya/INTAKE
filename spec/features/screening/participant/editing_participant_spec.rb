@@ -640,7 +640,7 @@ feature 'Edit Person' do
       visit edit_screening_path(id: screening[:id])
 
       updated_participant = homer.as_json.merge(
-        safelySurrenderedBabies: {
+        safely_surrendered_babies: {
           surrendered_by: 'Unknown',
           relation_to_child: '1597',
           bracelet_id: '12345',
@@ -677,7 +677,7 @@ feature 'Edit Person' do
       expect(a_request(:put,
         ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], homer.id)))
         .with(body: hash_including(
-          safelySurrenderedBabies: anything
+          safely_surrendered_babies: anything
         ))).to have_been_made
 
       within show_participant_card_selector(homer.id) do

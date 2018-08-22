@@ -4,7 +4,7 @@ export const babyDoe = {
   sealed: false,
   sensitive: false,
   roles: ['Victim'],
-  safelySurrenderedBabies: {
+  safely_surrendered_babies: {
     surrendered_by: 'Unknown Doe',
   },
 }

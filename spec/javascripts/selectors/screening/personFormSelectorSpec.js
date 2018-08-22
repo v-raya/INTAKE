@@ -1144,7 +1144,7 @@ describe('personFormSelectors', () => {
 
     describe('ssb', () => {
       it('adds ssb info to participant children', () => {
-        expect(getPersonWithEditsSelector(state, 'two').get('safelySurrenderedBabies'))
+        expect(getPersonWithEditsSelector(state, 'two').get('safely_surrendered_babies'))
           .toEqualImmutable(fromJS({
             participant_child: 'two',
             surrendered_by: null,
@@ -1162,7 +1162,7 @@ describe('personFormSelectors', () => {
           getPersonWithEditsSelector(
             state.setIn(['screening', 'report_type'], 'csec'),
             'two'
-          ).get('safelySurrenderedBabies')
+          ).get('safely_surrendered_babies')
         ).toBeUndefined()
       })
     })
