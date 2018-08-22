@@ -28,6 +28,7 @@ export const mapDispatchToProps = (dispatch) => ({
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
+    window.location.hash = '#worker-safety-card-anchor'
   },
   onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
   onSave: () => {

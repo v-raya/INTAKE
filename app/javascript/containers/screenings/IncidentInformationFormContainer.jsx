@@ -39,6 +39,7 @@ export const mapDispatchToProps = (dispatch) => ({
     dispatch(clearCardEdits(cardName))
     dispatch(touchAllFields())
     dispatch(setCardMode(cardName, SHOW_MODE))
+    window.location.hash = '#incident-information-card-anchor'
   },
   onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
   onSave: () => {

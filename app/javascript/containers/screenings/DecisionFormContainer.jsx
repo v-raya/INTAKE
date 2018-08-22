@@ -46,6 +46,7 @@ export const mapDispatchToProps = (dispatch) => ({
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
+    window.location.hash = '#decision-card-anchor'
   },
   onChange: (field, value) => {
     dispatch(setField({field, value}))

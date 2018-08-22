@@ -2,9 +2,31 @@ import {generateBabyDoe} from 'actions/safelySurrenderedBabyActions'
 import {saveCard} from 'actions/screeningActions'
 import {touchAllFields} from 'actions/screeningInformationFormActions'
 import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
-import {cardName, mergeProps} from 'containers/screenings/ScreeningInformationFormContainer'
+import {
+  cardName,
+  mapDispatchToProps,
+  mergeProps,
+} from 'containers/screenings/ScreeningInformationFormContainer'
 
 describe('ScreeningInformationFormContainer', () => {
+  describe('mapDispatchToProps', () => {
+    describe('when canceling', () => {
+      beforeEach(() => {
+        window.location.hash = ''
+      })
+      afterEach(() => {
+        window.location.hash = ''
+      })
+      it('navigates to the card', () => {
+        const dispatch = jasmine.createSpy('dispatch')
+        const {onCancel} = mapDispatchToProps(dispatch)
+
+        onCancel()
+
+        expect(window.location.hash).toEqual('#screening-information-card-anchor')
+      })
+    })
+  })
   describe('mergeProps', () => {
     it('combines all props from stateProps, dispatchProps, and ownProps', () => {
       const stateProps = {
@@ -28,6 +50,9 @@ describe('ScreeningInformationFormContainer', () => {
 
     describe('when saving', () => {
       beforeEach(() => {
+        window.location.hash = ''
+      })
+      afterEach(() => {
         window.location.hash = ''
       })
       it('saves the card, touches the fields, sets show mode, and navigates to the card', () => {

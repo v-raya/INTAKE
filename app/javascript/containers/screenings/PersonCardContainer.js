@@ -20,7 +20,10 @@ const mapStateToProps = (state, {personId}) => ({
 })
 
 export const mapDispatchToProps = (dispatch, {personId}) => ({
-  onCancel: () => dispatch(setPersonCardMode(personId, 'show')),
+  onCancel: () => {
+    dispatch(setPersonCardMode(personId, 'show'))
+    window.location.hash = `#participants-card-${personId}`
+  },
   onDelete: () => dispatch(deletePerson(personId)),
   onEdit: () => dispatch(setPersonCardMode(personId, 'edit')),
   onSave: () => {

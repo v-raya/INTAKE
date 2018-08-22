@@ -25,6 +25,7 @@ export const mapDispatchToProps = (dispatch) => ({
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
+    window.location.hash = '#allegations-card-anchor'
   },
   onChange: (props) => {
     dispatch(setAllegationTypes(props))
