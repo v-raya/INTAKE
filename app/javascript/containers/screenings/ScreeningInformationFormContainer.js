@@ -62,6 +62,7 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     }
     dispatchProps.dispatch(touchAllFields())
     dispatchProps.dispatch(setCardMode(cardName, SHOW_MODE))
+    window.location.hash = '#screening-information-card-anchor'
   },
 })
 

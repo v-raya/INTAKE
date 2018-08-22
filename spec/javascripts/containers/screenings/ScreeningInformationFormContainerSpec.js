@@ -27,7 +27,10 @@ describe('ScreeningInformationFormContainer', () => {
     })
 
     describe('when saving', () => {
-      it('saves the card, touches the fields, and sets show mode', () => {
+      beforeEach(() => {
+        window.location.hash = ''
+      })
+      it('saves the card, touches the fields, sets show mode, and navigates to the card', () => {
         const dispatch = jasmine.createSpy('dispatch')
         const onSave = mergeProps({screeningId: '3'}, {dispatch}, {}).onSave
 
@@ -38,6 +41,8 @@ describe('ScreeningInformationFormContainer', () => {
 
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
+
+        expect(window.location.hash).toEqual('#screening-information-card-anchor')
       })
 
       it('triggers SSB when report type changes to SSB', () => {
@@ -51,6 +56,7 @@ describe('ScreeningInformationFormContainer', () => {
 
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
+        expect(window.location.hash).toEqual('#screening-information-card-anchor')
       })
 
       it('does not trigger SSB when report type was already SSB', () => {
