@@ -66,10 +66,10 @@ class ScreeningRepository
 
   def self.contact(security_token, id, contact)
     response = FerbAPI.make_api_call(
-        security_token,
-        FerbRoutes.contacts_path(id),
-        :post,
-        contact
+      security_token,
+      FerbRoutes.contacts_path(id),
+      :post,
+      contact
     )
     response.body.as_json
   end
