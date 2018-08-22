@@ -6,6 +6,7 @@ import {
   FETCH_SCREENING_COMPLETE,
   SUBMIT_SCREENING,
   SUBMIT_SCREENING_COMPLETE,
+  SUBMIT_SCREENING_CONTACT_COMPLETE,
 } from 'actions/actionTypes'
 
 export const SAVE_SCREENING = 'SAVE_SCREENING'
@@ -59,6 +60,12 @@ export function submitScreeningSuccess(screening) {
 }
 export function submitScreeningFailure(error) {
   return {type: SUBMIT_SCREENING_COMPLETE, payload: {error}, error: true}
+}
+export function submitScreeningContactSuccess(contact) {
+  return {type: SUBMIT_SCREENING_CONTACT_COMPLETE, payload: {contact}}
+}
+export function submitScreeningContactFailure(error) {
+  return {type: SUBMIT_SCREENING_CONTACT_COMPLETE, payload: {error}, error: true}
 }
 export function submitScreening(id) {
   return {type: SUBMIT_SCREENING, payload: {id}}

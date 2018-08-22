@@ -1,6 +1,5 @@
 import {getScreeningSelector} from 'selectors/screeningSelectors'
 import {getPeopleSelector} from 'selectors/screening/personFormSelectors'
-import {Map} from 'immutable'
 import {systemCodeIdValue, selectCommunicationMethods} from 'selectors/systemCodeSelectors'
 import COMMUNICATION_METHOD from 'enums/CommunicationMethod'
 
