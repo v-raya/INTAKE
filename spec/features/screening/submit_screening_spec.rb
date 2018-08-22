@@ -58,8 +58,8 @@ feature 'Submit Screening' do
       within('.card', text: 'Incident Information') { click_button 'Save' }
       within('.card', text: 'Allegations') { click_button 'Save' }
       within('.card', text: 'Worker Safety') { click_button 'Save' }
-      within('.card', text: 'Cross Report') { click_button 'Save' }
       within('.card', text: 'Decision') { click_button 'Save' }
+      within('.card', text: 'Cross Report') { click_button 'Save' }
       expect(page).to have_button('Submit', disabled: false)
     end
 
@@ -93,9 +93,9 @@ feature 'Submit Screening' do
       within('.card', text: 'Incident Information') { click_button 'Save' }
       within('.card', text: 'Allegations') { click_button 'Save' }
       within('.card', text: 'Worker Safety') { click_button 'Save' }
-      within('.card', text: 'Cross Report') { click_button 'Save' }
-      expect(page).to have_button('Submit', disabled: true)
       within('.card', text: 'Decision') { click_button 'Save' }
+      expect(page).to have_button('Submit', disabled: true)
+      within('.card', text: 'Cross Report') { click_button 'Save' }
       expect(page).to have_button('Submit', disabled: false)
     end
   end
