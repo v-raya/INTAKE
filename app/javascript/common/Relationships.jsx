@@ -3,15 +3,10 @@ import React from 'react'
 import ActionMenu from 'common/relationship/ActionMenu'
 import AttachLink from 'common/relationship/AttachLink'
 import RelationCard from 'common/relationship/RelationCard'
-import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
-
-const createRelationsData = (person, data) => {
-  const relationData = []
-  data.map((relatedPerson) => relationData.push({focus_person: person, related_person: relatedPerson}))
-  return relationData
-}
+import ScreeningCreateRelationshipContainer from 'containers/screenings/ScreeningCreateRelationshipContainer'
 
 export const Relationships = ({
+  candidates,
   editFormRelationship,
   people,
   onChange,
@@ -58,7 +53,7 @@ export const Relationships = ({
               }
             </div>
           </div>
-          <ScreeningCreateRelationship data={createRelationsData(person, person.relationships)}/>
+          <ScreeningCreateRelationshipContainer personId={person.personId} candidates= {candidates} />
         </div>
       ))
     }
@@ -102,6 +97,22 @@ export const Relationships = ({
 )
 
 Relationships.propTypes = {
+  candidates: PropTypes.arrayOf(PropTypes.shape({
+    candidate: PropTypes.shape({
+      age: PropTypes.string,
+      candidate_id: PropTypes.string,
+      dateOfBirth: PropTypes.string,
+      gender: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    person: PropTypes.shape({
+      age: PropTypes.string,
+      legacy_id: PropTypes.string,
+      dateOfBirth: PropTypes.string,
+      gender: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  })),
   editFormRelationship: PropTypes.shape({
     absent_parent_indicator: PropTypes.bool,
     client_id: PropTypes.string,
