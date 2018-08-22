@@ -11,6 +11,7 @@ import {generateBabyDoe} from 'actions/safelySurrenderedBabyActions'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
 import {getScreeningSelector} from 'selectors/screeningSelectors'
+import {setHash} from 'utils/navigation'
 
 export const cardName = 'screening-information-card'
 
@@ -39,12 +40,13 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   onBlur: (fieldName) => dispatch(touchField(fieldName)),
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     dispatch(touchAllFields())
     dispatch(setCardMode(cardName, SHOW_MODE))
+    setHash('#screening-information-card-anchor')
   },
   onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
   dispatch,
@@ -62,6 +64,7 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     }
     dispatchProps.dispatch(touchAllFields())
     dispatchProps.dispatch(setCardMode(cardName, SHOW_MODE))
+    setHash('#screening-information-card-anchor')
   },
 })
 

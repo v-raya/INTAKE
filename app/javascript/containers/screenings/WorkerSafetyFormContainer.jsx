@@ -9,6 +9,7 @@ import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
 import SAFETY_ALERT from 'enums/SafetyAlert'
 import selectOptions from 'utils/selectHelper'
 import {connect} from 'react-redux'
+import {setHash} from 'utils/navigation'
 
 export const cardName = 'worker-safety-card'
 
@@ -24,15 +25,17 @@ const mapStateToProps = (state) => (
   }
 )
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
+    setHash('#worker-safety-card-anchor')
   },
   onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
   onSave: () => {
     dispatch(saveCard(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
+    setHash('#worker-safety-card-anchor')
   },
   dispatch,
 })

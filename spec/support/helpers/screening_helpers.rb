@@ -82,8 +82,8 @@ module ScreeningHelpers
     within('.card', text: 'Incident Information') { click_button 'Save' }
     within('.card', text: 'Allegations') { click_button 'Save' }
     within('.card', text: 'Worker Safety') { click_button 'Save' }
-    within('.card', text: 'Cross Report') { click_button 'Save' }
     within('.card', text: 'Decision') { click_button 'Save' }
+    within('.card', text: 'Cross Report') { click_button 'Save' }
   end
 
   def cancel_all_cards
@@ -92,8 +92,8 @@ module ScreeningHelpers
     within('.card', text: 'Incident Information') { click_button 'Cancel' }
     within('.card', text: 'Allegations') { click_button 'Cancel' }
     within('.card', text: 'Worker Safety') { click_button 'Cancel' }
-    within('.card', text: 'Cross Report') { click_button 'Cancel' }
     within('.card', text: 'Decision') { click_button 'Cancel' }
+    within('.card', text: 'Cross Report') { click_button 'Cancel' }
   end
 end
 

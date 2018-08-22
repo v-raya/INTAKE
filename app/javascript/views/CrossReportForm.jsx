@@ -15,6 +15,7 @@ import {
   LAW_ENFORCEMENT,
 } from 'enums/CrossReport'
 import {SHOW_MODE} from 'actions/screeningPageActions'
+import {setHash} from 'utils/navigation'
 
 const CrossReportForm = ({
   allegationsRequireCrossReports,
@@ -52,12 +53,14 @@ const CrossReportForm = ({
   const cancel = () => {
     clearCardEdits(cardName)
     setCardMode(cardName, SHOW_MODE)
+    setHash('#cross-report-card-anchor')
   }
   const save = () => {
     saveCard(cardName)
     saveCrossReport(screeningWithEdits)
     touchAllFields()
     setCardMode(cardName, SHOW_MODE)
+    setHash('#cross-report-card-anchor')
   }
   const agencyFieldActions = {
     setAgencyTypeField,

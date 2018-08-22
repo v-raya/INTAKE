@@ -2,6 +2,7 @@ import CrossReportForm from 'views/CrossReportForm'
 import React from 'react'
 import {shallow} from 'enzyme'
 import {SHOW_MODE} from 'actions/screeningPageActions'
+import * as Navigation from 'utils/navigation'
 
 describe('CrossReportForm', () => {
   function renderCrossReportForm({
@@ -347,6 +348,7 @@ describe('CrossReportForm', () => {
   })
   describe('clicking on cancel', () => {
     it('fires setCardMode, clearCardEdits', () => {
+      spyOn(Navigation, 'setHash')
       const clearCardEdits = jasmine.createSpy('clearCardEdits')
       const setCardMode = jasmine.createSpy('setCardMode')
       const cardName = 'cross-report-card'
@@ -354,10 +356,12 @@ describe('CrossReportForm', () => {
       component.find('.btn.btn-default').simulate('click')
       expect(setCardMode).toHaveBeenCalledWith(cardName, SHOW_MODE)
       expect(clearCardEdits).toHaveBeenCalledWith(cardName)
+      expect(Navigation.setHash).toHaveBeenCalledWith('#cross-report-card-anchor')
     })
   })
   describe('clicking on save', () => {
     it('fires toggleShow, saveCard', () => {
+      spyOn(Navigation, 'setHash')
       const saveCard = jasmine.createSpy('saveCard')
       const touchAllFields = jasmine.createSpy('touchAllFields')
       const saveCrossReport = jasmine.createSpy('saveCrossReport')
@@ -370,6 +374,7 @@ describe('CrossReportForm', () => {
       expect(saveCrossReport).toHaveBeenCalledWith(screeningWithEdits)
       expect(touchAllFields).toHaveBeenCalled()
       expect(setCardMode).toHaveBeenCalledWith(cardName, SHOW_MODE)
+      expect(Navigation.setHash).toHaveBeenCalledWith('#cross-report-card-anchor')
     })
   })
 })

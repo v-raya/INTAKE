@@ -21,6 +21,7 @@ import {
   touchAllFields,
 } from 'actions/screeningDecisionFormActions'
 import {sdmPath} from 'common/config'
+import {setHash} from 'utils/navigation'
 
 export const cardName = 'decision-card'
 
@@ -41,11 +42,12 @@ const mapStateToProps = (state) => (
   }
 )
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   onBlur: (field) => dispatch(touchField({field})),
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
+    setHash('#decision-card-anchor')
   },
   onChange: (field, value) => {
     dispatch(setField({field, value}))
@@ -61,9 +63,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(saveCard(cardName))
     dispatch(touchAllFields())
     dispatch(setCardMode(cardName, SHOW_MODE))
+    setHash('#decision-card-anchor')
   },
   dispatch,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScreeningDecisionForm)
-
