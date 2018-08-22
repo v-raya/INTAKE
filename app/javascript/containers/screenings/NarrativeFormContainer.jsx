@@ -7,6 +7,7 @@ import {setField, touchField, touchAllFields} from 'actions/narrativeFormActions
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
 import {connect} from 'react-redux'
+import {setHash} from 'utils/navigation'
 
 export const cardName = 'narrative-card'
 
@@ -25,14 +26,14 @@ export const mapDispatchToProps = (dispatch) => ({
     dispatch(clearCardEdits(cardName))
     dispatch(touchAllFields())
     dispatch(setCardMode(cardName, SHOW_MODE))
-    window.location.hash = '#narrative-card-anchor'
+    setHash('#narrative-card-anchor')
   },
   onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
   onSave: () => {
     dispatch(saveCard(cardName))
     dispatch(touchAllFields())
     dispatch(setCardMode(cardName, SHOW_MODE))
-    window.location.hash = '#narrative-card-anchor'
+    setHash('#narrative-card-anchor')
   },
 })
 

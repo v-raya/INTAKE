@@ -7,15 +7,13 @@ import {
   mapDispatchToProps,
   mergeProps,
 } from 'containers/screenings/ScreeningInformationFormContainer'
+import * as Navigation from 'utils/navigation'
 
 describe('ScreeningInformationFormContainer', () => {
   describe('mapDispatchToProps', () => {
     describe('when canceling', () => {
       beforeEach(() => {
-        window.location.hash = ''
-      })
-      afterEach(() => {
-        window.location.hash = ''
+        spyOn(Navigation, 'setHash')
       })
       it('navigates to the card', () => {
         const dispatch = jasmine.createSpy('dispatch')
@@ -23,7 +21,7 @@ describe('ScreeningInformationFormContainer', () => {
 
         onCancel()
 
-        expect(window.location.hash).toEqual('#screening-information-card-anchor')
+        expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
     })
   })
@@ -50,10 +48,7 @@ describe('ScreeningInformationFormContainer', () => {
 
     describe('when saving', () => {
       beforeEach(() => {
-        window.location.hash = ''
-      })
-      afterEach(() => {
-        window.location.hash = ''
+        spyOn(Navigation, 'setHash')
       })
       it('saves the card, touches the fields, sets show mode, and navigates to the card', () => {
         const dispatch = jasmine.createSpy('dispatch')
@@ -67,7 +62,7 @@ describe('ScreeningInformationFormContainer', () => {
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
 
-        expect(window.location.hash).toEqual('#screening-information-card-anchor')
+        expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
 
       it('triggers SSB when report type changes to SSB', () => {
@@ -81,7 +76,7 @@ describe('ScreeningInformationFormContainer', () => {
 
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
-        expect(window.location.hash).toEqual('#screening-information-card-anchor')
+        expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
 
       it('does not trigger SSB when report type was already SSB', () => {

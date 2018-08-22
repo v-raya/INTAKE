@@ -1,19 +1,17 @@
 import {mapDispatchToProps} from 'containers/screenings/NarrativeFormContainer'
+import * as Navigation from 'utils/navigation'
 
 describe('NarrativeFormContainer', () => {
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      window.location.hash = ''
-    })
-    afterEach(() => {
-      window.location.hash = ''
+      spyOn(Navigation, 'setHash')
     })
     describe('when saving', () => {
       it('navigates to the card', () => {
         const dispatch = jasmine.createSpy('dispatch')
         const {onSave} = mapDispatchToProps(dispatch)
         onSave()
-        expect(window.location.hash).toEqual('#narrative-card-anchor')
+        expect(Navigation.setHash).toHaveBeenCalledWith('#narrative-card-anchor')
       })
     })
     describe('when canceling', () => {
@@ -21,7 +19,7 @@ describe('NarrativeFormContainer', () => {
         const dispatch = jasmine.createSpy('dispatch')
         const {onCancel} = mapDispatchToProps(dispatch)
         onCancel()
-        expect(window.location.hash).toEqual('#narrative-card-anchor')
+        expect(Navigation.setHash).toHaveBeenCalledWith('#narrative-card-anchor')
       })
     })
   })

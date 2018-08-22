@@ -1,19 +1,17 @@
 import {mapDispatchToProps} from 'containers/screenings/PersonCardContainer'
+import * as Navigation from 'utils/navigation'
 
 describe('PersonCardContainer', () => {
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      window.location.hash = ''
-    })
-    afterEach(() => {
-      window.location.hash = ''
+      spyOn(Navigation, 'setHash')
     })
     describe('when saving', () => {
       it('navigates to the card', () => {
         const dispatch = jasmine.createSpy('dispatch')
         const {onSave} = mapDispatchToProps(dispatch, {personId: '34592'})
         onSave()
-        expect(window.location.hash).toEqual('#participants-card-34592')
+        expect(Navigation.setHash).toHaveBeenCalledWith('#participants-card-34592')
       })
     })
     describe('when canceling', () => {
@@ -21,7 +19,7 @@ describe('PersonCardContainer', () => {
         const dispatch = jasmine.createSpy('dispatch')
         const {onCancel} = mapDispatchToProps(dispatch, {personId: '34592'})
         onCancel()
-        expect(window.location.hash).toEqual('#participants-card-34592')
+        expect(Navigation.setHash).toHaveBeenCalledWith('#participants-card-34592')
       })
     })
   })

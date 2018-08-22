@@ -9,6 +9,7 @@ import {
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
+import {setHash} from 'utils/navigation'
 
 export const cardName = 'allegations-card'
 
@@ -25,7 +26,7 @@ export const mapDispatchToProps = (dispatch) => ({
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
-    window.location.hash = '#allegations-card-anchor'
+    setHash('#allegations-card-anchor')
   },
   onChange: (props) => {
     dispatch(setAllegationTypes(props))
@@ -33,7 +34,7 @@ export const mapDispatchToProps = (dispatch) => ({
   onSave: () => {
     dispatch(saveCard(cardName))
     dispatch(setCardMode(cardName, SHOW_MODE))
-    window.location.hash = '#allegations-card-anchor'
+    setHash('#allegations-card-anchor')
   },
   dispatch,
 })
