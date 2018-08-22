@@ -10,7 +10,7 @@ describe('candidateSelectors', () => {
   const emptyState = fromJS({relationships: []})
 
   describe('selectCandidateSelector', () => {
-    it('returns a list of candidates or an empty list if there are no people', () => {
+    it('returns a list of candidates', () => {
       const relationships = [
         {
           id: '1',
@@ -85,7 +85,27 @@ describe('candidateSelectors', () => {
             age: '40 yrs',
           },
         }]))
+    })
+
+    it('returns an empty List when relationships are empty', () => {
       expect(selectCandidateSelector(emptyState)).toEqualImmutable(fromJS([]))
+    })
+
+    it('returns an empty List when candidates are empty', () => {
+      const relationships = [{
+        id: '1',
+        date_of_birth: '1986-01-15',
+        legacy_id: '3',
+        first_name: 'Ricky',
+        gender: 'M',
+        last_name: 'Robinson',
+        age: 20,
+        age_unit: 'Y',
+        relationships: [],
+        candidate_to: [],
+      }]
+      const state = fromJS({relationships})
+      expect(selectCandidateSelector(state)).toEqualImmutable(fromJS([]))
     })
   })
 })
