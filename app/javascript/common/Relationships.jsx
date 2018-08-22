@@ -53,7 +53,7 @@ export const Relationships = ({
               }
             </div>
           </div>
-          <ScreeningCreateRelationshipContainer personId={person.personId} candidates= {candidates} />
+          <ScreeningCreateRelationshipContainer personId={person.id} candidates={candidates} />
         </div>
       ))
     }
