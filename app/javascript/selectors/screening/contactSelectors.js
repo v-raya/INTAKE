@@ -4,21 +4,17 @@ import {systemCodeIdValue, selectCommunicationMethods} from 'selectors/systemCod
 import COMMUNICATION_METHOD from 'enums/CommunicationMethod'
 
 export const getContactPayloadSelector = (state) => {
-  //predefined purpose: 'Consult with Collateral'
   const purpose = '439'
-  //predefined status: 'Completed'
   const status = 'C'
-  //predefined contact location: 'CWS Office'
   const location = '415'
   const screening = getScreeningSelector(state)
-  const people = getPeopleSelector(state).map((person) => (
-    {
-      legacy_descriptor: person.getIn(['legacy_descriptor', 'value']),
-      first_name: person.getIn(['first_name', 'value']),
-      last_name: person.getIn(['last_name', 'value']),
-      middle_name: person.getIn(['middle_name', 'value']),
-      name_suffix: person.getIn(['name_suffix', 'value']),
-    }))
+  const people = getPeopleSelector(state).map((person) => ({
+    legacy_descriptor: person.getIn(['legacy_descriptor', 'value']),
+    first_name: person.getIn(['first_name', 'value']),
+    last_name: person.getIn(['last_name', 'value']),
+    middle_name: person.getIn(['middle_name', 'value']),
+    name_suffix: person.getIn(['name_suffix', 'value']),
+  }))
   const communicationMethod = COMMUNICATION_METHOD[screening.get('communication_method')]
   const contactPayload = {
     contact: {
