@@ -21,6 +21,7 @@ services:
       USE_XVFB: 'true'
     volumes:
       - .:/ca_intake
+      - .chromedriver-helper:/root/.chromedriver-helper
       - ca_intake_rubygems:/ruby_gems
       - ca_intake_node_modules:/ca_intake/node_modules
     links:
