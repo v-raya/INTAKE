@@ -10,7 +10,6 @@ require 'selenium-webdriver'
 # of UTC converstion and explicit expectations.
 # Sincerely,
 # The Time Lords
-ENV['TZ'] = 'Etc/GMT+7'
 
 Capybara.register_driver :accessible_selenium do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(
