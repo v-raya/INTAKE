@@ -41,6 +41,11 @@ module Api
         render json: ScreeningRepository.submit(session[:security_token], params[:id])
       end
 
+      def contact
+        contact = params.require(:contact).as_json.symbolize_keys
+        render json: ScreeningRepository.contact(session[:security_token], params[:id], contact)
+      end
+
       private
 
       def build_incident_county(session)

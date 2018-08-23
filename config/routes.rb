@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         member do
           get 'history_of_involvements'
           post 'submit'
+          post 'contact'
         end
         resources :participants, only: %i[destroy]
       end

@@ -168,4 +168,19 @@ describe ScreeningRepository do
       expect(submitted_screening['name']).to eq('Submitted Screening')
     end
   end
+
+  describe '.contact' do
+    let(:referral_id) { '42' }
+    let(:response) do
+      double(:response, body: { 'id' => referral_id })
+    end
+
+    it 'responds with response body' do
+      expect(FerbAPI).to receive(:make_api_call)
+        .with(security_token, "/investigations/#{referral_id}/contacts", :post, {})
+        .and_return(response)
+      submitted_screening_contact = described_class.contact(security_token, referral_id, {})
+      expect(submitted_screening_contact['id']).to eq(referral_id)
+    end
+  end
 end

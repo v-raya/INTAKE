@@ -275,6 +275,7 @@ describe('HistoryTableContainer', () => {
     expect(component.find('HistoryTable').props().referrals).toEqual([{
       dateRange: '12/02/2017 - 12/02/2017',
       referralId: '1694-5211-0269-2000739',
+      referralLegacyId: 'jhvuify0X5',
       status: 'Closed - Immediate',
       notification: 'Sealed',
       county: 'Sacramento',
@@ -293,6 +294,7 @@ describe('HistoryTableContainer', () => {
   it('passes formatted cases HistoryTable view', () => {
     expect(component.find('HistoryTable').props().cases).toEqual([{
       caseId: 'ccccccccc-hohj-jkj',
+      caseLegacyId: 'ccccccccc',
       county: 'Sacramento',
       dateRange: '12/02/2017 - 12/02/2017',
       focusChild: 'Victim First Name Victim Last Name',
