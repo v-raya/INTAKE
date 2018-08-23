@@ -32,6 +32,7 @@ const CrossReportForm = ({
   inform_date,
   lawEnforcement,
   method,
+  onShow,
   screeningWithEdits,
   userCounty,
   actions: {
@@ -43,7 +44,6 @@ const CrossReportForm = ({
     saveCard,
     setAgencyField,
     setAgencyTypeField,
-    setCardMode,
     setField,
     touchAgencyField,
     touchAllFields,
@@ -52,15 +52,13 @@ const CrossReportForm = ({
 }) => {
   const cancel = () => {
     clearCardEdits(cardName)
-    setCardMode(cardName, SHOW_MODE)
-    setHash('#cross-report-card-anchor')
+    onShow()
   }
   const save = () => {
     saveCard(cardName)
     saveCrossReport(screeningWithEdits)
     touchAllFields()
-    setCardMode(cardName, SHOW_MODE)
-    setHash('#cross-report-card-anchor')
+    onShow()
   }
   const agencyFieldActions = {
     setAgencyTypeField,
@@ -215,6 +213,7 @@ CrossReportForm.propTypes = {
   inform_date: PropTypes.string,
   lawEnforcement: PropTypes.object.isRequired,
   method: PropTypes.string,
+  onShow: PropTypes.func.isRequired,
   screeningWithEdits: PropTypes.object,
   userCounty: PropTypes.string,
 }
