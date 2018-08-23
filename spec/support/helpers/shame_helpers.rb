@@ -18,7 +18,7 @@ module ShameHelpers
     find_field(locator).click if blur
     fill_in(locator, with: date_string)
     fill_in(locator, with: date_string)
-    first('*').click if blur
+    blur_field if blur
   end
 
   def date_to_string(date_object)
@@ -33,6 +33,14 @@ module ShameHelpers
 
   def change_href(link_id, new_href)
     execute_script "document.getElementById('#{link_id}').href='#{new_href}'"
+  end
+
+  def click_with_js(element, options)
+    find(element, options).execute_script('this.click()')
+  end
+
+  def click_button_with_js(element)
+    find_button(element).execute_script('this.click()')
   end
 end
 

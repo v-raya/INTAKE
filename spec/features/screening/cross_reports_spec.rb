@@ -162,7 +162,7 @@ feature 'cross reports' do
       expect(page).to have_content "Daisie's Preschool"
       expect(page).to have_content 'Law Enforcement'
       expect(page).to have_content 'The Sheriff'
-      expect(page).to have_content reported_on.strftime('%m/%d/%Y %l:%M %p')
+      expect(page).to have_content reported_on.strftime('%m/%d/%Y%l:%M %p'), normalize_ws: true
       expect(page).to have_content 'Child Abuse Form'
     end
 
