@@ -1,7 +1,6 @@
 import {generateBabyDoe} from 'actions/safelySurrenderedBabyActions'
 import {saveCard} from 'actions/screeningActions'
 import {touchAllFields} from 'actions/screeningInformationFormActions'
-import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
 import {
   cardName,
   mapDispatchToProps,
@@ -15,12 +14,14 @@ describe('ScreeningInformationFormContainer', () => {
       beforeEach(() => {
         spyOn(Navigation, 'setHash')
       })
-      it('navigates to the card', () => {
+      it('sets card to show mode and navigates to the card', () => {
         const dispatch = jasmine.createSpy('dispatch')
-        const {onCancel} = mapDispatchToProps(dispatch)
+        const onShow = jasmine.createSpy('onShow')
+        const {onCancel} = mapDispatchToProps(dispatch, {onShow})
 
         onCancel()
 
+        expect(onShow).toHaveBeenCalled()
         expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
     })
@@ -50,9 +51,10 @@ describe('ScreeningInformationFormContainer', () => {
       beforeEach(() => {
         spyOn(Navigation, 'setHash')
       })
-      it('saves the card, touches the fields, sets show mode, and navigates to the card', () => {
+      it('saves the card, touches the fields, and sets card to show mode', () => {
         const dispatch = jasmine.createSpy('dispatch')
-        const onSave = mergeProps({screeningId: '3'}, {dispatch}, {}).onSave
+        const onShow = jasmine.createSpy('onShow')
+        const onSave = mergeProps({screeningId: '3'}, {dispatch}, {onShow}).onSave
 
         onSave()
 
@@ -60,14 +62,15 @@ describe('ScreeningInformationFormContainer', () => {
         expect(dispatch).not.toHaveBeenCalledWith(generateBabyDoe('3'))
 
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
-        expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
+        expect(onShow).toHaveBeenCalled()
 
         expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
 
       it('triggers SSB when report type changes to SSB', () => {
         const dispatch = jasmine.createSpy('dispatch')
-        const onSave = mergeProps({persistedReportType: '', screeningId: '3', reportType: 'ssb'}, {dispatch}, {}).onSave
+        const onShow = jasmine.createSpy('onShow')
+        const onSave = mergeProps({persistedReportType: '', screeningId: '3', reportType: 'ssb'}, {dispatch}, {onShow}).onSave
 
         onSave()
 
@@ -75,13 +78,14 @@ describe('ScreeningInformationFormContainer', () => {
         expect(dispatch).toHaveBeenCalledWith(generateBabyDoe('3'))
 
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
-        expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
+        expect(onShow).toHaveBeenCalled()
         expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
 
       it('does not trigger SSB when report type was already SSB', () => {
         const dispatch = jasmine.createSpy('dispatch')
-        const onSave = mergeProps({persistedReportType: 'ssb', screeningId: '3', reportType: 'ssb'}, {dispatch}, {}).onSave
+        const onShow = jasmine.createSpy('onShow')
+        const onSave = mergeProps({persistedReportType: 'ssb', screeningId: '3', reportType: 'ssb'}, {dispatch}, {onShow}).onSave
 
         onSave()
 
@@ -89,7 +93,7 @@ describe('ScreeningInformationFormContainer', () => {
         expect(dispatch).not.toHaveBeenCalledWith(generateBabyDoe('3'))
 
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
-        expect(dispatch).toHaveBeenCalledWith(setCardMode(cardName, SHOW_MODE))
+        expect(onShow).toHaveBeenCalled()
       })
     })
   })

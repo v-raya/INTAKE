@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import CardView from 'views/CardView'
-import {setCardMode, EDIT_MODE} from 'actions/screeningPageActions'
+import {setCardMode, EDIT_MODE, SHOW_MODE} from 'actions/screeningPageActions'
 import {
   getCardModeValueSelector,
   getCardIsEditableSelector,
@@ -11,9 +11,9 @@ const mapStateToProps = (state, {id}) => ({
   mode: getCardModeValueSelector(state, id),
 })
 
-const mapDispatchToProps = (dispatch, {id}) => ({
+export const mapDispatchToProps = (dispatch, {id}) => ({
   onEdit: () => dispatch(setCardMode(id, EDIT_MODE)),
+  onShow: () => dispatch(setCardMode(id, SHOW_MODE)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardView)
-

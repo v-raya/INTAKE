@@ -68,6 +68,14 @@ describe('Card View', () => {
       expect(card.text()).toContain('Edit')
       expect(card.text()).not.toContain('Show')
     })
+
+    it('passes the onShow prop to the edit prop child', () => {
+      const edit = <span className='my-edit'>Edit</span>
+      const onShow = jasmine.createSpy('onShow')
+      const card = renderCardView({edit, mode, onShow})
+
+      expect(card.find('.my-edit').props().onShow).toEqual(onShow)
+    })
   })
 
   describe('when mode is show', () => {
