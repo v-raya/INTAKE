@@ -30,6 +30,8 @@ services:
       - redis
     tty: true
     stdin_open: true
+    cap_add:
+      - SYS_ADMIN
   api:
     extends:
       file: ../intake_api/docker-compose.common.yml
