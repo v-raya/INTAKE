@@ -32,12 +32,13 @@ Capybara.register_driver :accessible_selenium_chrome do |app|
   extensions = []
   extensions << redux_devtools_location if redux_devtools_location
   extensions << react_devtools_location if react_devtools_location
+  switches = extensions.empty? ? [] : [
+    '--load-extension=' + extensions.join(',')
+  ]
   driver = Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    switches: [
-      '--load-extension=' + extensions.join(',')
-    ]
+    switches: switches
   )
   adaptor = Capybara::Accessible::SeleniumDriverAdapter.new
   Capybara::Accessible.setup(driver, adaptor)
