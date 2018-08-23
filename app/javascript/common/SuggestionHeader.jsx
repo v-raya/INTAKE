@@ -9,8 +9,8 @@ const style = {
 const SuggestionHeader = ({currentNumberOfResults, total, searchTerm}) => {
   const oneResult = 1
   const noResults = total < oneResult
-  if (total === '') {
-    return ''
+  if (total === null) {
+    return null
   }
   return (
     <div style={style}>
