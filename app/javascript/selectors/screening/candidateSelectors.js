@@ -34,7 +34,7 @@ const findPerson = (state, id) => (
   state.get('relationships').find((person) => person.get('id') === id)
 )
 
-export const selectCandidateSelector = (state, id) => {
+export const selectCandidates = (state, id) => {
   const person = findPerson(state, id)
   if (!person) {
     return List()

@@ -100,14 +100,14 @@ Relationships.propTypes = {
   candidates: PropTypes.arrayOf(PropTypes.shape({
     candidate: PropTypes.shape({
       age: PropTypes.string,
-      candidate_id: PropTypes.string,
+      candidateId: PropTypes.string,
       dateOfBirth: PropTypes.string,
       gender: PropTypes.string,
       name: PropTypes.string,
     }),
     person: PropTypes.shape({
       age: PropTypes.string,
-      legacy_id: PropTypes.string,
+      legacyId: PropTypes.string,
       dateOfBirth: PropTypes.string,
       gender: PropTypes.string,
       name: PropTypes.string,
