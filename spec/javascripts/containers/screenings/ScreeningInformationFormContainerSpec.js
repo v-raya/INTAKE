@@ -6,15 +6,11 @@ import {
   mapDispatchToProps,
   mergeProps,
 } from 'containers/screenings/ScreeningInformationFormContainer'
-import * as Navigation from 'utils/navigation'
 
 describe('ScreeningInformationFormContainer', () => {
   describe('mapDispatchToProps', () => {
     describe('when canceling', () => {
-      beforeEach(() => {
-        spyOn(Navigation, 'setHash')
-      })
-      it('sets card to show mode and navigates to the card', () => {
+      it('sets card to show mode', () => {
         const dispatch = jasmine.createSpy('dispatch')
         const onShow = jasmine.createSpy('onShow')
         const {onCancel} = mapDispatchToProps(dispatch, {onShow})
@@ -22,7 +18,6 @@ describe('ScreeningInformationFormContainer', () => {
         onCancel()
 
         expect(onShow).toHaveBeenCalled()
-        expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
     })
   })
@@ -48,9 +43,6 @@ describe('ScreeningInformationFormContainer', () => {
     })
 
     describe('when saving', () => {
-      beforeEach(() => {
-        spyOn(Navigation, 'setHash')
-      })
       it('saves the card, touches the fields, and sets card to show mode', () => {
         const dispatch = jasmine.createSpy('dispatch')
         const onShow = jasmine.createSpy('onShow')
@@ -63,8 +55,6 @@ describe('ScreeningInformationFormContainer', () => {
 
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(onShow).toHaveBeenCalled()
-
-        expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
 
       it('triggers SSB when report type changes to SSB', () => {
@@ -79,7 +69,6 @@ describe('ScreeningInformationFormContainer', () => {
 
         expect(dispatch).toHaveBeenCalledWith(touchAllFields())
         expect(onShow).toHaveBeenCalled()
-        expect(Navigation.setHash).toHaveBeenCalledWith('#screening-information-card-anchor')
       })
 
       it('does not trigger SSB when report type was already SSB', () => {

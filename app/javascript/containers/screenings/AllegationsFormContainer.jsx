@@ -8,7 +8,6 @@ import {
 } from 'selectors/screening/allegationsFormSelectors'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
-import {setHash} from 'utils/navigation'
 
 export const cardName = 'allegations-card'
 
@@ -25,7 +24,6 @@ export const mapDispatchToProps = (dispatch, {onShow}) => ({
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
     onShow()
-    setHash('#allegations-card-anchor')
   },
   onChange: (props) => {
     dispatch(setAllegationTypes(props))
@@ -33,7 +31,6 @@ export const mapDispatchToProps = (dispatch, {onShow}) => ({
   onSave: () => {
     dispatch(saveCard(cardName))
     onShow()
-    setHash('#allegations-card-anchor')
   },
   dispatch,
 })

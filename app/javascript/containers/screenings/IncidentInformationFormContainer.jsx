@@ -17,7 +17,6 @@ import {
   touchField,
 } from 'actions/incidentInformationFormActions'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
-import {setHash} from 'utils/navigation'
 
 export const cardName = 'incident-information-card'
 
@@ -39,14 +38,12 @@ export const mapDispatchToProps = (dispatch, {onShow}) => ({
     dispatch(clearCardEdits(cardName))
     dispatch(touchAllFields())
     onShow()
-    setHash('#incident-information-card-anchor')
   },
   onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
   onSave: () => {
     dispatch(saveCard(cardName))
     dispatch(touchAllFields())
     onShow()
-    setHash('#incident-information-card-anchor')
   },
 })
 
