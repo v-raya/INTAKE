@@ -126,11 +126,12 @@ feature 'Snapshot relationship card' do
 
       within '#relationships-card.card.show', text: 'Relationships' do
         expect(page).to have_content(
-          "#{relationships.first[:first_name]} #{relationships.first[:last_name]} is the.."
+          "#{relationships.first[:first_name]} #{relationships.first[:last_name]} is the..",
+          normalize_ws: true
         )
-        expect(page).to have_content('Sister (Half) of Jake Campbell')
-        expect(page).to have_content('Sister (Half) of Jane Campbell')
-        expect(page).to have_content('Sister (Half) of John Florence, PhD')
+        expect(page).to have_content('Sister (Half) of Jake Campbell', normalize_ws: true)
+        expect(page).to have_content('Sister (Half) of Jane Campbell', normalize_ws: true)
+        expect(page).to have_content('Sister (Half) of John Florence, PhD', normalize_ws: true)
       end
     end
 

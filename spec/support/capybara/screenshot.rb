@@ -3,7 +3,7 @@
 require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
 
-Capybara::Screenshot.register_driver(:accessible_selenium) do |driver, path|
+Capybara::Screenshot.register_driver(:accessible_chrome) do |driver, path|
   # This is assuming Capybara::Accessible is currently using Selenium
   # underneath.
   driver.browser.save_screenshot(path)

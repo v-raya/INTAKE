@@ -133,45 +133,46 @@ feature 'home page' do
         within 'tbody' do
           # 'default ordered by "Report Date and Time", in descending order'
           within rows[1] do
-            expect(page).to have_content('Other submitted')
+            expect(page).to have_content('Other submitted', normalize_ws: true)
             expect(find_all('td').last).to have_content('')
           end
           within rows[2] do
-            expect(page).to have_content('Consultation submitted')
-            expect(find_all('td').last).to have_text('03/11/2016')
+            expect(page).to have_content('Consultation submitted', normalize_ws: true)
+            expect(find_all('td').last).to have_text('03/10/2016', normalize_ws: true)
           end
           within rows[3] do
             expect(page).to have_text(
-              "It's bigger on the inside open Clara Oswald 08/11/2016 5:00 PM"
+              "It's bigger on the inside open Clara Oswald 08/11/2016 5:00 PM",
+              normalize_ws: true
             )
             expect(page).to have_css('a', text: "It's bigger on the inside")
-            expect(find_all('td').last).to have_text('08/11/2016')
+            expect(find_all('td').last).to have_text('08/11/2016', normalize_ws: true)
           end
           within rows[4] do
             expect(page).to have_content('Z')
-            expect(page).to have_content('Information request submitted')
-            expect(find_all('td').last).to have_text('02/12/2017')
+            expect(page).to have_content('Information request submitted', normalize_ws: true)
+            expect(find_all('td').last).to have_text('02/12/2017', normalize_ws: true)
           end
           within rows[5] do
-            expect(page).to have_content('Immediate submitted')
-            expect(find_all('td').last).to have_text('08/17/2017')
+            expect(page).to have_content('Immediate submitted', normalize_ws: true)
+            expect(find_all('td').last).to have_text('08/17/2017', normalize_ws: true)
           end
           within rows[6] do
             expect(page).to have_content('A')
-            expect(page).to have_content('Evaluate out submitted')
-            expect(find_all('td').last).to have_text('01/10/2018')
+            expect(page).to have_content('Evaluate out submitted', normalize_ws: true)
+            expect(find_all('td').last).to have_text('01/09/2018', normalize_ws: true)
           end
           within rows[7] do
-            expect(page).to have_content('5 days submitted')
-            expect(find_all('td').last).to have_text('08/17/2018')
+            expect(page).to have_content('5 days submitted', normalize_ws: true)
+            expect(find_all('td').last).to have_text('08/17/2018', normalize_ws: true)
           end
           within rows[8] do
-            expect(page).to have_content('3 days submitted')
-            expect(find_all('td').last).to have_text('08/17/2018')
+            expect(page).to have_content('3 days submitted', normalize_ws: true)
+            expect(find_all('td').last).to have_text('08/17/2018', normalize_ws: true)
           end
           within rows[9] do
-            expect(page).to have_content('10 days submitted')
-            expect(find_all('td').last).to have_text('08/17/2018')
+            expect(page).to have_content('10 days submitted', normalize_ws: true)
+            expect(find_all('td').last).to have_text('08/17/2018', normalize_ws: true)
           end
         end
 
@@ -192,7 +193,7 @@ feature 'home page' do
             expect(find_all('td').last).to have_text('08/17/2018')
           end
           within rows[4] do
-            expect(find_all('td').last).to have_text('01/10/2018')
+            expect(find_all('td').last).to have_text('01/09/2018')
           end
           within rows[5] do
             expect(find_all('td').last).to have_text('08/17/2017')
@@ -204,7 +205,7 @@ feature 'home page' do
             expect(find_all('td').last).to have_text('08/11/2016')
           end
           within rows[8] do
-            expect(find_all('td').last).to have_text('03/11/2016')
+            expect(find_all('td').last).to have_text('03/10/2016')
           end
           within rows[9] do
             expect(find_all('td').last).to have_content('')

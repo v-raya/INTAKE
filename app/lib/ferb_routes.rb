@@ -39,6 +39,10 @@ class FerbRoutes
       "/screenings/#{screening_id}/participants/#{id}"
     end
 
+    def contacts_path(id)
+      "/investigations/#{id}/contacts"
+    end
+
     def lov_path
       '/lov'
     end

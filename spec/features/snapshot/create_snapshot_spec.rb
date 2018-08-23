@@ -159,7 +159,7 @@ feature 'Create Snapshot' do
 
         within '#search-card', text: 'Search' do
           fill_in 'Search for any person', with: 'Ma'
-          page.find('strong', text: 'Marge').click
+          click_with_js('strong', text: 'Marge')
         end
 
         within edit_participant_card_selector(person.id) do

@@ -87,9 +87,7 @@ feature 'Participant Address' do
                ))).to have_been_made
 
     within show_participant_card_selector(marge.id) do
-      expect(page.text).to match(
-        Regexp.new('1234 Some Lane.*' + legacy_address.street_address)
-      )
+      expect(page.text).to have_content('1234 Some Lane', legacy_address.street_address)
       click_link 'Edit'
       expect(page).to_not have_field('Address', with: legacy_address.street_address)
       expect(page).to have_field('Address', with: '1234 Some Lane')

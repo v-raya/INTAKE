@@ -51,17 +51,18 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '2.15.1'
+  gem 'capybara', '3.6.0'
   gem 'capybara-accessible',
     git: 'https://github.com/ca-cwds/capybara-accessible.git',
-    ref: '2a0e6a73d445de5938e6174d3d1970633c94fbed'
+    ref: 'f146be5939fca1c14a75edc066d7b1b8497f68c5'
   gem 'capybara-screenshot'
+  gem 'chromedriver-helper', '1.2.0'
   gem 'faker'
   gem 'headless', '2.3.1', require: false
   gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'rspec_junit_formatter', require: false
-  gem 'selenium-webdriver', '3.8.0'
+  gem 'selenium-webdriver', '3.11.0'
   gem 'simplecov-parallel', require: false
   gem 'webmock'
 end

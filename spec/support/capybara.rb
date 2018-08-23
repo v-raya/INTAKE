@@ -10,7 +10,6 @@ require 'selenium-webdriver'
 # of UTC converstion and explicit expectations.
 # Sincerely,
 # The Time Lords
-ENV['TZ'] = 'Etc/GMT+7'
 
 Capybara.register_driver :accessible_selenium do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(
@@ -25,6 +24,27 @@ Capybara.register_driver :accessible_selenium do |app|
   Capybara::Accessible.setup(driver, adaptor)
 end
 
+Capybara.register_driver :accessible_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: {
+      args: [
+        'headless',
+        'disable-gpu',
+        'no-sandbox',
+        'disable-dev-shm-usage',
+        'incognito',
+        'window-size=2500,2500'
+      ]
+    }
+  )
+
+  driver = Capybara::Selenium::Driver.new app,
+    browser: :chrome,
+    desired_capabilities: capabilities
+  adaptor = Capybara::Accessible::SeleniumDriverAdapter.new
+  Capybara::Accessible.setup(driver, adaptor)
+end
+
 Capybara.register_driver :accessible_selenium_chrome do |app|
   redux_devtools = ENV.fetch('REDUX_DEVTOOLS', false)
   react_devtools = ENV.fetch('REACT_DEVTOOLS', false)
@@ -33,12 +53,15 @@ Capybara.register_driver :accessible_selenium_chrome do |app|
   extensions = []
   extensions << redux_devtools_location if redux_devtools_location
   extensions << react_devtools_location if react_devtools_location
+  switches = if extensions.empty?
+               []
+             else
+               ['--load-extension=' + extensions.join(',')]
+             end
   driver = Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    switches: [
-      '--load-extension=' + extensions.join(',')
-    ]
+    switches: switches
   )
   adaptor = Capybara::Accessible::SeleniumDriverAdapter.new
   Capybara::Accessible.setup(driver, adaptor)
@@ -50,7 +73,7 @@ Capybara.register_driver :accessible_poltergeist do |app|
   Capybara::Accessible.setup(driver, adaptor)
 end
 
-Capybara.default_driver = ENV.fetch('DEFAULT_DRIVER', :accessible_selenium).to_sym
+Capybara.default_driver = ENV.fetch('DEFAULT_DRIVER', :accessible_chrome).to_sym
 
 Capybara.server_port = 8889 + ENV['TEST_ENV_NUMBER'].to_i
 Capybara.raise_server_errors = true

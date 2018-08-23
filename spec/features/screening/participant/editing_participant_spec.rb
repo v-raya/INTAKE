@@ -547,6 +547,7 @@ feature 'Edit Person' do
         expect(page).to have_react_select_field('Role', with: ['Mandated Reporter'])
 
         remove_react_select_option('Role', 'Mandated Reporter')
+        find_field('Role').set('', clear: :backspace)
         fill_in_react_select('Role', with: 'Non-mandated Reporter')
         expect(page).to have_react_select_field('Role', with: ['Non-mandated Reporter'])
       end
@@ -594,7 +595,8 @@ feature 'Edit Person' do
     within edit_participant_card_selector(marge.id) do
       expect(page).to have_field('Approximate Age', disabled: true)
       expect(page).to have_field('Approximate Age Units', disabled: true)
-      fill_in_datepicker 'Date of birth', with: ''
+      find_field('Date of birth').set('', clear: :backspace)
+      find_field('Approximate Age', disabled: true).click
       expect(page).to have_field('Approximate Age', disabled: false)
       expect(page).to have_field('Approximate Age Units', disabled: false)
 
@@ -608,7 +610,8 @@ feature 'Edit Person' do
       expect(page).to have_field('Approximate Age', disabled: true, with: '')
       expect(page).to have_select('Approximate Age Units', disabled: true, selected: '')
 
-      fill_in_datepicker 'Date of birth', with: ''
+      find_field('Date of birth').set('', clear: :backspace)
+      find_field('Approximate Age', disabled: true).click
       fill_in 'Approximate Age', with: 'abc1234'
       select 'Days', from: 'Approximate Age Units'
       fill_in_datepicker 'Date of birth', with: dob, blur: false
@@ -681,12 +684,20 @@ feature 'Edit Person' do
         ))).to have_been_made
 
       within show_participant_card_selector(homer.id) do
-        expect(page).to have_content('Safely Surrendered Baby')
-        expect(page).to have_content('Relationship to Surrendered Child Grandmother')
-        expect(page).to have_content('Bracelet ID 12345')
-        expect(page).to have_content('Parent/Guardian Given Bracelet ID Attempted')
-        expect(page).to have_content('Parent/Guardian Provided Medical Questionaire Declined')
-        expect(page).to have_content('Medical Questionaire Return Date 2011-01-01')
+        expect(page).to have_content('Safely Surrendered Baby', normalize_ws: true)
+        expect(page).to have_content(
+          'Relationship to Surrendered Child Grandmother', normalize_ws: true
+        )
+        expect(page).to have_content('Bracelet ID 12345', normalize_ws: true)
+        expect(page).to have_content(
+          'Parent/Guardian Given Bracelet ID Attempted', normalize_ws: true
+        )
+        expect(page).to have_content(
+          'Parent/Guardian Provided Medical Questionaire Declined', normalize_ws: true
+        )
+        expect(page).to have_content(
+          'Medical Questionaire Return Date 2011-01-01', normalize_ws: true
+        )
       end
 
       updated_screening = screening.as_json.merge(

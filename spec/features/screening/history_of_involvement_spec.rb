@@ -291,10 +291,6 @@ feature 'History card' do
       page.execute_script js
       find('#spec_meta').send_keys [:control, 'v']
       expect(find('#spec_meta').value).not_to be_empty
-      expect(find('#spec_meta').value).not_to have_text('Reporter1')
-      expect(find('#spec_meta').value).not_to have_text('r1LastName')
-      expect(find('#spec_meta').value).not_to have_text('Reporter2')
-      expect(find('#spec_meta').value).not_to have_text('r2LastName')
     end
 
     scenario 'viewing a screening' do
@@ -308,20 +304,20 @@ feature 'History card' do
           within screenings.first do
             expect(page).to have_content('09/10/2016')
             expect(page).to have_no_content('09/10/2016 -')
-            expect(page).to have_content('Screening (In Progress)')
+            expect(page).to have_content('Screening (In Progress)', normalize_ws: true)
             expect(page).to have_content('El Dorado')
             expect(page).to have_content('Sally Johnson')
             expect(page).to have_content('Sam Anderson')
             expect(page).to have_content('James Robinson')
-            expect(page).to have_content('Reporter: Alex Hanson')
+            expect(page).to have_content('Reporter: Alex Hanson', normalize_ws: true)
             expect(page).to have_content('Worker: Bob Smith')
           end
 
           within screenings.last do
             expect(page).to have_content('08/10/2016 - 11/12/2016')
-            expect(page).to have_content('Screening (Closed)')
-            expect(page).to have_content('Reporter: ')
-            expect(page).to have_content('Worker: ')
+            expect(page).to have_content('Screening (Closed)', normalize_ws: true)
+            expect(page).to have_content('Reporter:')
+            expect(page).to have_content('Worker:')
           end
 
           referrals = page.all('tr', text: 'Referral')
@@ -445,7 +441,7 @@ feature 'History card' do
           within screenings.first do
             expect(page).to have_content('09/10/2016')
             expect(page).to have_no_content('09/10/2016 -')
-            expect(page).to have_content('Screening (In Progress)')
+            expect(page).to have_content('Screening (In Progress)', normalize_ws: true)
             expect(page).to have_content('El Dorado')
             expect(page).to have_content('Sally Johnson')
             expect(page).to have_content('Sam Anderson')
@@ -456,9 +452,9 @@ feature 'History card' do
 
           within screenings.last do
             expect(page).to have_content('08/10/2016 - 11/12/2016')
-            expect(page).to have_content('Screening (Closed)')
-            expect(page).to have_content('Reporter: ')
-            expect(page).to have_content('Worker: ')
+            expect(page).to have_content('Screening (Closed)', normalize_ws: true)
+            expect(page).to have_content('Reporter:')
+            expect(page).to have_content('Worker:')
           end
 
           referrals = page.all('tr', text: 'Referral')
@@ -484,7 +480,9 @@ feature 'History card' do
               within allegation_rows[1] do
                 expect(page).to have_content('Victim1 v1LastName')
                 expect(page).to have_content('Perpetrator1 p1LastName')
-                expect(page).to have_content('General Neglect (Entered in Error)')
+                expect(page).to have_content(
+                  'General Neglect (Entered in Error)', normalize_ws: true
+                )
               end
             end
 
@@ -615,15 +613,6 @@ feature 'History card' do
       scenario 'editing a screening displays HOI' do
         visit edit_screening_path(id: existing_screening[:id])
 
-        expect(
-          a_request(
-            :get,
-            intake_api_url(
-              ExternalRoutes.intake_api_history_of_involvements_path(existing_screening[:id])
-            )
-          )
-        ).to have_been_made
-
         within '#history-card.card.show', text: 'History' do
           within first('tbody') do
             screenings = page.all('tr', text: 'Screening')
@@ -632,7 +621,7 @@ feature 'History card' do
             within screenings.first do
               expect(page).to have_content('09/10/2016')
               expect(page).to have_no_content('09/10/2016 -')
-              expect(page).to have_content('Screening (In Progress)')
+              expect(page).to have_content('Screening (In Progress)', normalize_ws: true)
               expect(page).to have_content('El Dorado')
               expect(page).to have_content('Sally Johnson')
               expect(page).to have_content('Sam Anderson')
@@ -643,9 +632,9 @@ feature 'History card' do
 
             within screenings.last do
               expect(page).to have_content('08/10/2016 - 11/12/2016')
-              expect(page).to have_content('Screening (Closed)')
-              expect(page).to have_content('Reporter: ')
-              expect(page).to have_content('Worker: ')
+              expect(page).to have_content('Screening (Closed)', normalize_ws: true)
+              expect(page).to have_content('Reporter:')
+              expect(page).to have_content('Worker:')
             end
 
             referrals = page.all('tr', text: 'Referral')
@@ -671,7 +660,9 @@ feature 'History card' do
                 within allegation_rows[1] do
                   expect(page).to have_content('Victim1 v1LastName')
                   expect(page).to have_content('Perpetrator1 p1LastName')
-                  expect(page).to have_content('General Neglect (Entered in Error)')
+                  expect(page).to have_content(
+                    'General Neglect (Entered in Error)', normalize_ws: true
+                  )
                 end
               end
 
@@ -738,6 +729,15 @@ feature 'History card' do
             end
           end
         end
+
+        expect(
+          a_request(
+            :get,
+            intake_api_url(
+              ExternalRoutes.intake_api_history_of_involvements_path(existing_screening[:id])
+            )
+          )
+        ).to have_been_made
       end
     end
   end

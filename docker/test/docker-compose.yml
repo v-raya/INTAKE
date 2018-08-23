@@ -21,6 +21,8 @@ services:
       REDIS_PORT: 6379
     links:
       - redis
+    cap_add:
+      - SYS_ADMIN
   builder:
     build:
       context: ../../
