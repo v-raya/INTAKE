@@ -82,7 +82,7 @@ feature 'Show Screening' do
         expect(page).to have_content('Language(s) (Primary First)')
         expect(page).to have_content('Korean (Primary), Lao, Hawaiian')
         expect(page).to have_content(date_of_birth.strftime('%m/%d/%Y'))
-        expect(page).to have_content('123-  -    ')
+        expect(page).to have_content(/123-\s*-\s*/)
         expect(page).to have_content(address.street_address)
         expect(page).to have_content(address.city)
         expect(page).to have_content('New York')

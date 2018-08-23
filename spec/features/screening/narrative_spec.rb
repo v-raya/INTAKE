@@ -87,17 +87,17 @@ feature 'screening narrative card' do
     within '#narrative-card.edit' do
       click_button 'Save'
     end
-
-    expect(
-      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id])))
-        .with(body: hash_including(existing_screening))
-    ).to have_been_made
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
 
     within '#narrative-card.show' do
       expect(page).to have_content 'Trying to fill in with changes'
     end
+
+    expect(
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id])))
+        .with(body: hash_including(existing_screening))
+    ).to have_been_made
   end
 
   scenario 'user edits narrative card from screening edit page and saves' do

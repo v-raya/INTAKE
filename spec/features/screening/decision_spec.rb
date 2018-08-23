@@ -28,7 +28,7 @@ feature 'decision card' do
     visit edit_screening_path(id: screening[:id])
   end
 
-  scenario 'initial configuration, persisting data' do
+  scenario 'initial configuration, persisting data', browser: :poltergeist do
     new_window = nil
     within '#decision-card.edit' do
       expect(page).to have_select('Screening Decision', options: [
@@ -91,10 +91,10 @@ feature 'decision card' do
       link_from_show = find_link('Complete SDM')
       expect(link_from_show[:href]).to eq 'https://ca.sdmdata.org/'
       expect(link_from_show[:target]).to eq '_blank'
-      change_href('complete_sdm', 'localhost:3000/test')
+      change_href('complete_sdm', '/test')
       new_window = window_opened_by { click_link 'Complete SDM' }
       within_window new_window do
-        expect(current_path).to eq '3000/test'
+        expect(page).to have_current_path('/test')
       end
     end
 
@@ -123,10 +123,6 @@ feature 'decision card' do
       fill_in 'Restrictions Rationale', with: 'Someone in this screening has sensitive information'
       click_button 'Save'
     end
-    expect(
-      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
-      .with(body: hash_including(screening.as_json))
-    ).to have_been_made
     within '#decision-card.show' do
       expect(page).to have_content('SDM Hotline Tool')
       expect(page).to have_content(
@@ -142,6 +138,10 @@ feature 'decision card' do
       expect(page).to have_content('Sensitive')
       expect(page).to have_content('Someone in this screening has sensitive information')
     end
+    expect(
+      a_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
+      .with(body: hash_including(screening.as_json))
+    ).to have_been_made
   end
 
   context 'Information to child welfare services decision option' do

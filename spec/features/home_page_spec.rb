@@ -193,7 +193,7 @@ feature 'home page' do
             expect(find_all('td').last).to have_text('08/17/2018')
           end
           within rows[4] do
-            expect(find_all('td').last).to have_text('01/10/2018')
+            expect(find_all('td').last).to have_text('01/09/2018')
           end
           within rows[5] do
             expect(find_all('td').last).to have_text('08/17/2017')
@@ -205,7 +205,7 @@ feature 'home page' do
             expect(find_all('td').last).to have_text('08/11/2016')
           end
           within rows[8] do
-            expect(find_all('td').last).to have_text('03/11/2016')
+            expect(find_all('td').last).to have_text('03/10/2016')
           end
           within rows[9] do
             expect(find_all('td').last).to have_content('')

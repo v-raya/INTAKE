@@ -6,8 +6,8 @@ feature 'Screening Decision Validations' do
   let(:error_message) { 'Please enter at least one allegation to promote to referral.' }
   let(:reporter_error_message) { 'A reporter is required to submit a screening Contact' }
   let(:allegation_error_message) do
-    'Please remove any allegations before submitting this information to
-    a social worker on an existing case or referral.'
+    'Please remove any allegations before submitting this information to '\
+    'a social worker on an existing case or referral.'
   end
   let(:perpetrator) { FactoryBot.create(:participant, :perpetrator) }
   let(:victim) { FactoryBot.create(:participant, :victim) }

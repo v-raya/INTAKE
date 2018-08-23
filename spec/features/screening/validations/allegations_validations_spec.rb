@@ -46,12 +46,12 @@ feature 'Allegations Validations' do
       select '', from: 'Screening Decision'
     end
 
-    within '.card.edit', text: 'Allegations' do
+    within '#allegations-card.card.edit' do
       expect(page).not_to have_content(error_message)
-      click_button 'Cancel'
+      click_button_with_js('Cancel')
     end
 
-    within '.card.show', text: 'Allegations' do
+    within '#allegations-card.card.show' do
       expect(page).not_to have_content(error_message)
     end
   end

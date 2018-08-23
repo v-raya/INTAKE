@@ -26,7 +26,7 @@ feature 'Screening Information Validations' do
       scenario 'displays errors if a user does not enter a social worker' do
         within '#screening-information-card.edit' do
           expect(page).not_to have_content(error_message)
-          fill_in 'Assigned Social Worker', with: ''
+          find_field('Assigned Social Worker').set('', clear: :backspace)
           expect(page).not_to have_content(error_message)
           blur_field
           expect(page).to have_content(error_message)
