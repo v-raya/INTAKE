@@ -432,4 +432,21 @@ describe Api::V1::ScreeningsController do
       expect(response.body).to eq submit_response.to_json
     end
   end
+
+  describe '#contact' do
+    let(:referral_id) { '99' }
+    let(:contact_response) do
+      { referral_id: FFaker::Guid.guid }
+    end
+    before do
+      expect(ScreeningRepository).to receive(:contact)
+        .with(security_token, referral_id, { id: referral_id })
+        .and_return(contact_response)
+    end
+    it 'submits screening contact' do
+      post :contact, params: { id: referral_id, contact: { id: referral_id } }, session: session
+      expect(response).to be_successful
+      expect(response.body).to eq contact_response.to_json
+    end
+  end
 end
