@@ -684,12 +684,20 @@ feature 'Edit Person' do
         ))).to have_been_made
 
       within show_participant_card_selector(homer.id) do
-        expect(page).to have_content('Safely Surrendered Baby')
-        expect(page).to have_content('Relationship to Surrendered Child Grandmother')
-        expect(page).to have_content('Bracelet ID 12345')
-        expect(page).to have_content('Parent/Guardian Given Bracelet ID Attempted')
-        expect(page).to have_content('Parent/Guardian Provided Medical Questionaire Declined')
-        expect(page).to have_content('Medical Questionaire Return Date 2011-01-01')
+        expect(page).to have_content('Safely Surrendered Baby', normalize_ws: true)
+        expect(page).to have_content(
+          'Relationship to Surrendered Child Grandmother', normalize_ws: true
+        )
+        expect(page).to have_content('Bracelet ID 12345', normalize_ws: true)
+        expect(page).to have_content(
+          'Parent/Guardian Given Bracelet ID Attempted', normalize_ws: true
+        )
+        expect(page).to have_content(
+          'Parent/Guardian Provided Medical Questionaire Declined', normalize_ws: true
+        )
+        expect(page).to have_content(
+          'Medical Questionaire Return Date 2011-01-01', normalize_ws: true
+        )
       end
 
       updated_screening = screening.as_json.merge(

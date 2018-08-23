@@ -111,7 +111,7 @@ feature 'Show Screening' do
       visit screening_path(id: existing_screening[:id])
       within show_participant_card_selector(existing_participant.id) do
         within '.card-body' do
-          expect(page).to have_content('Hispanic/Latino Origin Yes')
+          expect(page).to have_content('Hispanic/Latino Origin Yes', normalize_ws: true)
           expect(page).not_to have_content('Yes-')
         end
       end

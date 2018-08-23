@@ -88,11 +88,11 @@ feature 'Screening Decision Validations' do
 
       scenario 'Selecting promote to referral decision requires allegations' do
         within '#decision-card.edit' do
-          expect(page).not_to have_content(error_message)
+          expect(page).not_to have_content(error_message, normalize_ws: true)
           click_button 'Cancel'
         end
         within '#decision-card.show' do
-          expect(page).not_to have_content(error_message)
+          expect(page).not_to have_content(error_message, normalize_ws: true)
           click_link 'Edit'
         end
 
@@ -104,22 +104,22 @@ feature 'Screening Decision Validations' do
         within '#decision-card.edit' do
           select 'Promote to referral', from: 'Screening Decision'
           blur_field
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
           click_button 'Save'
         end
 
         within '#decision-card.show' do
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
         end
       end
 
       scenario 'Selecting information to child welfare services decision requires no allegations' do
         within '#decision-card.edit' do
-          expect(page).not_to have_content(allegation_error_message)
+          expect(page).not_to have_content(allegation_error_message, normalize_ws: true)
           click_button 'Cancel'
         end
         within '#decision-card.show' do
-          expect(page).not_to have_content(allegation_error_message)
+          expect(page).not_to have_content(allegation_error_message, normalize_ws: true)
           click_link 'Edit'
         end
 
@@ -131,7 +131,7 @@ feature 'Screening Decision Validations' do
         within '#decision-card.edit' do
           select 'Information to child welfare services', from: 'Screening Decision'
           blur_field
-          expect(page).not_to have_content(allegation_error_message)
+          expect(page).not_to have_content(allegation_error_message, normalize_ws: true)
         end
 
         within '.card.edit', text: 'Allegations' do
@@ -139,7 +139,7 @@ feature 'Screening Decision Validations' do
         end
 
         within '#decision-card.edit' do
-          expect(page).to have_content(allegation_error_message)
+          expect(page).to have_content(allegation_error_message, normalize_ws: true)
         end
 
         within '.card.edit', text: 'Allegations' do
@@ -147,7 +147,7 @@ feature 'Screening Decision Validations' do
         end
 
         within '#decision-card.edit' do
-          expect(page).not_to have_content(allegation_error_message)
+          expect(page).not_to have_content(allegation_error_message, normalize_ws: true)
         end
       end
 
@@ -182,10 +182,10 @@ feature 'Screening Decision Validations' do
         within '#decision-card.edit' do
           select 'Promote to referral', from: 'Screening Decision'
           blur_field
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
           select 'Screen out', from: 'Screening Decision'
           blur_field
-          expect(page).not_to have_content(error_message)
+          expect(page).not_to have_content(error_message, normalize_ws: true)
         end
       end
 
@@ -193,7 +193,7 @@ feature 'Screening Decision Validations' do
         within '#decision-card.edit' do
           select 'Promote to referral', from: 'Screening Decision'
           blur_field
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
         end
 
         within '.card.edit', text: 'Allegations' do
@@ -201,7 +201,7 @@ feature 'Screening Decision Validations' do
         end
 
         within '#decision-card.edit' do
-          expect(page).not_to have_content(error_message)
+          expect(page).not_to have_content(error_message, normalize_ws: true)
         end
 
         within '.card.edit', text: 'Allegations' do
@@ -209,7 +209,7 @@ feature 'Screening Decision Validations' do
         end
 
         within '#decision-card.edit' do
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
         end
       end
     end
@@ -219,10 +219,10 @@ feature 'Screening Decision Validations' do
 
       scenario 'Error message does not display until user has interacted with the field' do
         within '#decision-card.edit' do
-          expect(page).not_to have_content(error_message)
+          expect(page).not_to have_content(error_message, normalize_ws: true)
           find_field('Screening Decision').click
           blur_field
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
         end
       end
 
@@ -356,7 +356,7 @@ feature 'Screening Decision Validations' do
 
       scenario 'User does not see error messages on page load' do
         within '#decision-card.show' do
-          expect(page).not_to have_content(error_message)
+          expect(page).not_to have_content(error_message, normalize_ws: true)
         end
       end
     end
@@ -366,13 +366,13 @@ feature 'Screening Decision Validations' do
 
       scenario 'User sees error messages on page load' do
         within '#decision-card.show' do
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
         end
       end
 
       scenario 'Adding and removing allegations shows or hides error message' do
         within '#decision-card.show' do
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
         end
 
         within '.card.show', text: 'Allegations' do
@@ -384,7 +384,7 @@ feature 'Screening Decision Validations' do
         end
 
         within '#decision-card.show' do
-          expect(page).not_to have_content(error_message)
+          expect(page).not_to have_content(error_message, normalize_ws: true)
         end
 
         within '.card.edit', text: 'Allegations' do
@@ -392,7 +392,7 @@ feature 'Screening Decision Validations' do
         end
 
         within '#decision-card.show' do
-          expect(page).to have_content(error_message)
+          expect(page).to have_content(error_message, normalize_ws: true)
         end
       end
     end
