@@ -440,7 +440,7 @@ describe Api::V1::ScreeningsController do
     end
     before do
       expect(ScreeningRepository).to receive(:contact)
-        .with(security_token, referral_id, { id: referral_id })
+        .with(security_token, referral_id, id: referral_id)
         .and_return(contact_response)
     end
     it 'submits screening contact' do
