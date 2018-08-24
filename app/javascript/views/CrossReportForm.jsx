@@ -14,8 +14,6 @@ import {
   DISTRICT_ATTORNEY,
   LAW_ENFORCEMENT,
 } from 'enums/CrossReport'
-import {SHOW_MODE} from 'actions/screeningPageActions'
-import {setHash} from 'utils/navigation'
 
 const CrossReportForm = ({
   allegationsRequireCrossReports,
