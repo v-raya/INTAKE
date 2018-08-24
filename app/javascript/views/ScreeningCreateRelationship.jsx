@@ -45,24 +45,32 @@ export default class ScreeningCreateRelationship extends React.Component {
   modalTable(candidates) {
     return (
       <BootstrapTable className='displayTable' bordered={false} data={candidates}>
-        <TableHeaderColumn className = 'FocusPersonDetails' dataField='person' dataFormat={this.displayFormatter} tdStyle= {textWrap}>
+        <TableHeaderColumn
+          className = 'FocusPersonDetails'
+          dataField='person'
+          dataFormat={this.displayFormatter}
+          tdStyle= {textWrap}
+        >
           Focus Person
         </TableHeaderColumn>
-        <TableHeaderColumn dataField='relationship' dataFormat={this.selectFieldFormat}>
+        <TableHeaderColumn
+          dataField='relationship'
+          dataFormat={this.selectFieldFormat}
+        >
           Relationship<br/>
           <div className='text-helper'>Focus Person / Related Person</div>
         </TableHeaderColumn>
-        <TableHeaderColumn className = 'relatedPersonDetails' dataField='candidate' dataFormat={this.displayFormatter} isKey={true} tdStyle= {textWrap}>
+        <TableHeaderColumn
+          className = 'relatedPersonDetails'
+          dataField='candidate'
+          dataFormat={this.displayFormatter}
+          isKey={true}
+          tdStyle={textWrap}
+        >
           Related Person
         </TableHeaderColumn>
       </BootstrapTable>
     )
-  }
-
-  modalTitle() {
-    return (<b>
-      Create Relationship Type
-    </b>)
   }
 
   selectFieldFormat() {
@@ -74,7 +82,9 @@ export default class ScreeningCreateRelationship extends React.Component {
       >
         <option key=''/>
         {RELATIONSHIP_TYPES.map((relationship) =>
-          <option key={relationship.value} value={relationship.value}>{relationship.label}</option>)
+          <option key={relationship.value} value={relationship.value}>
+            {relationship.label}
+          </option>)
         }
       </SelectField>
     )
@@ -83,8 +93,12 @@ export default class ScreeningCreateRelationship extends React.Component {
   modalFooter() {
     return (
       <div>
-        <button aria-label='Cancel' className='btn btn-default' onClick={this.closeModal}> Cancel </button>
-        <button aria-label='Create Relationship' className='btn btn-primary'>Create Relationship </button>
+        <button aria-label='Cancel' className='btn btn-default' onClick={this.closeModal}>
+          Cancel
+        </button>
+        <button aria-label='Create Relationship' className='btn btn-primary'>
+          Create Relationship
+        </button>
       </div>
     )
   }
