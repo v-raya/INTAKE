@@ -41,6 +41,9 @@ export const selectCandidates = (state, id) => {
   }
   const candidates = person.get('candidate_to', List())
 
+  if (candidates.length < 0) {
+    return candidates
+  }
   return candidates.map((candidate) => (Map({
     person: selectPerson(person),
     candidate: selectCandidate(candidate),

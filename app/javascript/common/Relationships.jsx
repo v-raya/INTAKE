@@ -29,6 +29,7 @@ export const Relationships = ({
                     editFormRelationship={editFormRelationship}
                     isScreening={isScreening}
                     onChange={onChange}
+                    onClick={onClick}
                     onEdit={onEdit}
                     onSave={onSave}
                     person={person}

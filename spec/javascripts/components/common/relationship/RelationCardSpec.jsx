@@ -11,7 +11,7 @@ describe('RelationCard', () => {
         type: 'mother',
         name: 'Kim Johnson',
         secondaryRelationship: 'mother',
-        person_card_exists: false,
+        person_card_exists: true,
       }, {
         type: 'father',
         name: 'Bugs Bunny',
@@ -47,7 +47,7 @@ describe('RelationCard', () => {
     expect(renderRelationCard(props).find('TableHeaderColumn').length).toBe(4)
   })
 
-  it('has 1 Attach link', () => {
+  it('has 2 Attach links', () => {
     expect(renderRelationCard(props).find(AttachLink).length).toBe(2)
   })
 
@@ -56,7 +56,7 @@ describe('RelationCard', () => {
       type: 'mother',
       name: 'Kim Johnson',
       secondaryRelationship: 'mother',
-      person_card_exists: false,
+      person_card_exists: true,
     })
 
     expect(renderRelationCard(props).find(AttachLink).at(1).prop('relationship')).toEqual({
