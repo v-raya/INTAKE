@@ -8,7 +8,8 @@ export const BATCH_CREATE_RELATIONSHIPS = 'BATCH_CREATE_RELATIONSHIPS'
 export const BATCH_CREATE_RELATIONSHIPS_COMPLETE = 'BATCH_CREATE_RELATIONSHIPS_COMPLETE'
 export const BATCH_CREATE_RELATIONSHIPS_ERROR = 'BATCH_CREATE_RELATIONSHIPS_ERROR'
 
-export const batchCreateRelationships = () => ({
+export const batchCreateRelationships = (relationships) => ({
+  payload: {relationships},
   type: BATCH_CREATE_RELATIONSHIPS,
 })
 
