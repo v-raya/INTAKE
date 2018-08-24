@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import ActionMenu from 'common/relationship/ActionMenu'
 import AttachLink from 'common/relationship/AttachLink'
 import RelationCard from 'common/relationship/RelationCard'
 import ScreeningCreateRelationshipContainer from 'containers/screenings/ScreeningCreateRelationshipContainer'
@@ -8,14 +7,14 @@ import ScreeningCreateRelationshipContainer from 'containers/screenings/Screenin
 export const Relationships = ({
   candidates,
   editFormRelationship,
-  people,
-  onChange,
+  isScreening,
   onClick,
+  onChange,
   onEdit,
   onSave,
-  screeningId,
-  isScreening,
   pendingPeople = [],
+  people,
+  screeningId,
 }) => (
   <div className='card-body no-pad-top'>
     {
@@ -27,23 +26,14 @@ export const Relationships = ({
                 (person.relationships.length > 0) &&
                 <span>
                   <RelationCard
-                    name={person.name}
-                    data={person.relationships}
-                    tableActions={(cell, row) =>
-                      <ActionMenu
-                        editFormRelationship={editFormRelationship}
-                        isScreening={isScreening}
-                        onChange={onChange}
-                        onClick={onClick}
-                        onEdit={onEdit}
-                        onSave={onSave}
-                        pendingPeople={pendingPeople}
-                        person={person}
-                        relationship ={row}
-                        screeningId={screeningId}
-                      />
-                    }
-                    ageDisplayFormatter={(cell, row) => <div> {row.dateOfBirth || ''} {row.age === '' ? '' : `(${row.age})`}</div>}
+                    editFormRelationship={editFormRelationship}
+                    isScreening={isScreening}
+                    onChange={onChange}
+                    onEdit={onEdit}
+                    onSave={onSave}
+                    person={person}
+                    screeningId={screeningId}
+                    pendingPeople={pendingPeople}
                   />
                 </span>
               }

@@ -1,5 +1,5 @@
-import React from 'react'
 import AttachLink from 'common/relationship/AttachLink'
+import React from 'react'
 import {shallow} from 'enzyme'
 import {EmptyRelationships, Relationships} from 'common/Relationships'
 
@@ -10,84 +10,144 @@ describe('Relationships for Screening', () => {
 
   let onClick
   let component
-  const renderRelationships = (props) => shallow(<Relationships {...props} isScreening={true} screeningId={'1'} pendingPeople = {['1']} onClick={onClick} />, {disableLifecycleMethods: true})
-  const candidates = [
-    {
-      candidate: {age: '20', candidate_id: '123', dateOfBirth: '01/01/2001', gender: 'male', name: 'John Doe'},
-      person: {age: '30', legacy_id: '12345', dateOfBirth: '02/02/2002', gender: 'male', name: 'Larry Doe'},
+  const renderRelationships = (props) => shallow(
+    <Relationships {...props}
+      isScreening={true}
+      screeningId={'1'}
+      pendingPeople = {['1']}
+      onClick={onClick}
+    />, {disableLifecycleMethods: true})
+
+  const candidates = [{
+    candidate: {
+      age: '20',
+      candidate_id: '123',
+      dateOfBirth: '01/01/2001',
+      gender: 'male',
+      name: 'John Doe',
     },
-  ]
-  const people = [
-    {
-      name: 'Sally Jones',
-      relationships: [
-        {type: 'mother', name: 'Kim Johnson', secondaryRelationship: 'mother', person_card_exists: true},
-      ],
+    person: {
+      age: '30',
+      legacy_id: '12345',
+      dateOfBirth: '02/02/2002',
+      gender: 'male',
+      name: 'Larry Doe',
     },
-    {
-      name: 'Nate Starbringer',
-      relationships: [
-        {type: 'father', name: 'Jim Johnson', secondaryRelationship: 'father', person_card_exists: false},
-      ],
-    },
-    {
+  }]
+
+  const people = [{
+    name: 'Sally Jones',
+    relationships: [{
+      type: 'mother',
+      name: 'Kim Johnson',
+      secondaryRelationship: 'mother',
+      person_card_exists: true,
+    }],
+  }, {
+    name: 'Nate Starbringer',
+    relationships: [{
+      type: 'father',
       name: 'Jim Johnson',
-      relationships: [
-        {type: 'son', name: 'Nate Starbringer', secondaryRelationship: 'son', person_card_exists: true},
-        {type: 'son', name: 'Sally Jones', secondaryRelationship: 'son', person_card_exists: true},
-      ],
-    },
-    {
-      name: 'Cecilia Gomez',
-      relationships: [
-        {name: 'Jose Gomez', secondaryRelationship: 'son', person_card_exists: true, legacy_descriptor: {legacy_id: '1'}},
-        {name: 'Julie Gomez', secondaryRelationship: 'daughter', person_card_exists: true},
-      ],
-    },
-    {name: 'Nally Raymonds', relationships: []},
-    {name: 'Kate Winslet', relationships: []},
-    {name: 'Kim West', relationships: []},
-  ]
+      secondaryRelationship: 'father',
+      person_card_exists: false,
+    }],
+  }, {
+    name: 'Jim Johnson',
+    relationships: [{
+      type: 'son',
+      name: 'Nate Starbringer',
+      secondaryRelationship: 'son',
+      person_card_exists: true,
+    }, {
+      type: 'son',
+      name: 'Sally Jones',
+      secondaryRelationship: 'son',
+      person_card_exists: true,
+    }],
+  }, {
+    name: 'Cecilia Gomez',
+    relationships: [{
+      name: 'Jose Gomez',
+      secondaryRelationship: 'son',
+      person_card_exists: true,
+      legacy_descriptor: {legacy_id: '1'},
+    }, {
+      name: 'Julie Gomez',
+      secondaryRelationship: 'daughter',
+      person_card_exists: true,
+    }],
+  }, {
+    name: 'Nally Raymonds',
+    relationships: [],
+  }, {
+    name: 'Kate Winslet',
+    relationships: [],
+  }, {
+    name: 'Kim West',
+    relationships: [],
+  }]
 
   beforeEach(() => {
     onClick = jasmine.createSpy('onClick')
     component = renderRelationships({people, candidates})
   })
 
-  it('renders a RelationCard component for each person with relationships', () => {
-    expect(component.find('RelationCard').length).toEqual(4)
-  })
-
   it('render ScreeningCreateRelationshipContainer for each person', () => {
     expect(component.find('Connect(ScreeningCreateRelationship)').length).toEqual(7)
   })
 
-  it('passes correct props name to RelationCard component', () => {
-    expect(getProps(component, 0).name).toEqual('Sally Jones')
-    expect(getProps(component, 1).name).toEqual('Nate Starbringer')
-    expect(getProps(component, 2).name).toEqual('Jim Johnson')
-    expect(getProps(component, 3).name).toEqual('Cecilia Gomez')
-  })
+  describe('Relationship for Relation Card Component', () => {
+    it('renders a RelationCard component for each person with relationships', () => {
+      expect(component.find('RelationCard').length).toEqual(4)
+    })
 
-  it('passes correct props (data) to RelationCard component', () => {
-    expect(getProps(component, 0).data[0].name).toEqual('Kim Johnson')
-    expect(getProps(component, 0).data[0].secondaryRelationship).toEqual('mother')
-    expect(getProps(component, 1).data[0].name).toEqual('Jim Johnson')
-    expect(getProps(component, 1).data[0].secondaryRelationship).toEqual('father')
-    expect(getProps(component, 2).data[0].name).toEqual('Nate Starbringer')
-    expect(getProps(component, 2).data[0].secondaryRelationship).toEqual('son')
-    expect(getProps(component, 2).data[1].name).toEqual('Sally Jones')
-    expect(getProps(component, 2).data[1].secondaryRelationship).toEqual('son')
-    expect(getProps(component, 3).data[0].name).toEqual('Jose Gomez')
-    expect(getProps(component, 3).data[0].secondaryRelationship).toEqual('son')
-    expect(getProps(component, 3).data[1].name).toEqual('Julie Gomez')
-    expect(getProps(component, 3).data[1].secondaryRelationship).toEqual('daughter')
-  })
-
-  it('passes the props to RelationCard', () => {
-    expect(getProps(component, 0).name).toEqual('Sally Jones')
-    expect(getProps(component, 0).data[0].name).toEqual('Kim Johnson')
-    expect(getProps(component, 1).name).toEqual('Nate Starbringer')
+    it('passes correct props to RelationCard component and card number', () => {
+      expect(getProps(component, 0).person).toEqual({
+        name: 'Sally Jones',
+        relationships: [{
+          type: 'mother',
+          name: 'Kim Johnson',
+          secondaryRelationship: 'mother',
+          person_card_exists: true,
+        }],
+      })
+      expect(getProps(component, 1).person).toEqual({
+        name: 'Nate Starbringer',
+        relationships: [{
+          type: 'father',
+          name: 'Jim Johnson',
+          secondaryRelationship: 'father',
+          person_card_exists: false,
+        }],
+      })
+      expect(getProps(component, 2).person).toEqual({
+        name: 'Jim Johnson',
+        relationships: [{
+          type: 'son',
+          name: 'Nate Starbringer',
+          secondaryRelationship: 'son',
+          person_card_exists: true,
+        }, {
+          type: 'son',
+          name: 'Sally Jones',
+          secondaryRelationship: 'son',
+          person_card_exists: true,
+        }],
+      })
+      expect(getProps(component, 3).person).toEqual({
+        name: 'Cecilia Gomez',
+        relationships: [{
+          name: 'Jose Gomez',
+          secondaryRelationship: 'son',
+          person_card_exists: true,
+          legacy_descriptor: {legacy_id: '1'},
+        }, {
+          name: 'Julie Gomez',
+          secondaryRelationship: 'daughter',
+          person_card_exists: true,
+        }],
+      })
+    })
   })
 
   it('renders people with no relationships', () => {
