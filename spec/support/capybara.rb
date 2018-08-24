@@ -73,6 +73,13 @@ Capybara.register_driver :accessible_poltergeist do |app|
   Capybara::Accessible.setup(driver, adaptor)
 end
 
+Capybara.register_server :puma do |app, port, host|
+  require 'rack/handler/puma'
+  Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: '0:1')
+end
+
+Capybara.server = :puma
+
 Capybara.default_driver = ENV.fetch('DEFAULT_DRIVER', :accessible_chrome).to_sym
 
 Capybara.server_port = 8889 + ENV['TEST_ENV_NUMBER'].to_i
