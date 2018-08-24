@@ -12,9 +12,9 @@ describe('relationshipsSelectors', () => {
   describe('getPeopleSelector', () => {
     it('returns a list of people or an empty list if there are no people', () => {
       const relationships = [
-        {id: '805', legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: 'M', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y'},
-        {id: '808', legacy_id: '20', first_name: 'Johny', last_name: 'Robinson', gender: 'M', date_of_birth: '1990-03-15', age: 30, age_unit: 'Y'},
-        {id: '405', legacy_id: '30', first_name: 'Will', last_name: 'Carlson', gender: 'M', date_of_birth: '1991-02-15', age: 40, age_unit: 'Y'},
+        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: 'M', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y', id: '805'},
+        {legacy_id: '20', first_name: 'Johny', last_name: 'Robinson', gender: 'M', date_of_birth: '1990-03-15', age: 30, age_unit: 'Y', id: '808'},
+        {legacy_id: '30', first_name: 'Will', last_name: 'Carlson', gender: 'M', date_of_birth: '1991-02-15', age: 40, age_unit: 'Y', id: '405'},
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
@@ -51,11 +51,11 @@ describe('relationshipsSelectors', () => {
 
     it('returns a list of people with an empty gender', () => {
       const relationships = [
-        {id: '808', legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y'},
+        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y', id: '12345'},
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS(
-        [{id: '808', dateOfBirth: '01/15/1986', legacy_id: '10', name: 'Ricky Robinson', relationships: [], gender: '', age: '20 yrs'}]
+        [{dateOfBirth: '01/15/1986', legacy_id: '10', id: '12345', name: 'Ricky Robinson', relationships: [], gender: '', age: '20 yrs'}]
       ))
     })
 

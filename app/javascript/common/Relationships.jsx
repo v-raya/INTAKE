@@ -1,26 +1,20 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import ActionMenu from 'common/relationship/ActionMenu'
 import AttachLink from 'common/relationship/AttachLink'
 import RelationCard from 'common/relationship/RelationCard'
-import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
-
-const createRelationsData = (person, data) => {
-  const relationData = []
-  data.map((relatedPerson) => relationData.push({focus_person: person, related_person: relatedPerson}))
-  return relationData
-}
+import ScreeningCreateRelationshipContainer from 'containers/screenings/ScreeningCreateRelationshipContainer'
 
 export const Relationships = ({
+  candidates,
   editFormRelationship,
-  people,
-  onChange,
+  isScreening,
   onClick,
+  onChange,
   onEdit,
   onSave,
-  screeningId,
-  isScreening,
   pendingPeople = [],
+  people,
+  screeningId,
 }) => (
   <div className='card-body no-pad-top'>
     {
@@ -32,23 +26,15 @@ export const Relationships = ({
                 (person.relationships.length > 0) &&
                 <span>
                   <RelationCard
-                    name={person.name}
-                    data={person.relationships}
-                    tableActions={(cell, row) =>
-                      <ActionMenu
-                        editFormRelationship={editFormRelationship}
-                        isScreening={isScreening}
-                        onChange={onChange}
-                        onClick={onClick}
-                        onEdit={onEdit}
-                        onSave={onSave}
-                        pendingPeople={pendingPeople}
-                        person={person}
-                        relationship ={row}
-                        screeningId={screeningId}
-                      />
-                    }
-                    ageDisplayFormatter={(cell, row) => <div> {row.dateOfBirth || ''} {row.age === '' ? '' : `(${row.age})`}</div>}
+                    editFormRelationship={editFormRelationship}
+                    isScreening={isScreening}
+                    onChange={onChange}
+                    onClick={onClick}
+                    onEdit={onEdit}
+                    onSave={onSave}
+                    person={person}
+                    screeningId={screeningId}
+                    pendingPeople={pendingPeople}
                   />
                 </span>
               }
@@ -58,7 +44,7 @@ export const Relationships = ({
               }
             </div>
           </div>
-          <ScreeningCreateRelationship data={createRelationsData(person, person.relationships)}/>
+          <ScreeningCreateRelationshipContainer personId={person.id} candidates={candidates} />
         </div>
       ))
     }
@@ -102,6 +88,22 @@ export const Relationships = ({
 )
 
 Relationships.propTypes = {
+  candidates: PropTypes.arrayOf(PropTypes.shape({
+    candidate: PropTypes.shape({
+      age: PropTypes.string,
+      candidateId: PropTypes.string,
+      dateOfBirth: PropTypes.string,
+      gender: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    person: PropTypes.shape({
+      age: PropTypes.string,
+      legacyId: PropTypes.string,
+      dateOfBirth: PropTypes.string,
+      gender: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  })),
   editFormRelationship: PropTypes.shape({
     absent_parent_indicator: PropTypes.bool,
     client_id: PropTypes.string,

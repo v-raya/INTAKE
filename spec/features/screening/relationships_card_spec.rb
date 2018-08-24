@@ -41,6 +41,7 @@ feature 'Relationship card' do
         first_name: participant.first_name,
         last_name: participant.last_name,
         relationships: [].push(jane, jake, john),
+        candidate_to: [],
         age: 20,
         age_unit: 'Y',
         legacy_id: 'jane_legacy_id'
@@ -119,13 +120,15 @@ feature 'Relationship card' do
         id: participant.id.to_s,
         first_name: participant.first_name,
         last_name: participant.last_name,
-        relationships: [].push(jane, jake, john)
+        relationships: [].push(jane, jake, john),
+        candidate_to: []
       },
       {
         id: new_participant.id.to_s,
         first_name: new_participant.first_name,
         last_name: new_participant.last_name,
-        relationships: []
+        relationships: [],
+        candidate_to: []
       }
     ]
   end
@@ -217,7 +220,6 @@ feature 'Relationship card' do
         expect(page).to have_content('Jake Campbell Brother (Half)')
         expect(page).to have_content('John Florence, PhD Brother (Half)')
       end
-
       expect(
         a_request(
           :get,
