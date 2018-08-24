@@ -1,6 +1,13 @@
 import * as IntakeConfig from 'common/config'
 import React from 'react'
 import {ScreeningPage} from 'screenings/ScreeningPage'
+import AllegationsCard from 'screenings/AllegationsCard'
+import CrossReportCard from 'screenings/CrossReportCard'
+import DecisionCard from 'screenings/DecisionCard'
+import IncidentInformationCard from 'screenings/IncidentInformationCard'
+import NarrativeCard from 'screenings/NarrativeCard'
+import ScreeningInformationCard from 'screenings/ScreeningInformationCard'
+import WorkerSafetyCard from 'screenings/WorkerSafetyCard'
 import {shallow} from 'enzyme'
 
 describe('ScreeningPage', () => {
@@ -208,7 +215,7 @@ describe('ScreeningPage', () => {
       })
 
       it('renders the screening information card', () => {
-        const card = component.find({title: 'Screening Information'})
+        const card = component.find(ScreeningInformationCard)
         expect(card.exists()).toEqual(true)
       })
 
@@ -218,22 +225,22 @@ describe('ScreeningPage', () => {
       })
 
       it('renders the narrative card', () => {
-        const card = component.find({title: 'Narrative'})
+        const card = component.find(NarrativeCard)
         expect(card.exists()).toEqual(true)
       })
 
       it('renders the incident information show card', () => {
-        const card = component.find({title: 'Incident Information'})
+        const card = component.find(IncidentInformationCard)
         expect(card.exists()).toEqual(true)
       })
 
       it('renders the allegations card', () => {
-        const card = component.find({title: 'Allegations'})
+        const card = component.find(AllegationsCard)
         expect(card.exists()).toEqual(true)
       })
 
       it('renders the worker safety card', () => {
-        const card = component.find({title: 'Worker Safety'})
+        const card = component.find(WorkerSafetyCard)
         expect(card.exists()).toEqual(true)
       })
 
@@ -243,12 +250,12 @@ describe('ScreeningPage', () => {
       })
 
       it('renders the cross report show card', () => {
-        const card = component.find({title: 'Cross Report'})
+        const card = component.find(CrossReportCard)
         expect(card.exists()).toEqual(true)
       })
 
       it('renders the decision show card', () => {
-        const card = component.find({title: 'Decision'})
+        const card = component.find(DecisionCard)
         expect(card.exists()).toEqual(true)
       })
 
