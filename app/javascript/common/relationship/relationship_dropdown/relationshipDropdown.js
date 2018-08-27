@@ -202,8 +202,6 @@ const checkGivenData = (primaryClient, secondaryClient) => {
 }
 const relationshipDropdown = (primaryClient, secondaryClient) => {
   const parsedData = checkGivenData(primaryClient, secondaryClient)
-  console.log('parsedData')
-  console.log(parsedData)
   let includeGenderCodes = []
   if (!parsedData.genderBothUnknown) {
     includeGenderCodes.push(

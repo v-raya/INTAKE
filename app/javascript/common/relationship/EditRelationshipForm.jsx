@@ -21,12 +21,7 @@ const findTypeLabel = (typeCode) => {
 
 
 const EditRelationshipForm = ({editFormRelationship, onChange, person, relationship}) => {
-  console.log('person')
-  console.log(person)
-  console.log('relationship')
-  console.log(relationship)
-  console.log('editFormRelationship')
-  console.log(editFormRelationship)
+
 
   const relationshipTypeList = relationshipDropdown(
     person,
