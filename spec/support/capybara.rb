@@ -75,7 +75,7 @@ end
 
 Capybara.register_server :puma do |app, port, host|
   require 'rack/handler/puma'
-  Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: '1:6')
+  Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: '10:10', config_files: [])
 end
 
 Capybara.server = :puma
