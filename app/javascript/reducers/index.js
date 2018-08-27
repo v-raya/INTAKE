@@ -1,4 +1,5 @@
 import allegationsForm from 'reducers/allegationsFormReducer'
+import candidates from 'reducers/candidatesReducer'
 import crossReportForm from 'reducers/crossReportFormReducer'
 import errors from 'reducers/errorsReducer'
 import incidentInformationForm from 'reducers/incidentInformationFormReducer'
@@ -27,6 +28,7 @@ import systemCodes from 'reducers/systemCodes'
 
 const rootReducer = combineReducers({
   allegationsForm,
+  candidates,
   crossReportForm,
   errors,
   incidentInformationForm,
