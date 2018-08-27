@@ -191,15 +191,15 @@ header {
 }
 
 .page-header-container {
-  margin-top: 61px;
+  margin-top: 6rem;
   position: fixed;
   width: 100%;
-  z-index: 999;
+  z-index: 1001;
 }
 
 .snapshot-inner-container,
 .hotline-inner-container {
-  left: 308px;
+  left: 29rem;
   z-index: 999;
 }
 
@@ -207,11 +207,9 @@ header {
   position: fixed;
 }
 
-.shim {
-  display: block;
-  padding: 71px;
-  width: 100%;
-  z-index: -1;
+.back-to-dashboard {
+  padding-top: 15rem;
+  z-index: 999;
 }
 
 .page-header-mast {

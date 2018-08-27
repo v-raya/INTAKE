@@ -158,7 +158,6 @@ export class ScreeningPage extends React.Component {
           <PageHeader pageTitle={this.props.screeningTitle} button={this.submitButton()} />
           <BreadCrumb navigationElements={[<Link key={this.props.params.id} to={urlHelper('/')}>CaseLoad</Link>]}/>
         </div>
-        <div className='shim'/>
         <div className='container hotline-container'>
           {this.renderScreening()}
         </div>

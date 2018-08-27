@@ -79,7 +79,6 @@ export class SnapshotPage extends React.Component {
           <PageHeader pageTitle='Snapshot' button={this.startOverButton()} />
           <BreadCrumb />
         </div>
-        <div className='shim'/>
         <div className='container snapshot-container'>
           <div className='row'>
             <SnapshotSideBar participants={participants} />
