@@ -213,10 +213,32 @@
     max-height: 15rem;
     max-width: 15rem;
   }
+
+  .snapshot-inner-container,
+  .hotline-inner-container {
+    left: 24rem;
+    z-index: 999;
+  }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
   .screening-endtime label {
     margin-bottom: 2.5rem;
   }
+
+  .snapshot-inner-container,
+  .hotline-inner-container {
+    left: 23rem;
+    z-index: 999;
+  }
+
+}
+
+@media (min-width: 1200px) {
+  .snapshot-inner-container,
+  .hotline-inner-container {
+    left: 29rem;
+    z-index: 999;
+  }
+
 }
