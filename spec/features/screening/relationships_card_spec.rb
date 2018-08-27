@@ -273,7 +273,7 @@ feature 'Relationship card' do
           click_button 'Create a new person'
         end
 
-        within edit_participant_card_selector(new_participant.id), wait: 5 do
+        within edit_participant_card_selector(new_participant.id) do
           should_have_content('Jane Campbell', inside: '.card-header')
         end
 
