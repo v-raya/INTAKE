@@ -17,6 +17,10 @@ const GENDERS = Object.freeze({
   female: 'F',
   intersex: 'I',
   unknown: 'U',
+  M: 'M',
+  F: 'F',
+  U: 'U',
+  I: 'I',
 })
 
 export default GENDERS
