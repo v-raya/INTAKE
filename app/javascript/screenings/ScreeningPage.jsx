@@ -44,7 +44,10 @@ export class ScreeningPage extends React.Component {
       setPageMode(mode || 'show')
       fetchScreening(id)
       fetchHistoryOfInvolvements('screenings', id)
-    } else { fetchScreening(null) }
+    } else {
+      setPageMode('edit')
+      fetchScreening(null)
+    }
   }
 
   componentWillUnmount() {
