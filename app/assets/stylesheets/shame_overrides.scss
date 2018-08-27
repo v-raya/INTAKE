@@ -191,7 +191,7 @@ header {
 }
 
 .page-header-container {
-  margin-top: 6rem;
+  margin-top: $banner-height;
   position: fixed;
   width: 100%;
   z-index: 1000;
@@ -202,7 +202,7 @@ header {
 }
 
 .back-to-dashboard {
-  padding-top: 15rem;
+  padding-top: $page-header-height + $banner-height;
 }
 
 .hotline-inner-container,
