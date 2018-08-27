@@ -28,9 +28,6 @@ const EditRelationshipForm = ({editFormRelationship, onChange, person, relations
     relationship
   )
 
-  console.log('relationshipTypeList')
-  console.log(relationshipTypeList)
-
   const type = findTypeLabel(editFormRelationship.relationship_type)
 
   return (
