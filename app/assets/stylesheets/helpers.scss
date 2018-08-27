@@ -213,11 +213,6 @@
     max-height: 15rem;
     max-width: 15rem;
   }
-
-  .snapshot-inner-container,
-  .hotline-inner-container {
-    left: 24rem;
-  }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -225,17 +220,5 @@
     margin-bottom: 2.5rem;
   }
 
-  .snapshot-inner-container,
-  .hotline-inner-container {
-    left: 23rem;
-  }
-
 }
 
-@media (min-width: 1200px) {
-  .snapshot-inner-container,
-  .hotline-inner-container {
-    left: 29rem;
-  }
-
-}
