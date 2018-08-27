@@ -1,72 +1,70 @@
-import { formatClient } from '../../../../../_utils/formatters';
-
 export const clientFrodo = {
-  identifier: 'DZGcEEgaa1',
-  birth_dt: '2003-03-13',
+  id: 'DZGcEEgaa1',
+  dateOfBirth: '03/13/2003',
   common_first_name: 'Froddo',
   common_last_name: 'Baggins',
   gender_code: 'M',
 };
 
 export const clientGandalf = {
-  identifier: 'JoLW4VKaa1',
-  birth_dt: '1935-03-13',
+  id: 'JoLW4VKaa1',
+  dateOfBirth: '03/13/1935',
   common_first_name: 'Gandalf',
   common_last_name: 'Wizard',
   gender_code: 'M',
 };
 
 export const clientHarmoine = {
-  identifier: 'NFOtBZeaa1',
-  birth_dt: '1973-03-13',
+  id: 'NFOtBZeaa1',
+  dateOfBirth: '03/13/1973',
   common_first_name: 'Hermione',
   common_last_name: 'Granger',
   gender_code: 'F',
 };
 
 export const clientGandalfNoDOB = {
-  identifier: 'JoLW4VKaa1',
-  birth_dt: '',
+  id: 'JoLW4VKaa1',
+  dateOfBirth: '',
   common_first_name: 'Gandalf',
   common_last_name: 'Wizard',
   gender_code: 'M',
 };
 
 export const clientHarmoineNoDOB = {
-  identifier: 'NFOtBZeaa1',
-  birth_dt: '',
+  id: 'NFOtBZeaa1',
+  dateOfBirth: '',
   common_first_name: 'Hermione',
   common_last_name: 'Granger',
   gender_code: 'F',
 };
 
 export const clientFrodoUnkownGender = {
-  identifier: 'DZGcEEgaa1',
-  birth_dt: '2003-03-13',
+  id: 'DZGcEEgaa1',
+  dateOfBirth: '03/13/2003',
   common_first_name: 'Froddo',
   common_last_name: 'Baggins',
   gender_code: 'U',
 };
 
 export const clientFrodoUnkownGenderNoDOB = {
-  identifier: 'DZGcEEgaa1',
-  birth_dt: '',
+  id: 'DZGcEEgaa1',
+  dateOfBirth: '',
   common_first_name: 'Froddo',
   common_last_name: 'Baggins',
   gender_code: 'U',
 };
 
 export const clientHarmoineUnknowGenderNoDOB = {
-  identifier: 'NFOtBZeaa1',
-  birth_dt: '',
+  id: 'NFOtBZeaa1',
+  dateOfBirth: '',
   common_first_name: 'Hermione',
   common_last_name: 'Granger',
   gender_code: 'U',
 };
 
 export const clientGandalfUnknowGender = {
-  identifier: 'JoLW4VKaa1',
-  birth_dt: '1973-03-13',
+  id: 'JoLW4VKaa1',
+  dateOfBirth: '03/13/1973',
   common_first_name: 'Gandalf',
   common_last_name: 'Wizard',
   gender_code: 'U',
@@ -148,20 +146,3 @@ export const genderCodeFf = {
   label: 'Mother/Daughter (Birth)',
 };
 
-export const clientFrodoFormatted = formatClient(clientFrodo);
-export const clientGandalfFormatted = formatClient(clientGandalf);
-export const clientHarmoineFormatted = formatClient(clientHarmoine);
-export const clientGandalfNoDOBFormatted = formatClient(clientGandalfNoDOB);
-export const clientHarmoineNoDOBFormatted = formatClient(clientHarmoineNoDOB);
-export const clientFrodoUnknowGenderFromatted = formatClient(
-  clientFrodoUnkownGender
-);
-export const clientFrodoUnkownGenderNoDOBFormatted = formatClient(
-  clientFrodoUnkownGenderNoDOB
-);
-export const clientHarmoineUnknowGenderNoDOBFormatted = formatClient(
-  clientHarmoineUnknowGenderNoDOB
-);
-export const clientGandalfUnknowGenderFormatted = formatClient(
-  clientGandalfUnknowGender
-);

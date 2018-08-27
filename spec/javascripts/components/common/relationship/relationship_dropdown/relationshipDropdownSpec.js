@@ -1,14 +1,14 @@
-import relationshipDropdown from './relationshipDropdown';
+import relationshipDropdown from 'common/relationship/relationship_dropdown/relationshipDropdown';
 import {
-  clientFrodoFormatted,
-  clientGandalfFormatted,
-  clientHarmoineFormatted,
-  clientGandalfNoDOBFormatted,
-  clientHarmoineNoDOBFormatted,
-  clientFrodoUnknowGenderFromatted,
-  clientFrodoUnkownGenderNoDOBFormatted,
-  clientHarmoineUnknowGenderNoDOBFormatted,
-  clientGandalfUnknowGenderFormatted,
+  clientFrodo,
+  clientGandalf,
+  clientHarmoine,
+  clientGandalfNoDOB,
+  clientHarmoineNoDOB,
+  clientFrodoUnknowGender,
+  clientFrodoUnkownGenderNoDOB,
+  clientHarmoineUnknowGenderNoDOB,
+  clientGandalfUnknowGender,
   genderCodeFF,
   genderCodefF,
   genderCodeFf,
@@ -21,13 +21,13 @@ import {
   genderCodeMm,
   genderCodemM,
   genderCodeMM,
-} from './testHelperConstants';
+} from './helperMethodsSpec';
 
 describe('RelationshipDropdown', () => {
   describe('#1bothHaveDOBandGender | Younger Male - Older Male', () => {
     const wrapper = relationshipDropdown(
-      clientFrodoFormatted,
-      clientGandalfFormatted
+      clientFrodo,
+      clientGandalf
     );
 
     it('should return only | Male - Male', () => {
@@ -42,8 +42,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#2bothHaveDOBandGender | Older Male - Younder Male', () => {
     const wrapper = relationshipDropdown(
-      clientGandalfFormatted,
-      clientFrodoFormatted
+      clientGandalf,
+      clientFrodo
     );
 
     it('should return only | Older Male - Younger Male', () => {
@@ -53,8 +53,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#3bothHaveDOBandGender | Older Female - Younger Male', () => {
     const wrapper = relationshipDropdown(
-      clientHarmoineFormatted,
-      clientFrodoFormatted
+      clientHarmoine,
+      clientFrodo
     );
     it('should return only | Female - Male', () => {
       expect(wrapper).toEqual(expect.arrayContaining([genderCodeFM]));
@@ -68,8 +68,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#4.1bothHaveDOBnoPrmaryGender Primary Younger', () => {
     const wrapper = relationshipDropdown(
-      clientFrodoUnknowGenderFromatted,
-      clientGandalfFormatted
+      clientFrodoUnknowGender,
+      clientGandalf
     );
 
     it('should return mixed younger and Older Male', () => {
@@ -89,8 +89,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#4.2bothHaveDOBnoPrmaryGender Secondary Younger', () => {
     const wrapper = relationshipDropdown(
-      clientGandalfUnknowGenderFormatted,
-      clientFrodoFormatted
+      clientGandalfUnknowGender,
+      clientFrodo
     );
 
     it('should return mixed younger and Older Male', () => {
@@ -110,8 +110,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#5bothHaveDOBnoSecndryGender Secondary Gender Unknow', () => {
     const wrapper = relationshipDropdown(
-      clientGandalfFormatted,
-      clientFrodoUnknowGenderFromatted
+      clientGandalf,
+      clientFrodoUnknowGender
     );
 
     it('should return mixed older and Younger Male', () => {
@@ -131,8 +131,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#6bothHaveDOBnoGender Both Gender Unknown', () => {
     const wrapper = relationshipDropdown(
-      clientGandalfUnknowGenderFormatted,
-      clientFrodoUnknowGenderFromatted
+      clientGandalfUnknowGender,
+      clientFrodoUnknowGender
     );
 
     it('should return mixed older and Younger Male', () => {
@@ -155,8 +155,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#7NotbothHaveDOB && bothHaveKnownGender Both Known Gender UnKnown DOB', () => {
     const wrapper = relationshipDropdown(
-      clientFrodoFormatted,
-      clientGandalfNoDOBFormatted
+      clientFrodo,
+      clientGandalfNoDOB
     );
 
     it('should return only Older or Younger Male gender', () => {
@@ -171,8 +171,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#8NotbothHaveDOB && bothHaveKnownGender - Female Known Gender UnKnown DOB', () => {
     const wrapper = relationshipDropdown(
-      clientHarmoineNoDOBFormatted,
-      clientFrodoFormatted
+      clientHarmoineNoDOB,
+      clientFrodo
     );
 
     it('should return only Older or Younger Female gender', () => {
@@ -187,8 +187,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#9.1noDOBnoGender Both DOB & Gender Unknown', () => {
     const wrapper = relationshipDropdown(
-      clientFrodoUnkownGenderNoDOBFormatted,
-      clientHarmoineUnknowGenderNoDOBFormatted
+      clientFrodoUnkownGenderNoDOB,
+      clientHarmoineUnknowGenderNoDOB
     );
 
     it('should return mixed list', () => {
@@ -208,8 +208,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#9.2noDOBnoGender Primary DOB & Gender Unknown', () => {
     const wrapper = relationshipDropdown(
-      clientFrodoUnkownGenderNoDOBFormatted,
-      clientGandalfNoDOBFormatted
+      clientFrodoUnkownGenderNoDOB,
+      clientGandalfNoDOB
     );
 
     it('should return mixed list', () => {
@@ -227,8 +227,8 @@ describe('RelationshipDropdown', () => {
 
   describe('#9.3noDOBnoGender Secondary DOB & Gender Unknown', () => {
     const wrapper = relationshipDropdown(
-      clientGandalfNoDOBFormatted,
-      clientFrodoUnkownGenderNoDOBFormatted
+      clientGandalfNoDOB,
+      clientFrodoUnkownGenderNoDOB
     );
 
     it('should return mixed list', () => {
