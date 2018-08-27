@@ -35,13 +35,13 @@ const mapDispatchToProps = (dispatch, _ownProps) => {
   const onChange = (value) => dispatch(setSearchTerm(value))
   const onSearch = (value) => dispatch(search(value))
   const onLoadMoreResults = () => dispatch(loadMoreResults())
-  const onSearchAddress = () => dispatch(includeAddressClicked())
+  const onIncludeAddressClicked = () => dispatch(includeAddressClicked())
   return {
     onSearch,
     onClear,
     onChange,
     onLoadMoreResults,
-    onSearchAddress,
+    onIncludeAddressClicked,
     dispatch,
   }
 }

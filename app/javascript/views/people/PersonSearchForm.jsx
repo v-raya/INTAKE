@@ -1,15 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Autocompleter from 'common/Autocompleter'
+import SearchByAddress from 'common/SearchByAddress'
 
 export class PersonSearchForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleIncludeAddressClicked = this.handleIncludeAddressClicked.bind(this)
+  }
+
   componentWillUnmount() {
     this.props.onClear()
     this.props.onChange('')
   }
 
+  handleIncludeAddressClicked() {
+    this.props.onIncludeAddressClicked()
+  }
+
   render() {
     const {
+      searchAddress,
       searchPrompt,
       ...autocompleterProps
     } = this.props
@@ -28,6 +39,7 @@ export class PersonSearchForm extends React.Component {
                 <Autocompleter id='screening_participants' {...autocompleterProps} />
               </div>
             </div>
+            <SearchByAddress id ='search_address' searchAddress={searchAddress} includeAddressClicked={this.handleIncludeAddressClicked} />
           </div>
         </div>
       </div>
@@ -40,10 +52,12 @@ PersonSearchForm.propTypes = {
   isSelectable: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
+  onIncludeAddressClicked: PropTypes.func,
   onLoadMoreResults: PropTypes.func,
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
   results: PropTypes.array,
+  searchAddress: PropTypes.bool,
   searchPrompt: PropTypes.string.isRequired,
   searchTerm: PropTypes.string,
   staffId: PropTypes.string,

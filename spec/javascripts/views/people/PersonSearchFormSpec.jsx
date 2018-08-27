@@ -69,4 +69,17 @@ describe('PersonSearchForm', () => {
     const label = searchCard.children('.card-body').children('div').children('div').children('label')
     expect(label.text()).toContain('Search for any person')
   })
+
+  it('renders the searchByAddress', () => {
+    const component = renderPersonSearchForm({})
+    const searchByAddress = component.find('SearchByAddress')
+    expect(searchByAddress.exists()).toEqual(true)
+    expect(searchByAddress.props().id).toEqual('search_address')
+  })
+
+  it('passes searchAddress as props to the SearchByAddress', () => {
+    const component = renderPersonSearchForm({searchAddress: true})
+    const searchByAddress = component.find('SearchByAddress')
+    expect(searchByAddress.props().searchAddress).toEqual(true)
+  })
 })
