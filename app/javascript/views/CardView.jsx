@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ClassNames from 'classnames'
 import EditLink from 'common/EditLink'
 
-const CardView = ({edit, editable, id, mode, onEdit, show, title}) => (
+const CardView = ({edit, editable, id, mode, onEdit, onShow, show, title}) => (
   <div>
     <a className='anchor' id={`${id}-anchor`}/>
     <div className={ClassNames('card', mode || 'edit', 'double-gap-bottom', 'position-relative')} id={id}>
@@ -19,19 +19,20 @@ const CardView = ({edit, editable, id, mode, onEdit, show, title}) => (
           />
         }
       </div>
-      {(mode === 'edit' || mode === undefined) && edit}
+      {(mode === 'edit' || mode === undefined) && edit && React.cloneElement(edit, {onShow})}
       {mode === 'show' && show}
     </div>
   </div>
 )
 
 CardView.propTypes = {
-  edit: PropTypes.object,
+  edit: PropTypes.element,
   editable: PropTypes.bool,
   id: PropTypes.string,
   mode: PropTypes.string,
   onEdit: PropTypes.func,
-  show: PropTypes.object,
+  onShow: PropTypes.func,
+  show: PropTypes.element,
   title: PropTypes.string,
 }
 

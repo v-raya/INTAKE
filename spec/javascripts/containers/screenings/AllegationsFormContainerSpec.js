@@ -1,25 +1,27 @@
 import {mapDispatchToProps} from 'containers/screenings/AllegationsFormContainer'
-import * as Navigation from 'utils/navigation'
 
 describe('AllegationsFormContainer', () => {
   describe('mapDispatchToProps', () => {
+    let dispatch
+    let onShow
+    let props
     beforeEach(() => {
-      spyOn(Navigation, 'setHash')
+      dispatch = jasmine.createSpy('dispatch')
+      onShow = jasmine.createSpy('onShow')
+      props = mapDispatchToProps(dispatch, {onShow})
     })
     describe('when saving', () => {
-      it('navigates to the card', () => {
-        const dispatch = jasmine.createSpy('dispatch')
-        const {onSave} = mapDispatchToProps(dispatch)
+      it('sets the card to show mode', () => {
+        const {onSave} = props
         onSave()
-        expect(Navigation.setHash).toHaveBeenCalledWith('#allegations-card-anchor')
+        expect(onShow).toHaveBeenCalled()
       })
     })
     describe('when canceling', () => {
-      it('navigates to the card', () => {
-        const dispatch = jasmine.createSpy('dispatch')
-        const {onCancel} = mapDispatchToProps(dispatch)
+      it('sets the card to show mode', () => {
+        const {onCancel} = props
         onCancel()
-        expect(Navigation.setHash).toHaveBeenCalledWith('#allegations-card-anchor')
+        expect(onShow).toHaveBeenCalled()
       })
     })
   })

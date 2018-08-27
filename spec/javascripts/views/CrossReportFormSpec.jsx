@@ -1,8 +1,6 @@
 import CrossReportForm from 'views/CrossReportForm'
 import React from 'react'
 import {shallow} from 'enzyme'
-import {SHOW_MODE} from 'actions/screeningPageActions'
-import * as Navigation from 'utils/navigation'
 
 describe('CrossReportForm', () => {
   function renderCrossReportForm({
@@ -64,7 +62,7 @@ describe('CrossReportForm', () => {
     hasAgencies = false,
     screening = {},
     screeningWithEdits = {},
-    toggleShow = () => null,
+    onShow = () => null,
   }) {
     const props = {
       actions,
@@ -85,7 +83,7 @@ describe('CrossReportForm', () => {
       hasAgencies,
       screening,
       screeningWithEdits,
-      toggleShow,
+      onShow,
     }
     return shallow(<CrossReportForm {...props} />, {disableLifecycleMethods: true})
   }
@@ -347,34 +345,30 @@ describe('CrossReportForm', () => {
     expect(cancelButton.text()).toContain('Cancel')
   })
   describe('clicking on cancel', () => {
-    it('fires setCardMode, clearCardEdits', () => {
-      spyOn(Navigation, 'setHash')
+    it('calls onShow, fires clearCardEdits', () => {
       const clearCardEdits = jasmine.createSpy('clearCardEdits')
-      const setCardMode = jasmine.createSpy('setCardMode')
+      const onShow = jasmine.createSpy('onShow')
       const cardName = 'cross-report-card'
-      const component = renderCrossReportForm({actions: {clearCardEdits, setCardMode}, cardName})
+      const component = renderCrossReportForm({actions: {clearCardEdits}, cardName, onShow})
       component.find('.btn.btn-default').simulate('click')
-      expect(setCardMode).toHaveBeenCalledWith(cardName, SHOW_MODE)
+      expect(onShow).toHaveBeenCalled()
       expect(clearCardEdits).toHaveBeenCalledWith(cardName)
-      expect(Navigation.setHash).toHaveBeenCalledWith('#cross-report-card-anchor')
     })
   })
   describe('clicking on save', () => {
-    it('fires toggleShow, saveCard', () => {
-      spyOn(Navigation, 'setHash')
+    it('calls onShow, fires saveCard', () => {
       const saveCard = jasmine.createSpy('saveCard')
       const touchAllFields = jasmine.createSpy('touchAllFields')
       const saveCrossReport = jasmine.createSpy('saveCrossReport')
-      const setCardMode = jasmine.createSpy('setCardMode')
+      const onShow = jasmine.createSpy('onShow')
       const screeningWithEdits = {id: 123, crossReports: []}
       const cardName = 'cross-report-card'
-      const component = renderCrossReportForm({actions: {saveCard, saveCrossReport, touchAllFields, setCardMode}, screeningWithEdits, cardName})
+      const component = renderCrossReportForm({actions: {saveCard, saveCrossReport, touchAllFields}, screeningWithEdits, cardName, onShow})
       component.find('button.btn-primary').simulate('click')
       expect(saveCard).toHaveBeenCalledWith(cardName)
       expect(saveCrossReport).toHaveBeenCalledWith(screeningWithEdits)
       expect(touchAllFields).toHaveBeenCalled()
-      expect(setCardMode).toHaveBeenCalledWith(cardName, SHOW_MODE)
-      expect(Navigation.setHash).toHaveBeenCalledWith('#cross-report-card-anchor')
+      expect(onShow).toHaveBeenCalled()
     })
   })
 })
