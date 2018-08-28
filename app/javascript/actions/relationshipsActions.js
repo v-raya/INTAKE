@@ -8,6 +8,7 @@ export const BATCH_CREATE_RELATIONSHIPS = 'BATCH_CREATE_RELATIONSHIPS'
 export const BATCH_CREATE_RELATIONSHIPS_COMPLETE = 'BATCH_CREATE_RELATIONSHIPS_COMPLETE'
 export const BATCH_CREATE_RELATIONSHIPS_ERROR = 'BATCH_CREATE_RELATIONSHIPS_ERROR'
 export const LOAD_CREATE_RELATIONSHIPS_CANDIDATES = 'LOAD_CREATE_RELATIONSHIPS_CANDIDATES'
+export const SET_CANDIDATE_FORM_FIELD = 'SET_CANDIDATE_FORM_FIELD'
 
 export const batchCreateRelationships = (relationships) => ({
   payload: {relationships},
@@ -38,7 +39,7 @@ export function fetchRelationships(ids, screeningId = null) {
   return {type: FETCH_RELATIONSHIPS, payload: {ids, screeningId}}
 }
 
-export const loadCreateRelationshipsCandidates = (candidates) => ({
-  payload: {candidates},
-  type: LOAD_CREATE_RELATIONSHIPS_CANDIDATES,
+export const setFieldCandidate = (personId, candidateId, fieldSet, value) => ({
+  type: SET_CANDIDATE_FORM_FIELD,
+  payload: {personId, candidateId, fieldSet, value},
 })

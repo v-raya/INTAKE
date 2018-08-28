@@ -4,6 +4,7 @@ import {dateFormatter} from 'utils/dateFormatter'
 import {FETCH_RELATIONSHIPS_COMPLETE} from 'actions/actionTypes'
 import {fromJS, List, Map} from 'immutable'
 import {genderMap} from 'selectors/screening/relationshipsSelectors'
+import {SET_CANDIDATE_FORM_FIELD} from 'actions/relationshipsActions'
 import nameFormatter from 'utils/nameFormatter'
 
 const selectPerson = (person) => (Map({
@@ -53,6 +54,14 @@ const loadCandidates = (state, {payload: {relationships}, error}) => {
   }
 }
 
+const updateCandidateForm = (state, {payload: {personId, candidateId, value}}) => {
+  const index = state.get(personId).findIndex(
+    (relatee) => relatee.getIn(['candidate', 'id']) === candidateId
+  )
+  return state.setIn([personId, index, 'candidate', 'relationshipType'], value)
+}
+
 export default createReducer(Map(), {
   [FETCH_RELATIONSHIPS_COMPLETE]: loadCandidates,
+  [SET_CANDIDATE_FORM_FIELD]: updateCandidateForm,
 })
