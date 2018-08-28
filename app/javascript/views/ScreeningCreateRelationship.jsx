@@ -4,8 +4,6 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import SelectField from 'common/SelectField'
 import PropTypes from 'prop-types'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
-import {GENDERS_LEGACY} from 'enums/Genders'
-import GENDERS from 'enums/Genders'
 
 const textWrap = {whiteSpace: 'normal'}
 export default class ScreeningCreateRelationship extends React.Component {
@@ -36,15 +34,15 @@ export default class ScreeningCreateRelationship extends React.Component {
         <ul className='unstyled-list'>
           <li>{name}</li>
           <li>{age}</li>
-          <li>{GENDERS_LEGACY[gender] || GENDERS[gender] || ''}</li>
+          <li>{gender}</li>
         </ul>
       </div>
     )
   }
 
-  modalTable(candidates) {
+  modalTable() {
     return (
-      <BootstrapTable className='displayTable' bordered={false} data={candidates}>
+      <BootstrapTable className='displayTable' bordered={false} data={this.props.candidates}>
         <TableHeaderColumn
           className = 'FocusPersonDetails'
           dataField='person'
@@ -121,7 +119,7 @@ export default class ScreeningCreateRelationship extends React.Component {
           <ModalComponent
             closeModal={this.closeModal}
             showModal={this.state.show}
-            modalBody={this.modalTable(this.props.candidates)}
+            modalBody={this.modalTable()}
             modalFooter={this.modalFooter()}
             modalSize='large'
             modalTitle={'Create Relationship'}

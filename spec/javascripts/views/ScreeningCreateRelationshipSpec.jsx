@@ -7,7 +7,7 @@ describe('ScreeningCreateRelationship', () => {
     person: 'Sally Fields 25 yrs Male',
     candidate: 'Sam Fields 30 yrs Male',
   }]
-  const cell = {name: 'Sally Fields', age: '25 yrs', gender: 'M'}
+  const cell = {name: 'Sally Fields', age: '25 yrs', gender: 'Male'}
   const wrapper = shallow(<ScreeningCreateRelationship data={data}/>)
 
   it('has a button', () => {
@@ -39,38 +39,6 @@ describe('ScreeningCreateRelationship', () => {
   })
 
   it('displayFormatter has name, age and gender', () => {
-    const displayTable = shallow(wrapper.instance().displayFormatter(cell))
-    expect(displayTable.find('ul').length).toBe(1)
-    expect(displayTable.find('li').length).toBe(3)
-    expect(displayTable.find('ul').first().find('li').first().text()).toEqual('Sally Fields')
-    expect(displayTable.find('ul').first().find('li').at(1).text()).toEqual('25 yrs')
-    expect(displayTable.find('ul').first().find('li').last().text()).toEqual('Male')
-  })
-})
-describe('Display Gender if the data is male/female/unknown/intersex', () => {
-  const genderData = [{
-    person: 'Sally Fields 25 yrs Male',
-    candidate: 'Sam Fields 30 yrs Male',
-  }]
-  const cell = {name: 'Sally Fields', age: '25 yrs', gender: 'male'}
-  const wrapper = shallow(<ScreeningCreateRelationship data={genderData}/>)
-  it('Displays gender as Male if the data is male', () => {
-    const displayTable = shallow(wrapper.instance().displayFormatter(cell))
-    expect(displayTable.find('ul').length).toBe(1)
-    expect(displayTable.find('li').length).toBe(3)
-    expect(displayTable.find('ul').first().find('li').first().text()).toEqual('Sally Fields')
-    expect(displayTable.find('ul').first().find('li').at(1).text()).toEqual('25 yrs')
-    expect(displayTable.find('ul').first().find('li').last().text()).toEqual('Male')
-  })
-})
-describe('Display Gender if the data is M/F/I/U', () => {
-  const genderData = [{
-    person: 'Sally Fields 25 yrs Male',
-    candidate: 'Sam Fields 30 yrs Male',
-  }]
-  const cell = {name: 'Sally Fields', age: '25 yrs', gender: 'M'}
-  const wrapper = shallow(<ScreeningCreateRelationship data={genderData}/>)
-  it('Displays gender as Male if the data is M', () => {
     const displayTable = shallow(wrapper.instance().displayFormatter(cell))
     expect(displayTable.find('ul').length).toBe(1)
     expect(displayTable.find('li').length).toBe(3)
