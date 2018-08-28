@@ -10,9 +10,9 @@ import {fromJS} from 'immutable'
 describe('screeningPageSelectors', () => {
   describe('getCardModeValueSelector', () => {
     it('returns the current mode for a given card', () => {
-      const screeningPage = {cards: {'some-card': 'show'}}
+      const screeningPage = {cards: {'some-card': 'limbo'}}
       const state = fromJS({screeningPage})
-      expect(getCardModeValueSelector(state, 'some-card')).toEqual('show')
+      expect(getCardModeValueSelector(state, 'some-card')).toEqual('limbo')
     })
   })
 
@@ -27,6 +27,13 @@ describe('screeningPageSelectors', () => {
     it('returns false if the card is already in edit mode', () => {
       const screening = {referral_id: ''}
       const screeningPage = {cards: {'some-card': 'edit'}}
+      const state = fromJS({screening, screeningPage})
+      expect(getCardIsEditableSelector(state, 'some-card')).toEqual(false)
+    })
+
+    it('returns false if the card is in process of saving', () => {
+      const screening = {referral_id: ''}
+      const screeningPage = {cards: {'some-card': 'saving'}}
       const state = fromJS({screening, screeningPage})
       expect(getCardIsEditableSelector(state, 'some-card')).toEqual(false)
     })

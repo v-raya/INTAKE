@@ -10,7 +10,6 @@ export function setPageMode(mode) {
 export function setPersonCardMode(personId, mode) {
   return {type: SET_PERSON_CARD_MODE, payload: {personId, mode}}
 }
-
 export function setCardMode(card, mode) {
   return {type: SET_SCREENING_CARD_MODE, payload: {card, mode}}
 }

@@ -3,7 +3,13 @@ import screeningPageReducer from 'reducers/screeningPageReducer'
 import {Map, fromJS} from 'immutable'
 import {createPersonSuccess, createPersonFailure} from 'actions/personCardActions'
 import {setPageMode, setPersonCardMode, setCardMode} from 'actions/screeningPageActions'
-import {fetchScreeningSuccess, fetchScreeningFailure} from 'actions/screeningActions'
+import {
+  fetchScreeningSuccess,
+  fetchScreeningFailure,
+  saveCard,
+  saveSuccess,
+  saveFailure,
+} from 'actions/screeningActions'
 
 describe('screeningPageReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -166,6 +172,65 @@ describe('screeningPageReducer', () => {
           initialState
         )
       })
+    })
+  })
+
+  describe('on SAVE_SCREENING', () => {
+    const initialState = fromJS({
+      cards: {
+        'narrative-card': 'edit',
+        'allegations-card': 'edit',
+        'decision-card': 'show',
+      },
+    })
+
+    it('sets the saved card to saving mode', () => {
+      const action = saveCard('narrative-card')
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState.getIn(['cards', 'narrative-card'])).toEqual('saving')
+    })
+
+    it('leaves other cards untouched', () => {
+      const action = saveCard('narrative-card')
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState.getIn(['cards', 'allegations-card'])).toEqual('edit')
+      expect(newState.getIn(['cards', 'decision-card'])).toEqual('show')
+    })
+  })
+
+  describe('on SAVE_SCREENING_COMPLETE', () => {
+    const initialState = fromJS({
+      cards: {
+        'narrative-card': 'saving',
+        'allegations-card': 'saving',
+        'worker-safety-card': 'edit',
+        'decision-card': 'show',
+      },
+    })
+    it('sets any saving cards to Show mode on success', () => {
+      const action = saveSuccess('Fake Screening')
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState).toEqualImmutable(fromJS({
+        cards: {
+          'narrative-card': 'show',
+          'allegations-card': 'show',
+          'worker-safety-card': 'edit',
+          'decision-card': 'show',
+        },
+      }))
+    })
+
+    it('sets any saving cards to Show mode on error', () => {
+      const action = saveFailure('Error!')
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState).toEqualImmutable(fromJS({
+        cards: {
+          'narrative-card': 'show',
+          'allegations-card': 'show',
+          'worker-safety-card': 'edit',
+          'decision-card': 'show',
+        },
+      }))
     })
   })
 })

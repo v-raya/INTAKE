@@ -39,6 +39,12 @@ describe('NarrativeForm', () => {
   it('renders a card action row', () => {
     const component = renderNarrative({})
     expect(component.find('CardActionRow').exists()).toEqual(true)
+    expect(component.find('CardActionRow').props().isLoading).not.toBeTruthy()
+  })
+
+  it('passes isSaving through to CardActionRow', () => {
+    const component = renderNarrative({isSaving: true})
+    expect(component.find('CardActionRow').props().isLoading).toEqual(true)
   })
 
   it('canceling edit calls onCancel', () => {

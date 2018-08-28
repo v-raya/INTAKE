@@ -8,6 +8,7 @@ import {
   EDIT_MODE,
   SHOW_MODE,
 } from 'actions/screeningPageActions'
+import {SAVE_SCREENING, SAVE_SCREENING_COMPLETE} from 'actions/screeningActions'
 import {createReducer} from 'utils/createReducer'
 
 function cards(mode) {
@@ -59,4 +60,7 @@ export default createReducer(Map(), {
       return state.setIn(['peopleCards', person.id], EDIT_MODE)
     }
   },
+  [SAVE_SCREENING]: (state, {payload: {card}}) => state.setIn(['cards', card], 'saving'),
+  [SAVE_SCREENING_COMPLETE]: (state, _action) =>
+    state.update('cards', Map(), (cards) => cards.map((mode) => (mode === 'saving' ? 'show' : mode))),
 })

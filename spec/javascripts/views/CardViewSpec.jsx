@@ -78,6 +78,30 @@ describe('Card View', () => {
     })
   })
 
+  describe('when mode is saving', () => {
+    const mode = 'saving'
+    it('adds edit as a class', () => {
+      const card = renderCardView({mode})
+      expect(card.find('.edit').exists()).toEqual(true)
+      expect(card.find('.show').exists()).toEqual(false)
+    })
+
+    it('renders the edit prop, but not the show', () => {
+      const edit = <span>Edit</span>
+      const show = <span>Show</span>
+      const card = renderCardView({edit, mode, show})
+      expect(card.text()).toContain('Edit')
+      expect(card.text()).not.toContain('Show')
+    })
+
+    it('sets isSaving on the edit prop child', () => {
+      const edit = <span className='my-edit'>Edit</span>
+      const card = renderCardView({edit, mode})
+
+      expect(card.find('.my-edit').props().isSaving).toEqual(true)
+    })
+  })
+
   describe('when mode is show', () => {
     const mode = 'show'
 
