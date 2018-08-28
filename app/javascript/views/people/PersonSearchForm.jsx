@@ -36,10 +36,10 @@ export class PersonSearchForm extends React.Component {
             <div className='row'>
               <div className='col-md-12'>
                 <label className='pull-left' htmlFor='screening_participants'>{searchPrompt}</label>
-                <Autocompleter id='screening_participants' {...autocompleterProps} />
+                <Autocompleter id='screening_participants' {...autocompleterProps} searchAddress={searchAddress} />
               </div>
             </div>
-            <SearchByAddress id ='search_address' searchAddress={searchAddress} includeAddressClicked={this.handleIncludeAddressClicked} />
+            <SearchByAddress id='search_address' searchAddress={searchAddress} includeAddressClicked={this.handleIncludeAddressClicked} />
           </div>
         </div>
       </div>

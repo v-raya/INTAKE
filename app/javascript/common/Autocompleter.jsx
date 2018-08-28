@@ -98,7 +98,11 @@ export default class Autocompleter extends Component {
   }
 
   renderMenu(items, _searchTerm, _style) {
-    return (<div className='autocomplete-menu'>{items}</div>)
+    if (this.props.searchAddress) {
+      return <div className='autocomplete-menu menu-with-address'>{items}</div>
+    } else {
+      return <div className='autocomplete-menu menu-without-address'>{items}</div>
+    }
   }
 
   renderEachItem(item, id, isHighlighted) {
@@ -202,6 +206,7 @@ Autocompleter.propTypes = {
   onSearch: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   results: PropTypes.array,
+  searchAddress: PropTypes.bool,
   searchTerm: PropTypes.string,
   staffId: PropTypes.string,
   startTime: PropTypes.string,

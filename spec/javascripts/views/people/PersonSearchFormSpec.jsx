@@ -44,6 +44,12 @@ describe('PersonSearchForm', () => {
     expect(autocompleter.props().id).toEqual('screening_participants')
   })
 
+  it('passes searchAddress as props to the Autocompleter', () => {
+    const component = renderPersonSearchForm({searchAddress: true})
+    const autocompleter = component.find('SearchByAddress')
+    expect(autocompleter.props().searchAddress).toEqual(true)
+  })
+
   it('passes isSelectable from props to the autocompleter', () => {
     const isSelectable = jasmine.createSpy('isSelectable')
     const component = renderPersonSearchForm({isSelectable})
