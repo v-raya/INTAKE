@@ -2,6 +2,7 @@ import ScreeningCreateRelationshipContainer from 'containers/screenings/Screenin
 import React from 'react'
 import {createMockStore} from 'redux-test-utils'
 import {fromJS} from 'immutable'
+import * as relationshipsActions from 'actions/relationshipsActions'
 import {shallow} from 'enzyme'
 
 describe('ScreeningCreateRelationshipContainer', () => {
@@ -52,7 +53,6 @@ describe('ScreeningCreateRelationshipContainer', () => {
 
   it('renders candidates', () => {
     expect(component.find('ScreeningCreateRelationship').props()).toEqual({
-      personId: '1',
       candidates: [{
         person: {
           age: '20 yrs',
@@ -86,6 +86,20 @@ describe('ScreeningCreateRelationshipContainer', () => {
           name: 'Walter A White, Sr',
         },
       }],
+      onChange: jasmine.any(Function),
+      personId: '1',
+    })
+  })
+
+  describe('onChange', () => {
+    it('calls setFieldCandidate with person id, candidate id, fieldSet, and value', () => {
+      const setFieldCandidateSpy = spyOn(relationshipsActions, 'setFieldCandidate')
+
+      component
+        .find('ScreeningCreateRelationship')
+        .props()
+        .onChange('1', '805', 'relationshipType', '190')
+      expect(setFieldCandidateSpy).toHaveBeenCalledWith('1', '805', 'relationshipType', '190')
     })
   })
 })
