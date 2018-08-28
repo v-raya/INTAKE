@@ -56,7 +56,8 @@ describe PersonSearchQueryBuilder do
             'highlight',
             'legacy_descriptor',
             'sensitivity_indicator',
-            'race_ethnicity'
+            'race_ethnicity',
+            'open_case_responsible_agency_code'
           ],
           highlight: {
             order: 'score',
@@ -214,7 +215,8 @@ describe PersonSearchQueryBuilder do
             'highlight',
             'legacy_descriptor',
             'sensitivity_indicator',
-            'race_ethnicity'
+            'race_ethnicity',
+            'open_case_responsible_agency_code'
           ],
           highlight: {
             order: 'score',

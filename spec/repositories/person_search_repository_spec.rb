@@ -53,7 +53,8 @@ describe PersonSearchRepository do
         'highlight',
         'legacy_descriptor',
         'sensitivity_indicator',
-        'race_ethnicity'
+        'race_ethnicity',
+        'open_case_responsible_agency_code'
       ]
     end
     let(:highlight) do
