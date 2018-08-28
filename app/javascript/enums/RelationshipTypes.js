@@ -395,7 +395,12 @@ export const RELATIONSHIP_TYPES = Object.freeze([
     gender_code: 'MM',
     label: 'Great-Uncle/Nephew (Paternal)',
   },
-  { value: 241, logical_code: 'GU', gender_code: 'UU', label: 'Guardian/Ward' },
+  {
+    value: 241,
+    logical_code: 'GU',
+    gender_code: 'UU',
+    label: 'Guardian/Ward',
+  },
   {
     value: 242,
     logical_code: 'OTH',
@@ -618,7 +623,12 @@ export const RELATIONSHIP_TYPES = Object.freeze([
     gender_code: 'FM',
     label: 'Sister/Brother (Step)',
   },
-  { value: 279, logical_code: 'SI', gender_code: 'FF', label: 'Sister/Sister' },
+  {
+    value: 279,
+    logical_code: 'SI',
+    gender_code: 'FF',
+    label: 'Sister/Sister',
+  },
   {
     value: 280,
     logical_code: 'SI',

@@ -74,11 +74,10 @@ describe('RelationshipDropdown', () => {
 
     it('should return mixed younger and Older Male', () => {
       expect(wrapper).toContain(
-          genderCodeMM,
-          genderCodemM,
-          genderCodeFM,
-          genderCodefM,
-      )
+        genderCodeMM,
+        genderCodemM,
+        genderCodeFM,
+        genderCodefM)
       expect(wrapper).not.toContain(genderCodeMm, genderCodeFm)
     })
   })
@@ -91,11 +90,10 @@ describe('RelationshipDropdown', () => {
 
     it('should return mixed younger and Older Male', () => {
       expect(wrapper).toContain(
-          genderCodeMM,
-          genderCodeMm,
-          genderCodeFM,
-          genderCodeFm,
-      )
+        genderCodeMM,
+        genderCodeMm,
+        genderCodeFM,
+        genderCodeFm)
       expect(wrapper).not.toContain(genderCodemM, genderCodefM)
     })
   })
@@ -108,11 +106,10 @@ describe('RelationshipDropdown', () => {
 
     it('should return mixed older and Younger Male', () => {
       expect(wrapper).toContain(
-          genderCodeMm,
-          genderCodeMf,
-          genderCodeMF,
-          genderCodeMM,
-      )
+        genderCodeMm,
+        genderCodeMf,
+        genderCodeMF,
+        genderCodeMM)
       expect(wrapper).not.toContain(genderCodemM, genderCodefM)
     })
   })
@@ -125,14 +122,13 @@ describe('RelationshipDropdown', () => {
 
     it('should return mixed older and Younger Male', () => {
       expect(wrapper).toContain(
-          genderCodeMm,
-          genderCodeMf,
-          genderCodeMF,
-          genderCodeMM,
-          genderCodeFm,
-          genderCodeFf,
-          genderCodeFF,
-      )
+        genderCodeMm,
+        genderCodeMf,
+        genderCodeMF,
+        genderCodeMM,
+        genderCodeFm,
+        genderCodeFf,
+        genderCodeFF)
       expect(wrapper).not.toContain(genderCodemM, genderCodefM)
     })
   })
@@ -140,8 +136,7 @@ describe('RelationshipDropdown', () => {
   describe('#7NotbothHaveDOB && bothHaveKnownGender Both Known Gender UnKnown DOB', () => {
     const wrapper = relationshipDropdown(
       Frodo,
-      GandalfNoDOB
-    )
+      GandalfNoDOB)
 
     it('should return only Older or Younger Male gender', () => {
       expect(wrapper).toContain(genderCodeMM, genderCodemM, genderCodeMm)
@@ -152,8 +147,7 @@ describe('RelationshipDropdown', () => {
   describe('#8NotbothHaveDOB && bothHaveKnownGender - Female Known Gender UnKnown DOB', () => {
     const wrapper = relationshipDropdown(
       HarmoineNoDOB,
-      Frodo
-    )
+      Frodo)
 
     it('should return only Older or Younger Female gender', () => {
       expect(wrapper).toContain(genderCodeFM, genderCodeFm, genderCodefM)
@@ -164,19 +158,17 @@ describe('RelationshipDropdown', () => {
   describe('#9.1noDOBnoGender Both DOB & Gender Unknown', () => {
     const wrapper = relationshipDropdown(
       FrodoUnkownGenderNoDOB,
-      HarmoineUnknowGenderNoDOB
-    )
+      HarmoineUnknowGenderNoDOB)
 
     it('should return mixed list', () => {
       expect(wrapper).toContain(
-          genderCodeMF,
-          genderCodemF,
-          genderCodeFF,
-          genderCodefF,
-          genderCodeFM,
-          genderCodeFm,
-          genderCodeFf,
-      )
+        genderCodeMF,
+        genderCodemF,
+        genderCodeFF,
+        genderCodefF,
+        genderCodeFM,
+        genderCodeFm,
+        genderCodeFf)
     })
   })
 
@@ -188,12 +180,11 @@ describe('RelationshipDropdown', () => {
 
     it('should return mixed list', () => {
       expect(wrapper).toContain(
-          genderCodeMM,
-          genderCodemM,
-          genderCodeFM,
-          genderCodefM,
-          genderCodeFm,
-      )
+        genderCodeMM,
+        genderCodemM,
+        genderCodeFM,
+        genderCodefM,
+        genderCodeFm)
     })
   })
 
@@ -205,12 +196,11 @@ describe('RelationshipDropdown', () => {
 
     it('should return mixed list', () => {
       expect(wrapper).toContain(
-          genderCodeMF,
-          genderCodemM,
-          genderCodeMf,
-          genderCodeMm,
-          genderCodemF,
-      )
+        genderCodeMF,
+        genderCodemM,
+        genderCodeMf,
+        genderCodeMm,
+        genderCodemF)
     })
   })
 })

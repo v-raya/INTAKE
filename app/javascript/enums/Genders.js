@@ -12,7 +12,7 @@ const GENDERS = Object.freeze({
   unknown: 'Unknown',
 })
 
- export const GENDER_CODES = Object.freeze({
+export const GENDER_CODES = Object.freeze({
   male: 'M',
   female: 'F',
   intersex: 'I',

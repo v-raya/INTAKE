@@ -13,24 +13,15 @@ import {
   bothHaveDOBnoPrmaryGender,
 } from './helperMethods'
 
-export const doBothHaveDOB = (primaryClient, secondaryClient) => {
-  return doesClientHaveDOB(primaryClient) && doesClientHaveDOB(secondaryClient)
-}
+export const doBothHaveDOB = (primaryClient, secondaryClient) => doesClientHaveDOB(primaryClient) && doesClientHaveDOB(secondaryClient)
 
-export const areGenderBothKnown = (primaryClient, secondaryClient) => {
-  return !isGenderUnknown(primaryClient) && !isGenderUnknown(secondaryClient)
-}
+export const areGenderBothKnown = (primaryClient, secondaryClient) => !isGenderUnknown(primaryClient) && !isGenderUnknown(secondaryClient)
 
-export const areGenderBothUnknown = (primaryClient, secondaryClient) => {
-  return isGenderUnknown(primaryClient) && isGenderUnknown(secondaryClient)
-}
-export const isGenderPriKnownSecUnknown = (primaryClient, secondaryClient) => {
-  return !isGenderUnknown(primaryClient) && isGenderUnknown(secondaryClient)
-}
+export const areGenderBothUnknown = (primaryClient, secondaryClient) => isGenderUnknown(primaryClient) && isGenderUnknown(secondaryClient)
 
-export const isGenderPriUnknownSecKnown = (primaryClient, secondaryClient) => {
-  return isGenderUnknown(primaryClient) && !isGenderUnknown(secondaryClient)
-}
+export const isGenderPriKnownSecUnknown = (primaryClient, secondaryClient) => !isGenderUnknown(primaryClient) && isGenderUnknown(secondaryClient)
+
+export const isGenderPriUnknownSecKnown = (primaryClient, secondaryClient) => isGenderUnknown(primaryClient) && !isGenderUnknown(secondaryClient)
 
 export const noDOBnoGender = (
   primaryClient,
@@ -43,32 +34,32 @@ export const noDOBnoGender = (
 
   if (genderPriUnknownSecKnown) {
     genderCodesToReturn.push(
-      'm' + secondaryClient.gender_code,
-      'f' + secondaryClient.gender_code,
-      'M' + secondaryClient.gender_code,
-      'F' + secondaryClient.gender_code,
-      'M' + secondaryClient.gender_code.toLowerCase(),
-      'F' + secondaryClient.gender_code.toLowerCase(),
-      'F' + 'U',
-      'M' + 'U'
+      `m${secondaryClient.gender_code}`,
+      `f${secondaryClient.gender_code}`,
+      `M${secondaryClient.gender_code}`,
+      `F${secondaryClient.gender_code}`,
+      `M${secondaryClient.gender_code.toLowerCase()}`,
+      `F${secondaryClient.gender_code.toLowerCase()}`,
+      'FU',
+      'MU'
     )
     genderCodesToReturn.push('UU')
   }
   if (genderPriKnownSecUnknown) {
     genderCodesToReturn.push(
-      primaryClient.gender_code + 'm',
-      primaryClient.gender_code + 'f',
-      primaryClient.gender_code + 'M',
-      primaryClient.gender_code + 'F',
-      primaryClient.gender_code.toLowerCase() + 'M',
-      primaryClient.gender_code.toLowerCase() + 'F',
-      'U' + 'F',
-      'U' + 'M'
+      `${primaryClient.gender_code}m`,
+      `${primaryClient.gender_code}f`,
+      `${primaryClient.gender_code}M`,
+      `${primaryClient.gender_code}F`,
+      `${primaryClient.gender_code.toLowerCase()}M`,
+      `${primaryClient.gender_code.toLowerCase()}F`,
+      'UF',
+      'UM'
     )
     genderCodesToReturn.push('UU')
   }
   if (genderBothUnknown) {
-    genderCodesToReturn = uniq(RELATIONSHIP_TYPES.map(rec => rec.gender_code))
+    genderCodesToReturn = uniq(RELATIONSHIP_TYPES.map((rec) => rec.gender_code))
   }
   return genderCodesToReturn
 }
@@ -93,8 +84,8 @@ const bothClientsHaveDOB = (
       secondaryClientIsYounger
     )
     includeGenderCodes.push(genderCodesReturned)
-    includeGenderCodes.push('U' + secondaryClient.gender_code)
-    includeGenderCodes.push(primaryClient.gender_code + 'U')
+    includeGenderCodes.push(`U${secondaryClient.gender_code}`)
+    includeGenderCodes.push(`${primaryClient.gender_code}U`)
     includeGenderCodes.push('UU')
   }
 
@@ -144,8 +135,8 @@ const bothClientsDontHaveDOB = (
     includeGenderCodes.push(
       primaryClient.gender_code + secondaryClient.gender_code.toLowerCase()
     )
-    includeGenderCodes.push('U' + secondaryClient.gender_code)
-    includeGenderCodes.push(primaryClient.gender_code + 'U')
+    includeGenderCodes.push(`U${secondaryClient.gender_code}`)
+    includeGenderCodes.push(`${primaryClient.gender_code}U`)
     includeGenderCodes.push('UU')
   }
 
@@ -232,9 +223,9 @@ const relationshipDropdown = (primaryClient, secondaryClient) => {
       parsedData.genderPriKnownSecUnknown
     )
   }
-  includeGenderCodes = includeGenderCodes.map(rec => rec.replace(/I/g, 'U'))
-  return RELATIONSHIP_TYPES.filter(rec =>
+  includeGenderCodes = includeGenderCodes.map((rec) => rec.replace(/I/g, 'U'))
+  return RELATIONSHIP_TYPES.filter((rec) =>
     includeGenderCodes.includes(rec.gender_code)
-  ).filter(rec => !rec.label.match(/\*/))
+  ).filter((rec) => !rec.label.match(/\*/))
 }
 export default relationshipDropdown

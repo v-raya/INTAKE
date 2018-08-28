@@ -18,18 +18,12 @@ const findTypeLabel = (typeCode) => {
   }
 }
 
-
-
 const EditRelationshipForm = ({editFormRelationship, onChange, person, relationship}) => {
-
-
   const relationshipTypeList = relationshipDropdown(
     person,
     relationship
   )
-
   const type = findTypeLabel(editFormRelationship.relationship_type)
-
   return (
     <div>
       <table className='table'>

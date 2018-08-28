@@ -1,39 +1,24 @@
-//import { DateTime } from 'luxon'
 import moment from 'moment'
 export const unknowGenderCodes = ['U', 'I']
-
-export const uniq = arr => [...new Set(arr)]
-
+export const uniq = (arr) => [...new Set(arr)]
 export const isPrimaryClientYounger = (
   primaryClientBirthDate,
-  secondaryClientBirthDate
-) => {
-  return primaryClientBirthDate > secondaryClientBirthDate
-}
+  secondaryClientBirthDate) => primaryClientBirthDate > secondaryClientBirthDate
 
 export const isSecondaryClientYounger = (
   primaryClientBirthDate,
-  secondaryClientBirthDate
-) => {
-  return primaryClientBirthDate < secondaryClientBirthDate
-}
+  secondaryClientBirthDate) => primaryClientBirthDate < secondaryClientBirthDate
 
-export const formatClientBirthDate = clientBirthDate => {
-  return moment(clientBirthDate,'MM/DD/YYYY')
-}
+export const formatClientBirthDate = (clientBirthDate) => moment(clientBirthDate, 'MM/DD/YYYY')
 
-export const getClientBirthDate = client => {
-  return formatClientBirthDate(client.dateOfBirth)
-}
+export const getClientBirthDate = (client) => formatClientBirthDate(client.dateOfBirth)
 
-export const doesClientHaveDOB = client => {
+export const doesClientHaveDOB = (client) => {
   const clientBirthDate = formatClientBirthDate(getClientBirthDate(client))
   return !isNaN(clientBirthDate)
 }
 
-export const isGenderUnknown = client => {
-  return unknowGenderCodes.includes(client.gender_code)
-}
+export const isGenderUnknown = (client) => unknowGenderCodes.includes(client.gender_code)
 
 export const bothHaveDOBandGender = (
   primaryClient,
@@ -58,7 +43,7 @@ export const bothHaveDOBnoGender = (
   primaryClientIsYounger,
   secondaryClientIsYounger
 ) => {
-  let genderCodesToReturn = []
+  const genderCodesToReturn = []
   if (primaryClientIsYounger) {
     genderCodesToReturn.push(
       'FM',
@@ -99,24 +84,24 @@ export const bothHaveDOBnoSecndryGender = (
   primaryClientIsYounger,
   secondaryClientIsYounger
 ) => {
-  let genderCodesToReturn = []
+  const genderCodesToReturn = []
   if (primaryClientIsYounger) {
     genderCodesToReturn.push(
-      primaryClient.gender_code.toLowerCase() + 'M',
-      primaryClient.gender_code.toLowerCase() + 'F',
-      primaryClient.gender_code + 'M',
-      primaryClient.gender_code + 'F'
+      `${primaryClient.gender_code.toLowerCase()}M`,
+      `${primaryClient.gender_code.toLowerCase()}F`,
+      `${primaryClient.gender_code}M`,
+      `${primaryClient.gender_code}F`
     )
   }
   if (secondaryClientIsYounger) {
     genderCodesToReturn.push(
-      primaryClient.gender_code + 'M',
-      primaryClient.gender_code + 'F',
-      primaryClient.gender_code + 'm',
-      primaryClient.gender_code + 'f'
+      `${primaryClient.gender_code}M`,
+      `${primaryClient.gender_code}F`,
+      `${primaryClient.gender_code}m`,
+      `${primaryClient.gender_code}f`
     )
   }
-  genderCodesToReturn.push('U' + 'F', 'U' + 'M')
+  genderCodesToReturn.push('UF', 'UM')
   return genderCodesToReturn
 }
 
@@ -125,23 +110,23 @@ export const bothHaveDOBnoPrmaryGender = (
   primaryClientIsYounger,
   secondaryClientIsYounger
 ) => {
-  let genderCodesToReturn = []
+  const genderCodesToReturn = []
   if (primaryClientIsYounger) {
     genderCodesToReturn.push(
-      'm' + secondaryClient.gender_code,
-      'f' + secondaryClient.gender_code,
-      'M' + secondaryClient.gender_code,
-      'F' + secondaryClient.gender_code
+      `m${secondaryClient.gender_code}`,
+      `f${secondaryClient.gender_code}`,
+      `M${secondaryClient.gender_code}`,
+      `F${secondaryClient.gender_code}`
     )
   }
   if (secondaryClientIsYounger) {
     genderCodesToReturn.push(
-      'M' + secondaryClient.gender_code,
-      'F' + secondaryClient.gender_code,
-      'M' + secondaryClient.gender_code.toLowerCase(),
-      'F' + secondaryClient.gender_code.toLowerCase()
+      `M${secondaryClient.gender_code}`,
+      `F${secondaryClient.gender_code}`,
+      `M${secondaryClient.gender_code.toLowerCase()}`,
+      `F${secondaryClient.gender_code.toLowerCase()}`
     )
   }
-  genderCodesToReturn.push('F' + 'U', 'M' + 'U')
+  genderCodesToReturn.push('FU', 'MU')
   return genderCodesToReturn
 }
