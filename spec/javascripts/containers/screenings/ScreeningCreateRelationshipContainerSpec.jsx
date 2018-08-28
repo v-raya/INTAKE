@@ -6,17 +6,42 @@ import {shallow} from 'enzyme'
 
 describe('ScreeningCreateRelationshipContainer', () => {
   const state = fromJS({
-    relationships: [{
-      date_of_birth: '2014-01-15', first_name: 'Mohammed', gender: 'male',
-      id: '1', last_name: 'John', middle_name: '',
-      name_suffix: '', sealed: false, sensitive: false,
-      candidate_to: [{
-        candidate_age: 20, candidate_first_name: 'Tina', candidate_id: '5508',
-        candidate_last_name: 'Carwithan', candidate_middle_name: '',
-        candidate_name_suffix: '',
+    candidatesForm: {
+      1: [{
+        person: {
+          age: '20 yrs',
+          dateOfBirth: '01/15/1986',
+          id: '1',
+          gender: 'Male',
+          legacyId: '3',
+          name: 'Ricky Robinson',
+        },
+        candidate: {
+          age: '30 yrs',
+          dateOfBirth: '11/11/1958',
+          id: '4157',
+          gender: 'Male',
+          name: 'New York C Pechan, Sr',
+        },
+      }, {
+        person: {
+          age: '20 yrs',
+          dateOfBirth: '01/15/1986',
+          id: '1',
+          gender: 'Male',
+          legacyId: '3',
+          name: 'Ricky Robinson',
+        },
+        candidate: {
+          age: '40 yrs',
+          dateOfBirth: '11/11/1968',
+          id: '4158',
+          gender: 'Male',
+          name: 'Walter A White, Sr',
+        },
       }],
-      relationships: [{}],
-    }],
+      2: [],
+    },
   })
   const store = createMockStore(state)
   let component
@@ -29,8 +54,38 @@ describe('ScreeningCreateRelationshipContainer', () => {
     expect(component.find('ScreeningCreateRelationship').props()).toEqual({
       personId: '1',
       candidates: [{
-        person: {dateOfBirth: '01/15/2014', legacyId: undefined, name: 'Mohammed John', gender: 'male', age: ''},
-        candidate: {candidateId: '5508', name: 'Tina Carwithan', gender: undefined, dateOfBirth: '', age: ''}}],
+        person: {
+          age: '20 yrs',
+          dateOfBirth: '01/15/1986',
+          id: '1',
+          gender: 'Male',
+          legacyId: '3',
+          name: 'Ricky Robinson',
+        },
+        candidate: {
+          age: '30 yrs',
+          dateOfBirth: '11/11/1958',
+          id: '4157',
+          gender: 'Male',
+          name: 'New York C Pechan, Sr',
+        },
+      }, {
+        person: {
+          age: '20 yrs',
+          dateOfBirth: '01/15/1986',
+          id: '1',
+          gender: 'Male',
+          legacyId: '3',
+          name: 'Ricky Robinson',
+        },
+        candidate: {
+          age: '40 yrs',
+          dateOfBirth: '11/11/1968',
+          id: '4158',
+          gender: 'Male',
+          name: 'Walter A White, Sr',
+        },
+      }],
     })
   })
 })
