@@ -80,18 +80,22 @@ feature 'screening narrative card' do
     existing_screening[:report_narrative] = 'Trying to fill in with changes'
     stub_request(
       :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
-    ).and_return(json_body(existing_screening.to_json))
+    ).and_return(proc {
+      sleep 2
+      json_body(existing_screening.to_json)
+    })
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
 
     within '#narrative-card.edit' do
-      click_button 'Save'
+      find_button('Save').click
+      expect(page).to have_button('Saving', disabled: true)
     end
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
 
     within '#narrative-card.show' do
-      expect(page).to have_content 'Trying to fill in with changes'
+      expect(page).to have_content 'Trying to fill in with changes', wait: 4
     end
 
     expect(
@@ -117,12 +121,16 @@ feature 'screening narrative card' do
     existing_screening[:report_narrative] = 'Trying to fill in with changes'
     stub_request(
       :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
-    ).and_return(json_body(existing_screening.to_json))
+    ).and_return(proc {
+      sleep 2
+      json_body(existing_screening.to_json)
+    })
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
 
     within '#narrative-card.edit' do
       click_button 'Save'
+      expect(page).to have_button('Saving', disabled: true)
     end
 
     expect(
@@ -131,7 +139,7 @@ feature 'screening narrative card' do
     ).to have_been_made
 
     within '#narrative-card.show' do
-      expect(page).to have_content 'Trying to fill in with changes'
+      expect(page).to have_content 'Trying to fill in with changes', wait: 4
     end
   end
 end
