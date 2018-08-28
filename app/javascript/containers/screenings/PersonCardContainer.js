@@ -7,7 +7,7 @@ import {
   getPersonInformationFlagValuesSelector,
 } from 'selectors/screening/personCardSelectors'
 import {savePerson, deletePerson} from 'actions/personCardActions'
-import {setPersonCardMode} from 'actions/screeningPageActions'
+import {EDIT_MODE, SHOW_MODE, setPersonCardMode} from 'actions/screeningPageActions'
 import {touchAllFields} from 'actions/peopleFormActions'
 import {setHash} from 'utils/navigation'
 
@@ -22,15 +22,15 @@ const mapStateToProps = (state, {personId}) => ({
 
 export const mapDispatchToProps = (dispatch, {personId}) => ({
   onCancel: () => {
-    dispatch(setPersonCardMode(personId, 'show'))
+    dispatch(setPersonCardMode(personId, SHOW_MODE))
     setHash(`#participants-card-${personId}`)
   },
   onDelete: () => dispatch(deletePerson(personId)),
-  onEdit: () => dispatch(setPersonCardMode(personId, 'edit')),
+  onEdit: () => dispatch(setPersonCardMode(personId, EDIT_MODE)),
   onSave: () => {
     dispatch(savePerson(personId))
     dispatch(touchAllFields(personId))
-    dispatch(setPersonCardMode(personId, 'show'))
+    dispatch(setPersonCardMode(personId, SHOW_MODE))
     setHash(`#participants-card-${personId}`)
   },
 })

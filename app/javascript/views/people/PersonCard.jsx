@@ -1,3 +1,4 @@
+import {EDIT_MODE, SHOW_MODE} from 'actions/screeningPageActions'
 import PersonCardHeader from 'views/people/PersonCardHeader'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -24,14 +25,14 @@ const PersonCard = ({
       onDelete={onDelete}
       showDelete={deletable}
       onEdit={onEdit}
-      showEdit={editable && mode === 'show'}
+      showEdit={editable && mode === SHOW_MODE}
       title={personName}
       informationPill={informationPill}
     />
     <div className='card-body'>
-      {mode === 'show' && show}
-      {mode === 'edit' && edit}
-      {mode === 'edit' && <CardActionRow onCancel={onCancel} onSave={onSave} />}
+      {mode === SHOW_MODE && show}
+      {mode === EDIT_MODE && edit}
+      {mode === EDIT_MODE && <CardActionRow onCancel={onCancel} onSave={onSave} />}
     </div>
   </div>
 )
@@ -42,7 +43,7 @@ PersonCard.propTypes = {
   editable: PropTypes.bool.isRequired,
   informationFlag: PropTypes.string,
   informationPill: PropTypes.string,
-  mode: PropTypes.oneOf(['edit', 'show']).isRequired,
+  mode: PropTypes.oneOf([EDIT_MODE, SHOW_MODE]).isRequired,
   onCancel: PropTypes.func,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,

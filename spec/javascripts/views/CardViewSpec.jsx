@@ -1,3 +1,4 @@
+import {EDIT_MODE, SHOW_MODE} from 'actions/screeningPageActions'
 import React from 'react'
 import {shallow} from 'enzyme'
 import CardView from 'views/CardView'
@@ -31,19 +32,19 @@ describe('Card View', () => {
 
   it('displays an edit button if editable is true', () => {
     const onEdit = jasmine.createSpy('onEdit')
-    const component = renderCardView({onEdit, editable: true, mode: 'show'})
+    const component = renderCardView({onEdit, editable: true, mode: SHOW_MODE})
     expect(component.find('EditLink').exists()).toEqual(true)
   })
 
   it('uses the card title for the edit link aria label', () => {
     const onEdit = jasmine.createSpy('onEdit')
-    const component = renderCardView({onEdit, title: 'My Title', editable: true, mode: 'show'})
+    const component = renderCardView({onEdit, title: 'My Title', editable: true, mode: SHOW_MODE})
     expect(component.find('EditLink').props().ariaLabel).toEqual('Edit my title')
   })
 
   it('calls onEdit when the edit button is clicked', () => {
     const onEdit = jasmine.createSpy('onEdit')
-    const component = renderCardView({onEdit, editable: true, mode: 'show'})
+    const component = renderCardView({onEdit, editable: true, mode: SHOW_MODE})
     component.find('EditLink').simulate('click', {preventDefault: () => {}})
     expect(onEdit).toHaveBeenCalled()
   })
@@ -54,7 +55,7 @@ describe('Card View', () => {
   })
 
   describe('when mode is edit', () => {
-    const mode = 'edit'
+    const mode = EDIT_MODE
     it('adds the edit mode as a class', () => {
       const card = renderCardView({mode})
       expect(card.find('.edit').exists()).toEqual(true)
@@ -103,7 +104,7 @@ describe('Card View', () => {
   })
 
   describe('when mode is show', () => {
-    const mode = 'show'
+    const mode = SHOW_MODE
 
     it('adds the mode as a class', () => {
       const card = renderCardView({mode})

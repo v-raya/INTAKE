@@ -1,3 +1,4 @@
+import {SHOW_MODE} from 'actions/screeningPageActions'
 import PersonCardView from 'screenings/PersonCardView'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -41,7 +42,7 @@ export class ScreeningPage extends React.Component {
       params: {mode, id},
     } = this.props
     if (id) {
-      setPageMode(mode || 'show')
+      setPageMode(mode || SHOW_MODE)
       fetchScreening(id)
       fetchHistoryOfInvolvements('screenings', id)
     } else {
@@ -107,7 +108,7 @@ export class ScreeningPage extends React.Component {
 
   renderScreeningFooter() {
     const {mode, editable} = this.props
-    return mode === 'show' && (
+    return mode === SHOW_MODE && (
       <div>
         <Link to='/' className='gap-right'>Home</Link>
         {editable && <Link to={`/screenings/${this.props.params.id}/edit`}>Edit</Link>}

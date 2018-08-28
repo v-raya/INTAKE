@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ClassNames from 'classnames'
 import EditLink from 'common/EditLink'
+import {EDIT_MODE, SHOW_MODE, SAVING_MODE} from 'actions/screeningPageActions'
 
-const modeClass = (mode) => (mode === 'show' ? 'show' : 'edit')
+const modeClass = (mode) => (mode === SHOW_MODE ? 'show' : 'edit')
 
 const CardView = ({edit, editable, id, mode, onEdit, onShow, show, title}) => (
   <div>
@@ -11,7 +12,7 @@ const CardView = ({edit, editable, id, mode, onEdit, onShow, show, title}) => (
     <div className={ClassNames('card', modeClass(mode), 'double-gap-bottom', 'position-relative')} id={id}>
       <div className='card-header'>
         <h2>{title}</h2>
-        {(editable && mode === 'show') &&
+        {(editable && mode === SHOW_MODE) &&
           <EditLink
             ariaLabel={`Edit ${title && title.toLowerCase()}`}
             onClick={(event) => {
@@ -21,9 +22,9 @@ const CardView = ({edit, editable, id, mode, onEdit, onShow, show, title}) => (
           />
         }
       </div>
-      {(mode === 'edit' || mode === undefined) && edit && React.cloneElement(edit, {onShow})}
-      {(mode === 'saving') && edit && React.cloneElement(edit, {isSaving: true})}
-      {mode === 'show' && show}
+      {(mode === EDIT_MODE || mode === undefined) && edit && React.cloneElement(edit, {onShow})}
+      {(mode === SAVING_MODE) && edit && React.cloneElement(edit, {isSaving: true})}
+      {mode === SHOW_MODE && show}
     </div>
   </div>
 )

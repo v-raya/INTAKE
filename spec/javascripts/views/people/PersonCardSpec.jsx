@@ -1,3 +1,4 @@
+import {EDIT_MODE, SHOW_MODE} from 'actions/screeningPageActions'
 import PersonCard from 'views/people/PersonCard'
 import React from 'react'
 import {shallow} from 'enzyme'
@@ -7,7 +8,7 @@ describe('PersonCard', () => {
     deletable = false,
     editable = false,
     informationFlag = undefined,
-    mode = 'show',
+    mode = SHOW_MODE,
     onCancel = () => null,
     onDelete = () => null,
     onEdit = () => null,
@@ -50,7 +51,7 @@ describe('PersonCard', () => {
     })
     it('renders div with id', () => {
       const component = renderPersonCard({
-        mode: 'show',
+        mode: SHOW_MODE,
         personId: '42',
       })
       const div = component.find('div.card')
@@ -91,7 +92,7 @@ describe('PersonCard', () => {
         informationFlag: 'Sensitive Or Sealed',
         personName: 'John Q. Public',
         informationPill: 'Deceased',
-        mode: 'edit',
+        mode: EDIT_MODE,
         onDelete,
         onEdit,
       })
@@ -106,7 +107,7 @@ describe('PersonCard', () => {
     })
     it('renders div with id', () => {
       const component = renderPersonCard({
-        mode: 'edit',
+        mode: EDIT_MODE,
         personId: '42',
       })
       const div = component.find('div.card')
@@ -119,7 +120,7 @@ describe('PersonCard', () => {
           deletable={true}
           edit={<p>Editing</p>}
           editable={true}
-          mode='edit'
+          mode={EDIT_MODE}
           onCancel={() => {}}
           onSave={() => {}}
           personId='1234'
@@ -131,20 +132,20 @@ describe('PersonCard', () => {
     })
 
     it('renders a card action row', () => {
-      const component = renderPersonCard({mode: 'edit'})
+      const component = renderPersonCard({mode: EDIT_MODE})
       expect(component.find('CardActionRow').exists()).toEqual(true)
     })
 
     it('canceling edit calls onCancel', () => {
       const onCancel = jasmine.createSpy('onCancel')
-      const component = renderPersonCard({onCancel, mode: 'edit'})
+      const component = renderPersonCard({onCancel, mode: EDIT_MODE})
       component.find('CardActionRow').props().onCancel()
       expect(onCancel).toHaveBeenCalled()
     })
 
     it('saving changes calls onSave', () => {
       const onSave = jasmine.createSpy('onSave')
-      const component = renderPersonCard({onSave, mode: 'edit'})
+      const component = renderPersonCard({onSave, mode: EDIT_MODE})
       component.find('CardActionRow').props().onSave()
       expect(onSave).toHaveBeenCalled()
     })
