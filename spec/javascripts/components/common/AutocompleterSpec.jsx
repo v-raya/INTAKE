@@ -1,4 +1,5 @@
 import Autocompleter from 'common/Autocompleter'
+import SearchByAddress from 'common/SearchByAddress'
 import React from 'react'
 import Autocomplete from 'react-autocomplete'
 import {shallow, mount} from 'enzyme'
@@ -96,7 +97,7 @@ describe('<Autocompleter />', () => {
         autocompleter = mountAutocompleter({
           results, onClear, onChange, onSelect,
         })
-        autocompleter.find('input').simulate('change', {target: {value: 'te'}})
+        autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
         autocompleter.find('div[id="search-result-1-of-3"]')
           .first()
           .simulate('click', null)
@@ -135,7 +136,7 @@ describe('<Autocompleter />', () => {
         autocompleter = mountAutocompleter({
           results, onClear, onChange, onSelect,
         })
-        autocompleter.find('input').simulate('change', {target: {value: 'te'}})
+        autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
         autocompleter.find('div[id="search-result-create-new-of-the-same"]')
           .first()
           .simulate('click', null)
@@ -166,7 +167,7 @@ describe('<Autocompleter />', () => {
         autocompleter = mountAutocompleter({
           results, onClear, onChange, onSelect, onLoadMoreResults, total,
         })
-        autocompleter.find('input').simulate('change', {target: {value: 'te'}})
+        autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
         autocompleter.find('div[id="search-result-show-more-of-the-same"]')
           .first()
           .simulate('click', null)
@@ -181,7 +182,7 @@ describe('<Autocompleter />', () => {
       const autocompleter = mountAutocompleter({
         results, onClear, onChange, onSelect,
       })
-      autocompleter.find('input').simulate('change', {target: {value: 'te'}})
+      autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
       autocompleter.find('div[id="search-result-3-of-3"]')
         .first()
         .simulate('click', null)
@@ -201,7 +202,7 @@ describe('<Autocompleter />', () => {
         const autocompleter = mountAutocompleter({
           results, onClear, onChange, onSelect, isSelectable, onLoadMoreResults,
         })
-        autocompleter.find('input').simulate('change', {target: {value: 'te'}})
+        autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
         autocompleter.find('div[id="search-result-1-of-3"]')
           .first()
           .simulate('click', null)
@@ -225,6 +226,7 @@ describe('<Autocompleter />', () => {
       onSearch = jasmine.createSpy('onSearch')
       onChange = jasmine.createSpy('onChange')
       searchInput = renderAutocompleter({onSearch, onChange})
+        .find('Autocomplete')
         .dive()
         .find('input')
     })
@@ -348,7 +350,7 @@ describe('<Autocompleter />', () => {
       let autocompleter
       beforeEach(() => {
         autocompleter = mountAutocompleter({results})
-        autocompleter.find('input')
+        autocompleter.find('input').at(0)
           .simulate('change', {target: {value: 'ab'}})
       })
 
@@ -378,7 +380,7 @@ describe('<Autocompleter />', () => {
       })
 
       it('changes className when highlighted', () => {
-        const input = autocompleter.find('input')
+        const input = autocompleter.find('input').at(0)
         const resultBefore = autocompleter.find('div[id="search-result-1-of-2"]')
         expect(resultBefore.props().className).not.toEqual('search-item highlighted-search-item')
 
@@ -389,7 +391,7 @@ describe('<Autocompleter />', () => {
       })
 
       it('when enter is pressed it should not highlight', () => {
-        const input = autocompleter.find('input')
+        const input = autocompleter.find('input').at(0)
         input.simulate('keyDown', {key: 'Enter', keyCode: 13, which: 13})
         const result = autocompleter.find('div[id="search-result-1-of-2"]')
         expect(result.props().className).not.toEqual('search-item highlighted-search-item')
@@ -415,7 +417,7 @@ describe('<Autocompleter />', () => {
 
     it('displays no results were found', () => {
       const autocompleter = mountAutocompleter({total: 0, searchTerm: 'Simpson'})
-      autocompleter.find('input')
+      autocompleter.find('input').at(0)
         .simulate('change', {target: {value: 'ab'}})
       const suggestionHeader = autocompleter.find('SuggestionHeader')
       expect(suggestionHeader.html()).toContain('No results were found for "Simpson"')
@@ -428,10 +430,19 @@ describe('<Autocompleter />', () => {
         total: 10,
         searchTerm: 'Simpson',
       })
-      autocompleter.find('input')
+      autocompleter.find('input').at(0)
         .simulate('change', {target: {value: 'ab'}})
       const suggestionHeader = autocompleter.find('SuggestionHeader')
       expect(suggestionHeader.html()).toContain('Showing 1-5 of 10 results for "Simpson"')
+    })
+  })
+
+  describe('SearchByAddress', () => {
+    const searchByAddress = shallow(
+      <SearchByAddress />, {disableLifecycleMethods: true}
+    )
+    it('renders SearchByAddress component', () => {
+      expect(searchByAddress.exists()).toBe(true)
     })
   })
 })

@@ -44,12 +44,6 @@ describe('PersonSearchForm', () => {
     expect(autocompleter.props().id).toEqual('screening_participants')
   })
 
-  it('passes searchAddress as props to the Autocompleter', () => {
-    const component = renderPersonSearchForm({searchAddress: true})
-    const autocompleter = component.find('SearchByAddress')
-    expect(autocompleter.props().searchAddress).toEqual(true)
-  })
-
   it('passes isSelectable from props to the autocompleter', () => {
     const isSelectable = jasmine.createSpy('isSelectable')
     const component = renderPersonSearchForm({isSelectable})
@@ -74,18 +68,5 @@ describe('PersonSearchForm', () => {
     const searchCard = component.find('#search-card')
     const label = searchCard.children('.card-body').children('div').children('div').children('label')
     expect(label.text()).toContain('Search for any person')
-  })
-
-  it('renders the searchByAddress', () => {
-    const component = renderPersonSearchForm({})
-    const searchByAddress = component.find('SearchByAddress')
-    expect(searchByAddress.exists()).toEqual(true)
-    expect(searchByAddress.props().id).toEqual('search_address')
-  })
-
-  it('passes searchAddress as props to the SearchByAddress', () => {
-    const component = renderPersonSearchForm({searchAddress: true})
-    const searchByAddress = component.find('SearchByAddress')
-    expect(searchByAddress.props().searchAddress).toEqual(true)
   })
 })
