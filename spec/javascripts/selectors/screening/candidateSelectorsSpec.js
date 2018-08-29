@@ -1,5 +1,8 @@
 import {fromJS} from 'immutable'
-import {selectCandidates} from 'selectors/screening/candidateSelectors'
+import {
+  selectCandidates,
+  selectCandidatesWithEdits,
+} from 'selectors/screening/candidateSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
 describe('candidateSelectors', () => {
@@ -40,6 +43,40 @@ describe('candidateSelectors', () => {
       },
     }],
     2: [],
+    3: [{
+      person: {
+        age: '30 yrs',
+        dateOfBirth: '01/15/1986',
+        id: '415',
+        gender: 'Male',
+        name: 'Son Goku',
+      },
+      candidate: {
+        age: '21 yrs',
+        dateOfBirth: '11/11/1958',
+        id: '450',
+        gender: 'Male',
+        name: 'Son Gohan',
+        relationshipType: '211',
+      },
+    }, {
+      person: {
+        age: '100 yrs',
+        dateOfBirth: '01/15/1986',
+        id: '789',
+        gender: 'Unknown',
+        legacyId: '3',
+        name: 'Freeza',
+      },
+      candidate: {
+        age: '200 yrs',
+        dateOfBirth: '11/11/1968',
+        id: '4158',
+        gender: 'Unknown',
+        name: 'Majin Boo',
+        relationshipType: '271',
+      },
+    }],
   }
   describe('selectCandidates', () => {
     it('returns a list of candidates', () => {
@@ -84,6 +121,38 @@ describe('candidateSelectors', () => {
       const id = '2'
       const state = fromJS({candidatesForm})
       expect(selectCandidates(state, id)).toEqualImmutable(fromJS([]))
+    })
+  })
+
+  describe('selectCandidatesWithEdits', () => {
+    it('returns an array of relationship formatted to post batch', () => {
+      const id = '3'
+      const state = fromJS({candidatesForm})
+      expect(selectCandidatesWithEdits(state, id)).toEqualImmutable(fromJS([{
+        client_id: '415',
+        relative_id: '450',
+        relationship_type: 211,
+        absent_parent_indicator: false,
+        same_home_status: 'N',
+        start_date: '',
+        end_date: '',
+        legacy_id: '',
+      }, {
+        client_id: '789',
+        relative_id: '4158',
+        relationship_type: 271,
+        absent_parent_indicator: false,
+        same_home_status: 'N',
+        start_date: '',
+        end_date: '',
+        legacy_id: '',
+      }]))
+    })
+
+    it('returns an empty List when candidates are empty', () => {
+      const id = '2'
+      const state = fromJS({candidatesForm})
+      expect(selectCandidatesWithEdits(state, id)).toEqualImmutable(fromJS([]))
     })
   })
 })

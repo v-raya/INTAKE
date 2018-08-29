@@ -8,8 +8,10 @@ import {
 import {call, put, select, takeEvery} from 'redux-saga/effects'
 import {createRelationshipsSaga, createRelationships} from 'sagas/createRelationshipsSaga'
 import {fetchRelationships} from 'actions/relationshipsActions'
+import {fromJS} from 'immutable'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {post} from 'utils/http'
+import {selectCandidatesWithEdits} from 'selectors/screening/candidateSelectors'
 import {selectClientIds} from 'selectors/participantSelectors'
 
 describe('createRelationshipsSaga', () => {
@@ -21,30 +23,27 @@ describe('createRelationshipsSaga', () => {
 })
 
 describe('createRelationships', () => {
-  const relationships = [{
-    id: '12345',
+  const relationshipsWithEdits = [{
     client_id: 'ZXY123',
     relative_id: 'ABC987',
     relationship_type: 190,
-    absent_parent_indicator: true,
-    same_home_tatus: 'Y',
-    reversed: false,
-    start_date: '1999-10-01',
-    end_date: '2010-10-01',
-    legacy_id: 'A1b2x',
+    absent_parent_indicator: false,
+    same_home_status: 'N',
+    start_date: '',
+    end_date: '',
+    legacy_id: '',
   }, {
-    id: '808',
     client_id: '805',
     relative_id: '415',
     relationship_type: 191,
-    absent_parent_indicator: true,
-    same_home_tatus: 'Y',
-    reversed: false,
-    start_date: '1990-10-01',
-    end_date: '2017-10-01',
-    legacy_id: '650',
+    absent_parent_indicator: false,
+    same_home_status: 'N',
+    start_date: '',
+    end_date: '',
+    legacy_id: '',
   }]
-  const action = batchCreateRelationships(relationships)
+  const personId = '808'
+  const action = batchCreateRelationships(personId)
 
   it('creates batch relationship and fetches relationships', () => {
     const clientIds = ['123', '456']
@@ -52,10 +51,13 @@ describe('createRelationships', () => {
     const gen = createRelationships(action)
 
     expect(gen.next().value).toEqual(
-      call(post, '/api/v1/relationships', relationships)
+      select(selectCandidatesWithEdits, personId)
     )
-    expect(gen.next(relationships).value).toEqual(
-      put(batchCreateRelationshipsSuccess(relationships))
+    expect(gen.next(fromJS(relationshipsWithEdits)).value).toEqual(
+      call(post, '/api/v1/relationships', relationshipsWithEdits)
+    )
+    expect(gen.next(relationshipsWithEdits).value).toEqual(
+      put(batchCreateRelationshipsSuccess(relationshipsWithEdits))
     )
     expect(gen.next().value).toEqual(
       select(getScreeningIdValueSelector)
@@ -72,7 +74,10 @@ describe('createRelationships', () => {
     const gen = createRelationships(action)
 
     expect(gen.next().value).toEqual(
-      call(post, '/api/v1/relationships', relationships)
+      select(selectCandidatesWithEdits, personId)
+    )
+    expect(gen.next(fromJS(relationshipsWithEdits)).value).toEqual(
+      call(post, '/api/v1/relationships', relationshipsWithEdits)
     )
     const error = {responseJSON: 'some error'}
     expect(gen.throw(error).value).toEqual(

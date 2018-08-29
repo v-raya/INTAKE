@@ -4,6 +4,7 @@ import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
 
 describe('ScreeningCreateRelationship', () => {
   let onCancel
+  let onSave
   let wrapper
   const candidates = [{
     person: {
@@ -46,7 +47,10 @@ describe('ScreeningCreateRelationship', () => {
 
   beforeEach(() => {
     onCancel = jasmine.createSpy('onCancel')
-    wrapper = shallow(<ScreeningCreateRelationship {...props} onCancel={onCancel}/>)
+    onSave = jasmine.createSpy('onSave')
+    wrapper = shallow(
+      <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave}/>
+    )
   })
 
   it('has a button', () => {
@@ -97,6 +101,26 @@ describe('ScreeningCreateRelationship', () => {
       expect(wrapper.instance().state.show).toBe(true)
       wrapper.instance().handleShowModal()
       expect(wrapper.instance().state.show).toEqual(false)
+    })
+  })
+
+  describe('saveCreateRelationship', () => {
+    it('calls the handleShowModal that set the state and calls the onSave', () => {
+      wrapper.setState({show: true})
+      expect(wrapper.instance().state.show).toBe(true)
+      wrapper.instance().saveCreateRelationship()
+      expect(wrapper.instance().state.show).toEqual(false)
+      expect(onSave).toHaveBeenCalled()
+      expect(onSave).toHaveBeenCalledWith('805')
+    })
+    it('calls close the modal when the Create Relationship Button is click', () => {
+      wrapper.setState({show: true})
+      const footer = wrapper.find('ModalComponent').props().modalFooter
+      const save = footer.props.children[1]
+      expect(wrapper.state().show).toEqual(true)
+      save.props.onClick()
+      expect(wrapper.state().show).toEqual(false)
+      expect(onSave).toHaveBeenCalled()
     })
   })
 })

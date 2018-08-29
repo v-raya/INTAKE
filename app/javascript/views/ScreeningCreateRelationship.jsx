@@ -9,6 +9,7 @@ export default class ScreeningCreateRelationship extends React.Component {
     this.state = {show: false}
     this.closeModal = this.closeModal.bind(this)
     this.handleShowModal = this.handleShowModal.bind(this)
+    this.saveCreateRelationship = this.saveCreateRelationship.bind(this)
   }
 
   closeModal() {
@@ -24,13 +25,26 @@ export default class ScreeningCreateRelationship extends React.Component {
     })
   }
 
+  saveCreateRelationship() {
+    this.handleShowModal()
+    this.props.onSave(this.props.personId)
+  }
+
   modalFooter() {
     return (
       <div>
-        <button aria-label='Cancel' className='btn btn-default' onClick={this.closeModal}>
+        <button
+          aria-label='Cancel'
+          className='btn btn-default'
+          onClick={this.closeModal}
+        >
           Cancel
         </button>
-        <button aria-label='Create Relationship' className='btn btn-primary'>
+        <button
+          aria-label='Create Relationship'
+          className='btn btn-primary'
+          onClick={this.saveCreateRelationship}
+        >
           Create Relationship
         </button>
       </div>
@@ -93,5 +107,6 @@ ScreeningCreateRelationship.propTypes = {
   })),
   onCancel: PropTypes.func,
   onChange: PropTypes.func,
+  onSave: PropTypes.func,
   personId: PropTypes.string,
 }

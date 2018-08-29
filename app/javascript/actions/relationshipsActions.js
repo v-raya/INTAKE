@@ -11,8 +11,8 @@ export const LOAD_CREATE_RELATIONSHIPS_CANDIDATES = 'LOAD_CREATE_RELATIONSHIPS_C
 export const RESET_CANDIDATE_FORM_FIELD = 'RESET_CANDIDATE_FORM_FIELD'
 export const SET_CANDIDATE_FORM_FIELD = 'SET_CANDIDATE_FORM_FIELD'
 
-export const batchCreateRelationships = (relationships) => ({
-  payload: {relationships},
+export const batchCreateRelationships = (personId) => ({
+  payload: {personId},
   type: BATCH_CREATE_RELATIONSHIPS,
 })
 

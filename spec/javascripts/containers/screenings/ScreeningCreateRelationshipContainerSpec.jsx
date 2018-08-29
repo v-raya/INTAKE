@@ -88,6 +88,7 @@ describe('ScreeningCreateRelationshipContainer', () => {
       }],
       onChange: jasmine.any(Function),
       onCancel: jasmine.any(Function),
+      onSave: jasmine.any(Function),
       personId: '1',
     })
   })
@@ -95,7 +96,6 @@ describe('ScreeningCreateRelationshipContainer', () => {
   describe('onChange', () => {
     it('calls setFieldCandidate with person id, candidate id, fieldSet, and value', () => {
       const setFieldCandidateSpy = spyOn(relationshipsActions, 'setFieldCandidate')
-
       component
         .find('ScreeningCreateRelationship')
         .props()
@@ -107,9 +107,16 @@ describe('ScreeningCreateRelationshipContainer', () => {
   describe('onCancel', () => {
     it('calls resetFieldCandidate with person id', () => {
       const resetFieldCandidateSpy = spyOn(relationshipsActions, 'resetFieldCandidate')
-
       component.find('ScreeningCreateRelationship').props().onCancel('805')
       expect(resetFieldCandidateSpy).toHaveBeenCalledWith('805')
+    })
+  })
+
+  describe('onSave', () => {
+    it('calls resetFieldCandidate with person id', () => {
+      const batchCreateRelationships = spyOn(relationshipsActions, 'batchCreateRelationships')
+      component.find('ScreeningCreateRelationship').props().onSave('808')
+      expect(batchCreateRelationships).toHaveBeenCalledWith('808')
     })
   })
 })
