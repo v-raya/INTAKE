@@ -88,6 +88,8 @@ Capybara.raise_server_errors = true
 # Allow aria-label to be used in locators
 Capybara.enable_aria_label = true
 
+Capybara.default_max_wait_time = 10
+
 module Capybara
   module Accessible
     class SeleniumDriverAdapter
