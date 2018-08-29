@@ -31,6 +31,20 @@ module.exports = function(config) {
         base: 'Chrome',
         flags: ['--no-sandbox'],
       },
+      chrome_headless: {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--disable-dev-shm-usage',
+          ' --remote-debugging-port=9222'
+        ],
+      },
+      firefox_headless: {
+        base: 'Firefox',
+        flags: ['--headless', '--start-debugger-server'],
+      },
     },
     captureTimeout: 60000,
     browserNoActivityTimeout: 30000,
