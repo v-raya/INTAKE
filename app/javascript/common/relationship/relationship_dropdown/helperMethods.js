@@ -46,33 +46,11 @@ export const bothHaveDOBnoGender = (
   const genderCodesToReturn = []
   if (primaryClientIsYounger) {
     genderCodesToReturn.push(
-      'FM',
-      'FF',
-      'MM',
-      'MF',
-      'FU',
-      'UF',
-      'UM',
-      'MU',
-      'fM',
-      'fF',
-      'mM',
-      'mF'
+      'FM', 'FF', 'MM', 'MF', 'FU', 'UF', 'UM', 'MU', 'fM', 'fF', 'mM', 'mF'
     )
   } else if (secondaryClientIsYounger) {
     genderCodesToReturn.push(
-      'FM',
-      'FF',
-      'MM',
-      'MF',
-      'FU',
-      'UF',
-      'UM',
-      'MU',
-      'Fm',
-      'Ff',
-      'Mm',
-      'Mf'
+      'FM', 'FF', 'MM', 'MF', 'FU', 'UF', 'UM', 'MU', 'Fm', 'Ff', 'Mm', 'Mf'
     )
   }
   genderCodesToReturn.push('UU')
