@@ -54,7 +54,7 @@ describe('relationshipsSelectors', () => {
 
     it('returns a list of people with an empty gender', () => {
       const relationships = [
-        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y', id: '12345'},
+        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y', id: '808'},
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS(
