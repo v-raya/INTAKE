@@ -3,6 +3,7 @@ import candidatesReducer from 'reducers/candidatesFormReducer'
 import {
   fetchRelationshipsSuccess,
   setFieldCandidate,
+  resetFieldCandidate,
 } from 'actions/relationshipsActions'
 import {Map, fromJS} from 'immutable'
 
@@ -152,6 +153,88 @@ describe('candidatesFormReducer', () => {
               gender: 'Male',
               name: 'New York C Pechan, Sr',
               relationshipType: '191',
+            },
+          }, {
+            person: {
+              age: '20 yrs',
+              dateOfBirth: '01/15/1986',
+              id: '1',
+              gender: 'Male',
+              legacyId: '3',
+              name: 'Ricky Robinson',
+            },
+            candidate: {
+              age: '40 yrs',
+              dateOfBirth: '11/11/1968',
+              id: '4158',
+              gender: 'Male',
+              name: 'Walter A White, Sr',
+            },
+          }],
+        })
+      )
+    })
+  })
+
+  describe('on RESET_CANDIDATE_FORM_FIELD', () => {
+    it('returns candidates removing the relationshipType', () => {
+      const personId = '1'
+      const candidateForm = {
+        1: [{
+          person: {
+            age: '20 yrs',
+            dateOfBirth: '01/15/1986',
+            id: '1',
+            gender: 'Male',
+            legacyId: '3',
+            name: 'Ricky Robinson',
+          },
+          candidate: {
+            age: '30 yrs',
+            dateOfBirth: '11/11/1958',
+            id: '4157',
+            gender: 'Male',
+            name: 'New York C Pechan, Sr',
+            relationshipType: '191',
+          },
+        }, {
+          person: {
+            age: '20 yrs',
+            dateOfBirth: '01/15/1986',
+            id: '1',
+            gender: 'Male',
+            legacyId: '3',
+            name: 'Ricky Robinson',
+          },
+          candidate: {
+            age: '40 yrs',
+            dateOfBirth: '11/11/1968',
+            id: '4158',
+            gender: 'Male',
+            name: 'Walter A White, Sr',
+            relationshipType: '200',
+          },
+        }],
+      }
+      const action = resetFieldCandidate(personId)
+      const state = fromJS(candidateForm)
+      expect(candidatesReducer(state, action)).toEqualImmutable(
+        fromJS({
+          1: [{
+            person: {
+              age: '20 yrs',
+              dateOfBirth: '01/15/1986',
+              id: '1',
+              gender: 'Male',
+              legacyId: '3',
+              name: 'Ricky Robinson',
+            },
+            candidate: {
+              age: '30 yrs',
+              dateOfBirth: '11/11/1958',
+              id: '4157',
+              gender: 'Male',
+              name: 'New York C Pechan, Sr',
             },
           }, {
             person: {
