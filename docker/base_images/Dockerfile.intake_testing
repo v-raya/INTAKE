@@ -16,8 +16,7 @@ RUN apt-get upgrade -y
 RUN  apt-get install -y \
     build-essential \
     sudo \
-    iceweasel \
-    xvfb \
+    libgconf-2-4 \
     chrpath \
     libssl-dev \
     libxft-dev \
