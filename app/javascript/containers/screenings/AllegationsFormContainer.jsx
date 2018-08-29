@@ -7,9 +7,7 @@ import {
   getAllegationsAlertErrorMessageSelector,
 } from 'selectors/screening/allegationsFormSelectors'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
-import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
 import {setAllegationTypes} from 'actions/allegationsFormActions'
-import {setHash} from 'utils/navigation'
 
 export const cardName = 'allegations-card'
 
@@ -22,19 +20,17 @@ const mapStateToProps = (state) => (
   }
 )
 
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch, {onShow}) => ({
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
-    dispatch(setCardMode(cardName, SHOW_MODE))
-    setHash('#allegations-card-anchor')
+    onShow()
   },
   onChange: (props) => {
     dispatch(setAllegationTypes(props))
   },
   onSave: () => {
     dispatch(saveCard(cardName))
-    dispatch(setCardMode(cardName, SHOW_MODE))
-    setHash('#allegations-card-anchor')
+    onShow()
   },
   dispatch,
 })

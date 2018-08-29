@@ -27,7 +27,6 @@ import {
   touchField,
 } from 'actions/crossReportFormActions'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
-import {setCardMode} from 'actions/screeningPageActions'
 import {
   getAllegationsRequireCrossReportsValueSelector,
   getVisibleErrorsSelector,
@@ -42,7 +41,7 @@ import {selectCounties} from 'selectors/systemCodeSelectors'
 
 export const cardName = 'cross-report-card'
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, {onShow}) => ({
   allegationsRequireCrossReports: getAllegationsRequireCrossReportsValueSelector(state),
   areCrossReportsRequired: getAllegationsRequireCrossReportsValueSelector(state),
   cardName: cardName,
@@ -64,6 +63,7 @@ const mapStateToProps = (state) => ({
   method: state.getIn(['crossReportForm', 'method', 'value']) || '',
   screeningWithEdits: getScreeningWithEditsSelector(state).toJS(),
   userCounty: getUserCountySelector(state),
+  onShow,
 })
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
@@ -78,7 +78,6 @@ const mapDispatchToProps = (dispatch) => ({
     touchField,
     saveCard,
     fetchCountyAgencies,
-    setCardMode,
     clearCardEdits,
   }, dispatch),
 })

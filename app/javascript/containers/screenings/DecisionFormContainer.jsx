@@ -14,14 +14,12 @@ import {
   selectContactReference,
 } from 'selectors/screening/decisionFormSelectors'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
-import {setCardMode, SHOW_MODE} from 'actions/screeningPageActions'
 import {
   setField,
   touchField,
   touchAllFields,
 } from 'actions/screeningDecisionFormActions'
 import {sdmPath} from 'common/config'
-import {setHash} from 'utils/navigation'
 
 export const cardName = 'decision-card'
 
@@ -42,12 +40,11 @@ const mapStateToProps = (state) => (
   }
 )
 
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch, {onShow}) => ({
   onBlur: (field) => dispatch(touchField({field})),
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
-    dispatch(setCardMode(cardName, SHOW_MODE))
-    setHash('#decision-card-anchor')
+    onShow()
   },
   onChange: (field, value) => {
     dispatch(setField({field, value}))
@@ -62,8 +59,7 @@ export const mapDispatchToProps = (dispatch) => ({
   onSave: () => {
     dispatch(saveCard(cardName))
     dispatch(touchAllFields())
-    dispatch(setCardMode(cardName, SHOW_MODE))
-    setHash('#decision-card-anchor')
+    onShow()
   },
   dispatch,
 })

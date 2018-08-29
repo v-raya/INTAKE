@@ -14,8 +14,7 @@ import {
   DISTRICT_ATTORNEY,
   LAW_ENFORCEMENT,
 } from 'enums/CrossReport'
-import {SHOW_MODE} from 'actions/screeningPageActions'
-import {setHash} from 'utils/navigation'
+import CardActionRow from 'screenings/CardActionRow'
 
 const CrossReportForm = ({
   allegationsRequireCrossReports,
@@ -32,6 +31,7 @@ const CrossReportForm = ({
   inform_date,
   lawEnforcement,
   method,
+  onShow,
   screeningWithEdits,
   userCounty,
   actions: {
@@ -43,7 +43,6 @@ const CrossReportForm = ({
     saveCard,
     setAgencyField,
     setAgencyTypeField,
-    setCardMode,
     setField,
     touchAgencyField,
     touchAllFields,
@@ -52,15 +51,13 @@ const CrossReportForm = ({
 }) => {
   const cancel = () => {
     clearCardEdits(cardName)
-    setCardMode(cardName, SHOW_MODE)
-    setHash('#cross-report-card-anchor')
+    onShow()
   }
   const save = () => {
     saveCard(cardName)
     saveCrossReport(screeningWithEdits)
     touchAllFields()
-    setCardMode(cardName, SHOW_MODE)
-    setHash('#cross-report-card-anchor')
+    onShow()
   }
   const agencyFieldActions = {
     setAgencyTypeField,
@@ -187,14 +184,7 @@ const CrossReportForm = ({
           </fieldset>
         }
       </div>
-      <div className='row'>
-        <div className='col-md-12'>
-          <div className='pull-right'>
-            <button className='btn btn-default' onClick={cancel}>Cancel</button>
-            <button className='btn btn-primary' onClick={save}>Save</button>
-          </div>
-        </div>
-      </div>
+      <CardActionRow onCancel={cancel} onSave={save} />
     </div>
   )
 }
@@ -215,6 +205,7 @@ CrossReportForm.propTypes = {
   inform_date: PropTypes.string,
   lawEnforcement: PropTypes.object.isRequired,
   method: PropTypes.string,
+  onShow: PropTypes.func.isRequired,
   screeningWithEdits: PropTypes.object,
   userCounty: PropTypes.string,
 }

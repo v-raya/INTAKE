@@ -2,28 +2,20 @@ import PersonCardView from 'screenings/PersonCardView'
 import PropTypes from 'prop-types'
 import React from 'react'
 import RelationshipsCardContainer from 'screenings/RelationshipsCardContainer'
-import CardContainer from 'containers/screenings/CardContainer'
 import {Link} from 'react-router'
 import HistoryOfInvolvementContainer from 'containers/screenings/HistoryOfInvolvementContainer'
 import HistoryTableContainer from 'containers/screenings/HistoryTableContainer'
 import EmptyHistory from 'views/history/EmptyHistory'
 import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
 import ErrorDetail from 'common/ErrorDetail'
-import ScreeningInformationFormContainer from 'containers/screenings/ScreeningInformationFormContainer'
-import ScreeningInformationShowContainer from 'containers/screenings/ScreeningInformationShowContainer'
 import ScreeningSideBar from 'screenings/ScreeningSideBar'
-import NarrativeFormContainer from 'containers/screenings/NarrativeFormContainer'
-import NarrativeShowContainer from 'containers/screenings/NarrativeShowContainer'
-import IncidentInformationFormContainer from 'containers/screenings/IncidentInformationFormContainer'
-import AllegationsFormContainer from 'containers/screenings/AllegationsFormContainer'
-import AllegationsShowContainer from 'containers/screenings/AllegationsShowContainer'
-import IncidentInformationShowContainer from 'containers/screenings/IncidentInformationShowContainer'
-import WorkerSafetyFormContainer from 'containers/screenings/WorkerSafetyFormContainer'
-import WorkerSafetyShowContainer from 'containers/screenings/WorkerSafetyShowContainer'
-import CrossReportFormContainer from 'containers/screenings/CrossReportFormContainer'
-import CrossReportShowContainer from 'containers/screenings/CrossReportShowContainer'
-import DecisionFormContainer from 'containers/screenings/DecisionFormContainer'
-import DecisionShowContainer from 'containers/screenings/DecisionShowContainer'
+import AllegationsCard from 'screenings/AllegationsCard'
+import CrossReportCard from 'screenings/CrossReportCard'
+import DecisionCard from 'screenings/DecisionCard'
+import IncidentInformationCard from 'screenings/IncidentInformationCard'
+import NarrativeCard from 'screenings/NarrativeCard'
+import ScreeningInformationCard from 'screenings/ScreeningInformationCard'
+import WorkerSafetyCard from 'screenings/WorkerSafetyCard'
 import PageHeader from 'common/PageHeader'
 import {BreadCrumb} from 'common/BreadCrumb'
 import {urlHelper} from 'common/url_helper.js.erb'
@@ -52,7 +44,10 @@ export class ScreeningPage extends React.Component {
       setPageMode(mode || 'show')
       fetchScreening(id)
       fetchHistoryOfInvolvements('screenings', id)
-    } else { fetchScreening(null) }
+    } else {
+      setPageMode('edit')
+      fetchScreening(null)
+    }
   }
 
   componentWillUnmount() {
@@ -101,19 +96,6 @@ export class ScreeningPage extends React.Component {
     }
   }
 
-  renderCard(title, id, edit, show) {
-    const props = {title, id, edit, show}
-    return (<CardContainer {...props} />)
-  }
-
-  renderScreeningInformationCard() {
-    return this.renderCard(
-      'Screening Information',
-      'screening-information-card',
-      <ScreeningInformationFormContainer />,
-      <ScreeningInformationShowContainer />)
-  }
-
   renderPersonSearchForm() {
     return (
       <PersonSearchFormContainer
@@ -121,30 +103,6 @@ export class ScreeningPage extends React.Component {
         searchPrompt='Search for any person (Children, parents, reporters, alleged perpetrators...)'
         canCreateNewPerson={true}
       />)
-  }
-
-  renderNarrativeCard() {
-    return this.renderCard('Narrative', 'narrative-card', <NarrativeFormContainer/>, <NarrativeShowContainer/>)
-  }
-
-  renderIncidentInformationCard() {
-    return this.renderCard('Incident Information', 'incident-information-card', <IncidentInformationFormContainer/>, <IncidentInformationShowContainer/>)
-  }
-
-  renderAllegationsCard() {
-    return this.renderCard('Allegations', 'allegations-card', <AllegationsFormContainer/>, <AllegationsShowContainer/>)
-  }
-
-  renderWorkerSafetyCard() {
-    return this.renderCard('Worker Safety', 'worker-safety-card', <WorkerSafetyFormContainer/>, <WorkerSafetyShowContainer/>)
-  }
-
-  renderCrossReportCard() {
-    return this.renderCard('Cross Report', 'cross-report-card', <CrossReportFormContainer/>, <CrossReportShowContainer/>)
-  }
-
-  renderDecisionCard() {
-    return this.renderCard('Decision', 'decision-card', <DecisionFormContainer/>, <DecisionShowContainer/>)
   }
 
   renderScreeningFooter() {
@@ -160,20 +118,20 @@ export class ScreeningPage extends React.Component {
   renderBody() {
     const {referralId, editable, hasApiValidationErrors, submitReferralErrors} = this.props
     return (
-      <div className='col-xs-8 col-md-9'>
+      <div className='col-xs-8 col-xs-offset-4 col-md-9 col-md-offset-3 hotline-inner-container'>
         {referralId && <h1>Referral #{referralId}</h1>}
         {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
-        {this.renderScreeningInformationCard()}
+        <ScreeningInformationCard />
         {editable && this.renderPersonSearchForm()}
         {this.props.participants.map(({id}) => <PersonCardView key={id} personId={id} />)}
-        {this.renderNarrativeCard()}
-        {this.renderIncidentInformationCard()}
-        {this.renderAllegationsCard()}
+        <NarrativeCard />
+        <IncidentInformationCard />
+        <AllegationsCard />
         <RelationshipsCardContainer />
-        {this.renderWorkerSafetyCard()}
+        <WorkerSafetyCard />
         <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer />} />
-        {this.renderCrossReportCard()}
-        {this.renderDecisionCard()}
+        <CrossReportCard />
+        <DecisionCard />
         {this.renderScreeningFooter()}
       </div>
     )
@@ -200,7 +158,7 @@ export class ScreeningPage extends React.Component {
           <PageHeader pageTitle={this.props.screeningTitle} button={this.submitButton()} />
           <BreadCrumb navigationElements={[<Link key={this.props.params.id} to={urlHelper('/')}>CaseLoad</Link>]}/>
         </div>
-        <div className='container'>
+        <div className='container hotline-container'>
           {this.renderScreening()}
         </div>
       </div>
