@@ -1,91 +1,27 @@
 import React from 'react'
+import CreateRelationshipForm from 'common/relationship/CreateRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
-import SelectField from 'common/SelectField'
 import PropTypes from 'prop-types'
-import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
 
-const textWrap = {whiteSpace: 'normal'}
 export default class ScreeningCreateRelationship extends React.Component {
   constructor(props) {
     super(props)
     this.state = {show: false}
-    this.handleShowModal = this.handleShowModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
-    this.displayFormatter = this.displayFormatter.bind(this)
-    this.modalTable = this.modalTable.bind(this)
-  }
-
-  handleShowModal() {
-    this.setState({
-      show: !this.state.show,
-    })
+    this.handleShowModal = this.handleShowModal.bind(this)
   }
 
   closeModal() {
     this.setState({
       show: false,
     })
+    this.props.onCancel(this.props.personId)
   }
 
-  displayFormatter({name, age, gender}) {
-    return (
-      <div>
-        <ul className='unstyled-list'>
-          <li>{name}</li>
-          <li>{age}</li>
-          <li>{gender}</li>
-        </ul>
-      </div>
-    )
-  }
-
-  modalTable() {
-    return (
-      <BootstrapTable className='displayTable' bordered={false} data={this.props.candidates}>
-        <TableHeaderColumn
-          className = 'FocusPersonDetails'
-          dataField='person'
-          dataFormat={this.displayFormatter}
-          tdStyle= {textWrap}
-        >
-          Focus Person
-        </TableHeaderColumn>
-        <TableHeaderColumn
-          dataField='relationship'
-          dataFormat={this.selectFieldFormat}
-        >
-          Relationship<br/>
-          <div className='text-helper'>Focus Person / Related Person</div>
-        </TableHeaderColumn>
-        <TableHeaderColumn
-          className = 'relatedPersonDetails'
-          dataField='candidate'
-          dataFormat={this.displayFormatter}
-          isKey={true}
-          tdStyle={textWrap}
-        >
-          Related Person
-        </TableHeaderColumn>
-      </BootstrapTable>
-    )
-  }
-
-  selectFieldFormat() {
-    return (
-      <SelectField
-        id='change_relationship_type'
-        label=''
-        onChange={() => {}}
-      >
-        <option key=''/>
-        {RELATIONSHIP_TYPES.map((relationship) =>
-          <option key={relationship.value} value={relationship.value}>
-            {relationship.label}
-          </option>)
-        }
-      </SelectField>
-    )
+  handleShowModal() {
+    this.setState({
+      show: !this.state.show,
+    })
   }
 
   modalFooter() {
@@ -102,6 +38,7 @@ export default class ScreeningCreateRelationship extends React.Component {
   }
 
   render() {
+    const {candidates, onChange} = this.props
     return (
       <div className='row'>
         <div className='col-md-12' >
@@ -119,7 +56,12 @@ export default class ScreeningCreateRelationship extends React.Component {
           <ModalComponent
             closeModal={this.closeModal}
             showModal={this.state.show}
-            modalBody={this.modalTable()}
+            modalBody={
+              <CreateRelationshipForm
+                candidates={candidates}
+                onChange={onChange}
+              />
+            }
             modalFooter={this.modalFooter()}
             modalSize='large'
             modalTitle={'Create Relationship'}
@@ -137,15 +79,19 @@ ScreeningCreateRelationship.propTypes = {
       candidate_id: PropTypes.string,
       dateOfBirth: PropTypes.string,
       gender: PropTypes.string,
+      id: PropTypes.string,
       name: PropTypes.string,
     }),
     person: PropTypes.shape({
       age: PropTypes.string,
-      legacy_id: PropTypes.string,
       dateOfBirth: PropTypes.string,
       gender: PropTypes.string,
+      id: PropTypes.string,
+      legacy_id: PropTypes.string,
       name: PropTypes.string,
     }),
   })),
-  data: PropTypes.array,
+  onCancel: PropTypes.func,
+  onChange: PropTypes.func,
+  personId: PropTypes.string,
 }
