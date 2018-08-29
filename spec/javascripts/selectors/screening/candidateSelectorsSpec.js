@@ -128,31 +128,34 @@ describe('candidateSelectors', () => {
     it('returns an array of relationship formatted to post batch', () => {
       const id = '3'
       const state = fromJS({candidatesForm})
-      expect(selectCandidatesWithEdits(state, id)).toEqualImmutable(fromJS([{
-        client_id: '415',
-        relative_id: '450',
-        relationship_type: 211,
-        absent_parent_indicator: false,
-        same_home_status: 'N',
-        start_date: '',
-        end_date: '',
-        legacy_id: '',
-      }, {
-        client_id: '789',
-        relative_id: '4158',
-        relationship_type: 271,
-        absent_parent_indicator: false,
-        same_home_status: 'N',
-        start_date: '',
-        end_date: '',
-        legacy_id: '',
-      }]))
+      expect(selectCandidatesWithEdits(state, id)).toEqualImmutable(fromJS({
+        relationships: [{
+          client_id: '415',
+          relative_id: '450',
+          relationship_type: 211,
+          absent_parent_indicator: false,
+          same_home_status: 'N',
+          start_date: '',
+          end_date: '',
+          legacy_id: '',
+        }, {
+          client_id: '789',
+          relative_id: '4158',
+          relationship_type: 271,
+          absent_parent_indicator: false,
+          same_home_status: 'N',
+          start_date: '',
+          end_date: '',
+          legacy_id: '',
+        }]}))
     })
 
     it('returns an empty List when candidates are empty', () => {
       const id = '2'
       const state = fromJS({candidatesForm})
-      expect(selectCandidatesWithEdits(state, id)).toEqualImmutable(fromJS([]))
+      expect(
+        selectCandidatesWithEdits(state, id)).toEqualImmutable(fromJS({relationships: []})
+      )
     })
   })
 })
