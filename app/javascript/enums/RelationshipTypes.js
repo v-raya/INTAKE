@@ -1,7 +1,7 @@
 export const RELATIONSHIP_TYPES = Object.freeze([
-  {value: 175,logical_code: 'A', gender_code: 'FM', label: 'Aunt/Nephew (Maternal)',},
+  {value: 175, logical_code: 'A', gender_code: 'FM', label: 'Aunt/Nephew (Maternal)'},
   {value: 176, logical_code: 'A', gender_code: 'FM', label: 'Aunt/Nephew (Paternal)'},
-  {value: 177, logical_code: 'A', gender_code: 'FF', label: 'Aunt/Niece (Maternal)',},
+  {value: 177, logical_code: 'A', gender_code: 'FF', label: 'Aunt/Niece (Maternal)'},
   {value: 178, logical_code: 'A', gender_code: 'FF', label: 'Aunt/Niece (Paternal)'},
   {value: 179, logical_code: 'BR', gender_code: 'MM', label: 'Brother/Brother'},
   {value: 180, logical_code: 'BR', gender_code: 'MM', label: 'Brother/Brother (Half)'},
