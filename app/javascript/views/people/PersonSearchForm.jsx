@@ -3,10 +3,6 @@ import PropTypes from 'prop-types'
 import Autocompleter from 'common/Autocompleter'
 
 export class PersonSearchForm extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentWillUnmount() {
     this.props.onClear()
     this.props.onChange('')
