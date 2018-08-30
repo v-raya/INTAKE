@@ -10,7 +10,7 @@ namespace :docker do # rubocop:disable BlockLength
     run_commands [
       'docker-compose down',
       'docker-compose run --rm ca_intake bundle',
-      'docker-compose up -d',
+      'docker-compose up -d'
     ]
   end
   desc 'Cleans docker of old dangling containers & images'
