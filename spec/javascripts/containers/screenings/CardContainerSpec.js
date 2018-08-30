@@ -1,4 +1,9 @@
-import {setCardMode, EDIT_MODE, SHOW_MODE} from 'actions/screeningPageActions'
+import {
+  EDIT_MODE,
+  SHOW_MODE,
+  SAVING_MODE,
+  setCardMode,
+} from 'actions/screeningPageActions'
 import {mapDispatchToProps} from 'containers/screenings/CardContainer'
 import * as Navigation from 'utils/navigation'
 
@@ -14,6 +19,15 @@ describe('CardContainer', () => {
 
       onEdit()
       expect(dispatch).toHaveBeenCalledWith(setCardMode('fluffy', EDIT_MODE))
+    })
+  })
+
+  describe('onSave', () => {
+    it('sets the card mode to saving', () => {
+      const {onSave} = mapDispatchToProps(dispatch, {id: 'spot'})
+
+      onSave()
+      expect(dispatch).toHaveBeenCalledWith(setCardMode('spot', SAVING_MODE))
     })
   })
 

@@ -6,7 +6,6 @@ import {
 import {setField, touchField, touchAllFields} from 'actions/narrativeFormActions'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {connect} from 'react-redux'
-import {setCardMode, SAVING_MODE} from 'actions/screeningPageActions'
 
 export const cardName = 'narrative-card'
 
@@ -19,7 +18,7 @@ const mapStateToProps = (state) => (
   }
 )
 
-export const mapDispatchToProps = (dispatch, {onShow}) => ({
+export const mapDispatchToProps = (dispatch, {onShow, onSave}) => ({
   onBlur: (fieldName) => dispatch(touchField(fieldName)),
   onCancel: () => {
     dispatch(clearCardEdits(cardName))
@@ -30,7 +29,7 @@ export const mapDispatchToProps = (dispatch, {onShow}) => ({
   onSave: () => {
     dispatch(saveCard(cardName))
     dispatch(touchAllFields())
-    dispatch(setCardMode(cardName, SAVING_MODE))
+    onSave()
   },
 })
 

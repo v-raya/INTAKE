@@ -6,7 +6,7 @@ import {EDIT_MODE, SHOW_MODE, SAVING_MODE} from 'actions/screeningPageActions'
 
 const modeClass = (mode) => (mode === SHOW_MODE ? 'show' : 'edit')
 
-const CardView = ({edit, editable, id, mode, onEdit, onShow, show, title}) => (
+const CardView = ({edit, editable, id, mode, onEdit, onSave, onShow, show, title}) => (
   <div>
     <a className='anchor' id={`${id}-anchor`}/>
     <div className={ClassNames('card', modeClass(mode), 'double-gap-bottom', 'position-relative')} id={id}>
@@ -22,7 +22,7 @@ const CardView = ({edit, editable, id, mode, onEdit, onShow, show, title}) => (
           />
         }
       </div>
-      {(mode === EDIT_MODE || mode === undefined) && edit && React.cloneElement(edit, {onShow})}
+      {(mode === EDIT_MODE || mode === undefined) && edit && React.cloneElement(edit, {onSave, onShow})}
       {(mode === SAVING_MODE) && edit && React.cloneElement(edit, {isSaving: true})}
       {mode === SHOW_MODE && show}
     </div>
@@ -35,6 +35,7 @@ CardView.propTypes = {
   id: PropTypes.string,
   mode: PropTypes.string,
   onEdit: PropTypes.func,
+  onSave: PropTypes.func,
   onShow: PropTypes.func,
   show: PropTypes.element,
   title: PropTypes.string,

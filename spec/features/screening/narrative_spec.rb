@@ -94,8 +94,8 @@ feature 'screening narrative card' do
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
 
-    within '#narrative-card.show' do
-      expect(page).to have_content 'Trying to fill in with changes', wait: 4
+    within '#narrative-card.show', wait: 4 do
+      expect(page).to have_content 'Trying to fill in with changes'
     end
 
     expect(
@@ -138,8 +138,8 @@ feature 'screening narrative card' do
         .with(body: hash_including(existing_screening))
     ).to have_been_made
 
-    within '#narrative-card.show' do
-      expect(page).to have_content 'Trying to fill in with changes', wait: 4
+    within '#narrative-card.show', wait: 4 do
+      expect(page).to have_content 'Trying to fill in with changes'
     end
   end
 end

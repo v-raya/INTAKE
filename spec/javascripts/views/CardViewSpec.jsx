@@ -77,6 +77,14 @@ describe('Card View', () => {
 
       expect(card.find('.my-edit').props().onShow).toEqual(onShow)
     })
+
+    it('passes the onSave prop to the edit prop child', () => {
+      const edit = <span className='my-edit'>Edit</span>
+      const onSave = jasmine.createSpy('onSave')
+      const card = renderCardView({edit, mode, onSave})
+
+      expect(card.find('.my-edit').props().onSave).toEqual(onSave)
+    })
   })
 
   describe('when mode is saving', () => {
