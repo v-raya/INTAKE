@@ -6,6 +6,9 @@ export const babyDoe = {
   roles: ['Victim'],
   safely_surrendered_babies: {
     surrendered_by: 'Unknown Doe',
+    relation_to_child: "1592",
+    parent_guardian_given_bracelet_id: "U",
+    parent_guardian_provided_med_questionaire: "U",
   },
 }
 
