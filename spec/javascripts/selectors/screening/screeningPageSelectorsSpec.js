@@ -1,4 +1,4 @@
-import {EDIT_MODE, SHOW_MODE} from 'actions/screeningPageActions'
+import {EDIT_MODE, SAVING_MODE, SHOW_MODE} from 'actions/screeningPageActions'
 import {
   getCardModeValueSelector,
   getCardIsEditableSelector,
@@ -34,7 +34,7 @@ describe('screeningPageSelectors', () => {
 
     it('returns false if the card is in process of saving', () => {
       const screening = {referral_id: ''}
-      const screeningPage = {cards: {'some-card': 'saving'}}
+      const screeningPage = {cards: {'some-card': SAVING_MODE}}
       const state = fromJS({screening, screeningPage})
       expect(getCardIsEditableSelector(state, 'some-card')).toEqual(false)
     })

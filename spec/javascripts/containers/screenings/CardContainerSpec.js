@@ -5,13 +5,11 @@ import {
   setCardMode,
 } from 'actions/screeningPageActions'
 import {mapDispatchToProps} from 'containers/screenings/CardContainer'
-import * as Navigation from 'utils/navigation'
 
 describe('CardContainer', () => {
   let dispatch
   beforeEach(() => {
     dispatch = jasmine.createSpy('dispatch')
-    spyOn(Navigation, 'setHash')
   })
   describe('onEdit', () => {
     it('sets card mode to edit', () => {
@@ -37,13 +35,6 @@ describe('CardContainer', () => {
 
       onShow()
       expect(dispatch).toHaveBeenCalledWith(setCardMode('fluffer', SHOW_MODE))
-    })
-
-    it('navigates to the anchor for the card', () => {
-      const {onShow} = mapDispatchToProps(dispatch, {id: 'hello'})
-
-      onShow()
-      expect(Navigation.setHash).toHaveBeenCalledWith('#hello-anchor')
     })
   })
 })
