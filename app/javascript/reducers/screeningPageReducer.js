@@ -1,4 +1,4 @@
-import {CREATE_PERSON_COMPLETE} from 'actions/personCardActions'
+import {CREATE_PERSON_COMPLETE, UPDATE_PERSON_COMPLETE} from 'actions/personCardActions'
 import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {Map} from 'immutable'
 import {
@@ -60,6 +60,10 @@ export default createReducer(Map(), {
     } else {
       return state.setIn(['peopleCards', person.id], EDIT_MODE)
     }
+  },
+  [UPDATE_PERSON_COMPLETE]: (state, {payload: {person, personId}, error}) => {
+    const id = error ? personId : person.id
+    return state.updateIn(['peopleCards', id], (mode) => (mode === SAVING_MODE ? SHOW_MODE : mode))
   },
   [SAVE_SCREENING]: (state, {payload: {card}}) => state.setIn(['cards', card], SAVING_MODE),
   [SAVE_SCREENING_COMPLETE]: (state, _action) => state.update('cards', Map(),

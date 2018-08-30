@@ -1,7 +1,12 @@
 import * as matchers from 'jasmine-immutable-matchers'
 import screeningPageReducer from 'reducers/screeningPageReducer'
 import {Map, fromJS} from 'immutable'
-import {createPersonSuccess, createPersonFailure} from 'actions/personCardActions'
+import {
+  createPersonSuccess,
+  createPersonFailure,
+  updatePersonSuccess,
+  updatePersonFailure,
+} from 'actions/personCardActions'
 import {
   EDIT_MODE,
   SHOW_MODE,
@@ -179,6 +184,36 @@ describe('screeningPageReducer', () => {
           initialState
         )
       })
+    })
+  })
+
+  describe('on UPDATE_PERSON_COMPLETE', () => {
+    it('updates the matching card from Saving to Show mode on Success', () => {
+      const initialState = fromJS({
+        mode: SHOW_MODE,
+        peopleCards: {
+          aaa: SAVING_MODE,
+          bbb: SAVING_MODE,
+        },
+      })
+      const action = updatePersonSuccess({id: 'aaa'})
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState.getIn(['peopleCards', 'aaa'])).toEqual(SHOW_MODE)
+      expect(newState.getIn(['peopleCards', 'bbb'])).toEqual(SAVING_MODE)
+    })
+
+    it('updates the matching card from Saving to Show mode on Error', () => {
+      const initialState = fromJS({
+        mode: SHOW_MODE,
+        peopleCards: {
+          aaa: SAVING_MODE,
+          bbb: SAVING_MODE,
+        },
+      })
+      const action = updatePersonFailure('Some Error', 'bbb')
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState.getIn(['peopleCards', 'bbb'])).toEqual(SHOW_MODE)
+      expect(newState.getIn(['peopleCards', 'aaa'])).toEqual(SAVING_MODE)
     })
   })
 

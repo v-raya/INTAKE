@@ -1,8 +1,10 @@
-import {EDIT_MODE, SHOW_MODE} from 'actions/screeningPageActions'
+import {EDIT_MODE, SAVING_MODE, SHOW_MODE} from 'actions/screeningPageActions'
 import PersonCardHeader from 'views/people/PersonCardHeader'
 import PropTypes from 'prop-types'
 import React from 'react'
 import CardActionRow from 'screenings/CardActionRow'
+
+const modeClass = (mode) => (mode === SHOW_MODE ? 'show' : 'edit')
 
 const PersonCard = ({
   deletable,
@@ -19,7 +21,7 @@ const PersonCard = ({
   personName,
   show,
 }) => (
-  <div className={`card ${mode} participant double-gap-bottom`} id={`participants-card-${personId}`}>
+  <div className={`card ${modeClass(mode)} participant double-gap-bottom`} id={`participants-card-${personId}`}>
     <PersonCardHeader
       informationFlag={informationFlag}
       onDelete={onDelete}
@@ -31,8 +33,8 @@ const PersonCard = ({
     />
     <div className='card-body'>
       {mode === SHOW_MODE && show}
-      {mode === EDIT_MODE && edit}
-      {mode === EDIT_MODE && <CardActionRow onCancel={onCancel} onSave={onSave} />}
+      {mode !== SHOW_MODE && edit}
+      {mode !== SHOW_MODE && <CardActionRow onCancel={onCancel} onSave={onSave} isLoading={mode === SAVING_MODE}/>}
     </div>
   </div>
 )
@@ -43,7 +45,7 @@ PersonCard.propTypes = {
   editable: PropTypes.bool.isRequired,
   informationFlag: PropTypes.string,
   informationPill: PropTypes.string,
-  mode: PropTypes.oneOf([EDIT_MODE, SHOW_MODE]).isRequired,
+  mode: PropTypes.oneOf([EDIT_MODE, SAVING_MODE, SHOW_MODE]).isRequired,
   onCancel: PropTypes.func,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,

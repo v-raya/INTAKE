@@ -7,7 +7,7 @@ import {
   getPersonInformationFlagValuesSelector,
 } from 'selectors/screening/personCardSelectors'
 import {savePerson, deletePerson} from 'actions/personCardActions'
-import {EDIT_MODE, SHOW_MODE, setPersonCardMode} from 'actions/screeningPageActions'
+import {EDIT_MODE, SAVING_MODE, SHOW_MODE, setPersonCardMode} from 'actions/screeningPageActions'
 import {touchAllFields} from 'actions/peopleFormActions'
 import {setHash} from 'utils/navigation'
 
@@ -30,7 +30,7 @@ export const mapDispatchToProps = (dispatch, {personId}) => ({
   onSave: () => {
     dispatch(savePerson(personId))
     dispatch(touchAllFields(personId))
-    dispatch(setPersonCardMode(personId, SHOW_MODE))
+    dispatch(setPersonCardMode(personId, SAVING_MODE))
     setHash(`#participants-card-${personId}`)
   },
 })
