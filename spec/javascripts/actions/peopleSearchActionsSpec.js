@@ -2,7 +2,7 @@ import {
   clear,
   fetchFailure,
   fetchSuccess,
-  includeAddressClicked,
+  toggleAddressSearch,
   loadMoreResults,
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
@@ -62,8 +62,8 @@ describe('peopleSearchActions', () => {
     expect(isFSA(action)).toEqual(true)
   })
 
-  it('includeAddressClicked is FSA compliant', () => {
-    const action = includeAddressClicked({})
+  it('toggleAddressSearch is FSA compliant', () => {
+    const action = toggleAddressSearch({})
     expect(isFSA(action)).toEqual(true)
   })
 })

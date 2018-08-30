@@ -4,7 +4,7 @@ export const PEOPLE_SEARCH_CLEAR = 'PEOPLE_SEARCH/CLEAR'
 export const SET_SEARCH_TERM = 'PEOPLE_SEARCH/SET_SEARCH_TERM'
 export const LOAD_MORE_RESULTS = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS'
 export const LOAD_MORE_RESULTS_COMPLETE = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS_COMPLETE'
-export const INCLUDE_ADDRESS_CLICKED = 'INCLUDE_ADDRESS_CLICKED'
+export const TOGGLE_ADDRESS_SEARCH = 'TOGGLE_ADDRESS_SEARCH'
 export const setSearchTerm = (searchTerm) => ({
   type: SET_SEARCH_TERM,
   payload: {searchTerm},
@@ -37,6 +37,6 @@ export const fetchFailure = (error) => ({
 export const clear = () => ({
   type: PEOPLE_SEARCH_CLEAR,
 })
-export const includeAddressClicked = () => ({
-  type: INCLUDE_ADDRESS_CLICKED,
+export const toggleAddressSearch = () => ({
+  type: TOGGLE_ADDRESS_SEARCH,
 })

@@ -34,15 +34,12 @@ export default class Autocompleter extends Component {
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
     this.renderItem = this.renderItem.bind(this)
-    this.handleIncludeAddressClicked = this.handleIncludeAddressClicked.bind(this)
-    this.handleSubmitButtonClicked = this.handleSubmitButtonClicked.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleIncludeAddressClicked() {
-    this.props.onIncludeAddressClicked()
-  }
-
-  handleSubmitButtonClicked() {
+  handleSubmit() {
+    const {onSearch, searchTerm} = this.props
+    onSearch(searchTerm)
     this.showMenu()
     this.inputRef.focus()
   }
@@ -110,7 +107,7 @@ export default class Autocompleter extends Component {
   }
 
   renderMenu(items, _searchTerm, _style) {
-    if (this.props.searchAddress) {
+    if (this.props.isAddressIncluded) {
       return <div className='autocomplete-menu menu-with-address'>{items}</div>
     }
     return <div className='autocomplete-menu menu-without-address'>{items}</div>
@@ -158,12 +155,8 @@ export default class Autocompleter extends Component {
   }
 
   onChangeInput(_, value) {
-    const {onSearch, onChange, searchAddress} = this.props
-    if (searchAddress) {
-      this.hideMenu()
-      onSearch(value)
-    }
-    if (this.isSearchable(value) && !searchAddress) {
+    const {onSearch, onChange, isAddressIncluded} = this.props
+    if (this.isSearchable(value) && !isAddressIncluded) {
       onSearch(value)
       this.showMenu()
     } else {
@@ -184,7 +177,7 @@ export default class Autocompleter extends Component {
   }
 
   render() {
-    const {searchTerm, id, results, canCreateNewPerson, total, searchAddress} = this.props
+    const {searchTerm, id, results, canCreateNewPerson, total, isAddressIncluded, onToggleAddressSearch} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
@@ -207,7 +200,7 @@ export default class Autocompleter extends Component {
         wrapperStyle={{display: 'block', position: 'relative'}}
         renderInput={(props) => this.renderInput(props)}
       />
-      <SearchByAddress searchAddress={searchAddress} includeAddressClicked={this.handleIncludeAddressClicked} submitButtonClicked={this.handleSubmitButtonClicked} />
+      <SearchByAddress isAddressIncluded={isAddressIncluded} toggleAddressSearch={onToggleAddressSearch} onSubmit={this.handleSubmit} />
     </div>)
   }
 }
@@ -215,15 +208,15 @@ export default class Autocompleter extends Component {
 Autocompleter.propTypes = {
   canCreateNewPerson: PropTypes.bool,
   id: PropTypes.string,
+  isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
-  onIncludeAddressClicked: PropTypes.func,
   onLoadMoreResults: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
+  onToggleAddressSearch: PropTypes.func,
   results: PropTypes.array,
-  searchAddress: PropTypes.bool,
   searchTerm: PropTypes.string,
   staffId: PropTypes.string,
   startTime: PropTypes.string,

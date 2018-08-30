@@ -32,7 +32,7 @@ describe('Store', () => {
         results: [],
         searchTerm: '',
         total: 0,
-        searchAddress: false,
+        isAddressIncluded: false,
       },
       relationship: {},
       relationships: [],

@@ -10,7 +10,7 @@ export class PersonSearchForm extends React.Component {
 
   render() {
     const {
-      searchAddress,
+      isAddressIncluded,
       searchPrompt,
       ...autocompleterProps
     } = this.props
@@ -26,7 +26,7 @@ export class PersonSearchForm extends React.Component {
             <div className='row'>
               <div className='col-md-12'>
                 <label className='pull-left' htmlFor='screening_participants'>{searchPrompt}</label>
-                <Autocompleter id='screening_participants' {...autocompleterProps} searchAddress={searchAddress} />
+                <Autocompleter id='screening_participants' {...autocompleterProps} isAddressIncluded={isAddressIncluded} />
               </div>
             </div>
           </div>
@@ -38,6 +38,7 @@ export class PersonSearchForm extends React.Component {
 
 PersonSearchForm.propTypes = {
   canCreateNewPerson: PropTypes.bool.isRequired,
+  isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
@@ -45,7 +46,6 @@ PersonSearchForm.propTypes = {
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
   results: PropTypes.array,
-  searchAddress: PropTypes.bool,
   searchPrompt: PropTypes.string.isRequired,
   searchTerm: PropTypes.string,
   staffId: PropTypes.string,

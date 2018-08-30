@@ -8,6 +8,7 @@ import moment from 'moment'
 
 describe('<Autocompleter />', () => {
   function mountAutocompleter({
+    isAddressIncluded = false,
     canCreateNewPerson = true,
     onLoadMoreResults = () => null,
     isSelectable = () => true,
@@ -22,6 +23,7 @@ describe('<Autocompleter />', () => {
   }) {
     return mount(
       <Autocompleter
+        isAddressIncluded={isAddressIncluded}
         canCreateNewPerson={canCreateNewPerson}
         onLoadMoreResults={onLoadMoreResults}
         onSelect={onSelect}
@@ -38,6 +40,7 @@ describe('<Autocompleter />', () => {
     )
   }
   function renderAutocompleter({
+    isAddressIncluded = false,
     onSelect = () => null,
     onLoadMoreResults = () => null,
     onClear = () => null,
@@ -53,6 +56,7 @@ describe('<Autocompleter />', () => {
     return shallow(
       <Autocompleter
         id={id}
+        isAddressIncluded={isAddressIncluded}
         onSelect={onSelect}
         onLoadMoreResults={onLoadMoreResults}
         onClear={onClear}
@@ -278,6 +282,19 @@ describe('<Autocompleter />', () => {
         expect(onChange).toHaveBeenCalledWith(value)
       })
     })
+    describe('when isAddressIncluded flag is true i.e when include address checkbox is checked', () => {
+      it('does not perform a search', () => {
+        const isAddressIncluded = true
+        const value = 'Girish'
+        const searchInput = renderAutocompleter({onSearch, onChange, isAddressIncluded})
+          .find('Autocomplete')
+          .dive()
+          .find('input')
+        searchInput.simulate('change', {target: {value}})
+
+        expect(onSearch).not.toHaveBeenCalled()
+      })
+    })
   })
 
   describe('renderInput', () => {
@@ -438,11 +455,13 @@ describe('<Autocompleter />', () => {
   })
 
   describe('SearchByAddress', () => {
-    const searchByAddress = shallow(
-      <SearchByAddress />, {disableLifecycleMethods: true}
+    const render = () => (
+      shallow(<SearchByAddress />)
     )
+
     it('renders SearchByAddress component', () => {
-      expect(searchByAddress.exists()).toBe(true)
+      const component = render()
+      expect(component.exists()).toBe(true)
     })
   })
 })

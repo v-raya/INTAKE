@@ -103,6 +103,18 @@ feature 'search card' do
 
     within '#search-card', text: 'Search' do
       fill_in 'Search for any person', with: 'Ma'
+      expect(page).to_not have_content date_of_birth.strftime('%-m/%-d/%Y')
+      expect(page).to_not have_content '15 yrs old'
+      expect(page).to_not have_content 'Female, White, American Indian or Alaska Native'
+      expect(page).to_not have_content 'Hispanic/Latino'
+      expect(page).to_not have_content 'Language'
+      expect(page).to_not have_content 'French (Primary), Italian'
+      expect(page).to_not have_content 'Home(603) 555-0123'
+      expect(page).to_not have_content 'SSN'
+      expect(page).to_not have_content '1234'
+      expect(page).to_not have_content '123-23-1234'
+      expect(page).to_not have_content 'Home123 Fake St, Springfield, NY 11222'
+      expect(page).to_not have_content 'Sensitive'
       click_button 'Search'
     end
 

@@ -38,10 +38,7 @@ CheckboxField.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
-  value: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.bool,
-  ]),
+  value: PropTypes.string.isRequired,
 }
 
 export default CheckboxField

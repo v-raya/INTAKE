@@ -3,26 +3,27 @@ import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import AddressWithSearch from 'common/AddressWithSearch'
 
-const SearchByAddress = ({searchAddress, includeAddressClicked, submitButtonClicked}) => (
+const SearchByAddress = ({isAddressIncluded, toggleAddressSearch, onSubmit}) => (
   <div>
     <div className='row'>
       <div className='col-md-3'>
         <CheckboxField
           id='include-address'
           label='Include Address'
-          onChange={includeAddressClicked}
-          value={searchAddress}
+          onChange={toggleAddressSearch}
+          checked={isAddressIncluded}
+          value='include-address'
         />
       </div>
     </div>
-    {searchAddress && <AddressWithSearch submitButtonClicked={submitButtonClicked} />}
+    {isAddressIncluded && <AddressWithSearch onSubmit={onSubmit} />}
   </div>
 )
 
 SearchByAddress.propTypes = {
-  includeAddressClicked: PropTypes.func,
-  searchAddress: PropTypes.bool,
-  submitButtonClicked: PropTypes.func,
+  isAddressIncluded: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  toggleAddressSearch: PropTypes.func,
 }
 
 export default SearchByAddress

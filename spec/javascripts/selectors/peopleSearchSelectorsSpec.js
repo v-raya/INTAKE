@@ -472,7 +472,7 @@ describe('peopleSearchSelectors', () => {
   describe('getSearchAddressValueSelector', () => {
     it('gets search address value', () => {
       const peopleSearch = {
-        searchAddress: true,
+        isAddressIncluded: true,
       }
       const state = fromJS({peopleSearch})
       expect(getSearchAddressValueSelector(state)).toEqual(true)

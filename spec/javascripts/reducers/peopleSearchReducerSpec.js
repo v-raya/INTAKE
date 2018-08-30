@@ -3,7 +3,7 @@ import {
   clear,
   fetchFailure,
   fetchSuccess,
-  includeAddressClicked,
+  toggleAddressSearch,
   search,
   setSearchTerm,
   loadMoreResultsSuccess,
@@ -143,21 +143,21 @@ describe('peopleSearchReducer', () => {
     })
   })
 
-  describe('on INCLUDE_ADDRESS_CLICKED', () => {
-    const action = includeAddressClicked()
-    it('toggle searchAddress flag from false to true', () => {
-      const initialState = fromJS({searchAddress: false})
+  describe('on TOGGLE_ADDRESS_SEARCH', () => {
+    const action = toggleAddressSearch()
+    it('toggle isAddressIncluded flag from false to true', () => {
+      const initialState = fromJS({isAddressIncluded: false})
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
-          searchAddress: true,
+          isAddressIncluded: true,
         })
       )
     })
-    it('toggle searchAddress flag from true to false', () => {
-      const initialState = fromJS({searchAddress: true})
+    it('toggle isAddressIncluded flag from true to false', () => {
+      const initialState = fromJS({isAddressIncluded: true})
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
-          searchAddress: false,
+          isAddressIncluded: false,
         })
       )
     })
