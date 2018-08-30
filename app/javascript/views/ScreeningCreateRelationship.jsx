@@ -51,17 +51,17 @@ export default class ScreeningCreateRelationship extends React.Component {
     )
   }
 
+  renderModalComponent() {
+    return
+  }
+
   render() {
     const {candidates, onChange} = this.props
     return (
       <div className='row'>
         <div className='col-md-12' >
           <div className='pull-right'>
-            <button
-              aria-label='Create Relationship'
-              className='btn btn-primary'
-              onClick={this.handleShowModal}
-            >
+            <button aria-label='Create Relationship' className='btn btn-primary' onClick={this.handleShowModal}>
               Create Relationship
             </button>
           </div>
@@ -70,12 +70,7 @@ export default class ScreeningCreateRelationship extends React.Component {
           <ModalComponent
             closeModal={this.closeModal}
             showModal={this.state.show}
-            modalBody={
-              <CreateRelationshipForm
-                candidates={candidates}
-                onChange={onChange}
-              />
-            }
+            modalBody={<CreateRelationshipForm candidates={candidates} onChange={onChange}/>}
             modalFooter={this.modalFooter()}
             modalSize='large'
             modalTitle={'Create Relationships'}
