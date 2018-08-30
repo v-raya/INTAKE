@@ -5,12 +5,16 @@ import AddressWithSearch from 'common/AddressWithSearch'
 
 const SearchByAddress = ({searchAddress, includeAddressClicked, submitButtonClicked}) => (
   <div>
-    <CheckboxField
-      id='include-address'
-      label='Include Address'
-      onChange={includeAddressClicked}
-      value={searchAddress}
-    />
+    <div className='row'>
+      <div className='col-md-3'>
+        <CheckboxField
+          id='include-address'
+          label='Include Address'
+          onChange={includeAddressClicked}
+          value={searchAddress}
+        />
+      </div>
+    </div>
     {searchAddress && <AddressWithSearch submitButtonClicked={submitButtonClicked} />}
   </div>
 )
