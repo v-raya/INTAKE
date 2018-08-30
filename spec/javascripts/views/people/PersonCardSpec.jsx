@@ -2,6 +2,7 @@ import {EDIT_MODE, SHOW_MODE, SAVING_MODE} from 'actions/screeningPageActions'
 import PersonCard from 'views/people/PersonCard'
 import React from 'react'
 import {shallow} from 'enzyme'
+import * as Navigation from 'utils/navigation'
 
 describe('PersonCard', () => {
   function renderPersonCard({
@@ -30,7 +31,7 @@ describe('PersonCard', () => {
       personName,
       informationPill,
     }
-    return shallow(<PersonCard {...props}/>, {disableLifecycleMethods: true})
+    return shallow(<PersonCard {...props}/>)
   }
 
   describe('mode is show', () => {
@@ -150,6 +151,16 @@ describe('PersonCard', () => {
       component.find('CardActionRow').props().onSave()
       expect(onSave).toHaveBeenCalled()
     })
+
+    it('navigates to itself when transitioning to show mode', () => {
+      const id = '8675309'
+      spyOn(Navigation, 'setHash')
+      const component = renderPersonCard({mode: EDIT_MODE, personId: id})
+      expect(Navigation.setHash).not.toHaveBeenCalled()
+
+      component.setProps({mode: SHOW_MODE})
+      expect(Navigation.setHash).toHaveBeenCalledWith(`#participants-card-${id}`)
+    })
   })
   describe('mode is saving', () => {
     it('displays a card header', () => {
@@ -204,6 +215,16 @@ describe('PersonCard', () => {
       const component = renderPersonCard({mode: SAVING_MODE})
       expect(component.find('CardActionRow').exists()).toEqual(true)
       expect(component.find('CardActionRow').props().isLoading).toEqual(true)
+    })
+
+    it('navigates to itself when transitioning to show mode', () => {
+      const id = '8675309'
+      spyOn(Navigation, 'setHash')
+      const component = renderPersonCard({mode: SAVING_MODE, personId: id})
+      expect(Navigation.setHash).not.toHaveBeenCalled()
+
+      component.setProps({mode: SHOW_MODE})
+      expect(Navigation.setHash).toHaveBeenCalledWith(`#participants-card-${id}`)
     })
   })
 })

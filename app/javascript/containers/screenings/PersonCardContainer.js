@@ -9,7 +9,6 @@ import {
 import {savePerson, deletePerson} from 'actions/personCardActions'
 import {EDIT_MODE, SAVING_MODE, SHOW_MODE, setPersonCardMode} from 'actions/screeningPageActions'
 import {touchAllFields} from 'actions/peopleFormActions'
-import {setHash} from 'utils/navigation'
 
 const mapStateToProps = (state, {personId}) => ({
   mode: getModeValueSelector(state, personId),
@@ -23,7 +22,6 @@ const mapStateToProps = (state, {personId}) => ({
 export const mapDispatchToProps = (dispatch, {personId}) => ({
   onCancel: () => {
     dispatch(setPersonCardMode(personId, SHOW_MODE))
-    setHash(`#participants-card-${personId}`)
   },
   onDelete: () => dispatch(deletePerson(personId)),
   onEdit: () => dispatch(setPersonCardMode(personId, EDIT_MODE)),
@@ -31,7 +29,6 @@ export const mapDispatchToProps = (dispatch, {personId}) => ({
     dispatch(savePerson(personId))
     dispatch(touchAllFields(personId))
     dispatch(setPersonCardMode(personId, SAVING_MODE))
-    setHash(`#participants-card-${personId}`)
   },
 })
 
