@@ -192,30 +192,23 @@ export default class Autocompleter extends Component {
     //Sequentually numbering items
     addPosAndSetAttr(results)
     const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
-    return (
-      <div>
-        <Autocomplete
-          ref={(el) => (this.element_ref = el)}
-          getItemValue={(_) => searchTerm}
-          inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
-          items={newResults}
-          onChange={this.onChangeInput}
-          onSelect={this.onItemSelect}
-          renderItem={this.renderItem}
-          open={this.state.menuVisible}
-          renderMenu={this.renderMenu}
-          value={searchTerm}
-          wrapperStyle={{display: 'block', position: 'relative'}}
-          renderInput={(props) => this.renderInput(props)}
-        />
-        <SearchByAddress
-          id='search_address'
-          searchAddress={searchAddress}
-          includeAddressClicked={this.handleIncludeAddressClicked}
-          submitButtonClicked={this.handleSubmitButtonClicked}
-        />
-      </div>
-    )
+    return (<div>
+      <Autocomplete
+        ref={(el) => (this.element_ref = el)}
+        getItemValue={(_) => searchTerm}
+        inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
+        items={newResults}
+        onChange={this.onChangeInput}
+        onSelect={this.onItemSelect}
+        renderItem={this.renderItem}
+        open={this.state.menuVisible}
+        renderMenu={this.renderMenu}
+        value={searchTerm}
+        wrapperStyle={{display: 'block', position: 'relative'}}
+        renderInput={(props) => this.renderInput(props)}
+      />
+      <SearchByAddress searchAddress={searchAddress} includeAddressClicked={this.handleIncludeAddressClicked} submitButtonClicked={this.handleSubmitButtonClicked} />
+    </div>)
   }
 }
 
