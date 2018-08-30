@@ -78,7 +78,7 @@ export default class ScreeningCreateRelationship extends React.Component {
             }
             modalFooter={this.modalFooter()}
             modalSize='large'
-            modalTitle={'Create Relationship'}
+            modalTitle={'Create Relationships'}
           />
         </div>
       </div>

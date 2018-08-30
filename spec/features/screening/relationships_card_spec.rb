@@ -41,7 +41,7 @@ feature 'Relationship card' do
         first_name: participant.first_name,
         last_name: participant.last_name,
         relationships: [].push(jane, jake, john),
-        candidate_to: [],
+        candidate_to: [].push(nagato),
         age: 20,
         age_unit: 'Y',
         legacy_id: 'jane_legacy_id'
@@ -143,6 +143,28 @@ feature 'Relationship card' do
       start_date: '',
       end_date: ''
     }
+  end
+  let(:nagato) do
+    {
+      candidate_age: 23,
+      candidate_first_name: 'Nagato',
+      candidate_id: '768',
+      candidate_last_name: 'Uzumaki',
+      candidate_middle_name: '',
+      candidate_name_suffix: ''
+    }
+  end
+  let(:create_relationships) do
+    [{
+      client_id: participant.id.to_s,
+      relative_id: '768',
+      relationship_type: 180,
+      absent_parent_indicator: false,
+      same_home_status: 'N',
+      start_date: '',
+      end_date: '',
+      legacy_id: ''
+    }]
   end
   let(:hoi) do
     {
@@ -437,6 +459,53 @@ feature 'Relationship card' do
                 find('button', text: 'CANCEL').click
               end
               expect(page).to have_no_content('Edit Relationship Type')
+            end
+          end
+
+          describe 'create new relationships of a participant' do
+            before(:each) do
+              stub_request(:post,
+                ferb_api_url(FerbRoutes.screening_relationships))
+                .with(body: create_relationships.to_json)
+                .and_return(json_body(create_relationships.to_json))
+            end
+
+            scenario 'opens the modal create relationships of a particiapnt' do
+              within '#relationships-card.card' do
+                click_button 'Create Relationship'
+              end
+              within 'div.modal-body' do
+                expect(page).to have_content(
+                  "#{relationships.first[:first_name]} #{relationships.first[:last_name]}"
+                )
+                expect(page).to have_content('Nagato Uzumaki')
+              end
+            end
+
+            scenario 'saving created relationships of a particiapnt' do
+              within '#relationships-card.card' do
+                click_button 'Create Relationship'
+              end
+              within 'div.modal-content' do
+                select 'Brother/Brother (Half)', from: 'change_relationship_type'
+                click_button 'Create Relationship'
+              end
+              expect(
+                a_request(:post,
+                  ferb_api_url(
+                    FerbRoutes.screening_relationships
+                  )).with(json_body(create_relationships.to_json))
+              ).to have_been_made
+            end
+
+            scenario 'closes the create relationship modal' do
+              within '#relationships-card.card' do
+                click_button 'Create Relationship'
+              end
+              within 'div.modal-footer' do
+                click_button 'Cancel'
+              end
+              expect(page).to have_no_content('Create Relationships')
             end
           end
         end
