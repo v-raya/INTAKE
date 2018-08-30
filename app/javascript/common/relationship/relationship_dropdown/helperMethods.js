@@ -1,5 +1,5 @@
 import moment from 'moment'
-export const unknowGenderCodes = ['U', 'I']
+export const unknownGenderCodes = ['U', 'I']
 export const uniq = (arr) => [...new Set(arr)]
 export const isPrimaryClientYounger = (
   primaryClientBirthDate,
@@ -18,7 +18,7 @@ export const doesClientHaveDOB = (client) => {
   return !isNaN(clientBirthDate)
 }
 
-export const isGenderUnknown = (client) => unknowGenderCodes.includes(client.gender_code)
+export const isGenderUnknown = (client) => unknownGenderCodes.includes(client.gender_code)
 
 export const bothHaveDOBandGender = (
   primaryClient,
