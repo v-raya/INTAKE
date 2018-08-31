@@ -16,6 +16,8 @@ import {
   setCardMode,
 } from 'actions/screeningPageActions'
 import {
+  createScreeningSuccess,
+  createScreeningFailure,
   fetchScreeningSuccess,
   fetchScreeningFailure,
   saveCard,
@@ -264,6 +266,42 @@ describe('screeningPageReducer', () => {
 
     it('sets any saving cards to Show mode on error', () => {
       const action = saveFailure('Error!')
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState).toEqualImmutable(fromJS({
+        cards: {
+          'narrative-card': SHOW_MODE,
+          'allegations-card': SHOW_MODE,
+          'worker-safety-card': EDIT_MODE,
+          'decision-card': SHOW_MODE,
+        },
+      }))
+    })
+  })
+
+  describe('on CREATE_SCREENING_COMPLETE', () => {
+    const initialState = fromJS({
+      cards: {
+        'narrative-card': SAVING_MODE,
+        'allegations-card': SAVING_MODE,
+        'worker-safety-card': EDIT_MODE,
+        'decision-card': SHOW_MODE,
+      },
+    })
+    it('sets any saving cards to Show mode on success', () => {
+      const action = createScreeningSuccess('Fake Screening')
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState).toEqualImmutable(fromJS({
+        cards: {
+          'narrative-card': SHOW_MODE,
+          'allegations-card': SHOW_MODE,
+          'worker-safety-card': EDIT_MODE,
+          'decision-card': SHOW_MODE,
+        },
+      }))
+    })
+
+    it('sets any saving cards to Show mode on error', () => {
+      const action = createScreeningFailure('Error!')
       const newState = screeningPageReducer(initialState, action)
       expect(newState).toEqualImmutable(fromJS({
         cards: {
