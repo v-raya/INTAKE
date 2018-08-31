@@ -10,7 +10,7 @@ const isAbsentParentDisabled = (type) => (
 )
 const findTypeLabel = (typeCode) => {
   const types = (RELATIONSHIP_TYPES.find((type) =>
-    type.value.toString() === typeCode.toString()
+    type.value === typeCode
   ).label).split('/')
   return {
     secondary: types.pop(),
