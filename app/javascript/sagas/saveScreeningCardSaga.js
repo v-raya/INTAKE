@@ -35,13 +35,14 @@ export function* createScreeningBase(screening) {
     const {id} = response
     const screeningEditPath = `/screenings/${id}/edit`
     yield put(createScreeningSuccess(response))
+    yield put(saveSuccess(response))
     yield put(replace(screeningEditPath))
   } catch (error) {
-    yield put(createScreeningFailure(error))
+    yield put(saveFailure(error))
   }
 }
 
-export function* saveScreeningCard({payload: {card}}) {
+function* quietlySaveScreeningCard({payload: {card}}) {
   try {
     let screening
     switch (card) {
@@ -91,6 +92,15 @@ export function* saveScreeningCard({payload: {card}}) {
     yield put(saveFailure(error))
   }
 }
+
+export function* saveScreeningCard(action) {
+  try {
+    yield* quietlySaveScreeningCard(action)
+  } catch (error) {
+    yield put(saveFailure(error))
+  }
+}
+
 export function* saveScreeningCardSaga() {
   yield takeEvery(SAVE_SCREENING, saveScreeningCard)
 }

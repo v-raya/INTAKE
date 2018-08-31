@@ -49,6 +49,9 @@ describe('createScreeningBase', () => {
     expect(gen.next(screening).value).toEqual(
       put(createScreeningSuccess(screening))
     )
+    expect(gen.next().value).toEqual(
+      put(saveSuccess(screening))
+    )
     const screeningNew = fromJS({id: '123', allegations: [], participants: []})
     expect(gen.next().value).toEqual(
       put(replace(`/screenings/${screeningNew.id}/edit`))
@@ -63,7 +66,7 @@ describe('createScreeningBase', () => {
       call(Utils.post, '/api/v1/screenings', {screening: screening.toJS()})
     )
     expect(gen.throw(error).value).toEqual(
-      put(createScreeningFailure(error))
+      put(saveFailure(error))
     )
   })
 })
