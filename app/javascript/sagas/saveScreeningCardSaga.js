@@ -1,6 +1,6 @@
 import {takeEvery, put, call, select} from 'redux-saga/effects'
 import * as api from 'utils/http'
-import {saveSuccess, saveFailure, saveFailureFromNoParticipants, SAVE_SCREENING, createScreeningSuccess, createScreeningFailure} from 'actions/screeningActions'
+import {saveSuccess, saveFailure, saveFailureFromNoParticipants, SAVE_SCREENING, createScreeningSuccess} from 'actions/screeningActions'
 import {getScreeningWithAllegationsEditsSelector} from 'selectors/screening/allegationsFormSelectors'
 import {
   getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
