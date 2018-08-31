@@ -5,8 +5,6 @@ import React from 'react'
 import CardActionRow from 'screenings/CardActionRow'
 import {setHash} from 'utils/navigation'
 
-const modeClass = (mode) => (mode === SHOW_MODE ? 'show' : 'edit')
-
 class PersonCard extends React.PureComponent {
   componentDidUpdate(prevProps) {
     if (this.props.mode === SHOW_MODE && prevProps.mode !== SHOW_MODE) {
@@ -14,38 +12,57 @@ class PersonCard extends React.PureComponent {
     }
   }
 
-  render() {
+  renderHeader() {
     const {
       deletable,
-      edit,
       editable,
       informationFlag,
       informationPill,
       mode,
-      onCancel,
       onDelete,
       onEdit,
-      onSave,
-      personId,
       personName,
+    } = this.props
+    return (
+      <PersonCardHeader
+        informationFlag={informationFlag}
+        onDelete={onDelete}
+        showDelete={deletable}
+        onEdit={onEdit}
+        showEdit={editable && mode === SHOW_MODE}
+        title={personName}
+        informationPill={informationPill}
+      />
+    )
+  }
+
+  renderBody() {
+    const {
+      edit,
+      mode,
+      onCancel,
+      onSave,
       show,
     } = this.props
     return (
-      <div className={`card ${modeClass(mode)} participant double-gap-bottom`} id={`participants-card-${personId}`}>
-        <PersonCardHeader
-          informationFlag={informationFlag}
-          onDelete={onDelete}
-          showDelete={deletable}
-          onEdit={onEdit}
-          showEdit={editable && mode === SHOW_MODE}
-          title={personName}
-          informationPill={informationPill}
-        />
-        <div className='card-body'>
-          {mode === SHOW_MODE && show}
-          {mode !== SHOW_MODE && edit}
-          {mode !== SHOW_MODE && <CardActionRow onCancel={onCancel} onSave={onSave} isLoading={mode === SAVING_MODE}/>}
-        </div>
+      <div className='card-body'>
+        {mode === SHOW_MODE && show}
+        {mode !== SHOW_MODE && edit}
+        {mode !== SHOW_MODE && <CardActionRow onCancel={onCancel} onSave={onSave} isLoading={mode === SAVING_MODE}/>}
+      </div>
+    )
+  }
+
+  render() {
+    const {mode, personId} = this.props
+    const modeClass = (mode === SHOW_MODE ? 'show' : 'edit')
+    const className = `card ${modeClass} participant double-gap-bottom`
+    const id = `participants-card-${personId}`
+
+    return (
+      <div className={className} id={id}>
+        {this.renderHeader()}
+        {this.renderBody()}
       </div>
     )
   }
