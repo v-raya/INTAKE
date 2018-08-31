@@ -166,5 +166,3 @@ export const genderCodeUU = {
   gender_code: 'UU',
   label: 'Guardian/Ward',
 }
-
-				  

@@ -23,7 +23,7 @@ import {
   genderCodeMM,
   genderCodeFU,
   genderCodeUM,
-  genderCodeUU
+  genderCodeUU,
 } from './relationshipDropdownTestConstants'
 
 describe('RelationshipDropdown', () => {
