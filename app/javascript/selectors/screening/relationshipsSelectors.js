@@ -11,7 +11,6 @@ export const getScreeningRelationships = (state) => (state.get('relationships', 
 
 const genderMap = (gender) => GENDERS_LEGACY[gender] || GENDERS[gender] || ''
 const mapGenderCode = (gender) => GENDER_CODES[gender] || ''
-
 const isPersonCardExists = (people, relationship) => {
   if (people && people.size > 0 && relationship.legacy_descriptor) {
     const isLegacyIdSame = people.some((person) => person.get('legacy_id') === relationship.legacy_descriptor.legacy_id)

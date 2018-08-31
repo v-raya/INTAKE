@@ -28,7 +28,7 @@ feature 'decision card' do
     visit edit_screening_path(id: screening[:id])
   end
 
-  scenario 'initial configuration, persisting data', browser: :poltergeist do
+  scenario 'initial configuration, persisting data' do
     new_window = nil
     within '#decision-card.edit' do
       expect(page).to have_select('Screening Decision', options: [
