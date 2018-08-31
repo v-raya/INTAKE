@@ -30,72 +30,67 @@ import {cardName as crossReportsCardName} from 'containers/screenings/CrossRepor
 import {replace} from 'react-router-redux'
 
 export function* createScreeningBase(screening) {
-  try {
-    const response = yield call(api.post, '/api/v1/screenings', {screening: screening.toJS()})
-    const {id} = response
-    const screeningEditPath = `/screenings/${id}/edit`
-    yield put(createScreeningSuccess(response))
-    yield put(saveSuccess(response))
-    yield put(replace(screeningEditPath))
-  } catch (error) {
-    yield put(saveFailure(error))
-  }
+  const response = yield call(api.post, '/api/v1/screenings', {screening: screening.toJS()})
+  const {id} = response
+  const screeningEditPath = `/screenings/${id}/edit`
+  yield put(createScreeningSuccess(response))
+  yield put(replace(screeningEditPath))
+  return response
 }
 
-function* quietlySaveScreeningCard({payload: {card}}) {
-  try {
-    let screening
-    switch (card) {
-      case allegationsCardName: {
-        screening = yield select(getScreeningWithAllegationsEditsSelector)
-        break
-      }
-      case crossReportsCardName: {
-        screening = yield select(getScreeningWithCrossReportEditsSelector)
-        break
-      }
-      case decisionCardName: {
-        screening = yield select(getScreeningWithDecisionEditsSelector)
-        break
-      }
-      case incidentInformationCardName: {
-        screening = yield select(getScreeningWithIncidentInformationEditsSelector)
-        break
-      }
-      case narrativeCardName: {
-        screening = yield select(getScreeningWithNarrativeEditsSelector)
-        break
-      }
-      case screeningInformationCardName: {
-        screening = yield select(getScreeningWithScreeningInformationEditsSelector)
-        break
-      }
-      case workerSafetyCardName: {
-        screening = yield select(getScreeningWithWorkerSafetyEditsSelector)
-        break
-      }
+export function* quietlySaveScreeningCard({payload: {card}}) {
+  let screening
+  switch (card) {
+    case allegationsCardName: {
+      screening = yield select(getScreeningWithAllegationsEditsSelector)
+      break
     }
+    case crossReportsCardName: {
+      screening = yield select(getScreeningWithCrossReportEditsSelector)
+      break
+    }
+    case decisionCardName: {
+      screening = yield select(getScreeningWithDecisionEditsSelector)
+      break
+    }
+    case incidentInformationCardName: {
+      screening = yield select(getScreeningWithIncidentInformationEditsSelector)
+      break
+    }
+    case narrativeCardName: {
+      screening = yield select(getScreeningWithNarrativeEditsSelector)
+      break
+    }
+    case screeningInformationCardName: {
+      screening = yield select(getScreeningWithScreeningInformationEditsSelector)
+      break
+    }
+    case workerSafetyCardName: {
+      screening = yield select(getScreeningWithWorkerSafetyEditsSelector)
+      break
+    }
+  }
 
-    if (screening.get('participants') === undefined) {
-      yield put(saveFailureFromNoParticipants())
-      return
-    }
-    const id = screening.get('id')
-    if (id) {
-      const path = `/api/v1/screenings/${id}`
-      const response = yield call(api.put, path, {screening: screening.toJS()})
-      yield put(saveSuccess(response))
-    } else {
-      yield* createScreeningBase(screening)
-    }
-  } catch (error) {
-    yield put(saveFailure(error))
+  if (screening.get('participants') === undefined) {
+    yield put(saveFailureFromNoParticipants())
+    return null
+  }
+
+  const id = screening.get('id')
+  if (id) {
+    const path = `/api/v1/screenings/${id}`
+    return yield call(api.put, path, {screening: screening.toJS()})
+  } else {
+    return yield* createScreeningBase(screening)
   }
 }
 
 export function* saveScreeningCard(action) {
   try {
-    yield* quietlySaveScreeningCard(action)
+    const response = yield* quietlySaveScreeningCard(action)
+    if (response) {
+      yield put(saveSuccess(response))
+    }
   } catch (error) {
     yield put(saveFailure(error))
   }

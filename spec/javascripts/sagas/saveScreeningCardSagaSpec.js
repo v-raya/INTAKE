@@ -2,8 +2,8 @@ import 'babel-polyfill'
 import {takeEvery, put, call, select} from 'redux-saga/effects'
 import * as Utils from 'utils/http'
 import {fromJS} from 'immutable'
-import {saveScreeningCardSaga, saveScreeningCard, createScreeningBase} from 'sagas/saveScreeningCardSaga'
-import {saveSuccess, saveFailure, saveFailureFromNoParticipants, saveCard, SAVE_SCREENING, createScreeningSuccess, createScreeningFailure} from 'actions/screeningActions'
+import {saveScreeningCardSaga, saveScreeningCard, createScreeningBase, quietlySaveScreeningCard} from 'sagas/saveScreeningCardSaga'
+import {saveSuccess, saveFailure, saveFailureFromNoParticipants, saveCard, SAVE_SCREENING, createScreeningSuccess} from 'actions/screeningActions'
 import {getScreeningWithAllegationsEditsSelector} from 'selectors/screening/allegationsFormSelectors'
 import {
   getScreeningWithEditsSelector as getScreeningWithScreeningInformationEditsSelector,
@@ -49,25 +49,32 @@ describe('createScreeningBase', () => {
     expect(gen.next(screening).value).toEqual(
       put(createScreeningSuccess(screening))
     )
-    expect(gen.next().value).toEqual(
-      put(saveSuccess(screening))
-    )
     const screeningNew = fromJS({id: '123', allegations: [], participants: []})
     expect(gen.next().value).toEqual(
       put(replace(`/screenings/${screeningNew.id}/edit`))
     )
+    expect(gen.next()).toEqual({
+      done: true,
+      value: screening,
+    })
   })
+})
 
-  it('puts errors when errors are thrown', () => {
-    const error = {responseJSON: 'some error'}
-    const screening = fromJS({id: undefined})
-    const gen = createScreeningBase(screening)
+describe('quietlySaveScreeningCard', () => {
+  it('saves a screening card without putting success events', () => {
+    const action = saveCard(allegationsCardName)
+    const screening = fromJS({id: 123, allegations: [], participants: []})
+
+    const gen = quietlySaveScreeningCard(action)
     expect(gen.next().value).toEqual(
-      call(Utils.post, '/api/v1/screenings', {screening: screening.toJS()})
+      select(getScreeningWithAllegationsEditsSelector)
     )
-    expect(gen.throw(error).value).toEqual(
-      put(saveFailure(error))
+    expect(gen.next(screening).value).toEqual(
+      call(Utils.put, '/api/v1/screenings/123', {screening: screening.toJS()})
     )
+    const final = gen.next(screening)
+    expect(final.done).toEqual(true)
+    expect(final.value).not.toEqual(put(saveSuccess(screening)))
   })
 })
 
