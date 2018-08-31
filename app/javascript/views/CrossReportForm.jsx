@@ -186,7 +186,7 @@ const CrossReportForm = ({
           </fieldset>
         }
       </div>
-      <CardActionRow onCancel={cancel} onSave={save} isLoading={isSaving} />
+      <CardActionRow onCancel={cancel} onSave={save} isSaving={isSaving} />
     </div>
   )
 }

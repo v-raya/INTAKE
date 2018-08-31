@@ -39,7 +39,7 @@ const WorkerSafetyForm = ({
         />
       </div>
     </div>
-    <CardActionRow onCancel={onCancel} onSave={onSave} isLoading={isSaving} />
+    <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving} />
   </div>
 )
 

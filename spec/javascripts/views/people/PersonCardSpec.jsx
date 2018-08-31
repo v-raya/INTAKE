@@ -135,7 +135,7 @@ describe('PersonCard', () => {
     it('renders a card action row', () => {
       const component = renderPersonCard({mode: EDIT_MODE})
       expect(component.find('CardActionRow').exists()).toEqual(true)
-      expect(component.find('CardActionRow').props().isLoading).not.toBeTruthy()
+      expect(component.find('CardActionRow').props().isSaving).not.toBeTruthy()
     })
 
     it('canceling edit calls onCancel', () => {
@@ -211,10 +211,10 @@ describe('PersonCard', () => {
       expect(component.find('.card-body').children('p').at(0).text()).toEqual('Editing')
     })
 
-    it('renders a "loading" card action row', () => {
+    it('renders a "saving" card action row', () => {
       const component = renderPersonCard({mode: SAVING_MODE})
       expect(component.find('CardActionRow').exists()).toEqual(true)
-      expect(component.find('CardActionRow').props().isLoading).toEqual(true)
+      expect(component.find('CardActionRow').props().isSaving).toEqual(true)
     })
 
     it('navigates to itself when transitioning to show mode', () => {

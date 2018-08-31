@@ -48,7 +48,7 @@ class PersonCard extends React.PureComponent {
       <div className='card-body'>
         {mode === SHOW_MODE && show}
         {mode !== SHOW_MODE && edit}
-        {mode !== SHOW_MODE && <CardActionRow onCancel={onCancel} onSave={onSave} isLoading={mode === SAVING_MODE}/>}
+        {mode !== SHOW_MODE && <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={mode === SAVING_MODE}/>}
       </div>
     )
   }

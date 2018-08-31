@@ -136,7 +136,7 @@ const ScreeningDecisionForm = ({
         <a href={sdmPath} target='_blank' id='complete_sdm'>Complete SDM</a>
       </div>
     </div>
-    <CardActionRow onCancel={onCancel} onSave={onSave} isLoading={isSaving}/>
+    <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving}/>
   </div>
 )
 

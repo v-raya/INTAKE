@@ -98,7 +98,7 @@ const ScreeningInformationForm = ({
         {communicationMethods.map(({value, label}) => <option key={value} value={value}>{label}</option>)}
       </SelectField>
     </div>
-    <CardActionRow onCancel={onCancel} onSave={onSave} isLoading={isSaving}/>
+    <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving}/>
   </div>
 )
 ScreeningInformationForm.propTypes = {
