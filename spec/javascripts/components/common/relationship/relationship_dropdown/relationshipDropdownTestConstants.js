@@ -151,8 +151,8 @@ export const genderCodeUF = {
   logical_code: 'D',
   gender_code: 'FU',
   label: 'Daughter/De Facto Parent',
-} 
-		  
+}
+
 export const genderCodeUM = {
   value: 202,
   logical_code: 'DFP',
@@ -166,5 +166,5 @@ export const genderCodeUU = {
   gender_code: 'UU',
   label: 'Guardian/Ward',
 }
-  
+
 				  

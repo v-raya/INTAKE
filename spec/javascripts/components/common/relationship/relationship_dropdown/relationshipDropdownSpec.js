@@ -101,7 +101,7 @@ describe('RelationshipDropdown', () => {
         genderCodeMm,
         genderCodeFM,
         genderCodeFm,
-        genderCodeUM,)
+        genderCodeUM)
       expect(wrapper).not.toContain(genderCodemM, genderCodefM)
     })
   })
