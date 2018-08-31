@@ -76,43 +76,28 @@ describe('ScreeningCreateRelationship', () => {
   })
 
   describe('closeModal', () => {
-    it('closes the modal and on cancel have been called', () => {
-      wrapper.setState({show: true})
-      expect(wrapper.instance().state.show).toBe(true)
-      wrapper.instance().closeModal()
-      expect(wrapper.instance().state.show).toEqual(false)
-      expect(onCancel).toHaveBeenCalled()
-      expect(onCancel).toHaveBeenCalledWith('805')
-    })
-
-    it('closes the modal when the cancel button is clicked', () => {
+    it('closes the modal and onCancel have been called', () => {
       wrapper.setState({show: true})
       const footer = wrapper.find('ModalComponent').props().modalFooter
       const cancel = footer.props.children[0]
       expect(wrapper.state().show).toEqual(true)
       cancel.props.onClick()
       expect(wrapper.state().show).toEqual(false)
+      expect(onCancel).toHaveBeenCalled()
+      expect(onCancel).toHaveBeenCalledWith('805')
     })
   })
 
   describe('handleShowModal', () => {
     it('set the state show to its inverse', () => {
       wrapper.setState({show: true})
-      expect(wrapper.instance().state.show).toBe(true)
+      expect(wrapper.state().show).toBe(true)
       wrapper.instance().handleShowModal()
-      expect(wrapper.instance().state.show).toEqual(false)
+      expect(wrapper.state().show).toEqual(false)
     })
   })
 
   describe('saveCreateRelationship', () => {
-    it('calls the handleShowModal that set the state and calls the onSave', () => {
-      wrapper.setState({show: true})
-      expect(wrapper.instance().state.show).toBe(true)
-      wrapper.instance().saveCreateRelationship()
-      expect(wrapper.instance().state.show).toEqual(false)
-      expect(onSave).toHaveBeenCalled()
-      expect(onSave).toHaveBeenCalledWith('805')
-    })
     it('calls close the modal when the Create Relationship Button is click', () => {
       wrapper.setState({show: true})
       const footer = wrapper.find('ModalComponent').props().modalFooter
@@ -121,6 +106,7 @@ describe('ScreeningCreateRelationship', () => {
       save.props.onClick()
       expect(wrapper.state().show).toEqual(false)
       expect(onSave).toHaveBeenCalled()
+      expect(onSave).toHaveBeenCalledWith('805')
     })
   })
 })

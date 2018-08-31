@@ -10,8 +10,5 @@ export const selectCandidatesWithEdits = (state, id) => (Map({
     relationship_type: parseInt(candidate.getIn(['candidate', 'relationshipType']), 10),
     absent_parent_indicator: false,
     same_home_status: 'N',
-    start_date: '',
-    end_date: '',
-    legacy_id: '',
   })),
 }))

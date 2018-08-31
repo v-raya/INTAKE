@@ -11,7 +11,7 @@ const relationshipTypeFields = RELATIONSHIP_TYPES.map((relationship) => (
   </option>)
 )
 
-const DisplayFormatter = ({name, age, gender}) => (
+const PersonInfoList = ({name, age, gender}) => (
   <div>
     <ul className='unstyled-list'>
       <li>{name}</li>
@@ -21,7 +21,7 @@ const DisplayFormatter = ({name, age, gender}) => (
   </div>
 )
 
-const DisplaySelectField = (onChange) => (
+const SelectRelationshipType = (onChange) => (
   function selectFormat(cell, {person, candidate}) {
     return (
       <SelectField
@@ -44,19 +44,19 @@ const CreateRelationshipForm = ({candidates, onChange}) => (
     <TableHeaderColumn
       className = 'FocusPersonDetails'
       dataField='person'
-      dataFormat={DisplayFormatter}
+      dataFormat={PersonInfoList}
       tdStyle= {textWrap}
     >
       Focus Person
     </TableHeaderColumn>
-    <TableHeaderColumn dataField='candidates' dataFormat={DisplaySelectField(onChange)}>
+    <TableHeaderColumn dataField='candidates' dataFormat={SelectRelationshipType(onChange)}>
       Relationship<br/>
       <div className='text-helper'>Focus Person / Related Person</div>
     </TableHeaderColumn>
     <TableHeaderColumn
       className = 'relatedPersonDetails'
       dataField='candidate'
-      dataFormat={DisplayFormatter}
+      dataFormat={PersonInfoList}
       isKey={true}
       tdStyle={textWrap}
     >
@@ -65,7 +65,7 @@ const CreateRelationshipForm = ({candidates, onChange}) => (
   </BootstrapTable>
 )
 
-DisplayFormatter.propTypes = {
+PersonInfoList.propTypes = {
   age: PropTypes.string,
   gender: PropTypes.string,
   name: PropTypes.string,

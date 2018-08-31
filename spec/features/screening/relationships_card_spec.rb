@@ -160,10 +160,7 @@ feature 'Relationship card' do
       relative_id: '768',
       relationship_type: 180,
       absent_parent_indicator: false,
-      same_home_status: 'N',
-      start_date: '',
-      end_date: '',
-      legacy_id: ''
+      same_home_status: 'N'
     }]
   end
   let(:hoi) do

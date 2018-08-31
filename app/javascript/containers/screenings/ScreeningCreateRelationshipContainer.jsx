@@ -11,7 +11,7 @@ const mapStateToProps = (state, {personId}) => ({
   candidates: selectCandidates(state, personId).toJS(),
 })
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   onChange: ((personId, candidateId, fieldSet, value) =>
     dispatch(setFieldCandidate(personId, candidateId, fieldSet, value))),
   onCancel: ((personId) => dispatch(resetFieldCandidate(personId))),

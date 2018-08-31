@@ -56,39 +56,39 @@ describe('CreateRelationshipForm', () => {
     expect(component.find('TableHeaderColumn').length).toBe(3)
   })
 
-  describe('displayFormatter', () => {
+  describe('PersonInfoList', () => {
     it('displays a ul and li element', () => {
       const {candidate} = row
       const component = createRelationshipForm(props)
-      const displayFormatter = shallow(
+      const PersonInfoList = shallow(
         component.find('TableHeaderColumn').at(0).props().dataFormat(candidate)
       )
-      expect(displayFormatter.find('ul').length).toBe(1)
-      expect(displayFormatter.find('li').length).toBe(3)
-      expect(displayFormatter.find('li').first().text()).toEqual('Vegeta')
+      expect(PersonInfoList.find('ul').length).toBe(1)
+      expect(PersonInfoList.find('li').length).toBe(3)
+      expect(PersonInfoList.find('li').first().text()).toEqual('Vegeta')
     })
   })
 
-  describe('displaySelectField', () => {
+  describe('SelectRelationshipType', () => {
     it('passes the props to SelectField', () => {
       const component = createRelationshipForm(props)
-      const displayFormatter = component
+      const SelectRelationshipType = component
         .find('TableHeaderColumn')
         .at(1)
         .props()
         .dataFormat({}, row, onChange)
-      expect(displayFormatter.props.value).toEqual('191')
+      expect(SelectRelationshipType.props.value).toEqual('191')
     })
     it('simulates click and onChange has been called', () => {
       const component = createRelationshipForm(props)
-      const displayFormatter = shallow(
+      const SelectRelationshipType = shallow(
         component
           .find('TableHeaderColumn')
           .at(1)
           .props()
           .dataFormat({}, row, onChange)
       )
-      const element = displayFormatter.find('select')
+      const element = SelectRelationshipType.find('select')
       element.simulate('change', {target: {value: 'Rasengan'}})
       expect(onChange).toHaveBeenCalled()
       expect(onChange).toHaveBeenCalledWith('1', '4158', 'relationshipType', 'Rasengan')

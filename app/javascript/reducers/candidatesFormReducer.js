@@ -64,7 +64,7 @@ const removeRelationshipType = (candidates) => (
 )
 
 const resetCandidates = (state, {payload: {id}}) =>
-  state.set(id, removeRelationshipType(state.get(id)))
+  state.update(id, removeRelationshipType)
 
 const updateCandidateForm = (state, {payload: {personId, candidateId, value}}) => {
   const index = state.get(personId).findIndex(

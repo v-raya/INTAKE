@@ -51,10 +51,6 @@ export default class ScreeningCreateRelationship extends React.Component {
     )
   }
 
-  renderModalComponent() {
-    return
-  }
-
   render() {
     const {candidates, onChange} = this.props
     return (

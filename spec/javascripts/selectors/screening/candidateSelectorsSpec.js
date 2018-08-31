@@ -135,18 +135,12 @@ describe('candidateSelectors', () => {
           relationship_type: 211,
           absent_parent_indicator: false,
           same_home_status: 'N',
-          start_date: '',
-          end_date: '',
-          legacy_id: '',
         }, {
           client_id: '789',
           relative_id: '4158',
           relationship_type: 271,
           absent_parent_indicator: false,
           same_home_status: 'N',
-          start_date: '',
-          end_date: '',
-          legacy_id: '',
         }]}))
     })
 
