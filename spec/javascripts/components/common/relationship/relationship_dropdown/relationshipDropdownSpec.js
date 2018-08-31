@@ -21,7 +21,10 @@ import {
   genderCodeMm,
   genderCodemM,
   genderCodeMM,
-} from './helperMethodsSpec'
+  genderCodeFU,
+  genderCodeUM,
+  genderCodeUU
+} from './relationshipDropdownTestConstants'
 
 describe('RelationshipDropdown', () => {
   describe('#1bothHaveDOBandGender | Younger Male - Older Male', () => {
@@ -37,6 +40,7 @@ describe('RelationshipDropdown', () => {
 
     it('should return only | Younger Male - Older Male', () => {
       expect(wrapper).toContain(genderCodemM)
+      expect(wrapper).not.toContain(genderCodeMm)
     })
   })
 
@@ -72,12 +76,15 @@ describe('RelationshipDropdown', () => {
       Gandalf
     )
 
-    it('should return mixed younger and Older Male', () => {
+    it('should return mixed Younger Primary and Older Male Secondary', () => {
       expect(wrapper).toContain(
         genderCodeMM,
         genderCodemM,
         genderCodeFM,
-        genderCodefM)
+        genderCodefM,
+        genderCodeUM,
+        genderCodeUU
+      )
       expect(wrapper).not.toContain(genderCodeMm, genderCodeFm)
     })
   })
@@ -88,23 +95,24 @@ describe('RelationshipDropdown', () => {
       Frodo
     )
 
-    it('should return mixed younger and Older Male', () => {
+    it('should return mixed Older Primary and Younger Male', () => {
       expect(wrapper).toContain(
         genderCodeMM,
         genderCodeMm,
         genderCodeFM,
-        genderCodeFm)
+        genderCodeFm,
+        genderCodeUM,)
       expect(wrapper).not.toContain(genderCodemM, genderCodefM)
     })
   })
 
-  describe('#5bothHaveDOBnoSecndryGender Secondary Gender Unknow', () => {
+  describe('#5bothHaveDOBnoSecndryGender Secondary Younger', () => {
     const wrapper = relationshipDropdown(
       Gandalf,
       FrodoUnkownGender
     )
 
-    it('should return mixed older and Younger Male', () => {
+    it('should return Older Male Pimary and mixed Younger Secondary', () => {
       expect(wrapper).toContain(
         genderCodeMm,
         genderCodeMf,
@@ -117,10 +125,11 @@ describe('RelationshipDropdown', () => {
   describe('#6bothHaveDOBnoGender Both Gender Unknown', () => {
     const wrapper = relationshipDropdown(
       GandalfUnknowGender,
-      FrodoUnkownGender
+      FrodoUnkownGender,
+      genderCodeUU
     )
 
-    it('should return mixed older and Younger Male', () => {
+    it('should return mixed Older and mixed Younger', () => {
       expect(wrapper).toContain(
         genderCodeMm,
         genderCodeMf,
@@ -128,39 +137,41 @@ describe('RelationshipDropdown', () => {
         genderCodeMM,
         genderCodeFm,
         genderCodeFf,
-        genderCodeFF)
+        genderCodeFF,
+        genderCodeUU
+      )
       expect(wrapper).not.toContain(genderCodemM, genderCodefM)
     })
   })
 
-  describe('#7NotbothHaveDOB && bothHaveKnownGender Both Known Gender UnKnown DOB', () => {
+  describe('#7NotbothHaveDOB && bothHaveKnownGender Both have Known Gender Secondary has UnKnown DOB', () => {
     const wrapper = relationshipDropdown(
       Frodo,
       GandalfNoDOB)
 
-    it('should return only Older or Younger Male gender', () => {
+    it('should return only male gender for both but either can be older or younger', () => {
       expect(wrapper).toContain(genderCodeMM, genderCodemM, genderCodeMm)
       expect(wrapper).not.toContain(genderCodeFM, genderCodemF, genderCodeFm)
     })
   })
 
-  describe('#8NotbothHaveDOB && bothHaveKnownGender - Female Known Gender UnKnown DOB', () => {
+  describe('#8NotbothHaveDOB && bothHaveKnownGender Primary Female UnKnown DOB Secondary Male', () => {
     const wrapper = relationshipDropdown(
       HarmoineNoDOB,
       Frodo)
 
-    it('should return only Older or Younger Female gender', () => {
-      expect(wrapper).toContain(genderCodeFM, genderCodeFm, genderCodefM)
+    it('should return only Female Primary and Male Secondary either can be younger', () => {
+      expect(wrapper).toContain(genderCodeFM, genderCodeFm, genderCodefM, genderCodeFU)
       expect(wrapper).not.toContain(genderCodeMM, genderCodemM, genderCodeMm)
     })
   })
 
-  describe('#9.1noDOBnoGender Both DOB & Gender Unknown', () => {
+  describe('#9.1noDOBnoGender Both DOB & Gender Unknown for Primary and Secondary', () => {
     const wrapper = relationshipDropdown(
       FrodoUnkownGenderNoDOB,
       HarmoineUnknowGenderNoDOB)
 
-    it('should return mixed list', () => {
+    it('should return mixed gender either can be younger', () => {
       expect(wrapper).toContain(
         genderCodeMF,
         genderCodemF,
@@ -168,17 +179,18 @@ describe('RelationshipDropdown', () => {
         genderCodefF,
         genderCodeFM,
         genderCodeFm,
-        genderCodeFf)
+        genderCodeFf,
+        genderCodeUU)
     })
   })
 
-  describe('#9.2noDOBnoGender Primary DOB & Gender Unknown', () => {
+  describe('#9.2noDOBnoGender Primary DOB & Gender Unknown Secondary DOB Unknown', () => {
     const wrapper = relationshipDropdown(
       FrodoUnkownGenderNoDOB,
       GandalfNoDOB
     )
 
-    it('should return mixed list', () => {
+    it('should return Male Secondary and mixed Gender Primary either can be younger', () => {
       expect(wrapper).toContain(
         genderCodeMM,
         genderCodemM,
@@ -188,13 +200,13 @@ describe('RelationshipDropdown', () => {
     })
   })
 
-  describe('#9.3noDOBnoGender Secondary DOB & Gender Unknown', () => {
+  describe('#9.3noDOBnoGender Primary DOB unknown Secondary DOB & Gender Unknown', () => {
     const wrapper = relationshipDropdown(
       GandalfNoDOB,
       FrodoUnkownGenderNoDOB
     )
 
-    it('should return mixed list', () => {
+    it('should return Male Primary and mixed Secondary either can be younger list', () => {
       expect(wrapper).toContain(
         genderCodeMF,
         genderCodemM,

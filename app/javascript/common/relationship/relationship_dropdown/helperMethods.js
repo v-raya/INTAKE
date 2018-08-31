@@ -20,7 +20,7 @@ export const doesClientHaveDOB = (client) => {
 
 export const isGenderUnknown = (client) => unknownGenderCodes.includes(client.gender_code)
 
-export const bothHaveDOBandGender = (
+export const whenBothHaveDOBandGender = (
   primaryClient,
   secondaryClient,
   primaryClientIsYounger,
@@ -39,7 +39,7 @@ export const bothHaveDOBandGender = (
   return combinedGenderCodeBirthDate
 }
 
-export const bothHaveDOBnoGender = (
+export const whenBothHaveDOBnoGender = (
   primaryClientIsYounger,
   secondaryClientIsYounger
 ) => {
@@ -57,7 +57,7 @@ export const bothHaveDOBnoGender = (
   return genderCodesToReturn
 }
 
-export const bothHaveDOBnoSecndryGender = (
+export const whenBothHaveDOBnoSecndryGender = (
   primaryClient,
   primaryClientIsYounger,
   secondaryClientIsYounger
@@ -83,7 +83,7 @@ export const bothHaveDOBnoSecndryGender = (
   return genderCodesToReturn
 }
 
-export const bothHaveDOBnoPrmaryGender = (
+export const whenBothHaveDOBnoPrmaryGender = (
   secondaryClient,
   primaryClientIsYounger,
   secondaryClientIsYounger

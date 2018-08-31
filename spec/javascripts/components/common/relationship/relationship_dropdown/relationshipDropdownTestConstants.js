@@ -146,3 +146,25 @@ export const genderCodeFf = {
   label: 'Mother/Daughter (Birth)',
 }
 
+export const genderCodeUF = {
+  value: 187,
+  logical_code: 'D',
+  gender_code: 'FU',
+  label: 'Daughter/De Facto Parent',
+} 
+		  
+export const genderCodeUM = {
+  value: 202,
+  logical_code: 'DFP',
+  gender_code: 'UM',
+  label: 'De Facto Parent/Son',
+}
+
+export const genderCodeUU = {
+  value: 241,
+  logical_code: 'GU',
+  gender_code: 'UU',
+  label: 'Guardian/Ward',
+}
+  
+				  

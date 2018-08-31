@@ -7,10 +7,10 @@ import {
   doesClientHaveDOB,
   isPrimaryClientYounger,
   isSecondaryClientYounger,
-  bothHaveDOBandGender,
-  bothHaveDOBnoGender,
-  bothHaveDOBnoSecndryGender,
-  bothHaveDOBnoPrmaryGender,
+  whenBothHaveDOBandGender,
+  whenBothHaveDOBnoGender,
+  whenBothHaveDOBnoSecndryGender,
+  whenBothHaveDOBnoPrmaryGender,
 } from './helperMethods'
 
 export const doBothHaveDOB = (primaryClient, secondaryClient) => doesClientHaveDOB(primaryClient) && doesClientHaveDOB(secondaryClient)
@@ -61,7 +61,7 @@ const bothClientsHaveDOB = (
 ) => {
   let genderCodesReturned = []
   if (genderBothKnown) {
-    genderCodesReturned = bothHaveDOBandGender(
+    genderCodesReturned = whenBothHaveDOBandGender(
       primaryClient,
       secondaryClient,
       primaryClientIsYounger,
@@ -71,17 +71,17 @@ const bothClientsHaveDOB = (
   }
 
   if (genderPriUnknownSecKnown) {
-    genderCodesReturned = bothHaveDOBnoPrmaryGender(secondaryClient, primaryClientIsYounger, secondaryClientIsYounger)
+    genderCodesReturned = whenBothHaveDOBnoPrmaryGender(secondaryClient, primaryClientIsYounger, secondaryClientIsYounger)
     includeGenderCodes = includeGenderCodes.concat(genderCodesReturned)
     includeGenderCodes.push('UU')
   }
   if (genderPriKnownSecUnknown) {
-    genderCodesReturned = bothHaveDOBnoSecndryGender(primaryClient, primaryClientIsYounger, secondaryClientIsYounger)
+    genderCodesReturned = whenBothHaveDOBnoSecndryGender(primaryClient, primaryClientIsYounger, secondaryClientIsYounger)
     includeGenderCodes = includeGenderCodes.concat(genderCodesReturned)
     includeGenderCodes.push('UU')
   }
   if (genderBothUnknown) {
-    genderCodesReturned = bothHaveDOBnoGender(primaryClientIsYounger, secondaryClientIsYounger)
+    genderCodesReturned = whenBothHaveDOBnoGender(primaryClientIsYounger, secondaryClientIsYounger)
     includeGenderCodes = includeGenderCodes.concat(genderCodesReturned)
   }
   return includeGenderCodes
