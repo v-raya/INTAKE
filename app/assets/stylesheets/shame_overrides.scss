@@ -62,8 +62,8 @@
 
 .anchor {
   display: inline-block;
-  height: 13rem;
-  margin-top: -13rem;
+  height: $banner-height + $page-header-height + $error-banner-height;
+  margin-top: 0 - ($banner-height + $page-header-height + $error-banner-height);
   visibility: hidden;
 }
 
