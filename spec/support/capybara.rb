@@ -3,7 +3,6 @@
 require 'capybara/rspec'
 require 'support/capybara/screenshot'
 require 'capybara/accessible'
-require 'capybara/poltergeist'
 require 'selenium-webdriver'
 
 # Tests must be run in the correct timezone because
@@ -67,12 +66,6 @@ Capybara.register_driver :accessible_selenium_chrome do |app|
   Capybara::Accessible.setup(driver, adaptor)
 end
 
-Capybara.register_driver :accessible_poltergeist do |app|
-  driver = Capybara::Poltergeist::Driver.new(app, js_errors: false, inspector: true)
-  adaptor = Capybara::Accessible::PoltergeistDriverAdapter.new
-  Capybara::Accessible.setup(driver, adaptor)
-end
-
 Capybara.register_server :puma do |app, port, host|
   require 'rack/handler/puma'
   Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: '10:10', config_files: [])
@@ -87,6 +80,8 @@ Capybara.raise_server_errors = true
 
 # Allow aria-label to be used in locators
 Capybara.enable_aria_label = true
+
+Capybara.default_max_wait_time = 10
 
 module Capybara
   module Accessible
