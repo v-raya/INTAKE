@@ -1,7 +1,7 @@
 import {
-    PARENT_RELATION,
-    GIVEN_BRACELET_UNKNOWN,
-    GIVEN_MED_QUESTIONAIRE_UNKNOWN,
+  PARENT_RELATION,
+  GIVEN_BRACELET_UNKNOWN,
+  GIVEN_MED_QUESTIONAIRE_UNKNOWN,
 } from 'enums/SafelySurrenderedBabyEnums'
 
 export const babyDoe = {
