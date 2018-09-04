@@ -17,7 +17,7 @@ import NarrativeCard from 'screenings/NarrativeCard'
 import ScreeningInformationCard from 'screenings/ScreeningInformationCard'
 import WorkerSafetyCard from 'screenings/WorkerSafetyCard'
 import PageHeader from 'common/PageHeader'
-import {BreadCrumb} from 'common/BreadCrumb'
+import BreadCrumb from 'containers/common/BreadCrumb'
 import {urlHelper} from 'common/url_helper.js.erb'
 
 const isDuplicatePerson = (participants, personOnScreening) => (

@@ -205,6 +205,10 @@ header {
   padding-top: $page-header-height + $banner-height;
 }
 
+.back-to-dashboard-error {
+  padding-top: $page-header-height + $banner-height + $error-banner-height;
+}
+
 .hotline-inner-container,
 .snapshot-inner-container,
 .back-to-dashboard {
