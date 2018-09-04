@@ -9,7 +9,7 @@ import GENDERS, {GENDERS_LEGACY, GENDER_CODES} from 'enums/Genders'
 
 export const getScreeningRelationships = (state) => (state.get('relationships', List()))
 
-const genderMap = (gender) => GENDERS_LEGACY[gender] || GENDERS[gender] || ''
+export const genderMap = (gender) => GENDERS_LEGACY[gender] || GENDERS[gender] || ''
 const mapGenderCode = (gender) => GENDER_CODES[gender] || ''
 const isPersonCardExists = (people, relationship) => {
   if (people && people.size > 0 && relationship.legacy_descriptor) {
