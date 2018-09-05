@@ -3,11 +3,11 @@ import SearchByAddress from 'common/SearchByAddress'
 import {shallow} from 'enzyme'
 
 describe('SearchByAddress', () => {
+  const render = ({onSubmit = () => {}, ...props} = {}) => (
+    shallow(<SearchByAddress onSubmit={onSubmit} {...props} />)
+  )
   describe('when isAddressIncluded flag is false', () => {
     it('renders only Include Address checkbox', () => {
-      const render = ({onChange = () => {}, ...props} = {}) => (
-        shallow(<SearchByAddress onChange={onChange} {...props} />)
-      )
       const searchByAddress = render({isAddressIncluded: false})
       const root = searchByAddress.find('CheckboxField')
 
@@ -19,9 +19,6 @@ describe('SearchByAddress', () => {
   })
   describe('when isAddressIncluded flag is true', () => {
     it('renders Include Address checkbox, inputfield and search button', () => {
-      const render = ({onChange = () => {}, ...props} = {}) => (
-        shallow(<SearchByAddress onChange={onChange} {...props} />)
-      )
       const searchByAddress = render({isAddressIncluded: true})
 
       const root = searchByAddress.find('CheckboxField')
