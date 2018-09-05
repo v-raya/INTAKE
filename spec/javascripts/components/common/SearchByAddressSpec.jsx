@@ -3,8 +3,8 @@ import SearchByAddress from 'common/SearchByAddress'
 import {shallow} from 'enzyme'
 
 describe('SearchByAddress', () => {
-  const render = ({onSubmit = () => {}, ...props} = {}) => (
-    shallow(<SearchByAddress onSubmit={onSubmit} {...props} />)
+  const render = ({onSubmit = () => {}, toggleAddressSearch = () => {}, ...props} = {}) => (
+    shallow(<SearchByAddress onSubmit={onSubmit} toggleAddressSearch={toggleAddressSearch} {...props} />)
   )
   describe('when isAddressIncluded flag is false', () => {
     it('renders only Include Address checkbox', () => {
