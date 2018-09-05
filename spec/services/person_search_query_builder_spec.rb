@@ -17,12 +17,16 @@ describe PersonSearchQueryBuilder do
   end
 
   describe '.build' do
-    context 'when search_after is present' do
+    context 'when search_after is present and searching all participants' do
       let(:search_after) { %w[one two] }
 
       it 'builds a person search query with search_after' do
         expect(
-          described_class.new(search_term: search_term, search_after: search_after).build
+          described_class.new(
+            search_term: search_term,
+            search_after: search_after,
+            is_client_only: false
+          ).build
         ).to eq(
           _source: [
             'id',
@@ -108,9 +112,7 @@ describe PersonSearchQueryBuilder do
                       }
                     ]
                   }
-
                 }
-
               ],
               should: [
                 {
@@ -176,7 +178,8 @@ describe PersonSearchQueryBuilder do
         )
       end
     end
-    context 'when search_after is not present' do
+
+    context 'when search_after is not present and searching clients only' do
       let(:search_after) { nil }
 
       it 'builds a person search query without search_after' do
@@ -266,9 +269,12 @@ describe PersonSearchQueryBuilder do
                       }
                     ]
                   }
-
+                },
+                {
+                  match: {
+                    'legacy_descriptor.legacy_table_name': 'CLIENT_T'
+                  }
                 }
-
               ],
               should: [
                 {
@@ -396,9 +402,12 @@ describe PersonSearchQueryBuilder do
                           }
                         ]
                       }
-
+                    },
+                    {
+                      match: {
+                        'legacy_descriptor.legacy_table_name': 'CLIENT_T'
+                      }
                     }
-
                   ],
                   should: [
                     {
@@ -526,9 +535,12 @@ describe PersonSearchQueryBuilder do
                           }
                         ]
                       }
-
+                    },
+                    {
+                      match: {
+                        'legacy_descriptor.legacy_table_name': 'CLIENT_T'
+                      }
                     }
-
                   ],
                   should: [
                     {
@@ -639,9 +651,12 @@ describe PersonSearchQueryBuilder do
                         }
                       ]
                     }
-
+                  },
+                  {
+                    match: {
+                      'legacy_descriptor.legacy_table_name': 'CLIENT_T'
+                    }
                   }
-
                 ],
                 should: [
                   {
@@ -792,9 +807,12 @@ describe PersonSearchQueryBuilder do
                           }
                         ]
                       }
-
+                    },
+                    {
+                      match: {
+                        'legacy_descriptor.legacy_table_name': 'CLIENT_T'
+                      }
                     }
-
                   ],
                   should: [
                     {
