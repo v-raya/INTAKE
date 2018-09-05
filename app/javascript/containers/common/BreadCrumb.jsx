@@ -2,7 +2,7 @@ import {connect} from 'react-redux'
 import {BreadCrumb} from 'common/BreadCrumb'
 import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
 
-const mapStateToProps = (state, {navigationElements}) => ({
+export const mapStateToProps = (state, {navigationElements}) => ({
   hasError: getHasGenericErrorValueSelector(state),
   navigationElements,
 })
