@@ -83,7 +83,7 @@ describe('PersonCard', () => {
         personId: '42',
       })
       const anchor = component.find('.anchor')
-      expect(anchor.props().id).toEqual(`participants-card-42-anchor`)
+      expect(anchor.props().id).toEqual('participants-card-42-anchor')
     })
 
     it('does not render a card action row', () => {
@@ -155,7 +155,7 @@ describe('PersonCard', () => {
         personId: '42',
       })
       const anchor = component.find('.anchor')
-      expect(anchor.props().id).toEqual(`participants-card-42-anchor`)
+      expect(anchor.props().id).toEqual('participants-card-42-anchor')
     })
 
     it('canceling edit calls onCancel', () => {
@@ -243,7 +243,7 @@ describe('PersonCard', () => {
         personId: '42',
       })
       const anchor = component.find('.anchor')
-      expect(anchor.props().id).toEqual(`participants-card-42-anchor`)
+      expect(anchor.props().id).toEqual('participants-card-42-anchor')
     })
 
     it('navigates to itself when transitioning to show mode', () => {
