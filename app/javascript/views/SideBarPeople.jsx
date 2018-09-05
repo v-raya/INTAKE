@@ -11,7 +11,7 @@ const SideBarPeople = ({participants}) => (
           <NavLink
             key={id}
             text={nameFormatter({first_name, last_name, name_suffix})}
-            href={`#participants-card-${id}`}
+            href={`#participants-card-${id}-anchor`}
             preIcon='fa fa-user'
           />
         )}

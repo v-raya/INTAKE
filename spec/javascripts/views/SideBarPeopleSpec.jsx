@@ -33,11 +33,11 @@ describe('SideBarPeople', () => {
     it('renders a link to the People selected/created based on search', () => {
       expect(component.find('NavLink[text="Scooby Doo, Esq"]').exists()).toBe(true)
       expect(component.find('NavLink[text="Scooby Doo, Esq"]').props().href)
-        .toBe('#participants-card-1')
+        .toBe('#participants-card-1-anchor')
 
       expect(component.find('NavLink[text="Ultra Goku"]').exists()).toBe(true)
       expect(component.find('NavLink[text="Ultra Goku"]').props().href)
-        .toBe('#participants-card-2')
+        .toBe('#participants-card-2-anchor')
     })
   })
 })
