@@ -11,7 +11,6 @@ const SearchByAddress = ({isAddressIncluded, toggleAddressSearch, onSubmit}) => 
           id='include-address'
           label='Include Address'
           onChange={toggleAddressSearch}
-          checked={isAddressIncluded}
           value='include-address'
         />
       </div>
