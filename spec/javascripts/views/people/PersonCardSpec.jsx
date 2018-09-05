@@ -159,7 +159,7 @@ describe('PersonCard', () => {
       expect(Navigation.setHash).not.toHaveBeenCalled()
 
       component.setProps({mode: SHOW_MODE})
-      expect(Navigation.setHash).toHaveBeenCalledWith(`#participants-card-${id}`)
+      expect(Navigation.setHash).toHaveBeenCalledWith(`#participants-card-${id}-anchor`)
     })
   })
   describe('mode is saving', () => {
@@ -224,7 +224,7 @@ describe('PersonCard', () => {
       expect(Navigation.setHash).not.toHaveBeenCalled()
 
       component.setProps({mode: SHOW_MODE})
-      expect(Navigation.setHash).toHaveBeenCalledWith(`#participants-card-${id}`)
+      expect(Navigation.setHash).toHaveBeenCalledWith(`#participants-card-${id}-anchor`)
     })
   })
 })

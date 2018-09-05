@@ -8,7 +8,7 @@ import {setHash} from 'utils/navigation'
 class PersonCard extends React.PureComponent {
   componentDidUpdate(prevProps) {
     if (this.props.mode === SHOW_MODE && prevProps.mode !== SHOW_MODE) {
-      setHash(`#participants-card-${this.props.personId}`)
+      setHash(`#participants-card-${this.props.personId}-anchor`)
     }
   }
 
@@ -60,9 +60,12 @@ class PersonCard extends React.PureComponent {
     const id = `participants-card-${personId}`
 
     return (
-      <div className={className} id={id}>
-        {this.renderHeader()}
-        {this.renderBody()}
+      <div>
+        <a className='anchor' id={`${id}-anchor`}/>
+        <div className={className} id={id}>
+          {this.renderHeader()}
+          {this.renderBody()}
+        </div>
       </div>
     )
   }
