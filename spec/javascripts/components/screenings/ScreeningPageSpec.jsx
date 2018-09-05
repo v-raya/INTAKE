@@ -70,7 +70,7 @@ describe('ScreeningPage', () => {
 
   it('renders a breadCrumb', () => {
     const screeningPage = renderScreeningPage({})
-    expect(screeningPage.find('BreadCrumb').exists()).toEqual(true)
+    expect(screeningPage.find('Connect(BreadCrumb)').exists()).toEqual(true)
   })
 
   describe('componentDidMount', () => {
