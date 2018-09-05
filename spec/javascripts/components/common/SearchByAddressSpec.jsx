@@ -13,7 +13,6 @@ describe('SearchByAddress', () => {
 
       expect(root.props().id).toEqual('include-address')
       expect(root.props().label).toEqual('Include Address')
-      expect(root.props().checked).toEqual(false)
       expect(searchByAddress.find('InputField').exists()).toBe(false)
       expect(searchByAddress.find('button').exists()).toBe(false)
     })
@@ -28,7 +27,6 @@ describe('SearchByAddress', () => {
       const root = searchByAddress.find('CheckboxField')
       expect(root.props().id).toEqual('include-address')
       expect(root.props().label).toEqual('Include Address')
-      expect(root.props().checked).toEqual(true)
       expect(searchByAddress.html())
         .toContain('<input type="text" id="search-address"/></div><div></div></div><div class="col-md-3 address-search"><button class="btn btn-primary">Search</button>')
     })
