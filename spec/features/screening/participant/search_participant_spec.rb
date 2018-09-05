@@ -85,7 +85,7 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Ma', person_response: search_response)
+      stub_person_search(search_term: 'Ma', person_response: search_response, is_client_only: false)
 
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
@@ -120,7 +120,11 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Ma 12345', person_response: search_response)
+      stub_person_search(
+        search_term: 'Ma 12345',
+        person_response: search_response,
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma 123-45'
       end
@@ -163,7 +167,11 @@ feature 'searching a participant in autocompleter' do
             ]
           end
         end
-        stub_person_search(search_term: 'Ma', person_response: search_response)
+        stub_person_search(
+          search_term: 'Ma',
+          person_response: search_response,
+          is_client_only: false
+        )
         stub_request(
           :get,
           ferb_api_url(FerbRoutes.client_authorization_path(legacy_descriptor.legacy_id))
@@ -221,7 +229,11 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Ma', person_response: search_response)
+      stub_person_search(
+        search_term: 'Ma',
+        person_response: search_response,
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
       end
@@ -246,7 +258,11 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Ma', person_response: search_response)
+      stub_person_search(
+        search_term: 'Ma',
+        person_response: search_response,
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
       end
@@ -270,7 +286,11 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Ma', person_response: search_response)
+      stub_person_search(
+        search_term: 'Ma',
+        person_response: search_response,
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
       end
@@ -291,7 +311,11 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Ma', person_response: search_response)
+      stub_person_search(
+        search_term: 'Ma',
+        person_response: search_response,
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
       end
@@ -313,7 +337,11 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Ma', person_response: search_response)
+      stub_person_search(
+        search_term: 'Ma',
+        person_response: search_response,
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
       end
@@ -335,7 +363,11 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Ma', person_response: search_response)
+      stub_person_search(
+        search_term: 'Ma',
+        person_response: search_response,
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Ma'
       end
@@ -351,7 +383,11 @@ feature 'searching a participant in autocompleter' do
         builder.with_total(0)
         builder.with_hits { [] }
       end
-      stub_person_search(search_term: 'No', person_response: no_search_results)
+      stub_person_search(
+        search_term: 'No',
+        person_response: no_search_results,
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'No'
         expect(page).to have_content 'No results were found for "No"'
@@ -392,16 +428,22 @@ feature 'searching a participant in autocompleter' do
           ]
         end
       end
-      stub_person_search(search_term: 'Fi', person_response: search_results_one)
+      stub_person_search(
+        search_term: 'Fi',
+        person_response: search_results_one,
+        is_client_only: false
+      )
       stub_person_search(
         search_term: 'Fi',
         person_response: search_results_two,
-        search_after: %w[result_9_score result_9_uuid]
+        search_after: %w[result_9_score result_9_uuid],
+        is_client_only: false
       )
       stub_person_search(
         search_term: 'Fi',
         person_response: search_results_three,
-        search_after: %w[result_19_score result_19_uuid]
+        search_after: %w[result_19_score result_19_uuid],
+        is_client_only: false
       )
       search_path = dora_api_url(ExternalRoutes.dora_people_light_index_path)
       within '#search-card', text: 'Search' do
@@ -479,7 +521,11 @@ feature 'searching a participant in autocompleter' do
       visit root_path(accessCode: access_code)
       click_button 'Start Screening'
 
-      stub_person_search(search_term: 'Go back', person_response: { hits: { total: 1, hits: [] } })
+      stub_person_search(
+        search_term: 'Go back',
+        person_response: { hits: { total: 1, hits: [] } },
+        is_client_only: false
+      )
       within '#search-card', text: 'Search' do
         fill_in 'Search for any person', with: 'Go back'
       end
