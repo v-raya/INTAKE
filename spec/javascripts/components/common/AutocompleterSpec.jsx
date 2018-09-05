@@ -11,6 +11,7 @@ describe('<Autocompleter />', () => {
     isAddressIncluded = false,
     canCreateNewPerson = true,
     onLoadMoreResults = () => null,
+    onToggleAddressSearch = () => null,
     isSelectable = () => true,
     onChange = () => null,
     onClear = () => null,
@@ -26,6 +27,7 @@ describe('<Autocompleter />', () => {
         isAddressIncluded={isAddressIncluded}
         canCreateNewPerson={canCreateNewPerson}
         onLoadMoreResults={onLoadMoreResults}
+        onToggleAddressSearch={onToggleAddressSearch}
         onSelect={onSelect}
         onClear={onClear}
         onChange={onChange}
@@ -43,6 +45,7 @@ describe('<Autocompleter />', () => {
     isAddressIncluded = false,
     onSelect = () => null,
     onLoadMoreResults = () => null,
+    onToggleAddressSearch = () => null,
     onClear = () => null,
     isSelectable = () => true,
     onSearch = () => null,
@@ -59,6 +62,7 @@ describe('<Autocompleter />', () => {
         isAddressIncluded={isAddressIncluded}
         onSelect={onSelect}
         onLoadMoreResults={onLoadMoreResults}
+        onToggleAddressSearch={onToggleAddressSearch}
         onClear={onClear}
         onChange={onChange}
         isSelectable={isSelectable}
@@ -455,8 +459,8 @@ describe('<Autocompleter />', () => {
   })
 
   describe('SearchByAddress', () => {
-    const render = () => (
-      shallow(<SearchByAddress />)
+    const render = ({toggleAddressSearch = () => {}, ...props} = {}) => (
+      shallow(<SearchByAddress toggleAddressSearch={toggleAddressSearch} {...props} />)
     )
 
     it('renders SearchByAddress component', () => {
