@@ -129,45 +129,51 @@ describe PersonSearchRepository do
           ]
         }
       }
-      end
-      let(:query_clients_only) do
+    end
+
+    let(:query_clients_only) do
       {
         bool: {
-          must: [{
-            bool: {
-              should: [
-                {
-                  match: {
-                    autocomplete_search_bar: {
-                      query: 'robert barathian',
-                      fuzziness: 'AUTO',
-                      operator: 'and',
-                      boost: low_boost
+          must: [
+            {
+              bool: {
+                should: [
+                  {
+                    match: {
+                      autocomplete_search_bar: {
+                        query: 'robert barathian',
+                        fuzziness: 'AUTO',
+                        operator: 'and',
+                        boost: low_boost
+                      }
+                    }
+                  },
+                  {
+                    match: {
+                      'autocomplete_search_bar.diminutive': {
+                        query: 'robert barathian',
+                        operator: 'and',
+                        boost: no_boost
+                      }
+                    }
+                  },
+                  {
+                    match: {
+                      'autocomplete_search_bar.phonetic': {
+                        query: 'robert barathian',
+                        operator: 'and',
+                        boost: no_boost
+                      }
                     }
                   }
-                },
-                {
-                  match: {
-                    'autocomplete_search_bar.diminutive': {
-                      query: 'robert barathian',
-                      operator: 'and',
-                      boost: no_boost
-                    }
-                  }
-                },
-                {
-                  match: {
-                    'autocomplete_search_bar.phonetic': {
-                      query: 'robert barathian',
-                      operator: 'and',
-                      boost: no_boost
-                    }
-                  }
-                }
-              ]
+                ]
+              }
+            },
+            {
+              match: {
+                'legacy_descriptor.legacy_table_name': 'CLIENT_T'
+              }
             }
-          },
-          { match: { 'legacy_descriptor.legacy_table_name': 'CLIENT_T' } }
           ],
           should: [
             {
@@ -276,30 +282,30 @@ describe PersonSearchRepository do
       context 'when search all persons' do
         let(:request_body) do
           {
-              size: 10,
-              track_scores: true,
-              sort: [{ _score: 'desc', _uid: 'desc' }],
-              query: query,
-              _source: source,
-              highlight: highlight
+            size: 10,
+            track_scores: true,
+            sort: [{ _score: 'desc', _uid: 'desc' }],
+            query: query,
+            _source: source,
+            highlight: highlight
           }
         end
 
         it 'returns the people search results' do
           expect(DoraAPI).to receive(:make_api_call)
-                                 .with(
-                                     security_token,
-                                     '/dora/people-summary/person-summary/_search',
-                                     :post,
-                                     request_body
-                                 ).and_return(response)
+            .with(
+              security_token,
+              '/dora/people-summary/person-summary/_search',
+              :post,
+              request_body
+            ).and_return(response)
           expect(
-              described_class.search(
-                  security_token: security_token,
-                  search_term: search_term,
-                  search_after: nil,
-                  is_client_only: false
-                  )
+            described_class.search(
+              security_token: security_token,
+              search_term: search_term,
+              search_after: nil,
+              is_client_only: false
+            )
           ).to eq(response.body)
         end
       end
