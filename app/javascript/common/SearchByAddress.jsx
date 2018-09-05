@@ -25,4 +25,8 @@ SearchByAddress.propTypes = {
   toggleAddressSearch: PropTypes.func,
 }
 
+SearchByAddress.defaultProps = {
+  toggleAddressSearch: () => {},
+}
+
 export default SearchByAddress
