@@ -5,9 +5,10 @@ import {
   getPeopleResultsSelector,
   getResultsTotalValueSelector,
   getSearchTermValueSelector,
+  getSearchAddressValueSelector,
   getStartTimeSelector,
 } from 'selectors/peopleSearchSelectors'
-import {search, setSearchTerm, clear, loadMoreResults} from 'actions/peopleSearchActions'
+import {search, setSearchTerm, clear, loadMoreResults, toggleAddressSearch} from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
@@ -21,6 +22,7 @@ const mapStateToProps = (state) => {
     results: getPeopleResultsSelector(state).toJS(),
     total: getResultsTotalValueSelector(state),
     searchTerm: getSearchTermValueSelector(state),
+    isAddressIncluded: getSearchAddressValueSelector(state),
     staffId: getStaffIdSelector(state),
     startTime: getStartTimeSelector(state),
     participants: selectParticipants(state).toJS(),
@@ -33,11 +35,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onChange = (value) => dispatch(setSearchTerm(value))
   const onSearch = (value) => dispatch(search(value, ownProps.isClientOnly))
   const onLoadMoreResults = () => dispatch(loadMoreResults(ownProps.isClientOnly))
+  const onToggleAddressSearch = () => dispatch(toggleAddressSearch())
   return {
     onSearch,
     onClear,
     onChange,
     onLoadMoreResults,
+    onToggleAddressSearch,
+    dispatch,
   }
 }
 

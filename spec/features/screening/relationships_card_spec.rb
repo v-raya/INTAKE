@@ -44,10 +44,13 @@ feature 'Relationship card' do
         candidate_to: [].push(nagato),
         age: 20,
         age_unit: 'Y',
-        legacy_id: 'jane_legacy_id'
+        legacy_id: 'jane_legacy_id',
+        gender: 'female',
+        date_of_birth: '1999-08-10'
       }
     ]
   end
+
   let(:new_participant) do
     FactoryBot.create(
       :participant,
@@ -60,6 +63,8 @@ feature 'Relationship card' do
     {
       absent_parent_code: 'Y',
       relationship_id: '23',
+      reversed: false,
+      related_person_gender: 'M',
       related_person_first_name: 'Jake',
       related_person_last_name: 'Campbell',
       relationship: 'Sister/Brother (Half)',
@@ -79,6 +84,8 @@ feature 'Relationship card' do
   let(:jane) do
     {
       relationship_id: '24',
+      reversed: false,
+      related_person_gender: 'F',
       related_person_id: new_participant.id,
       related_person_legacy_id: '280',
       related_person_first_name: 'Jane',
@@ -98,6 +105,8 @@ feature 'Relationship card' do
   let(:john) do
     {
       relationship_id: '25',
+      reversed: false,
+      related_person_gender: 'M',
       related_person_first_name: 'John',
       related_person_last_name: 'Florence',
       related_person_name_suffix: 'phd.',
@@ -141,7 +150,8 @@ feature 'Relationship card' do
       absent_parent_indicator: true,
       same_home_status: 'Y',
       start_date: '',
-      end_date: ''
+      end_date: '',
+      reversed: false
     }
   end
   let(:nagato) do
@@ -434,7 +444,6 @@ feature 'Relationship card' do
                 expect(page).to have_content('20 yrs')
               end
             end
-
             scenario 'allows saving relationship' do
               assign_relationship(tag: 'td', element_text: 'Jake Campbell', link_text: 'Edit')
               within 'div.modal-content' do

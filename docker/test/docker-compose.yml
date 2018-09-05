@@ -8,7 +8,6 @@ services:
     volumes:
       - ../../reports:/reports
     environment:
-      API_URL: "http://api"
       FERB_API_URL: "https://ferbapi.preint.cwds.io"
       DORA_API_URL: "https://doraapi.preint.cwds.io"
       RAILS_ENV: test
