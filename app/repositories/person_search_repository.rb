@@ -9,7 +9,8 @@ class PersonSearchRepository
         security_token,
         ExternalRoutes.dora_people_light_index_path,
         :post,
-        search_query(search_term: search_term, search_after: search_after, is_client_only: is_client_only)
+        search_query(search_term: search_term, search_after: search_after,
+                     is_client_only: is_client_only)
       )
       body response
     end
