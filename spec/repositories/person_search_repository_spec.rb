@@ -66,6 +66,7 @@ describe PersonSearchRepository do
           'searchable_date_of_birth': {}
         } }
     end
+
     let(:query) do
       {
         bool: {
@@ -102,10 +103,73 @@ describe PersonSearchRepository do
                 }
               ]
             }
-
           }],
           should: [
-
+            {
+              match: {
+                autocomplete_search_bar: {
+                  query: 'robert barathian',
+                  operator: 'and',
+                  boost: medium_boost
+                }
+              }
+            },
+            { match: { first_name: { query: 'robert barathian',
+                                     boost: high_boost } } },
+            { match: { last_name: { query: 'robert barathian',
+                                    boost: high_boost } } },
+            { match: { 'first_name.phonetic': { query: 'robert barathian',
+                                                boost: low_boost } } },
+            { match: { 'last_name.phonetic': { query: 'robert barathian',
+                                               boost: low_boost } } },
+            { match: { date_of_birth_as_text: { query: 'robert barathian',
+                                                boost: high_boost } } },
+            { match: { ssn: { query: 'robert barathian',
+                              boost: high_boost } } }
+          ]
+        }
+      }
+      end
+      let(:query_clients_only) do
+      {
+        bool: {
+          must: [{
+            bool: {
+              should: [
+                {
+                  match: {
+                    autocomplete_search_bar: {
+                      query: 'robert barathian',
+                      fuzziness: 'AUTO',
+                      operator: 'and',
+                      boost: low_boost
+                    }
+                  }
+                },
+                {
+                  match: {
+                    'autocomplete_search_bar.diminutive': {
+                      query: 'robert barathian',
+                      operator: 'and',
+                      boost: no_boost
+                    }
+                  }
+                },
+                {
+                  match: {
+                    'autocomplete_search_bar.phonetic': {
+                      query: 'robert barathian',
+                      operator: 'and',
+                      boost: no_boost
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          { match: { 'legacy_descriptor.legacy_table_name': 'CLIENT_T' } }
+          ],
+          should: [
             {
               match: {
                 autocomplete_search_bar: {
@@ -131,6 +195,7 @@ describe PersonSearchRepository do
         }
       }
     end
+
     let(:results) do
       {
         'hits' =>  {
@@ -154,7 +219,7 @@ describe PersonSearchRepository do
             track_scores: true,
             sort: [{ _score: 'desc', _uid: 'desc' }],
             search_after: search_after,
-            query: query,
+            query: query_clients_only,
             _source: source,
             highlight: highlight
           }
@@ -184,7 +249,7 @@ describe PersonSearchRepository do
             size: 10,
             track_scores: true,
             sort: [{ _score: 'desc', _uid: 'desc' }],
-            query: query,
+            query: query_clients_only,
             _source: source,
             highlight: highlight
           }
@@ -207,6 +272,37 @@ describe PersonSearchRepository do
           ).to eq(response.body)
         end
       end
+
+      context 'when search all persons' do
+        let(:request_body) do
+          {
+              size: 10,
+              track_scores: true,
+              sort: [{ _score: 'desc', _uid: 'desc' }],
+              query: query,
+              _source: source,
+              highlight: highlight
+          }
+        end
+
+        it 'returns the people search results' do
+          expect(DoraAPI).to receive(:make_api_call)
+                                 .with(
+                                     security_token,
+                                     '/dora/people-summary/person-summary/_search',
+                                     :post,
+                                     request_body
+                                 ).and_return(response)
+          expect(
+              described_class.search(
+                  security_token: security_token,
+                  search_term: search_term,
+                  search_after: nil,
+                  is_client_only: false
+                  )
+          ).to eq(response.body)
+        end
+      end
     end
 
     context 'when response from DORA is unsuccessful' do
@@ -216,7 +312,7 @@ describe PersonSearchRepository do
           size: 10,
           track_scores: true,
           sort: [{ _score: 'desc', _uid: 'desc' }],
-          query: query,
+          query: query_clients_only,
           _source: source,
           highlight: highlight
         }

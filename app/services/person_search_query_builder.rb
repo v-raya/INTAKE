@@ -54,7 +54,8 @@ class PersonSearchQueryBuilder
   end
 
   def must
-    return [base_query] unless @is_client_only
+    # the client_only_search config option overrides the @is_client_only value
+    return [base_query] unless Rails.configuration.intake[:client_only_search] || @is_client_only
     [base_query, client_only]
   end
 
