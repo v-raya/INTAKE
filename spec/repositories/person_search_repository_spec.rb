@@ -132,74 +132,13 @@ describe PersonSearchRepository do
     end
 
     let(:query_clients_only) do
-      {
-        bool: {
-          must: [
-            {
-              bool: {
-                should: [
-                  {
-                    match: {
-                      autocomplete_search_bar: {
-                        query: 'robert barathian',
-                        fuzziness: 'AUTO',
-                        operator: 'and',
-                        boost: low_boost
-                      }
-                    }
-                  },
-                  {
-                    match: {
-                      'autocomplete_search_bar.diminutive': {
-                        query: 'robert barathian',
-                        operator: 'and',
-                        boost: no_boost
-                      }
-                    }
-                  },
-                  {
-                    match: {
-                      'autocomplete_search_bar.phonetic': {
-                        query: 'robert barathian',
-                        operator: 'and',
-                        boost: no_boost
-                      }
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              match: {
-                'legacy_descriptor.legacy_table_name': 'CLIENT_T'
-              }
-            }
-          ],
-          should: [
-            {
-              match: {
-                autocomplete_search_bar: {
-                  query: 'robert barathian',
-                  operator: 'and',
-                  boost: medium_boost
-                }
-              }
-            },
-            { match: { first_name: { query: 'robert barathian',
-                                     boost: high_boost } } },
-            { match: { last_name: { query: 'robert barathian',
-                                    boost: high_boost } } },
-            { match: { 'first_name.phonetic': { query: 'robert barathian',
-                                                boost: low_boost } } },
-            { match: { 'last_name.phonetic': { query: 'robert barathian',
-                                               boost: low_boost } } },
-            { match: { date_of_birth_as_text: { query: 'robert barathian',
-                                                boost: high_boost } } },
-            { match: { ssn: { query: 'robert barathian',
-                              boost: high_boost } } }
-          ]
+      query_clone = query.clone
+      query_clone[:bool][:must].push(
+        match: {
+          'legacy_descriptor.legacy_table_name': 'CLIENT_T'
         }
-      }
+      )
+      query_clone
     end
 
     let(:results) do
@@ -243,7 +182,8 @@ describe PersonSearchRepository do
             described_class.search(
               security_token: security_token,
               search_term: search_term,
-              search_after: search_after
+              search_after: search_after,
+              is_client_only: true
             )
           ).to eq(response.body)
         end
@@ -273,7 +213,8 @@ describe PersonSearchRepository do
             described_class.search(
               security_token: security_token,
               search_term: search_term,
-              search_after: nil
+              search_after: nil,
+              is_client_only: true
             )
           ).to eq(response.body)
         end
@@ -333,7 +274,8 @@ describe PersonSearchRepository do
           described_class.search(
             security_token: security_token,
             search_term: search_term,
-            search_after: nil
+            search_after: nil,
+            is_client_only: true
           )
         end.to raise_error('Some error payload')
       end
