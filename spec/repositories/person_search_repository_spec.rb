@@ -66,6 +66,7 @@ describe PersonSearchRepository do
           'searchable_date_of_birth': {}
         } }
     end
+
     let(:query) do
       {
         bool: {
@@ -102,10 +103,8 @@ describe PersonSearchRepository do
                 }
               ]
             }
-
           }],
           should: [
-
             {
               match: {
                 autocomplete_search_bar: {
@@ -131,6 +130,17 @@ describe PersonSearchRepository do
         }
       }
     end
+
+    let(:query_clients_only) do
+      query_clone = query.clone
+      query_clone[:bool][:must].push(
+        match: {
+          'legacy_descriptor.legacy_table_name': 'CLIENT_T'
+        }
+      )
+      query_clone
+    end
+
     let(:results) do
       {
         'hits' =>  {
@@ -154,7 +164,7 @@ describe PersonSearchRepository do
             track_scores: true,
             sort: [{ _score: 'desc', _uid: 'desc' }],
             search_after: search_after,
-            query: query,
+            query: query_clients_only,
             _source: source,
             highlight: highlight
           }
@@ -172,13 +182,45 @@ describe PersonSearchRepository do
             described_class.search(
               security_token: security_token,
               search_term: search_term,
-              search_after: search_after
+              search_after: search_after,
+              is_client_only: true
             )
           ).to eq(response.body)
         end
       end
 
       context 'when search_after is not present' do
+        let(:request_body) do
+          {
+            size: 10,
+            track_scores: true,
+            sort: [{ _score: 'desc', _uid: 'desc' }],
+            query: query_clients_only,
+            _source: source,
+            highlight: highlight
+          }
+        end
+
+        it 'returns the people search results' do
+          expect(DoraAPI).to receive(:make_api_call)
+            .with(
+              security_token,
+              '/dora/people-summary/person-summary/_search',
+              :post,
+              request_body
+            ).and_return(response)
+          expect(
+            described_class.search(
+              security_token: security_token,
+              search_term: search_term,
+              search_after: nil,
+              is_client_only: true
+            )
+          ).to eq(response.body)
+        end
+      end
+
+      context 'when search all persons' do
         let(:request_body) do
           {
             size: 10,
@@ -202,7 +244,8 @@ describe PersonSearchRepository do
             described_class.search(
               security_token: security_token,
               search_term: search_term,
-              search_after: nil
+              search_after: nil,
+              is_client_only: false
             )
           ).to eq(response.body)
         end
@@ -216,7 +259,7 @@ describe PersonSearchRepository do
           size: 10,
           track_scores: true,
           sort: [{ _score: 'desc', _uid: 'desc' }],
-          query: query,
+          query: query_clients_only,
           _source: source,
           highlight: highlight
         }
@@ -231,7 +274,8 @@ describe PersonSearchRepository do
           described_class.search(
             security_token: security_token,
             search_term: search_term,
-            search_after: nil
+            search_after: nil,
+            is_client_only: true
           )
         end.to raise_error('Some error payload')
       end

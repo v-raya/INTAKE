@@ -25,7 +25,7 @@ describe('loadMorePeopleSearchResultsSaga', () => {
 })
 
 describe('loadMorePeopleSearch', () => {
-  const action = loadMoreResults()
+  const action = loadMoreResults(false)
   const searchTerm = 'test'
   const lastResultSort = ['last_result_sort']
 
@@ -37,6 +37,7 @@ describe('loadMorePeopleSearch', () => {
     expect(peopleSeachGenerator.next(lastResultSort).value).toEqual(call(get, '/api/v1/people/search', {
       search_term: searchTerm,
       search_after: lastResultSort,
+      is_client_only: false,
     }))
     expect(peopleSeachGenerator.throw(error).value).toEqual(put(loadMoreResultsFailure('Something went wrong')))
   })
@@ -53,6 +54,7 @@ describe('loadMorePeopleSearch', () => {
     expect(peopleSeachGenerator.next(lastResultSort).value).toEqual(call(get, '/api/v1/people/search', {
       search_term: searchTerm,
       search_after: lastResultSort,
+      is_client_only: false,
     }))
     expect(peopleSeachGenerator.next(searchResults).value).toEqual(put(loadMoreResultsSuccess(searchResults)))
   })

@@ -11,7 +11,8 @@ module Api
         search_response = PersonSearchRepository.search(
           security_token: session[:security_token],
           search_term: params[:search_term],
-          search_after: params[:search_after]
+          search_after: params[:search_after],
+          is_client_only: params[:is_client_only] == 'true'
         )
         render json: search_response
       end

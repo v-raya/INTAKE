@@ -147,7 +147,11 @@ feature 'Create Snapshot' do
             ]
           end
         end
-        stub_person_search(search_term: 'Ma', person_response: search_response)
+        stub_person_search(
+          search_term: 'Ma',
+          person_response: search_response,
+          is_client_only: false
+        )
         stub_request(
           :get,
           ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))

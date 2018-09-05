@@ -149,13 +149,21 @@ feature 'Create participant' do
     ).and_return(json_body(existing_screening.to_json, status: 200))
     stub_county_agencies('c40')
     %w[ma mar marg marge marge\ simpson].each do |search_text|
-      stub_person_search(search_term: search_text, person_response: marge_response)
+      stub_person_search(
+        search_term: search_text,
+        person_response: marge_response,
+        is_client_only: false
+      )
     end
     stub_request(
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
     %w[ho hom home homer].each do |search_text|
-      stub_person_search(search_term: search_text, person_response: homer_response)
+      stub_person_search(
+        search_term: search_text,
+        person_response: homer_response,
+        is_client_only: false
+      )
     end
     stub_empty_relationships
     stub_empty_history_for_screening(existing_screening)
@@ -341,7 +349,11 @@ feature 'Create participant' do
         end
         Feature.run_with_activated(:authentication) do
           stub_empty_history_for_screening(existing_screening)
-          stub_person_search(search_term: 'Marge', person_response: marge_response)
+          stub_person_search(
+            search_term: 'Marge',
+            person_response: marge_response,
+            is_client_only: false
+          )
           stub_request(
             :post,
             ferb_api_url(FerbRoutes.screening_participant_path(existing_screening[:id]))

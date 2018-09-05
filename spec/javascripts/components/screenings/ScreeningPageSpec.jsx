@@ -206,6 +206,7 @@ describe('ScreeningPage', () => {
 
       it('renders the search card', () => {
         expect(component.find('Connect(PersonSearchForm)').exists()).toEqual(true)
+        expect(component.find('Connect(PersonSearchForm)').props().isClientOnly).toBe(false)
       })
     })
 
@@ -273,6 +274,7 @@ describe('ScreeningPage', () => {
 
       it('renders the person search card', () => {
         expect(component.find('Connect(PersonSearchForm)').exists()).toEqual(true)
+        expect(component.find('Connect(PersonSearchForm)').props().isClientOnly).toBe(false)
       })
     })
   })

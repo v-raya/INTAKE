@@ -10,14 +10,14 @@ import {
   loadMoreResultsFailure,
 } from 'actions/peopleSearchActions'
 
-export function* loadMorePeopleSearch() {
+export function* loadMorePeopleSearch({payload: {isClientOnly}}) {
   try {
     const searchTerm = yield select(getSearchTermValueSelector)
     const sort = yield select(getLastResultsSortValueSelector)
     const response = yield call(
       get,
       '/api/v1/people/search',
-      {search_term: searchTerm, search_after: sort}
+      {search_term: searchTerm, search_after: sort, is_client_only: isClientOnly}
     )
     yield put(loadMoreResultsSuccess(response))
   } catch (error) {

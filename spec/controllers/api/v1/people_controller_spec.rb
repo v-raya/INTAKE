@@ -20,7 +20,8 @@ describe Api::V1::PeopleController do
           .with(
             security_token: security_token,
             search_term: params[:search_term],
-            search_after: nil
+            search_after: nil,
+            is_client_only: false
           ).and_return(people)
       end
 
@@ -43,7 +44,8 @@ describe Api::V1::PeopleController do
           .with(
             security_token: security_token,
             search_term: params[:search_term],
-            search_after: params[:search_after]
+            search_after: params[:search_after],
+            is_client_only: false
           ).and_return(people)
       end
 

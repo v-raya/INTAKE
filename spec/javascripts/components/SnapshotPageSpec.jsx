@@ -27,6 +27,7 @@ describe('SnapshotPage', () => {
   it('renders person search', () => {
     const snapshotPage = renderSnapshotPage({})
     expect(snapshotPage.find('Connect(PersonSearchForm)').exists()).toBe(true)
+    expect(snapshotPage.find('Connect(PersonSearchForm)').props().isClientOnly).toBe(true)
   })
 
   it('renders a person card for each participant', () => {

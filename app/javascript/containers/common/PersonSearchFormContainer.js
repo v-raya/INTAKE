@@ -30,11 +30,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, _ownProps) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   const onClear = () => dispatch(clear())
   const onChange = (value) => dispatch(setSearchTerm(value))
-  const onSearch = (value) => dispatch(search(value))
-  const onLoadMoreResults = () => dispatch(loadMoreResults())
+  const onSearch = (value) => dispatch(search(value, ownProps.isClientOnly))
+  const onLoadMoreResults = () => dispatch(loadMoreResults(ownProps.isClientOnly))
   const onToggleAddressSearch = () => dispatch(toggleAddressSearch())
   return {
     onSearch,

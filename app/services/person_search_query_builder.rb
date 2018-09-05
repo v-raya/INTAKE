@@ -10,9 +10,10 @@ class PersonSearchQueryBuilder
   NO_BOOST = 1
   attr_reader :search_after
 
-  def initialize(search_term: '', search_after: nil)
+  def initialize(search_term: '', search_after: nil, is_client_only: true)
     @search_term = search_term
     @search_after = search_after
+    @is_client_only = is_client_only
   end
 
   def build
@@ -53,7 +54,8 @@ class PersonSearchQueryBuilder
   end
 
   def must
-    return [base_query] unless Rails.configuration.intake[:client_only_search]
+    # the client_only_search config option overrides the @is_client_only value
+    return [base_query] unless Rails.configuration.intake[:client_only_search] || @is_client_only
     [base_query, client_only]
   end
 

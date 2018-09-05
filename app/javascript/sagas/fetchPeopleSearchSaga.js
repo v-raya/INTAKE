@@ -5,11 +5,11 @@ import {logEvent} from 'utils/analytics'
 import {PEOPLE_SEARCH_FETCH, fetchSuccess, fetchFailure} from 'actions/peopleSearchActions'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
-export function* fetchPeopleSearch({payload: {searchTerm}}) {
+export function* fetchPeopleSearch({payload: {searchTerm, isClientOnly}}) {
   try {
     const TIME_TO_DEBOUNCE = 400
     yield call(delay, TIME_TO_DEBOUNCE)
-    const response = yield call(get, '/api/v1/people/search', {search_term: searchTerm})
+    const response = yield call(get, '/api/v1/people/search', {search_term: searchTerm, is_client_only: isClientOnly})
     const staffId = yield select(getStaffIdSelector)
     yield put(fetchSuccess(response))
     yield call(logEvent, 'personSearch', {
