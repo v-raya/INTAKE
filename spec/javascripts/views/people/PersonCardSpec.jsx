@@ -76,6 +76,16 @@ describe('PersonCard', () => {
       )
       expect(component.find('.card-body').children('p').at(0).text()).toEqual('Showing')
     })
+
+    it('renders an anchor to itself', () => {
+      const component = renderPersonCard({
+        mode: SHOW_MODE,
+        personId: '42',
+      })
+      const anchor = component.find('.anchor')
+      expect(anchor.props().id).toEqual(`participants-card-42-anchor`)
+    })
+
     it('does not render a card action row', () => {
       const component = renderPersonCard({mode: 'show'})
       expect(component.find('CardActionRow').exists()).toEqual(false)
@@ -83,6 +93,7 @@ describe('PersonCard', () => {
       expect(component.find('button.btn-default').exists()).toEqual(false)
     })
   })
+
   describe('mode is edit', () => {
     it('displays a card header', () => {
       const onDelete = jasmine.createSpy('onDelete')
@@ -136,6 +147,15 @@ describe('PersonCard', () => {
       const component = renderPersonCard({mode: EDIT_MODE})
       expect(component.find('CardActionRow').exists()).toEqual(true)
       expect(component.find('CardActionRow').props().isSaving).not.toBeTruthy()
+    })
+
+    it('renders an anchor to itself', () => {
+      const component = renderPersonCard({
+        mode: EDIT_MODE,
+        personId: '42',
+      })
+      const anchor = component.find('.anchor')
+      expect(anchor.props().id).toEqual(`participants-card-42-anchor`)
     })
 
     it('canceling edit calls onCancel', () => {
@@ -215,6 +235,15 @@ describe('PersonCard', () => {
       const component = renderPersonCard({mode: SAVING_MODE})
       expect(component.find('CardActionRow').exists()).toEqual(true)
       expect(component.find('CardActionRow').props().isSaving).toEqual(true)
+    })
+
+    it('renders an anchor to itself', () => {
+      const component = renderPersonCard({
+        mode: SAVING_MODE,
+        personId: '42',
+      })
+      const anchor = component.find('.anchor')
+      expect(anchor.props().id).toEqual(`participants-card-42-anchor`)
     })
 
     it('navigates to itself when transitioning to show mode', () => {
