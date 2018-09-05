@@ -8,12 +8,13 @@ export const setSearchTerm = (searchTerm) => ({
   type: SET_SEARCH_TERM,
   payload: {searchTerm},
 })
-export const search = (searchTerm) => ({
+export const search = (searchTerm, isClientOnly) => ({
   type: PEOPLE_SEARCH_FETCH,
-  payload: {searchTerm},
+  payload: {searchTerm, isClientOnly},
 })
-export const loadMoreResults = () => ({
+export const loadMoreResults = (isClientOnly) => ({
   type: LOAD_MORE_RESULTS,
+  payload: {isClientOnly},
 })
 export const loadMoreResultsFailure = (error) => ({
   type: LOAD_MORE_RESULTS_COMPLETE,

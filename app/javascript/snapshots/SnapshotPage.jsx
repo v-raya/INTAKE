@@ -60,6 +60,7 @@ export class SnapshotPage extends React.Component {
             onSelect={(person) => this.onSelectPerson(person)}
             searchPrompt='Search for clients'
             canCreateNewPerson={false}
+            isClientOnly={true}
           />
           {participants.map(({id}) =>
             <PersonCardView key={id} personId={id} />

@@ -102,6 +102,7 @@ export class ScreeningPage extends React.Component {
         onSelect={(person) => this.onSelectPerson(person)}
         searchPrompt='Search for any person (Children, parents, reporters, alleged perpetrators...)'
         canCreateNewPerson={true}
+        isClientOnly={false}
       />)
   }
 
