@@ -434,6 +434,19 @@ feature 'Create participant' do
             fill_in 'Search for any person', with: 'Ma'
             find('strong', text: 'Marge Simpson').click
           end
+          
+          created_participant_selector = edit_participant_card_selector(
+            created_participant_marge.id
+          )
+          existing_participant_selector = edit_participant_card_selector(existing_participant.id)
+
+          within edit_participant_card_selector(created_participant_marge.id) do
+            within '.card-header' do
+              expect(page).to have_content('Sensitive')
+              expect(page).to have_content 'Marge Simpson'
+              expect(page).to have_button 'Remove person'
+            end
+          end
           expect(
             a_request(
               :post,
@@ -442,22 +455,8 @@ feature 'Create participant' do
               )
             )
           ).to have_been_made
-          created_participant_selector = edit_participant_card_selector(
-            created_participant_marge.id
-          )
-          existing_participant_selector = edit_participant_card_selector(existing_participant.id)
-          expect(find("#{created_participant_selector}+div"))
-            .to match_css(existing_participant_selector)
-
           expect(page)
             .to have_selector(edit_participant_card_selector(created_participant_marge.id))
-          within edit_participant_card_selector(created_participant_marge.id) do
-            within '.card-header' do
-              expect(page).to have_content('Sensitive')
-              expect(page).to have_content 'Marge Simpson'
-              expect(page).to have_button 'Remove person'
-            end
-          end
         end
       end
       scenario 'can add sensitive person' do
