@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'constants';
 /////////////////////////////////////////
 
 // - Navigation - //
@@ -134,7 +135,7 @@
 }
 
 .side-bar {
-  max-height: 80vh;
+  max-height: calc(100vh - #{$banner-height + $page-header-height + $error-banner-height});
   overflow-x: hidden;
   overflow-y: auto;
 }
