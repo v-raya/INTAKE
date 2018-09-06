@@ -14,14 +14,12 @@ import * as Utils from 'utils/http'
 export function* saveRelationship({payload: {id}}) {
   try {
     const relationship = yield select(selectRelationship)
-    if (!relationship.get('reversed')) {
-      const updateRelationship = relationship.toJS()
-      const response = yield call(Utils.put, `/api/v1/relationships/${id}`, updateRelationship)
-      yield put(updateRelationshipSuccess(response))
-      const screeningId = yield select(getScreeningIdValueSelector)
-      const clientIds = yield select(selectClientIds)
-      yield put(fetchRelationships(clientIds, screeningId))
-    }
+    const updateRelationship = relationship.toJS()
+    const response = yield call(Utils.put, `/api/v1/relationships/${id}`, updateRelationship)
+    yield put(updateRelationshipSuccess(response))
+    const screeningId = yield select(getScreeningIdValueSelector)
+    const clientIds = yield select(selectClientIds)
+    yield put(fetchRelationships(clientIds, screeningId))
   } catch (error) {
     yield put(updateRelationshipFailure(error))
   }
