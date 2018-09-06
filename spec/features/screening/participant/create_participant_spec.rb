@@ -434,11 +434,6 @@ feature 'Create participant' do
             fill_in 'Search for any person', with: 'Ma'
             find('strong', text: 'Marge Simpson').click
           end
-          
-          created_participant_selector = edit_participant_card_selector(
-            created_participant_marge.id
-          )
-          existing_participant_selector = edit_participant_card_selector(existing_participant.id)
 
           within edit_participant_card_selector(created_participant_marge.id) do
             within '.card-header' do
