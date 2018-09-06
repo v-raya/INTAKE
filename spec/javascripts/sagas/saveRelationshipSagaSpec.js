@@ -47,7 +47,7 @@ describe('updateRelationship', () => {
   }
   const action = relationshipAction.updateRelationship(relationship.id)
 
-  it('updates relationship and fetches relationships when reversed is false', () => {
+  it('updates relationship and fetches relationships when the reversed field is false', () => {
     const clientIds = ['123', '456']
     const screeningId = '1'
     const gen = saveRelationship(action)
@@ -72,7 +72,7 @@ describe('updateRelationship', () => {
     )
   })
 
-  it('puts errors when errors are thrown when reversed is false', () => {
+  it('puts errors when errors are thrown when the reversed field is false', () => {
     const gen = saveRelationship(action)
 
     expect(gen.next().value).toEqual(
@@ -87,7 +87,7 @@ describe('updateRelationship', () => {
     )
   })
 
-  it('updates relationship and fetches relationships when reversed is true', () => {
+  it('updates relationship and fetches relationships even when the reversed field is true', () => {
     const clientIds = ['123', '456']
     const screeningId = '1'
     const gen = saveRelationship(action)
@@ -112,7 +112,7 @@ describe('updateRelationship', () => {
     )
   })
 
-  it('puts errors when errors are thrown when reversed is true', () => {
+  it('puts errors when errors are thrown even when the reversed field is true', () => {
     const gen = saveRelationship(action)
 
     expect(gen.next().value).toEqual(
