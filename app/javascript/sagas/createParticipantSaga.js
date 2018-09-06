@@ -6,8 +6,8 @@ import {
   createPersonFailure,
 } from 'actions/personCardActions'
 import {fetchHistoryOfInvolvements} from 'actions/historyOfInvolvementActions'
-import {fetchRelationships} from 'actions/relationshipsActions'
-import {selectClientIds} from 'selectors/participantSelectors'
+import {fetchRelationships, setCreateRelationButtonStatus} from 'actions/relationshipsActions'
+import {selectClientIds, selectParticipants} from 'selectors/participantSelectors'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {replace} from 'react-router-redux'
 import {
@@ -45,6 +45,9 @@ export function* createParticipant({payload: {person}}) {
     yield put(createPersonSuccess(response))
     const clientIds = yield select(selectClientIds)
     const screeningId = yield select(getScreeningIdValueSelector)
+    const participants = yield select(selectParticipants)
+    yield put(setCreateRelationButtonStatus(participants))
+    console.log('after setCreateRelationButtonStatus')
     yield put(fetchRelationships(clientIds, screeningId))
     yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {
