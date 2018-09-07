@@ -17,6 +17,7 @@ import SnapshotIntro from 'snapshots/SnapshotIntro'
 import SnapshotSideBar from 'snapshots/SnapshotSideBar'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {BreadCrumb} from 'common/BreadCrumb'
+import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
 
 const isDuplicatePerson = (participants, id) => (
   participants.some((x) => x.legacy_id === id)
@@ -73,7 +74,7 @@ export class SnapshotPage extends React.Component {
   }
 
   render() {
-    const {participants} = this.props
+    const {participants, hasGenericErrors} = this.props
     return (
       <div>
         <div>
@@ -82,7 +83,7 @@ export class SnapshotPage extends React.Component {
         </div>
         <div className='container snapshot-container'>
           <div className='row'>
-            <SnapshotSideBar participants={participants} />
+            <SnapshotSideBar participants={participants} error={hasGenericErrors} />
             {this.renderBody(participants)}
           </div>
         </div>
@@ -94,12 +95,14 @@ export class SnapshotPage extends React.Component {
 SnapshotPage.propTypes = {
   createSnapshot: PropTypes.func,
   createSnapshotPerson: PropTypes.func,
+  hasGenericErrors: PropTypes.bool,
   participants: PropTypes.array,
   startOver: PropTypes.func,
   unmount: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
+  hasGenericErrors: getHasGenericErrorValueSelector(state),
   participants: selectParticipants(state).toJS(),
 })
 
