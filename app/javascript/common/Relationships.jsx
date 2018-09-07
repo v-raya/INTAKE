@@ -14,6 +14,7 @@ export const Relationships = ({
   pendingPeople = [],
   people,
   screeningId,
+  relationshipsButtonStatus,
 }) => (
   <div className='card-body no-pad-top'>
     {
@@ -43,7 +44,7 @@ export const Relationships = ({
               }
             </div>
           </div>
-          <ScreeningCreateRelationshipContainer personId={person.id}/>
+          <ScreeningCreateRelationshipContainer personId={person.id} relationshipsButtonStatus={relationshipsButtonStatus}/>
         </div>
       ))
     }
@@ -129,6 +130,7 @@ Relationships.propTypes = {
     })),
   })),
   screeningId: PropTypes.string,
+  relationshipsButtonStatus: PropTypes.object,
 }
 
 export const EmptyRelationships = () => (

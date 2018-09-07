@@ -25,7 +25,7 @@ import workerSafetyForm from 'reducers/workerSafetyFormReducer'
 import {combineReducers} from 'redux-immutable'
 import userInfo from 'reducers/userInfoReducer'
 import systemCodes from 'reducers/systemCodes'
-import relationshipsButtonsStatus from 'reducers/relationshipsButtonsReducer'
+import relationshipsButtonStatus from 'reducers/relationshipsButtonReducer'
 
 const rootReducer = combineReducers({
   allegationsForm,
@@ -54,7 +54,7 @@ const rootReducer = combineReducers({
   systemCodes,
   workerSafetyForm,
   userInfo,
-  relationshipsButtonsStatus,
+  relationshipsButtonStatus,
 })
 
 export default rootReducer

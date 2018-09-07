@@ -7,12 +7,12 @@ const setCreateRelationshipsButtonStatus = (state, {payload: {participants}}) =>
   console.log('inside reducer')
   let createRelationshipsButtonStatus = false
   console.log(participants.size)
-  if (participants.size > 1){
+  if (participants.size > 1 || participants.length > 1){
     createRelationshipsButtonStatus = true
   }
   console.log('createRelationshipsButtonStatus')
   console.log(createRelationshipsButtonStatus)
-  return fromJS(...state, {createRelationshipsButtonStatus: createRelationshipsButtonStatus})
+return fromJS({createRelationshipsButtonStatus: createRelationshipsButtonStatus})
 }
 
 
