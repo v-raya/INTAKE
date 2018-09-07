@@ -135,9 +135,22 @@
 }
 
 .side-bar {
-  max-height: calc(100vh - #{$banner-height + $page-header-height + $error-banner-height});
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.side-bar-no-error {
+  height: calc(100vh - #{$banner-height + $page-header-height + $bread-crumb-height});
+}
+
+.side-bar-error {
+  height: calc(100vh - #{$banner-height + $page-header-height + $bread-crumb-height + $error-banner-height});
+}
+
+.side-bar-error > div,
+.side-bar-no-error > div {
+  height: 100%;
 }
 
 .social-worker {
