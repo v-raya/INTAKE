@@ -3,7 +3,6 @@ import {Map, List, fromJS} from 'immutable'
 import nameFormatter from 'utils/nameFormatter'
 import {accessDescription} from 'utils/accessIndicator'
 import {dateRangeFormatter} from 'utils/dateFormatter'
-import COUNTIES from 'enums/Counties'
 import {systemCodeDisplayValue, selectScreenResponseTimes, selectRelationshipTypes} from 'selectors/systemCodeSelectors'
 import {hasNonReporter} from 'utils/roles'
 
@@ -143,8 +142,7 @@ const getScreeningsSelector = createSelector(
 )
 
 const getScreeningCountyAndWorker = (screening) => ({
-  county: COUNTIES[screening.get('county_name')] ||
-    screening.getIn(['county', 'description'], ''),
+  county: screening.getIn(['county', 'description'], ''),
   worker: nameFormatter({name_default: '', ...screening.get('assigned_social_worker', Map()).toJS()}),
 })
 
