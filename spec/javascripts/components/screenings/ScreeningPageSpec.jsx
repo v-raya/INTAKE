@@ -131,8 +131,17 @@ describe('ScreeningPage', () => {
   })
 
   describe('render', () => {
-    it('renders a sidebar', () => {
-      expect(renderScreeningPage({}).find('ScreeningSideBar').exists()).toBe(true)
+    it('renders a sidebar with participants and errors', () => {
+      const screeningPage = renderScreeningPage({
+        participants: [],
+        hasGenericErrors: true,
+      })
+      const screeningSideBar = screeningPage.find('ScreeningSideBar')
+      expect(screeningSideBar.exists()).toBe(true)
+      expect(screeningSideBar.props()).toEqual({
+        participants: [],
+        error: true,
+      })
     })
 
     it('renders a page header', () => {

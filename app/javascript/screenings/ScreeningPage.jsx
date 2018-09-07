@@ -140,12 +140,12 @@ export class ScreeningPage extends React.Component {
   }
 
   renderScreening() {
-    const {loaded, participants} = this.props
+    const {loaded, participants, hasGenericErrors} = this.props
 
     if (loaded) {
       return (
         <div className='row'>
-          <ScreeningSideBar participants={participants} />
+          <ScreeningSideBar participants={participants} error={hasGenericErrors} />
           {this.renderBody()}
         </div>
       )
@@ -173,6 +173,7 @@ ScreeningPage.propTypes = {
   disableSubmitButton: PropTypes.bool,
   editable: PropTypes.bool,
   hasApiValidationErrors: PropTypes.bool,
+  hasGenericErrors: PropTypes.bool,
   loaded: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired,
