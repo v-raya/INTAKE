@@ -135,22 +135,17 @@
 }
 
 .side-bar {
-  height: 100%;
+  height: calc(100vh - #{$banner-height + $page-header-height + $bread-crumb-height});
   overflow-x: hidden;
   overflow-y: auto;
+
+  div {
+    height: 100%;
+  }
 }
 
-.side-bar-no-error {
-  height: calc(100vh - #{$banner-height + $page-header-height + $bread-crumb-height});
-}
-
-.side-bar-error {
+.generic-error .side-bar {
   height: calc(100vh - #{$banner-height + $page-header-height + $bread-crumb-height + $error-banner-height});
-}
-
-.side-bar-error > div,
-.side-bar-no-error > div {
-  height: 100%;
 }
 
 .social-worker {
