@@ -171,6 +171,11 @@ describe('ScreeningPage', () => {
         expect(card.exists()).toEqual(true)
         expect(card.props().errors).toEqual(submitReferralErrors)
       })
+
+      it('renders the hotline container with a generic error class', () => {
+        const screeningPage = renderScreeningPage({screeningTitle: 'Screening 1', hasGenericErrors: true})
+        expect(screeningPage.find('.hotline-container.generic-error').length).toEqual(1)
+      })
     })
     describe('without errors', () => {
       it('does not render the error detail card', () => {
@@ -182,6 +187,11 @@ describe('ScreeningPage', () => {
         })
         const card = component.find('ErrorDetail')
         expect(card.exists()).toEqual(false)
+      })
+
+      it('renders the hotline container without a generic error class', () => {
+        const screeningPage = renderScreeningPage({screeningTitle: 'Screening 1', hasGenericErrors: false})
+        expect(screeningPage.find('.hotline-container.generic-error').length).toEqual(0)
       })
     })
     describe('in edit mode', () => {
