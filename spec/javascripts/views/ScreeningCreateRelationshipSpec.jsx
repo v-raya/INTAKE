@@ -43,6 +43,7 @@ describe('ScreeningCreateRelationship', () => {
     onChange: () => {},
     personId: '805',
     candidates: candidates,
+    relationshipsButtonStatus: {createRelationshipsButtonStatus: true}
   }
 
   beforeEach(() => {
