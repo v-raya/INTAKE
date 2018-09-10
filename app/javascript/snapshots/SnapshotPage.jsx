@@ -75,7 +75,7 @@ export class SnapshotPage extends React.Component {
 
   render() {
     const {participants, hasGenericErrors} = this.props
-    const genericErrorClass = this.props.hasGenericErrors ? 'generic-error' : ''
+    const genericErrorClass = hasGenericErrors ? 'generic-error' : ''
     return (
       <div>
         <div>
@@ -84,7 +84,7 @@ export class SnapshotPage extends React.Component {
         </div>
         <div className={`container snapshot-container ${genericErrorClass}`}>
           <div className='row'>
-            <SnapshotSideBar participants={participants} error={hasGenericErrors} />
+            <SnapshotSideBar participants={participants} />
             {this.renderBody(participants)}
           </div>
         </div>

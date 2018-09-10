@@ -35,16 +35,14 @@ describe('SnapshotPage', () => {
     expect(snapshotPage.find('PersonCardView').length).toEqual(2)
   })
 
-  it('renders a sidebar with participants and errors', () => {
+  it('renders a sidebar with participants', () => {
     const screeningPage = renderSnapshotPage({
       participants: [],
-      hasGenericErrors: true,
     })
     const screeningSideBar = screeningPage.find('SnapshotSideBar')
     expect(screeningSideBar.exists()).toBe(true)
     expect(screeningSideBar.props()).toEqual({
       participants: [],
-      error: true,
     })
   })
 

@@ -13,16 +13,6 @@ describe('SnapshotSideBar', () => {
     expect(component.find('div.col-md-3 div.col-xs-4').exists()).toBe(true)
   })
 
-  it('renders side-bar-error class when there is an error', () => {
-    const navbar = shallow(<SnapshotSideBar participants={participants} error={true}/>, {disableLifecycleMethods: true})
-    expect(navbar.find('.side-bar-error').exists()).toEqual(true)
-  })
-
-  it('renders side-bar-no-error class when there is not an error', () => {
-    const navbar = shallow(<SnapshotSideBar participants={participants} error={false}/>, {disableLifecycleMethods: true})
-    expect(navbar.find('.side-bar-no-error').exists()).toEqual(true)
-  })
-
   it('renders an invisible header for accessibility outline', () => {
     const header = component.find('h2')
     expect(header.exists()).toEqual(true)

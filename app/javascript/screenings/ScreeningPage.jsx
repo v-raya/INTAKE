@@ -140,12 +140,12 @@ export class ScreeningPage extends React.Component {
   }
 
   renderScreening() {
-    const {loaded, participants, hasGenericErrors} = this.props
+    const {loaded, participants} = this.props
 
     if (loaded) {
       return (
         <div className='row'>
-          <ScreeningSideBar participants={participants} error={hasGenericErrors} />
+          <ScreeningSideBar participants={participants} />
           {this.renderBody()}
         </div>
       )
