@@ -7,6 +7,7 @@ import {
   updatePersonSuccess,
   updatePersonFailure,
   deletePersonSuccess,
+  deletePersonFailure,
 } from 'actions/personCardActions'
 import {
   EDIT_MODE,
@@ -231,6 +232,18 @@ describe('screeningPageReducer', () => {
       const action = deletePersonSuccess('aaa')
       const newState = screeningPageReducer(initialState, action)
       expect(newState.getIn(['peopleCards', 'aaa'])).toEqual(undefined)
+    })
+
+    it('leaves the state as is when there is an error', () => {
+      const initialState = fromJS({
+        mode: EDIT_MODE,
+        peopleCards: {
+          aaa: EDIT_MODE,
+        },
+      })
+      const action = deletePersonFailure('error string')
+      const newState = screeningPageReducer(initialState, action)
+      expect(newState).toEqual(initialState)
     })
   })
 
