@@ -83,7 +83,7 @@ const RelationCard = ({
         >
             Age
         </TableHeaderColumn>
-        <TableHeaderColumn
+        <td
           dataFormat={(cell, row) =>
             <ActionMenu
               editFormRelationship={editFormRelationship}

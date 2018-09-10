@@ -44,7 +44,11 @@ describe('RelationCard', () => {
   })
 
   it('has a TableHeaderColumn', () => {
-    expect(renderRelationCard(props).find('TableHeaderColumn').length).toBe(4)
+    expect(renderRelationCard(props).find('TableHeaderColumn').length).toBe(3)
+  })
+
+  it('has a td and width is 5%', () => {
+    expect(renderRelationCard(props).find('td').at(0).prop('width')).toEqual('5%')
   })
 
   it('has 2 Attach links', () => {
