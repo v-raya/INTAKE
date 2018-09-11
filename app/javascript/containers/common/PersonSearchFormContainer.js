@@ -2,11 +2,11 @@ import {connect} from 'react-redux'
 import PersonSearchForm from 'views/people/PersonSearchForm'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {
-  getPeopleResultsSelector,
-  getResultsTotalValueSelector,
-  getSearchTermValueSelector,
-  getSearchAddressValueSelector,
-  getStartTimeSelector,
+  selectPeopleResults,
+  selectResultsTotalValue,
+  selectSearchTermValue,
+  selectSearchAddressValue,
+  selectStartTime,
 } from 'selectors/peopleSearchSelectors'
 import {search, setSearchTerm, clear, loadMoreResults, toggleAddressSearch} from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
@@ -19,12 +19,12 @@ const mapStateToProps = (state) => {
   const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride)
 
   return {
-    results: getPeopleResultsSelector(state).toJS(),
-    total: getResultsTotalValueSelector(state),
-    searchTerm: getSearchTermValueSelector(state),
-    isAddressIncluded: getSearchAddressValueSelector(state),
+    results: selectPeopleResults(state).toJS(),
+    total: selectResultsTotalValue(state),
+    searchTerm: selectSearchTermValue(state),
+    isAddressIncluded: selectSearchAddressValue(state),
     staffId: getStaffIdSelector(state),
-    startTime: getStartTimeSelector(state),
+    startTime: selectStartTime(state),
     participants: selectParticipants(state).toJS(),
     isSelectable,
   }
