@@ -176,8 +176,8 @@ export default class Autocompleter extends Component {
     return <input {...newProps}/>
   }
 
-  render() {
-    const {searchCounty, searchTerm, id, results, canCreateNewPerson, total, isAddressIncluded, onChangeCounty, onToggleAddressSearch} = this.props
+  renderAutocomplete() {
+    const {searchTerm, id, results, canCreateNewPerson, total} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
@@ -185,7 +185,8 @@ export default class Autocompleter extends Component {
     //Sequentually numbering items
     addPosAndSetAttr(results)
     const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
-    return (<div>
+
+    return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
@@ -200,6 +201,13 @@ export default class Autocompleter extends Component {
         wrapperStyle={{display: 'block', position: 'relative'}}
         renderInput={(props) => this.renderInput(props)}
       />
+    )
+  }
+
+  renderAddressSearch() {
+    const {searchCounty, isAddressIncluded, onChangeCounty, onToggleAddressSearch} = this.props
+
+    return (
       <SearchByAddress
         isAddressIncluded={isAddressIncluded}
         toggleAddressSearch={onToggleAddressSearch}
@@ -207,6 +215,13 @@ export default class Autocompleter extends Component {
         searchCounty={searchCounty}
         onChangeCounty={onChangeCounty}
       />
+    )
+  }
+
+  render() {
+    return (<div>
+      {this.renderAutocomplete()}
+      {this.renderAddressSearch()}
     </div>)
   }
 }
