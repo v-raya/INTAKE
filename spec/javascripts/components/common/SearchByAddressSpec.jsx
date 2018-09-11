@@ -18,14 +18,13 @@ describe('SearchByAddress', () => {
     })
   })
   describe('when isAddressIncluded flag is true', () => {
-    it('renders Include Address checkbox, inputfield and search button', () => {
+    it('renders Include Address checkbox and Address row', () => {
       const searchByAddress = render({isAddressIncluded: true})
 
       const root = searchByAddress.find('CheckboxField')
       expect(root.props().id).toEqual('include-address')
       expect(root.props().label).toEqual('Include Address')
-      expect(searchByAddress.html())
-        .toContain('<input type="text" id="search-address"/></div><div></div></div><div class="col-md-3 address-search"><button class="btn btn-primary">Search</button>')
+      expect(searchByAddress.find('AddressWithSearch').exists()).toEqual(true)
     })
   })
 })

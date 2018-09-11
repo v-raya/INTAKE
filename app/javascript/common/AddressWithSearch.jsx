@@ -1,9 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
+import CountyNameSelect from 'common/county/CountyNameSelect'
 
 const AddressWithSearch = ({onSubmit}) => (
   <div className='row'>
+    <CountyNameSelect
+      id='search-county'
+      gridClassName='col-md-3'
+      onChange={console.log}
+      value='Sacramento'
+    />
     <InputField
       gridClassName='col-md-3'
       id='search-address'

@@ -7,7 +7,12 @@ describe('AddressWithSearch', () => {
     shallow(<AddressWithSearch onSubmit={onSubmit} onChange={onChange} {...props} />)
   )
 
-  it("renders address input field with id 'search-address' and label 'Address'", () => {
+  it('renders county select', () => {
+    const component = render()
+    expect(component.find('CountyNameSelect').props().id).toEqual('search-county')
+  })
+
+  it('renders address input field with label Address', () => {
     const component = render()
     expect(component.find('InputField').props().id).toEqual('search-address')
     expect(component.find('InputField').props().label).toEqual('Address')
