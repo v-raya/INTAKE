@@ -3,11 +3,15 @@ import AddressWithSearch from 'common/AddressWithSearch'
 import {shallow} from 'enzyme'
 
 describe('AddressWithSearch', () => {
-  const render = ({onSubmit = () => {}, onChange = () => {}, ...props} = {}) => (
+  const render = ({
+    onChangeCounty = () => {},
+    onSubmit = () => {},
+    ...props
+  } = {}) => (
     shallow(
       <AddressWithSearch
+        onChangeCounty={onChangeCounty}
         onSubmit={onSubmit}
-        onChange={onChange}
         {...props}
       />
     )
@@ -44,5 +48,12 @@ describe('AddressWithSearch', () => {
     const searchButton = component.find('.btn-primary')
     searchButton.simulate('click')
     expect(onSubmit).toHaveBeenCalled()
+  })
+
+  it('calls onChangeCounty when new county is selected', () => {
+    const onChangeCounty = jasmine.createSpy('onChangeCounty')
+    const component = render({onChangeCounty})
+    component.find('CountyNameSelect').props().onChange('Inyo')
+    expect(onChangeCounty).toHaveBeenCalledWith('Inyo')
   })
 })

@@ -1,5 +1,4 @@
 import Autocompleter from 'common/Autocompleter'
-import SearchByAddress from 'common/SearchByAddress'
 import React from 'react'
 import Autocomplete from 'react-autocomplete'
 import {shallow, mount} from 'enzyme'
@@ -14,6 +13,7 @@ describe('<Autocompleter />', () => {
     onToggleAddressSearch = () => null,
     isSelectable = () => true,
     onChange = () => null,
+    onChangeCounty = () => null,
     onClear = () => null,
     onSearch = () => null,
     onSelect = () => null,
@@ -31,6 +31,7 @@ describe('<Autocompleter />', () => {
         onSelect={onSelect}
         onClear={onClear}
         onChange={onChange}
+        onChangeCounty={onChangeCounty}
         isSelectable={isSelectable}
         total={total}
         results={results}
@@ -50,6 +51,7 @@ describe('<Autocompleter />', () => {
     isSelectable = () => true,
     onSearch = () => null,
     onChange = () => null,
+    onChangeCounty = () => null,
     searchCounty = '',
     searchTerm = '',
     results = [],
@@ -66,6 +68,7 @@ describe('<Autocompleter />', () => {
         onToggleAddressSearch={onToggleAddressSearch}
         onClear={onClear}
         onChange={onChange}
+        onChangeCounty={onChangeCounty}
         isSelectable={isSelectable}
         total={total}
         results={results}
@@ -463,5 +466,14 @@ describe('<Autocompleter />', () => {
   it('renders SearchByAddress with selected county', () => {
     const component = renderAutocompleter({searchCounty: 'Yolo'})
     expect(component.find('SearchByAddress').props().searchCounty).toBe('Yolo')
+  })
+
+  it('calls onChangeCounty when new county is selected', () => {
+    const onChangeCounty = jasmine.createSpy('onChangeCounty')
+    const component = renderAutocompleter({onChangeCounty})
+
+    component.find('SearchByAddress').props().onChangeCounty('Mendocino')
+
+    expect(onChangeCounty).toHaveBeenCalledWith('Mendocino')
   })
 })

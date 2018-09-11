@@ -177,7 +177,7 @@ export default class Autocompleter extends Component {
   }
 
   render() {
-    const {searchCounty, searchTerm, id, results, canCreateNewPerson, total, isAddressIncluded, onToggleAddressSearch} = this.props
+    const {searchCounty, searchTerm, id, results, canCreateNewPerson, total, isAddressIncluded, onChangeCounty, onToggleAddressSearch} = this.props
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
@@ -200,7 +200,13 @@ export default class Autocompleter extends Component {
         wrapperStyle={{display: 'block', position: 'relative'}}
         renderInput={(props) => this.renderInput(props)}
       />
-      <SearchByAddress isAddressIncluded={isAddressIncluded} toggleAddressSearch={onToggleAddressSearch} onSubmit={this.handleSubmit} searchCounty={searchCounty}/>
+      <SearchByAddress
+        isAddressIncluded={isAddressIncluded}
+        toggleAddressSearch={onToggleAddressSearch}
+        onSubmit={this.handleSubmit}
+        searchCounty={searchCounty}
+        onChangeCounty={onChangeCounty}
+      />
     </div>)
   }
 }
@@ -211,6 +217,7 @@ Autocompleter.propTypes = {
   isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onChangeCounty: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,

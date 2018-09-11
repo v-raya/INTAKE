@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
 import CountyNameSelect from 'common/county/CountyNameSelect'
 
-const AddressWithSearch = ({onSubmit, searchCounty}) => (
+const AddressWithSearch = ({onChangeCounty, onSubmit, searchCounty}) => (
   <div className='row'>
     <CountyNameSelect
       id='search-county'
       gridClassName='col-md-3'
-      onChange={console.log}
+      onChange={onChangeCounty}
       value={searchCounty}
     />
     <InputField
@@ -24,6 +24,7 @@ const AddressWithSearch = ({onSubmit, searchCounty}) => (
 )
 
 AddressWithSearch.propTypes = {
+  onChangeCounty: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
   searchCounty: PropTypes.string,
 }

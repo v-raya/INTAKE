@@ -13,13 +13,14 @@ describe('PersonSearchForm', () => {
     onSelect = () => null,
     onLoadMoreResults = () => null,
     onChange = () => null,
+    onChangeCounty = () => null,
     onClear = () => null,
     onSearch = () => null,
     searchPrompt = '',
     canCreateNewPerson = false,
     ...args
   }) {
-    const props = {onSelect, onLoadMoreResults, onChange, onClear, onSearch, searchPrompt, canCreateNewPerson, ...args}
+    const props = {onSelect, onLoadMoreResults, onChange, onChangeCounty, onClear, onSearch, searchPrompt, canCreateNewPerson, ...args}
     return shallow(<PersonSearchForm {...props}/>, {disableLifecycleMethods: true})
   }
 
@@ -68,5 +69,14 @@ describe('PersonSearchForm', () => {
     const searchCard = component.find('#search-card')
     const label = searchCard.children('.card-body').children('div').children('div').children('label')
     expect(label.text()).toContain('Search for any person')
+  })
+
+  it('calls onChangeCounty when new county is selected', () => {
+    const onChangeCounty = jasmine.createSpy('onChangeCounty')
+    const component = renderPersonSearchForm({onChangeCounty})
+
+    component.find('Autocompleter').props().onChangeCounty('Shasta')
+
+    expect(onChangeCounty).toHaveBeenCalledWith('Shasta')
   })
 })

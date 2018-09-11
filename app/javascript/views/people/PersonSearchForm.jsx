@@ -41,6 +41,7 @@ PersonSearchForm.propTypes = {
   isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onChangeCounty: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func,
   onSearch: PropTypes.func,

@@ -9,7 +9,14 @@ import {
   selectStartTime,
   selectSearchCounty,
 } from 'selectors/peopleSearchSelectors'
-import {search, setSearchTerm, clear, loadMoreResults, toggleAddressSearch} from 'actions/peopleSearchActions'
+import {
+  search,
+  setSearchTerm,
+  setSearchCounty,
+  clear,
+  loadMoreResults,
+  toggleAddressSearch,
+} from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
@@ -35,6 +42,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onClear = () => dispatch(clear())
   const onChange = (value) => dispatch(setSearchTerm(value))
+  const onChangeCounty = (value) => dispatch(setSearchCounty(value))
   const onSearch = (value) => dispatch(search(value, ownProps.isClientOnly))
   const onLoadMoreResults = () => dispatch(loadMoreResults(ownProps.isClientOnly))
   const onToggleAddressSearch = () => dispatch(toggleAddressSearch())
@@ -42,6 +50,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onSearch,
     onClear,
     onChange,
+    onChangeCounty,
     onLoadMoreResults,
     onToggleAddressSearch,
     dispatch,
