@@ -1,9 +1,9 @@
-import CountySelectNameField from 'common/county/CountySelectNameField'
+import CountyCodeSelect from 'common/county/CountyCodeSelect'
 import React from 'react'
 import {shallow} from 'enzyme'
 
-describe('CountySelectNameField', () => {
-  function renderCountySelectField({
+describe('CountyCodeSelect', () => {
+  function renderCountyCodeSelect({
     counties = [],
     gridClassName = 'gridClassName',
     id = 'county-select',
@@ -17,29 +17,29 @@ describe('CountySelectNameField', () => {
       onChange,
       value,
     }
-    return shallow(<CountySelectNameField {...props} />, {disableLifecycleMethods: true})
+    return shallow(<CountyCodeSelect {...props} />, {disableLifecycleMethods: true})
   }
 
   it('displays the select field', () => {
-    const component = renderCountySelectField({counties: [
+    const component = renderCountyCodeSelect({counties: [
       {code: '123', value: 'San Francisco'},
       {code: '456', value: 'Sacramento'},
     ]})
-    expect(component.find('option[value="San Francisco"]').text()).toEqual('San Francisco')
+    expect(component.find('option[value="123"]').text()).toEqual('San Francisco')
   })
 
   it('selects the value passed in', () => {
-    const component = renderCountySelectField({counties: [
+    const component = renderCountyCodeSelect({counties: [
       {code: '123', value: 'San Francisco'},
       {code: '456', value: 'Sacramento'},
     ],
-    value: 'San Francisco'})
-    expect(component.find('SelectField').props().value).toEqual('San Francisco')
+    value: '456'})
+    expect(component.find('SelectField').props().value).toEqual('456')
   })
 
   it('passes onChange, id, and gridClassName to select field', () => {
     const onChange = jasmine.createSpy('onChange')
-    const component = renderCountySelectField({
+    const component = renderCountyCodeSelect({
       gridClassName: 'my-class-name',
       id: 'my-id',
       onChange: onChange,

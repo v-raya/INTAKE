@@ -2,7 +2,7 @@ import React from 'react'
 import SelectField from 'common/SelectField'
 import PropTypes from 'prop-types'
 
-class CountySelectNameField extends React.Component {
+class CountyCodeSelect extends React.Component {
   render() {
     const {
       counties,
@@ -21,13 +21,13 @@ class CountySelectNameField extends React.Component {
         value={value}
       >
         <option key='' />
-        {counties.map((county) => <option key={county.code} value={county.value}>{county.value}</option>)}
+        {counties.map((county) => <option key={county.code} value={county.code}>{county.value}</option>)}
       </SelectField>
     )
   }
 }
 
-CountySelectNameField.propTypes = {
+CountyCodeSelect.propTypes = {
   counties: PropTypes.array.isRequired,
   gridClassName: PropTypes.string,
   id: PropTypes.string.isRequired,
@@ -35,8 +35,8 @@ CountySelectNameField.propTypes = {
   value: PropTypes.string,
 }
 
-CountySelectNameField.defaultProps = {
+CountyCodeSelect.defaultProps = {
   value: '',
 }
 
-export default CountySelectNameField
+export default CountyCodeSelect
