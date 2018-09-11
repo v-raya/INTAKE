@@ -4,8 +4,8 @@ import CountiesInjector from 'common/county/CountiesInjector'
 import CountySelect from 'common/county/CountySelect'
 
 class CountyNameSelect extends React.PureComponent {
-  onChange({value}) {
-    this.props.onChange(value)
+  onChange(systemCode) {
+    this.props.onChange(systemCode ? systemCode.value : '')
   }
 
   render() {
