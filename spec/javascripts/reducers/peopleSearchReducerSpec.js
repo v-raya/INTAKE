@@ -188,7 +188,7 @@ describe('peopleSearchReducer', () => {
       ).toEqual('Los Angeles')
     })
     it('does not override an explicit user selection', () => {
-      const action = fetchUserInfoSuccess
+      const action = fetchUserInfoSuccess({county: 'Los Angeles'})
       const initialState = fromJS({county: 'Sutter'})
       expect(
         peopleSearchReducer(initialState, action).get('county')
