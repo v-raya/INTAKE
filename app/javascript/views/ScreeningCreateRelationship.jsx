@@ -53,7 +53,6 @@ export default class ScreeningCreateRelationship extends React.Component {
 
   render() {
     const {candidates, onChange} = this.props
-    console.log(this.props.relationshipsButtonStatus)
     const relationshipsButtonStatus = !this.props.relationshipsButtonStatus.createRelationshipsButtonStatus
     return (
       <div className='row'>
