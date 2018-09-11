@@ -10,6 +10,7 @@ import {
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
 } from 'actions/peopleSearchActions'
+import {fetchSuccess as fetchUserInfoSuccess} from 'actions/userInfoActions'
 import peopleSearchReducer from 'reducers/peopleSearchReducer'
 import {Map, fromJS} from 'immutable'
 import moment from 'moment'
@@ -175,6 +176,23 @@ describe('peopleSearchReducer', () => {
           isAddressIncluded: false,
         })
       )
+    })
+  })
+
+  describe('on FETCH_USER_INFO_COMPLETE', () => {
+    it('defaults the search county to the county of the user', () => {
+      const action = fetchUserInfoSuccess({county: 'Los Angeles'})
+      const initialState = fromJS({county: ''})
+      expect(
+        peopleSearchReducer(initialState, action).get('county')
+      ).toEqual('Los Angeles')
+    })
+    it('does not override an explicit user selection', () => {
+      const action = fetchUserInfoSuccess
+      const initialState = fromJS({county: 'Sutter'})
+      expect(
+        peopleSearchReducer(initialState, action).get('county')
+      ).toEqual('Sutter')
     })
   })
 })
