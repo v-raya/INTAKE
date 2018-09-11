@@ -64,13 +64,13 @@ const removeRelationshipType = (candidates) => (
 )
 
 const resetCandidates = (state, {payload: {id}}) =>
-  state.update(id, removeRelationshipType)
+  state.update(id, removeRelationshipType).delete('isActive')
 
 const updateCandidateForm = (state, {payload: {personId, candidateId, value}}) => {
   const index = state.get(personId).findIndex(
     (relatee) => relatee.getIn(['candidate', 'id']) === candidateId
   )
-  return state.setIn([personId, index, 'candidate', 'relationshipType'], value)
+  return state.setIn([personId, index, 'candidate', 'relationshipType'], value).set('isActive', false)
 }
 
 export default createReducer(Map(), {

@@ -171,6 +171,7 @@ describe('candidatesFormReducer', () => {
               name: 'Walter A White, Sr',
             },
           }],
+          isActive: false,
         })
       )
     })
