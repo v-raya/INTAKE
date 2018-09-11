@@ -26,5 +26,12 @@ describe('SearchByAddress', () => {
       expect(root.props().label).toEqual('Include Address')
       expect(searchByAddress.find('AddressWithSearch').exists()).toEqual(true)
     })
+
+    it('passes the selected county to AddressWithSearch', () => {
+      const searchByAddress = render({searchCounty: 'San Francisco', isAddressIncluded: true})
+      expect(
+        searchByAddress.find('AddressWithSearch').props().searchCounty
+      ).toEqual('San Francisco')
+    })
   })
 })

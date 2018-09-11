@@ -7,6 +7,7 @@ import {
   selectSearchTermValue,
   selectSearchAddressValue,
   selectStartTime,
+  selectSearchCounty,
 } from 'selectors/peopleSearchSelectors'
 import {search, setSearchTerm, clear, loadMoreResults, toggleAddressSearch} from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
@@ -22,6 +23,7 @@ const mapStateToProps = (state) => {
     results: selectPeopleResults(state).toJS(),
     total: selectResultsTotalValue(state),
     searchTerm: selectSearchTermValue(state),
+    searchCounty: selectSearchCounty(state),
     isAddressIncluded: selectSearchAddressValue(state),
     staffId: getStaffIdSelector(state),
     startTime: selectStartTime(state),

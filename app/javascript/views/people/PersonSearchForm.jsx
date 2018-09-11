@@ -46,6 +46,7 @@ PersonSearchForm.propTypes = {
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
   results: PropTypes.array,
+  searchCounty: PropTypes.string,
   searchPrompt: PropTypes.string.isRequired,
   searchTerm: PropTypes.string,
   staffId: PropTypes.string,

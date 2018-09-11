@@ -4,12 +4,27 @@ import {shallow} from 'enzyme'
 
 describe('AddressWithSearch', () => {
   const render = ({onSubmit = () => {}, onChange = () => {}, ...props} = {}) => (
-    shallow(<AddressWithSearch onSubmit={onSubmit} onChange={onChange} {...props} />)
+    shallow(
+      <AddressWithSearch
+        onSubmit={onSubmit}
+        onChange={onChange}
+        {...props}
+      />
+    )
   )
 
   it('renders county select', () => {
     const component = render()
-    expect(component.find('CountyNameSelect').props().id).toEqual('search-county')
+    const countySelect = component.find('CountyNameSelect')
+    expect(countySelect.props().id).toEqual('search-county')
+    expect(countySelect.props().value).toEqual('')
+  })
+
+  it('renders county select when a county is selected', () => {
+    const component = render({searchCounty: 'Contra Costa'})
+    const countySelect = component.find('CountyNameSelect')
+    expect(countySelect.props().id).toEqual('search-county')
+    expect(countySelect.props().value).toEqual('Contra Costa')
   })
 
   it('renders address input field with label Address', () => {

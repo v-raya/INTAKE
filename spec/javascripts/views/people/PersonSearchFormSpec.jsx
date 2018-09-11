@@ -44,18 +44,18 @@ describe('PersonSearchForm', () => {
     expect(autocompleter.props().id).toEqual('screening_participants')
   })
 
-  it('passes isSelectable from props to the autocompleter', () => {
+  it('passes props to the autocompleter', () => {
     const isSelectable = jasmine.createSpy('isSelectable')
-    const component = renderPersonSearchForm({isSelectable})
+    const onSelect = jasmine.createSpy('onSelect')
+    const component = renderPersonSearchForm({
+      isSelectable,
+      onSelect,
+      searchCounty: 'Orange',
+    })
     const autocompleter = component.find('Autocompleter')
     expect(autocompleter.props().isSelectable).toEqual(isSelectable)
-  })
-
-  it('passes the onSelect prop to the autocompleter', () => {
-    const onSelect = jasmine.createSpy('onSelect')
-    const component = renderPersonSearchForm({onSelect})
-    const autocompleter = component.find('Autocompleter')
     expect(autocompleter.props().onSelect).toEqual(onSelect)
+    expect(autocompleter.props().searchCounty).toEqual('Orange')
   })
 
   it('renders the card header', () => {

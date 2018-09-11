@@ -50,6 +50,7 @@ describe('<Autocompleter />', () => {
     isSelectable = () => true,
     onSearch = () => null,
     onChange = () => null,
+    searchCounty = '',
     searchTerm = '',
     results = [],
     total = 0,
@@ -68,6 +69,7 @@ describe('<Autocompleter />', () => {
         isSelectable={isSelectable}
         total={total}
         results={results}
+        searchCounty={searchCounty}
         searchTerm={searchTerm}
         onSearch={onSearch}
         staffId={staffId}
@@ -458,14 +460,8 @@ describe('<Autocompleter />', () => {
     })
   })
 
-  describe('SearchByAddress', () => {
-    const render = ({toggleAddressSearch = () => {}, ...props} = {}) => (
-      shallow(<SearchByAddress toggleAddressSearch={toggleAddressSearch} {...props} />)
-    )
-
-    it('renders SearchByAddress component', () => {
-      const component = render()
-      expect(component.exists()).toBe(true)
-    })
+  it('renders SearchByAddress with selected county', () => {
+    const component = renderAutocompleter({searchCounty: 'Yolo'})
+    expect(component.find('SearchByAddress').props().searchCounty).toBe('Yolo')
   })
 })

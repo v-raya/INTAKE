@@ -7,6 +7,7 @@ import {
   selectSearchAddressValue,
   selectStartTime,
   selectPersonCreatedAtTime,
+  selectSearchCounty,
 } from 'selectors/peopleSearchSelectors'
 
 describe('peopleSearchSelectors', () => {
@@ -476,6 +477,16 @@ describe('peopleSearchSelectors', () => {
       }
       const state = fromJS({peopleSearch})
       expect(selectSearchAddressValue(state)).toEqual(true)
+    })
+  })
+
+  describe('selectSearchCounty', () => {
+    it('gets the selected county from the store', () => {
+      const peopleSearch = {
+        county: 'Mariposa',
+      }
+      const state = fromJS({peopleSearch})
+      expect(selectSearchCounty(state)).toEqual('Mariposa')
     })
   })
 })

@@ -108,3 +108,6 @@ export const selectPersonCreatedAtTime = (state) =>
   state.get('relationshipsQueryCycleTime').toJS()
     .map((t) => t.personCreatedAtTime)
     .pop()
+
+export const selectSearchCounty = (state) => selectPeopleSearch(state)
+  .get('county')
