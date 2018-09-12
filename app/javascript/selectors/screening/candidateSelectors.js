@@ -5,19 +5,13 @@ export const selectCandidates = (state, id) =>
   state.get('candidatesForm').get(id, List())
 
 const isEmptyRelationship = (candidate) =>
-  candidate.get('relationship_type') === ''
+  candidate.get('relationship_type') === null
 
 const toCode = (candidate) =>
   Maybe.of(candidate.getIn(['candidate', 'relationshipType']))
     .map((type) => parseInt(type, 10))
-    .map((code) => {
-      if (isNaN(code)) {
-        return ''
-      } else {
-        return code
-      }
-    })
-    .valueOrElse('')
+    .filter((type) => !isNaN(type))
+    .valueOrElse(null)
 
 export const selectCandidatesWithEdits = (state, id) => (Map({
   relationships: selectCandidates(state, id)
