@@ -36,3 +36,10 @@ export const getModeValueSelector = (state, personId) => {
   const screeningPage = state.get('screeningPage')
   return screeningPage.getIn(['peopleCards', personId], SHOW_MODE)
 }
+
+export const selectInformationalMessage = (state, personId) => {
+  const probationYouthInfo = selectProbationYouth(state).get(personId) ?
+    'Probation Youth' : null
+  const deceasedInfo = selectDeceased(state).get(personId) ? 'Deceased' : null
+  return deceasedInfo ? deceasedInfo : probationYouthInfo
+}

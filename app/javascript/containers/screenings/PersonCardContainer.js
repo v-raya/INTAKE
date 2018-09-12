@@ -3,17 +3,12 @@ import PersonCard from 'views/people/PersonCard'
 import {
   getModeValueSelector,
   getPersonNamesSelector,
-  selectDeceased,
-  selectProbationYouth,
+  selectInformationalMessage,
   getPersonInformationFlagValuesSelector,
 } from 'selectors/screening/personCardSelectors'
 import {savePerson, deletePerson} from 'actions/personCardActions'
 import {EDIT_MODE, SAVING_MODE, SHOW_MODE, setPersonCardMode} from 'actions/screeningPageActions'
 import {touchAllFields} from 'actions/peopleFormActions'
-
-const probationYouthInfo = (state, {personId}) => (
-  selectProbationYouth(state).get(personId) ? 'Probation Youth' : null
-)
 
 const mapStateToProps = (state, {personId}) => ({
   mode: getModeValueSelector(state, personId),
@@ -21,7 +16,7 @@ const mapStateToProps = (state, {personId}) => ({
   deletable: !state.getIn(['screening', 'referral_id']),
   informationFlag: getPersonInformationFlagValuesSelector(state).get(personId),
   personName: getPersonNamesSelector(state).get(personId),
-  informationPill: selectDeceased(state).get(personId) ? 'Deceased' : probationYouthInfo(state, {personId}),
+  informationPill: selectInformationalMessage(state, personId),
 })
 
 export const mapDispatchToProps = (dispatch, {personId}) => ({
