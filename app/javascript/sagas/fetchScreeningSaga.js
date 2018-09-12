@@ -35,8 +35,6 @@ function* tryToFetchScreening(id) {
   const screeningId = response.id
   yield put(fetchRelationships(clientIds, screeningId))
   const participants = response.participants
-  console.log('participants in fetch screening')
-  console.log(participants)
   yield put(setCreateRelationButtonStatus(participants))
 
 }
