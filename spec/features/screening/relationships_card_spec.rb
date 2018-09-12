@@ -23,13 +23,14 @@ feature 'Relationship card' do
     }
   end
   let(:participant) { FactoryBot.create(:participant) }
+  let(:participant2) { FactoryBot.create(:participant) }
   let(:participants_screening) do
     {
       id: '1',
       incident_address: {},
       addresses: [],
       cross_reports: [],
-      participants: [participant.as_json.symbolize_keys],
+      participants: [participant.as_json.symbolize_keys, participant2.as_json.symbolize_keys ],
       allegations: [],
       safety_alerts: []
     }
