@@ -43,10 +43,10 @@ describe('candidatesFormReducer', () => {
   }]
 
   describe('on FETCH_RELATIONSHIPS_COMPLETE', () => {
-    it('returns an empty immutable map', () => {
+    it('returns only isDisabled field', () => {
       expect(
         candidatesReducer(Map(), fetchRelationshipsSuccess([]))
-      ).toEqualImmutable(Map())
+      ).toEqualImmutable(Map({isDisabled: true}))
     })
 
     it('returns candidates for relationships', () => {
@@ -87,6 +87,7 @@ describe('candidatesFormReducer', () => {
               name: 'Walter A White, Sr',
             },
           }],
+          isDisabled: true,
         })
       )
     })
@@ -171,7 +172,7 @@ describe('candidatesFormReducer', () => {
               name: 'Walter A White, Sr',
             },
           }],
-          isActive: false,
+          isDisabled: false,
         })
       )
     })

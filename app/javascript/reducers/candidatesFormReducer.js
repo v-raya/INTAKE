@@ -53,7 +53,8 @@ const loadCandidates = (state, {payload: {relationships}, error}) => {
   if (error) {
     return state
   } else {
-    return buildCandidates(fromJS((relationships)))
+    const candidates = buildCandidates(fromJS((relationships)))
+    return candidates.set('isDisabled', true)
   }
 }
 
@@ -64,13 +65,13 @@ const removeRelationshipType = (candidates) => (
 )
 
 const resetCandidates = (state, {payload: {id}}) =>
-  state.update(id, removeRelationshipType).delete('isActive')
+  state.update(id, removeRelationshipType).delete('isDisabled')
 
 const updateCandidateForm = (state, {payload: {personId, candidateId, value}}) => {
   const index = state.get(personId).findIndex(
     (relatee) => relatee.getIn(['candidate', 'id']) === candidateId
   )
-  return state.setIn([personId, index, 'candidate', 'relationshipType'], value).set('isActive', false)
+  return state.setIn([personId, index, 'candidate', 'relationshipType'], value).set('isDisabled', false)
 }
 
 export default createReducer(Map(), {
