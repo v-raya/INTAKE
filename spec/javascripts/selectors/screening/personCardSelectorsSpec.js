@@ -5,6 +5,7 @@ import {
   getPersonInformationFlagValuesSelector,
   getModeValueSelector,
   selectDeceased,
+  selectProbationYouth,
 } from 'selectors/screening/personCardSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -38,6 +39,21 @@ describe('personCardSelectors', () => {
         123: undefined,
         124: '05/19/1993',
         125: '05/11/1990',
+      }))
+    })
+  })
+  describe('selectProbationYouth', () => {
+    it('return probation_youth flag for each participant', () => {
+      const participants = [
+        {id: '123', first_name: '', middle_name: '', last_name: ''},
+        {id: '124', first_name: 'John', middle_name: 'Q', last_name: 'Public', probation_youth: true},
+        {id: '125', first_name: 'Jane', middle_name: '', last_name: 'Public', probation_youth: false},
+      ]
+      const state = fromJS({participants})
+      expect(selectProbationYouth(state)).toEqualImmutable(fromJS({
+        123: undefined,
+        124: true,
+        125: false,
       }))
     })
   })
