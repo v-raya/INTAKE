@@ -39,11 +39,11 @@ describe('ScreeningCreateRelationship', () => {
       name: 'Vegeta',
     },
   }]
-  let props = {
+  const props = {
     onChange: () => {},
     personId: '805',
     candidates: candidates,
-    relationshipsButtonStatus: {createRelationshipsButtonStatus: true}
+    relationshipsButtonStatus: {createRelationshipsButtonStatus: true},
   }
 
   beforeEach(() => {
@@ -52,20 +52,20 @@ describe('ScreeningCreateRelationship', () => {
     wrapper = shallow(
       <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave}/>
     )
-   })
-  describe('Create Relationship button',()=>{
+  })
+
+  describe('Create Relationship button', () => {
     it('exists', () => {
       expect(wrapper.find('button').length).toBe(1)
       expect(wrapper.find('button').text()).toEqual('Create Relationship')
     })
-  
     it('is enabled if createRelationshipsButtonStatus is true', () => {
       expect(wrapper.find('button').length).toBe(1)
       expect(wrapper.find('button').text()).toEqual('Create Relationship')
       expect(wrapper.find('button').props().disabled).toEqual(false)
     })
     const props1 = {...props,
-      relationshipsButtonStatus: {createRelationshipsButtonStatus: false}
+      relationshipsButtonStatus: {createRelationshipsButtonStatus: false},
     }
     const wrapper1 = shallow(
       <ScreeningCreateRelationship {...props1} onCancel={onCancel} onSave={onSave}/>
@@ -76,7 +76,6 @@ describe('ScreeningCreateRelationship', () => {
       expect(wrapper1.find('button').props().disabled).toEqual(true)
     })
   })
-  
   it('has a ModalComponent', () => {
     expect(wrapper.find('ModalComponent').length).toBe(1)
   })

@@ -10,12 +10,12 @@ describe('Relationships for Screening', () => {
 
   let onClick
   let component
-  const relationshipsButtonStatus = {createRelationshipsButtonStatus : true}
+  const relationshipsButtonStatus = {createRelationshipsButtonStatus: true}
   const renderRelationships = (props) => shallow(
     <Relationships {...props}
       isScreening={true}
       screeningId={'1'}
-      pendingPeople = {['1']}
+      pendingPeople={['1']}
       onClick={onClick}
       relationshipsButtonStatus={relationshipsButtonStatus}
     />, {disableLifecycleMethods: true})
@@ -101,7 +101,7 @@ describe('Relationships for Screening', () => {
     component = renderRelationships({people, candidates})
   })
 
-  describe('ScreeningCreateRelationshipContainer', ()=>{
+  describe('ScreeningCreateRelationshipContainer', () => {
     it('render ScreeningCreateRelationshipContainer for each person', () => {
       expect(component.find('Connect(ScreeningCreateRelationship)').length).toEqual(7)
     })

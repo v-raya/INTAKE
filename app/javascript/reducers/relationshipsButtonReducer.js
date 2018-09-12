@@ -2,15 +2,14 @@ import {SET_CREATE_RELATION_BTN_STATUS} from 'actions/actionTypes'
 import {createReducer} from 'utils/createReducer'
 import {Map, fromJS} from 'immutable'
 
-
 const setCreateRelationshipsButtonStatus = (state, {payload: {participants}}) => {
   let createRelationshipsButtonStatus = false
-  if (participants.size > 1 || participants.length > 1){
+  const participantCount = 1
+  if (participants.size > participantCount || participants.length > participantCount) {
     createRelationshipsButtonStatus = true
   }
-return fromJS({createRelationshipsButtonStatus: createRelationshipsButtonStatus})
+  return fromJS({createRelationshipsButtonStatus: createRelationshipsButtonStatus})
 }
 
-
 export default createReducer(Map(), {
-  [SET_CREATE_RELATION_BTN_STATUS] :setCreateRelationshipsButtonStatus})
+  [SET_CREATE_RELATION_BTN_STATUS]: setCreateRelationshipsButtonStatus})

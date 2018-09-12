@@ -1,7 +1,7 @@
 import * as matchers from 'jasmine-immutable-matchers'
-import { fromJS } from 'immutable'
+import {fromJS} from 'immutable'
 import relationshipsButtonReducer from 'reducers/relationshipsButtonReducer'
-import { setCreateRelationButtonStatus } from 'actions/relationshipsActions'
+import {setCreateRelationButtonStatus} from 'actions/relationshipsActions'
 
 describe('RelationshipsButtonReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -30,25 +30,25 @@ describe('RelationshipsButtonReducer', () => {
             legacy_id: '671OnqN0Hy',
             legacy_last_updated: '1999-09-01T09:46:02.214-0700',
             legacy_table_name: 'ADDRS_T',
-            legacy_table_description: 'Address'
-          }
-        }
+            legacy_table_description: 'Address',
+          },
+        },
       ],
       races: [
         {
           race: 'Asian',
-          race_detail: 'Japanese'
-        }
+          race_detail: 'Japanese',
+        },
       ],
       ethnicity: {
         hispanic_latino_origin: null,
-        ethnicity_detail: []
+        ethnicity_detail: [],
       },
       middle_name: 'C',
       name_suffix: 'Sr.',
       languages: [
         'Korean',
-        'German'
+        'German',
       ],
       screening_id: 1,
       phone_numbers: [],
@@ -58,9 +58,9 @@ describe('RelationshipsButtonReducer', () => {
         legacy_id: 'TNpcAOB0Hy',
         legacy_last_updated: '1999-09-02T16:51:07.769-0700',
         legacy_table_name: 'CLIENT_T',
-        legacy_table_description: 'Client'
+        legacy_table_description: 'Client',
       },
-      csec: []
+      csec: [],
     },
     {
       id: 295,
@@ -78,7 +78,7 @@ describe('RelationshipsButtonReducer', () => {
       middle_name: '',
       name_suffix: '',
       languages: [
-        'Spanish'
+        'Spanish',
       ],
       screening_id: '1',
       phone_numbers: [],
@@ -88,10 +88,10 @@ describe('RelationshipsButtonReducer', () => {
         legacy_id: 'QamHhLg0JX',
         legacy_last_updated: '2000-03-13T11:09:18.470-0800',
         legacy_table_name: 'CLIENT_T',
-        legacy_table_description: 'Client'
+        legacy_table_description: 'Client',
       },
-      csec: []
-    }
+      csec: [],
+    },
   ]
 
   const oneParticipant = {
@@ -117,25 +117,25 @@ describe('RelationshipsButtonReducer', () => {
           legacy_id: '671OnqN0Hy',
           legacy_last_updated: '1999-09-01T09:46:02.214-0700',
           legacy_table_name: 'ADDRS_T',
-          legacy_table_description: 'Address'
-        }
-      }
+          legacy_table_description: 'Address',
+        },
+      },
     ],
     races: [
       {
         race: 'Asian',
-        race_detail: 'Japanese'
-      }
+        race_detail: 'Japanese',
+      },
     ],
     ethnicity: {
       hispanic_latino_origin: null,
-      ethnicity_detail: []
+      ethnicity_detail: [],
     },
     middle_name: 'C',
     name_suffix: 'Sr.',
     languages: [
       'Korean',
-      'German'
+      'German',
     ],
     screening_id: 1,
     phone_numbers: [],
@@ -145,19 +145,19 @@ describe('RelationshipsButtonReducer', () => {
       legacy_id: 'TNpcAOB0Hy',
       legacy_last_updated: '1999-09-02T16:51:07.769-0700',
       legacy_table_name: 'CLIENT_T',
-      legacy_table_description: 'Client'
+      legacy_table_description: 'Client',
     },
-    csec: []
+    csec: [],
   }
 
   describe('on SET_CREATE_RELATION_BTN_STATUS ', () => {
     it('it sets the value of createRelationshipsButtonStatus to true when there are more than one participant', () => {
       const action = setCreateRelationButtonStatus(twoParticipants)
-      expect(relationshipsButtonReducer(state, action)).toEqualImmutable(fromJS({ createRelationshipsButtonStatus: true }))
+      expect(relationshipsButtonReducer(state, action)).toEqualImmutable(fromJS({createRelationshipsButtonStatus: true}))
     })
     it('it sets the value of createRelationshipsButtonStatus to false when there is on participant', () => {
       const action = setCreateRelationButtonStatus(oneParticipant)
-      expect(relationshipsButtonReducer(state, action)).toEqualImmutable(fromJS({ createRelationshipsButtonStatus: false }))
+      expect(relationshipsButtonReducer(state, action)).toEqualImmutable(fromJS({createRelationshipsButtonStatus: false}))
     })
   })
 })

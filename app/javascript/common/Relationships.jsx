@@ -13,8 +13,8 @@ export const Relationships = ({
   onSave,
   pendingPeople = [],
   people,
-  screeningId,
   relationshipsButtonStatus,
+  screeningId,
 }) => (
   <div className='card-body no-pad-top'>
     {
@@ -129,8 +129,8 @@ Relationships.propTypes = {
       age: PropTypes.string,
     })),
   })),
-  screeningId: PropTypes.string,
   relationshipsButtonStatus: PropTypes.object,
+  screeningId: PropTypes.string,
 }
 
 export const EmptyRelationships = () => (

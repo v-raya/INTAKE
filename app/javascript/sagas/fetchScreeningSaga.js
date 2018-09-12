@@ -9,7 +9,6 @@ import {fetch as fetchCountyAgencies} from 'actions/countyAgenciesActions'
 import {fetchRelationships, setCreateRelationButtonStatus} from 'actions/relationshipsActions'
 import {FETCH_SCREENING} from 'actions/actionTypes'
 
-
 function* fetchCrossReports(cross_reports) {
   if (cross_reports && cross_reports.length > 0) {
     const {county_id} = cross_reports[0]
@@ -36,7 +35,6 @@ function* tryToFetchScreening(id) {
   yield put(fetchRelationships(clientIds, screeningId))
   const participants = response.participants
   yield put(setCreateRelationButtonStatus(participants))
-
 }
 
 function* redirectOrFail(error) {

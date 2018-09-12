@@ -87,11 +87,11 @@ describe('fetchScreening', () => {
         put(fetchRelationships(['ABC', 'DEF'], '123'))
       )
       expect(gen.next(screening).value).toEqual(
-        put(setCreateRelationButtonStatus([{legacy_id: 'ABC'}, {legacy_id: 'DEF'}])
-      ))
-
+        put(setCreateRelationButtonStatus([{legacy_id: 'ABC'}, {legacy_id: 'DEF'}]))
+      )
     })
   })
+
   describe('when unsuccessful', () => {
     const id = '123'
     const action = actions.fetchScreening(id)
