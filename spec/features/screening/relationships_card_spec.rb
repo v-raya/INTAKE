@@ -580,7 +580,9 @@ feature 'Relationship card' do
 
         stub_request(
           :get,
-          ferb_api_url(FerbRoutes.relationships_for_screening_path(single_participant_screening[:id]))
+          ferb_api_url(
+            FerbRoutes.relationships_for_screening_path(single_participant_screening[:id])
+          )
         ).and_return(json_body(relationships.to_json, status: 200))
       end
 
