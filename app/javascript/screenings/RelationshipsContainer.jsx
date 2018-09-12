@@ -2,7 +2,11 @@ import {connect} from 'react-redux'
 import {Relationships} from 'common/Relationships'
 import {getPeopleSelector, getRelationshipsButtonStatus} from 'selectors/screening/relationshipsSelectors'
 import {createPerson} from 'actions/personCardActions'
-import {createRelationship, setRelationshipForm, updateRelationship} from 'actions/relationshipActions'
+import {
+  createRelationship,
+  setRelationshipForm,
+  updateRelationship,
+} from 'actions/relationshipFormActions'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {selectRelationship} from 'selectors/screening/relationshipFormSelectors'
 

@@ -5,7 +5,7 @@ import {
   setRelationshipForm,
   updateRelationshipFailure,
   updateRelationshipSuccess,
-} from 'actions/relationshipActions'
+} from 'actions/relationshipFormActions'
 import {Map, fromJS} from 'immutable'
 
 describe('relationshipFormReducer', () => {
