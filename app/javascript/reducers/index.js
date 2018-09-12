@@ -9,7 +9,7 @@ import pendingParticipants from 'reducers/pendingParticipantsReducer'
 import participants from 'reducers/participantsReducer'
 import peopleForm from 'reducers/peopleFormReducer'
 import peopleSearch from 'reducers/peopleSearchReducer'
-import relationship from 'reducers/relationshipReducer'
+import relationshipForm from 'reducers/relationshipFormReducer'
 import relationships from 'reducers/relationshipsReducer'
 import relationshipsQueryCycleTime from 'reducers/relationshipsQueryCycleTimeReducer'
 import routing from 'reducers/routerReducer'
@@ -39,7 +39,7 @@ const rootReducer = combineReducers({
   pendingParticipants,
   peopleForm,
   peopleSearch,
-  relationship,
+  relationshipForm,
   relationships,
   relationshipsQueryCycleTime,
   routing,
