@@ -31,6 +31,7 @@ export default class ScreeningCreateRelationship extends React.Component {
   }
 
   modalFooter() {
+    const {isDisabled = true} = this.props
     return (
       <div>
         <button
@@ -43,6 +44,7 @@ export default class ScreeningCreateRelationship extends React.Component {
         <button
           aria-label='Create Relationship'
           className='btn btn-primary'
+          disabled={isDisabled}
           onClick={this.saveCreateRelationship}
         >
           Create Relationship
@@ -96,6 +98,7 @@ ScreeningCreateRelationship.propTypes = {
       name: PropTypes.string,
     }),
   })),
+  isDisabled: PropTypes.bool,
   onCancel: PropTypes.func,
   onChange: PropTypes.func,
   onSave: PropTypes.func,
