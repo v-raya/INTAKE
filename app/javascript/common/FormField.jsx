@@ -31,7 +31,7 @@ FormField.propTypes = {
   errors: PropTypes.array,
   gridClassName: PropTypes.string,
   htmlFor: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   labelClassName: PropTypes.string,
   required: PropTypes.bool,
   textWrapClassName: PropTypes.string,
