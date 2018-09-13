@@ -1,12 +1,13 @@
 import {
-  CREATE_RELATIONSHIP,
   SET_RELATIONSHIP_FORM_FIELD,
   UPDATE_RELATIONSHIP,
   UPDATE_RELATIONSHIP_COMPLETE,
 } from 'actions/actionTypes'
 
-export const createRelationship = (person, relationship) => ({
-  type: CREATE_RELATIONSHIP,
+export const LOAD_RELATIONSHIP = 'LOAD_RELATIONSHIP'
+
+export const loadRelationship = (person, relationship) => ({
+  type: LOAD_RELATIONSHIP,
   payload: {person, relationship},
 })
 
