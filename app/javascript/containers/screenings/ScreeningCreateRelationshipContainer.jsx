@@ -2,7 +2,7 @@ import {connect} from 'react-redux'
 import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
 import {
   selectCandidates,
-  selectisDisabledForm,
+  selectIsDisabledForm,
 } from 'selectors/screening/candidateSelectors'
 import {
   batchCreateRelationships,
@@ -12,7 +12,7 @@ import {
 
 const mapStateToProps = (state, {personId}) => ({
   candidates: selectCandidates(state, personId).toJS(),
-  isDisabled: selectisDisabledForm(state),
+  isDisabled: selectIsDisabledForm(state),
 })
 
 export const mapDispatchToProps = (dispatch) => ({

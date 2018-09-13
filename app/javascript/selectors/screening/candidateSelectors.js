@@ -13,4 +13,4 @@ export const selectCandidatesWithEdits = (state, id) => (Map({
   })),
 }))
 
-export const selectisDisabledForm = (state) => state.getIn(['candidatesForm', 'isDisabled'])
+export const selectIsDisabledForm = (state) => state.getIn(['candidatesForm', 'isDisabled'])

@@ -2,7 +2,7 @@ import {fromJS} from 'immutable'
 import {
   selectCandidates,
   selectCandidatesWithEdits,
-  selectisDisabledForm,
+  selectIsDisabledForm,
 } from 'selectors/screening/candidateSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -155,10 +155,10 @@ describe('candidateSelectors', () => {
     })
   })
 
-  describe('selectisDisabledForm', () => {
+  describe('selectIsDisabledForm', () => {
     it('returns a list of candidates with isDisabled field', () => {
       const state = fromJS({candidatesForm})
-      expect(selectisDisabledForm(state)).toBe(true)
+      expect(selectIsDisabledForm(state)).toBe(true)
     })
   })
 })
