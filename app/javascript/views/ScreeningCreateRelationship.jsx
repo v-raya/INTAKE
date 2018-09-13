@@ -53,11 +53,12 @@ export default class ScreeningCreateRelationship extends React.Component {
 
   render() {
     const {candidates, onChange} = this.props
+    const relationshipsButtonStatus = !this.props.relationshipsButtonStatus.createRelationshipsButtonStatus
     return (
       <div className='row'>
         <div className='col-md-12' >
           <div className='pull-right'>
-            <button aria-label='Create Relationship' className='btn btn-primary' onClick={this.handleShowModal}>
+            <button aria-label='Create Relationship' className='btn btn-primary' onClick={this.handleShowModal} disabled={relationshipsButtonStatus}>
               Create Relationship
             </button>
           </div>
@@ -100,4 +101,6 @@ ScreeningCreateRelationship.propTypes = {
   onChange: PropTypes.func,
   onSave: PropTypes.func,
   personId: PropTypes.string,
+  relationshipsButtonStatus: PropTypes.shape({
+    createRelationshipsButtonStatus: PropTypes.bool}),
 }
