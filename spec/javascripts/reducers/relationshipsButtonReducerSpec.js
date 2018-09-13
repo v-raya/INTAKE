@@ -94,7 +94,7 @@ describe('RelationshipsButtonReducer', () => {
     },
   ]
 
-  const oneParticipant = {
+  const oneParticipant = [{
     id: 300,
     legacy_source_table: 'CLIENT_T',
     legacy_id: 'TNpcAOB0Hy',
@@ -148,14 +148,14 @@ describe('RelationshipsButtonReducer', () => {
       legacy_table_description: 'Client',
     },
     csec: [],
-  }
+  }]
 
   describe('on SET_CREATE_RELATION_BTN_STATUS ', () => {
     it('it sets the value of createRelationshipsButtonStatus to true when there are more than one participant', () => {
       const action = setCreateRelationButtonStatus(twoParticipants)
       expect(relationshipsButtonReducer(state, action)).toEqualImmutable(fromJS({createRelationshipsButtonStatus: true}))
     })
-    it('it sets the value of createRelationshipsButtonStatus to false when there is on participant', () => {
+    it('it sets the value of createRelationshipsButtonStatus to false when there is one participant', () => {
       const action = setCreateRelationButtonStatus(oneParticipant)
       expect(relationshipsButtonReducer(state, action)).toEqualImmutable(fromJS({createRelationshipsButtonStatus: false}))
     })

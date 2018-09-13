@@ -129,7 +129,8 @@ Relationships.propTypes = {
       age: PropTypes.string,
     })),
   })),
-  relationshipsButtonStatus: PropTypes.object,
+  relationshipsButtonStatus: PropTypes.shape({
+    createRelationshipsButtonStatus: PropTypes.bool}),
   screeningId: PropTypes.string,
 }
 

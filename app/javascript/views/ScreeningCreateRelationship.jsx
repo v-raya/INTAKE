@@ -101,5 +101,6 @@ ScreeningCreateRelationship.propTypes = {
   onChange: PropTypes.func,
   onSave: PropTypes.func,
   personId: PropTypes.string,
-  relationshipsButtonStatus: PropTypes.object,
+  relationshipsButtonStatus: PropTypes.shape({
+    createRelationshipsButtonStatus: PropTypes.bool}),
 }

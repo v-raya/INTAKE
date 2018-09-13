@@ -5,7 +5,7 @@ import {Map, fromJS} from 'immutable'
 const setCreateRelationshipsButtonStatus = (state, {payload: {participants}}) => {
   let createRelationshipsButtonStatus = false
   const participantCount = 1
-  if (participants.size > participantCount || participants.length > participantCount) {
+  if (fromJS(participants).size > participantCount) {
     createRelationshipsButtonStatus = true
   }
   return fromJS({createRelationshipsButtonStatus: createRelationshipsButtonStatus})
