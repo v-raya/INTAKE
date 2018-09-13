@@ -178,8 +178,8 @@ describe('candidatesFormReducer', () => {
     })
   })
 
-  describe('on SET_CANDIDATE_FORM_FIELD1', () => {
-    it('returns isDisabled to true', () => {
+  describe('SET_CANDIDATE_FORM_FIELD', () => {
+    it('sets isDisabled to true if relationshipType is set to empty value', () => {
       const personId = '1'
       const candidateId = '4157'
       const fieldSet = 'relationshipType'
