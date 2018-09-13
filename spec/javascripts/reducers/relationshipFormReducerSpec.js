@@ -1,7 +1,7 @@
 import * as matchers from 'jasmine-immutable-matchers'
 import relationshipFormReducer from 'reducers/relationshipFormReducer'
 import {
-  createRelationship,
+  loadRelationship,
   setRelationshipForm,
   updateRelationshipFailure,
   updateRelationshipSuccess,
@@ -11,7 +11,7 @@ import {Map, fromJS} from 'immutable'
 describe('relationshipFormReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('on CREATE_RELATIONSHIP', () => {
+  describe('on LOAD_RELATIONSHIP', () => {
     it('returns a relationship immutable map on', () => {
       const person = {id: 'ZXY123'}
       const relationship = {
@@ -24,19 +24,34 @@ describe('relationshipFormReducer', () => {
         same_home_code: 'Y',
         startDate: '1999-10-01',
       }
-      const action = createRelationship(person, relationship)
+      const action = loadRelationship(person, relationship)
 
       expect(relationshipFormReducer(Map(), action)).toEqualImmutable(
         fromJS({
-          absent_parent_indicator: true,
+          absent_parent_indicator: {
+            value: true,
+            touched: false,
+          },
           client_id: 'ZXY123',
-          end_date: '2010-10-01',
+          end_date: {
+            value: '2010-10-01',
+            touched: false,
+          },
           id: '12345',
-          relationship_type: 190,
+          relationship_type: {
+            value: 190,
+            touched: false,
+          },
           relative_id: 'ABC987',
           reversed: false,
-          same_home_status: 'Y',
-          start_date: '1999-10-01',
+          same_home_status: {
+            value: 'Y',
+            touched: false,
+          },
+          start_date: {
+            value: '1999-10-01',
+            touched: false,
+          },
         })
       )
     })
@@ -45,43 +60,88 @@ describe('relationshipFormReducer', () => {
   describe('on SET_RELATIONSHIP_FORM_FIELD', () => {
     it('returns the update form state', () => {
       const relationship = fromJS({
-        absent_parent_indicator: true,
+        absent_parent_indicator: {
+          value: true,
+          touched: false,
+        },
         client_id: 'ZXY123',
-        end_date: '2010-10-01',
+        end_date: {
+          value: '2010-10-01',
+          touched: false,
+        },
         id: '12345',
-        relationship_type: 190,
+        relationship_type: {
+          value: 190,
+          touched: false,
+        },
         relative_id: 'ABC987',
         reversed: false,
-        same_home_status: 'Y',
-        start_date: '1999-10-01',
+        same_home_status: {
+          value: 'Y',
+          touched: false,
+        },
+        start_date: {
+          value: '1999-10-01',
+          touched: false,
+        },
       })
       const lastState = fromJS(relationship)
       const actionRelationshipTye = setRelationshipForm('relationship_type', 191)
       expect(relationshipFormReducer(lastState, actionRelationshipTye)).toEqualImmutable(
         fromJS({
-          absent_parent_indicator: true,
+          absent_parent_indicator: {
+            value: true,
+            touched: false,
+          },
           client_id: 'ZXY123',
-          end_date: '2010-10-01',
+          end_date: {
+            value: '2010-10-01',
+            touched: false,
+          },
           id: '12345',
-          relationship_type: 191,
+          relationship_type: {
+            value: 191,
+            touched: false,
+          },
           relative_id: 'ABC987',
           reversed: false,
-          same_home_status: 'Y',
-          start_date: '1999-10-01',
+          same_home_status: {
+            value: 'Y',
+            touched: false,
+          },
+          start_date: {
+            value: '1999-10-01',
+            touched: false,
+          },
         })
       )
       const actionAbsentParent = setRelationshipForm('absent_parent_indicator', false)
       expect(relationshipFormReducer(lastState, actionAbsentParent)).toEqualImmutable(
         fromJS({
-          absent_parent_indicator: false,
+          absent_parent_indicator: {
+            value: false,
+            touched: false,
+          },
           client_id: 'ZXY123',
-          end_date: '2010-10-01',
+          end_date: {
+            value: '2010-10-01',
+            touched: false,
+          },
           id: '12345',
-          relationship_type: 190,
+          relationship_type: {
+            value: 190,
+            touched: false,
+          },
           relative_id: 'ABC987',
           reversed: false,
-          same_home_status: 'Y',
-          start_date: '1999-10-01',
+          same_home_status: {
+            value: 'Y',
+            touched: false,
+          },
+          start_date: {
+            value: '1999-10-01',
+            touched: false,
+          },
         })
       )
     })

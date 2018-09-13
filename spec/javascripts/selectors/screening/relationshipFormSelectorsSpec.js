@@ -5,8 +5,8 @@ import * as matchers from 'jasmine-immutable-matchers'
 describe('relationshipSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  const emptyState = fromJS({relationship: {}})
-  const relationship = fromJS({
+  const emptyState = fromJS({relationshipForm: {}})
+  const relationshipForm = fromJS({
     absent_parent_indicator: true,
     client_id: 'ZXY123',
     end_date: '2010-10-01',
@@ -22,7 +22,7 @@ describe('relationshipSelectors', () => {
   })
 
   it('returns a relationship', () => {
-    const state = fromJS({relationship})
+    const state = fromJS({relationshipForm})
     expect(selectRelationship(state)).toEqualImmutable(
       fromJS({
         absent_parent_indicator: true,
