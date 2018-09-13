@@ -74,11 +74,11 @@ export const getScreeningWithEditsSelector = createSelector(
       screening.set('cross_reports', crossReports)
     }
     return screening
-     .setIn(['cross_reports', 0, 'county_id'], county_id)
-     .setIn(['cross_reports', 0, 'inform_date'], inform_date)
-     .setIn(['cross_reports', 0, 'method'], method)
-     .setIn(['cross_reports', 0, 'agencies'], agencies)
-     .set('participants', participants)
+      .setIn(['cross_reports', 0, 'county_id'], county_id)
+      .setIn(['cross_reports', 0, 'inform_date'], inform_date)
+      .setIn(['cross_reports', 0, 'method'], method)
+      .setIn(['cross_reports', 0, 'agencies'], agencies)
+      .set('participants', participants)
   }
 )
 

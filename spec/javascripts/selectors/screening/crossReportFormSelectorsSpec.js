@@ -702,10 +702,10 @@ describe('crossReportFormSelectors', () => {
       expect(getScreeningWithEditsSelector(state))
         .toEqualImmutable(fromJS({
           cross_reports: [{
-            "county_id": '-1',
-            "inform_date": null,
-            "method": null,
-            "agencies": [],
+            county_id: '-1',
+            inform_date: null,
+            method: null,
+            agencies: [],
           }],
           participants: [{
             id: '1',
