@@ -78,7 +78,6 @@ const updateCandidateForm = (state, {payload: {personId, candidateId, fieldSet, 
   )
   const updatedForm = state.setIn([personId, index, 'candidate', fieldSet], value)
   const relationshipTypeExists = updatedForm.getIn([personId]).some(checkRelationshipType)
-  console.log(value)
   return (relationshipTypeExists) ? updatedForm.set('isDisabled', false) : updatedForm.set('isDisabled', true)
 }
 
