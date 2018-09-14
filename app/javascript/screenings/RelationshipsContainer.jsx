@@ -3,15 +3,15 @@ import {Relationships} from 'common/Relationships'
 import {getPeopleSelector, getRelationshipsButtonStatus} from 'selectors/screening/relationshipsSelectors'
 import {createPerson} from 'actions/personCardActions'
 import {
-  createRelationship,
+  loadRelationship,
   setRelationshipForm,
   updateRelationship,
 } from 'actions/relationshipFormActions'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
-import {selectRelationship} from 'selectors/screening/relationshipFormSelectors'
+import {selectRelationshipWithEdits} from 'selectors/screening/relationshipFormSelectors'
 
 const mapStateToProps = (state, _ownProps) => ({
-  editFormRelationship: selectRelationship(state).toJS(),
+  editFormRelationship: selectRelationshipWithEdits(state).toJS(),
   people: getPeopleSelector(state).toJS(),
   screeningId: getScreeningIdValueSelector(state),
   isScreening: true,
@@ -19,7 +19,7 @@ const mapStateToProps = (state, _ownProps) => ({
   relationshipsButtonStatus: getRelationshipsButtonStatus(state).toJS(),
 })
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   onClick: (relationship, screeningId) => {
     const relationshipsPerson = {
       screening_id: screeningId,
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(createPerson(relationshipsPerson))
   },
   onChange: ((field, value) => dispatch(setRelationshipForm(field, value))),
-  onEdit: (person, relationship) => dispatch(createRelationship(person, relationship)),
+  onEdit: (person, relationship) => dispatch(loadRelationship(person, relationship)),
   onSave: (id) => dispatch(updateRelationship(id)),
 })
 
