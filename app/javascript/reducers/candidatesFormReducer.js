@@ -55,7 +55,7 @@ const loadCandidates = (state, {payload: {relationships}, error}) => {
     return state
   } else {
     const candidates = buildCandidates(fromJS((relationships)))
-    return candidates.set('isDisabled', true)
+    return candidates
   }
 }
 

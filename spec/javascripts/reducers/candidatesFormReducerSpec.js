@@ -46,7 +46,7 @@ describe('candidatesFormReducer', () => {
     it('returns only isDisabled field', () => {
       expect(
         candidatesReducer(Map(), fetchRelationshipsSuccess([]))
-      ).toEqualImmutable(Map({isDisabled: true}))
+      ).toEqualImmutable(Map({}))
     })
 
     it('returns candidates for relationships', () => {
@@ -87,7 +87,6 @@ describe('candidatesFormReducer', () => {
               name: 'Walter A White, Sr',
             },
           }],
-          isDisabled: true,
         })
       )
     })
