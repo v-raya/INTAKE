@@ -20,6 +20,7 @@ feature 'Create Screening' do
         scenario 'via start screening link' do
           user_name_display = 'Joe B. Cool - Mendocino'
           allow(LUID).to receive(:generate).and_return(['DQJIYK'])
+          stub_county_agencies('1090')
 
           stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
             .and_return(json_body([].to_json, status: 200))
@@ -52,6 +53,7 @@ feature 'Create Screening' do
 
         scenario 'via start screening link' do
           allow(LUID).to receive(:generate).and_return(['DQJIYK'])
+          stub_county_agencies('1090')
 
           stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
             .and_return(json_body([].to_json, status: 200))
@@ -89,6 +91,7 @@ feature 'Create Screening' do
           user_name_display = 'Joe Cool - Mendocino'
           allow(LUID).to receive(:generate).and_return(['DQJIYK'])
 
+          stub_county_agencies('1090')
           stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
             .and_return(json_body([].to_json, status: 200))
 

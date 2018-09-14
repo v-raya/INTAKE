@@ -26,7 +26,7 @@ feature 'show cross reports' do
       }],
       cross_reports: [{
         id: '1',
-        county_id: 'c41',
+        county_id: '1077',
         agencies: [{ id: '1', type: 'LAW_ENFORCEMENT', code: 'LAOFFCODE' }],
         method: 'Child Abuse Form'
       }]
@@ -35,7 +35,7 @@ feature 'show cross reports' do
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
     stub_empty_relationships
-    stub_county_agencies('c41')
+    stub_county_agencies('1077')
     visit edit_screening_path(id: screening[:id])
 
     within '#cross-report-card.edit' do
@@ -94,7 +94,7 @@ feature 'show cross reports' do
       }],
       cross_reports: [{
         id: '1',
-        county_id: 'c41',
+        county_id: '1077',
         agencies: [{ id: '1', type: 'LAW_ENFORCEMENT', code: 'LAOFFCODE' }],
         method: 'Child Abuse Form'
       }]
@@ -103,7 +103,7 @@ feature 'show cross reports' do
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
     stub_empty_relationships
-    stub_county_agencies('c41')
+    stub_county_agencies('1077')
     visit edit_screening_path(id: screening[:id])
 
     within '#cross-report-card.edit' do
@@ -153,7 +153,7 @@ feature 'show cross reports' do
       }],
       cross_reports: []
     }
-    stub_county_agencies('c41')
+    stub_county_agencies('1077')
     stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
       .and_return(json_body(screening.to_json, status: 200))
     stub_empty_history_for_screening(screening)
@@ -172,7 +172,7 @@ feature 'show cross reports' do
     end
 
     api_screening = screening.merge(address: {}, cross_reports: [{
-                                      county_id: 'c41',
+                                      county_id: '1077',
                                       agencies: [
                                         { id: '1', type: 'DISTRICT_ATTORNEY', code: '65Hvp7x01F' },
                                         { id: '2', type: 'LAW_ENFORCEMENT', code: 'BMG2f3J75C' }

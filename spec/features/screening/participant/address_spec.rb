@@ -43,15 +43,16 @@ feature 'Participant Address' do
 
       expect(page).to have_select('Address Type', options: [
                                     '',
-                                    'Common',
+                                    'Work',
                                     'Day Care',
-                                    'Home',
                                     'Homeless',
-                                    'Other',
                                     'Penal Institution',
                                     'Permanent Mailing Address',
+                                    'Home',
+                                    'Placement Home',
                                     'Residence 2',
-                                    'Work'
+                                    'Other',
+                                    'Common'
                                   ])
 
       within all('.row.list-item').first do

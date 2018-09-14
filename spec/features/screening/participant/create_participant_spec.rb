@@ -147,7 +147,7 @@ feature 'Create participant' do
     stub_request(
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json, status: 200))
-    stub_county_agencies('c40')
+    stub_county_agencies('1105')
     stub_person_search(person_response: marge_response)
     stub_request(
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
@@ -325,7 +325,7 @@ feature 'Create participant' do
       stub_request(:get, ferb_api_url(FerbRoutes.staff_path('123')))
         .and_return(json_body({ staffId: '123', first_name: 'Bob', last_name: 'Boberson',
                                 county: 'San Francisco' }.to_json, status: 200))
-      stub_county_agencies('c40')
+      stub_county_agencies('1105')
     end
 
     context 'with NO privileges to add sensitive' do
@@ -353,6 +353,7 @@ feature 'Create participant' do
 
       scenario 'can add insensitive' do
         Feature.run_with_activated(:authentication) do
+          stub_county_agencies('1105')
           stub_empty_history_for_screening(existing_screening)
           visit edit_screening_path(id: existing_screening[:id], token: insensitive_token)
           homer_attributes = build_participant_from_person_and_screening(
@@ -391,6 +392,7 @@ feature 'Create participant' do
       scenario 'can add sensitive person' do
         Feature.run_with_activated(:authentication) do
           stub_person_search(person_response: marge_response)
+          stub_county_agencies('1105')
           stub_empty_history_for_screening(existing_screening)
           visit edit_screening_path(id: existing_screening[:id], token: sensitive_token)
           sensitive_marge_attributes = build_participant_from_person_and_screening(
@@ -440,6 +442,7 @@ feature 'Create participant' do
       end
       scenario 'can add sensitive person' do
         Feature.run_with_activated(:authentication) do
+          stub_county_agencies('1105')
           stub_empty_history_for_screening(existing_screening)
           visit edit_screening_path(id: existing_screening[:id], token: sensitive_token)
           homer_attributes = build_participant_from_person_and_screening(
