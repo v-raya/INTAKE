@@ -129,5 +129,11 @@ describe('ScreeningCreateRelationship', () => {
       expect(onSave).toHaveBeenCalledWith('805')
     })
   })
+  it('SaveRelationship Button is disabled when the modal is popped up initially', () => {
+    wrapper.setState({show: true})
+    const footer = wrapper.find('ModalComponent').props().modalFooter
+    const save = footer.props.children[1]
+    expect(save.props.disabled).toEqual(true)
+  })
 })
 
