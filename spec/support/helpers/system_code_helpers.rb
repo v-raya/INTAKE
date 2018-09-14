@@ -67,9 +67,9 @@ module SystemCodeHelpers
 
   def county_type_codes
     [
-      { code: 'c40', value: 'San Francisco', category: 'county_type', sub_category: nil },
-      { code: 'c41', value: 'State of California', category: 'county_type', sub_category: nil },
-      { code: 'c42', value: 'Sacramento', category: 'county_type', sub_category: nil }
+      { code: '1105', value: 'San Francisco', category: 'county_type', sub_category: nil },
+      { code: '1126', value: 'State of California', category: 'county_type', sub_category: nil },
+      { code: '1101', value: 'Sacramento', category: 'county_type', sub_category: nil }
     ]
   end
 
@@ -90,15 +90,15 @@ module SystemCodeHelpers
 
   def us_state_codes
     [
-      { code: '1', value: 'California', category: 'us_state' },
-      { code: '2', value: 'New York', category: 'us_state' }
+      { code: '1828', value: 'California', category: 'us_state' },
+      { code: '1861', value: 'New York', category: 'us_state' }
     ]
   end
 
   def race_codes
     [
-      { code: '1', value: 'White', category: 'race_type' },
-      { code: '2', value: 'American Indian or Alaska Native', category: 'race_type' }
+      { code: '841', value: 'White', category: 'race_type' },
+      { code: '821', value: 'American Indian or Alaska Native', category: 'race_type' }
     ]
   end
 
@@ -108,9 +108,9 @@ module SystemCodeHelpers
 
   def language_codes
     [
-      { code: '1', value: 'French', category: 'language' },
-      { code: '2', value: 'Italian', category: 'language' },
-      { code: '3', value: 'English', category: 'language' }
+      { code: '1255', value: 'French', category: 'language' },
+      { code: '1259', value: 'Italian', category: 'language' },
+      { code: '1253', value: 'English', category: 'language' }
     ]
   end
 
@@ -146,13 +146,13 @@ module SystemCodeHelpers
     [
       { code: '277', value: 'Sister (Half)', category: 'relationship_type' },
       { code: '280', value: 'Sister (Half)', category: 'relationship_type' },
-      { code: '18', value: 'Brother (Half)', category: 'relationship_type' }
+      { code: '180', value: 'Brother (Half)', category: 'relationship_type' }
     ]
   end
 
   def csec_type_codes
     [
-      { code: '8688', value: 'At Risk', category: 'csec' }
+      { code: '6867', value: 'At Risk', category: 'csec' }
     ]
   end
 
@@ -188,9 +188,9 @@ module SystemCodeHelpers
   end
 
   def stub_system_codes
-    stub_request(:get, /#{FerbRoutes.lov_path}/).and_return(
-      json_body(system_codes, status: 200)
-    )
+    # stub_request(:get, /#{FerbRoutes.lov_path}/).and_return(
+    #  json_body(system_codes, status: 200)
+    # )
   end
 end
 # rubocop:enable ModuleLength

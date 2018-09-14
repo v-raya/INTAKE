@@ -30,7 +30,7 @@ feature 'Edit Screening' do
       started_at: '2016-08-13T10:00:00.000Z',
       cross_reports: [
         {
-          county_id: 'c42',
+          county_id: '1101',
           agencies: [
             { id: '1', code: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' },
             { id: '2', type: 'LAW_ENFORCEMENT' }
@@ -44,7 +44,7 @@ feature 'Edit Screening' do
 
   context 'when no screenings are enabled' do
     before(:each) do
-      stub_county_agencies('c42')
+      stub_county_agencies('1101')
       stub_request(
         :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
       ).and_return(json_body(existing_screening.to_json, status: 200))
@@ -245,7 +245,7 @@ feature 'Edit Screening' do
     end
 
     before do
-      stub_county_agencies('c42')
+      stub_county_agencies('1101')
       existing_screening[:participants] = Array.new(3) do
         FactoryBot.create :participant, screening_id: existing_screening[:id]
       end
@@ -381,14 +381,14 @@ feature 'individual card save' do
     existing_screening[:cross_reports] = [
       {
         id: '1',
-        county_id: 'c41',
+        county_id: '1126',
         agencies: [
           { id: '1', code: '65Hvp7x01F', type: 'DISTRICT_ATTORNEY' }
         ]
       }
     ]
 
-    stub_county_agencies('c41')
+    stub_county_agencies('1126')
     stub_request(
       :put, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
@@ -425,7 +425,7 @@ feature 'individual card save' do
     existing_screening[:cross_reports] = [
       {
         id: '1',
-        county_id: 'c41',
+        county_id: '1126',
         agencies: [
           { id: '1', code: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' }
         ]

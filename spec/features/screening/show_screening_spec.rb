@@ -34,7 +34,7 @@ feature 'Show Screening' do
       started_at: '2016-08-13T10:00:00.000Z',
       cross_reports: [
         {
-          county_id: 'c41',
+          county_id: '1126',
           agencies: [
             { id: '1', code: '45Hvp7x00F', type: 'DISTRICT_ATTORNEY' },
             { id: '2', type: 'COUNTY_LICENSING' }
@@ -45,7 +45,7 @@ feature 'Show Screening' do
   end
 
   scenario 'showing screening side bar' do
-    stub_county_agencies('c41')
+    stub_county_agencies('1126')
     stub_request(
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
@@ -95,7 +95,7 @@ feature 'Show Screening' do
   end
 
   scenario 'showing existing screening' do
-    stub_county_agencies('c41')
+    stub_county_agencies('1126')
     stub_request(
       :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))
     ).and_return(json_body(existing_screening.to_json))
@@ -217,7 +217,7 @@ feature 'Show Screening' do
         started_at: '2016-08-13T10:00:00.000Z',
         cross_reports: [{
           id: '1',
-          county_id: 'c41',
+          county_id: '1126',
           agencies: [
             { type: 'DISTRICT_ATTORNEY', id: '45Hvp7x00F' },
             { type: 'COUNTY_LICENSING' }
@@ -229,7 +229,7 @@ feature 'Show Screening' do
     end
 
     before do
-      stub_county_agencies('c41')
+      stub_county_agencies('1126')
       existing_screening[:participants] = Array.new(3) do
         FactoryBot.create(
           :participant,

@@ -16,9 +16,9 @@ feature 'cross reports' do
   end
 
   before do
-    stub_county_agencies('c40')
-    stub_county_agencies('c41')
-    stub_county_agencies('c42')
+    stub_county_agencies('1105')
+    stub_county_agencies('1126')
+    stub_county_agencies('1101')
   end
 
   scenario 'adding cross reports to an existing screening' do
@@ -58,7 +58,7 @@ feature 'cross reports' do
         body: hash_including(
           'cross_reports' => array_including(
             hash_including(
-              'county_id' => 'c42',
+              'county_id' => '1101',
               'agencies' => array_including(
                 hash_including('code' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
                 hash_including('code' => 'GPumYGQ00F', 'type' => 'COUNTY_LICENSING')
@@ -77,7 +77,7 @@ feature 'cross reports' do
     communication_method = 'Child Abuse Form'
 
     existing_screening[:cross_reports] = [{
-      county_id: 'c42',
+      county_id: '1101',
       agencies: [
         { code: 'GPumYGQ00F', type: 'COUNTY_LICENSING' },
         { code: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }
@@ -121,7 +121,7 @@ feature 'cross reports' do
         body: hash_including(
           'cross_reports' => array_including(
             hash_including(
-              'county_id' => 'c40',
+              'county_id' => '1105',
               'agencies' => array_including(
                 hash_including('code' => 'BMG2f3J75C', 'type' => 'LAW_ENFORCEMENT'),
                 hash_including('code' => '45Hvp7x00F', 'type' => 'DISTRICT_ATTORNEY')
@@ -140,7 +140,7 @@ feature 'cross reports' do
     reported_on = reported_in_utc.in_time_zone('Pacific Time (US & Canada)')
 
     existing_screening[:cross_reports] = [{
-      county_id: 'c42',
+      county_id: '1101',
       agencies: [
         { code: 'LsUFj7O00E', type: 'COMMUNITY_CARE_LICENSING' },
         { code: 'BMG2f3J75C', type: 'LAW_ENFORCEMENT' }

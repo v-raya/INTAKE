@@ -87,7 +87,7 @@ feature 'CSEC validation' do
           csec: [{
             id: '2',
             participant_id: victim.id,
-            csec_code_id: '8688'
+            csec_code_id: '6867'
           }]
         )
 
@@ -115,7 +115,7 @@ feature 'CSEC validation' do
             participant_id: victim.id,
             end_date: '2018-11-13',
             start_date: '2018-11-12',
-            csec_code_id: '8688'
+            csec_code_id: '6867'
           }]
         )
 
