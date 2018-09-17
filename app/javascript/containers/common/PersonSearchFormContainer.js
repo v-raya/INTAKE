@@ -7,11 +7,15 @@ import {
   selectSearchTermValue,
   selectSearchAddressValue,
   selectStartTime,
+  selectSearchAddress,
+  selectSearchCity,
   selectSearchCounty,
 } from 'selectors/peopleSearchSelectors'
 import {
   search,
   setSearchTerm,
+  setSearchAddress,
+  setSearchCity,
   setSearchCounty,
   clear,
   loadMoreResults,
@@ -30,6 +34,8 @@ const mapStateToProps = (state) => {
     results: selectPeopleResults(state).toJS(),
     total: selectResultsTotalValue(state),
     searchTerm: selectSearchTermValue(state),
+    searchAddress: selectSearchAddress(state),
+    searchCity: selectSearchCity(state),
     searchCounty: selectSearchCounty(state),
     isAddressIncluded: selectSearchAddressValue(state),
     staffId: getStaffIdSelector(state),
@@ -42,14 +48,18 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onClear = () => dispatch(clear())
   const onChange = (value) => dispatch(setSearchTerm(value))
+  const onChangeAddress = (value) => dispatch(setSearchAddress(value))
+  const onChangeCity = (value) => dispatch(setSearchCity(value))
   const onChangeCounty = (value) => dispatch(setSearchCounty(value))
-  const onSearch = (value) => dispatch(search(value, ownProps.isClientOnly))
+  const onSearch = (value, address) => dispatch(search(value, ownProps.isClientOnly, address))
   const onLoadMoreResults = () => dispatch(loadMoreResults(ownProps.isClientOnly))
   const onToggleAddressSearch = () => dispatch(toggleAddressSearch())
   return {
     onSearch,
     onClear,
     onChange,
+    onChangeAddress,
+    onChangeCity,
     onChangeCounty,
     onLoadMoreResults,
     onToggleAddressSearch,

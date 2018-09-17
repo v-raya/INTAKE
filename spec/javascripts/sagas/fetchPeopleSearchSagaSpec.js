@@ -44,4 +44,37 @@ describe('fetchPeopleSearch', () => {
       totalResults: searchResults.hits.total,
     }))
   })
+
+  it('fetches people search results with address params', () => {
+    const staff_id = '0x4'
+    const searchResults = {
+      hits: {
+        total: 0,
+        hits: [],
+      },
+    }
+    const action = search('hello', true, {
+      county: 'Tuolumne',
+      city: 'Townville',
+      address: '5 Chive Drive',
+    })
+
+    const peopleSearchGenerator = fetchPeopleSearch(action)
+    expect(peopleSearchGenerator.next().value).toEqual(call(delay, 400))
+    expect(peopleSearchGenerator.next().value).toEqual(call(get, '/api/v1/people', {
+      search_term: 'hello',
+      is_client_only: true,
+      search_county: 'Tuolumne',
+      search_city: 'Townville',
+      search_address: '5 Chive Drive',
+    }))
+    expect(peopleSearchGenerator.next(searchResults).value).toEqual(
+      select(getStaffIdSelector)
+    )
+    expect(peopleSearchGenerator.next(staff_id).value).toEqual(put(fetchSuccess(searchResults)))
+    expect(peopleSearchGenerator.next().value).toEqual(call(logEvent, 'personSearch', {
+      staffId: staff_id,
+      totalResults: searchResults.hits.total,
+    }))
+  })
 })

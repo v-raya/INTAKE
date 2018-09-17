@@ -4,12 +4,16 @@ import {shallow} from 'enzyme'
 
 describe('AddressWithSearch', () => {
   const render = ({
+    onChangeAddress = () => {},
+    onChangeCity = () => {},
     onChangeCounty = () => {},
     onSubmit = () => {},
     ...props
   } = {}) => (
     shallow(
       <AddressWithSearch
+        onChangeAddress={onChangeAddress}
+        onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}
         onSubmit={onSubmit}
         {...props}
@@ -59,5 +63,19 @@ describe('AddressWithSearch', () => {
     const component = render({onChangeCounty})
     component.find('CountyNameSelect').props().onChange('Inyo')
     expect(onChangeCounty).toHaveBeenCalledWith('Inyo')
+  })
+
+  it('calls onChangeCity when new city is entered', () => {
+    const onChangeCity = jasmine.createSpy('onChangeCity')
+    const component = render({onChangeCity})
+    component.find('#search-city').props().onChange({target: {value: 'Metropolis'}})
+    expect(onChangeCity).toHaveBeenCalledWith('Metropolis')
+  })
+
+  it('calls onChangeAddress when new address is entered', () => {
+    const onChangeAddress = jasmine.createSpy('onChangeAddress')
+    const component = render({onChangeAddress})
+    component.find('#search-address').props().onChange({target: {value: '1 Infinite Loop'}})
+    expect(onChangeAddress).toHaveBeenCalledWith('1 Infinite Loop')
   })
 })

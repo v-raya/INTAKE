@@ -13,11 +13,16 @@ describe('<Autocompleter />', () => {
     onToggleAddressSearch = () => null,
     isSelectable = () => true,
     onChange = () => null,
+    onChangeAddress = () => null,
+    onChangeCity = () => null,
     onChangeCounty = () => null,
     onClear = () => null,
     onSearch = () => null,
     onSelect = () => null,
     results = [],
+    searchAddress,
+    searchCity,
+    searchCounty,
     searchTerm = '',
     total = 0,
     staffId = '0x3',
@@ -31,10 +36,15 @@ describe('<Autocompleter />', () => {
         onSelect={onSelect}
         onClear={onClear}
         onChange={onChange}
+        onChangeAddress={onChangeAddress}
+        onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}
         isSelectable={isSelectable}
         total={total}
         results={results}
+        searchAddress={searchAddress}
+        searchCity={searchCity}
+        searchCounty={searchCounty}
         searchTerm={searchTerm}
         onSearch={onSearch}
         staffId={staffId}
@@ -51,7 +61,11 @@ describe('<Autocompleter />', () => {
     isSelectable = () => true,
     onSearch = () => null,
     onChange = () => null,
+    onChangeAddress = () => null,
+    onChangeCity = () => null,
     onChangeCounty = () => null,
+    searchAddress,
+    searchCity,
     searchCounty = '',
     searchTerm = '',
     results = [],
@@ -68,10 +82,14 @@ describe('<Autocompleter />', () => {
         onToggleAddressSearch={onToggleAddressSearch}
         onClear={onClear}
         onChange={onChange}
+        onChangeAddress={onChangeAddress}
+        onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}
         isSelectable={isSelectable}
         total={total}
         results={results}
+        searchAddress={searchAddress}
+        searchCity={searchCity}
         searchCounty={searchCounty}
         searchTerm={searchTerm}
         onSearch={onSearch}
@@ -340,6 +358,26 @@ describe('<Autocompleter />', () => {
 
         expect(onSearch).not.toHaveBeenCalled()
       })
+
+      it('searches when button is submitted', () => {
+        const isAddressIncluded = true
+        const searchByAddress = renderAutocompleter({
+          onSearch,
+          onChange,
+          isAddressIncluded,
+          searchTerm: 'Carmen Sandiego',
+          searchAddress: '123 Main St',
+          searchCity: 'Sac Town',
+          searchCounty: 'Sacramento',
+        }).find('SearchByAddress')
+        searchByAddress.props().onSubmit()
+
+        expect(onSearch).toHaveBeenCalledWith('Carmen Sandiego', {
+          address: '123 Main St',
+          city: 'Sac Town',
+          county: 'Sacramento',
+        })
+      })
     })
   })
 
@@ -514,5 +552,33 @@ describe('<Autocompleter />', () => {
     component.find('SearchByAddress').props().onChangeCounty('Mendocino')
 
     expect(onChangeCounty).toHaveBeenCalledWith('Mendocino')
+  })
+
+  it('renders SearchByAddress with selected address', () => {
+    const component = renderAutocompleter({searchAddress: 'Goodbye Road'})
+    expect(component.find('SearchByAddress').props().searchAddress).toBe('Goodbye Road')
+  })
+
+  it('calls onChangeAddress when new address is entered', () => {
+    const onChangeAddress = jasmine.createSpy('onChangeAddress')
+    const component = renderAutocompleter({onChangeAddress})
+
+    component.find('SearchByAddress').props().onChangeAddress('Penny Lane')
+
+    expect(onChangeAddress).toHaveBeenCalledWith('Penny Lane')
+  })
+
+  it('renders SearchByAddress with selected city', () => {
+    const component = renderAutocompleter({searchCity: 'Emerald City'})
+    expect(component.find('SearchByAddress').props().searchCity).toBe('Emerald City')
+  })
+
+  it('calls onChangeCity when new city is entered', () => {
+    const onChangeCity = jasmine.createSpy('onChangeCity')
+    const component = renderAutocompleter({onChangeCity})
+
+    component.find('SearchByAddress').props().onChangeCity('Bikini Bottom')
+
+    expect(onChangeCity).toHaveBeenCalledWith('Bikini Bottom')
   })
 })

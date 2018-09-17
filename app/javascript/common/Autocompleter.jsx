@@ -37,11 +37,29 @@ export default class Autocompleter extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  searchWithAddress(searchTerm) {
+    const address = {
+      address: this.props.searchAddress,
+      city: this.props.searchCity,
+      county: this.props.searchCounty,
+    }
+    this.props.onSearch(searchTerm, address)
+  }
+
   handleSubmit() {
-    const {onSearch, searchTerm} = this.props
-    onSearch(searchTerm)
+    const {onSearch, searchTerm, searchAddress, searchCity, searchCounty} = this.props
+
+    const address = {
+      address: searchAddress,
+      city: searchCity,
+      county: searchCounty,
+    }
+
+    onSearch(searchTerm, address)
     this.showMenu()
-    this.inputRef.focus()
+    if (this.inputRef) {
+      this.inputRef.focus()
+    }
   }
 
   isSearchable(value) {
@@ -208,14 +226,21 @@ export default class Autocompleter extends Component {
   }
 
   renderAddressSearch() {
-    const {searchCounty, isAddressIncluded, onChangeCounty, onToggleAddressSearch} = this.props
+    const {
+      isAddressIncluded, onToggleAddressSearch,
+      searchAddress, searchCity, searchCounty,
+      onChangeAddress, onChangeCity, onChangeCounty} = this.props
 
     return (
       <SearchByAddress
         isAddressIncluded={isAddressIncluded}
         toggleAddressSearch={onToggleAddressSearch}
         onSubmit={this.handleSubmit}
+        searchAddress={searchAddress}
+        searchCity={searchCity}
         searchCounty={searchCounty}
+        onChangeAddress={onChangeAddress}
+        onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}
       />
     )
@@ -235,6 +260,8 @@ Autocompleter.propTypes = {
   isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onChangeAddress: PropTypes.func.isRequired,
+  onChangeCity: PropTypes.func.isRequired,
   onChangeCounty: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func.isRequired,
@@ -242,6 +269,8 @@ Autocompleter.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onToggleAddressSearch: PropTypes.func,
   results: PropTypes.array,
+  searchAddress: PropTypes.string,
+  searchCity: PropTypes.string,
   searchCounty: PropTypes.string,
   searchTerm: PropTypes.string,
   staffId: PropTypes.string,

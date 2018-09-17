@@ -110,5 +110,9 @@ export const selectPersonCreatedAtTime = (state) =>
     .map((t) => t.personCreatedAtTime)
     .pop()
 
+export const selectSearchAddress = (state) => selectPeopleSearch(state)
+  .get('searchAddress')
+export const selectSearchCity = (state) => selectPeopleSearch(state)
+  .get('searchCity')
 export const selectSearchCounty = (state) => selectPeopleSearch(state)
-  .get('county')
+  .get('searchCounty')

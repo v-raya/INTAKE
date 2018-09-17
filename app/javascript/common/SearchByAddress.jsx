@@ -6,8 +6,12 @@ import AddressWithSearch from 'common/AddressWithSearch'
 const SearchByAddress = ({
   isAddressIncluded,
   toggleAddressSearch,
+  onChangeAddress,
+  onChangeCity,
   onChangeCounty,
   onSubmit,
+  searchAddress,
+  searchCity,
   searchCounty,
 }) => (
   <div>
@@ -24,8 +28,12 @@ const SearchByAddress = ({
     {
       isAddressIncluded &&
       <AddressWithSearch
+        onChangeAddress={onChangeAddress}
+        onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}
         onSubmit={onSubmit}
+        searchAddress={searchAddress}
+        searchCity={searchCity}
         searchCounty={searchCounty}
       />
     }
@@ -34,8 +42,12 @@ const SearchByAddress = ({
 
 SearchByAddress.propTypes = {
   isAddressIncluded: PropTypes.bool,
+  onChangeAddress: PropTypes.func.isRequired,
+  onChangeCity: PropTypes.func.isRequired,
   onChangeCounty: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
+  searchAddress: PropTypes.string,
+  searchCity: PropTypes.string,
   searchCounty: PropTypes.string,
   toggleAddressSearch: PropTypes.func,
 }

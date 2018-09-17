@@ -48,6 +48,11 @@ describe('loadMorePeopleSearch', () => {
         hits: [],
       },
     }
+    const action = loadMoreResults(false, {
+      county: 'Tuolumne',
+      city: 'Townville',
+      address: '5 Chive Drive',
+    })
     const peopleSeachGenerator = loadMorePeopleSearch(action)
     expect(peopleSeachGenerator.next().value).toEqual(select(selectSearchTermValue))
     expect(peopleSeachGenerator.next(searchTerm).value).toEqual(select(selectLastResultsSortValue))
@@ -55,6 +60,9 @@ describe('loadMorePeopleSearch', () => {
       search_term: searchTerm,
       search_after: lastResultSort,
       is_client_only: false,
+      search_county: 'Tuolumne',
+      search_city: 'Townville',
+      search_address: '5 Chive Drive',
     }))
     expect(peopleSeachGenerator.next(searchResults).value).toEqual(put(loadMoreResultsSuccess(searchResults)))
   })
