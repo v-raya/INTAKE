@@ -34,7 +34,6 @@ const PersonDemographicsForm = ({
         id={id(personId, 'date-of-birth')}
         label='Date of birth'
         hasTime={false}
-        hasCalendar={false}
         value={dateOfBirth}
         required={dateOfBirthIsRequired}
         onChange={(value) => onChange('date_of_birth', value)}
