@@ -1,4 +1,4 @@
-import Autocompleter from 'common/Autocompleter'
+import Autocompleter from 'common/search/Autocompleter'
 import React from 'react'
 import Autocomplete from 'react-autocomplete'
 import {shallow, mount} from 'enzyme'
