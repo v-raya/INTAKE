@@ -5,7 +5,6 @@ import {
 import {createReducer} from 'utils/createReducer'
 import {Map, fromJS} from 'immutable'
 import {LOAD_RELATIONSHIP} from 'actions/relationshipFormActions'
-import {untouched} from 'utils/formTouch'
 
 const buildRelationship = (state, {payload: {person, relationship}}) => {
   const {
@@ -21,20 +20,20 @@ const buildRelationship = (state, {payload: {person, relationship}}) => {
   const {id} = person
 
   return fromJS({
-    absent_parent_indicator: untouched(absent_parent_code === 'Y'),
+    absent_parent_indicator: absent_parent_code === 'Y',
     client_id: id,
-    end_date: untouched(endDate || ''),
+    end_date: endDate || '',
     id: relationshipId,
-    relationship_type: untouched(parseInt(type_code, 10)),
+    relationship_type: parseInt(type_code, 10),
     relative_id: relativeId,
     reversed: reversed,
-    same_home_status: untouched(same_home_code),
-    start_date: untouched(startDate || ''),
+    same_home_status: same_home_code,
+    start_date: startDate || '',
   })
 }
 
 const setRelationshipForm = (state, {payload: {field, value}}) =>
-  state.setIn([field, 'value'], value)
+  state.set(field, value)
 
 const updateRelationship = (state, {payload: {relationship}, error}) => (
   (error) ? state : fromJS(relationship)

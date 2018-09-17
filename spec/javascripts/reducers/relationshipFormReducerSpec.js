@@ -28,30 +28,15 @@ describe('relationshipFormReducer', () => {
 
       expect(relationshipFormReducer(Map(), action)).toEqualImmutable(
         fromJS({
-          absent_parent_indicator: {
-            value: true,
-            touched: false,
-          },
+          absent_parent_indicator: true,
           client_id: 'ZXY123',
-          end_date: {
-            value: '2010-10-01',
-            touched: false,
-          },
+          end_date: '2010-10-01',
           id: '12345',
-          relationship_type: {
-            value: 190,
-            touched: false,
-          },
+          relationship_type: 190,
           relative_id: 'ABC987',
           reversed: false,
-          same_home_status: {
-            value: 'Y',
-            touched: false,
-          },
-          start_date: {
-            value: '1999-10-01',
-            touched: false,
-          },
+          same_home_status: 'Y',
+          start_date: '1999-10-01',
         })
       )
     })
@@ -60,88 +45,43 @@ describe('relationshipFormReducer', () => {
   describe('on SET_RELATIONSHIP_FORM_FIELD', () => {
     it('returns the update form state', () => {
       const relationship = fromJS({
-        absent_parent_indicator: {
-          value: true,
-          touched: false,
-        },
+        absent_parent_indicator: true,
         client_id: 'ZXY123',
-        end_date: {
-          value: '2010-10-01',
-          touched: false,
-        },
+        end_date: '2010-10-01',
         id: '12345',
-        relationship_type: {
-          value: 190,
-          touched: false,
-        },
+        relationship_type: 190,
         relative_id: 'ABC987',
         reversed: false,
-        same_home_status: {
-          value: 'Y',
-          touched: false,
-        },
-        start_date: {
-          value: '1999-10-01',
-          touched: false,
-        },
+        same_home_status: 'Y',
+        start_date: '1999-10-01',
       })
       const lastState = fromJS(relationship)
       const actionRelationshipTye = setRelationshipForm('relationship_type', 191)
       expect(relationshipFormReducer(lastState, actionRelationshipTye)).toEqualImmutable(
         fromJS({
-          absent_parent_indicator: {
-            value: true,
-            touched: false,
-          },
+          absent_parent_indicator: true,
           client_id: 'ZXY123',
-          end_date: {
-            value: '2010-10-01',
-            touched: false,
-          },
+          end_date: '2010-10-01',
           id: '12345',
-          relationship_type: {
-            value: 191,
-            touched: false,
-          },
+          relationship_type: 191,
           relative_id: 'ABC987',
           reversed: false,
-          same_home_status: {
-            value: 'Y',
-            touched: false,
-          },
-          start_date: {
-            value: '1999-10-01',
-            touched: false,
-          },
+          same_home_status: 'Y',
+          start_date: '1999-10-01',
         })
       )
       const actionAbsentParent = setRelationshipForm('absent_parent_indicator', false)
       expect(relationshipFormReducer(lastState, actionAbsentParent)).toEqualImmutable(
         fromJS({
-          absent_parent_indicator: {
-            value: false,
-            touched: false,
-          },
+          absent_parent_indicator: false,
           client_id: 'ZXY123',
-          end_date: {
-            value: '2010-10-01',
-            touched: false,
-          },
+          end_date: '2010-10-01',
           id: '12345',
-          relationship_type: {
-            value: 190,
-            touched: false,
-          },
+          relationship_type: 190,
           relative_id: 'ABC987',
           reversed: false,
-          same_home_status: {
-            value: 'Y',
-            touched: false,
-          },
-          start_date: {
-            value: '1999-10-01',
-            touched: false,
-          },
+          same_home_status: 'Y',
+          start_date: '1999-10-01',
         })
       )
     })

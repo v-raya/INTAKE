@@ -8,10 +8,10 @@ import {
   updateRelationship,
 } from 'actions/relationshipFormActions'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
-import {selectRelationshipWithEdits} from 'selectors/screening/relationshipFormSelectors'
+import {selectRelationship} from 'selectors/screening/relationshipFormSelectors'
 
 const mapStateToProps = (state, _ownProps) => ({
-  editFormRelationship: selectRelationshipWithEdits(state).toJS(),
+  editFormRelationship: selectRelationship(state).toJS(),
   people: getPeopleSelector(state).toJS(),
   screeningId: getScreeningIdValueSelector(state),
   isScreening: true,
