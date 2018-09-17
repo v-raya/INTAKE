@@ -32,7 +32,7 @@ describe('systemCodesReducerFactory', () => {
         {code: '3', value: 'C', category: DOODAD},
       ]))
     })
-    it('returns the alerts sorted in numeric code order', () => {
+    it('returns the alerts in the same sorted order as received', () => {
       const action = fetchSuccess([
         {code: '100', value: 'A', category: WIDGET},
         {code: '3', value: 'B', category: WIDGET},
@@ -40,10 +40,10 @@ describe('systemCodesReducerFactory', () => {
         {code: '2', value: 'D', category: WIDGET},
       ])
       expect(widgetReducer(List(), action)).toEqualImmutable(fromJS([
-        {code: '2', value: 'D', category: WIDGET},
+        {code: '100', value: 'A', category: WIDGET},
         {code: '3', value: 'B', category: WIDGET},
         {code: '4', value: 'C', category: WIDGET},
-        {code: '100', value: 'A', category: WIDGET},
+        {code: '2', value: 'D', category: WIDGET},
       ]))
     })
     it('returns the last state on failure', () => {
