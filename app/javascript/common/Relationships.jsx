@@ -6,6 +6,7 @@ import ScreeningCreateRelationshipContainer from 'containers/screenings/Screenin
 
 export const Relationships = ({
   editFormRelationship,
+  isFormChanged,
   isScreening,
   onClick,
   onChange,
@@ -27,6 +28,7 @@ export const Relationships = ({
                 <span>
                   <RelationCard
                     editFormRelationship={editFormRelationship}
+                    isFormChanged={isFormChanged}
                     isScreening={isScreening}
                     onChange={onChange}
                     onClick={onClick}
@@ -114,6 +116,7 @@ Relationships.propTypes = {
     same_home_status: PropTypes.string,
     start_date: PropTypes.string,
   }),
+  isFormChanged: PropTypes.bool,
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,

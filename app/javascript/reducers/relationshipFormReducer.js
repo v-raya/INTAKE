@@ -22,13 +22,13 @@ const buildRelationship = (state, {payload: {person, relationship}}) => {
   return fromJS({
     absent_parent_indicator: absent_parent_code === 'Y',
     client_id: id,
-    end_date: endDate || '',
+    end_date: endDate || null,
     id: relationshipId,
     relationship_type: parseInt(type_code, 10),
     relative_id: relativeId,
     reversed: reversed,
     same_home_status: same_home_code,
-    start_date: startDate || '',
+    start_date: startDate || null,
   })
 }
 
