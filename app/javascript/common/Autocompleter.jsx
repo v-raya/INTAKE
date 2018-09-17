@@ -46,16 +46,19 @@ export default class Autocompleter extends Component {
     this.props.onSearch(searchTerm, address)
   }
 
-  handleSubmit() {
-    const {onSearch, searchTerm, searchAddress, searchCity, searchCounty} = this.props
-
-    const address = {
+  constructAddress() {
+    const {searchAddress, searchCity, searchCounty} = this.props
+    return {
       address: searchAddress,
       city: searchCity,
       county: searchCounty,
     }
+  }
 
-    onSearch(searchTerm, address)
+  handleSubmit() {
+    const {onSearch, searchTerm} = this.props
+
+    onSearch(searchTerm, this.constructAddress())
     this.showMenu()
     if (this.inputRef) {
       this.inputRef.focus()
@@ -77,8 +80,17 @@ export default class Autocompleter extends Component {
     this.setState({menuVisible: true})
   }
 
+  loadMoreResults() {
+    const {isAddressIncluded, onLoadMoreResults} = this.props
+    if (isAddressIncluded) {
+      onLoadMoreResults(this.constructAddress())
+    } else {
+      onLoadMoreResults()
+    }
+  }
+
   onButtonSelect(item) {
-    const {onClear, onChange, onSelect, onLoadMoreResults} = this.props
+    const {onClear, onChange, onSelect} = this.props
     if (item.createNewPerson) {
       onClear()
       onChange('')
@@ -87,7 +99,7 @@ export default class Autocompleter extends Component {
     } else if (item.suggestionHeader) {
       return
     } else {
-      onLoadMoreResults()
+      this.loadMoreResults()
     }
   }
 

@@ -244,6 +244,30 @@ describe('<Autocompleter />', () => {
           expect(autocompleter.find('div[id="search-result-show-more-of-the-same"]').exists()).toBe(false)
         })
       })
+
+      it('calls loadMoreResults', () => {
+        const autocompleter = mountAutocompleter({
+          results, onClear, onChange, onSelect, onLoadMoreResults, total,
+        })
+        autocompleter.find('Autocomplete').props().onSelect('_value', {showMoreResults: true})
+        expect(onLoadMoreResults).toHaveBeenCalledWith()
+      })
+
+      it('calls loadMoreResults with an address', () => {
+        const autocompleter = renderAutocompleter({
+          results, onClear, onChange, onSelect, onLoadMoreResults, total,
+          isAddressIncluded: true,
+          searchCounty: 'Colusa',
+          searchCity: 'Central City',
+          searchAddress: 'Star Labs',
+        })
+        autocompleter.find('Autocomplete').props().onSelect('_value', {showMoreResults: true})
+        expect(onLoadMoreResults).toHaveBeenCalledWith({
+          county: 'Colusa',
+          city: 'Central City',
+          address: 'Star Labs',
+        })
+      })
     })
 
     it('logs a search result event when a deeper item is clicked', () => {

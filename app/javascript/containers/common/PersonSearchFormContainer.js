@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onChangeCity = (value) => dispatch(setSearchCity(value))
   const onChangeCounty = (value) => dispatch(setSearchCounty(value))
   const onSearch = (value, address) => dispatch(search(value, ownProps.isClientOnly, address))
-  const onLoadMoreResults = () => dispatch(loadMoreResults(ownProps.isClientOnly))
+  const onLoadMoreResults = (address) => dispatch(loadMoreResults(ownProps.isClientOnly, address))
   const onToggleAddressSearch = () => dispatch(toggleAddressSearch())
   return {
     onSearch,
