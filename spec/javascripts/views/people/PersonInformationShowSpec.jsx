@@ -73,8 +73,16 @@ describe('PersonInformationShow', () => {
   })
 
   it('renders the date of birth of the person when provided', () => {
-    const view = renderPersonShow({dateOfBirth: 'Safar 17, 1440'})
+    const view = renderPersonShow({dateOfBirth: {value: 'Safar 17, 1440'}})
     expect(view.find('ShowField[label="Date of birth"]').html()).toContain('Safar 17, 1440')
+  })
+
+  it('renders the date of birth errors when present', () => {
+    const view = renderPersonShow({dateOfBirth: {
+      value: 'Safar 17, 1440',
+      errors: ['The end date and time cannot be in the future.'],
+    }})
+    expect(view.find('ShowField[label="Date of birth"]').html()).toContain('The end date and time cannot be in the future.')
   })
 
   it('renders the approximate age of the person when date of birth is absent', () => {

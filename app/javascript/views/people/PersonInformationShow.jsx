@@ -47,7 +47,7 @@ const PersonInformationShow = ({
             <ShowField label='Language(s) (Primary First)'>{languages}</ShowField>
           </div>
           <div className='col-md-6'>
-            {dateOfBirth && <ShowField label='Date of birth'>{dateOfBirth}</ShowField>}
+            {dateOfBirth && <ShowField errors={dateOfBirth.errors} label='Date of birth'>{dateOfBirth.value}</ShowField>}
             {approximateAge && <ShowField label='Approximate Age'>{approximateAge}</ShowField>}
           </div>
           <div className='col-md-6'>
@@ -98,7 +98,10 @@ PersonInformationShow.propTypes = {
     errors: PropTypes.array,
     value: PropTypes.string,
   }),
-  dateOfBirth: PropTypes.string,
+  dateOfBirth: PropTypes.shape({
+    errors: PropTypes.array,
+    value: PropTypes.string,
+  }),
   ethnicity: PropTypes.string,
   gender: PropTypes.shape({
     errors: PropTypes.array,
