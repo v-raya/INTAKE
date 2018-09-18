@@ -67,6 +67,14 @@ describe('personDemographicFormSelectors', () => {
         .toEqualImmutable(List(['Date of Birth should not be in the future.']))
     })
 
+    it('returns no error if date is current', () => {
+      const today = moment().toISOString()
+      const peopleForm = {1: {date_of_birth: {value: today}}}
+      const state = fromJS({peopleForm})
+      expect(getPersonDemographicsSelector(state, '1').get('dateOfBirthError'))
+        .toEqualImmutable(List([]))
+    })
+
     it('includes the gender for the given person', () => {
       const peopleForm = {1: {gender: {value: 'known'}}}
       const state = fromJS({peopleForm})
