@@ -123,10 +123,7 @@ export default class Autocompleter extends Component {
   }
 
   renderMenu(items, _searchTerm, _style) {
-    if (this.props.isAddressIncluded) {
-      return <div className='autocomplete-menu menu-with-address'>{items}</div>
-    }
-    return <div className='autocomplete-menu menu-without-address'>{items}</div>
+    return <div className='autocomplete-menu'>{items}</div>
   }
 
   renderEachItem(item, id, isHighlighted) {
@@ -217,7 +214,7 @@ export default class Autocompleter extends Component {
         open={this.state.menuVisible}
         renderMenu={this.renderMenu}
         value={searchTerm}
-        wrapperStyle={{display: 'block', position: 'relative'}}
+        wrapperStyle={{display: 'block'}}
         renderInput={(props) => this.renderInput(props)}
       />
     )
