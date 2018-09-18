@@ -29,23 +29,13 @@ export default class Autocompleter extends Component {
       menuVisible: false,
     }
     this.onFocus = this.onFocus.bind(this)
-    this.onBlur = this.onBlur.bind(this)
+    this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
     this.renderItem = this.renderItem.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
-  searchWithAddress(searchTerm) {
-    const address = {
-      address: this.props.searchAddress,
-      city: this.props.searchCity,
-      county: this.props.searchCounty,
-    }
-    this.props.onSearch(searchTerm, address)
-  }
-
   constructAddress() {
     const {searchAddress, searchCity, searchCounty} = this.props
     return {
@@ -130,10 +120,6 @@ export default class Autocompleter extends Component {
     } else {
       this.hideMenu()
     }
-  }
-
-  onBlur() {
-    this.hideMenu()
   }
 
   renderMenu(items, _searchTerm, _style) {
@@ -223,7 +209,7 @@ export default class Autocompleter extends Component {
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
+        inputProps={{id, onBlur: this.hideMenu, onFocus: this.onFocus}}
         items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
