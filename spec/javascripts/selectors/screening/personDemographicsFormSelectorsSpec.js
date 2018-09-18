@@ -33,7 +33,7 @@ describe('personDemographicFormSelectors', () => {
         approximateAgeUnit: '',
         dateOfBirth: '',
         dateOfBirthIsRequired: false,
-        dobError: [],
+        dateOfBirthError: [],
         gender: '',
         genderIsRequired: false,
         genderError: undefined,
@@ -63,7 +63,7 @@ describe('personDemographicFormSelectors', () => {
       const tomorrow = moment().add(1, 'days').toISOString()
       const peopleForm = {1: {date_of_birth: {value: tomorrow}}}
       const state = fromJS({peopleForm})
-      expect(getPersonDemographicsSelector(state, '1').get('dobError'))
+      expect(getPersonDemographicsSelector(state, '1').get('dateOfBirthError'))
         .toEqualImmutable(List(['Date of Birth should not be in the future.']))
     })
 

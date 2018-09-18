@@ -9,7 +9,7 @@ describe('PersonDemographicsForm', () => {
     approximateAgeUnit,
     dateOfBirth,
     dateOfBirthIsRequired,
-    dobError,
+    dateOfBirthError,
     gender,
     genderIsRequired = false,
     genderError,
@@ -23,7 +23,7 @@ describe('PersonDemographicsForm', () => {
       approximateAgeUnit,
       dateOfBirth,
       dateOfBirthIsRequired,
-      dobError,
+      dateOfBirthError,
       gender,
       genderIsRequired,
       genderError,
@@ -37,7 +37,7 @@ describe('PersonDemographicsForm', () => {
   it('renders the date of birth field', () => {
     const field = renderPersonDemographicsForm({
       dateOfBirth: '2/22/2022',
-      dobError: [],
+      dateOfBirthError: [],
     })
       .find('DateField[label="Date of birth"]')
     expect(field.props().id).toEqual('person-456-date-of-birth')
