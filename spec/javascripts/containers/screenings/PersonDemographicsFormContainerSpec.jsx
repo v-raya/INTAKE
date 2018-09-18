@@ -8,7 +8,7 @@ import {shallow} from 'enzyme'
 describe('PersonDemographicsFormContainer', () => {
   const state = fromJS({
     peopleForm: {1: {ssn: {value: '123456789'}, approximate_age: {value: ''}, approximate_age_units: {value: ''},
-      date_of_birth: {value: '2014-01-15'}, languages: {value: ['Javascript', 'Ruby']}, gender: {value: 'female'},
+      date_of_birth: {value: '2014-01-15'}, dobError: [], languages: {value: ['Javascript', 'Ruby']}, gender: {value: 'female'},
       roles: {value: ['super-hero', 'anti-hero']}, first_name: {value: 'John'}, middle_name: {value: 'Q'}, last_name: {value: 'Public'},
       races: {value: [{race: 'White', race_detail: 'Romanian'}, {race: 'Asian', race_detail: 'Chinese'}]},
       ethnicity: {value: {hispanic_latino_origin: 'Yes'}, ethnicity_detail: {value: ['Mexican']}},
@@ -26,6 +26,7 @@ describe('PersonDemographicsFormContainer', () => {
       approximateAgeIsDisabled: true,
       dateOfBirth: '2014-01-15',
       dateOfBirthIsRequired: false,
+      dobError: [],
       gender: 'female',
       genderIsRequired: false,
       genderError: undefined,
