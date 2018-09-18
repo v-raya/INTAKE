@@ -174,20 +174,57 @@ describe('<Autocompleter />', () => {
     })
 
     describe('when an item is selectable and is show more results', () => {
-      let autocompleter
-      total = 11
-      beforeEach(() => {
-        autocompleter = mountAutocompleter({
-          results, onClear, onChange, onSelect, onLoadMoreResults, total,
+      describe(', and canCreateNewPerson and canLoadMoreResults is true', () => {
+        let autocompleter
+        total = 11
+        beforeEach(() => {
+          autocompleter = mountAutocompleter({
+            results, onClear, onChange, onSelect, onLoadMoreResults, total,
+          })
+          autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
+          autocompleter.find('div[id="search-result-show-more-of-the-same"]')
+            .first()
+            .simulate('click', null)
         })
-        autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="search-result-show-more-of-the-same"]')
-          .first()
-          .simulate('click', null)
+
+        it('calls loadMoreResults', () => {
+          expect(onLoadMoreResults).toHaveBeenCalled()
+        })
+
+        it('contain className col-md-6', () => {
+          expect(autocompleter.find('div[id="search-result-show-more-of-the-same"]').props().className).toContain('col-md-6')
+          expect(autocompleter.find('div[id="search-result-create-new-of-the-same"]').props().className).toContain('col-md-6')
+        })
       })
 
-      it('calls loadMoreResults', () => {
-        expect(onLoadMoreResults).toHaveBeenCalled()
+      describe(', and canCreateNewPerson and canLoadMoreResults is false', () => {
+        let autocompleter
+        const canCreateNewPerson = false
+        beforeEach(() => {
+          autocompleter = mountAutocompleter({
+            results, onClear, onChange, onSelect, onLoadMoreResults, canCreateNewPerson,
+          })
+          autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
+        })
+        it('doesnot contain className col-md-6', () => {
+          expect(autocompleter.find('div[id="search-result-create-new-of-the-same"]').exists()).toBe(false)
+          expect(autocompleter.find('div[id="search-result-show-more-of-the-same"]').exists()).toBe(false)
+        })
+      })
+
+      describe(', and canCreateNewPerson is true and canLoadMoreResults is false', () => {
+        let autocompleter
+        const canCreateNewPerson = true
+        beforeEach(() => {
+          autocompleter = mountAutocompleter({
+            results, onClear, onChange, onSelect, onLoadMoreResults, canCreateNewPerson,
+          })
+          autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
+        })
+        it('doesnot contain className col-md-6', () => {
+          expect(autocompleter.find('div[id="search-result-create-new-of-the-same"]').props().className).not.toContain('col-md-6')
+          expect(autocompleter.find('div[id="search-result-show-more-of-the-same"]').exists()).toBe(false)
+        })
       })
     })
 

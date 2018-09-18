@@ -135,7 +135,10 @@ export default class Autocompleter extends Component {
   }
 
   renderItem(item, isHighlighted, _styles) {
-    const className = itemClassName(isHighlighted)
+    const {canCreateNewPerson, results, total} = this.props
+    const canLoadMoreResults = results && total > results.length
+    const buttonClassName = canLoadMoreResults && canCreateNewPerson ? ' col-md-6' : ''
+    const className = itemClassName(isHighlighted) + buttonClassName
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
     if (isHighlighted && this.inputRef) {
