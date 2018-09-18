@@ -31,6 +31,13 @@
   }
 }
 
+.Select-option {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
 .Select--multi .Select-value-label {
   font-size: 1.7rem;
   margin: 0;
