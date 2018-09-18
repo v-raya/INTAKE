@@ -162,8 +162,8 @@ feature 'Relationship card' do
       relationship_type: 301,
       absent_parent_indicator: true,
       same_home_status: 'Y',
-      start_date: '',
-      end_date: '',
+      start_date: nil,
+      end_date: nil,
       reversed: false
     }
   end

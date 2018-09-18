@@ -16,7 +16,6 @@ describe('EditRelationshipForm', () => {
       same_home_status: 'Y',
       start_date: '1999-10-01',
     },
-    onChange: () => {},
     person: {
       name: 'Luke Skywalker',
       age: '20 yrs',
@@ -33,27 +32,25 @@ describe('EditRelationshipForm', () => {
       type_code: '210',
     },
   }
-  const renderEditRelationshipForm = (props) => shallow(<EditRelationshipForm {...props}/>)
+  const render = ({
+    onChange = () => {},
+    ...props
+  } = {}) => shallow(<EditRelationshipForm onChange={onChange} {...props}/>)
 
   it('renders a table', () => {
-    expect(renderEditRelationshipForm(props).find('table').length).toBe(1)
+    expect(render(props).find('table').length).toBe(1)
   })
-
   it('renders a select field', () => {
-    expect(renderEditRelationshipForm(props).find('select').length).toBe(1)
+    expect(render(props).find('select').length).toBe(1)
   })
-
   it('renders two checkboxes', () => {
-    expect(renderEditRelationshipForm(props).find(CheckboxField).length).toBe(2)
+    expect(render(props).find(CheckboxField).length).toBe(2)
   })
-
   it('renders two date fields', () => {
-    expect(renderEditRelationshipForm(props).find(DateField).length).toBe(2)
+    expect(render(props).find(DateField).length).toBe(2)
   })
-
   it('renders the person props and relationship props in the table with the gender key map', () => {
-    const element = renderEditRelationshipForm(props).find('ul')
-
+    const element = render(props).find('ul')
     expect(element.first().find('li').first().text()).toEqual('Luke Skywalker')
     expect(element.first().find('li').at(1).text()).toEqual('20 yrs')
     expect(element.first().find('li').last().text()).toEqual('Male')
@@ -64,15 +61,11 @@ describe('EditRelationshipForm', () => {
 
   describe('absent parent checkbox', () => {
     it('disables the absent parent checkbox when it does not matches father/mother/parent', () => {
-      expect(
-        renderEditRelationshipForm(props)
-          .find('#absent_parent_indicator')
-          .prop('disabled'))
-        .toBe(true)
+      expect(render(props).find('#absent_parent_indicator').prop('disabled')).toBe(true)
     })
     it('enables the absent parent checkbox when it matches father/mother/parent', () => {
       expect(
-        renderEditRelationshipForm({
+        render({
           ...props,
           editFormRelationship: {
             ...props.editFormRelationship,
@@ -82,6 +75,39 @@ describe('EditRelationshipForm', () => {
           .find('#absent_parent_indicator')
           .prop('disabled'))
         .toBe(false)
+    })
+  })
+  describe('calls onChange when changed', () => {
+    const onChange = jasmine.createSpy('onChange')
+    it('expects relationship type to change', () => {
+      render({onChange, ...props})
+        .find('#edit_relationship')
+        .simulate('change', {target: {value: '808'}})
+      expect(onChange).toHaveBeenCalledWith('relationship_type', 808)
+    })
+    it('expects same home status to change', () => {
+      render({onChange, ...props})
+        .find('#same_home_status')
+        .simulate('change', {target: {value: 'Y'}})
+      expect(onChange).toHaveBeenCalledWith('same_home_status', 'N')
+    })
+    it('expects parent whereabout unknown to change', () => {
+      render({onChange, ...props})
+        .find('#absent_parent_indicator')
+        .simulate('change', {target: {checked: true}})
+      expect(onChange).toHaveBeenCalledWith('absent_parent_indicator', true)
+    })
+    it('expects start date to change', () => {
+      render({onChange, ...props})
+        .find('#relationship_start_date')
+        .simulate('change', '2016-08-13T10:00:00.000Z')
+      expect(onChange).toHaveBeenCalledWith('start_date', '2016-08-13T10:00:00.000Z')
+    })
+    it('expects end date to change', () => {
+      render({onChange, ...props})
+        .find('#relationship_end_date')
+        .simulate('change', '2016-08-13T10:00:00.000Z')
+      expect(onChange).toHaveBeenCalledWith('end_date', '2016-08-13T10:00:00.000Z')
     })
   })
 })

@@ -7,8 +7,11 @@ import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {saveRelationshipSaga, saveRelationship} from 'sagas/saveRelationshipSaga'
 import {selectClientIds} from 'selectors/participantSelectors'
 import {UPDATE_RELATIONSHIP} from 'actions/actionTypes'
-import {updateRelationshipFailure, updateRelationshipSuccess} from 'actions/relationshipActions'
-import * as relationshipAction from 'actions/relationshipActions'
+import {
+  updateRelationshipFailure,
+  updateRelationshipSuccess,
+} from 'actions/relationshipFormActions'
+import * as relationshipAction from 'actions/relationshipFormActions'
 import * as Utils from 'utils/http'
 
 describe('saveRelationshipSaga', () => {

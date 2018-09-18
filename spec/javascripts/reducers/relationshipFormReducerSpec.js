@@ -1,17 +1,17 @@
 import * as matchers from 'jasmine-immutable-matchers'
-import relationshipReducer from 'reducers/relationshipReducer'
+import relationshipFormReducer from 'reducers/relationshipFormReducer'
 import {
-  createRelationship,
+  loadRelationship,
   setRelationshipForm,
   updateRelationshipFailure,
   updateRelationshipSuccess,
-} from 'actions/relationshipActions'
+} from 'actions/relationshipFormActions'
 import {Map, fromJS} from 'immutable'
 
-describe('relationshipReducer', () => {
+describe('relationshipFormReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
 
-  describe('on CREATE_RELATIONSHIP', () => {
+  describe('on LOAD_RELATIONSHIP', () => {
     it('returns a relationship immutable map on', () => {
       const person = {id: 'ZXY123'}
       const relationship = {
@@ -24,9 +24,9 @@ describe('relationshipReducer', () => {
         same_home_code: 'Y',
         startDate: '1999-10-01',
       }
-      const action = createRelationship(person, relationship)
+      const action = loadRelationship(person, relationship)
 
-      expect(relationshipReducer(Map(), action)).toEqualImmutable(
+      expect(relationshipFormReducer(Map(), action)).toEqualImmutable(
         fromJS({
           absent_parent_indicator: true,
           client_id: 'ZXY123',
@@ -57,7 +57,7 @@ describe('relationshipReducer', () => {
       })
       const lastState = fromJS(relationship)
       const actionRelationshipTye = setRelationshipForm('relationship_type', 191)
-      expect(relationshipReducer(lastState, actionRelationshipTye)).toEqualImmutable(
+      expect(relationshipFormReducer(lastState, actionRelationshipTye)).toEqualImmutable(
         fromJS({
           absent_parent_indicator: true,
           client_id: 'ZXY123',
@@ -71,7 +71,7 @@ describe('relationshipReducer', () => {
         })
       )
       const actionAbsentParent = setRelationshipForm('absent_parent_indicator', false)
-      expect(relationshipReducer(lastState, actionAbsentParent)).toEqualImmutable(
+      expect(relationshipFormReducer(lastState, actionAbsentParent)).toEqualImmutable(
         fromJS({
           absent_parent_indicator: false,
           client_id: 'ZXY123',
@@ -100,7 +100,7 @@ describe('relationshipReducer', () => {
         startDate: '1999-10-01',
       }
       const action = updateRelationshipSuccess(relationship)
-      expect(relationshipReducer(fromJS(relationship), action)).toEqualImmutable(fromJS({
+      expect(relationshipFormReducer(fromJS(relationship), action)).toEqualImmutable(fromJS({
         absent_parent_code: 'Y',
         endDate: '2010-10-01',
         relationshipId: '12345',
@@ -114,7 +114,7 @@ describe('relationshipReducer', () => {
 
     it('returns the last state on failure', () => {
       const action = updateRelationshipFailure()
-      expect(relationshipReducer(Map(), action)).toEqualImmutable(Map())
+      expect(relationshipFormReducer(Map(), action)).toEqualImmutable(Map())
     })
   })
 })

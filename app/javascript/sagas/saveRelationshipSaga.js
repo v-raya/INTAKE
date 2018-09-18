@@ -7,7 +7,7 @@ import {UPDATE_RELATIONSHIP} from 'actions/actionTypes'
 import {
   updateRelationshipFailure,
   updateRelationshipSuccess,
-} from 'actions/relationshipActions'
+} from 'actions/relationshipFormActions'
 
 import * as Utils from 'utils/http'
 
