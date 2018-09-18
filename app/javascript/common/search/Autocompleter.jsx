@@ -79,13 +79,16 @@ export default class Autocompleter extends Component {
     }
   }
 
+  onSelect(item) {
+    this.props.onClear()
+    this.props.onChange('')
+    this.props.onSelect(item)
+    this.hideMenu()
+  }
+
   onButtonSelect(item) {
-    const {onClear, onChange, onSelect} = this.props
     if (item.createNewPerson) {
-      onClear()
-      onChange('')
-      onSelect({id: null})
-      this.setState({menuVisible: false})
+      this.onSelect({id: null})
     } else if (item.suggestionHeader) {
       return
     } else {
@@ -94,24 +97,22 @@ export default class Autocompleter extends Component {
   }
 
   onItemSelect(_value, item) {
-    const {isSelectable, onClear, onChange, onSelect, staffId, startTime} = this.props
-    if (item.legacyDescriptor) {
-      if (isSelectable(item)) {
-        logEvent('searchResultClick', {
-          searchIndex: this.props.results.indexOf(item),
-          staffId,
-          startTime: moment(startTime).valueOf(),
-        })
-        onClear()
-        onChange('')
-        onSelect(item)
-        this.hideMenu()
-        return
-      }
+    const {isSelectable, staffId, startTime} = this.props
+
+    if (!item.legacyDescriptor) {
+      this.onButtonSelect(item)
+      return
+    } else if (!isSelectable(item)) {
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
       return
     }
-    this.onButtonSelect(item)
+
+    logEvent('searchResultClick', {
+      searchIndex: this.props.results.indexOf(item),
+      staffId,
+      startTime: moment(startTime).valueOf(),
+    })
+    this.onSelect(item)
   }
 
   onFocus() {
@@ -123,7 +124,7 @@ export default class Autocompleter extends Component {
   }
 
   renderMenu(items, _searchTerm, _style) {
-    return <div className='autocomplete-menu'>{items}</div>
+    return (<div className='autocomplete-menu'>{items}</div>)
   }
 
   renderEachItem(item, id, isHighlighted) {
