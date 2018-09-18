@@ -10,7 +10,7 @@ const selectRelatee = (relativeId) => (person) =>
   Maybe.of(person.get('relationships')
     .find((relatee) => relatee.get('related_person_id') === relativeId))
 
-const isChangeForm = (relationshipForm) => (relatee) =>
+const isFormNoChange = (relationshipForm) => (relatee) =>
   relationshipForm.equals(Map({
     absent_parent_indicator: (relatee.get('absent_parent_code') === 'Y'),
     client_id: relationshipForm.get('client_id'),
@@ -25,12 +25,12 @@ const isChangeForm = (relationshipForm) => (relatee) =>
 
 export const selectRelationship = (state) => (state.get('relationshipForm', Map()))
 
-export const selectIsFormChangeState = createSelector(
+export const selectIsFormNoChangeState = createSelector(
   selectRelationship,
   getScreeningRelationships,
   (relationshipForm, people) =>
     selectPerson(relationshipForm.get('client_id'), people)
       .chain(selectRelatee(relationshipForm.get('relative_id')))
-      .map(isChangeForm(relationshipForm))
+      .map(isFormNoChange(relationshipForm))
       .valueOrElse(false)
 )

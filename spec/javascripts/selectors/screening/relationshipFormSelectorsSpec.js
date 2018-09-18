@@ -1,7 +1,7 @@
 import {fromJS} from 'immutable'
 import {
   selectRelationship,
-  selectIsFormChangeState,
+  selectIsFormNoChangeState,
 } from 'selectors/screening/relationshipFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -42,11 +42,11 @@ describe('relationshipSelectors', () => {
     )
   })
 
-  describe('selectIsFormChangeState', () => {
+  describe('selectIsFormNoChangeState', () => {
     it('returns false if no relatee is found', () => {
       const relationships = [{id: 'ZXY123', relationships: []}]
       const state = fromJS({relationshipForm, relationships})
-      expect(selectIsFormChangeState(state)).toBe(false)
+      expect(selectIsFormNoChangeState(state)).toBe(false)
     })
     it('returns true if edit relationship form has no changed state', () => {
       const relationships = [{
@@ -63,7 +63,7 @@ describe('relationshipSelectors', () => {
         }],
       }]
       const state = fromJS({relationshipForm, relationships})
-      expect(selectIsFormChangeState(state)).toBe(true)
+      expect(selectIsFormNoChangeState(state)).toBe(true)
     })
     it('returns false if edit relationship form has changed state', () => {
       const relationships = [{
@@ -80,7 +80,7 @@ describe('relationshipSelectors', () => {
         }],
       }]
       const state = fromJS({relationshipForm, relationships})
-      expect(selectIsFormChangeState(state)).toBe(false)
+      expect(selectIsFormNoChangeState(state)).toBe(false)
     })
   })
 })

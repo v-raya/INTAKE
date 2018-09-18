@@ -9,7 +9,7 @@ import {
 } from 'actions/relationshipFormActions'
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {
-  selectIsFormChangeState,
+  selectIsFormNoChangeState,
   selectRelationship,
 } from 'selectors/screening/relationshipFormSelectors'
 
@@ -17,7 +17,7 @@ const mapStateToProps = (state, _ownProps) => ({
   editFormRelationship: selectRelationship(state).toJS(),
   people: getPeopleSelector(state).toJS(),
   screeningId: getScreeningIdValueSelector(state),
-  isFormChanged: selectIsFormChangeState(state),
+  isFormChanged: selectIsFormNoChangeState(state),
   isScreening: true,
   pendingPeople: state.get('pendingParticipants').toJS(),
   relationshipsButtonStatus: getRelationshipsButtonStatus(state).toJS(),

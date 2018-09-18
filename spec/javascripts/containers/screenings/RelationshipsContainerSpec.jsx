@@ -24,7 +24,6 @@ describe('RelationshipsContainer', () => {
           },
         }
         onClick(relationship, 805)
-        expect(dispatch).toHaveBeenCalled()
         expect(dispatch).toHaveBeenCalledWith(createPerson({
           screening_id: 805,
           legacy_descriptor: {
@@ -38,7 +37,6 @@ describe('RelationshipsContainer', () => {
       it('calls setRelationshipForm with field and value', () => {
         const {onChange} = props
         onChange('relationshipType', 101)
-        expect(dispatch).toHaveBeenCalled()
         expect(dispatch).toHaveBeenCalledWith(setRelationshipForm('relationshipType', 101))
       })
     })
@@ -46,7 +44,6 @@ describe('RelationshipsContainer', () => {
       it('calls loadRelationship with person and relationship', () => {
         const {onEdit} = props
         onEdit('goku', 'gohan')
-        expect(dispatch).toHaveBeenCalled()
         expect(dispatch).toHaveBeenCalledWith(loadRelationship('goku', 'gohan'))
       })
     })
@@ -54,7 +51,6 @@ describe('RelationshipsContainer', () => {
       it('calls updateRelationship with person id', () => {
         const {onSave} = props
         onSave('805')
-        expect(dispatch).toHaveBeenCalled()
         expect(dispatch).toHaveBeenCalledWith(updateRelationship('805'))
       })
     })
