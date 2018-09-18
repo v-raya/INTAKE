@@ -99,11 +99,7 @@ feature 'search card' do
         ]
       end
     end
-    stub_person_search(
-      search_term: 'Ma',
-      person_response: search_response,
-      is_client_only: false
-    )
+    stub_person_search(person_response: search_response)
 
     within '#search-card', text: 'Search' do
       fill_in 'Search for any person', with: 'Ma'
