@@ -29,7 +29,7 @@ export const getNamesRequiredSelector = (state, personId) => {
   return (roles.includes('Victim'))
 }
 
-const getAlertMessageByRole = (roles) => {
+const selectAlertMessageByRole = (roles) => {
   if (roles.includes('Victim')) {
     return 'Alleged victims must be identified with a name, even Doe or Unknown, and must be under the age of 18'
   }
@@ -43,7 +43,7 @@ export const getPersonAlertErrorMessageSelector = (state, personId) => {
   const firstName = person.get('first_name')
   const roles = person.get('roles', List())
   if (required && !(firstName && lastName)) {
-    return getAlertMessageByRole(roles)
+    return selectAlertMessageByRole(roles)
   }
   return undefined
 }
@@ -77,12 +77,12 @@ const isOver18YearsOfAgeAtScreeningDate = (state, personId) => {
   return ageFromScreeningDate && ageFromScreeningDate >= ageLimit
 }
 
-const getNameErrors = (firstName, lastName, roles) => combineCompact(
+const selectNameErrors = (firstName, lastName, roles) => combineCompact(
   isRequiredIfCreate(firstName, 'Please enter a first name.', () => hasNonReporter(roles)),
   isRequiredIfCreate(lastName, 'Please enter a last name.', () => hasNonReporter(roles))
 )
 
-const getRoleErrors = (state, personId, roles) => combineCompact(
+const selectRoleErrors = (state, personId, roles) => combineCompact(
   () => {
     if (roles.includes('Victim') && (ageFromScreeningDateIsEmpty(state, personId) || isOver18YearsOfAgeAtScreeningDate(state, personId))) {
       return 'Alleged victims must be under 18 years old.'
@@ -92,17 +92,17 @@ const getRoleErrors = (state, personId, roles) => combineCompact(
   }
 )
 
-const getCSECTypeErrors = (state, csecTypes, roles, screeningReportType) => combineCompact(
+const selectCSECTypeErrors = (state, csecTypes, roles, screeningReportType) => combineCompact(
   hasRequiredValuesIfCreate(csecTypes, 'CSEC type must be selected.',
     () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
 )
 
-const getCSECStartedAtErrors = (state, csecStartedAt, roles, screeningReportType) => combineCompact(
+const selectCSECStartedAtErrors = (state, csecStartedAt, roles, screeningReportType) => combineCompact(
   isRequiredIfCreate(csecStartedAt, 'Start date must be entered.',
     () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
 )
 
-const getGenderErrors = (person, roles) => combineCompact(
+const selectGenderErrors = (person, roles) => combineCompact(
   isRequiredIfCreate(person.get('gender'), 'Please select a Sex at Birth.',
     () => hasNonReporter(roles))
 )
@@ -136,18 +136,18 @@ export const getErrorsSelector = (state, personId) => {
   const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const rolesTypes = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   return fromJS({
-    name: getNameErrors(firstName, lastName, roles),
-    roles: getRoleErrors(state, personId, roles),
+    name: selectNameErrors(firstName, lastName, roles),
+    roles: selectRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
-    gender: getGenderErrors(person, roles),
+    gender: selectGenderErrors(person, roles),
     dateOfBirth: selectDobError(person),
     addressZip,
-    csecTypes: getCSECTypeErrors(state, csecTypes, rolesTypes, screeningReportType),
-    csecStartedAt: getCSECStartedAtErrors(state, csecStartedAt, rolesTypes, screeningReportType),
+    csecTypes: selectCSECTypeErrors(state, csecTypes, rolesTypes, screeningReportType),
+    csecStartedAt: selectCSECStartedAtErrors(state, csecStartedAt, rolesTypes, screeningReportType),
   })
 }
 
-const getRaces = (person) => (
+const selectRaces = (person) => (
   person.get('races') && person.get('races').map((raceInformation, index) => {
     const race = raceInformation.get('race')
     const raceDetail = raceInformation.get('race_detail')
@@ -157,7 +157,7 @@ const getRaces = (person) => (
   }).join(', ')
 )
 
-const getEthnicity = (person) => {
+const selectEthnicity = (person) => {
   const {hispanic_latino_origin: hispanicLatinoOrigin, ethnicity_detail} = person.toJS().ethnicity || {}
 
   if (!hispanicLatinoOrigin) { return undefined }
@@ -188,12 +188,12 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
     csecStartedAt: {value: (person.getIn(['csec', 0, 'start_date']) && dateFormatter(person.getIn(['csec', 0, 'start_date']))), errors: []},
     csecEndedAt: person.getIn(['csec', 0, 'end_date']) && dateFormatter(person.getIn(['csec', 0, 'end_date'])),
     dateOfBirth: {value: person.get('date_of_birth') && dateFormatter(person.get('date_of_birth'))},
-    ethnicity: getEthnicity(person),
+    ethnicity: selectEthnicity(person),
     gender: {value: GENDERS[person.get('gender')]},
     languages: person.get('languages') && flagPrimaryLanguage((person.toJS().languages) || []).join(', '),
     legacySource: legacyDescriptor && legacySourceFormatter(legacyDescriptor.toJS()),
     name: {value: nameFormatter(person.toJS()), errors: [], required: false},
-    races: getRaces(person),
+    races: selectRaces(person),
     roles: {value: person.get('roles', List()), errors: []},
     ssn: {value: ssnFormatter(person.get('ssn')), errors: []},
     alertErrorMessage: getPersonAlertErrorMessageSelector(state, personId),
