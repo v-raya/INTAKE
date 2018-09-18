@@ -262,3 +262,4 @@ describe('ScreeningInformationForm', () => {
     expect(onSave).toHaveBeenCalled()
   })
 })
+

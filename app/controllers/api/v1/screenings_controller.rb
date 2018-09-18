@@ -75,13 +75,18 @@ module Api
         assignee_details.join(' ').gsub(/\s+/, ' ').strip
       end
 
+      def current_time
+        Time.now.change(usec: 0, sec: 0).utc
+      end
+
       def new_screening
         {
           reference: LUID.generate.first,
           assignee: build_assignee_name(session),
           assignee_staff_id: build_staff_id(session),
           incident_county: build_incident_county(session),
-          indexable: true
+          indexable: true,
+          started_at: current_time
         }.merge(empty_screening_fields)
       end
 
