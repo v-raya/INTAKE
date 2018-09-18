@@ -142,14 +142,13 @@ feature 'Show Screening' do
       stub_empty_relationships
     end
 
-    scenario 'shows approximate age and hides date of birth' do
+    scenario 'shows approximate age' do
       visit screening_path(id: approximate_screening[:id])
 
       within show_participant_card_selector(approximate_participant.id) do
         within '.card-body' do
           expect(page).to have_content('10')
           expect(page).to have_content('Months')
-          expect(page).not_to have_content('Date of birth')
         end
       end
     end

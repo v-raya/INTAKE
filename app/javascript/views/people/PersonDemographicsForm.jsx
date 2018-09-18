@@ -17,6 +17,7 @@ const PersonDemographicsForm = ({
   approximateAgeUnit,
   dateOfBirth,
   dateOfBirthIsRequired,
+  dateOfBirthError,
   gender,
   genderError,
   genderIsRequired,
@@ -34,10 +35,10 @@ const PersonDemographicsForm = ({
         id={id(personId, 'date-of-birth')}
         label='Date of birth'
         hasTime={false}
-        hasCalendar={false}
         value={dateOfBirth}
         required={dateOfBirthIsRequired}
         onChange={(value) => onChange('date_of_birth', value)}
+        errors={dateOfBirthError}
       />
       <div className='col-md-1 text-between-inputs'>or</div>
       <InputField
@@ -96,6 +97,7 @@ PersonDemographicsForm.propTypes = {
   approximateAgeIsDisabled: PropTypes.bool,
   approximateAgeUnit: PropTypes.string,
   dateOfBirth: PropTypes.string,
+  dateOfBirthError: PropTypes.array,
   dateOfBirthIsRequired: PropTypes.bool,
   gender: PropTypes.string,
   genderError: PropTypes.string,

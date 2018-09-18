@@ -40,7 +40,10 @@ describe('PersonShowContainer', () => {
         errors: [],
       },
       csecEndedAt: '09/11/2017',
-      dateOfBirth: '01/15/2014',
+      dateOfBirth: {
+        value: '01/15/2014',
+        errors: [],
+      },
       name: {
         value: 'John Q Public',
         errors: [],

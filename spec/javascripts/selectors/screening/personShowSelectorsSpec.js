@@ -9,6 +9,7 @@ import {
   getErrorsSelector,
 } from 'selectors/screening/personShowSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
+import moment from 'moment'
 
 describe('personShowSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -26,7 +27,7 @@ describe('personShowSelectors', () => {
         gender: {value: undefined},
         roles: {value: [], errors: []},
         languages: undefined,
-        dateOfBirth: undefined,
+        dateOfBirth: {value: undefined},
         approximateAge: undefined,
         ssn: {value: '', errors: []},
         races: undefined,
@@ -81,7 +82,7 @@ describe('personShowSelectors', () => {
     it('includes the formatted date of birth for the given person', () => {
       const participants = [{id: '1', date_of_birth: '2014-01-15'}]
       const state = fromJS({participants})
-      expect(getFormattedPersonInformationSelector(state, '1').get('dateOfBirth')).toEqual('01/15/2014')
+      expect(getFormattedPersonInformationSelector(state, '1').getIn(['dateOfBirth', 'value'])).toEqual('01/15/2014')
     })
 
     it('does not include approximate age if person has a date of birth', () => {
@@ -201,6 +202,22 @@ describe('personShowSelectors', () => {
         .toEqualImmutable(fromJS({
           value: undefined,
           errors: ['Please select a Sex at Birth.'],
+        }))
+    })
+    it('includes errors for dateOfBirth', () => {
+      const participants = [{
+        id: '1',
+        first_name: 'John',
+        middle_name: 'Q',
+        last_name: 'Public',
+        roles: ['Victim'],
+        date_of_birth: moment().add(1, 'days').toISOString(),
+      }]
+      const state = fromJS({participants})
+      expect(getFormattedPersonWithErrorsSelector(state, '1').get('dateOfBirth'))
+        .toEqualImmutable(fromJS({
+          value: moment().add(1, 'days').format('MM/DD/YYYY'),
+          errors: ['Date of Birth should not be in the future.'],
         }))
     })
   })
@@ -419,6 +436,24 @@ describe('personShowSelectors', () => {
         const state = fromJS({participants: people})
         expect(getErrorsSelector(state, 'one').get('gender'))
           .toEqualImmutable(List())
+      })
+    })
+
+    describe('dateOfBirth', () => {
+      it('returns no error if date is current or in the past', () => {
+        const today = moment().toISOString()
+        const people = [{id: 'one', date_of_birth: today}]
+        const state = fromJS({participants: people})
+        expect(getErrorsSelector(state, 'one').get('dateOfBirth'))
+          .toEqualImmutable(List())
+      })
+
+      it('returns an error if date is in the future', () => {
+        const tomorrow = moment().add(1, 'days').toISOString()
+        const people = [{id: 'one', date_of_birth: tomorrow}]
+        const state = fromJS({participants: people})
+        expect(getErrorsSelector(state, 'one').get('dateOfBirth'))
+          .toEqualImmutable(List(['Date of Birth should not be in the future.']))
       })
     })
 

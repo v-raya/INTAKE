@@ -327,10 +327,7 @@ feature 'Edit Person' do
         expect(page).to have_react_select_field(
           'Language(s) (Primary First)', with: marge.languages
         )
-        # Date of birth should not have datepicker, but limiting by field ID will break when
-        # DOB fields are correctly namespaced by participant ID. Feel free to make this more
-        # specific once that's done.
-        expect(page).not_to have_selector('.rw-select')
+        expect(page).to have_selector('.rw-select')
         dob = Time.parse(marge.date_of_birth).strftime('%m/%d/%Y')
         expect(page).to have_field('Date of birth', with: dob)
         expect(page).to have_field('Address', with: marge.addresses.first.street_address)
