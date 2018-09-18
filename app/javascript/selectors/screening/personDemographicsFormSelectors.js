@@ -18,7 +18,7 @@ const validateGender = (gender, roles) =>
 
 const selectDobError = (person) => {
   const date_of_birth = person.getIn(['date_of_birth', 'value']) || ''
-  return combineCompact(isFutureDatetimeCreate(date_of_birth, 'The end date and time cannot be in the future.'))
+  return combineCompact(isFutureDatetimeCreate(date_of_birth, 'Date of Birth should not be in the future.'))
 }
 
 export const getPersonDemographicsSelector = (state, personId) => {

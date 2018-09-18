@@ -116,7 +116,7 @@ const csecTypesSelector = (state, personId) => {
 }
 
 const selectDobError = (person) => combineCompact(
-  isFutureDatetimeCreate(person.get('date_of_birth'), 'The end date and time cannot be in the future.'
+  isFutureDatetimeCreate(person.get('date_of_birth'), 'Date of Birth should not be in the future.'
   )
 )
 

@@ -217,7 +217,7 @@ describe('personShowSelectors', () => {
       expect(getFormattedPersonWithErrorsSelector(state, '1').get('dateOfBirth'))
         .toEqualImmutable(fromJS({
           value: moment().add(1, 'days').format('MM/DD/YYYY'),
-          errors: ['The end date and time cannot be in the future.'],
+          errors: ['Date of Birth should not be in the future.'],
         }))
     })
   })
@@ -453,7 +453,7 @@ describe('personShowSelectors', () => {
         const people = [{id: 'one', date_of_birth: tomorrow}]
         const state = fromJS({participants: people})
         expect(getErrorsSelector(state, 'one').get('dateOfBirth'))
-          .toEqualImmutable(List(['The end date and time cannot be in the future.']))
+          .toEqualImmutable(List(['Date of Birth should not be in the future.']))
       })
     })
 

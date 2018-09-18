@@ -64,7 +64,7 @@ describe('personDemographicFormSelectors', () => {
       const peopleForm = {1: {date_of_birth: {value: tomorrow}}}
       const state = fromJS({peopleForm})
       expect(getPersonDemographicsSelector(state, '1').get('dobError'))
-        .toEqualImmutable(List(['The end date and time cannot be in the future.']))
+        .toEqualImmutable(List(['Date of Birth should not be in the future.']))
     })
 
     it('includes the gender for the given person', () => {
