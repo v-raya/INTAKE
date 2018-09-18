@@ -7,7 +7,12 @@ import legacySourceFormatter from 'utils/legacySourceFormatter'
 import nameFormatter from 'utils/nameFormatter'
 import ssnFormatter from 'utils/ssnFormatter'
 import {dateFormatter} from 'utils/dateFormatter'
-import {isRequiredIfCreate, combineCompact, hasRequiredValuesIfCreate} from 'utils/validator'
+import {
+  isRequiredIfCreate,
+  combineCompact,
+  hasRequiredValuesIfCreate,
+  isFutureDatetimeCreate,
+} from 'utils/validator'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {hasNonReporter} from 'utils/roles'
 import {getSSNErrors} from 'utils/ssnValidator'
@@ -110,6 +115,11 @@ const csecTypesSelector = (state, personId) => {
   )
 }
 
+const selectDobError = (person) => combineCompact(
+  isFutureDatetimeCreate(person.get('date_of_birth'), 'The end date and time cannot be in the future.'
+  )
+)
+
 export const getErrorsSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const ssn = person.get('ssn') || ''
@@ -130,6 +140,7 @@ export const getErrorsSelector = (state, personId) => {
     roles: getRoleErrors(state, personId, roles),
     ssn: getSSNErrors(ssnWithoutHyphens),
     gender: getGenderErrors(person, roles),
+    dateOfBirth: selectDobError(person),
     addressZip,
     csecTypes: getCSECTypeErrors(state, csecTypes, rolesTypes, screeningReportType),
     csecStartedAt: getCSECStartedAtErrors(state, csecStartedAt, rolesTypes, screeningReportType),
@@ -168,7 +179,6 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const legacyDescriptor = person.get('legacy_descriptor')
   const approximateAge = personApproximateAge(person)
-  const dateOfBirth = person.get('date_of_birth') && dateFormatter(person.get('date_of_birth'))
   const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   const showCSEC = roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'
@@ -177,7 +187,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
     CSECTypes: {value: csecTypesSelector(state, personId), errors: []},
     csecStartedAt: {value: (person.getIn(['csec', 0, 'start_date']) && dateFormatter(person.getIn(['csec', 0, 'start_date']))), errors: []},
     csecEndedAt: person.getIn(['csec', 0, 'end_date']) && dateFormatter(person.getIn(['csec', 0, 'end_date'])),
-    dateOfBirth: dateOfBirth,
+    dateOfBirth: {value: person.get('date_of_birth') && dateFormatter(person.get('date_of_birth'))},
     ethnicity: getEthnicity(person),
     gender: {value: GENDERS[person.get('gender')]},
     languages: person.get('languages') && flagPrimaryLanguage((person.toJS().languages) || []).join(', '),
@@ -201,6 +211,7 @@ export const getFormattedPersonWithErrorsSelector = (state, personId) => {
     .setIn(['gender', 'errors'], errors.get('gender'))
     .setIn(['CSECTypes', 'errors'], errors.get('csecTypes'))
     .setIn(['csecStartedAt', 'errors'], errors.get('csecStartedAt'))
+    .setIn(['dateOfBirth', 'errors'], errors.get('dateOfBirth'))
 }
 export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
   selectPersonOrEmpty(state, personId)
