@@ -1,10 +1,11 @@
-import {fromJS} from 'immutable'
+import {fromJS, List} from 'immutable'
 import {
   getIsApproximateAgeDisabledSelector,
   getPersonDemographicsSelector,
   isGenderRequired,
 } from 'selectors/screening/personDemographicsFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
+import moment from 'moment'
 
 describe('personDemographicFormSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -32,6 +33,7 @@ describe('personDemographicFormSelectors', () => {
         approximateAgeUnit: '',
         dateOfBirth: '',
         dateOfBirthIsRequired: false,
+        dobError: [],
         gender: '',
         genderIsRequired: false,
         genderError: undefined,
@@ -55,6 +57,14 @@ describe('personDemographicFormSelectors', () => {
       const peopleForm = {1: {date_of_birth: {value: '13/0/-514'}}}
       const state = fromJS({peopleForm})
       expect(getPersonDemographicsSelector(state, '1').get('dateOfBirth')).toEqual('13/0/-514')
+    })
+
+    it('returns an error if date is in the future', () => {
+      const tomorrow = moment().add(1, 'days').toISOString()
+      const peopleForm = {1: {date_of_birth: {value: tomorrow}}}
+      const state = fromJS({peopleForm})
+      expect(getPersonDemographicsSelector(state, '1').get('dobError'))
+        .toEqualImmutable(List(['The end date and time cannot be in the future.']))
     })
 
     it('includes the gender for the given person', () => {
