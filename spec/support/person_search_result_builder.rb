@@ -1,8 +1,17 @@
 # frozen_string_literal: true
 
 require 'support/helpers/system_code_helpers'
+require 'support/helpers/query_builder_helper'
+require 'support/helpers/person_search_query_builder_helper'
+require 'support/helpers/person_search_by_address_helper'
 
 class PersonSearchResultBuilder
+  include QueryBuilderHelper
+  include PersonSearchByAddressHelper
+  include PersonSearchQueryBuilderHelper
+
+  attr_reader :search_result
+
   def self.build
     builder = new
     yield(builder)
@@ -100,8 +109,6 @@ class PersonSearchResultBuilder
   def with_sort(sort)
     @search_result[:sort] = sort
   end
-
-  attr_reader :search_result
 end
 
 class LanguageSearchResultBuilder

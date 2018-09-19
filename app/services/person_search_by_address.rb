@@ -9,7 +9,7 @@ class PersonSearchByAddress < QueryBuilder
     'addresses.county' => LOW_BOOST
   }.freeze
 
-  attr_accessor :city, :county
+  attr_accessor :city, :county, :search_term
 
   def initialize(**params)
     super
