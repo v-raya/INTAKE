@@ -50,6 +50,30 @@ describe('AddressWithSearch', () => {
     expect(component.find('button').text()).toEqual('Search')
   })
 
+  describe('when there is no search term', () => {
+    it('disables the search button when there is no street address', () => {
+      const component = render({searchCounty: 'Yolo', searchCity: 'Davis'})
+      expect(component.find('button').props().disabled).toBeTruthy()
+    })
+
+    it('enables the search button when there is a street address', () => {
+      const component = render({searchAddress: 'Main'})
+      expect(component.find('button').props().disabled).toBeFalsy()
+    })
+  })
+
+  describe('when there is an existing search term', () => {
+    it('enables the search button even when there is no address info', () => {
+      const component = render({searchTerm: 'Yoko'})
+      expect(component.find('button').props().disabled).toBeFalsy()
+    })
+
+    it('disables the search button when the search term is too short', () => {
+      const component = render({searchTerm: 'Y'})
+      expect(component.find('button').props().disabled).toBeTruthy()
+    })
+  })
+
   it('calls onSubmit when search button is clicked', () => {
     const onSubmit = jasmine.createSpy('onClick')
     const component = render({onSubmit})

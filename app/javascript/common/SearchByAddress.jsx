@@ -13,6 +13,7 @@ const SearchByAddress = ({
   searchAddress,
   searchCity,
   searchCounty,
+  searchTerm,
 }) => (
   <div>
     <div className='row'>
@@ -35,6 +36,7 @@ const SearchByAddress = ({
         searchAddress={searchAddress}
         searchCity={searchCity}
         searchCounty={searchCounty}
+        searchTerm={searchTerm}
       />
     }
   </div>
@@ -49,6 +51,7 @@ SearchByAddress.propTypes = {
   searchAddress: PropTypes.string,
   searchCity: PropTypes.string,
   searchCounty: PropTypes.string,
+  searchTerm: PropTypes.string,
   toggleAddressSearch: PropTypes.func,
 }
 

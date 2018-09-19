@@ -43,6 +43,13 @@ describe('SearchByAddress', () => {
       expect(searchByAddress.find('AddressWithSearch').exists()).toEqual(true)
     })
 
+    it('passes the current search term to AddressWithSearch', () => {
+      const searchByAddress = render({searchTerm: 'Odlaw', isAddressIncluded: true})
+      expect(
+        searchByAddress.find('AddressWithSearch').props().searchTerm
+      ).toEqual('Odlaw')
+    })
+
     it('passes the entered address to AddressWithSearch', () => {
       const searchByAddress = render({searchAddress: 'Yellow Brick Road', isAddressIncluded: true})
       expect(

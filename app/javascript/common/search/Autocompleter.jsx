@@ -224,7 +224,7 @@ export default class Autocompleter extends Component {
   renderAddressSearch() {
     const {
       isAddressIncluded, onToggleAddressSearch,
-      searchAddress, searchCity, searchCounty,
+      searchAddress, searchCity, searchCounty, searchTerm,
       onChangeAddress, onChangeCity, onChangeCounty} = this.props
 
     return (
@@ -235,6 +235,7 @@ export default class Autocompleter extends Component {
         searchAddress={searchAddress}
         searchCity={searchCity}
         searchCounty={searchCounty}
+        searchTerm={searchTerm}
         onChangeAddress={onChangeAddress}
         onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}

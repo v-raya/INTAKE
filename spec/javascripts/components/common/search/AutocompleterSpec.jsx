@@ -564,6 +564,11 @@ describe('<Autocompleter />', () => {
     })
   })
 
+  it('renders SearchByAddress with current search term', () => {
+    const component = renderAutocompleter({searchTerm: 'Waldo'})
+    expect(component.find('SearchByAddress').props().searchTerm).toBe('Waldo')
+  })
+
   it('renders SearchByAddress with selected county', () => {
     const component = renderAutocompleter({searchCounty: 'Yolo'})
     expect(component.find('SearchByAddress').props().searchCounty).toBe('Yolo')
