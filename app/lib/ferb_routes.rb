@@ -27,7 +27,7 @@ class FerbRoutes
       if participant_id
         screening_participant_save_path(screening_id, participant_id)
       else
-        "/screenings/#{screening_id}/participants"
+        "/screenings/#{screening_id}/participant"
       end
     end
 

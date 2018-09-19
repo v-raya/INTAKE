@@ -24,9 +24,9 @@ describe FerbRoutes do
       )
     end
 
-    it 'returns /screenings/:screening_id/participants when there is no particpant id' do
+    it 'returns /screenings/:screening_id/participant when there is no particpant id' do
       expect(described_class.screening_participant_path(1)).to eq(
-        '/screenings/1/participants'
+        '/screenings/1/participant'
       )
     end
   end
