@@ -2,7 +2,7 @@ import {takeLatest, put, call, select} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {delay} from 'redux-saga'
 import {logEvent} from 'utils/analytics'
-import {fetchPeopleSearchSaga, fetchPeopleSearch} from 'sagas/fetchPeopleSearchSaga'
+import {fetchPeopleSearchSaga, fetchPeopleSearch, getPeopleEffect} from 'sagas/fetchPeopleSearchSaga'
 import {PEOPLE_SEARCH_FETCH, search, fetchSuccess, fetchFailure} from 'actions/peopleSearchActions'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
@@ -77,6 +77,48 @@ describe('fetchPeopleSearch', () => {
     expect(peopleSearchGenerator.next().value).toEqual(call(logEvent, 'personSearch', {
       staffId: staff_id,
       totalResults: searchResults.hits.total,
+    }))
+  })
+})
+
+describe('getPeopleEffect', () => {
+  it('is a call effect to the people search endpoint', () => {
+    expect(getPeopleEffect({
+      searchTerm: 'foo',
+      isClientOnly: true,
+    })).toEqual(call(get, '/api/v1/people', {
+      search_term: 'foo',
+      is_client_only: true,
+    }))
+  })
+  it('includes address params when present', () => {
+    expect(getPeopleEffect({
+      searchTerm: 'buzz',
+      isClientOnly: true,
+      searchAddress: {
+        address: 'Strawberry Fields',
+        city: 'Farmville',
+        county: 'Zynga',
+      },
+    })).toEqual(call(get, '/api/v1/people', {
+      search_term: 'buzz',
+      is_client_only: true,
+      search_address: {
+        street: 'Strawberry Fields',
+        city: 'Farmville',
+        county: 'Zynga',
+      },
+    }))
+  })
+  it('includes search_after param when present', () => {
+    expect(getPeopleEffect({
+      searchTerm: 'fizz',
+      isClientOnly: false,
+      sort: 'What even goes here?',
+    })).toEqual(call(get, '/api/v1/people', {
+      search_term: 'fizz',
+      is_client_only: false,
+      search_after: 'What even goes here?',
     }))
   })
 })
