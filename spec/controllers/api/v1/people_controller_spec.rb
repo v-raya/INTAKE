@@ -11,6 +11,7 @@ describe Api::V1::PeopleController do
   let(:params) do
     { search_term: 'foobarbaz', search_address:  { street: '123 main street' } }
   end
+  let(:request_payload) { PersonSearchResultBuilder.new.person_only_query }
 
   describe '#index' do
     context 'when search_after is not provied as a param' do
@@ -27,7 +28,7 @@ describe Api::V1::PeopleController do
     end
 
     context 'when search_after is provied as a param' do
-      before do
+      before(:each) do
         params[:search_after] = 'hello world'
         allow(PersonSearchRepository).to receive(:search)
           .with(params.as_json, security_token: security_token).and_return(people)
@@ -37,6 +38,20 @@ describe Api::V1::PeopleController do
         get :index, params: params, session: session
         expect(response).to be_successful
         expect(response.body).to eq('"search response"')
+      end
+    end
+
+    context 'when search_term is present' do
+      before(:each) do
+        stub_request(:post,
+          dora_api_url(ExternalRoutes.dora_people_light_index_path))
+          .with(body: JSON.parse(request_payload.to_json))
+          .and_return({}, status: 200)
+      end
+
+      it 'returns response with the searched term' do
+        get :index, params: { search_term: 'person_search_term' }, session: session
+        expect(response).to be_successful
       end
     end
   end
