@@ -19,12 +19,7 @@ export default function errorsReducer(state = initialState, action) {
           } = {},
         } = {},
       } = payload
-
-      if (issue_details) {
-        return state.set(type, fromJS(issue_details))
-      } else {
-        return state.set(type, fromJS({error: [GENERIC_ERROR]}))
-      }
+      return issue_details ? state.set(type, fromJS(issue_details)) : state.set(type, fromJS({error: [GENERIC_ERROR]}))
     }
 
     if (type === CLEAR_ERRORS) {
