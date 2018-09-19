@@ -235,7 +235,7 @@ feature 'Snapshot History of Involvement' do
         ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
       ).and_return(json_body(history.to_json, status: 200))
 
-      stub_person_search(search_term: 'Ma', person_response: search_response)
+      stub_person_search(person_response: search_response)
       stub_request(
         :get,
         ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))

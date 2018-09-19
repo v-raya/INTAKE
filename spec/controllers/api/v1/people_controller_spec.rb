@@ -7,71 +7,68 @@ describe Api::V1::PeopleController do
   let(:session) do
     { security_token => security_token }
   end
+  let(:people) { double(:search_response, as_json: 'search response') }
+  let(:params) do
+    { search_term: 'foobarbaz', search_address:  { street: '123 main street' } }
+  end
+  let(:request_payload) { PersonSearchResultBuilder.new.person_only_query }
 
-  describe '#search' do
-    let(:people) { double(:search_response, as_json: 'search response') }
-
+  describe '#index' do
     context 'when search_after is not provied as a param' do
-      let(:params) do
-        { search_term: 'foobarbaz' }
-      end
       before do
         allow(PersonSearchRepository).to receive(:search)
-          .with(
-            security_token: security_token,
-            search_term: params[:search_term],
-            search_after: nil,
-            is_client_only: false
-          ).and_return(people)
+          .with(params.as_json, security_token: security_token).and_return(people)
       end
 
       it 'searches for people and renders a json with person attributes' do
-        process :search, method: :get, params: params, session: session
+        get :index, params: params, session: session
         expect(response).to be_successful
         expect(response.body).to eq('"search response"')
       end
     end
 
     context 'when search_after is provied as a param' do
-      let(:params) do
-        {
-          search_term: 'foobarbaz',
-          search_after: %w[one two]
-        }
-      end
-      before do
+      before(:each) do
+        params[:search_after] = 'hello world'
         allow(PersonSearchRepository).to receive(:search)
-          .with(
-            security_token: security_token,
-            search_term: params[:search_term],
-            search_after: params[:search_after],
-            is_client_only: false
-          ).and_return(people)
+          .with(params.as_json, security_token: security_token).and_return(people)
       end
 
       it 'searches for people and renders a json with person attributes' do
-        process :search, method: :get, params: params, session: session
+        get :index, params: params, session: session
         expect(response).to be_successful
         expect(response.body).to eq('"search response"')
+      end
+    end
+
+    context 'when search_term is present' do
+      before(:each) do
+        stub_request(:post,
+          dora_api_url(ExternalRoutes.dora_people_light_index_path))
+          .with(body: JSON.parse(request_payload.to_json))
+          .and_return({}, status: 200)
+      end
+
+      it 'returns response with the searched term' do
+        get :index, params: { search_term: 'person_search_term' }, session: session
+        expect(response).to be_successful
       end
     end
   end
 
   describe '#show' do
-    let(:person) { double(:search_response, as_json: 'search response') }
     let(:id) { '1' }
-
     before do
       allow(ParticipantRepository).to receive(:authorize)
         .with(security_token, id)
         .and_return(nil)
       allow(PersonSearchRepository).to receive(:find)
-        .with(security_token: security_token, id: id)
-        .and_return(person)
+        .with(id, security_token: security_token)
+        .and_return(people)
     end
 
     it 'searches for a person and renders a json with person attributes' do
-      process :show, method: :get, params: { id: id }, session: session
+      get :show, params: { id: id }, session: session
       expect(response).to be_successful
       expect(response.body).to eq('"search response"')
     end
