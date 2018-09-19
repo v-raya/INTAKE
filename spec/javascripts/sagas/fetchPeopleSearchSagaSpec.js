@@ -64,9 +64,11 @@ describe('fetchPeopleSearch', () => {
     expect(peopleSearchGenerator.next().value).toEqual(call(get, '/api/v1/people', {
       search_term: 'hello',
       is_client_only: true,
-      search_county: 'Tuolumne',
-      search_city: 'Townville',
-      search_address: '5 Chive Drive',
+      search_address: {
+        county: 'Tuolumne',
+        city: 'Townville',
+        street: '5 Chive Drive',
+      },
     }))
     expect(peopleSearchGenerator.next(searchResults).value).toEqual(
       select(getStaffIdSelector)

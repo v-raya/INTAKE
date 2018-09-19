@@ -10,15 +10,15 @@ const addressParams = (searchAddress) => {
   if (!searchAddress) { return {} }
 
   if (searchAddress.county) {
-    params.search_county = searchAddress.county
+    params.county = searchAddress.county
   }
   if (searchAddress.city) {
-    params.search_city = searchAddress.city
+    params.city = searchAddress.city
   }
   if (searchAddress.address) {
-    params.search_address = searchAddress.address
+    params.street = searchAddress.address
   }
-  return params
+  return {search_address: params}
 }
 
 export function* fetchPeopleSearch({payload: {searchTerm, isClientOnly, searchAddress}}) {

@@ -60,9 +60,11 @@ describe('loadMorePeopleSearch', () => {
       search_term: searchTerm,
       search_after: lastResultSort,
       is_client_only: false,
-      search_county: 'Tuolumne',
-      search_city: 'Townville',
-      search_address: '5 Chive Drive',
+      search_address: {
+        county: 'Tuolumne',
+        city: 'Townville',
+        street: '5 Chive Drive',
+      },
     }))
     expect(peopleSeachGenerator.next(searchResults).value).toEqual(put(loadMoreResultsSuccess(searchResults)))
   })
