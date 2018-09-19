@@ -120,7 +120,7 @@ feature 'Create participant' do
           PersonSearchResultBuilder.build do |builder|
             builder.with_first_name('Marge')
             builder.with_last_name('Simpson')
-            builder.with_legacy_descriptor(marge['legacy_descriptor'])
+            builder.with_legacy_descriptor(marge[:legacy_descriptor])
             builder.with_sensitivity
           end
         ]
@@ -136,7 +136,7 @@ feature 'Create participant' do
           PersonSearchResultBuilder.build do |builder|
             builder.with_first_name('Homer')
             builder.with_last_name('Simpson')
-            builder.with_legacy_descriptor(homer['legacy_descriptor'])
+            builder.with_legacy_descriptor(homer[:legacy_descriptor])
           end
         ]
       end
@@ -255,17 +255,17 @@ feature 'Create participant' do
     within '#search-card', text: 'Search' do
       find('strong', text: 'Homer Simpson').click
     end
-    # expect(a_request(:get,
-    #   ferb_api_url(
-    #     FerbRoutes.client_authorization_path(
-    #       created_participant_homer.legacy_descriptor.legacy_id
-    #     )
-    #   ))).to have_been_made
-    # expect(a_request(:post,
-    #   ferb_api_url(
-    #     FerbRoutes.screening_participant_path(existing_screening[:id])
-    #   )))
-    #   .to have_been_made
+    expect(a_request(:get,
+      ferb_api_url(
+        FerbRoutes.client_authorization_path(
+          created_participant_homer.legacy_descriptor.legacy_id
+        )
+      ))).to have_been_made
+    expect(a_request(:post,
+      ferb_api_url(
+        FerbRoutes.screening_participant_path(existing_screening[:id])
+      )))
+      .to have_been_made
 
     within edit_participant_card_selector(created_participant_homer.id) do
       within '.card-header' do
@@ -275,16 +275,17 @@ feature 'Create participant' do
       end
 
       within '.card-body' do
-        expect(page).to have_field('First Name', with: homer.first_name)
-        expect(page).to have_field('Last Name', with: homer.last_name)
+        expect(page).to have_field('First Name', with: homer[:first_name])
+        expect(page).to have_field('Last Name', with: homer[:last_name])
         expect(page).to have_field('Phone Number', with: '(971)287-6774')
-        expect(page).to have_select('Phone Number Type', selected: homer.phone_numbers.first.type)
-        expect(page).to have_field('Sex at Birth', with: homer.gender)
+        expect(page).to have_select('Phone Number Type',
+          selected: homer.dig(:phone_numbers, 0, :type))
+        expect(page).to have_field('Sex at Birth', with: homer[:gender])
         expect(page).to have_react_select_field(
-          'Language(s) (Primary First)', with: homer.languages
+          'Language(s) (Primary First)', with: homer[:languages]
         )
         expect(page).to have_field('Date of birth', with: homer_date_of_birth.strftime('%m/%d/%Y'))
-        expect(page).to have_field('Social security number', with: homer.ssn)
+        expect(page).to have_field('Social security number', with: homer[:ssn])
 
         # Address has legacy_id, and so should be read-only
         expect(page).not_to have_field('Address')
@@ -395,6 +396,7 @@ feature 'Create participant' do
     context 'with privileges to add sensitive' do
       scenario 'can add sensitive person' do
         Feature.run_with_activated(:authentication) do
+          stub_person_search(person_response: marge_response)
           stub_empty_history_for_screening(existing_screening)
           visit edit_screening_path(id: existing_screening[:id], token: sensitive_token)
           sensitive_marge_attributes = build_participant_from_person_and_screening(
