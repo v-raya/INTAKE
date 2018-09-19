@@ -37,6 +37,7 @@ export default class Autocompleter extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleToggleAddressSearch = this.handleToggleAddressSearch.bind(this)
   }
+
   constructAddress() {
     const {searchAddress, searchCity, searchCounty} = this.props
     return {
@@ -46,28 +47,22 @@ export default class Autocompleter extends Component {
     }
   }
 
-  handleSubmit() {
-    const {onSearch, searchTerm} = this.props
+  searchAndFocus(...searchArgs) {
+    this.props.onSearch(...searchArgs)
+    this.setState({menuVisible: true})
+    if (this.inputRef) { this.inputRef.focus() }
+  }
 
-    onSearch(searchTerm, this.constructAddress())
-    this.showMenu()
-    if (this.inputRef) {
-      this.inputRef.focus()
-    }
+  handleSubmit() {
+    const {searchTerm} = this.props
+    this.searchAndFocus(searchTerm, this.constructAddress())
   }
 
   handleToggleAddressSearch(event) {
-    const {onClear, onSearch, searchTerm, onToggleAddressSearch} = this.props
+    const {onClear, searchTerm, onToggleAddressSearch} = this.props
 
     onClear()
-
-    if (!event.target.checked) {
-      onSearch(searchTerm)
-      this.showMenu()
-      if (this.inputRef) {
-        this.inputRef.focus()
-      }
-    }
+    if (!event.target.checked) { this.searchAndFocus(searchTerm) }
     onToggleAddressSearch(event)
   }
 
@@ -80,10 +75,6 @@ export default class Autocompleter extends Component {
       this.inputRef.setAttribute('aria-activedescendant', '')
     }
     this.setState({menuVisible: false})
-  }
-
-  showMenu() {
-    this.setState({menuVisible: true})
   }
 
   loadMoreResults() {
@@ -133,7 +124,7 @@ export default class Autocompleter extends Component {
 
   onFocus() {
     if (this.isSearchable(this.props.searchTerm)) {
-      this.showMenu()
+      this.setState({menuVisible: true})
     } else {
       this.hideMenu()
     }
@@ -145,13 +136,12 @@ export default class Autocompleter extends Component {
 
   renderEachItem(item, id, isHighlighted) {
     const {total, results, searchTerm} = this.props
-    const resultsLength = results.length
     const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
       return (
         <div id={id} key={key} aria-live='polite'>
           <SuggestionHeader
-            currentNumberOfResults={resultsLength}
+            currentNumberOfResults={results.length}
             total={total}
             searchTerm={searchTerm}
           />
@@ -191,7 +181,7 @@ export default class Autocompleter extends Component {
     const {onSearch, onChange, isAddressIncluded} = this.props
     if (this.isSearchable(value) && !isAddressIncluded) {
       onSearch(value)
-      this.showMenu()
+      this.setState({menuVisible: true})
     } else {
       this.hideMenu()
     }
@@ -199,13 +189,10 @@ export default class Autocompleter extends Component {
   }
 
   renderInput(props) {
-    const newProps = {
-      ...props,
-      ref: (el) => {
-        this.inputRef = el
-        props.ref(el)
-      },
-    }
+    const newProps = {...props, ref: (el) => {
+      this.inputRef = el
+      props.ref(el)
+    }}
     return <input {...newProps}/>
   }
 
@@ -215,8 +202,7 @@ export default class Autocompleter extends Component {
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
     const canLoadMoreResults = results && total > results.length
-    //Sequentually numbering items
-    addPosAndSetAttr(results)
+    addPosAndSetAttr(results) // Sequentually numbering items
     const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
 
     return (
@@ -259,10 +245,7 @@ export default class Autocompleter extends Component {
   }
 
   render() {
-    return (<div>
-      {this.renderAutocomplete()}
-      {this.renderAddressSearch()}
-    </div>)
+    return (<div>{this.renderAutocomplete()}{this.renderAddressSearch()}</div>)
   }
 }
 
