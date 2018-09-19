@@ -3,7 +3,8 @@ import {CLEAR_ERRORS} from 'actions/clearErrors'
 
 const initialState = fromJS({})
 
-export const PROCESS_ERROR = 'The application encountered an error and could not process it'
+export const GENERIC_ERROR = 'The application encountered an error'
+export const PROCESS_ERROR = `${GENERIC_ERROR} and could not process it`
 export const PROCESS_TYPE = 'PROCESS_TYPE'
 
 export default function errorsReducer(state = initialState, action) {
@@ -11,10 +12,19 @@ export default function errorsReducer(state = initialState, action) {
     const {payload, error, type} = action
 
     if (error) {
-      const {error: errorPayload} = payload
-      const {responseJSON} = errorPayload
-      const {api_response_body: {issue_details} = {}} = responseJSON || errorPayload
-      return state.set(type, fromJS(issue_details))
+      const {
+        error: {
+          responseJSON: {
+            api_response_body: {issue_details} = {},
+          } = {},
+        } = {},
+      } = payload
+
+      if (issue_details) {
+        return state.set(type, fromJS(issue_details))
+      } else {
+        return state.set(type, fromJS({error: [GENERIC_ERROR]}))
+      }
     }
 
     if (type === CLEAR_ERRORS) {
