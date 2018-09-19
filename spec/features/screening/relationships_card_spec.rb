@@ -307,7 +307,6 @@ feature 'Relationship card' do
         ).and_return(json_body(new_relationships.to_json, status: 200))
 
         stub_person_search(person_response: empty_response)
-        stub_person_search(person_response: empty_response)
 
         within '#search-card', text: 'Search' do
           fill_in 'Search for any person', with: 'ma'
