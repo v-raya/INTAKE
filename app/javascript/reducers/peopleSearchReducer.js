@@ -6,6 +6,8 @@ import {
   PEOPLE_SEARCH_FETCH,
   PEOPLE_SEARCH_FETCH_COMPLETE,
   SET_SEARCH_TERM,
+  SET_SEARCH_ADDRESS,
+  SET_SEARCH_CITY,
   SET_SEARCH_COUNTY,
   LOAD_MORE_RESULTS_COMPLETE,
 } from 'actions/peopleSearchActions'
@@ -17,7 +19,9 @@ const initialState = fromJS({
   searchTerm: '',
   total: 0,
   isAddressIncluded: false,
-  county: '',
+  searchAddress: '',
+  searchCity: '',
+  searchCounty: '',
 })
 export default createReducer(initialState, {
   [PEOPLE_SEARCH_FETCH](state, {payload: {searchTerm}}) {
@@ -48,11 +52,17 @@ export default createReducer(initialState, {
         .set('startTime', null)
     }
   },
+  [SET_SEARCH_ADDRESS](state, {payload: {address}}) {
+    return state.set('searchAddress', address)
+  },
+  [SET_SEARCH_CITY](state, {payload: {city}}) {
+    return state.set('searchCity', city)
+  },
   [SET_SEARCH_COUNTY](state, {payload: {county}}) {
-    return state.set('county', county)
+    return state.set('searchCounty', county)
   },
   [FETCH_USER_INFO_COMPLETE](state, {payload: {userInfo: {county}}}) {
-    return state.get('county') === '' ? state.set('county', county) : state
+    return state.get('searchCounty') === '' ? state.set('searchCounty', county) : state
   },
   [LOAD_MORE_RESULTS_COMPLETE](state, {payload: {results}, error}) {
     if (error) {

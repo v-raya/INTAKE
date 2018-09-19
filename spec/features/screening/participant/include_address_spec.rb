@@ -33,11 +33,13 @@ feature 'search card' do
     end
   end
 
-  scenario 'when include address is checked, address input field and search button is displayed' do
+  scenario 'when include address is checked, address fields and search button is displayed' do
     within '#search-card', text: 'Search' do
       find('label', text: /\AInclude Address\z/).click
+      expect(page).to have_content 'County'
+      expect(page).to have_content 'City'
       expect(page).to have_content 'Address'
-      expect(page).to have_button 'Search'
+      expect(page).to have_button('Search', disabled: true)
     end
   end
 
@@ -102,6 +104,9 @@ feature 'search card' do
     stub_person_search(person_response: search_response)
 
     within '#search-card', text: 'Search' do
+      expect(page).to have_button('Search', disabled: true)
+      fill_in 'Address', with: '123 Fake St'
+      expect(page).to have_button 'Search'
       fill_in 'Search for any person', with: 'Ma'
       expect(page).to_not have_content date_of_birth.strftime('%-m/%-d/%Y')
       expect(page).to_not have_content '15 yrs old'
@@ -115,6 +120,7 @@ feature 'search card' do
       expect(page).to_not have_content '123-23-1234'
       expect(page).to_not have_content 'Home123 Fake St, Springfield, NY 11222'
       expect(page).to_not have_content 'Sensitive'
+
       click_button 'Search'
     end
 

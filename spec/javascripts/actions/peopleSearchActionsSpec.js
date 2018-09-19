@@ -32,8 +32,26 @@ describe('peopleSearchActions', () => {
     expect(isFSA(action)).toEqual(true)
   })
 
+  it('search with address is FSA compliant', () => {
+    const action = search('test', true, {
+      county: 'Sacramento',
+      city: 'Sacramento',
+      address: '123 Main St',
+    })
+    expect(isFSA(action)).toEqual(true)
+  })
+
   it('loadMoreResults is FSA compliant', () => {
     const action = loadMoreResults()
+    expect(isFSA(action)).toEqual(true)
+  })
+
+  it('loadMoreResults with address is FSA compliant', () => {
+    const action = loadMoreResults(true, {
+      county: 'Sacramento',
+      city: 'Sacramento',
+      address: '123 Main St',
+    })
     expect(isFSA(action)).toEqual(true)
   })
 

@@ -29,19 +29,41 @@ export default class Autocompleter extends Component {
       menuVisible: false,
     }
     this.onFocus = this.onFocus.bind(this)
-    this.onBlur = this.onBlur.bind(this)
+    this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
     this.renderItem = this.renderItem.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleToggleAddressSearch = this.handleToggleAddressSearch.bind(this)
+  }
+
+  constructAddress() {
+    const {searchAddress, searchCity, searchCounty} = this.props
+    return {
+      address: searchAddress,
+      city: searchCity,
+      county: searchCounty,
+    }
+  }
+
+  searchAndFocus(...searchArgs) {
+    this.props.onSearch(...searchArgs)
+    this.setState({menuVisible: true})
+    if (this.inputRef) { this.inputRef.focus() }
   }
 
   handleSubmit() {
-    const {onSearch, searchTerm} = this.props
-    onSearch(searchTerm)
-    this.showMenu()
-    this.inputRef.focus()
+    const {searchTerm} = this.props
+    this.searchAndFocus(searchTerm, this.constructAddress())
+  }
+
+  handleToggleAddressSearch(event) {
+    const {onClear, searchTerm, onToggleAddressSearch} = this.props
+
+    onClear()
+    if (!event.target.checked) { this.searchAndFocus(searchTerm) }
+    onToggleAddressSearch(event)
   }
 
   isSearchable(value) {
@@ -55,73 +77,71 @@ export default class Autocompleter extends Component {
     this.setState({menuVisible: false})
   }
 
-  showMenu() {
-    this.setState({menuVisible: true})
-  }
-
-  onButtonSelect(item) {
-    const {onClear, onChange, onSelect, onLoadMoreResults} = this.props
-    if (item.createNewPerson) {
-      onClear()
-      onChange('')
-      onSelect({id: null})
-      this.setState({menuVisible: false})
-    } else if (item.suggestionHeader) {
-      return
+  loadMoreResults() {
+    const {isAddressIncluded, onLoadMoreResults} = this.props
+    if (isAddressIncluded) {
+      onLoadMoreResults(this.constructAddress())
     } else {
       onLoadMoreResults()
     }
   }
 
+  onSelect(item) {
+    this.props.onClear()
+    this.props.onChange('')
+    this.props.onSelect(item)
+    this.hideMenu()
+  }
+
+  onButtonSelect(item) {
+    if (item.createNewPerson) {
+      this.onSelect({id: null})
+    } else if (item.suggestionHeader) {
+      return
+    } else {
+      this.loadMoreResults()
+    }
+  }
+
   onItemSelect(_value, item) {
-    const {isSelectable, onClear, onChange, onSelect, staffId, startTime} = this.props
-    if (item.legacyDescriptor) {
-      if (isSelectable(item)) {
-        logEvent('searchResultClick', {
-          searchIndex: this.props.results.indexOf(item),
-          staffId,
-          startTime: moment(startTime).valueOf(),
-        })
-        onClear()
-        onChange('')
-        onSelect(item)
-        this.hideMenu()
-        return
-      }
+    const {isSelectable, staffId, startTime} = this.props
+
+    if (!item.legacyDescriptor) {
+      this.onButtonSelect(item)
+      return
+    } else if (!isSelectable(item)) {
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
       return
     }
-    this.onButtonSelect(item)
+
+    logEvent('searchResultClick', {
+      searchIndex: this.props.results.indexOf(item),
+      staffId,
+      startTime: moment(startTime).valueOf(),
+    })
+    this.onSelect(item)
   }
 
   onFocus() {
     if (this.isSearchable(this.props.searchTerm)) {
-      this.showMenu()
+      this.setState({menuVisible: true})
     } else {
       this.hideMenu()
     }
   }
 
-  onBlur() {
-    this.hideMenu()
-  }
-
   renderMenu(items, _searchTerm, _style) {
-    if (this.props.isAddressIncluded) {
-      return <div className='autocomplete-menu menu-with-address'>{items}</div>
-    }
-    return <div className='autocomplete-menu menu-without-address'>{items}</div>
+    return (<div className='autocomplete-menu'>{items}</div>)
   }
 
   renderEachItem(item, id, isHighlighted) {
     const {total, results, searchTerm} = this.props
-    const resultsLength = results.length
     const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
       return (
         <div id={id} key={key} aria-live='polite'>
           <SuggestionHeader
-            currentNumberOfResults={resultsLength}
+            currentNumberOfResults={results.length}
             total={total}
             searchTerm={searchTerm}
           />
@@ -161,7 +181,7 @@ export default class Autocompleter extends Component {
     const {onSearch, onChange, isAddressIncluded} = this.props
     if (this.isSearchable(value) && !isAddressIncluded) {
       onSearch(value)
-      this.showMenu()
+      this.setState({menuVisible: true})
     } else {
       this.hideMenu()
     }
@@ -169,13 +189,10 @@ export default class Autocompleter extends Component {
   }
 
   renderInput(props) {
-    const newProps = {
-      ...props,
-      ref: (el) => {
-        this.inputRef = el
-        props.ref(el)
-      },
-    }
+    const newProps = {...props, ref: (el) => {
+      this.inputRef = el
+      props.ref(el)
+    }}
     return <input {...newProps}/>
   }
 
@@ -185,15 +202,14 @@ export default class Autocompleter extends Component {
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
     const canLoadMoreResults = results && total > results.length
-    //Sequentually numbering items
-    addPosAndSetAttr(results)
+    addPosAndSetAttr(results) // Sequentually numbering items
     const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
 
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, onBlur: this.onBlur, onFocus: this.onFocus}}
+        inputProps={{id, onBlur: this.hideMenu, onFocus: this.onFocus}}
         items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
@@ -201,31 +217,35 @@ export default class Autocompleter extends Component {
         open={this.state.menuVisible}
         renderMenu={this.renderMenu}
         value={searchTerm}
-        wrapperStyle={{display: 'block', position: 'relative'}}
+        wrapperStyle={{display: 'block'}}
         renderInput={(props) => this.renderInput(props)}
       />
     )
   }
 
   renderAddressSearch() {
-    const {searchCounty, isAddressIncluded, onChangeCounty, onToggleAddressSearch} = this.props
+    const {
+      isAddressIncluded, searchAddress, searchCity, searchCounty, searchTerm,
+      onChangeAddress, onChangeCity, onChangeCounty} = this.props
 
     return (
       <SearchByAddress
         isAddressIncluded={isAddressIncluded}
-        toggleAddressSearch={onToggleAddressSearch}
+        toggleAddressSearch={this.handleToggleAddressSearch}
         onSubmit={this.handleSubmit}
+        searchAddress={searchAddress}
+        searchCity={searchCity}
         searchCounty={searchCounty}
+        searchTerm={searchTerm}
+        onChangeAddress={onChangeAddress}
+        onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}
       />
     )
   }
 
   render() {
-    return (<div>
-      {this.renderAutocomplete()}
-      {this.renderAddressSearch()}
-    </div>)
+    return (<div>{this.renderAutocomplete()}{this.renderAddressSearch()}</div>)
   }
 }
 
@@ -235,6 +255,8 @@ Autocompleter.propTypes = {
   isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onChangeAddress: PropTypes.func.isRequired,
+  onChangeCity: PropTypes.func.isRequired,
   onChangeCounty: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func.isRequired,
@@ -242,6 +264,8 @@ Autocompleter.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onToggleAddressSearch: PropTypes.func,
   results: PropTypes.array,
+  searchAddress: PropTypes.string,
+  searchCity: PropTypes.string,
   searchCounty: PropTypes.string,
   searchTerm: PropTypes.string,
   staffId: PropTypes.string,

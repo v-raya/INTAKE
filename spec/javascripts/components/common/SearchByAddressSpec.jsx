@@ -4,6 +4,8 @@ import {shallow} from 'enzyme'
 
 describe('SearchByAddress', () => {
   const render = ({
+    onChangeAddress = () => {},
+    onChangeCity = () => {},
     onChangeCounty = () => {},
     onSubmit = () => {},
     toggleAddressSearch = () => {},
@@ -11,6 +13,8 @@ describe('SearchByAddress', () => {
   } = {}) => (
     shallow(
       <SearchByAddress
+        onChangeAddress={onChangeAddress}
+        onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}
         onSubmit={onSubmit}
         toggleAddressSearch={toggleAddressSearch}
@@ -37,6 +41,45 @@ describe('SearchByAddress', () => {
       expect(root.props().id).toEqual('include-address')
       expect(root.props().label).toEqual('Include Address')
       expect(searchByAddress.find('AddressWithSearch').exists()).toEqual(true)
+    })
+
+    it('passes the current search term to AddressWithSearch', () => {
+      const searchByAddress = render({searchTerm: 'Odlaw', isAddressIncluded: true})
+      expect(
+        searchByAddress.find('AddressWithSearch').props().searchTerm
+      ).toEqual('Odlaw')
+    })
+
+    it('passes the entered address to AddressWithSearch', () => {
+      const searchByAddress = render({searchAddress: 'Yellow Brick Road', isAddressIncluded: true})
+      expect(
+        searchByAddress.find('AddressWithSearch').props().searchAddress
+      ).toEqual('Yellow Brick Road')
+    })
+
+    it('calls onChangeAddress when new address is entered', () => {
+      const onChangeAddress = jasmine.createSpy('onChangeAddress')
+      const searchByAddress = render({onChangeAddress, isAddressIncluded: true})
+
+      searchByAddress.find('AddressWithSearch').props().onChangeAddress('221B Baker St')
+
+      expect(onChangeAddress).toHaveBeenCalledWith('221B Baker St')
+    })
+
+    it('passes the entered city to AddressWithSearch', () => {
+      const searchByAddress = render({searchCity: 'San Fransokyo', isAddressIncluded: true})
+      expect(
+        searchByAddress.find('AddressWithSearch').props().searchCity
+      ).toEqual('San Fransokyo')
+    })
+
+    it('calls onChangeCity when new city is selected', () => {
+      const onChangeCity = jasmine.createSpy('onChangeCity')
+      const searchByAddress = render({onChangeCity, isAddressIncluded: true})
+
+      searchByAddress.find('AddressWithSearch').props().onChangeCity('Gotham')
+
+      expect(onChangeCity).toHaveBeenCalledWith('Gotham')
     })
 
     it('passes the selected county to AddressWithSearch', () => {

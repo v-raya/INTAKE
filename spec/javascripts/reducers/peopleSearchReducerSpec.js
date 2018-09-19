@@ -6,6 +6,8 @@ import {
   toggleAddressSearch,
   search,
   setSearchTerm,
+  setSearchAddress,
+  setSearchCity,
   setSearchCounty,
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
@@ -113,6 +115,34 @@ describe('peopleSearchReducer', () => {
       )
     })
   })
+  describe('on SET_SEARCH_ADDRESS', () => {
+    it('sets the address', () => {
+      const action = setSearchAddress('Goodbye')
+      const initialState = fromJS({
+        searchTerm: 'searchTerm',
+        total: 3,
+        results: ['result_one', 'result_two', 'result_three'],
+        searchAddress: 'Hello',
+      })
+      expect(
+        peopleSearchReducer(initialState, action).get('searchAddress')
+      ).toEqual('Goodbye')
+    })
+  })
+  describe('on SET_SEARCH_CITY', () => {
+    it('sets the city', () => {
+      const action = setSearchCity('Sac Town')
+      const initialState = fromJS({
+        searchTerm: 'searchTerm',
+        total: 3,
+        results: ['result_one', 'result_two', 'result_three'],
+        searchCity: 'Sac Town',
+      })
+      expect(
+        peopleSearchReducer(initialState, action).get('searchCity')
+      ).toEqual('Sac Town')
+    })
+  })
   describe('on SET_SEARCH_COUNTY', () => {
     it('sets the county', () => {
       const action = setSearchCounty('Placer')
@@ -120,10 +150,10 @@ describe('peopleSearchReducer', () => {
         searchTerm: 'searchTerm',
         total: 3,
         results: ['result_one', 'result_two', 'result_three'],
-        county: 'Shasta',
+        searchCounty: 'Shasta',
       })
       expect(
-        peopleSearchReducer(initialState, action).get('county')
+        peopleSearchReducer(initialState, action).get('searchCounty')
       ).toEqual('Placer')
     })
   })
@@ -182,16 +212,16 @@ describe('peopleSearchReducer', () => {
   describe('on FETCH_USER_INFO_COMPLETE', () => {
     it('defaults the search county to the county of the user', () => {
       const action = fetchUserInfoSuccess({county: 'Los Angeles'})
-      const initialState = fromJS({county: ''})
+      const initialState = fromJS({searchCounty: ''})
       expect(
-        peopleSearchReducer(initialState, action).get('county')
+        peopleSearchReducer(initialState, action).get('searchCounty')
       ).toEqual('Los Angeles')
     })
     it('does not override an explicit user selection', () => {
       const action = fetchUserInfoSuccess({county: 'Los Angeles'})
-      const initialState = fromJS({county: 'Sutter'})
+      const initialState = fromJS({searchCounty: 'Sutter'})
       expect(
-        peopleSearchReducer(initialState, action).get('county')
+        peopleSearchReducer(initialState, action).get('searchCounty')
       ).toEqual('Sutter')
     })
   })

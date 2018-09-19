@@ -9,20 +9,15 @@
   font-family: Helvetica, sans-serif;
   font-size: 1.6rem;
   font-weight: $light-weight;
+  left: $base-spacing;
+  margin-top: $double-spacing;
   max-height: 52rem;
   overflow-x: hidden;
   overflow-y: scroll;
   position: absolute;
-  width: 100%;
+  top: 100%;
+  width: calc(100% - #{$double-spacing});
   z-index: 2;
-}
-
-.menu-with-address {
-  margin-top: 16rem;
-}
-
-.menu-without-address {
-  margin-top: 7rem;
 }
 
 .search-item {
@@ -34,5 +29,3 @@
     background-color: $light-grey;
   }
 }
-
-

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Autocompleter from 'common/Autocompleter'
+import Autocompleter from 'common/search/Autocompleter'
 
 export class PersonSearchForm extends React.Component {
   componentWillUnmount() {

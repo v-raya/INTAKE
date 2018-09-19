@@ -13,6 +13,8 @@ describe('PersonSearchForm', () => {
     onSelect = () => null,
     onLoadMoreResults = () => null,
     onChange = () => null,
+    onChangeAddress = () => null,
+    onChangeCity = () => null,
     onChangeCounty = () => null,
     onClear = () => null,
     onSearch = () => null,
@@ -20,7 +22,19 @@ describe('PersonSearchForm', () => {
     canCreateNewPerson = false,
     ...args
   }) {
-    const props = {onSelect, onLoadMoreResults, onChange, onChangeCounty, onClear, onSearch, searchPrompt, canCreateNewPerson, ...args}
+    const props = {
+      onSelect,
+      onLoadMoreResults,
+      onChange,
+      onChangeAddress,
+      onChangeCity,
+      onChangeCounty,
+      onClear,
+      onSearch,
+      searchPrompt,
+      canCreateNewPerson,
+      ...args,
+    }
     return shallow(<PersonSearchForm {...props}/>, {disableLifecycleMethods: true})
   }
 

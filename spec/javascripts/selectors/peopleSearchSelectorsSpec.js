@@ -7,6 +7,8 @@ import {
   selectSearchAddressValue,
   selectStartTime,
   selectPersonCreatedAtTime,
+  selectSearchAddress,
+  selectSearchCity,
   selectSearchCounty,
 } from 'selectors/peopleSearchSelectors'
 
@@ -481,10 +483,30 @@ describe('peopleSearchSelectors', () => {
     })
   })
 
+  describe('selectSearchAddress', () => {
+    it('gets the selected address from the store', () => {
+      const peopleSearch = {
+        searchAddress: 'House on Poo Corner',
+      }
+      const state = fromJS({peopleSearch})
+      expect(selectSearchAddress(state)).toEqual('House on Poo Corner')
+    })
+  })
+
+  describe('selectSearchCity', () => {
+    it('gets the selected city from the store', () => {
+      const peopleSearch = {
+        searchCity: 'Sweetwater',
+      }
+      const state = fromJS({peopleSearch})
+      expect(selectSearchCity(state)).toEqual('Sweetwater')
+    })
+  })
+
   describe('selectSearchCounty', () => {
     it('gets the selected county from the store', () => {
       const peopleSearch = {
-        county: 'Mariposa',
+        searchCounty: 'Mariposa',
       }
       const state = fromJS({peopleSearch})
       expect(selectSearchCounty(state)).toEqual('Mariposa')
