@@ -11,7 +11,7 @@ class QueryBuilder
   TRACK_SCORES = 'true'
   REQUIRE_FIELD_MATCH = 'false'
 
-  attr_accessor :search_term, :search_address, :search_after, :is_client_only
+  attr_reader :search_term, :search_address, :search_after, :is_client_only
 
   def initialize(params = {})
     params = params.with_indifferent_access
