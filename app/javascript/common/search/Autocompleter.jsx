@@ -35,6 +35,7 @@ export default class Autocompleter extends Component {
     this.onChangeInput = this.onChangeInput.bind(this)
     this.renderItem = this.renderItem.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleToggleAddressSearch = this.handleToggleAddressSearch.bind(this)
   }
   constructAddress() {
     const {searchAddress, searchCity, searchCounty} = this.props
@@ -53,6 +54,21 @@ export default class Autocompleter extends Component {
     if (this.inputRef) {
       this.inputRef.focus()
     }
+  }
+
+  handleToggleAddressSearch(event) {
+    const {onClear, onSearch, searchTerm, onToggleAddressSearch} = this.props
+
+    onClear()
+
+    if (!event.target.checked) {
+      onSearch(searchTerm)
+      this.showMenu()
+      if (this.inputRef) {
+        this.inputRef.focus()
+      }
+    }
+    onToggleAddressSearch(event)
   }
 
   isSearchable(value) {
@@ -223,14 +239,13 @@ export default class Autocompleter extends Component {
 
   renderAddressSearch() {
     const {
-      isAddressIncluded, onToggleAddressSearch,
-      searchAddress, searchCity, searchCounty, searchTerm,
+      isAddressIncluded, searchAddress, searchCity, searchCounty, searchTerm,
       onChangeAddress, onChangeCity, onChangeCounty} = this.props
 
     return (
       <SearchByAddress
         isAddressIncluded={isAddressIncluded}
-        toggleAddressSearch={onToggleAddressSearch}
+        toggleAddressSearch={this.handleToggleAddressSearch}
         onSubmit={this.handleSubmit}
         searchAddress={searchAddress}
         searchCity={searchCity}

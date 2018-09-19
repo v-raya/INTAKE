@@ -36,13 +36,17 @@ describe('AddressWithSearch', () => {
   })
 
   it('renders city input field with label City', () => {
-    const component = render()
-    expect(component.find('InputField[label="City"]').props().id).toEqual('search-city')
+    const city = render({searchCity: 'Damascus'})
+      .find('InputField[label="City"]')
+    expect(city.props().id).toEqual('search-city')
+    expect(city.props().value).toEqual('Damascus')
   })
 
   it('renders address input field with label Address', () => {
-    const component = render()
-    expect(component.find('InputField[label="Address"]').props().id).toEqual('search-address')
+    const address = render({searchAddress: '1600 Pennsylvania Ave NW'})
+      .find('InputField[label="Address"]')
+    expect(address.props().id).toEqual('search-address')
+    expect(address.props().value).toEqual('1600 Pennsylvania Ave NW')
   })
 
   it('renders button for search', () => {
@@ -70,6 +74,11 @@ describe('AddressWithSearch', () => {
 
     it('disables the search button when the search term is too short', () => {
       const component = render({searchTerm: 'Y'})
+      expect(component.find('button').props().disabled).toBeTruthy()
+    })
+
+    it('strips leading whitespace when deciding to enable search', () => {
+      const component = render({searchTerm: ' Y'})
       expect(component.find('button').props().disabled).toBeTruthy()
     })
   })

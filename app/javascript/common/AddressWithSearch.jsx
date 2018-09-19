@@ -5,8 +5,8 @@ import CountyNameSelect from 'common/county/CountyNameSelect'
 
 const MIN_SEARCHABLE_CHARS = 2
 
-const canSearch = (searchAddress, searchTerm) =>
-  searchAddress || (searchTerm && searchTerm.length >= MIN_SEARCHABLE_CHARS)
+const canSearch = (searchAddress, searchTerm) => searchAddress ||
+  (searchTerm && searchTerm.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS)
 
 const AddressWithSearch = ({
   onChangeAddress,
@@ -14,6 +14,7 @@ const AddressWithSearch = ({
   onChangeCounty,
   onSubmit,
   searchAddress,
+  searchCity,
   searchCounty,
   searchTerm,
 }) => (
@@ -29,12 +30,14 @@ const AddressWithSearch = ({
       id='search-city'
       label='City'
       onChange={({target: {value}}) => onChangeCity(value)}
+      value={searchCity}
     />
     <InputField
       gridClassName='col-md-3'
       id='search-address'
       label='Address'
       onChange={({target: {value}}) => onChangeAddress(value)}
+      value={searchAddress}
     />
     <div className='col-md-3 address-search'>
       <button
@@ -52,12 +55,14 @@ AddressWithSearch.propTypes = {
   onChangeCounty: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
   searchAddress: PropTypes.string,
+  searchCity: PropTypes.string,
   searchCounty: PropTypes.string,
   searchTerm: PropTypes.string,
 }
 
 AddressWithSearch.defaultProps = {
   searchAddress: '',
+  searchCity: '',
   searchCounty: '',
   searchTerm: '',
 }
