@@ -24,7 +24,7 @@ export function* saveParticipant({payload: {personId}}) {
     yield put(fetchRelationships(clientIds, screeningId))
     yield put(fetchHistoryOfInvolvements('screenings', screeningId))
   } catch (error) {
-    yield put(updatePersonFailure(error.responseJSON, personId))
+    yield put(updatePersonFailure(error, personId))
   }
 }
 export function* saveParticipantSaga() {
