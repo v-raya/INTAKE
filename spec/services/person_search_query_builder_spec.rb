@@ -13,13 +13,13 @@ describe PersonSearchQueryBuilder do
       it 'builds a person search query with search_after' do
         result = described_class.new(search_term: search_term,
                                      search_after: search_after).build
-        expect(result[:_source].sort).to eq person_only_query[:_source].sort
-        expect(result[:size]).to eq person_only_query[:size]
-        expect(result[:sort]).to eq person_only_query[:sort]
-        expect(result[:track_scores]).to eq person_only_query[:track_scores]
-        expect(result[:highlight]).to eq person_only_query[:highlight]
-        expect(result[:search_after]).to eq search_after
-        expect(result[:query]).to eq person_only_query[:query]
+        expect(result[:_source].as_json).to eq person_only_query['_source']
+        expect(result[:size].as_json).to eq person_only_query['size']
+        expect(result[:sort].as_json).to eq person_only_query['sort']
+        expect(result[:track_scores].as_json).to eq person_only_query['track_scores']
+        expect(result[:highlight].as_json).to eq person_only_query['highlight']
+        expect(result[:search_after].as_json).to eq search_after
+        expect(result[:query].as_json).to eq person_only_query['query']
       end
     end
 
@@ -29,8 +29,8 @@ describe PersonSearchQueryBuilder do
       it 'builds a person search query without search_after' do
         result = described_class.new(search_term: search_term,
                                      search_after: search_after).build
-        expect(result[:query]).to eq person_only_query[:query]
-        expect(result[:search_after]).to eq search_after
+        expect(result[:query].as_json).to eq person_only_query['query']
+        expect(result[:search_after].as_json).to eq search_after
       end
     end
 

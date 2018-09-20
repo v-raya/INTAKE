@@ -24,6 +24,7 @@ class QueryBuilder
   def build_query
     person_build = PersonSearchQueryBuilder.new(search_term: @search_term).build
     return person_build if @search_address.blank?
+
     address_query = PersonSearchByAddress.new(search_address: @search_address).query
     join_person_and_address(person_build[:query], address_query)
     person_build
@@ -49,6 +50,7 @@ class QueryBuilder
     # the client_only_search config option overrides the @is_client_only value
     return [base_query] unless Rails.configuration.intake[:client_only_search] ||
                                @is_client_only
+
     [base_query, client_only]
   end
 
@@ -69,8 +71,9 @@ class QueryBuilder
 
   def match_query(field, query, operator: nil, boost: nil)
     return if query.blank?
+
     { match: {
-      field.to_sym => {
+      field => {
         query: query, operator: operator, boost: boost
       }.delete_if { |_k, v| v.blank? }
     } }
@@ -79,7 +82,7 @@ class QueryBuilder
   def should
     [match_query('autocomplete_search_bar', formatted_query,
       operator: 'and', boost: MEDIUM_BOOST),
-     build_match_query].flatten
+     build_match_query].flatten.compact
   end
 
   def build_match_query
@@ -97,7 +100,7 @@ class QueryBuilder
   end
 
   def client_only
-    { match: { 'legacy_descriptor.legacy_table_name': 'CLIENT_T' } }
+    { match: { 'legacy_descriptor.legacy_table_name' => 'CLIENT_T' } }
   end
 
   def auto_bar_highlight
@@ -112,8 +115,8 @@ class QueryBuilder
       number_of_fragments: NUMBER_OF_FRAGMENTS,
       require_field_match: REQUIRE_FIELD_MATCH,
       fields: {
-        'autocomplete_search_bar': auto_bar_highlight,
-        'searchable_date_of_birth': {}
+        autocomplete_search_bar: auto_bar_highlight,
+        searchable_date_of_birth: {}
       } }
   end
 end

@@ -99,7 +99,7 @@ module PersonSearchByAddressHelper
       },
       "_source": source,
       "highlight": highlight
-    }
+    }.as_json
   end
 
   def address_city_only
@@ -164,6 +164,6 @@ module PersonSearchByAddressHelper
           ]
         }
       }
-    }
+    }.as_json
   end
 end

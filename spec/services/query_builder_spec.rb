@@ -42,20 +42,20 @@ describe QueryBuilder do
 
       it 'return match for legacy with table name "CLIENT_T" if is_client_only "true"' do
         qb = described_class.new(search_term: 'hello', is_client_only: 'true')
-        expect(qb.must.last).to \
-          include(match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' })
+        expect(qb.must.last.as_json).to  \
+          include({ match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' } }.as_json)
       end
 
       it 'return match for legacy with table name "CLIENT_T" if is_client_only blank' do
         qb = described_class.new(search_term: 'hello')
-        expect(qb.must.last).to \
-          include(match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' })
+        expect(qb.must.last.as_json).to  \
+          include({ match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' } }.as_json)
       end
 
       it 'return match for legacy with table name "CLIENT_T" if is_client_only "false"' do
         qb = described_class.new(search_term: 'hello', is_client_only: 'false')
-        expect(qb.must.last).to \
-          include(match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' })
+        expect(qb.must.last.as_json).to  \
+          include({ match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' } }.as_json)
       end
     end
 
@@ -66,20 +66,20 @@ describe QueryBuilder do
 
       it 'return match for legacy with table name "CLIENT_T" if is_client_only "true"' do
         qb = described_class.new(search_term: 'hello', is_client_only: 'true')
-        expect(qb.must.last).to \
-          include(match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' })
+        expect(qb.must.last.as_json).to  \
+          include({ match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' } }.as_json)
       end
 
       it 'return match for legacy with table name "CLIENT_T" if is_client_only blank' do
         qb = described_class.new(search_term: 'hello')
-        expect(qb.must.last).to  \
-          include(match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' })
+        expect(qb.must.last.as_json).to  \
+          include({ match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' } }.as_json)
       end
 
       it 'return match for legacy with table name "CLIENT_T" if is_client_only "false"' do
         qb = described_class.new(search_term: 'hello', is_client_only: 'false')
-        expect(qb.must.last).not_to  \
-          include(match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' })
+        expect(qb.must.last.as_json).not_to  \
+          include({ match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' } }.as_json)
       end
     end
   end
@@ -88,13 +88,13 @@ describe QueryBuilder do
     context 'when search_term and search_address are present' do
       it 'returns query with person and address' do
         result = described_class.new(search_term: search_term,
-                                     search_address: search_address).build_query
-        expect(result[:_source].sort).to eq person_and_address[:_source].sort
-        expect(result[:size]).to eq person_and_address[:size]
-        expect(result[:sort]).to eq person_and_address[:sort]
-        expect(result[:track_scores]).to eq person_and_address[:track_scores]
-        expect(result[:highlight]).to eq person_and_address[:highlight]
-        expect(result[:query]).to eq person_and_address[:query]
+                                     search_address: search_address).build_query.as_json
+        expect(result['_source']).to eq person_and_address['_source']
+        expect(result['size']).to eq person_and_address['size']
+        expect(result['sort']).to eq person_and_address['sort']
+        expect(result['track_scores']).to eq person_and_address['track_scores']
+        expect(result['highlight']).to eq person_and_address['highlight']
+        expect(result['query']).to eq person_and_address['query']
       end
     end
   end

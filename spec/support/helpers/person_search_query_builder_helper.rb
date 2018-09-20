@@ -161,7 +161,7 @@ module PersonSearchQueryBuilderHelper
         }]
       } },
       "_source": source,
-      "highlight": highlight }
+      "highlight": highlight }.as_json
   end
 
   def person_only_query
@@ -279,6 +279,6 @@ module PersonSearchQueryBuilderHelper
       },
       "_source": source,
       "highlight": highlight
-    }
+    }.as_json
   end
 end
