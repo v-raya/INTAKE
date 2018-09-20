@@ -255,12 +255,6 @@ feature 'Create participant' do
     within '#search-card', text: 'Search' do
       find('strong', text: 'Homer Simpson').click
     end
-    expect(a_request(:get,
-      ferb_api_url(
-        FerbRoutes.client_authorization_path(
-          created_participant_homer.legacy_descriptor.legacy_id
-        )
-      ))).to have_been_made
     expect(a_request(:post,
       ferb_api_url(
         FerbRoutes.screening_participant_path(existing_screening[:id])
