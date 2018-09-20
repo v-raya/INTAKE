@@ -80,10 +80,7 @@ describe Api::V1::ParticipantsController do
         .with(security_token, participant_params)
         .and_raise(ParticipantRepository::AuthorizationError)
 
-      process :create,
-        method: :post,
-        params: { participant: participant_params },
-        session: session
+      post :create, params: { participant: participant_params }, session: session
       expect(response.status).to eq(403)
       expect(JSON.parse(response.body)).to eq({
         status: 403

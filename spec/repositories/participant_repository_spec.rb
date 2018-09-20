@@ -77,9 +77,6 @@ describe ParticipantRepository do
 
       it 'should return a participant when authorization succeeds' do
         expect(FerbAPI).to receive(:make_api_call)
-          .with(security_token, "/authorize/client/#{participant_id}", :get)
-          .and_return(status: 200)
-        expect(FerbAPI).to receive(:make_api_call)
           .with(
             security_token,
             FerbRoutes.screening_participant_path(screening_id),
@@ -89,57 +86,6 @@ describe ParticipantRepository do
         created_participant = described_class.create(security_token, payload)
         expect(created_participant['id']).to eq(participant_id)
         expect(created_participant['first_name']).to eq('New Participant')
-      end
-
-      it 'should raise an error when authorization fails' do
-        url = "/authorize/client/#{participant_id}"
-        expect(FerbAPI).to receive(:make_api_call)
-          .with(security_token, url, :get)
-          .and_raise(
-            ApiError.new(
-              message: 'Forbidden',
-              sent_attributes: '',
-              url: url,
-              method: :get,
-              response: OpenStruct.new(
-                status: 403,
-                body: 'Forbidden'
-              )
-            )
-          )
-
-        expect(FerbAPI).not_to receive(:make_api_call)
-          .with(security_token, FerbRoutes.screening_participant_path(screening_id), :post)
-
-        expect do
-          described_class.create(security_token, payload)
-        end.to raise_error(described_class::AuthorizationError)
-      end
-
-      it 'should reraise unexpected API errors' do
-        url = "/authorize/client/#{participant_id}"
-
-        exception = ApiError.new(
-          message: 'I am a teapot',
-          sent_attributes: '',
-          url: url,
-          method: :get,
-          response: OpenStruct.new(
-            status: 418,
-            body: 'I am a teapot'
-          )
-        )
-
-        expect(FerbAPI).to receive(:make_api_call)
-          .with(security_token, url, :get)
-          .and_raise(exception)
-
-        expect(FerbAPI).not_to receive(:make_api_call)
-          .with(security_token, FerbRoutes.screening_participant_path(screening_id), :post)
-
-        expect do
-          described_class.create(security_token, payload)
-        end.to raise_error(exception)
       end
     end
   end

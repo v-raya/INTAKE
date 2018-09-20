@@ -6,10 +6,7 @@ class ParticipantRepository
   class AuthorizationError < StandardError; end
 
   def self.create(security_token, participant)
-    legacy_id = participant.dig(:legacy_descriptor, :legacy_id)
     screening_id = participant[:screening_id]
-
-    authorize security_token, legacy_id
 
     response = FerbAPI.make_api_call(
       security_token,
@@ -30,6 +27,7 @@ class ParticipantRepository
 
   def self.update(security_token, participant)
     raise 'Error updating participant: id is required' unless participant[:id]
+
     response = FerbAPI.make_api_call(
       security_token,
       FerbRoutes.screening_participant_path(participant[:screening_id], participant[:id]),
@@ -52,6 +50,7 @@ class ParticipantRepository
       FerbAPI.make_api_call(security_token, route, :get)
     rescue ApiError => e
       raise AuthorizationError if e.api_error[:http_code] == 403
+
       raise e
     end
   end
