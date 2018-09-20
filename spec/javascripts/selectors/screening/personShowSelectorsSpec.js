@@ -214,11 +214,8 @@ describe('personShowSelectors', () => {
         date_of_birth: moment().add(1, 'days').toISOString(),
       }]
       const state = fromJS({participants})
-      expect(getFormattedPersonWithErrorsSelector(state, '1').get('dateOfBirth'))
-        .toEqualImmutable(fromJS({
-          value: moment().add(1, 'days').format('MM/DD/YYYY'),
-          errors: ['Date of Birth should not be in the future.'],
-        }))
+      expect(getFormattedPersonWithErrorsSelector(state, '1').getIn(['dateOfBirth', 'errors']))
+        .toEqualImmutable(fromJS(['Date of Birth should not be in the future.']))
     })
   })
 
