@@ -15,6 +15,9 @@ const propTypes = {
     same_home_status: PropTypes.string,
     start_date: PropTypes.string,
   }),
+  errors: PropTypes.shape({
+    started_at: PropTypes.string,
+  }),
   isFormChanged: PropTypes.bool,
   isScreening: PropTypes.bool,
   name: PropTypes.string,
@@ -36,6 +39,7 @@ const textWrap = {whiteSpace: 'normal'}
 
 const RelationCard = ({
   editFormRelationship,
+  errors,
   isFormChanged,
   isScreening,
   onChange,
@@ -93,6 +97,7 @@ const RelationCard = ({
           dataFormat={(cell, row) =>
             <ActionMenu
               editFormRelationship={editFormRelationship}
+              errors={errors}
               isFormChanged={isFormChanged}
               isScreening={isScreening}
               onChange={onChange}

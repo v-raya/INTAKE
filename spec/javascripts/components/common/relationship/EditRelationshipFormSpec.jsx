@@ -16,6 +16,7 @@ describe('EditRelationshipForm', () => {
       same_home_status: 'Y',
       start_date: '1999-10-01',
     },
+    errors: {},
     person: {
       name: 'Luke Skywalker',
       age: '20 yrs',
