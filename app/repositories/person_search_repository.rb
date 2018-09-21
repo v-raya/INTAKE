@@ -30,6 +30,7 @@ class PersonSearchRepository
     def body(response)
       search_body = response.body
       raise search_body unless response.status == 200
+
       search_body
     end
 

@@ -40,9 +40,9 @@ class PersonSearchByAddress < QueryBuilder
   def highlight
     {
       highlight: {
-        fields: { "addresses.autocomplete_city": {},
-                  "addresses.autocomplete_searchable_address": {},
-                  "addresses.county.description": {} }
+        fields: { 'addresses.autocomplete_city' => {},
+                  'addresses.autocomplete_searchable_address' => {},
+                  'addresses.county.description' => {} }
       }
     }
   end

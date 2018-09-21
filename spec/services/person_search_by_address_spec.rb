@@ -16,7 +16,7 @@ describe PersonSearchByAddress do
   describe '.query' do
     context 'returns hash' do
       it 'with query' do
-        expect(address_query.query).to eq address_only_query[:query]
+        expect(address_query.query.as_json).to eq address_only_query['query']
       end
     end
   end
@@ -26,7 +26,7 @@ describe PersonSearchByAddress do
       it 'with query' do
         address_query.search_term = nil
         address_query.county = nil
-        expect(address_query.query).to eq address_city_only[:query]
+        expect(address_query.query.as_json).to eq address_city_only['query']
       end
     end
   end

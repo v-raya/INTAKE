@@ -16,7 +16,7 @@ module QueryBuilderHelper
         },
         "searchable_date_of_birth": {}
       }
-    }
+    }.as_json
   end
 
   def source
