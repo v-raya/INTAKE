@@ -123,7 +123,7 @@ export default class Autocompleter extends Component {
   }
 
   onFocus() {
-    if (this.isSearchable(this.props.searchTerm)) {
+    if (this.isSearchable(this.props.searchTerm) || this.props.searchAddress) {
       this.setState({menuVisible: true})
     } else {
       this.hideMenu()

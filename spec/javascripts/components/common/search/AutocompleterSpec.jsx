@@ -402,6 +402,25 @@ describe('<Autocompleter />', () => {
           county: 'Sacramento',
         })
       })
+
+      it('displays search results when button is submitted', () => {
+        const isAddressIncluded = true
+        const autocompleter = renderAutocompleter({
+          onSearch,
+          onChange,
+          isAddressIncluded,
+          searchTerm: '',
+          searchAddress: '123 Main St',
+          searchCity: 'Sac Town',
+          searchCounty: 'Sacramento',
+        })
+        const searchByAddress = autocompleter.find('SearchByAddress')
+        expect(autocompleter.state().menuVisible).toEqual(false)
+
+        searchByAddress.props().onSubmit()
+
+        expect(autocompleter.state().menuVisible).toEqual(true)
+      })
     })
   })
 
