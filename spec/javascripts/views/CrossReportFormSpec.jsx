@@ -93,7 +93,7 @@ describe('CrossReportForm', () => {
   }
   it('renders the label', () => {
     const component = renderCrossReportForm({})
-    expect(component.find('div label').html()).toContain('This report has cross reported to:')
+    expect(component.find('div p').html()).toContain('This report has cross reported to:')
   })
   describe('inform_date', () => {
     it('passes errors to component', () => {
