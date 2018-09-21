@@ -40,16 +40,17 @@ const SelectRelationshipType = (onChange) => (
 )
 
 const CreateRelationshipForm = ({candidates, onChange}) => (
-  <BootstrapTable className='displayTable' bordered={false} data={candidates}>
+  <BootstrapTable withoutTabIndex className='displayTable' bordered={false} data={candidates}>
     <TableHeaderColumn
       className = 'FocusPersonDetails'
       dataField='person'
       dataFormat={PersonInfoList}
       tdStyle= {textWrap}
+      headerTitle={false}
     >
       Focus Person
     </TableHeaderColumn>
-    <TableHeaderColumn dataField='candidates' dataFormat={SelectRelationshipType(onChange)}>
+    <TableHeaderColumn dataField='candidates' dataFormat={SelectRelationshipType(onChange)} headerTitle={false}>
       Relationship<br/>
       <div className='text-helper'>Focus Person / Related Person</div>
     </TableHeaderColumn>
@@ -59,6 +60,7 @@ const CreateRelationshipForm = ({candidates, onChange}) => (
       dataFormat={PersonInfoList}
       isKey={true}
       tdStyle={textWrap}
+      headerTitle={false}
     >
       Related Person
     </TableHeaderColumn>
