@@ -53,7 +53,7 @@ const RelationCard = ({
       </b>
     </div>
     <div>
-      <BootstrapTable
+      <BootstrapTable withoutTabIndex
         bordered={false}
         data={person.relationships}
         search={false}
@@ -61,6 +61,7 @@ const RelationCard = ({
         options={{expandBy: 'column'}}
       >
         <TableHeaderColumn
+          headerTitle={false}
           tdStyle= {textWrap}
           dataField='name'
           dataSort={true}
@@ -70,6 +71,7 @@ const RelationCard = ({
             Name
         </TableHeaderColumn>
         <TableHeaderColumn
+          headerTitle={false}
           dataField='secondaryRelationship'
           dataSort={true}
           sortHeaderColumnClassName='sorted-header'
@@ -77,6 +79,7 @@ const RelationCard = ({
             Relationship
         </TableHeaderColumn>
         <TableHeaderColumn
+          headerTitle={false}
           dataFormat={ageDisplayFormatter}
           dataField='age'
           dataSort={true}
@@ -86,6 +89,7 @@ const RelationCard = ({
             Age
         </TableHeaderColumn>
         <TableHeaderColumn
+          headerTitle={false}
           dataFormat={(cell, row) =>
             <ActionMenu
               editFormRelationship={editFormRelationship}

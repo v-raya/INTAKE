@@ -78,7 +78,7 @@ const CrossReportForm = ({
     <div className='card-body no-pad-top'>
       { areCrossReportsRequired && <AlertInfoMessage message={ALLEGATIONS_REQUIRE_CROSS_REPORTS_MESSAGE} /> }
       <div className='row col-md-12'>
-        <label>This report has cross reported to:</label>
+        <p className='c-dark-grey'>This report has cross reported to:</p>
       </div>
       <div className='row'>
         <CountyCodeSelect

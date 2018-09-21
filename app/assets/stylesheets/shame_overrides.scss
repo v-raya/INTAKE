@@ -71,6 +71,15 @@
   display: none;
 }
 
+.legend-label {
+  border-bottom: 0;
+  color: $dark-grey-woodduck;
+  display: block;
+  font-size: $small-font;
+  font-weight: $normal-weight;
+  padding-top: $half-spacing;
+}
+
 // History Styling //
 
 .copy-friendly {
