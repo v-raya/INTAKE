@@ -22,7 +22,8 @@ class QueryBuilder
   end
 
   def build_query
-    person_build = PersonSearchQueryBuilder.new(search_term: @search_term).build
+    person_build = PersonSearchQueryBuilder.new(search_term: @search_term,
+                                                is_client_only: @is_client_only.to_s).build
     return person_build if @search_address.blank?
 
     address_query = PersonSearchByAddress.new(search_address: @search_address).query
