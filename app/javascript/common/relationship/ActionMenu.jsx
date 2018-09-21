@@ -102,7 +102,7 @@ ActionMenu.propTypes = {
     start_date: PropTypes.string,
   }),
   errors: PropTypes.shape({
-    started_at: PropTypes.string,
+    started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
   isScreening: PropTypes.bool,

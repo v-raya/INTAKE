@@ -1,5 +1,7 @@
-import {fromJS} from 'immutable'
+import {fromJS, List} from 'immutable'
+import moment from 'moment'
 import {
+  selectErrors,
   selectRelationship,
   selectIsFormNoChangeState,
 } from 'selectors/screening/relationshipFormSelectors'
@@ -81,6 +83,24 @@ describe('relationshipSelectors', () => {
       }]
       const state = fromJS({relationshipForm, relationships})
       expect(selectIsFormNoChangeState(state)).toBe(false)
+    })
+  })
+  describe('selectErrors', () => {
+    it('returns an object with an empty array when no errors are present', () => {
+      const yesterday = moment().subtract(1, 'days').toISOString()
+      const relationshipForm = {started_at: yesterday}
+      const state = fromJS({relationshipForm})
+      expect(selectErrors(state).get('started_at')).toEqualImmutable(List())
+    })
+    it('returns an error if date is after the end date', () => {
+      const relationshipForm = {
+        start_date: '2017-10-05T21:10:00.000',
+        end_date: '2017-09-04T21:10:00.012',
+      }
+      const state = fromJS({relationshipForm})
+      expect(
+        selectErrors(state).get('started_at')
+      ).toEqualImmutable(List(['The start date must be before the end date.']))
     })
   })
 })

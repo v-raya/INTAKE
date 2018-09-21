@@ -117,15 +117,17 @@ const EditRelationshipForm = ({
       </div>
       <div className='row pad-left'>
         <DateField
+          errors={errors.started_at}
           gridClassName='col-md-4'
+          hasTime={false}
           id='relationship_start_date'
           label='Start Date'
           value={editFormRelationship.start_date}
           onChange={(value) => onChange('start_date', value)}
-          errors={errors.started_at}
         />
         <DateField
           gridClassName='col-md-4'
+          hasTime={false}
           id='relationship_end_date'
           label='End Date'
           value={editFormRelationship.end_date}
@@ -168,7 +170,7 @@ EditRelationshipForm.propTypes = {
     start_date: PropTypes.string,
   }),
   errors: PropTypes.shape({
-    started_at: PropTypes.string,
+    started_at: PropTypes.array,
   }),
   onChange: PropTypes.func,
   person: personPropType,
