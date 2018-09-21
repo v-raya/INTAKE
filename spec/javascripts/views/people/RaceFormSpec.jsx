@@ -34,6 +34,11 @@ describe('Race', () => {
     return shallow(<RaceForm {...props}/>, {disableLifecycleMethods: true})
   }
 
+  it('renders the race fieldset with a legend', () => {
+    const component = renderRaceForm({})
+    expect(component.html()).toContain('<legend class="legend-label">Race (Primary First)</legend>')
+  })
+
   it('it disables the race fields, except "Unknown" if it is checked', () => {
     const component = renderRaceForm({
       racesDisabled: true,

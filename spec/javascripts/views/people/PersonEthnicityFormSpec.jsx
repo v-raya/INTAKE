@@ -6,6 +6,11 @@ describe('PersonEthnicityForm', () => {
   const renderPersonEthnicityForm = (props) =>
     shallow(<PersonEthnicityForm {...props} />, {disableLifecycleMethods: true})
 
+  it('renders the ethnicity fieldset with a legend', () => {
+    const component = renderPersonEthnicityForm({})
+    expect(component.html()).toContain('<legend class="legend-label">Hispanic/Latino Origin</legend>')
+  })
+
   describe('Yes checkbox', () => {
     it('renders a check box with the proper id for Yes', () => {
       const component = renderPersonEthnicityForm({personId: '123'})
