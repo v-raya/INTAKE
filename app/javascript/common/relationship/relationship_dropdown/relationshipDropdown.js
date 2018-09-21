@@ -1,8 +1,8 @@
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
 import moment from 'moment'
 
-const MALE_CODES = ['M', 'm', 'U', 'I']
-const FEMALE_CODES = ['F', 'f', 'U', 'I']
+const MALE_CODES = ['M', 'm', 'U']
+const FEMALE_CODES = ['F', 'f', 'U']
 const YOUNGER_CODES = ['f', 'm']
 const PRIMARY = 0
 const SECONDARY = 1
