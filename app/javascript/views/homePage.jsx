@@ -36,7 +36,7 @@ HomePageButtons.propTypes = {
   snapshot: PropTypes.bool,
 }
 
-export const HomePage = ({snapshot, hotline, actions: {createSnapshot, createScreening}}) => (
+export const HomePage = ({snapshot, hotline, hasError, actions: {createSnapshot, createScreening}}) => (
   <div>
     <div>
       <PageHeader
@@ -50,7 +50,7 @@ export const HomePage = ({snapshot, hotline, actions: {createSnapshot, createScr
           />
         }
       />
-      <BreadCrumb />
+      <BreadCrumb hasError={hasError}/>
     </div>
     <div className='shim'/>
     <div className='container'>
@@ -66,6 +66,7 @@ HomePage.propTypes = {
     createScreening: PropTypes.func,
     createSnapshot: PropTypes.func,
   }),
+  hasError: PropTypes.bool,
   hotline: PropTypes.bool,
   snapshot: PropTypes.bool,
 }

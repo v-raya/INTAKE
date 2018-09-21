@@ -66,9 +66,23 @@ describe('HomePage', () => {
       expect(homePage.find('Connect(ScreeningsTable)').length).toBe(1)
     })
   })
-  it('renders a breadCrumb', () => {
-    const props = {snapshot: true, hotline: true, actions: {}}
-    const homePage = shallow(<HomePage {...props}/>)
-    expect(homePage.find('BreadCrumb').exists()).toEqual(true)
+  describe('BreadCrumb', () => {
+    it('renders a BreadCrumb', () => {
+      const props = {snapshot: true, hotline: true, hasError: true, actions: {}}
+      const homePage = shallow(<HomePage {...props}/>)
+      expect(homePage.find('BreadCrumb').exists()).toEqual(true)
+    })
+    it('renders a BreadCrumb with back-to-dashboard-error className, when hasError is true ', () => {
+      const props = {snapshot: true, hotline: true, hasError: true, actions: {}}
+      const homePage = shallow(<HomePage {...props}/>)
+      expect(homePage.find('BreadCrumb').props().hasError).toEqual(true)
+      expect(homePage.find('BreadCrumb').html()).toContain('back-to-dashboard-error')
+    })
+    it('renders a BreadCrumb without back-to-dashboard-error className, when hasError is false ', () => {
+      const props = {snapshot: true, hotline: true, hasError: false, actions: {}}
+      const homePage = shallow(<HomePage {...props}/>)
+      expect(homePage.find('BreadCrumb').props().hasError).toEqual(false)
+      expect(homePage.find('BreadCrumb').html()).not.toContain('back-to-dashboard-error')
+    })
   })
 })
