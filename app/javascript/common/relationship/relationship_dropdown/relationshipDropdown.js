@@ -21,12 +21,21 @@ const areAgesCompatible = (primaryClient, secondaryClient) => (type) =>
   !(isCompatible(PRIMARY, YOUNGER_CODES, type) && isOlder(primaryClient, secondaryClient)) &&
   !(isCompatible(SECONDARY, YOUNGER_CODES, type) && isOlder(secondaryClient, primaryClient))
 
+const sortOptions = (rec1, rec2) => {
+  const higher = 1
+  const lower = -1
+  let returnValue = 0
+  if (rec1.label > rec2.label) { returnValue = higher }
+  if (rec1.label < rec2.label) { returnValue = lower }
+  return returnValue
+}
+
 const relationshipDropdown = (primaryClient, secondaryClient) =>
   RELATIONSHIP_TYPES
     .filter(areGendersCompatible(primaryClient, PRIMARY))
     .filter(areGendersCompatible(secondaryClient, SECONDARY))
     .filter(areAgesCompatible(primaryClient, secondaryClient))
     .filter((rec) => !rec.label.match(/\*/))
-    .sort((rec1, rec2)=>(rec1.label > rec2.label) ? 1 : ((rec1.label < rec2.label) ?  -1 : 0))
+    .sort(sortOptions)
 
 export default relationshipDropdown
