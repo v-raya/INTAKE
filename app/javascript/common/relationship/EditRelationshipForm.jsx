@@ -31,7 +31,7 @@ const EditRelationshipForm = ({
   )
   const type = findTypeLabel(editFormRelationship.relationship_type)
   return (
-    <div>
+    <div className='edit-relationship'>
       <table className='table'>
         <thead>
           <tr>
