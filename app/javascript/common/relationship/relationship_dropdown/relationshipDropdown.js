@@ -27,5 +27,6 @@ const relationshipDropdown = (primaryClient, secondaryClient) =>
     .filter(areGendersCompatible(secondaryClient, SECONDARY))
     .filter(areAgesCompatible(primaryClient, secondaryClient))
     .filter((rec) => !rec.label.match(/\*/))
+    .sort((rec1, rec2)=>(rec1.label > rec2.label) ? 1 : ((rec1.label < rec2.label) ?  -1 : 0))
 
 export default relationshipDropdown
