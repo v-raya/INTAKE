@@ -29,6 +29,42 @@ describe('pendingParticipantsReducer', () => {
       const expectedState = fromJS([firstId])
       expect(pendingParticipantsReducer(oldState, action)).toEqualImmutable(expectedState)
     })
+    it('returns the pending particpants without the completed participant using legacy descriptor', () => {
+      const firstId = '2'
+      const secondId = '3'
+      const legacyId = '9GAG'
+      const oldState = fromJS([firstId, secondId, legacyId])
+      const action = createPersonSuccess({id: '4', legacy_descriptor: {legacy_id: '9GAG'}})
+      const expectedState = fromJS([firstId, secondId])
+      expect(pendingParticipantsReducer(oldState, action)).toEqualImmutable(expectedState)
+    })
+    it('returns the pending participant even with legacy_id is undefined', () => {
+      const firstId = '2'
+      const secondId = '3'
+      const legacyId = '9GAG'
+      const oldState = fromJS([firstId, secondId, legacyId])
+      const action = createPersonSuccess({id: '5', legacy_descriptor: {hello: '9GAG'}})
+      const expectedState = fromJS([firstId, secondId, legacyId])
+      expect(pendingParticipantsReducer(oldState, action)).toEqualImmutable(expectedState)
+    })
+    it('returns all the pending participant even with legacy_id defined', () => {
+      const firstId = '2'
+      const secondId = '3'
+      const legacyId = '9GAG'
+      const oldState = fromJS([firstId, secondId, legacyId])
+      const action = createPersonSuccess({id: '5', legacy_descriptor: {legacy_id: 'DBZ'}})
+      const expectedState = fromJS([firstId, secondId, legacyId])
+      expect(pendingParticipantsReducer(oldState, action)).toEqualImmutable(expectedState)
+    })
+    it('returns all the pending participants without the complete participant using legacy_id field', () => {
+      const firstId = '2'
+      const secondId = '3'
+      const legacyId = 'DBZ'
+      const oldState = fromJS([firstId, secondId, legacyId])
+      const action = createPersonSuccess({id: '5', legacy_id: 'DBZ'})
+      const expectedState = fromJS([firstId, secondId])
+      expect(pendingParticipantsReducer(oldState, action)).toEqualImmutable(expectedState)
+    })
     it('returns the last state on failure', () => {
       const action = createPersonFailure()
       expect(pendingParticipantsReducer(List(), action)).toEqual(List())
