@@ -1,7 +1,8 @@
-import {Map} from 'immutable'
+import {fromJS, Map} from 'immutable'
 import {Maybe} from 'utils/maybe'
 import {createSelector} from 'reselect'
 import {getScreeningRelationships} from 'selectors/screening/relationshipsSelectors'
+import {combineCompact, isBeforeDatetimeCreate} from 'utils/validator'
 
 const selectPerson = (id, people) =>
   Maybe.of(people.find((person) => person.get('id') === id))
@@ -24,6 +25,16 @@ const isFormNoChange = (relationshipForm) => (relatee) =>
   }))
 
 export const selectRelationship = (state) => (state.get('relationshipForm', Map()))
+
+export const selectErrors = createSelector(
+  (state) => state.getIn(['relationshipForm', 'end_date']),
+  (state) => state.getIn(['relationshipForm', 'start_date']),
+  (endDate, startDate) => fromJS({
+    started_at: combineCompact(
+      isBeforeDatetimeCreate(endDate, startDate, 'The start date must be before the end date.')
+    ),
+  })
+)
 
 export const selectIsFormNoChangeState = createSelector(
   selectRelationship,

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
 
-const renderBody = (editFormRelationship, onChange, person, relationship) => (
+const renderBody = (editFormRelationship, errors, onChange, person, relationship) => (
   <EditRelationshipForm
     editFormRelationship={editFormRelationship}
+    errors={errors}
     onChange={onChange}
     person={person}
     relationship={relationship}
@@ -37,6 +38,7 @@ const renderFooter = (closeModal, isFormChanged, onSave, id) => (
 const EditRelationshipModal = ({
   closeModal,
   editFormRelationship,
+  errors,
   isFormChanged,
   onChange,
   onSave,
@@ -47,7 +49,7 @@ const EditRelationshipModal = ({
   <ModalComponent
     closeModal={closeModal}
     showModal={show}
-    modalBody={renderBody(editFormRelationship, onChange, person, relationship)}
+    modalBody={renderBody(editFormRelationship, errors, onChange, person, relationship)}
     modalFooter={renderFooter(closeModal, isFormChanged, onSave, editFormRelationship.id)}
     modalSize='large'
     modalTitle='Edit Relationship Type'
@@ -86,6 +88,9 @@ EditRelationshipModal.propTypes = {
     relative_id: PropTypes.string,
     same_home_status: PropTypes.string,
     start_date: PropTypes.string,
+  }),
+  errors: PropTypes.shape({
+    started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
   onChange: PropTypes.func,

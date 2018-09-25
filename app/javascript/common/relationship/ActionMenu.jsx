@@ -24,6 +24,7 @@ export class ActionMenu extends Component {
   renderModal() {
     const {
       editFormRelationship,
+      errors,
       isFormChanged,
       onChange,
       onSave,
@@ -34,6 +35,7 @@ export class ActionMenu extends Component {
     return (
       <EditRelationshipModal
         editFormRelationship={editFormRelationship}
+        errors={errors}
         closeModal={this.closeModal}
         isFormChanged={isFormChanged}
         onChange={onChange}
@@ -98,6 +100,9 @@ ActionMenu.propTypes = {
     relative_id: PropTypes.string,
     same_home_status: PropTypes.string,
     start_date: PropTypes.string,
+  }),
+  errors: PropTypes.shape({
+    started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
   isScreening: PropTypes.bool,

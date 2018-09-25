@@ -10,7 +10,7 @@ describe('SnapshotSideBar', () => {
   })
 
   it('renders the div wrapper', () => {
-    expect(component.find('div.col-md-3 div.col-xs-4').exists()).toBe(true)
+    expect(component.find('div.col-md-2 div.col-xs-3 div.col-sm-3').exists()).toBe(true)
   })
 
   it('renders an invisible header for accessibility outline', () => {
