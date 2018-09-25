@@ -9,9 +9,21 @@ describe('SnapshotPage', () => {
     return shallow(<SnapshotPage {...props} />, {disableLifecycleMethods: true})
   }
 
-  it('renders a breadCrumb', () => {
-    const snapshotPage = renderSnapshotPage({})
-    expect(snapshotPage.find('BreadCrumb').exists()).toEqual(true)
+  describe('BreadCrumb', () => {
+    it('renders a BreadCrumb', () => {
+      const snapshotPage = renderSnapshotPage({})
+      expect(snapshotPage.find('BreadCrumb').exists()).toEqual(true)
+    })
+    it('renders a BreadCrumb with back-to-dashboard-error className, when hasGenericErrors is true ', () => {
+      const snapshotPage = renderSnapshotPage({hasGenericErrors: true})
+      expect(snapshotPage.find('BreadCrumb').props().hasError).toEqual(true)
+      expect(snapshotPage.find('BreadCrumb').html()).toContain('back-to-dashboard-error')
+    })
+    it('renders a BreadCrumb without back-to-dashboard-error className, when hasGenericErrors is false ', () => {
+      const snapshotPage = renderSnapshotPage({hasGenericErrors: false})
+      expect(snapshotPage.find('BreadCrumb').props().hasError).toEqual(false)
+      expect(snapshotPage.find('BreadCrumb').html()).not.toContain('back-to-dashboard-error')
+    })
   })
 
   it('renders a SnapshotIntro', () => {

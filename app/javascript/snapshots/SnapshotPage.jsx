@@ -80,7 +80,7 @@ export class SnapshotPage extends React.Component {
       <div>
         <div>
           <PageHeader pageTitle='Snapshot' button={this.startOverButton()} />
-          <BreadCrumb />
+          <BreadCrumb hasError={hasGenericErrors} />
         </div>
         <div className={`container snapshot-container ${genericErrorClass}`}>
           <div className='row'>
