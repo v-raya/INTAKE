@@ -2,6 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import AddressWithSearch from 'common/AddressWithSearch'
+import {isConfigOptionTrue} from './config'
+
+export function isHotline(location) {
+  return location.pathname.indexOf('/screenings') >= 0
+}
+const isSearchByAddressOn = (location) => {
+  return isHotline(location)
+      ? isConfigOptionTrue('address_search_hotline')
+      : isConfigOptionTrue('address_search_snapshot')
+}
 
 const SearchByAddress = ({
   isAddressIncluded,
@@ -14,7 +24,8 @@ const SearchByAddress = ({
   searchCity,
   searchCounty,
   searchTerm,
-}) => (
+  location,
+}) => isSearchByAddressOn(location) ? (
   <div>
     <div className='row'>
       <div className='col-md-3'>
@@ -40,7 +51,7 @@ const SearchByAddress = ({
       />
     }
   </div>
-)
+) : ''
 
 SearchByAddress.propTypes = {
   isAddressIncluded: PropTypes.bool,

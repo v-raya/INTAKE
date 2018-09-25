@@ -1,4 +1,5 @@
 import Autocompleter from 'common/search/Autocompleter'
+import * as SearchByAddress from 'common/SearchByAddress'
 import React from 'react'
 import Autocomplete from 'react-autocomplete'
 import {shallow, mount} from 'enzyme'
@@ -121,6 +122,8 @@ describe('<Autocompleter />', () => {
       onSelect = jasmine.createSpy('onSelect')
       onLoadMoreResults = jasmine.createSpy('onLoadMoreResults')
     })
+
+    spyOn(SearchByAddress, 'isHotline').and.returnValue(true)
 
     describe('when an item is selectable', () => {
       let autocompleter

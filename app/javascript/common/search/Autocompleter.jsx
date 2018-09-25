@@ -8,6 +8,7 @@ import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
 import moment from 'moment'
 import SearchByAddress from 'common/SearchByAddress'
+import {withRouter} from 'react-router'
 
 const MIN_SEARCHABLE_CHARS = 2
 
@@ -18,6 +19,9 @@ const addPosAndSetAttr = (results) => {
     results[i].setSize = len
   }
 }
+
+const SearchByAddressWithRouter = withRouter(SearchByAddress)
+SearchByAddressWithRouter.displayName = 'SearchByAddress'
 
 const itemClassName = (isHighlighted) =>
   `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
@@ -229,7 +233,7 @@ export default class Autocompleter extends Component {
       onChangeAddress, onChangeCity, onChangeCounty} = this.props
 
     return (
-      <SearchByAddress
+      <SearchByAddressWithRouter
         isAddressIncluded={isAddressIncluded}
         toggleAddressSearch={this.handleToggleAddressSearch}
         onSubmit={this.handleSubmit}
