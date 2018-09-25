@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ScreeningsTable from 'screenings/ScreeningsTableContainer'
 import PageHeader from 'common/PageHeader'
-import {BreadCrumb} from 'common/BreadCrumb'
+import BreadCrumb from 'containers/common/BreadCrumb'
 
 const HomePageButtons = ({snapshot, hotline, createSnapshot, createScreening}) => (
   <div className='pull-right'>
@@ -36,7 +36,7 @@ HomePageButtons.propTypes = {
   snapshot: PropTypes.bool,
 }
 
-export const HomePage = ({snapshot, hotline, hasError, actions: {createSnapshot, createScreening}}) => (
+export const HomePage = ({snapshot, hotline, actions: {createSnapshot, createScreening}}) => (
   <div>
     <div>
       <PageHeader
@@ -50,7 +50,7 @@ export const HomePage = ({snapshot, hotline, hasError, actions: {createSnapshot,
           />
         }
       />
-      <BreadCrumb hasError={hasError}/>
+      <BreadCrumb />
     </div>
     <div className='shim'/>
     <div className='container'>
@@ -66,7 +66,6 @@ HomePage.propTypes = {
     createScreening: PropTypes.func,
     createSnapshot: PropTypes.func,
   }),
-  hasError: PropTypes.bool,
   hotline: PropTypes.bool,
   snapshot: PropTypes.bool,
 }

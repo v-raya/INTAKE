@@ -16,7 +16,7 @@ import PageHeader from 'common/PageHeader'
 import SnapshotIntro from 'snapshots/SnapshotIntro'
 import SnapshotSideBar from 'snapshots/SnapshotSideBar'
 import {selectParticipants} from 'selectors/participantSelectors'
-import {BreadCrumb} from 'common/BreadCrumb'
+import BreadCrumb from 'containers/common/BreadCrumb'
 import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
 
 const isDuplicatePerson = (participants, id) => (
@@ -80,7 +80,7 @@ export class SnapshotPage extends React.Component {
       <div>
         <div>
           <PageHeader pageTitle='Snapshot' button={this.startOverButton()} />
-          <BreadCrumb hasError={hasGenericErrors} />
+          <BreadCrumb />
         </div>
         <div className={`container snapshot-container ${genericErrorClass}`}>
           <div className='row'>
