@@ -51,9 +51,9 @@ class ScreeningsTable extends React.Component {
           <TableHeaderColumn headerTitle={false} dataField='screening_decision' dataFormat={decisionType} dataSort={false} tdStyle={textWrap}>
           Type/Decision</TableHeaderColumn>
           <TableHeaderColumn headerTitle={false} dataField='screening_status' dataSort={true}>Status</TableHeaderColumn>
-          <TableHeaderColumn headerTitle={false} dataField='assignee' tdStyle= {textWrap} dataSort={false}>Assignee</TableHeaderColumn>
+          <TableHeaderColumn headerTitle={false} dataField='assignee' tdStyle= {textWrap} dataSort={false}>Assigned Social Worker</TableHeaderColumn>
           <TableHeaderColumn headerTitle={false} dataField='started_at' dataFormat={reportDateAndTime} dataSort={true} tdStyle={textWrap}>
-          Report Date and Time</TableHeaderColumn>
+          Screening Start Date/Time</TableHeaderColumn>
         </BootstrapTable>
       </div>
     )
