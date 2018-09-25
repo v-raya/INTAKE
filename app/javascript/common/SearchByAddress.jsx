@@ -5,7 +5,7 @@ import AddressWithSearch from 'common/AddressWithSearch'
 import {isConfigOptionTrue} from './config'
 
 export function isHotline(location) {
-  return location.pathname.indexOf('/screenings') >= 0
+  return location && location.pathname.indexOf('/screenings') >= 0
 }
 const isSearchByAddressOn = (location) => {
   return isHotline(location)

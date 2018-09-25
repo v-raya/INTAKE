@@ -121,9 +121,8 @@ describe('<Autocompleter />', () => {
       onChange = jasmine.createSpy('onChange')
       onSelect = jasmine.createSpy('onSelect')
       onLoadMoreResults = jasmine.createSpy('onLoadMoreResults')
+      spyOn(SearchByAddress, 'isHotline').and.returnValue(true)
     })
-
-    spyOn(SearchByAddress, 'isHotline').and.returnValue(true)
 
     describe('when an item is selectable', () => {
       let autocompleter
