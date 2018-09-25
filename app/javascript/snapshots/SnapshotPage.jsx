@@ -16,7 +16,7 @@ import PageHeader from 'common/PageHeader'
 import SnapshotIntro from 'snapshots/SnapshotIntro'
 import SnapshotSideBar from 'snapshots/SnapshotSideBar'
 import {selectParticipants} from 'selectors/participantSelectors'
-import {BreadCrumb} from 'common/BreadCrumb'
+import BreadCrumb from 'containers/common/BreadCrumb'
 import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
 
 const isDuplicatePerson = (participants, id) => (

@@ -9,9 +9,9 @@ describe('SnapshotPage', () => {
     return shallow(<SnapshotPage {...props} />, {disableLifecycleMethods: true})
   }
 
-  it('renders a breadCrumb', () => {
+  it('renders a BreadCrumb', () => {
     const snapshotPage = renderSnapshotPage({})
-    expect(snapshotPage.find('BreadCrumb').exists()).toEqual(true)
+    expect(snapshotPage.find('Connect(BreadCrumb)').exists()).toBe(true)
   })
 
   it('renders a SnapshotIntro', () => {

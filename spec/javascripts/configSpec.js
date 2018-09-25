@@ -114,3 +114,10 @@ describe('intake config', () => {
     })
   })
 })
+
+describe('displayError', () => {
+  it('return error as true', () => {
+    const callDisplayError = window.displayError()
+    expect(callDisplayError.error).toEqual(true)
+  })
+})
