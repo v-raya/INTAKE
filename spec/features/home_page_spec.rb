@@ -117,7 +117,7 @@ feature 'home page' do
         visit root_path(accessCode: access_code)
       end
 
-      it 'screenings can be sorted by clickable name, status, and report date and time' do
+      it 'screenings can be sorted by clickable name, status, and Screening Start Date/Time' do
         expect(page).to have_title 'Intake'
         expect(page).to have_button 'Start Screening'
 
@@ -125,13 +125,13 @@ feature 'home page' do
           expect(page).to have_css('th', text: 'Screening Name')
           expect(page).to have_css('th', text: 'Type/Decision')
           expect(page).to have_css('th', text: 'Status')
-          expect(page).to have_css('th', text: 'Assignee')
-          expect(page).to have_css('th', text: 'Report Date and Time')
+          expect(page).to have_css('th', text: 'Assigned Social Worker')
+          expect(page).to have_css('th', text: 'Screening Start Date/Time')
         end
 
         rows = all('tr')
         within 'tbody' do
-          # 'default ordered by "Report Date and Time", in descending order'
+          # 'default ordered by "Screening Start Date/Time", in descending order'
           within rows[1] do
             expect(page).to have_content('Other submitted', normalize_ws: true)
             expect(find_all('td').last).to have_content('')
@@ -177,12 +177,12 @@ feature 'home page' do
         end
 
         within 'thead' do
-          find('th', text: 'Report Date and Time').find('.order').click
+          find('th', text: 'Screening Start Date/Time').find('.order').click
         end
 
         rows = all('tr')
         within 'tbody' do
-          # 'ordered list by "Report Date and Time", ascending order'
+          # 'ordered list by "Screening Start Date/Times", ascending order'
           within rows[1] do
             expect(find_all('td').last).to have_text('08/17/2018')
           end
