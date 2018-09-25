@@ -18,14 +18,20 @@ const findTypeLabel = (typeCode) => {
   }
 }
 
-const EditRelationshipForm = ({editFormRelationship, onChange, person, relationship}) => {
+const EditRelationshipForm = ({
+  editFormRelationship,
+  errors,
+  onChange,
+  person,
+  relationship,
+}) => {
   const relationshipTypeList = relationshipDropdown(
     person,
     relationship
   )
   const type = findTypeLabel(editFormRelationship.relationship_type)
   return (
-    <div>
+    <div className='edit-relationship'>
       <table className='table'>
         <thead>
           <tr>
@@ -111,20 +117,21 @@ const EditRelationshipForm = ({editFormRelationship, onChange, person, relations
       </div>
       <div className='row pad-left'>
         <DateField
+          errors={errors.started_at}
           gridClassName='col-md-4'
+          hasTime={false}
           id='relationship_start_date'
           label='Start Date'
           value={editFormRelationship.start_date}
           onChange={(value) => onChange('start_date', value)}
-          hasTime={false}
         />
         <DateField
           gridClassName='col-md-4'
+          hasTime={false}
           id='relationship_end_date'
           label='End Date'
           value={editFormRelationship.end_date}
           onChange={(value) => onChange('end_date', value)}
-          hasTime={false}
         />
       </div>
     </div>
@@ -161,6 +168,9 @@ EditRelationshipForm.propTypes = {
     relative_id: PropTypes.string,
     same_home_status: PropTypes.string,
     start_date: PropTypes.string,
+  }),
+  errors: PropTypes.shape({
+    started_at: PropTypes.array,
   }),
   onChange: PropTypes.func,
   person: personPropType,

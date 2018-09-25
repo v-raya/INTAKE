@@ -16,6 +16,7 @@ describe('EditRelationshipForm', () => {
       same_home_status: 'Y',
       start_date: '1999-10-01',
     },
+    errors: {},
     person: {
       name: 'Luke Skywalker',
       age: '20 yrs',
@@ -57,6 +58,14 @@ describe('EditRelationshipForm', () => {
     expect(element.last().find('li').first().text()).toEqual('Darth Vader')
     expect(element.last().find('li').at(1).text()).toEqual('30 yrs')
     expect(element.last().find('li').last().text()).toEqual('Male')
+  })
+  it('renders the Start date errors when present', () => {
+    const errors = {started_at: ['Back to the Future.']}
+    expect(
+      render({...props, errors})
+        .find('DateField[label="Start Date"]')
+        .html()
+    ).toContain('Back to the Future.')
   })
 
   describe('absent parent checkbox', () => {
