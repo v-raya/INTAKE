@@ -1,5 +1,5 @@
 import React from 'react'
-import SearchByAddress from 'common/SearchByAddress'
+import {SearchByAddress} from 'common/SearchByAddress'
 import {shallow} from 'enzyme'
 import * as IntakeConfig from 'common/config'
 
