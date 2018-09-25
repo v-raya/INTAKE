@@ -7,10 +7,11 @@ import {isConfigOptionTrue} from 'common/config'
 function isHotline(location) {
   return location && location.pathname.indexOf('/screenings') >= 0
 }
-const isSearchByAddressOn = (location) => {
-  return isHotline(location)
-      ? isConfigOptionTrue('address_search_hotline')
-      : isConfigOptionTrue('address_search_snapshot')
+
+function isSearchByAddressOn(location) {
+  return isHotline(location) ?
+    isConfigOptionTrue('address_search_hotline') :
+    isConfigOptionTrue('address_search_snapshot')
 }
 
 const SearchByAddress = ({
@@ -25,33 +26,35 @@ const SearchByAddress = ({
   searchCounty,
   searchTerm,
   location,
-}) => isSearchByAddressOn(location) ? (
-  <div>
-    <div className='row'>
-      <div className='col-md-3'>
-        <CheckboxField
-          id='include-address'
-          label='Include Address'
-          onChange={toggleAddressSearch}
-          value='include-address'
-        />
+}) => {
+  return isSearchByAddressOn(location) ? (
+    <div>
+      <div className='row'>
+        <div className='col-md-3'>
+          <CheckboxField
+            id='include-address'
+            label='Include Address'
+            onChange={toggleAddressSearch}
+            value='include-address'
+          />
+        </div>
       </div>
+      {
+        isAddressIncluded &&
+        <AddressWithSearch
+          onChangeAddress={onChangeAddress}
+          onChangeCity={onChangeCity}
+          onChangeCounty={onChangeCounty}
+          onSubmit={onSubmit}
+          searchAddress={searchAddress}
+          searchCity={searchCity}
+          searchCounty={searchCounty}
+          searchTerm={searchTerm}
+        />
+      }
     </div>
-    {
-      isAddressIncluded &&
-      <AddressWithSearch
-        onChangeAddress={onChangeAddress}
-        onChangeCity={onChangeCity}
-        onChangeCounty={onChangeCounty}
-        onSubmit={onSubmit}
-        searchAddress={searchAddress}
-        searchCity={searchCity}
-        searchCounty={searchCounty}
-        searchTerm={searchTerm}
-      />
-    }
-  </div>
-) : ''
+  ) : ''
+}
 
 SearchByAddress.propTypes = {
   isAddressIncluded: PropTypes.bool,
