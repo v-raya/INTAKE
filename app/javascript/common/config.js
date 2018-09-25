@@ -1,3 +1,6 @@
+import {fetchFailure} from 'actions/systemCodesActions'
+import {store} from 'store/configureStore'
+
 export function config() {
   const {org: {intake: {config = {}} = {}} = {}} = window
   return config
@@ -18,3 +21,6 @@ export function jsClipboardSupported() {
 export function sdmPath() {
   return config().sdm_path
 }
+
+// Trigger page level error message on demand for tester to test error banner
+window.displayError = () => store.dispatch(fetchFailure({error: true}))
