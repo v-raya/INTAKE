@@ -1,6 +1,8 @@
 import * as matchers from 'jasmine-immutable-matchers'
 import candidatesReducer from 'reducers/candidatesFormReducer'
 import {
+  batchCreateRelationships,
+  batchCreateRelationshipsSuccess,
   fetchRelationshipsSuccess,
   setFieldCandidate,
   resetFieldCandidate,
@@ -259,6 +261,177 @@ describe('candidatesFormReducer', () => {
             },
           }],
           isDisabled: true,
+        })
+      )
+    })
+  })
+
+  describe('BATCH_CREATE_RELATIONSHIPS', () => {
+    it('sets isSaving to true if Create Relationship button is clicked', () => {
+      const personId = '1'
+      const candidateForm = {
+        1: [{
+          person: {
+            age: '20 yrs',
+            dateOfBirth: '01/15/1986',
+            id: '1',
+            gender: 'Male',
+            legacyId: '3',
+            name: 'Ricky Robinson',
+          },
+          candidate: {
+            age: '30 yrs',
+            dateOfBirth: '11/11/1958',
+            id: '4157',
+            gender: 'Male',
+            name: 'New York C Pechan, Sr',
+            relationshipType: '200',
+          },
+        }, {
+          person: {
+            age: '20 yrs',
+            dateOfBirth: '01/15/1986',
+            id: '1',
+            gender: 'Male',
+            legacyId: '3',
+            name: 'Ricky Robinson',
+          },
+          candidate: {
+            age: '40 yrs',
+            dateOfBirth: '11/11/1968',
+            id: '4158',
+            gender: 'Male',
+            name: 'Walter A White, Sr',
+          },
+        }],
+        isDisabled: false,
+        isSaving: false,
+      }
+      const action = batchCreateRelationships(personId)
+      const state = fromJS(candidateForm)
+      expect(candidatesReducer(state, action)).toEqualImmutable(
+        fromJS({
+          1: [{
+            person: {
+              age: '20 yrs',
+              dateOfBirth: '01/15/1986',
+              id: '1',
+              gender: 'Male',
+              legacyId: '3',
+              name: 'Ricky Robinson',
+            },
+            candidate: {
+              age: '30 yrs',
+              dateOfBirth: '11/11/1958',
+              id: '4157',
+              gender: 'Male',
+              name: 'New York C Pechan, Sr',
+              relationshipType: '200',
+            },
+          }, {
+            person: {
+              age: '20 yrs',
+              dateOfBirth: '01/15/1986',
+              id: '1',
+              gender: 'Male',
+              legacyId: '3',
+              name: 'Ricky Robinson',
+            },
+            candidate: {
+              age: '40 yrs',
+              dateOfBirth: '11/11/1968',
+              id: '4158',
+              gender: 'Male',
+              name: 'Walter A White, Sr',
+            },
+          }],
+          isDisabled: false,
+          isSaving: true,
+        })
+      )
+    })
+  })
+
+  describe('BATCH_CREATE_RELATIONSHIPS_COMPLETE', () => {
+    it('sets isSaving to false after batch create relationship success', () => {
+      const candidateForm = {
+        1: [{
+          person: {
+            age: '20 yrs',
+            dateOfBirth: '01/15/1986',
+            id: '1',
+            gender: 'Male',
+            legacyId: '3',
+            name: 'Ricky Robinson',
+          },
+          candidate: {
+            age: '30 yrs',
+            dateOfBirth: '11/11/1958',
+            id: '4157',
+            gender: 'Male',
+            name: 'New York C Pechan, Sr',
+            relationshipType: '200',
+          },
+        }, {
+          person: {
+            age: '20 yrs',
+            dateOfBirth: '01/15/1986',
+            id: '1',
+            gender: 'Male',
+            legacyId: '3',
+            name: 'Ricky Robinson',
+          },
+          candidate: {
+            age: '40 yrs',
+            dateOfBirth: '11/11/1968',
+            id: '4158',
+            gender: 'Male',
+            name: 'Walter A White, Sr',
+          },
+        }],
+        isDisabled: false,
+        isSaving: true,
+      }
+      const action = batchCreateRelationshipsSuccess(relationships)
+      const state = fromJS(candidateForm)
+      expect(candidatesReducer(state, action)).toEqualImmutable(
+        fromJS({
+          1: [{
+            person: {
+              age: '20 yrs',
+              dateOfBirth: '01/15/1986',
+              id: '1',
+              gender: 'Male',
+              legacyId: '3',
+              name: 'Ricky Robinson',
+            },
+            candidate: {
+              age: '30 yrs',
+              dateOfBirth: '11/11/1958',
+              id: '4157',
+              gender: 'Male',
+              name: 'New York C Pechan, Sr',
+              relationshipType: '200',
+            },
+          }, {
+            person: {
+              age: '20 yrs',
+              dateOfBirth: '01/15/1986',
+              id: '1',
+              gender: 'Male',
+              legacyId: '3',
+              name: 'Ricky Robinson',
+            },
+            candidate: {
+              age: '40 yrs',
+              dateOfBirth: '11/11/1968',
+              id: '4158',
+              gender: 'Male',
+              name: 'Walter A White, Sr',
+            },
+          }],
+          isDisabled: false,
+          isSaving: false,
         })
       )
     })
