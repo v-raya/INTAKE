@@ -3,6 +3,7 @@ import ScreeningCreateRelationship from 'views/ScreeningCreateRelationship'
 import {
   selectCandidates,
   selectIsDisabledForm,
+  selectIsSavingForm,
 } from 'selectors/screening/candidateSelectors'
 import {
   batchCreateRelationships,
@@ -13,6 +14,7 @@ import {
 const mapStateToProps = (state, {personId}) => ({
   candidates: selectCandidates(state, personId).toJS(),
   isDisabled: selectIsDisabledForm(state),
+  isSaving: selectIsSavingForm(state),
 })
 
 export const mapDispatchToProps = (dispatch) => ({

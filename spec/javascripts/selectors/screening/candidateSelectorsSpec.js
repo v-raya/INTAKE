@@ -12,6 +12,7 @@ describe('candidateSelectors', () => {
 
   const candidatesForm = {
     isDisabled: true,
+    isSaving: false,
     1: [{
       person: {
         age: '20 yrs',
@@ -228,7 +229,7 @@ describe('candidateSelectors', () => {
   describe('selectIsSavingForm', () => {
     it('returns a list of candidates with isSaving field', () => {
       const state = fromJS({candidatesForm})
-      expect(selectIsSavingForm(state)).toBe(true)
+      expect(selectIsSavingForm(state)).toBe(false)
     })
   })
 })
