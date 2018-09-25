@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import AddressWithSearch from 'common/AddressWithSearch'
-import {isConfigOptionTrue} from './config'
+import {isConfigOptionTrue} from 'common/config'
 
-export function isHotline(location) {
+function isHotline(location) {
   return location && location.pathname.indexOf('/screenings') >= 0
 }
 const isSearchByAddressOn = (location) => {
@@ -55,6 +55,9 @@ const SearchByAddress = ({
 
 SearchByAddress.propTypes = {
   isAddressIncluded: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
   onChangeAddress: PropTypes.func.isRequired,
   onChangeCity: PropTypes.func.isRequired,
   onChangeCounty: PropTypes.func.isRequired,
