@@ -26,8 +26,8 @@ const SearchByAddress = ({
   searchCounty,
   searchTerm,
   location,
-}) => {
-  return isSearchByAddressOn(location) ? (
+}) => (
+  isSearchByAddressOn(location) ? (
     <div>
       <div className='row'>
         <div className='col-md-3'>
@@ -54,7 +54,7 @@ const SearchByAddress = ({
       }
     </div>
   ) : ''
-}
+)
 
 SearchByAddress.propTypes = {
   isAddressIncluded: PropTypes.bool,
