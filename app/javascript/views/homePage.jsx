@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ScreeningsTable from 'screenings/ScreeningsTableContainer'
 import PageHeader from 'common/PageHeader'
-import {BreadCrumb} from 'common/BreadCrumb'
+import BreadCrumb from 'containers/common/BreadCrumb'
 
 const HomePageButtons = ({snapshot, hotline, createSnapshot, createScreening}) => (
   <div className='pull-right'>
