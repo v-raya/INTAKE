@@ -50,7 +50,7 @@ describe('ScreeningCreateRelationship', () => {
     onCancel = jasmine.createSpy('onCancel')
     onSave = jasmine.createSpy('onSave')
     wrapper = shallow(
-      <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave}/>
+      <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave} />
     )
   })
 
@@ -129,11 +129,41 @@ describe('ScreeningCreateRelationship', () => {
       expect(onSave).toHaveBeenCalledWith('805')
     })
   })
-  it('SaveRelationship Button is disabled when the modal is popped up initially', () => {
+  it('renders SaveRelationship Button as disabled when the modal is popped up initially', () => {
     wrapper.setState({show: true})
     const footer = wrapper.find('ModalComponent').props().modalFooter
     const save = footer.props.children[1]
     expect(save.props.disabled).toEqual(true)
   })
-})
 
+  it('renders a button and SavingButton if isSaving prop is set to True', () => {
+    const wrapper = shallow(
+      <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave} isSaving = {true}/>
+    )
+    wrapper.setState({show: true})
+    const footer = wrapper.find('ModalComponent').props().modalFooter
+    const savingButton = shallow(footer)
+    expect(savingButton.find('button').length).toEqual(1)
+    expect(savingButton.find('SavingButton').length).toEqual(1)
+  })
+
+  it('has a SaveButton and has text prop in SavingButton as Saving', () => {
+    const wrapper = shallow(
+      <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave} isSaving = {true}/>
+    )
+    wrapper.setState({show: true})
+    const footer = wrapper.find('ModalComponent').props().modalFooter
+    const savingButton = footer.props.children[1]
+    expect(savingButton.props.text).toEqual('Saving')
+  })
+
+  it('renders two buttons if isSaving prop is set to false', () => {
+    const wrapper = shallow(
+      <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave} isSaving = {false}/>
+    )
+    wrapper.setState({show: true})
+    const footer = wrapper.find('ModalComponent').props().modalFooter
+    const buttons = shallow(footer)
+    expect(buttons.find('button').length).toEqual(2)
+  })
+})

@@ -1,6 +1,7 @@
 import React from 'react'
 import CreateRelationshipForm from 'common/relationship/CreateRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
+import SavingButton from 'common/SavingButton'
 import PropTypes from 'prop-types'
 
 export default class ScreeningCreateRelationship extends React.Component {
@@ -31,7 +32,7 @@ export default class ScreeningCreateRelationship extends React.Component {
   }
 
   modalFooter() {
-    const {isDisabled = true} = this.props
+    const {isDisabled = true, isSaving = false} = this.props
     return (
       <div>
         <button
@@ -41,14 +42,16 @@ export default class ScreeningCreateRelationship extends React.Component {
         >
           Cancel
         </button>
-        <button
-          aria-label='Create Relationship'
-          className='btn btn-primary'
-          disabled={isDisabled}
-          onClick={this.saveCreateRelationship}
-        >
+        {isSaving ?
+          <SavingButton text='Saving'/> :
+          <button
+            aria-label='Create Relationship'
+            className='btn btn-primary'
+            disabled={isDisabled}
+            onClick={this.saveCreateRelationship}
+          >
           Create Relationship
-        </button>
+          </button>}
       </div>
     )
   }
@@ -100,6 +103,7 @@ ScreeningCreateRelationship.propTypes = {
     }),
   })),
   isDisabled: PropTypes.bool,
+  isSaving: PropTypes.bool,
   onCancel: PropTypes.func,
   onChange: PropTypes.func,
   onSave: PropTypes.func,
