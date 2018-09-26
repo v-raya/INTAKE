@@ -4,8 +4,7 @@ const CSEC_TYPES = Object.freeze([
   'Victim During Foster Care',
   'Victim in Open Case not in Foster Care',
   'Victim while Absent from Placement',
-  'Victim with Closed Case',
-  'Rcv ILP Svcs',
+  'Victim with Closed Case, Rcv ILP Svcs',
 ])
 
 export default CSEC_TYPES
