@@ -1,9 +1,11 @@
 import React from 'react'
-import SearchByAddress from 'common/SearchByAddress'
+import {SearchByAddress} from 'common/SearchByAddress'
 import {shallow} from 'enzyme'
+import * as IntakeConfig from 'common/config'
 
 describe('SearchByAddress', () => {
   const render = ({
+    location = {pathname: '/screenings/1/edit'},
     onChangeAddress = () => {},
     onChangeCity = () => {},
     onChangeCounty = () => {},
@@ -13,6 +15,7 @@ describe('SearchByAddress', () => {
   } = {}) => (
     shallow(
       <SearchByAddress
+        location={location}
         onChangeAddress={onChangeAddress}
         onChangeCity={onChangeCity}
         onChangeCounty={onChangeCounty}
@@ -22,6 +25,17 @@ describe('SearchByAddress', () => {
       />
     )
   )
+
+  beforeEach(() => {
+    spyOn(IntakeConfig, 'isFeatureActive').and.returnValue(true)
+  })
+  describe('when is not Hotline', () => {
+    it('renders an empty string', () => {
+      IntakeConfig.isFeatureActive.and.returnValue(false)
+      const searchByAddress = render({isAddressIncluded: false})
+      expect(searchByAddress.html()).toEqual(null)
+    })
+  })
   describe('when isAddressIncluded flag is false', () => {
     it('renders only Include Address checkbox', () => {
       const searchByAddress = render({isAddressIncluded: false})

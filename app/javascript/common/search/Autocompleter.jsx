@@ -7,7 +7,7 @@ import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
 import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
 import moment from 'moment'
-import SearchByAddress from 'common/SearchByAddress'
+import SearchByAddressWithRouter from 'common/SearchByAddress'
 
 const MIN_SEARCHABLE_CHARS = 2
 
@@ -229,7 +229,7 @@ export default class Autocompleter extends Component {
       onChangeAddress, onChangeCity, onChangeCounty} = this.props
 
     return (
-      <SearchByAddress
+      <SearchByAddressWithRouter
         isAddressIncluded={isAddressIncluded}
         toggleAddressSearch={this.handleToggleAddressSearch}
         onSubmit={this.handleSubmit}

@@ -2,6 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import AddressWithSearch from 'common/AddressWithSearch'
+import {isFeatureActive} from 'common/config'
+import {withRouter} from 'react-router'
+
+const isHotline = (location) =>
+  location && location.pathname.indexOf('/screenings') >= 0
+
+const isSearchByAddressOn = (location) => (
+  isHotline(location) ?
+    isFeatureActive('address_search_hotline') :
+    isFeatureActive('address_search_snapshot')
+)
 
 const SearchByAddress = ({
   isAddressIncluded,
@@ -14,36 +25,42 @@ const SearchByAddress = ({
   searchCity,
   searchCounty,
   searchTerm,
+  location,
 }) => (
-  <div>
-    <div className='row'>
-      <div className='col-md-3'>
-        <CheckboxField
-          id='include-address'
-          label='Include Address'
-          onChange={toggleAddressSearch}
-          value='include-address'
-        />
+  isSearchByAddressOn(location) ? (
+    <div>
+      <div className='row'>
+        <div className='col-md-3'>
+          <CheckboxField
+            id='include-address'
+            label='Include Address'
+            onChange={toggleAddressSearch}
+            value='include-address'
+          />
+        </div>
       </div>
+      {
+        isAddressIncluded &&
+        <AddressWithSearch
+          onChangeAddress={onChangeAddress}
+          onChangeCity={onChangeCity}
+          onChangeCounty={onChangeCounty}
+          onSubmit={onSubmit}
+          searchAddress={searchAddress}
+          searchCity={searchCity}
+          searchCounty={searchCounty}
+          searchTerm={searchTerm}
+        />
+      }
     </div>
-    {
-      isAddressIncluded &&
-      <AddressWithSearch
-        onChangeAddress={onChangeAddress}
-        onChangeCity={onChangeCity}
-        onChangeCounty={onChangeCounty}
-        onSubmit={onSubmit}
-        searchAddress={searchAddress}
-        searchCity={searchCity}
-        searchCounty={searchCounty}
-        searchTerm={searchTerm}
-      />
-    }
-  </div>
+  ) : ''
 )
 
 SearchByAddress.propTypes = {
   isAddressIncluded: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
   onChangeAddress: PropTypes.func.isRequired,
   onChangeCity: PropTypes.func.isRequired,
   onChangeCounty: PropTypes.func.isRequired,
@@ -55,4 +72,8 @@ SearchByAddress.propTypes = {
   toggleAddressSearch: PropTypes.func,
 }
 
-export default SearchByAddress
+export {SearchByAddress}
+
+const SearchByAddressWithRouter = withRouter(SearchByAddress)
+SearchByAddressWithRouter.displayName = 'SearchByAddress'
+export default SearchByAddressWithRouter
