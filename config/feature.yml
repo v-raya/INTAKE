@@ -29,5 +29,5 @@ production:
     snapshot: <%= ENV.fetch('SNAPSHOT', true) %>
     screenings: <%= ENV.fetch('SCREENINGS', true) %>
     enable_newrelic_analytics: <%= ENV.fetch('ENABLE_NEWRELIC_ANALYTICS', true) %>
-    address_search_snapshot: <%= ENV.fetch('ADDRESS_SEARCH_SNAPSHOT', 'false') %>
-    address_search_hotline: <%= ENV.fetch('ADDRESS_SEARCH_HOTLINE', 'true') %>
+    address_search_snapshot: <%= ENV.fetch('ADDRESS_SEARCH_SNAPSHOT', false) %>
+    address_search_hotline: <%= ENV.fetch('ADDRESS_SEARCH_HOTLINE', true) %>
