@@ -19,15 +19,12 @@ const addPosAndSetAttr = (results) => {
   }
 }
 
-const itemClassName = (isHighlighted) =>
-  `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
+const itemClassName = (isHighlighted) => `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
 
 export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      menuVisible: false,
-    }
+    this.state = {menuVisible: false}
     this.onFocus = this.onFocus.bind(this)
     this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
