@@ -9,7 +9,7 @@ import {clearRelationships} from 'actions/relationshipsActions'
 import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
 import PersonCardView from 'snapshots/PersonCardView'
 import HistoryOfInvolvementContainer from 'containers/snapshot/HistoryOfInvolvementContainer'
-import HistoryTableContainer from 'containers/snapshot/HistoryTableContainer'
+import HistoryTableContainer from 'containers/common/HistoryTableContainer'
 import EmptyHistory from 'views/history/EmptyHistory'
 import RelationshipsCardContainer from 'containers/snapshot/RelationshipsCardContainer'
 import PageHeader from 'common/PageHeader'
@@ -67,7 +67,7 @@ export class SnapshotPage extends React.Component {
             <PersonCardView key={id} personId={id} />
           )}
           <RelationshipsCardContainer />
-          <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer />} />
+          <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer includesScreenings={false} />} />
         </div>
       </div>
     )
