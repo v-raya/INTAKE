@@ -4,6 +4,7 @@ import {
   selectErrors,
   selectRelationship,
   selectIsFormNoChangeState,
+  selectIsSaving,
 } from 'selectors/screening/relationshipFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -12,16 +13,17 @@ describe('relationshipSelectors', () => {
 
   const emptyState = fromJS({relationshipForm: {}})
   const relationshipForm = fromJS({
-    absent_parent_indicator: true,
-    client_id: 'ZXY123',
-    end_date: '2010-10-01',
-    id: '12345',
-    relationship_type: 190,
-    relative_id: 'ABC987',
-    reversed: false,
-    same_home_status: 'Y',
-    start_date: '1999-10-01',
-  })
+    relationship: {
+      absent_parent_indicator: true,
+      client_id: 'ZXY123',
+      end_date: '2010-10-01',
+      id: '12345',
+      relationship_type: 190,
+      relative_id: 'ABC987',
+      reversed: false,
+      same_home_status: 'Y',
+      start_date: '1999-10-01',
+    }})
 
   it('returns a an empty Map', () => {
     expect(selectRelationship(emptyState)).toEqualImmutable(fromJS({}))
@@ -85,6 +87,7 @@ describe('relationshipSelectors', () => {
       expect(selectIsFormNoChangeState(state)).toBe(false)
     })
   })
+
   describe('selectErrors', () => {
     it('returns an object with an empty array when no errors are present', () => {
       const yesterday = moment().subtract(1, 'days').toISOString()
@@ -101,6 +104,14 @@ describe('relationshipSelectors', () => {
       expect(
         selectErrors(state).get('started_at')
       ).toEqualImmutable(List(['The start date must be before the end date.']))
+    })
+  })
+
+  describe('selectIsSaving', () => {
+    it('returns the value of isSaving', () => {
+      const relationshipForm = {isSaving: true}
+      const state = fromJS({relationshipForm})
+      expect(selectIsSaving(state)).toBe(true)
     })
   })
 })

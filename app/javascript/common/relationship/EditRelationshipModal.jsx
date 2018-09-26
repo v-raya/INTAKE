@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
+import SavingButton from 'common/SavingButton'
 
 const renderBody = (editFormRelationship, errors, onChange, person, relationship) => (
   <EditRelationshipForm
@@ -13,23 +14,24 @@ const renderBody = (editFormRelationship, errors, onChange, person, relationship
   />
 )
 
-const renderFooter = (closeModal, isFormChanged, onSave, id) => (
+const renderFooter = (closeModal, isFormChanged, isSaving, onSave, id) => (
   <div className='row'>
     <div className='col-md-12'>
       <div className='pull-right'>
-        <button className='btn btn-default' onClick={closeModal}>
-          Cancel
-        </button>
-        <button
-          className='btn btn-primary'
-          disabled={isFormChanged}
-          onClick={() => {
-            onSave(id)
-            closeModal()
-          }}
-        >
-          Save Relationship
-        </button>
+        {isSaving ? <SavingButton text='Saving'/> :
+          <div>
+            <button className='btn btn-default' onClick={closeModal}>
+              Cancel
+            </button>
+            <button
+              className='btn btn-primary'
+              disabled={isFormChanged}
+              onClick={() => onSave(id)}
+            >
+            Save Relationship
+            </button>
+          </div>
+        }
       </div>
     </div>
   </div>
@@ -40,6 +42,7 @@ const EditRelationshipModal = ({
   editFormRelationship,
   errors,
   isFormChanged,
+  isSaving,
   onChange,
   onSave,
   person,
@@ -50,7 +53,7 @@ const EditRelationshipModal = ({
     closeModal={closeModal}
     showModal={show}
     modalBody={renderBody(editFormRelationship, errors, onChange, person, relationship)}
-    modalFooter={renderFooter(closeModal, isFormChanged, onSave, editFormRelationship.id)}
+    modalFooter={renderFooter(closeModal, isFormChanged, isSaving, onSave, editFormRelationship.id)}
     modalSize='large'
     modalTitle='Edit Relationship Type'
   />
@@ -93,6 +96,7 @@ EditRelationshipModal.propTypes = {
     started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
+  isSaving: PropTypes.bool,
   onChange: PropTypes.func,
   onSave: PropTypes.func,
   person: personPropType,

@@ -19,6 +19,7 @@ const propTypes = {
     started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
+  isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
   name: PropTypes.string,
   onChange: PropTypes.func,
@@ -41,6 +42,7 @@ const RelationCard = ({
   editFormRelationship,
   errors,
   isFormChanged,
+  isSaving,
   isScreening,
   onChange,
   onClick,
@@ -99,6 +101,7 @@ const RelationCard = ({
               editFormRelationship={editFormRelationship}
               errors={errors}
               isFormChanged={isFormChanged}
+              isSaving={isSaving}
               isScreening={isScreening}
               onChange={onChange}
               onClick={onClick}

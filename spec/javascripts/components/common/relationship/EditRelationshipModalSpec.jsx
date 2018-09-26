@@ -49,6 +49,14 @@ describe('EditRelationshipModal', () => {
         renderEditRelationshipModal(props).find(ModalComponent).shallow().find('button').length
       ).toBe(2)
     })
+    it('renders SavingButton when isSaving props is true', () => {
+      expect(
+        renderEditRelationshipModal({...props, isSaving: true})
+          .find(ModalComponent)
+          .shallow()
+          .find('SavingButton').length
+      ).toBe(1)
+    })
   })
 
   describe('renderEditRelationshipForm', () => {

@@ -8,6 +8,7 @@ export const Relationships = ({
   editFormRelationship,
   errors,
   isFormChanged,
+  isSaving,
   isScreening,
   onClick,
   onChange,
@@ -31,6 +32,7 @@ export const Relationships = ({
                     editFormRelationship={editFormRelationship}
                     errors={errors}
                     isFormChanged={isFormChanged}
+                    isSaving={isSaving}
                     isScreening={isScreening}
                     onChange={onChange}
                     onClick={onClick}
@@ -122,6 +124,7 @@ Relationships.propTypes = {
     started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
+  isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,

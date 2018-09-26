@@ -24,7 +24,11 @@ const isFormNoChange = (relationshipForm) => (relatee) =>
     start_date: relatee.get('start_date') || null,
   }))
 
-export const selectRelationship = (state) => (state.get('relationshipForm', Map()))
+export const selectRelationship = (state) =>
+  state.getIn(['relationshipForm', 'relationship'], Map())
+
+export const selectIsSaving = (state) =>
+  state.getIn(['relationshipForm', 'isSaving'])
 
 export const selectErrors = createSelector(
   (state) => state.getIn(['relationshipForm', 'end_date']),

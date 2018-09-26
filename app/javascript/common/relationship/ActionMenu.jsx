@@ -11,6 +11,12 @@ export class ActionMenu extends Component {
     this.handleShowModal = this.handleShowModal.bind(this)
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.isSaving === false && prevProps.isSaving !== false) {
+      this.closeModal()
+    }
+  }
+
   closeModal() {
     this.setState({show: false})
   }
@@ -26,6 +32,7 @@ export class ActionMenu extends Component {
       editFormRelationship,
       errors,
       isFormChanged,
+      isSaving,
       onChange,
       onSave,
       person,
@@ -38,6 +45,7 @@ export class ActionMenu extends Component {
         errors={errors}
         closeModal={this.closeModal}
         isFormChanged={isFormChanged}
+        isSaving={isSaving}
         onChange={onChange}
         onSave={onSave}
         person={person}
@@ -105,6 +113,7 @@ ActionMenu.propTypes = {
     started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
+  isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
