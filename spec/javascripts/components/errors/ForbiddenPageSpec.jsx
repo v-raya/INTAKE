@@ -9,16 +9,11 @@ describe('ForbiddenPage', () => {
     component = shallow(<ForbiddenPage/>, {disableLifecycleMethods: true})
   })
 
-  it('renders the error text', () => {
-    expect(component.text()).toContain('This page is restricted.')
-    expect(component.text()).toContain(
+  it('renders the error page with appropriate text', () => {
+    const errorPageProps = component.find('ErrorPage').props()
+    expect(errorPageProps.message).toEqual('This page is restricted.')
+    expect(errorPageProps.details).toEqual(
       "You don't have the appropriate permissions to view this page."
     )
-  })
-
-  it('renders a link to dashboard', () => {
-    expect(component.find('Link').props().to).toBe('/')
-    expect(component.find('Link').props().children)
-      .toBe('Return to your dashboard')
   })
 })

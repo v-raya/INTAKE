@@ -43,7 +43,7 @@ feature 'error pages' do
       expect(page).to have_text(
         "It may have been deleted or doesn't exist. Please check the address or"
       )
-      expect(page).to have_link('return to your dashboard', href: '/')
+      expect(page).to have_link('Return to your dashboard', href: '/')
     end
   end
 
@@ -61,14 +61,14 @@ feature 'error pages' do
       expect(page).to have_text(
         "It may have been deleted or doesn't exist. Please check the address or"
       )
-      expect(page).to have_link('return to your dashboard', href: '/')
+      expect(page).to have_link('Return to your dashboard', href: '/')
     end
 
     scenario 'does not display "Something went wrong, sorry! Please try your last action again."' do
       stub_request(:get, ferb_api_url(FerbRoutes.screenings_path)).and_return(
         json_body([], status: 200)
       )
-      click_link 'return to your dashboard'
+      click_link 'Return to your dashboard'
       expect(page).not_to \
         have_text('Something went wrong, sorry! Please try your last action again.')
     end
