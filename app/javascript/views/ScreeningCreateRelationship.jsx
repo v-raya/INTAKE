@@ -35,23 +35,26 @@ export default class ScreeningCreateRelationship extends React.Component {
     const {isDisabled = true, isSaving = false} = this.props
     return (
       <div>
-        <button
-          aria-label='Cancel'
-          className='btn btn-default'
-          onClick={this.closeModal}
-        >
-          Cancel
-        </button>
         {isSaving ?
           <SavingButton text='Saving'/> :
-          <button
-            aria-label='Create Relationship'
-            className='btn btn-primary'
-            disabled={isDisabled}
-            onClick={this.saveCreateRelationship}
-          >
+          <div>
+            <button
+              aria-label='Create Relationship'
+              className='btn btn-primary'
+              disabled={isDisabled}
+              onClick={this.saveCreateRelationship}
+            >
           Create Relationship
-          </button>}
+            </button>
+            <button
+              aria-label='Cancel'
+              className='btn btn-default'
+              onClick={this.closeModal}
+            >
+        Cancel
+            </button>
+          </div>
+        }
       </div>
     )
   }

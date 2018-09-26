@@ -99,9 +99,10 @@ describe('ScreeningCreateRelationship', () => {
     it('closes the modal and onCancel have been called', () => {
       wrapper.setState({show: true})
       const footer = wrapper.find('ModalComponent').props().modalFooter
-      const cancel = footer.props.children[0]
+      const footerComponent = shallow(footer)
+      const cancelButton = footerComponent.find('button').at(1).props()
       expect(wrapper.state().show).toEqual(true)
-      cancel.props.onClick()
+      cancelButton.onClick()
       expect(wrapper.state().show).toEqual(false)
       expect(onCancel).toHaveBeenCalled()
       expect(onCancel).toHaveBeenCalledWith('805')
@@ -118,43 +119,45 @@ describe('ScreeningCreateRelationship', () => {
   })
 
   describe('saveCreateRelationship', () => {
-    it('calls close the modal when the Create Relationship Button is click', () => {
+    it('closes the modal when the Create Relationship Button is click', () => {
       wrapper.setState({show: true})
       const footer = wrapper.find('ModalComponent').props().modalFooter
-      const save = footer.props.children[1]
+      const footerComponent = shallow(footer)
+      const createRelationshipButton = footerComponent.find('button').at(0).props()
       expect(wrapper.state().show).toEqual(true)
-      save.props.onClick()
+      createRelationshipButton.onClick()
       expect(wrapper.state().show).toEqual(false)
       expect(onSave).toHaveBeenCalled()
       expect(onSave).toHaveBeenCalledWith('805')
     })
   })
-  it('renders SaveRelationship Button as disabled when the modal is popped up initially', () => {
+  it('renders Create Relationship Button as disabled when the modal is popped up initially', () => {
     wrapper.setState({show: true})
     const footer = wrapper.find('ModalComponent').props().modalFooter
-    const save = footer.props.children[1]
-    expect(save.props.disabled).toEqual(true)
+    const createRelationshipButton = shallow(footer)
+    expect(createRelationshipButton.find('button').at(0).props().disabled).toBe(true)
   })
 
-  it('renders a button and SavingButton if isSaving prop is set to True', () => {
+  it('renders only SavingButton if isSaving prop is set to True', () => {
     const wrapper = shallow(
       <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave} isSaving = {true}/>
     )
     wrapper.setState({show: true})
     const footer = wrapper.find('ModalComponent').props().modalFooter
     const savingButton = shallow(footer)
-    expect(savingButton.find('button').length).toEqual(1)
     expect(savingButton.find('SavingButton').length).toEqual(1)
   })
 
-  it('has a SaveButton and has text prop in SavingButton as Saving', () => {
+  it('has a SaveButton and has text prop in SavingButton as saving', () => {
     const wrapper = shallow(
-      <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave} isSaving = {true}/>
+      <ScreeningCreateRelationship {...props} onCancel={onCancel} onSave={onSave} isSaving={false} />
     )
     wrapper.setState({show: true})
+    wrapper.setProps({isSaving: true})
     const footer = wrapper.find('ModalComponent').props().modalFooter
-    const savingButton = footer.props.children[1]
-    expect(savingButton.props.text).toEqual('Saving')
+    const buttons = shallow(footer)
+    expect(buttons.find('SavingButton').length).toEqual(1)
+    expect(buttons.find('SavingButton').props().text).toEqual('Saving')
   })
 
   it('renders two buttons if isSaving prop is set to false', () => {
