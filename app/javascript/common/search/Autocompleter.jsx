@@ -7,7 +7,7 @@ import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
 import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
 import moment from 'moment'
-import SearchByAddressWithRouter from 'common/SearchByAddress'
+import SearchByAddress from 'common/SearchByAddress'
 
 const MIN_SEARCHABLE_CHARS = 2
 
@@ -19,15 +19,12 @@ const addPosAndSetAttr = (results) => {
   }
 }
 
-const itemClassName = (isHighlighted) =>
-  `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
+const itemClassName = (isHighlighted) => `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
 
 export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      menuVisible: false,
-    }
+    this.state = {menuVisible: false}
     this.onFocus = this.onFocus.bind(this)
     this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
@@ -225,12 +222,13 @@ export default class Autocompleter extends Component {
 
   renderAddressSearch() {
     const {
-      isAddressIncluded, searchAddress, searchCity, searchCounty, searchTerm,
+      isAddressIncluded, location, searchAddress, searchCity, searchCounty, searchTerm,
       onChangeAddress, onChangeCity, onChangeCounty} = this.props
 
     return (
-      <SearchByAddressWithRouter
+      <SearchByAddress
         isAddressIncluded={isAddressIncluded}
+        location={location}
         toggleAddressSearch={this.handleToggleAddressSearch}
         onSubmit={this.handleSubmit}
         searchAddress={searchAddress}
@@ -254,6 +252,7 @@ Autocompleter.propTypes = {
   id: PropTypes.string,
   isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
+  location: PropTypes.shape({pathname: PropTypes.string}),
   onChange: PropTypes.func.isRequired,
   onChangeAddress: PropTypes.func.isRequired,
   onChangeCity: PropTypes.func.isRequired,

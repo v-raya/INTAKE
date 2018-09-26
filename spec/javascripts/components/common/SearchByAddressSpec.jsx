@@ -1,5 +1,5 @@
 import React from 'react'
-import {SearchByAddress} from 'common/SearchByAddress'
+import SearchByAddress from 'common/SearchByAddress'
 import {shallow} from 'enzyme'
 import * as IntakeConfig from 'common/config'
 
@@ -27,11 +27,11 @@ describe('SearchByAddress', () => {
   )
 
   beforeEach(() => {
-    spyOn(IntakeConfig, 'isFeatureActive').and.returnValue(true)
+    spyOn(IntakeConfig, 'isSearchByAddressOn').and.returnValue(true)
   })
   describe('when is not Hotline', () => {
     it('renders an empty string', () => {
-      IntakeConfig.isFeatureActive.and.returnValue(false)
+      IntakeConfig.isSearchByAddressOn.and.returnValue(false)
       const searchByAddress = render({isAddressIncluded: false})
       expect(searchByAddress.html()).toEqual(null)
     })

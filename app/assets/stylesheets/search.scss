@@ -20,6 +20,10 @@
   z-index: 2;
 }
 
+.address-search-disabled .autocomplete-menu {
+  margin-top: 0;
+}
+
 .search-item {
   border-bottom: $regular-border solid $light-grey;
   cursor: pointer;

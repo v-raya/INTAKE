@@ -2,17 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import AddressWithSearch from 'common/AddressWithSearch'
-import {isFeatureActive} from 'common/config'
-import {withRouter} from 'react-router'
-
-const isHotline = (location) =>
-  location && location.pathname.indexOf('/screenings') >= 0
-
-const isSearchByAddressOn = (location) => (
-  isHotline(location) ?
-    isFeatureActive('address_search_hotline') :
-    isFeatureActive('address_search_snapshot')
-)
+import {isSearchByAddressOn} from 'common/config'
 
 const SearchByAddress = ({
   isAddressIncluded,
@@ -72,8 +62,4 @@ SearchByAddress.propTypes = {
   toggleAddressSearch: PropTypes.func,
 }
 
-export {SearchByAddress}
-
-const SearchByAddressWithRouter = withRouter(SearchByAddress)
-SearchByAddressWithRouter.displayName = 'SearchByAddress'
-export default SearchByAddressWithRouter
+export default SearchByAddress

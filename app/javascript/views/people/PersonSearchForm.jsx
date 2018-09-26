@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Autocompleter from 'common/search/Autocompleter'
+import {withRouter} from 'react-router'
+import {isSearchByAddressOn} from 'common/config'
 
-export class PersonSearchForm extends React.Component {
+class PersonSearchForm extends React.Component {
   componentWillUnmount() {
     this.props.onClear()
     this.props.onChange('')
@@ -15,6 +17,9 @@ export class PersonSearchForm extends React.Component {
       ...autocompleterProps
     } = this.props
 
+    const classNameAddressSearchDisabled = isSearchByAddressOn(this.props.location) ?
+      '' : 'address-search-disabled'
+
     return (
       <div>
         <a className='anchor' id='search-card-anchor'/>
@@ -22,7 +27,7 @@ export class PersonSearchForm extends React.Component {
           <div className='card-header'>
             <h2>Search</h2>
           </div>
-          <div className='card-body'>
+          <div className={`card-body ${classNameAddressSearchDisabled}`}>
             <div className='row'>
               <div className='col-md-12'>
                 <label className='pull-left' htmlFor='screening_participants'>{searchPrompt}</label>
@@ -40,6 +45,9 @@ PersonSearchForm.propTypes = {
   canCreateNewPerson: PropTypes.bool.isRequired,
   isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
   onChange: PropTypes.func.isRequired,
   onChangeCounty: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
@@ -54,4 +62,8 @@ PersonSearchForm.propTypes = {
   total: PropTypes.number,
 }
 
-export default PersonSearchForm
+export {PersonSearchForm}
+
+const PersonSearchFormWithRouter = withRouter(PersonSearchForm)
+PersonSearchFormWithRouter.displayName = 'PersonSearchForm'
+export default PersonSearchFormWithRouter
