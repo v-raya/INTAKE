@@ -8,10 +8,11 @@ import {withRouter} from 'react-router'
 const isHotline = (location) =>
   location && location.pathname.indexOf('/screenings') >= 0
 
-const isSearchByAddressOn = (location) =>
+const isSearchByAddressOn = (location) => (
   isHotline(location) ?
     isFeatureActive('address_search_hotline') :
     isFeatureActive('address_search_snapshot')
+)
 
 const SearchByAddress = ({
   isAddressIncluded,
@@ -75,5 +76,4 @@ export {SearchByAddress}
 
 const SearchByAddressWithRouter = withRouter(SearchByAddress)
 SearchByAddressWithRouter.displayName = 'SearchByAddress'
-SearchByAddressWithRouter.propTypes = SearchByAddress.propTypes
 export default SearchByAddressWithRouter
