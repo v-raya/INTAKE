@@ -39,19 +39,19 @@ export default class ScreeningCreateRelationship extends React.Component {
           <SavingButton text='Saving'/> :
           <div>
             <button
+              aria-label='Cancel'
+              className='btn btn-default'
+              onClick={this.closeModal}
+            >
+        Cancel
+            </button>
+            <button
               aria-label='Create Relationship'
               className='btn btn-primary'
               disabled={isDisabled}
               onClick={this.saveCreateRelationship}
             >
           Create Relationship
-            </button>
-            <button
-              aria-label='Cancel'
-              className='btn btn-default'
-              onClick={this.closeModal}
-            >
-        Cancel
             </button>
           </div>
         }
