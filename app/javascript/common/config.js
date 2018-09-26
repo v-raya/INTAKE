@@ -6,10 +6,6 @@ export function config() {
   return config
 }
 
-export function isConfigOptionTrue(option) {
-  return config()[option]
-}
-
 export function isFeatureActive(feature) {
   return Boolean(config().active_features) && config().active_features.includes(feature)
 }

@@ -1,4 +1,4 @@
-import {isConfigOptionTrue, isFeatureActive, isFeatureInactive, config, jsClipboardSupported, sdmPath} from 'common/config'
+import {isFeatureActive, isFeatureInactive, config, jsClipboardSupported, sdmPath} from 'common/config'
 
 describe('intake config', () => {
   let windowOrg
@@ -12,33 +12,6 @@ describe('intake config', () => {
 
     it('references window org intake config', () => {
       expect(config()).toEqual({test_config: true})
-    })
-  })
-
-  describe('.isConfigOptionTrue', () => {
-    describe('when a config option is set to true', () => {
-      beforeEach(() => {
-        window.org = Object.freeze({intake: {config: {turned_on: true}}})
-      })
-
-      it('returns true', () => {
-        expect(isConfigOptionTrue('turned_on')).toEqual(true)
-      })
-    })
-
-    describe('when a config option is not set to true', () => {
-      beforeEach(() => {
-        window.org = Object.freeze({intake: {config: {turned_on: false}}})
-      })
-
-      it('returns false', () => {
-        expect(isFeatureActive('turned_on')).toEqual(false)
-      })
-    })
-
-    it('when a config option is not present', () => {
-      delete window.org
-      expect(isFeatureActive('turned_on')).toEqual(false)
     })
   })
 

@@ -2,18 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import AddressWithSearch from 'common/AddressWithSearch'
-import {isConfigOptionTrue} from 'common/config'
+import {isFeatureActive} from 'common/config'
 import {withRouter} from 'react-router'
 
-function isHotline(location) {
-  return location && location.pathname.indexOf('/screenings') >= 0
-}
+const isHotline = (location) =>
+  location && location.pathname.indexOf('/screenings') >= 0
 
-function isSearchByAddressOn(location) {
-  return isHotline(location) ?
-    isConfigOptionTrue('address_search_hotline') :
-    isConfigOptionTrue('address_search_snapshot')
-}
+const isSearchByAddressOn = (location) =>
+  isHotline(location) ?
+    isFeatureActive('address_search_hotline') :
+    isFeatureActive('address_search_snapshot')
 
 const SearchByAddress = ({
   isAddressIncluded,

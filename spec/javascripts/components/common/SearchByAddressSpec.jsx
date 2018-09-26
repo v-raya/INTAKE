@@ -27,11 +27,11 @@ describe('SearchByAddress', () => {
   )
 
   beforeEach(() => {
-    spyOn(IntakeConfig, 'isConfigOptionTrue').and.returnValue(true)
+    spyOn(IntakeConfig, 'isFeatureActive').and.returnValue(true)
   })
   describe('when is not Hotline', () => {
     it('renders an empty string', () => {
-      IntakeConfig.isConfigOptionTrue.and.returnValue(false)
+      IntakeConfig.isFeatureActive.and.returnValue(false)
       const searchByAddress = render({isAddressIncluded: false})
       expect(searchByAddress.html()).toEqual(null)
     })

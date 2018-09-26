@@ -7,6 +7,8 @@ development:
     snapshot: true
     screenings: true
     enable_newrelic_analytics: true
+    address_search_snapshot: false
+    address_search_hotline: true
 
 test:
   features:
@@ -16,6 +18,8 @@ test:
     snapshot: true
     screenings: true
     enable_newrelic_analytics: true
+    address_search_snapshot: false
+    address_search_hotline: true
 
 production:
   features:
@@ -25,3 +29,5 @@ production:
     snapshot: <%= ENV.fetch('SNAPSHOT', true) %>
     screenings: <%= ENV.fetch('SCREENINGS', true) %>
     enable_newrelic_analytics: <%= ENV.fetch('ENABLE_NEWRELIC_ANALYTICS', true) %>
+    address_search_snapshot: <%= ENV.fetch('ADDRESS_SEARCH_SNAPSHOT', 'false') %>
+    address_search_hotline: <%= ENV.fetch('ADDRESS_SEARCH_HOTLINE', 'true') %>
