@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import PersonSearchForm from 'views/people/PersonSearchForm'
+import {PersonSearchForm} from 'views/people/PersonSearchForm'
 import * as IntakeConfig from 'common/config'
 
 describe('PersonSearchForm', () => {
@@ -92,5 +92,17 @@ describe('PersonSearchForm', () => {
     component.find('Autocompleter').props().onChangeCounty('Shasta')
 
     expect(onChangeCounty).toHaveBeenCalledWith('Shasta')
+  })
+
+  it('adds no class when address search is enabled', () => {
+    spyOn(IntakeConfig, 'isSearchByAddressOn').and.returnValue(true)
+    const component = renderPersonSearchForm({})
+    expect(component.find('.address-search-disabled').exists()).toEqual(false)
+  })
+
+  it('adds a class when address search is disabled', () => {
+    spyOn(IntakeConfig, 'isSearchByAddressOn').and.returnValue(false)
+    const component = renderPersonSearchForm({})
+    expect(component.find('.address-search-disabled').exists()).toEqual(true)
   })
 })
