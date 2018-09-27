@@ -6,28 +6,15 @@ import {
 } from 'actions/screeningInformationFormActions'
 import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {createReducer} from 'utils/createReducer'
-import {untouched} from 'utils/formTouch'
-import {Map, fromJS} from 'immutable'
+import {toUntouchedObject} from 'utils/formTouch'
+import {Map} from 'immutable'
+
+const FIELDS = ['name', 'assignee', 'report_type', 'started_at', 'ended_at', 'communication_method']
 
 export default createReducer(Map(), {
   [FETCH_SCREENING_COMPLETE](state, {payload: {screening}, error}) {
     if (error) { return state }
-    const {
-      name,
-      assignee,
-      report_type,
-      started_at,
-      ended_at,
-      communication_method,
-    } = screening
-    return fromJS({
-      name: untouched(name),
-      assignee: untouched(assignee),
-      report_type: untouched(report_type),
-      started_at: untouched(started_at),
-      ended_at: untouched(ended_at),
-      communication_method: untouched(communication_method),
-    })
+    return toUntouchedObject(FIELDS, screening)
   },
   [RESET_SCREENING_INFORMATION_FORM_FIELD_VALUES](state, {payload: {name, assignee, report_type, started_at, ended_at, communication_method}}) {
     return state.setIn(['name', 'value'], name)
