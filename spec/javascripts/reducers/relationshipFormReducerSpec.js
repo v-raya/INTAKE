@@ -7,24 +7,49 @@ import {
   updateRelationshipFailure,
   updateRelationshipSuccess,
 } from 'actions/relationshipFormActions'
+import {fetchRelationshipsSuccess} from 'actions/relationshipsActions'
 import {Map, fromJS} from 'immutable'
 
 describe('relationshipFormReducer', () => {
+  const person = {id: 'ZXY123'}
+  const relationship = {
+    absent_parent_code: 'Y',
+    endDate: '2010-10-01',
+    relationshipId: '12345',
+    type_code: '190',
+    relativeId: 'ABC987',
+    reversed: false,
+    same_home_code: 'Y',
+    startDate: '1999-10-01',
+  }
+  const relationshipForm = fromJS({
+    relationship: {
+      absent_parent_indicator: true,
+      client_id: 'ZXY123',
+      end_date: '2010-10-01',
+      id: '12345',
+      relationship_type: 190,
+      relative_id: 'ABC987',
+      reversed: false,
+      same_home_status: 'Y',
+      start_date: '1999-10-01',
+    }})
   beforeEach(() => jasmine.addMatchers(matchers))
+
+  describe('on FETCH_RELATIONSHIPS_COMPLETE', () => {
+    it('sets the isSaving to false', () => {
+      const relationships = [{id: '808'}]
+      const relationshipForm = {isSaving: true}
+      const lastState = fromJS(relationshipForm)
+      const action = fetchRelationshipsSuccess(relationships)
+      expect(
+        relationshipFormReducer(lastState, action)).toEqualImmutable(fromJS({isSaving: false})
+      )
+    })
+  })
 
   describe('on LOAD_RELATIONSHIP', () => {
     it('returns a relationship immutable map on', () => {
-      const person = {id: 'ZXY123'}
-      const relationship = {
-        absent_parent_code: 'Y',
-        endDate: '2010-10-01',
-        relationshipId: '12345',
-        type_code: '190',
-        relativeId: 'ABC987',
-        reversed: false,
-        same_home_code: 'Y',
-        startDate: '1999-10-01',
-      }
       const action = loadRelationship(person, relationship)
       expect(relationshipFormReducer(Map(), action)).toEqualImmutable(
         fromJS({
@@ -47,18 +72,6 @@ describe('relationshipFormReducer', () => {
 
   describe('on SET_RELATIONSHIP_FORM_FIELD', () => {
     it('returns the update form state', () => {
-      const relationshipForm = fromJS({
-        relationship: {
-          absent_parent_indicator: true,
-          client_id: 'ZXY123',
-          end_date: '2010-10-01',
-          id: '12345',
-          relationship_type: 190,
-          relative_id: 'ABC987',
-          reversed: false,
-          same_home_status: 'Y',
-          start_date: '1999-10-01',
-        }})
       const lastState = fromJS(relationshipForm)
       const actionRelationshipTye = setRelationshipForm('relationship_type', 191)
       expect(relationshipFormReducer(lastState, actionRelationshipTye)).toEqualImmutable(
@@ -95,28 +108,6 @@ describe('relationshipFormReducer', () => {
 
   describe('on UPDATE_RELATIONSHIP_COMPLETE', () => {
     it('returns the relationship with updated on success', () => {
-      const relationshipForm = fromJS({
-        relationship: {
-          absent_parent_indicator: true,
-          client_id: 'ZXY123',
-          end_date: '2010-10-01',
-          id: '12345',
-          relationship_type: 190,
-          relative_id: 'ABC987',
-          reversed: false,
-          same_home_status: 'Y',
-          start_date: '1999-10-01',
-        }})
-      const relationship = {
-        absent_parent_code: 'Y',
-        endDate: '2010-10-01',
-        relationshipId: '12345',
-        type_code: '190',
-        relativeId: 'ABC987',
-        reversed: false,
-        same_home_code: 'Y',
-        startDate: '1999-10-01',
-      }
       const lastState = fromJS(relationshipForm)
       const action = updateRelationshipSuccess(relationship)
       expect(relationshipFormReducer(lastState, action)).toEqualImmutable(fromJS({
@@ -130,7 +121,6 @@ describe('relationshipFormReducer', () => {
           same_home_code: 'Y',
           startDate: '1999-10-01',
         },
-        isSaving: true,
       }))
     })
 
@@ -139,6 +129,7 @@ describe('relationshipFormReducer', () => {
       expect(relationshipFormReducer(Map(), action)).toEqualImmutable(Map())
     })
   })
+
   describe('on UPDATE_RELATIONSHIP', () => {
     it('returns the relationship with updated on success', () => {
       const state = {id: '808'}

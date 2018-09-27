@@ -1,4 +1,5 @@
 import {
+  FETCH_RELATIONSHIPS_COMPLETE,
   SET_RELATIONSHIP_FORM_FIELD,
   UPDATE_RELATIONSHIP,
   UPDATE_RELATIONSHIP_COMPLETE,
@@ -43,15 +44,17 @@ const updateRelationship = (state, {payload: {relationship}, error}) => {
   if (error) {
     return state
   }
-  const updateRelationship = {relationship: relationship, isSaving: true}
-  return fromJS(updateRelationship)
+  return state.set('relationship', fromJS(relationship))
 }
 
 const isSavingButton = (state) => state.set('isSaving', true)
 
+const isNotSavingButton = (state) => state.set('isSaving', false)
+
 const initialState = fromJS({isSaving: false})
 
 export default createReducer(initialState, {
+  [FETCH_RELATIONSHIPS_COMPLETE]: isNotSavingButton,
   [LOAD_RELATIONSHIP]: buildRelationship,
   [SET_RELATIONSHIP_FORM_FIELD]: setRelationshipForm,
   [UPDATE_RELATIONSHIP]: isSavingButton,
