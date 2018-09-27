@@ -6,6 +6,7 @@ import {
 import {setField, touchField, touchAllFields} from 'actions/narrativeFormActions'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
 import {connect} from 'react-redux'
+import {mapDispatchToPropsFactory} from 'utils/connectors'
 
 export const cardName = 'narrative-card'
 
@@ -18,19 +19,13 @@ const mapStateToProps = (state) => (
   }
 )
 
-export const mapDispatchToProps = (dispatch, {onShow, onSave}) => ({
-  onBlur: (fieldName) => dispatch(touchField(fieldName)),
-  onCancel: () => {
-    dispatch(clearCardEdits(cardName))
-    dispatch(touchAllFields())
-    onShow()
-  },
-  onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
-  onSave: () => {
-    dispatch(saveCard(cardName))
-    dispatch(touchAllFields())
-    onSave()
-  },
+export const mapDispatchToProps = mapDispatchToPropsFactory({
+  cardName,
+  setField,
+  touchAllFields,
+  touchField,
+  saveCard,
+  clearCardEdits,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NarrativeForm)
