@@ -3,6 +3,7 @@ import CreateRelationshipForm from 'common/relationship/CreateRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
 import SavingButton from 'common/SavingButton'
 import PropTypes from 'prop-types'
+import {CandidatesPropType} from 'data/candidates'
 
 export default class ScreeningCreateRelationship extends React.Component {
   constructor(props) {
@@ -100,24 +101,7 @@ export default class ScreeningCreateRelationship extends React.Component {
 }
 
 ScreeningCreateRelationship.propTypes = {
-  candidates: PropTypes.arrayOf(PropTypes.shape({
-    candidate: PropTypes.shape({
-      age: PropTypes.string,
-      candidate_id: PropTypes.string,
-      dateOfBirth: PropTypes.string,
-      gender: PropTypes.string,
-      id: PropTypes.string,
-      name: PropTypes.string,
-    }),
-    person: PropTypes.shape({
-      age: PropTypes.string,
-      dateOfBirth: PropTypes.string,
-      gender: PropTypes.string,
-      id: PropTypes.string,
-      legacy_id: PropTypes.string,
-      name: PropTypes.string,
-    }),
-  })),
+  candidates: CandidatesPropType,
   isDisabled: PropTypes.bool,
   isSaving: PropTypes.bool,
   onCancel: PropTypes.func,

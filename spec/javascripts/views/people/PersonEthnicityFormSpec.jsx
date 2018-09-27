@@ -109,199 +109,24 @@ describe('PersonEthnicityForm', () => {
     })
   })
 
-  describe('No checkbox', () => {
-    it('renders a check box with the proper id for No', () => {
-      const component = renderPersonEthnicityForm({personId: '123'})
-      const noBox = component.find('CheckboxField[label="No"]')
-      expect(noBox.exists()).toEqual(true)
-      expect(noBox.props().id).toEqual('123-ethnicity-no')
-    })
-
-    it('sets checked to true if latinoOrigin is No', () => {
-      const component = renderPersonEthnicityForm({latinoOrigin: 'No'})
-      const noBox = component.find('CheckboxField[label="No"]')
-      expect(noBox.props().checked).toEqual(true)
-    })
-
-    it('sets checked to false if latinoOrigin is not No', () => {
-      const component = renderPersonEthnicityForm({latinoOrigin: ''})
-      const noBox = component.find('CheckboxField[label="No"]')
-      expect(noBox.props().checked).toEqual(false)
-    })
-
-    it('calls onChange with the proper value when checked', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = renderPersonEthnicityForm({onChange})
-      const noBox = component.find('CheckboxField[label="No"]')
-      noBox.simulate('change', {target: {checked: true}})
-      expect(onChange).toHaveBeenCalledWith('hispanic_latino_origin', 'No')
-    })
-
-    it('calls onChange with the proper value when unchecked', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = renderPersonEthnicityForm({onChange})
-      const noBox = component.find('CheckboxField[label="No"]')
-      noBox.simulate('change', {target: {checked: false}})
-      expect(onChange).toHaveBeenCalledWith('hispanic_latino_origin', null)
-    })
-
-    it('sets disabled to true if disableFields is true and the value is not No', () => {
-      const component = renderPersonEthnicityForm({disableFields: true, latinoOrigin: ''})
-      const noBox = component.find('CheckboxField[label="No"]')
-      expect(noBox.props().disabled).toEqual(true)
-    })
-
-    it('sets disabled to false if disableFields is false and the value is No', () => {
-      const component = renderPersonEthnicityForm({disableFields: true, latinoOrigin: 'No'})
-      const noBox = component.find('CheckboxField[label="No"]')
-      expect(noBox.props().disabled).toEqual(false)
-    })
+  it('renders a check box for No', () => {
+    const component = renderPersonEthnicityForm({personId: '123'})
+    const declinedBox = component.find('EthnicityCheckbox').at(0)
+    expect(declinedBox.props().ethnicity).toEqual('No')
   })
-
-  describe('Unknown checkbox', () => {
-    it('renders a check box with the proper id for Unknown', () => {
-      const component = renderPersonEthnicityForm({personId: '123'})
-      const unknownBox = component.find('CheckboxField[label="Unknown"]')
-      expect(unknownBox.exists()).toEqual(true)
-      expect(unknownBox.props().id).toEqual('123-ethnicity-unknown')
-    })
-
-    it('sets checked to true if latinoOrigin is Unknown', () => {
-      const component = renderPersonEthnicityForm({latinoOrigin: 'Unknown'})
-      const unknownBox = component.find('CheckboxField[label="Unknown"]')
-      expect(unknownBox.props().checked).toEqual(true)
-    })
-
-    it('sets checked to false if latinoOrigin is not Unknown', () => {
-      const component = renderPersonEthnicityForm({latinoOrigin: ''})
-      const unknownBox = component.find('CheckboxField[label="Unknown"]')
-      expect(unknownBox.props().checked).toEqual(false)
-    })
-
-    it('calls onChange with the proper value when checked', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = renderPersonEthnicityForm({onChange})
-      const unknownBox = component.find('CheckboxField[label="Unknown"]')
-      unknownBox.simulate('change', {target: {checked: true}})
-      expect(onChange).toHaveBeenCalledWith('hispanic_latino_origin', 'Unknown')
-    })
-
-    it('calls onChange with the proper value when unchecked', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = renderPersonEthnicityForm({onChange})
-      const unknownBox = component.find('CheckboxField[label="Unknown"]')
-      unknownBox.simulate('change', {target: {checked: false}})
-      expect(onChange).toHaveBeenCalledWith('hispanic_latino_origin', null)
-    })
-
-    it('sets disabled to true if disableFields is true and the value is not Unknown', () => {
-      const component = renderPersonEthnicityForm({disableFields: true, latinoOrigin: ''})
-      const unknownBox = component.find('CheckboxField[label="Unknown"]')
-      expect(unknownBox.props().disabled).toEqual(true)
-    })
-
-    it('sets disabled to false if disableFields is false and the value is Unknown', () => {
-      const component = renderPersonEthnicityForm({disableFields: true, latinoOrigin: 'Unknown'})
-      const unknownBox = component.find('CheckboxField[label="Unknown"]')
-      expect(unknownBox.props().disabled).toEqual(false)
-    })
+  it('renders a check box for Unknown', () => {
+    const component = renderPersonEthnicityForm({personId: '123'})
+    const declinedBox = component.find('EthnicityCheckbox').at(1)
+    expect(declinedBox.props().ethnicity).toEqual('Unknown')
   })
-
-  describe('Abandoned checkbox', () => {
-    it('renders a check box whith the proper id for Abandoned', () => {
-      const component = renderPersonEthnicityForm({personId: '123'})
-      const abandonedBox = component.find('CheckboxField[label="Abandoned"]')
-      expect(abandonedBox.exists()).toEqual(true)
-      expect(abandonedBox.props().id).toEqual('123-ethnicity-abandoned')
-    })
-
-    it('sets checked to true if latinoOrigin is Abandoned', () => {
-      const component = renderPersonEthnicityForm({latinoOrigin: 'Abandoned'})
-      const abandonedBox = component.find('CheckboxField[label="Abandoned"]')
-      expect(abandonedBox.props().checked).toEqual(true)
-    })
-
-    it('sets checked to false if latinoOrigin is not Abandoned', () => {
-      const component = renderPersonEthnicityForm({latinoOrigin: ''})
-      const abandonedBox = component.find('CheckboxField[label="Abandoned"]')
-      expect(abandonedBox.props().checked).toEqual(false)
-    })
-
-    it('calls onChange with the proper value when checked', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = renderPersonEthnicityForm({onChange})
-      const abandonedBox = component.find('CheckboxField[label="Abandoned"]')
-      abandonedBox.simulate('change', {target: {checked: true}})
-      expect(onChange).toHaveBeenCalledWith('hispanic_latino_origin', 'Abandoned')
-    })
-
-    it('calls onChange with the proper value when unchecked', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = renderPersonEthnicityForm({onChange})
-      const abandonedBox = component.find('CheckboxField[label="Abandoned"]')
-      abandonedBox.simulate('change', {target: {checked: false}})
-      expect(onChange).toHaveBeenCalledWith('hispanic_latino_origin', null)
-    })
-
-    it('sets disabled to true if disableFields is true and the value is not Abandoned', () => {
-      const component = renderPersonEthnicityForm({disableFields: true, latinoOrigin: ''})
-      const abandonedBox = component.find('CheckboxField[label="Abandoned"]')
-      expect(abandonedBox.props().disabled).toEqual(true)
-    })
-
-    it('sets disabled to false if disableFields is false and the value is Abandoned', () => {
-      const component = renderPersonEthnicityForm({disableFields: true, latinoOrigin: 'Abandoned'})
-      const abandonedBox = component.find('CheckboxField[label="Abandoned"]')
-      expect(abandonedBox.props().disabled).toEqual(false)
-    })
+  it('renders a check box for Abandoned', () => {
+    const component = renderPersonEthnicityForm({personId: '123'})
+    const declinedBox = component.find('EthnicityCheckbox').at(2)
+    expect(declinedBox.props().ethnicity).toEqual('Abandoned')
   })
-
-  describe('Declined to answer checkbox', () => {
-    it('renders a check box for Declined to answer', () => {
-      const component = renderPersonEthnicityForm({personId: '123'})
-      const declinedBox = component.find('CheckboxField[label="Declined to answer"]')
-      expect(declinedBox.exists()).toEqual(true)
-      expect(declinedBox.props().id).toEqual('123-ethnicity-declined-to-answer')
-    })
-
-    it('sets checked to true if latinoOrigin is Declined to answer', () => {
-      const component = renderPersonEthnicityForm({latinoOrigin: 'Declined to answer'})
-      const declinedBox = component.find('CheckboxField[label="Declined to answer"]')
-      expect(declinedBox.props().checked).toEqual(true)
-    })
-
-    it('sets checked to false if latinoOrigin is not Declined to answer', () => {
-      const component = renderPersonEthnicityForm({latinoOrigin: ''})
-      const declinedBox = component.find('CheckboxField[label="Declined to answer"]')
-      expect(declinedBox.props().checked).toEqual(false)
-    })
-
-    it('calls onChange with the proper value when checked', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = renderPersonEthnicityForm({onChange})
-      const declinedBox = component.find('CheckboxField[label="Declined to answer"]')
-      declinedBox.simulate('change', {target: {checked: true}})
-      expect(onChange).toHaveBeenCalledWith('hispanic_latino_origin', 'Declined to answer')
-    })
-
-    it('calls onChange with the proper value when unchecked', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = renderPersonEthnicityForm({onChange})
-      const declinedBox = component.find('CheckboxField[label="Declined to answer"]')
-      declinedBox.simulate('change', {target: {checked: false}})
-      expect(onChange).toHaveBeenCalledWith('hispanic_latino_origin', null)
-    })
-
-    it('sets disabled to true if disableFields is true and the value is not Declined to answer', () => {
-      const component = renderPersonEthnicityForm({disableFields: true, latinoOrigin: ''})
-      const declinedBox = component.find('CheckboxField[label="Declined to answer"]')
-      expect(declinedBox.props().disabled).toEqual(true)
-    })
-
-    it('sets disabled to false if disableFields is false and the value is Declined to answer', () => {
-      const component = renderPersonEthnicityForm({disableFields: true, latinoOrigin: 'Declined to answer'})
-      const declinedBox = component.find('CheckboxField[label="Declined to answer"]')
-      expect(declinedBox.props().disabled).toEqual(false)
-    })
+  it('renders a check box for Declined to answer', () => {
+    const component = renderPersonEthnicityForm({personId: '123'})
+    const declinedBox = component.find('EthnicityCheckbox').at(3)
+    expect(declinedBox.props().ethnicity).toEqual('Declined to answer')
   })
 })
