@@ -7,15 +7,18 @@ module Api
     class PeopleController < ApiController # :nodoc:
       def index
         response = PersonSearchRepository.search(search_params.to_hash,
+          request.uuid,
           security_token: session[:security_token])
         render json: response
       end
 
       def show
-        ParticipantRepository.authorize(session[:security_token], request_id, params[:id])
+        ParticipantRepository.authorize(session[:security_token], request_id, id)
 
         search_response = PersonSearchRepository.find(
-          params[:id], security_token: session[:security_token]
+          id,
+          request_id,
+          security_token: session[:security_token]
         )
         render json: search_response.to_json, status: 200
       rescue ParticipantRepository::AuthorizationError
@@ -23,6 +26,10 @@ module Api
       end
 
       private
+
+      def id
+        params[:id]
+      end
 
       def request_id
         request.uuid
