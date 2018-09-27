@@ -343,12 +343,12 @@ describe('CrossReportForm', () => {
   })
   it('renders a card action row', () => {
     const component = renderCrossReportForm({})
-    expect(component.find('CardActionRow').exists()).toEqual(true)
-    expect(component.find('CardActionRow').props().isSaving).not.toBeTruthy()
+    expect(component.find('ActionRow').exists()).toEqual(true)
+    expect(component.find('ActionRow').props().isSaving).not.toBeTruthy()
   })
-  it('passes isSaving through to CardActionRow', () => {
+  it('passes isSaving through to ActionRow', () => {
     const component = renderCrossReportForm({isSaving: true})
-    expect(component.find('CardActionRow').props().isSaving).toEqual(true)
+    expect(component.find('ActionRow').props().isSaving).toEqual(true)
   })
   describe('clicking on cancel', () => {
     it('calls onShow, fires clearCardEdits', () => {
@@ -357,7 +357,7 @@ describe('CrossReportForm', () => {
       const cardName = 'cross-report-card'
       const component = renderCrossReportForm({actions: {clearCardEdits}, cardName, onShow})
 
-      component.find('CardActionRow').props().onCancel()
+      component.find('ActionRow').props().onCancel()
 
       expect(onShow).toHaveBeenCalled()
       expect(clearCardEdits).toHaveBeenCalledWith(cardName)
@@ -373,7 +373,7 @@ describe('CrossReportForm', () => {
       const cardName = 'cross-report-card'
       const component = renderCrossReportForm({actions: {saveCard, saveCrossReport, touchAllFields}, screeningWithEdits, cardName, onSave})
 
-      component.find('CardActionRow').props().onSave()
+      component.find('ActionRow').props().onSave()
 
       expect(saveCard).toHaveBeenCalledWith(cardName)
       expect(saveCrossReport).toHaveBeenCalledWith(screeningWithEdits)

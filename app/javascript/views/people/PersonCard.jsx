@@ -2,7 +2,7 @@ import {EDIT_MODE, SAVING_MODE, SHOW_MODE} from 'actions/screeningPageActions'
 import PersonCardHeader from 'views/people/PersonCardHeader'
 import PropTypes from 'prop-types'
 import React from 'react'
-import CardActionRow from 'screenings/CardActionRow'
+import ActionRow from 'screenings/ActionRow'
 import {setHash} from 'utils/navigation'
 
 class PersonCard extends React.PureComponent {
@@ -48,7 +48,7 @@ class PersonCard extends React.PureComponent {
       <div className='card-body'>
         {mode === SHOW_MODE && show}
         {mode !== SHOW_MODE && edit}
-        {mode !== SHOW_MODE && <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={mode === SAVING_MODE}/>}
+        {mode !== SHOW_MODE && <ActionRow onCancel={onCancel} onSave={onSave} isSaving={mode === SAVING_MODE}/>}
       </div>
     )
   }

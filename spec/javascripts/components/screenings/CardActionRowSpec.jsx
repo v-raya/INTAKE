@@ -1,10 +1,10 @@
-import CardActionRow from 'screenings/CardActionRow'
+import ActionRow from 'screenings/ActionRow'
 import React from 'react'
 import {shallow} from 'enzyme'
 
-describe('CardActionRow', () => {
+describe('ActionRow', () => {
   const render = ({onCancel = () => {}, onSave = () => {}, ...props} = {}) => (
-    shallow(<CardActionRow onCancel={onCancel} onSave={onSave} {...props} />)
+    shallow(<ActionRow onCancel={onCancel} onSave={onSave} {...props} />)
   )
 
   describe('default', () => {
