@@ -36,6 +36,7 @@ describe('Store', () => {
         searchCounty: '',
         searchCity: '',
         searchAddress: '',
+        defaultCounty: null,
       },
       relationshipForm: {},
       relationships: [],

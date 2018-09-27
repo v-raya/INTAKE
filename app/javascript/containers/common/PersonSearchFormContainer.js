@@ -20,6 +20,7 @@ import {
   clear,
   loadMoreResults,
   toggleAddressSearch,
+  resetAddressSearch,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
@@ -51,6 +52,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onChangeAddress = (value) => dispatch(setSearchAddress(value))
   const onChangeCity = (value) => dispatch(setSearchCity(value))
   const onChangeCounty = (value) => dispatch(setSearchCounty(value))
+  const onResetAddressSearch = () => dispatch(resetAddressSearch())
   const onSearch = (value, address) => dispatch(search(value, ownProps.isClientOnly, address))
   const onLoadMoreResults = (address) => dispatch(loadMoreResults(ownProps.isClientOnly, address))
   const onToggleAddressSearch = () => dispatch(toggleAddressSearch())
@@ -63,6 +65,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onChangeCounty,
     onLoadMoreResults,
     onToggleAddressSearch,
+    onResetAddressSearch,
     dispatch,
   }
 }

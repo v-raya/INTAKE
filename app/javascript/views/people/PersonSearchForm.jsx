@@ -8,6 +8,7 @@ class PersonSearchForm extends React.Component {
   componentWillUnmount() {
     this.props.onClear()
     this.props.onChange('')
+    this.props.onResetAddressSearch()
   }
 
   render() {
@@ -52,6 +53,7 @@ PersonSearchForm.propTypes = {
   onChangeCounty: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func,
+  onResetAddressSearch: PropTypes.func,
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
   results: PropTypes.array,

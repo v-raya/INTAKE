@@ -8,6 +8,8 @@ export const SET_SEARCH_COUNTY = 'PEOPLE_SEARCH/SET_SEARCH_COUNTY'
 export const LOAD_MORE_RESULTS = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS'
 export const LOAD_MORE_RESULTS_COMPLETE = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS_COMPLETE'
 export const TOGGLE_ADDRESS_SEARCH = 'TOGGLE_ADDRESS_SEARCH'
+export const RESET_ADDRESS_SEARCH = 'RESET_ADDRESS_SEARCH'
+
 export const setSearchTerm = (searchTerm) => ({
   type: SET_SEARCH_TERM,
   payload: {searchTerm},
@@ -55,4 +57,7 @@ export const clear = () => ({
 })
 export const toggleAddressSearch = () => ({
   type: TOGGLE_ADDRESS_SEARCH,
+})
+export const resetAddressSearch = () => ({
+  type: RESET_ADDRESS_SEARCH,
 })

@@ -4,6 +4,7 @@ import {
   fetchFailure,
   fetchSuccess,
   toggleAddressSearch,
+  resetAddressSearch,
   search,
   setSearchTerm,
   setSearchAddress,
@@ -213,16 +214,37 @@ describe('peopleSearchReducer', () => {
     it('defaults the search county to the county of the user', () => {
       const action = fetchUserInfoSuccess({county: 'Los Angeles'})
       const initialState = fromJS({searchCounty: ''})
-      expect(
-        peopleSearchReducer(initialState, action).get('searchCounty')
-      ).toEqual('Los Angeles')
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState.get('searchCounty')).toEqual('Los Angeles')
+      expect(newState.get('defaultCounty')).toEqual('Los Angeles')
     })
     it('does not override an explicit user selection', () => {
       const action = fetchUserInfoSuccess({county: 'Los Angeles'})
       const initialState = fromJS({searchCounty: 'Sutter'})
-      expect(
-        peopleSearchReducer(initialState, action).get('searchCounty')
-      ).toEqual('Sutter')
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState.get('searchCounty')).toEqual('Sutter')
+      expect(newState.get('defaultCounty')).toEqual('Los Angeles')
+    })
+  })
+
+  describe('on RESET_ADDRESS_SEARCH', () => {
+    it('clears everything and sets county to default', () => {
+      const action = resetAddressSearch()
+      const initialState = fromJS({
+        searchCounty: 'Yolo',
+        searchCity: 'Davis',
+        searchAddress: '123 Main St',
+        isAddressIncluded: true,
+        defaultCounty: 'Sacramento',
+      })
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState).toEqualImmutable(fromJS({
+        searchCounty: 'Sacramento',
+        searchCity: '',
+        searchAddress: '',
+        isAddressIncluded: false,
+        defaultCounty: 'Sacramento',
+      }))
     })
   })
 })

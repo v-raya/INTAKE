@@ -5,6 +5,7 @@ import {
   PEOPLE_SEARCH_CLEAR,
   PEOPLE_SEARCH_FETCH,
   PEOPLE_SEARCH_FETCH_COMPLETE,
+  RESET_ADDRESS_SEARCH,
   SET_SEARCH_TERM,
   SET_SEARCH_ADDRESS,
   SET_SEARCH_CITY,
@@ -22,6 +23,7 @@ const initialState = fromJS({
   searchAddress: '',
   searchCity: '',
   searchCounty: '',
+  defaultCounty: null,
 })
 export default createReducer(initialState, {
   [PEOPLE_SEARCH_FETCH](state, {payload: {searchTerm}}) {
@@ -62,7 +64,8 @@ export default createReducer(initialState, {
     return state.set('searchCounty', county)
   },
   [FETCH_USER_INFO_COMPLETE](state, {payload: {userInfo: {county}}}) {
-    return state.get('searchCounty') === '' ? state.set('searchCounty', county) : state
+    const newState = state.set('defaultCounty', county)
+    return newState.get('searchCounty') === '' ? newState.set('searchCounty', county) : newState
   },
   [LOAD_MORE_RESULTS_COMPLETE](state, {payload: {results}, error}) {
     if (error) {
@@ -73,5 +76,12 @@ export default createReducer(initialState, {
   },
   [TOGGLE_ADDRESS_SEARCH](state) {
     return state.set('isAddressIncluded', !state.get('isAddressIncluded'))
+  },
+  [RESET_ADDRESS_SEARCH](state) {
+    return state
+      .set('searchCounty', state.get('defaultCounty') || '')
+      .set('searchCity', '')
+      .set('searchAddress', '')
+      .set('isAddressIncluded', false)
   },
 })
