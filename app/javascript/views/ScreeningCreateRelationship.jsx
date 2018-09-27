@@ -10,7 +10,14 @@ export default class ScreeningCreateRelationship extends React.Component {
     this.state = {show: false}
     this.closeModal = this.closeModal.bind(this)
     this.handleShowModal = this.handleShowModal.bind(this)
+    this.hideModal = this.hideModal.bind(this)
     this.saveCreateRelationship = this.saveCreateRelationship.bind(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.isSaving === false && prevProps.isSaving !== false) {
+      this.hideModal()
+    }
   }
 
   closeModal() {
@@ -26,8 +33,13 @@ export default class ScreeningCreateRelationship extends React.Component {
     })
   }
 
+  hideModal() {
+    this.setState({
+      show: false,
+    })
+  }
+
   saveCreateRelationship() {
-    this.handleShowModal()
     this.props.onSave(this.props.personId)
   }
 
@@ -71,7 +83,7 @@ export default class ScreeningCreateRelationship extends React.Component {
             </button>
           </div>
         </div>
-        <div className='col-md-12' >
+        <div className='col-md-12' >{this.state.show &&
           <ModalComponent
             closeModal={this.closeModal}
             showModal={this.state.show}
@@ -80,6 +92,7 @@ export default class ScreeningCreateRelationship extends React.Component {
             modalSize='large'
             modalTitle={'Create Relationships'}
           />
+        }
         </div>
       </div>
     )

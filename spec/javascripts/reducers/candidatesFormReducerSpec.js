@@ -2,7 +2,6 @@ import * as matchers from 'jasmine-immutable-matchers'
 import candidatesReducer from 'reducers/candidatesFormReducer'
 import {
   batchCreateRelationships,
-  batchCreateRelationshipsSuccess,
   fetchRelationshipsSuccess,
   setFieldCandidate,
   resetFieldCandidate,
