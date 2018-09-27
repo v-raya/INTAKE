@@ -5,7 +5,7 @@ import React from 'react'
 import RelationshipsCardContainer from 'screenings/RelationshipsCardContainer'
 import {Link} from 'react-router'
 import HistoryOfInvolvementContainer from 'containers/screenings/HistoryOfInvolvementContainer'
-import HistoryTableContainer from 'containers/screenings/HistoryTableContainer'
+import HistoryTableContainer from 'containers/common/HistoryTableContainer'
 import EmptyHistory from 'views/history/EmptyHistory'
 import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
 import ErrorDetail from 'common/ErrorDetail'
@@ -131,7 +131,7 @@ export class ScreeningPage extends React.Component {
         <AllegationsCard />
         <RelationshipsCardContainer />
         <WorkerSafetyCard />
-        <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer />} />
+        <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer includesScreenings={true} />} />
         <CrossReportCard />
         <DecisionCard />
         {this.renderScreeningFooter()}

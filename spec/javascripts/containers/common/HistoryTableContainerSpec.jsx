@@ -1,4 +1,4 @@
-import HistoryTableContainer from 'containers/screenings/HistoryTableContainer'
+import HistoryTableContainer from 'containers/common/HistoryTableContainer'
 import React from 'react'
 import {createMockStore} from 'redux-test-utils'
 import {fromJS} from 'immutable'
@@ -261,12 +261,12 @@ describe('HistoryTableContainer', () => {
     },
   })
   const store = createMockStore(state)
+  const context = {store}
   let component
   beforeEach(() => {
-    const context = {store}
     const features = {}
     spyOn(IntakeConfig, 'isFeatureActive').and.callFake((feature) => features[feature])
-    component = shallow(<HistoryTableContainer />, {context})
+    component = shallow(<HistoryTableContainer includesScreenings={true}/>, {context})
   })
 
   it('passes formatted referrals HistoryTable view', () => {
@@ -311,5 +311,9 @@ describe('HistoryTableContainer', () => {
       status: 'Closed',
       worker: 'Worker First Name Worker Last Name',
     }])
+  })
+  it('passes no screenings when not including screenings', () => {
+    component = shallow(<HistoryTableContainer includesScreenings={false}/>, {context})
+    expect(component.find('HistoryTable').props().screenings).toEqual([])
   })
 })

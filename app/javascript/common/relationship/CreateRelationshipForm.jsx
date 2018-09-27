@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import SelectField from 'common/SelectField'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
+import {CandidatesPropType} from 'data/candidates'
 
 const textWrap = {whiteSpace: 'normal'}
 const relationshipTypeFields = RELATIONSHIP_TYPES.map((relationship) => (
@@ -74,26 +75,8 @@ PersonInfoList.propTypes = {
 }
 
 CreateRelationshipForm.propTypes = {
-  candidates: PropTypes.arrayOf(PropTypes.shape({
-    candidate: PropTypes.shape({
-      age: PropTypes.string,
-      candidate_id: PropTypes.string,
-      dateOfBirth: PropTypes.string,
-      gender: PropTypes.string,
-      id: PropTypes.string,
-      name: PropTypes.string,
-    }),
-    person: PropTypes.shape({
-      age: PropTypes.string,
-      dateOfBirth: PropTypes.string,
-      gender: PropTypes.string,
-      id: PropTypes.string,
-      legacy_id: PropTypes.string,
-      name: PropTypes.string,
-    }),
-  })),
+  candidates: CandidatesPropType,
   onChange: PropTypes.func,
 }
 
 export default CreateRelationshipForm
-

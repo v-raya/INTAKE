@@ -17,6 +17,7 @@ import {
   touchField,
 } from 'actions/incidentInformationFormActions'
 import {saveCard, clearCardEdits} from 'actions/screeningActions'
+import {mapDispatchToPropsFactory} from 'utils/connectors'
 
 export const cardName = 'incident-information-card'
 
@@ -32,19 +33,13 @@ const mapStateToProps = (state) => ({
   locationOfChildren: getLocationOfChildrenSelector(state),
 })
 
-export const mapDispatchToProps = (dispatch, {onSave, onShow}) => ({
-  onBlur: (fieldName) => dispatch(touchField(fieldName)),
-  onCancel: () => {
-    dispatch(clearCardEdits(cardName))
-    dispatch(touchAllFields())
-    onShow()
-  },
-  onChange: (fieldName, value) => dispatch(setField(fieldName, value)),
-  onSave: () => {
-    dispatch(saveCard(cardName))
-    dispatch(touchAllFields())
-    onSave()
-  },
+export const mapDispatchToProps = mapDispatchToPropsFactory({
+  cardName,
+  setField,
+  touchAllFields,
+  touchField,
+  saveCard,
+  clearCardEdits,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncidentInformationForm)
