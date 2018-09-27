@@ -17,6 +17,7 @@ describe('PersonSearchForm', () => {
     onChangeCity = () => null,
     onChangeCounty = () => null,
     onClear = () => null,
+    onResetAddressSearch = () => null,
     onSearch = () => null,
     searchPrompt = '',
     canCreateNewPerson = false,
@@ -30,6 +31,7 @@ describe('PersonSearchForm', () => {
       onChangeCity,
       onChangeCounty,
       onClear,
+      onResetAddressSearch,
       onSearch,
       searchPrompt,
       canCreateNewPerson,
@@ -41,10 +43,12 @@ describe('PersonSearchForm', () => {
   it('componentWillUnmount', () => {
     const onClear = jasmine.createSpy('onClear')
     const onChange = jasmine.createSpy('onChange')
-    const component = renderPersonSearchForm({onClear, onChange})
+    const onResetAddressSearch = jasmine.createSpy('onResetAddressSearch')
+    const component = renderPersonSearchForm({onClear, onChange, onResetAddressSearch})
     component.unmount()
     expect(onClear).toHaveBeenCalled()
     expect(onChange).toHaveBeenCalled()
+    expect(onResetAddressSearch).toHaveBeenCalled()
   })
 
   it('renders a card anchor', () => {
