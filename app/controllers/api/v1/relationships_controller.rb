@@ -8,31 +8,29 @@ module Api
       def create
         created_relationships = RelationshipsRepository.create(
           session[:security_token],
+          request.uuid,
           relationships_params
         )
         render json: created_relationships
       end
 
       def index
-        relationships = if screening_id_given?
-                          RelationshipsRepository.get_relationships_for_screening_id(
-                            session[:security_token], params[:screeningId]
-
-                          )
-                        else
-                          RelationshipsRepository.search(session[:security_token], client_ids)
-                        end
-        render json: relationships
+        render json: screening_id_given? ? relationships_by_screening_id : relationships_by_search
       end
 
       def show
-        relationship = RelationshipsRepository.find(session[:security_token], params[:id])
+        relationship = RelationshipsRepository.find(
+          session[:security_token],
+          request.uuid,
+          params[:id]
+        )
         render json: relationship
       end
 
       def update
         update_relationship = RelationshipsRepository.update(
           session[:security_token],
+          request.uuid,
           params[:id],
           relationship_params
         )
@@ -40,6 +38,22 @@ module Api
       end
 
       private
+
+      def relationships_by_screening_id
+        RelationshipsRepository.get_relationships_for_screening_id(
+          session[:security_token],
+          request.uuid,
+          params[:screeningId]
+        )
+      end
+
+      def relationships_by_search
+        RelationshipsRepository.search(
+          session[:security_token],
+          request.uuid,
+          client_ids
+        )
+      end
 
       def relationship_params
         params.require(:relationship).as_json.symbolize_keys
