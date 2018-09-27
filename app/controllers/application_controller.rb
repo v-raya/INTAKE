@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base # :nodoc:
   def set_user_details_on_session(security_token, staff_id, auth_data)
     return unless staff_id
     begin
-      session[:user_details] = StaffRepository.find(security_token, staff_id)
+      session[:user_details] = StaffRepository.find(security_token, request.uuid, staff_id)
     rescue StandardError
       session[:user_details] = Staff.new('staffId' => staff_id)
     end
