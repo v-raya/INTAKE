@@ -131,7 +131,7 @@ describe('relationshipFormReducer', () => {
   })
 
   describe('on UPDATE_RELATIONSHIP', () => {
-    it('returns the relationship with updated on success', () => {
+    it('sets the isSaving to true', () => {
       const state = {id: '808'}
       const action = updateRelationship(state)
       expect(relationshipFormReducer(fromJS(state), action)).toEqualImmutable(fromJS({
