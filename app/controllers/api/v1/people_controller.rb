@@ -12,7 +12,7 @@ module Api
       end
 
       def show
-        ParticipantRepository.authorize(session[:security_token], params[:id])
+        ParticipantRepository.authorize(session[:security_token], request_id, params[:id])
 
         search_response = PersonSearchRepository.find(
           params[:id], security_token: session[:security_token]
@@ -23,6 +23,10 @@ module Api
       end
 
       private
+
+      def request_id
+        request.uuid
+      end
 
       def search_params
         params.permit(:search_term, :is_client_only, :search_after,

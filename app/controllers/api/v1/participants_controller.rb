@@ -10,6 +10,7 @@ module Api
       def create
         created_participant = ParticipantRepository.create(
           session[:security_token],
+          request.uuid,
           participant_params
         )
         render json: created_participant
@@ -20,13 +21,19 @@ module Api
       def update
         updated_participant = ParticipantRepository.update(
           session[:security_token],
+          request.uuid,
           participant_params
         )
         render json: updated_participant
       end
 
       def destroy
-        ParticipantRepository.delete(session[:security_token], params[:screening_id], params[:id])
+        ParticipantRepository.delete(
+          session[:security_token],
+          request.uuid,
+          params[:screening_id],
+          params[:id]
+        )
       end
 
       def participant_params
