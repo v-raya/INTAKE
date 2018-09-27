@@ -5,6 +5,7 @@ import AttachLink from 'common/relationship/AttachLink'
 import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
 
 describe('ActionMenu', () => {
+  let onEdit
   const props = {
     isScreening: true,
     pendingPeople: [],
@@ -69,6 +70,13 @@ describe('ActionMenu', () => {
       expect(instance.state.show).toBe(false)
       instance.handleShowModal()
       expect(instance.state.show).toBe(true)
+    })
+    it('call onEdit', () => {
+      onEdit = jasmine.createSpy('onEdit')
+      const instance = renderActionMenu({props, onEdit}).instance()
+      expect(onEdit).not.toHaveBeenCalled()
+      instance.handleShowModal()
+      expect(onEdit).toHaveBeenCalled()
     })
   })
 
