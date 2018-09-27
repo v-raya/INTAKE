@@ -421,6 +421,24 @@ describe('<Autocompleter />', () => {
 
         expect(autocompleter.state().menuVisible).toEqual(true)
       })
+
+      it('clears old results when button is submitted', () => {
+        const isAddressIncluded = true
+        const onClear = jasmine.createSpy('onClear')
+        const autocompleter = renderAutocompleter({
+          onClear,
+          isAddressIncluded,
+          searchTerm: '',
+          searchAddress: '123 Main St',
+          searchCity: 'Sac Town',
+          searchCounty: 'Sacramento',
+        })
+        const searchByAddress = autocompleter.find('SearchByAddress')
+
+        searchByAddress.props().onSubmit()
+
+        expect(onClear).toHaveBeenCalled()
+      })
     })
   })
 
