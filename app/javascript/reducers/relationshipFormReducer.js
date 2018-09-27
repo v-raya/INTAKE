@@ -47,13 +47,13 @@ const updateRelationship = (state, {payload: {relationship}, error}) => {
   return fromJS(updateRelationship)
 }
 
-const isDisableSaveButton = (state) => state.set('isSaving', true)
+const isSavingButton = (state) => state.set('isSaving', true)
 
 const initialState = fromJS({isSaving: false})
 
 export default createReducer(initialState, {
   [LOAD_RELATIONSHIP]: buildRelationship,
   [SET_RELATIONSHIP_FORM_FIELD]: setRelationshipForm,
-  [UPDATE_RELATIONSHIP]: isDisableSaveButton,
+  [UPDATE_RELATIONSHIP]: isSavingButton,
   [UPDATE_RELATIONSHIP_COMPLETE]: updateRelationship,
 })
