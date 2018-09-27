@@ -68,8 +68,8 @@ describe('ReferralView', () => {
         {victim: 'Homer Simpson'},
       ]
       const component = renderReferralView({peopleAndRoles})
-      expect(component.find('.people-and-roles').find('tbody tr').at(0).find('td.victim').text()).toEqual('Jane Doe')
-      expect(component.find('.people-and-roles').find('tbody tr').at(1).find('td.victim').text()).toEqual('Homer Simpson')
+      expect(component.find('.people-and-roles').render().find('tbody tr td.victim').first().text()).toEqual('Jane Doe')
+      expect(component.find('.people-and-roles').render().find('tbody tr td.victim').last().text()).toEqual('Homer Simpson')
     })
 
     it('renders a perpetrator for each person', () => {
@@ -78,8 +78,8 @@ describe('ReferralView', () => {
         {perpetrator: 'Homer Simpson'},
       ]
       const component = renderReferralView({peopleAndRoles})
-      expect(component.find('.people-and-roles').find('tbody tr').at(0).find('td.perpetrator').text()).toEqual('Jane Doe')
-      expect(component.find('.people-and-roles').find('tbody tr').at(1).find('td.perpetrator').text()).toEqual('Homer Simpson')
+      expect(component.find('.people-and-roles').render().find('tbody tr td.perpetrator').first().text()).toEqual('Jane Doe')
+      expect(component.find('.people-and-roles').render().find('tbody tr td.perpetrator').last().text()).toEqual('Homer Simpson')
     })
 
     it('renders a allegations and disposition for each person', () => {
@@ -88,8 +88,8 @@ describe('ReferralView', () => {
         {allegations: 'allegations two', disposition: '(not pending)'},
       ]
       const component = renderReferralView({peopleAndRoles})
-      expect(component.find('.people-and-roles').find('tbody tr').at(0).find('td.allegations.disposition').text()).toEqual('allegations one (pending)')
-      expect(component.find('.people-and-roles').find('tbody tr').at(1).find('td.allegations.disposition').text()).toEqual('allegations two (not pending)')
+      expect(component.find('.people-and-roles').render().find('tbody tr td.allegations.disposition').first().text()).toEqual('allegations one (pending)')
+      expect(component.find('.people-and-roles').render().find('tbody tr td.allegations.disposition').last().text()).toEqual('allegations two (not pending)')
     })
 
     it('renders the reporter and worker', () => {

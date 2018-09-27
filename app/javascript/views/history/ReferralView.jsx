@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import PeopleAndRolesTableBody from 'views/history/PeopleAndRolesTableBody'
 
 const ReferralView = ({
   county,
@@ -37,15 +38,7 @@ const ReferralView = ({
           </tr>
         </thead>
         <tbody>
-          {
-            peopleAndRoles.map(({victim, perpetrator, allegations, disposition}, index) => (
-              <tr key={index}>
-                <td className='victim'>{victim}</td>
-                <td className='perpetrator'>{perpetrator}</td>
-                <td className='allegations disposition'>{allegations} {disposition}</td>
-              </tr>
-            ))
-          }
+          <PeopleAndRolesTableBody peopleAndRoles={peopleAndRoles} />
           <tr>
             <td colSpan='2' className='un-selectable'>
               <span className='semibold reporter'>Reporter: </span><span className='reporter'>{reporter}</span>
