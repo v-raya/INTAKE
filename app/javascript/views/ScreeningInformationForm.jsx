@@ -101,7 +101,16 @@ const ScreeningInformationForm = ({
     <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving}/>
   </div>
 )
+
+const actionPropTypes = {
+  onBlur: PropTypes.func,
+  onCancel: PropTypes.func,
+  onChange: PropTypes.func,
+  onSave: PropTypes.func,
+}
+
 ScreeningInformationForm.propTypes = {
+  ...actionPropTypes,
   assignee: PropTypes.string,
   assigneeDisabled: PropTypes.bool,
   communicationMethod: PropTypes.string,
@@ -110,13 +119,8 @@ ScreeningInformationForm.propTypes = {
   errors: PropTypes.object,
   isSaving: PropTypes.bool,
   name: PropTypes.string,
-  onBlur: PropTypes.func,
-  onCancel: PropTypes.func,
-  onChange: PropTypes.func,
-  onSave: PropTypes.func,
   reportType: PropTypes.string,
   reportTypes: PropTypes.array,
   startedAt: PropTypes.string,
 }
 export default ScreeningInformationForm
-
