@@ -4,23 +4,25 @@
 # resource via the API
 class PersonSearchRepository
   class << self
-    def search(params, security_token: nil)
+    def search(params, request_id, security_token: nil)
       response = DoraAPI.make_api_call(
-        security_token,
-        ExternalRoutes.dora_people_light_index_path,
-        :post,
-        search_query(params)
+        security_token: security_token,
+        request_id: request_id,
+        url: ExternalRoutes.dora_people_light_index_path,
+        method: :post,
+        payload: search_query(params)
       )
       body(response)
     end
 
-    def find(id, security_token: nil)
+    def find(id, request_id, security_token: nil)
       raise 'id is required' unless id
       response = DoraAPI.make_api_call(
-        security_token,
-        ExternalRoutes.dora_people_light_index_path,
-        :post,
-        find_query(id)
+        security_token: security_token,
+        request_id: request_id,
+        url: ExternalRoutes.dora_people_light_index_path,
+        method: :post,
+        payload: find_query(id)
       )
       body(response).dig('hits', 'hits', 0, '_source')
     end
