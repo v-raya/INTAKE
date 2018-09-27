@@ -31,9 +31,7 @@ class ApplicationController < ActionController::Base # :nodoc:
     if auth_artifact
       session[:security_token] = security_token
       return unless json?(auth_artifact)
-      auth_data = JSON.parse(auth_artifact)
-      staff_id = auth_data['staffId']
-      set_user_details_on_session(security_token, staff_id, auth_data)
+      assign_and_log_user_details(auth_artifact, security_token)
     else
       redirect_to SecurityRepository.login_url(request.original_url)
     end
@@ -70,5 +68,12 @@ class ApplicationController < ActionController::Base # :nodoc:
     true
   rescue StandardError
     false
+  end
+
+  def assign_and_log_user_details(auth_artifact, security_token)
+    auth_data = JSON.parse(auth_artifact)
+    staff_id = auth_data['staffId']
+    set_user_details_on_session(security_token, staff_id, auth_data)
+    Rails.logger.info("User Authenticated: #{staff_id}")
   end
 end
