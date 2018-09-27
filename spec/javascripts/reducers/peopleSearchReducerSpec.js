@@ -246,5 +246,12 @@ describe('peopleSearchReducer', () => {
         defaultCounty: 'Sacramento',
       }))
     })
+    it('sets county to empty if there is no default', () => {
+      const action = resetAddressSearch()
+      const initialState = fromJS({defaultCounty: null})
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState.get('searchCounty')).toEqual('')
+      expect(newState.get('defaultCounty')).toEqual(null)
+    })
   })
 })
