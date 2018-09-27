@@ -46,7 +46,6 @@ class ParticipantRepository
 
   def self.authorize(security_token, request_id, id)
     return if id.blank?
-
     FerbAPI.make_api_call(
       security_token: security_token,
       request_id: request_id,
@@ -54,7 +53,7 @@ class ParticipantRepository
       method: :get
     )
   rescue ApiError => e
-    e.api_error[:http_code] == 403 ? raise(AuthorizationError) : raise(e)
+    raise_error(e)
   end
 
   private_class_method def self.post_data(participant)
@@ -65,5 +64,9 @@ class ParticipantRepository
         legacy_table_name: participant.legacy_descriptor&.legacy_table_name
       }
     }
+  end
+
+  private_class_method def self.raise_error(e)
+    e.api_error[:http_code] == 403 ? raise(AuthorizationError) : raise(e)
   end
 end
