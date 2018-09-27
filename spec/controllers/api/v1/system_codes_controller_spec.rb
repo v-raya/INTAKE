@@ -17,7 +17,12 @@ describe Api::V1::SystemCodesController do
     end
     before do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, '/lov', :get)
+        .with(
+          security_token: security_token,
+          request_id: anything,
+          url: '/lov',
+          method: :get
+        )
         .and_return(response_object)
     end
 
@@ -112,7 +117,12 @@ describe Api::V1::SystemCodesController do
     end
     before do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, '/cross_report_agency?countyId=1086', :get)
+        .with(
+          security_token: security_token,
+          request_id: anything,
+          url: '/cross_report_agency?countyId=1086',
+          method: :get
+        )
         .and_return(response_object)
     end
 
@@ -205,7 +215,12 @@ describe Api::V1::SystemCodesController do
     end
     before do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, '/cross_report_agency?countyId=123', :get)
+        .with(
+          security_token: security_token,
+          request_id: anything,
+          url: '/cross_report_agency?countyId=123',
+          method: :get
+        )
         .and_return(response_object)
     end
 
