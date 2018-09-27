@@ -51,7 +51,8 @@ export default class Autocompleter extends Component {
   }
 
   handleSubmit() {
-    const {searchTerm} = this.props
+    const {onClear, searchTerm} = this.props
+    onClear()
     this.searchAndFocus(searchTerm, this.constructAddress())
   }
 
