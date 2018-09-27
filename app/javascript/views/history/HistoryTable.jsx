@@ -27,7 +27,7 @@ export default class HistoryTable extends React.Component {
 
   renderColGroup() {
     return (
-      <colgroup>
+      <colgroup key='colgroup'>
         <col/>
         <col className='col-md-2'/>
         <col className='col-md-2'/>
@@ -39,7 +39,7 @@ export default class HistoryTable extends React.Component {
 
   renderTHead() {
     return (
-      <thead>
+      <thead key='thead'>
         <tr>
           <td />
           <th scope='col'>Date</th>
@@ -66,8 +66,21 @@ export default class HistoryTable extends React.Component {
     )
   }
 
+  renderTableContents(Screening, Referral, Case) {
+    const {cases, referrals, screenings} = this.props
+    return [
+      this.renderColGroup(),
+      this.renderTHead(),
+      (<tbody key='tbody'>
+        {screenings.map((screening, index) => <Screening {...screening} index={toOneBasedNumbering(index)} key={index} />)}
+        {referrals.map((referral, index) => <Referral {...referral} index={toOneBasedNumbering(index)} key={index} />)}
+        {cases.map((hoiCase, index) => <Case {...hoiCase} index={toOneBasedNumbering(index)} key={index} />)}
+      </tbody>),
+    ]
+  }
+
   renderTable() {
-    const {cases, referrals, screenings, onCopy} = this.props
+    const {onCopy} = this.props
     return (
       <div className='table-responsive' id='history'
         onCopy={(e) => (
@@ -80,19 +93,12 @@ export default class HistoryTable extends React.Component {
         onError={() => this.setState({copyFriendly: false})}
       >
         <table className='table history-table ordered-table' >
-          {this.renderColGroup()}
-          {this.renderTHead()}
-          <tbody>
-            {screenings.map((screening, index) => <ScreeningView {...screening} index={toOneBasedNumbering(index)} key={index} />)}
-            {referrals.map((referral, index) => <ReferralView {...referral} index={toOneBasedNumbering(index)} key={index} />)}
-            {cases.map((hoiCase, index) => <CaseView {...hoiCase} index={toOneBasedNumbering(index)} key={index} />)}
-          </tbody>
+          {this.renderTableContents(ScreeningView, ReferralView, CaseView)}
         </table>
       </div>)
   }
 
   renderCopyFriendlyTable() {
-    const {cases, referrals, screenings} = this.props
     const {copyFriendly} = this.state
     const display = copyFriendly ? 'block' : 'none'
     return (
@@ -101,13 +107,7 @@ export default class HistoryTable extends React.Component {
         onError={() => this.setState({copyFriendly: false})}
       >
         <table className='copy-friendly' style={{display: 'block', border: '1px solid black'}}>
-          {this.renderColGroup()}
-          {this.renderTHead()}
-          <tbody>
-            {screenings.map((screening, index) => <CopyableScreeningView {...screening} index={toOneBasedNumbering(index)} key={index} />)}
-            {referrals.map((referral, index) => <CopyableReferralView {...referral} index={toOneBasedNumbering(index)} key={index} />)}
-            {cases.map((hoiCase, index) => <CopyableCaseView {...hoiCase} index={toOneBasedNumbering(index)} key={index} />)}
-          </tbody>
+          {this.renderTableContents(CopyableScreeningView, CopyableReferralView, CopyableCaseView)}
         </table>
       </div>)
   }
