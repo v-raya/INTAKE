@@ -8,7 +8,6 @@ import {
   RESET_CANDIDATE_FORM_FIELD,
   SET_CANDIDATE_FORM_FIELD,
   BATCH_CREATE_RELATIONSHIPS,
-  BATCH_CREATE_RELATIONSHIPS_COMPLETE,
 } from 'actions/relationshipsActions'
 import nameFormatter from 'utils/nameFormatter'
 import {Maybe} from 'utils/maybe'
@@ -57,7 +56,7 @@ const loadCandidates = (state, {payload: {relationships}, error}) => {
     return state
   } else {
     const candidates = buildCandidates(fromJS((relationships)))
-    return candidates
+    return candidates.set('isSaving', false)
   }
 }
 
@@ -84,11 +83,9 @@ const updateCandidateForm = (state, {payload: {personId, candidateId, fieldSet, 
 }
 
 const enableIsSaving = (state) => state.set('isSaving', true)
-const disableIsSaving = (state) => state.set('isSaving', false)
 
 export default createReducer(Map(), {
   [BATCH_CREATE_RELATIONSHIPS]: enableIsSaving,
-  [BATCH_CREATE_RELATIONSHIPS_COMPLETE]: disableIsSaving,
   [FETCH_RELATIONSHIPS_COMPLETE]: loadCandidates,
   [RESET_CANDIDATE_FORM_FIELD]: resetCandidates,
   [SET_CANDIDATE_FORM_FIELD]: updateCandidateForm,

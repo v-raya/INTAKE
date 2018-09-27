@@ -45,10 +45,10 @@ describe('candidatesFormReducer', () => {
   }]
 
   describe('on FETCH_RELATIONSHIPS_COMPLETE', () => {
-    it('returns only isDisabled field', () => {
+    it('returns only isSaving field as false', () => {
       expect(
         candidatesReducer(Map(), fetchRelationshipsSuccess([]))
-      ).toEqualImmutable(Map({}))
+      ).toEqualImmutable(Map({isSaving: false}))
     })
 
     it('returns candidates for relationships', () => {
@@ -89,6 +89,7 @@ describe('candidatesFormReducer', () => {
               name: 'Walter A White, Sr',
             },
           }],
+          isSaving: false,
         })
       )
     })
@@ -347,91 +348,6 @@ describe('candidatesFormReducer', () => {
           }],
           isDisabled: false,
           isSaving: true,
-        })
-      )
-    })
-  })
-
-  describe('BATCH_CREATE_RELATIONSHIPS_COMPLETE', () => {
-    it('sets isSaving to false after batch create relationship success', () => {
-      const candidateForm = {
-        1: [{
-          person: {
-            age: '20 yrs',
-            dateOfBirth: '01/15/1986',
-            id: '1',
-            gender: 'Male',
-            legacyId: '3',
-            name: 'Ricky Robinson',
-          },
-          candidate: {
-            age: '30 yrs',
-            dateOfBirth: '11/11/1958',
-            id: '4157',
-            gender: 'Male',
-            name: 'New York C Pechan, Sr',
-            relationshipType: '200',
-          },
-        }, {
-          person: {
-            age: '20 yrs',
-            dateOfBirth: '01/15/1986',
-            id: '1',
-            gender: 'Male',
-            legacyId: '3',
-            name: 'Ricky Robinson',
-          },
-          candidate: {
-            age: '40 yrs',
-            dateOfBirth: '11/11/1968',
-            id: '4158',
-            gender: 'Male',
-            name: 'Walter A White, Sr',
-          },
-        }],
-        isDisabled: false,
-        isSaving: true,
-      }
-      const action = batchCreateRelationshipsSuccess(relationships)
-      const state = fromJS(candidateForm)
-      expect(candidatesReducer(state, action)).toEqualImmutable(
-        fromJS({
-          1: [{
-            person: {
-              age: '20 yrs',
-              dateOfBirth: '01/15/1986',
-              id: '1',
-              gender: 'Male',
-              legacyId: '3',
-              name: 'Ricky Robinson',
-            },
-            candidate: {
-              age: '30 yrs',
-              dateOfBirth: '11/11/1958',
-              id: '4157',
-              gender: 'Male',
-              name: 'New York C Pechan, Sr',
-              relationshipType: '200',
-            },
-          }, {
-            person: {
-              age: '20 yrs',
-              dateOfBirth: '01/15/1986',
-              id: '1',
-              gender: 'Male',
-              legacyId: '3',
-              name: 'Ricky Robinson',
-            },
-            candidate: {
-              age: '40 yrs',
-              dateOfBirth: '11/11/1968',
-              id: '4158',
-              gender: 'Male',
-              name: 'Walter A White, Sr',
-            },
-          }],
-          isDisabled: false,
-          isSaving: false,
         })
       )
     })
