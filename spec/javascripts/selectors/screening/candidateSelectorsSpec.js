@@ -3,6 +3,7 @@ import {
   selectCandidates,
   selectCandidatesWithEdits,
   selectIsDisabledForm,
+  selectIsSavingForm,
 } from 'selectors/screening/candidateSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -11,6 +12,7 @@ describe('candidateSelectors', () => {
 
   const candidatesForm = {
     isDisabled: true,
+    isSaving: false,
     1: [{
       person: {
         age: '20 yrs',
@@ -221,6 +223,13 @@ describe('candidateSelectors', () => {
     it('returns a list of candidates with isDisabled field', () => {
       const state = fromJS({candidatesForm})
       expect(selectIsDisabledForm(state)).toBe(true)
+    })
+  })
+
+  describe('selectIsSavingForm', () => {
+    it('returns a list of candidates with isSaving field', () => {
+      const state = fromJS({candidatesForm})
+      expect(selectIsSavingForm(state)).toBe(false)
     })
   })
 })

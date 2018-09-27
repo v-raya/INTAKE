@@ -1,6 +1,7 @@
 import React from 'react'
 import CreateRelationshipForm from 'common/relationship/CreateRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
+import SavingButton from 'common/SavingButton'
 import PropTypes from 'prop-types'
 
 export default class ScreeningCreateRelationship extends React.Component {
@@ -9,7 +10,14 @@ export default class ScreeningCreateRelationship extends React.Component {
     this.state = {show: false}
     this.closeModal = this.closeModal.bind(this)
     this.handleShowModal = this.handleShowModal.bind(this)
+    this.hideModal = this.hideModal.bind(this)
     this.saveCreateRelationship = this.saveCreateRelationship.bind(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.isSaving === false && prevProps.isSaving !== false) {
+      this.hideModal()
+    }
   }
 
   closeModal() {
@@ -25,30 +33,40 @@ export default class ScreeningCreateRelationship extends React.Component {
     })
   }
 
+  hideModal() {
+    this.setState({
+      show: false,
+    })
+  }
+
   saveCreateRelationship() {
-    this.handleShowModal()
     this.props.onSave(this.props.personId)
   }
 
   modalFooter() {
-    const {isDisabled = true} = this.props
+    const {isDisabled = true, isSaving = false} = this.props
     return (
       <div>
-        <button
-          aria-label='Cancel'
-          className='btn btn-default'
-          onClick={this.closeModal}
-        >
-          Cancel
-        </button>
-        <button
-          aria-label='Create Relationship'
-          className='btn btn-primary'
-          disabled={isDisabled}
-          onClick={this.saveCreateRelationship}
-        >
+        {isSaving ?
+          <SavingButton text='Saving'/> :
+          <div>
+            <button
+              aria-label='Cancel'
+              className='btn btn-default'
+              onClick={this.closeModal}
+            >
+        Cancel
+            </button>
+            <button
+              aria-label='Create Relationship'
+              className='btn btn-primary'
+              disabled={isDisabled}
+              onClick={this.saveCreateRelationship}
+            >
           Create Relationship
-        </button>
+            </button>
+          </div>
+        }
       </div>
     )
   }
@@ -65,7 +83,7 @@ export default class ScreeningCreateRelationship extends React.Component {
             </button>
           </div>
         </div>
-        <div className='col-md-12' >
+        <div className='col-md-12' >{this.state.show &&
           <ModalComponent
             closeModal={this.closeModal}
             showModal={this.state.show}
@@ -74,6 +92,7 @@ export default class ScreeningCreateRelationship extends React.Component {
             modalSize='large'
             modalTitle={'Create Relationships'}
           />
+        }
         </div>
       </div>
     )
@@ -100,6 +119,7 @@ ScreeningCreateRelationship.propTypes = {
     }),
   })),
   isDisabled: PropTypes.bool,
+  isSaving: PropTypes.bool,
   onCancel: PropTypes.func,
   onChange: PropTypes.func,
   onSave: PropTypes.func,

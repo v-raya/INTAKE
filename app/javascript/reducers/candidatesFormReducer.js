@@ -7,6 +7,7 @@ import {genderMap} from 'selectors/screening/relationshipsSelectors'
 import {
   RESET_CANDIDATE_FORM_FIELD,
   SET_CANDIDATE_FORM_FIELD,
+  BATCH_CREATE_RELATIONSHIPS,
 } from 'actions/relationshipsActions'
 import nameFormatter from 'utils/nameFormatter'
 import {Maybe} from 'utils/maybe'
@@ -55,7 +56,7 @@ const loadCandidates = (state, {payload: {relationships}, error}) => {
     return state
   } else {
     const candidates = buildCandidates(fromJS((relationships)))
-    return candidates
+    return candidates.set('isSaving', false)
   }
 }
 
@@ -81,7 +82,10 @@ const updateCandidateForm = (state, {payload: {personId, candidateId, fieldSet, 
   return (relationshipTypeExists) ? updatedForm.set('isDisabled', false) : updatedForm.set('isDisabled', true)
 }
 
+const enableIsSaving = (state) => state.set('isSaving', true)
+
 export default createReducer(Map(), {
+  [BATCH_CREATE_RELATIONSHIPS]: enableIsSaving,
   [FETCH_RELATIONSHIPS_COMPLETE]: loadCandidates,
   [RESET_CANDIDATE_FORM_FIELD]: resetCandidates,
   [SET_CANDIDATE_FORM_FIELD]: updateCandidateForm,
