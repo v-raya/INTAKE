@@ -91,14 +91,16 @@ describe('relationshipSelectors', () => {
   describe('selectErrors', () => {
     it('returns an object with an empty array when no errors are present', () => {
       const yesterday = moment().subtract(1, 'days').toISOString()
-      const relationshipForm = {started_at: yesterday}
+      const relationshipForm = {relationship: {started_at: yesterday}}
       const state = fromJS({relationshipForm})
       expect(selectErrors(state).get('started_at')).toEqualImmutable(List())
     })
     it('returns an error if date is after the end date', () => {
       const relationshipForm = {
-        start_date: '2017-10-05T21:10:00.000',
-        end_date: '2017-09-04T21:10:00.012',
+        relationship: {
+          start_date: '2017-10-05T21:10:00.000',
+          end_date: '2017-09-04T21:10:00.012',
+        },
       }
       const state = fromJS({relationshipForm})
       expect(

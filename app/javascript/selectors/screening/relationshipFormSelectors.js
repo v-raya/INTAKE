@@ -31,8 +31,8 @@ export const selectIsSaving = (state) =>
   state.getIn(['relationshipForm', 'isSaving'])
 
 export const selectErrors = createSelector(
-  (state) => state.getIn(['relationshipForm', 'end_date']),
-  (state) => state.getIn(['relationshipForm', 'start_date']),
+  (state) => state.getIn(['relationshipForm', 'relationship', 'end_date']),
+  (state) => state.getIn(['relationshipForm', 'relationship', 'start_date']),
   (endDate, startDate) => fromJS({
     started_at: combineCompact(
       isBeforeDatetimeCreate(endDate, startDate, 'The start date must be before the end date.')
