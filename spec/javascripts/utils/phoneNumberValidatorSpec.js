@@ -12,11 +12,11 @@ describe('phoneNumberValidator', () => {
     })
     it('empty phone number', () => {
       expect(getPhoneNumberErrors(''))
-        .toEqual(undefined)
+        .toEqual([])
     })
     it('valid phone number', () => {
       expect(getPhoneNumberErrors('123'))
-        .toEqual(undefined)
+        .toEqual([])
     })
   })
 })
