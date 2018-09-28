@@ -5,7 +5,7 @@ import React from 'react'
 import SelectField from 'common/SelectField'
 import AlertInfoMessage from 'common/AlertInfoMessage'
 import {SafelySurrenderedBabyMessage} from 'views/ScreeningInformationHelpTextBox'
-import CardActionRow from 'screenings/CardActionRow'
+import ActionRow from 'screenings/ActionRow'
 
 const ScreeningInformationForm = ({
   assignee,
@@ -98,7 +98,7 @@ const ScreeningInformationForm = ({
         {communicationMethods.map(({value, label}) => <option key={value} value={value}>{label}</option>)}
       </SelectField>
     </div>
-    <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving}/>
+    <ActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving}/>
   </div>
 )
 

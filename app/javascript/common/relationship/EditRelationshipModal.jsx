@@ -2,44 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
-
-const renderBody = (editFormRelationship, errors, onChange, person, relationship) => (
-  <EditRelationshipForm
-    editFormRelationship={editFormRelationship}
-    errors={errors}
-    onChange={onChange}
-    person={person}
-    relationship={relationship}
-  />
-)
-
-const renderFooter = (closeModal, isFormChanged, onSave, id) => (
-  <div className='row'>
-    <div className='col-md-12'>
-      <div className='pull-right'>
-        <button className='btn btn-default' onClick={closeModal}>
-          Cancel
-        </button>
-        <button
-          className='btn btn-primary'
-          disabled={isFormChanged}
-          onClick={() => {
-            onSave(id)
-            closeModal()
-          }}
-        >
-          Save Relationship
-        </button>
-      </div>
-    </div>
-  </div>
-)
+import ActionRow from 'screenings/ActionRow'
+import {RelationshipPropType} from 'data/relationships'
 
 const EditRelationshipModal = ({
   closeModal,
   editFormRelationship,
   errors,
   isFormChanged,
+  isSaving,
   onChange,
   onSave,
   person,
@@ -49,8 +20,24 @@ const EditRelationshipModal = ({
   <ModalComponent
     closeModal={closeModal}
     showModal={show}
-    modalBody={renderBody(editFormRelationship, errors, onChange, person, relationship)}
-    modalFooter={renderFooter(closeModal, isFormChanged, onSave, editFormRelationship.id)}
+    modalBody={
+      <EditRelationshipForm
+        editFormRelationship={editFormRelationship}
+        errors={errors}
+        onChange={onChange}
+        person={person}
+        relationship={relationship}
+      />
+    }
+    modalFooter={
+      <ActionRow
+        buttonText={'Save Relationship'}
+        isDisabled={isFormChanged}
+        isSaving={isSaving}
+        onCancel={closeModal}
+        onSave={() => onSave(editFormRelationship.id)}
+      />
+    }
     modalSize='large'
     modalTitle='Edit Relationship Type'
   />
@@ -62,19 +49,6 @@ const personPropType = PropTypes.shape({
   legacy_id: PropTypes.string,
   gender: PropTypes.string,
   name: PropTypes.string,
-})
-const relationshipPropType = PropTypes.shape({
-  absent_parent_code: PropTypes.string,
-  age: PropTypes.string,
-  dateOfBirth: PropTypes.string,
-  legacy_descriptor: PropTypes.object,
-  gender: PropTypes.string,
-  name: PropTypes.string,
-  person_card_exists: PropTypes.bool,
-  same_home_code: PropTypes.string,
-  secondaryRelationship: PropTypes.string,
-  type: PropTypes.string,
-  type_code: PropTypes.string,
 })
 
 EditRelationshipModal.propTypes = {
@@ -93,10 +67,11 @@ EditRelationshipModal.propTypes = {
     started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
+  isSaving: PropTypes.bool,
   onChange: PropTypes.func,
   onSave: PropTypes.func,
   person: personPropType,
-  relationship: relationshipPropType,
+  relationship: RelationshipPropType,
   show: PropTypes.bool.isRequired,
 }
 

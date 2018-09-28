@@ -1,10 +1,10 @@
-import CardActionRow from 'screenings/CardActionRow'
+import ActionRow from 'screenings/ActionRow'
 import React from 'react'
 import {shallow} from 'enzyme'
 
-describe('CardActionRow', () => {
+describe('ActionRow', () => {
   const render = ({onCancel = () => {}, onSave = () => {}, ...props} = {}) => (
-    shallow(<CardActionRow onCancel={onCancel} onSave={onSave} {...props} />)
+    shallow(<ActionRow onCancel={onCancel} onSave={onSave} {...props} />)
   )
 
   describe('default', () => {
@@ -54,6 +54,20 @@ describe('CardActionRow', () => {
       const saveButton = component.find('SavingButton')
 
       expect(saveButton.props().onClick).not.toBeDefined()
+    })
+  })
+
+  describe('when props are passed', () => {
+    it('passes text props to the save button', () => {
+      const component = render({buttonText: 'Save Relationship'})
+      const row = component.find('.row .col-md-12 .pull-right')
+      expect(row.find('button').at(1).text()).toEqual('Save Relationship')
+    })
+
+    it('passes isDisable props to the save button', () => {
+      const component = render({isDisabled: true})
+      const row = component.find('.row .col-md-12 .pull-right')
+      expect(row.find('button').at(1).prop('disabled')).toBe(true)
     })
   })
 })

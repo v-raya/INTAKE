@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import Select from 'react-select'
-import CardActionRow from 'screenings/CardActionRow'
+import ActionRow from 'screenings/ActionRow'
 
 const WorkerSafetyForm = ({
   alertOptions,
@@ -39,7 +39,7 @@ const WorkerSafetyForm = ({
         />
       </div>
     </div>
-    <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving} />
+    <ActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving} />
   </div>
 )
 

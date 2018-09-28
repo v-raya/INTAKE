@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import AttachLink from 'common/relationship/AttachLink'
 import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
+import {RelationshipPropType} from 'data/relationships'
 
 export class ActionMenu extends Component {
   constructor(props) {
@@ -9,6 +10,12 @@ export class ActionMenu extends Component {
     this.state = {show: false}
     this.closeModal = this.closeModal.bind(this)
     this.handleShowModal = this.handleShowModal.bind(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.isSaving === false && prevProps.isSaving !== false) {
+      this.closeModal()
+    }
   }
 
   closeModal() {
@@ -26,6 +33,7 @@ export class ActionMenu extends Component {
       editFormRelationship,
       errors,
       isFormChanged,
+      isSaving,
       onChange,
       onSave,
       person,
@@ -38,6 +46,7 @@ export class ActionMenu extends Component {
         errors={errors}
         closeModal={this.closeModal}
         isFormChanged={isFormChanged}
+        isSaving={isSaving}
         onChange={onChange}
         onSave={onSave}
         person={person}
@@ -76,19 +85,6 @@ const personPropType = PropTypes.shape({
   gender: PropTypes.string,
   name: PropTypes.string,
 })
-const relationshipPropType = PropTypes.shape({
-  absent_parent_code: PropTypes.string,
-  age: PropTypes.string,
-  dateOfBirth: PropTypes.string,
-  legacy_descriptor: PropTypes.object,
-  gender: PropTypes.string,
-  name: PropTypes.string,
-  person_card_exists: PropTypes.bool,
-  same_home_code: PropTypes.string,
-  secondaryRelationship: PropTypes.string,
-  type: PropTypes.string,
-  type_code: PropTypes.string,
-})
 
 ActionMenu.propTypes = {
   editFormRelationship: PropTypes.shape({
@@ -105,6 +101,7 @@ ActionMenu.propTypes = {
     started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
+  isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
@@ -112,7 +109,7 @@ ActionMenu.propTypes = {
   onSave: PropTypes.func,
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
   person: personPropType,
-  relationship: relationshipPropType,
+  relationship: RelationshipPropType,
   screeningId: PropTypes.string,
 }
 

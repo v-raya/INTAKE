@@ -5,10 +5,9 @@ import AttachLink from 'common/relationship/AttachLink'
 import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
 
 describe('ActionMenu', () => {
+  let onEdit
   const props = {
     isScreening: true,
-    onClick: () => {},
-    onEdit: () => {},
     pendingPeople: [],
     person: {
       name: 'Goku',
@@ -25,8 +24,13 @@ describe('ActionMenu', () => {
       type: 'son',
       type_code: '210',
     },
+    isSaving: false,
   }
-  const renderActionMenu = (props) => shallow(<ActionMenu {...props}/>)
+  const renderActionMenu = ({
+    onClick = () => {},
+    onEdit = () => {},
+    ...props
+  } = {}) => shallow(<ActionMenu onEdit={onEdit} onClick={onClick} {...props} />)
 
   it('renders a span', () => {
     expect(renderActionMenu(props).find('span').length).toBe(1)
@@ -53,7 +57,6 @@ describe('ActionMenu', () => {
   describe('closeModal', () => {
     it('sets the state show to false', () => {
       const instance = renderActionMenu(props).instance()
-
       instance.setState({show: true})
       expect(instance.state.show).toBe(true)
       instance.closeModal()
@@ -64,10 +67,28 @@ describe('ActionMenu', () => {
   describe('handleShowModal', () => {
     it('sets the state show to true', () => {
       const instance = renderActionMenu(props).instance()
-
       expect(instance.state.show).toBe(false)
       instance.handleShowModal()
       expect(instance.state.show).toBe(true)
+    })
+    it('call onEdit', () => {
+      onEdit = jasmine.createSpy('onEdit')
+      const instance = renderActionMenu({props, onEdit}).instance()
+      expect(onEdit).not.toHaveBeenCalled()
+      instance.handleShowModal()
+      expect(onEdit).toHaveBeenCalled()
+    })
+  })
+
+  describe('when relationship saving is completed', () => {
+    it('calls the closeModal', () => {
+      const component = renderActionMenu(props)
+      const instance = component.instance()
+      spyOn(instance, 'closeModal')
+      component.setProps({isSaving: true})
+      expect(instance.closeModal).not.toHaveBeenCalled()
+      component.setProps({isSaving: false})
+      expect(instance.closeModal).toHaveBeenCalled()
     })
   })
 })
