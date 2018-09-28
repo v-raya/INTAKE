@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
 import ActionRow from 'screenings/ActionRow'
+import {RelationshipPropType} from 'data/relationships'
 
 const EditRelationshipModal = ({
   closeModal,
@@ -49,19 +50,6 @@ const personPropType = PropTypes.shape({
   gender: PropTypes.string,
   name: PropTypes.string,
 })
-const relationshipPropType = PropTypes.shape({
-  absent_parent_code: PropTypes.string,
-  age: PropTypes.string,
-  dateOfBirth: PropTypes.string,
-  legacy_descriptor: PropTypes.object,
-  gender: PropTypes.string,
-  name: PropTypes.string,
-  person_card_exists: PropTypes.bool,
-  same_home_code: PropTypes.string,
-  secondaryRelationship: PropTypes.string,
-  type: PropTypes.string,
-  type_code: PropTypes.string,
-})
 
 EditRelationshipModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
@@ -83,7 +71,7 @@ EditRelationshipModal.propTypes = {
   onChange: PropTypes.func,
   onSave: PropTypes.func,
   person: personPropType,
-  relationship: relationshipPropType,
+  relationship: RelationshipPropType,
   show: PropTypes.bool.isRequired,
 }
 

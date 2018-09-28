@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import AttachLink from 'common/relationship/AttachLink'
 import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
+import {RelationshipPropType} from 'data/relationships'
 
 export class ActionMenu extends Component {
   constructor(props) {
@@ -84,19 +85,6 @@ const personPropType = PropTypes.shape({
   gender: PropTypes.string,
   name: PropTypes.string,
 })
-const relationshipPropType = PropTypes.shape({
-  absent_parent_code: PropTypes.string,
-  age: PropTypes.string,
-  dateOfBirth: PropTypes.string,
-  legacy_descriptor: PropTypes.object,
-  gender: PropTypes.string,
-  name: PropTypes.string,
-  person_card_exists: PropTypes.bool,
-  same_home_code: PropTypes.string,
-  secondaryRelationship: PropTypes.string,
-  type: PropTypes.string,
-  type_code: PropTypes.string,
-})
 
 ActionMenu.propTypes = {
   editFormRelationship: PropTypes.shape({
@@ -121,7 +109,7 @@ ActionMenu.propTypes = {
   onSave: PropTypes.func,
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
   person: personPropType,
-  relationship: relationshipPropType,
+  relationship: RelationshipPropType,
   screeningId: PropTypes.string,
 }
 
