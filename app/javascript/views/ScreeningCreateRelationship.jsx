@@ -1,7 +1,7 @@
 import React from 'react'
+import ActionRow from 'screenings/ActionRow'
 import CreateRelationshipForm from 'common/relationship/CreateRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
-import SavingButton from 'common/SavingButton'
 import PropTypes from 'prop-types'
 import {CandidatesPropType} from 'data/candidates'
 
@@ -47,28 +47,13 @@ export default class ScreeningCreateRelationship extends React.Component {
   modalFooter() {
     const {isDisabled = true, isSaving = false} = this.props
     return (
-      <div>
-        {isSaving ?
-          <SavingButton text='Saving'/> :
-          <div>
-            <button
-              aria-label='Cancel'
-              className='btn btn-default'
-              onClick={this.closeModal}
-            >
-        Cancel
-            </button>
-            <button
-              aria-label='Create Relationship'
-              className='btn btn-primary'
-              disabled={isDisabled}
-              onClick={this.saveCreateRelationship}
-            >
-          Create Relationship
-            </button>
-          </div>
-        }
-      </div>
+      <ActionRow
+        buttonText={'Create Relationship'}
+        isDisabled={isDisabled}
+        isSaving={isSaving}
+        onCancel={this.closeModal}
+        onSave={this.saveCreateRelationship}
+      />
     )
   }
 
