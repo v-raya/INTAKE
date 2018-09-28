@@ -11,5 +11,9 @@ Feature.with(:centralized_sessions) do
 end
 
 Feature.without(:centralized_sessions) do
-  Rails.application.config.session_store :cookie_store, key: '_ca_intake_session', expire_after: 4.hours
+  Rails.application.config.session_store(
+    :cookie_store,
+    key: '_ca_intake_session',
+    expire_after: 4.hours
+  )
 end
