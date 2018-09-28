@@ -62,7 +62,7 @@ const EditRelationshipForm = ({
                 value={editFormRelationship.relationship_type}
                 aria-label='Relationship Type'
                 onChange={({target}) => {
-                  onChange('relationship_type', parseInt(target.value, 10))
+                  onChange('relationship_type', target.value)
                   if (!isAbsentParentDisabled(type.secondary)) {
                     onChange('absent_parent_indicator', false)
                   }
