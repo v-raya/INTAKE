@@ -2,40 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import {ModalComponent} from 'react-wood-duck'
-import SavingButton from 'common/SavingButton'
-
-const renderBody = (editFormRelationship, errors, onChange, person, relationship) => (
-  <EditRelationshipForm
-    editFormRelationship={editFormRelationship}
-    errors={errors}
-    onChange={onChange}
-    person={person}
-    relationship={relationship}
-  />
-)
-
-const renderFooter = (closeModal, isFormChanged, isSaving, onSave, id) => (
-  <div className='row'>
-    <div className='col-md-12'>
-      <div className='pull-right'>
-        {isSaving ? <SavingButton text='Saving'/> :
-          <div>
-            <button className='btn btn-default' onClick={closeModal}>
-              Cancel
-            </button>
-            <button
-              className='btn btn-primary'
-              disabled={isFormChanged}
-              onClick={() => onSave(id)}
-            >
-            Save Relationship
-            </button>
-          </div>
-        }
-      </div>
-    </div>
-  </div>
-)
+import ActionRow from 'screenings/ActionRow'
 
 const EditRelationshipModal = ({
   closeModal,
@@ -52,8 +19,24 @@ const EditRelationshipModal = ({
   <ModalComponent
     closeModal={closeModal}
     showModal={show}
-    modalBody={renderBody(editFormRelationship, errors, onChange, person, relationship)}
-    modalFooter={renderFooter(closeModal, isFormChanged, isSaving, onSave, editFormRelationship.id)}
+    modalBody={
+      <EditRelationshipForm
+        editFormRelationship={editFormRelationship}
+        errors={errors}
+        onChange={onChange}
+        person={person}
+        relationship={relationship}
+      />
+    }
+    modalFooter={
+      <ActionRow
+        buttonText={'Save Relationship'}
+        isDisabled={isFormChanged}
+        isSaving={isSaving}
+        onCancel={closeModal}
+        onSave={() => onSave(editFormRelationship.id)}
+      />
+    }
     modalSize='large'
     modalTitle='Edit Relationship Type'
   />

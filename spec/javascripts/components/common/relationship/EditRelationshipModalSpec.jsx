@@ -1,14 +1,12 @@
 import React from 'react'
 import {shallow} from 'enzyme'
 import {ModalComponent} from 'react-wood-duck'
+import ActionRow from 'screenings/ActionRow'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
 
 describe('EditRelationshipModal', () => {
   const props = {
-    closeModal: () => {},
-    onClick: () => {},
-    onSave: () => {},
     editFormRelationship: {
       absent_parent_code: 'Y',
       endDate: '2010-10-01',
@@ -35,40 +33,49 @@ describe('EditRelationshipModal', () => {
     },
     show: true,
   }
-  const renderEditRelationshipModal = (props) => shallow(<EditRelationshipModal {...props}/>)
+  const render = ({
+    closeModal = () => {},
+    onSave = () => {},
+    ...props
+  } = {}) => shallow(<EditRelationshipModal closeModal={closeModal} onSave={onSave} {...props}/>)
 
   describe('rendersModal', () => {
     it('renders a ModalComponent', () => {
-      expect(renderEditRelationshipModal(props).find(ModalComponent).length).toBe(1)
+      expect(render(props).find(ModalComponent).length).toBe(1)
     })
   })
 
   describe('renderFooter', () => {
-    it('renders two buttons', () => {
-      expect(
-        renderEditRelationshipModal(props).find(ModalComponent).shallow().find('button').length
-      ).toBe(2)
+    it('renders ActionRow', () => {
+      expect(render(props).find(ModalComponent).shallow().find(ActionRow).length).toBe(1)
     })
-    it('renders SavingButton when isSaving props is true', () => {
+    it('passes the isSaving props to Action row', () => {
       expect(
-        renderEditRelationshipModal({...props, isSaving: true})
+        render({...props, isSaving: true})
           .find(ModalComponent)
           .shallow()
-          .find('SavingButton').length
-      ).toBe(1)
+          .find(ActionRow)
+          .prop('isSaving')
+      ).toBe(true)
+    })
+    it('passes the isDisabled props to Action row', () => {
+      expect(
+        render({...props, isFormChanged: true})
+          .find(ModalComponent)
+          .shallow()
+          .find(ActionRow)
+          .prop('isDisabled')
+      ).toBe(true)
     })
   })
 
   describe('renderEditRelationshipForm', () => {
-    const modalRender = renderEditRelationshipModal(props).find(ModalComponent)
-
+    const modalRender = render(props).find(ModalComponent)
     it('renders the EditRelationshipForm', () => {
       expect(modalRender.shallow().find(EditRelationshipForm).length).toBe(1)
     })
-
     it('passes the props to EditRelationshipForm', () => {
       const render = modalRender.shallow().find(EditRelationshipForm)
-
       expect(render.prop('person')).toEqual({
         age: '20 yrs',
         legacy_id: '1',
