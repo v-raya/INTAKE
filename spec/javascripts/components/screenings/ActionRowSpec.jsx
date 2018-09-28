@@ -56,4 +56,18 @@ describe('ActionRow', () => {
       expect(saveButton.props().onClick).not.toBeDefined()
     })
   })
+
+  describe('when props are passed', () => {
+    it('passes text props to the save button', () => {
+      const component = render({buttonText: 'Save Relationship'})
+      const row = component.find('.row .col-md-12 .pull-right')
+      expect(row.find('button').at(1).text()).toEqual('Save Relationship')
+    })
+
+    it('passes isDisable props to the save button', () => {
+      const component = render({isDisabled: true})
+      const row = component.find('.row .col-md-12 .pull-right')
+      expect(row.find('button').at(1).prop('disabled')).toBe(true)
+    })
+  })
 })
