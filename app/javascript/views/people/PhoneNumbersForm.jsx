@@ -5,7 +5,7 @@ import SelectField from 'common/SelectField'
 
 const PhoneNumbersForm = ({addPhone, deletePhone, onChange, phoneNumbers, phoneTypes}) => (
   <div>
-    {phoneNumbers.map(({number, type}, index) => (
+    {phoneNumbers.map(({number, type, errors}, index) => (
       <div className='row list-item' key={index}>
         <MaskedInputField
           gridClassName='col-md-6'
@@ -17,6 +17,7 @@ const PhoneNumbersForm = ({addPhone, deletePhone, onChange, phoneNumbers, phoneT
           type='tel'
           onChange={({target: {value}}) => onChange(index, 'number', value)}
           value={number}
+          errors={errors}
         />
         <SelectField
           gridClassName='col-md-6'
@@ -63,6 +64,7 @@ PhoneNumbersForm.propTypes = {
   phoneNumbers: PropTypes.arrayOf(PropTypes.shape({
     number: PropTypes.string,
     type: PropTypes.string,
+    errors: PropTypes.array,
   })),
   phoneTypes: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,

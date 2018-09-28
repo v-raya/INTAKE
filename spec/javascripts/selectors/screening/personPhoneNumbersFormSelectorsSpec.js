@@ -32,7 +32,7 @@ describe('personPhoneNumbersFormSelectors', () => {
       }
       const state = fromJS({peopleForm})
       expect(getPersonPhoneNumbersSelector(state, 'one')).toEqualImmutable(fromJS(
-        [{number: '1234567890', type: 'Home'}]
+        [{number: '1234567890', type: 'Home', errors: undefined}]
       ))
     })
   })
