@@ -194,19 +194,38 @@ describe('peopleSearchReducer', () => {
     const action = toggleAddressSearch()
     it('toggle isAddressIncluded flag from false to true', () => {
       const initialState = fromJS({isAddressIncluded: false})
-      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
-        fromJS({
-          isAddressIncluded: true,
-        })
-      )
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState.get('isAddressIncluded')).toEqual(true)
     })
     it('toggle isAddressIncluded flag from true to false', () => {
       const initialState = fromJS({isAddressIncluded: true})
-      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
-        fromJS({
-          isAddressIncluded: false,
-        })
-      )
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState.get('isAddressIncluded')).toEqual(false)
+    })
+    it('clears everything and sets county to default', () => {
+      const action = resetAddressSearch()
+      const initialState = fromJS({
+        searchCounty: 'Yolo',
+        searchCity: 'Davis',
+        searchAddress: '123 Main St',
+        isAddressIncluded: true,
+        defaultCounty: 'Sacramento',
+      })
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState).toEqualImmutable(fromJS({
+        searchCounty: 'Sacramento',
+        searchCity: '',
+        searchAddress: '',
+        isAddressIncluded: false,
+        defaultCounty: 'Sacramento',
+      }))
+    })
+    it('sets county to empty if there is no default', () => {
+      const action = resetAddressSearch()
+      const initialState = fromJS({defaultCounty: null})
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState.get('searchCounty')).toEqual('')
+      expect(newState.get('defaultCounty')).toEqual(null)
     })
   })
 
