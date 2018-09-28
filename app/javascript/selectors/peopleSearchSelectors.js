@@ -76,6 +76,10 @@ const mapCounties = (counties, countyCodes) => counties.map((county) =>
   systemCodeDisplayValue(county.get('id'), countyCodes)
 )
 
+const isCsec = (result) => result
+  .get('csec', List())
+  .some((csec) => !csec.get('end_date'))
+
 export const selectPeopleResults = (state) => selectPeopleSearch(state)
   .get('results')
   .map((fullResult) => {
@@ -91,7 +95,7 @@ export const selectPeopleResults = (state) => selectPeopleSearch(state)
       ethnicity: mapEthnicities(state, result),
       dateOfBirth: formatDOB(result.get('date_of_birth'), highlight.has('searchable_date_of_birth')),
       isDeceased: Boolean(result.get('date_of_death')),
-      isCsec: Boolean(result.get('csec')),
+      isCsec: isCsec(result),
       ssn: formatSSN(maybeHighlightedField(result, highlight, 'ssn') || result.get('ssn')),
       clientCounties: mapCounties(result.get('client_counties', List()), selectCounties(state)),
       address: mapAddress(state, result),
