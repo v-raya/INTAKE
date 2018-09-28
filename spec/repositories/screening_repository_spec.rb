@@ -5,6 +5,7 @@ require 'feature/testing'
 
 describe ScreeningRepository do
   let(:security_token) { 'my_security_token' }
+  let(:request_id) { 'my_request_id' }
 
   describe '.create' do
     let(:screening_id) { '11' }
@@ -13,12 +14,18 @@ describe ScreeningRepository do
 
     before do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, '/intake/screenings', :post, 'name' => 'New Screening')
+        .with(
+          security_token: security_token,
+          request_id: request_id,
+          url: '/intake/screenings',
+          method: :post,
+          payload: { 'name' => 'New Screening' }
+        )
         .and_return(response)
     end
 
     it 'returns the created screening' do
-      created_screening = JSON.parse(described_class.create(security_token, screening))
+      created_screening = JSON.parse(described_class.create(security_token, request_id, screening))
       expect(created_screening['id']).to eq(screening_id)
       expect(created_screening['name']).to eq('New Screening')
     end
@@ -32,12 +39,17 @@ describe ScreeningRepository do
 
     before do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, "/intake/screenings/#{screening_id}", :get)
+        .with(
+          security_token: security_token,
+          request_id: request_id,
+          url: "/intake/screenings/#{screening_id}",
+          method: :get
+        )
         .and_return(response)
     end
 
     it 'returns the existing screening' do
-      existing_screening = described_class.find(security_token, screening_id)
+      existing_screening = described_class.find(security_token, request_id, screening_id)
       expect(existing_screening['id']).to eq(screening_id)
       expect(existing_screening['name']).to eq('Existing Screening')
     end
@@ -57,16 +69,17 @@ describe ScreeningRepository do
       before do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token,
-            "/intake/screenings/#{screening_id}",
-            :put,
-            screening
+            security_token: security_token,
+            request_id: request_id,
+            url: "/intake/screenings/#{screening_id}",
+            method: :put,
+            payload: screening
           )
           .and_return(response)
       end
 
       it 'returns the updated screening' do
-        updated_screening = described_class.update(security_token, screening)
+        updated_screening = described_class.update(security_token, request_id, screening)
         expect(updated_screening['id']).to eq(screening_id)
         expect(updated_screening['name']).to eq('Updated Screening')
       end
@@ -77,7 +90,7 @@ describe ScreeningRepository do
 
       it 'raises an error' do
         expect do
-          described_class.update(security_token, screening)
+          described_class.update(security_token, request_id, screening)
         end.to raise_error('Error updating screening: id is required')
       end
     end
@@ -89,12 +102,17 @@ describe ScreeningRepository do
 
     before do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, '/screenings', :get)
+        .with(
+          security_token: security_token,
+          request_id: request_id,
+          url: '/screenings',
+          method: :get
+        )
         .and_return(response)
     end
 
     it 'returns the screening results' do
-      screening_results = JSON.parse(described_class.search(security_token))
+      screening_results = JSON.parse(described_class.search(security_token, request_id))
       expect(screening_results.first['id']).to eq('1')
       expect(screening_results.last['id']).to eq('2')
     end
@@ -116,9 +134,18 @@ describe ScreeningRepository do
 
       it 'returns the history of involvements from ferb api' do
         expect(FerbAPI).to receive(:make_api_call)
-          .with(security_token, "/screenings/#{screening_id}/history_of_involvements", :get)
+          .with(
+            security_token: security_token,
+            request_id: request_id,
+            url: "/screenings/#{screening_id}/history_of_involvements",
+            method: :get
+          )
           .and_return(response)
-        hoi = JSON.parse described_class.history_of_involvements(security_token, screening_id)
+        hoi = JSON.parse described_class.history_of_involvements(
+          security_token,
+          request_id,
+          screening_id
+        )
         expect(hoi['cases'].first['legacy_descriptor']).to eq('1234')
         expect(hoi['cases'].last['legacy_descriptor']).to eq('1235')
         expect(hoi['referrals'].first['legacy_descriptor']).to eq('1236')
@@ -137,9 +164,15 @@ describe ScreeningRepository do
 
     it 'responds with response body' do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, "/screenings/#{screening_id}/submit", :post, {})
+        .with(
+          security_token: security_token,
+          request_id: request_id,
+          url: "/screenings/#{screening_id}/submit",
+          method: :post,
+          payload: {}
+        )
         .and_return(response)
-      submitted_screening = described_class.submit(security_token, screening_id)
+      submitted_screening = described_class.submit(security_token, request_id, screening_id)
       expect(submitted_screening['id']).to eq(screening_id)
       expect(submitted_screening['name']).to eq('Submitted Screening')
     end
@@ -153,9 +186,20 @@ describe ScreeningRepository do
 
     it 'responds with response body' do
       expect(FerbAPI).to receive(:make_api_call)
-        .with(security_token, "/investigations/#{referral_id}/contacts", :post, {})
+        .with(
+          security_token: security_token,
+          request_id: request_id,
+          url: "/investigations/#{referral_id}/contacts",
+          method: :post,
+          payload: {}
+        )
         .and_return(response)
-      submitted_screening_contact = described_class.contact(security_token, referral_id, {})
+      submitted_screening_contact = described_class.contact(
+        security_token,
+        request_id,
+        referral_id,
+        {}
+      )
       expect(submitted_screening_contact['id']).to eq(referral_id)
     end
   end

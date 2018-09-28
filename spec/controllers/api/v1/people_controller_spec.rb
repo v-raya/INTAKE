@@ -17,7 +17,7 @@ describe Api::V1::PeopleController do
     context 'when search_after is not provied as a param' do
       before do
         allow(PersonSearchRepository).to receive(:search)
-          .with(params.as_json, security_token: security_token).and_return(people)
+          .with(params.as_json, anything, security_token: security_token).and_return(people)
       end
 
       it 'searches for people and renders a json with person attributes' do
@@ -31,7 +31,7 @@ describe Api::V1::PeopleController do
       before(:each) do
         params[:search_after] = 'hello world'
         allow(PersonSearchRepository).to receive(:search)
-          .with(params.as_json, security_token: security_token).and_return(people)
+          .with(params.as_json, anything, security_token: security_token).and_return(people)
       end
 
       it 'searches for people and renders a json with person attributes' do
@@ -60,10 +60,10 @@ describe Api::V1::PeopleController do
     let(:id) { '1' }
     before do
       allow(ParticipantRepository).to receive(:authorize)
-        .with(security_token, id)
+        .with(security_token, anything, id)
         .and_return(nil)
       allow(PersonSearchRepository).to receive(:find)
-        .with(id, security_token: security_token)
+        .with(id, anything, security_token: security_token)
         .and_return(people)
     end
 

@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe HistoryOfInvolvementsRepository do
   let(:security_token) { 'my_security_token' }
+  let(:request_id) { 'my_request_id' }
 
   describe '.search' do
     let(:empty_hoi) do
@@ -32,7 +33,7 @@ describe HistoryOfInvolvementsRepository do
     end
 
     it 'should return an empty HOI when no relationships found' do
-      hois = described_class.search(security_token, [])
+      hois = described_class.search(security_token, request_id, [])
 
       expect(hois).to eq(empty_hoi)
     end
@@ -40,13 +41,14 @@ describe HistoryOfInvolvementsRepository do
     it 'should return an HOI for a single id' do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token,
-          '/clients/history_of_involvements',
-          :get,
-          clientIds: ['EwsPYbG07n']
+          security_token: security_token,
+          request_id: request_id,
+          url: '/clients/history_of_involvements',
+          method: :get,
+          payload: { clientIds: ['EwsPYbG07n'] }
         ).and_return(hoi_response)
 
-      relationships = described_class.search(security_token, ['EwsPYbG07n'])
+      relationships = described_class.search(security_token, request_id, ['EwsPYbG07n'])
 
       expect(relationships).to eq(hoi)
     end
@@ -54,13 +56,18 @@ describe HistoryOfInvolvementsRepository do
     it 'should return an HOI for multiple clients' do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token,
-          '/clients/history_of_involvements',
-          :get,
-          clientIds: %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ]
+          security_token: security_token,
+          request_id: request_id,
+          url: '/clients/history_of_involvements',
+          method: :get,
+          payload: { clientIds: %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ] }
         ).and_return(hoi_response)
 
-      relationships = described_class.search(security_token, %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ])
+      relationships = described_class.search(
+        security_token,
+        request_id,
+        %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ]
+      )
 
       expect(relationships).to eq(hoi)
     end

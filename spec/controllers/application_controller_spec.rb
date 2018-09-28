@@ -76,7 +76,7 @@ describe ApplicationController do
               .with(access_code: new_access_code, token: new_security_token)
               .and_return(new_security_token)
             expect(StaffRepository).to receive(:find)
-              .with(new_security_token, 'def')
+              .with(new_security_token, anything, 'def')
               .and_return(new_user_details)
           end
 
@@ -186,7 +186,7 @@ describe ApplicationController do
               .with(access_code: access_code, token: security_token)
               .and_return(security_token)
             expect(StaffRepository).to receive(:find)
-              .with(security_token, 'abc')
+              .with(security_token, anything, 'abc')
               .and_return(staff_repo_result)
           end
 

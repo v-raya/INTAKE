@@ -24,6 +24,7 @@ module CaIntake # :nodoc:
     config.exceptions_app = routes
     config.logger = Logger.new(STDOUT)
     config.log_level = :debug
+    config.log_tags = [:uuid]
 
     authentication_login_url = <<~URL.strip
       #{ENV.fetch('AUTHENTICATION_URL', '').chomp('/')}/authn/login?callback=

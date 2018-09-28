@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe PersonSearchRepository do
   let(:security_token) { 'my_security_token' }
+  let(:request_id) { 'my_request_id' }
   let(:params) do
     {
       search_term: 'hello world'
@@ -16,7 +17,7 @@ describe PersonSearchRepository do
         stub_request(:post, dora_api_url(ExternalRoutes.dora_people_light_index_path))
           .and_return(json_body(['hello world'], status: 200))
 
-        result = described_class.search(params, security_token: security_token)
+        result = described_class.search(params, request_id, security_token: security_token)
         expect(result).to eq ['hello world']
       end
     end
@@ -27,7 +28,7 @@ describe PersonSearchRepository do
           .and_return(json_body(['Created'], status: 201))
 
         expect do
-          described_class.search(params, security_token: security_token)
+          described_class.search(params, request_id, security_token: security_token)
         end.to raise_error(TypeError)
       end
     end
@@ -47,14 +48,14 @@ describe PersonSearchRepository do
     context 'searching with no id' do
       it 'raises an error' do
         expect do
-          described_class.find(nil, security_token: security_token)
+          described_class.find(nil, request_id, security_token: security_token)
         end.to raise_error('id is required')
       end
     end
 
     context 'searching with an id' do
       it 'returns the existing person' do
-        result = described_class.find(id, security_token: security_token)
+        result = described_class.find(id, request_id, security_token: security_token)
         expect(result['id']).to eq id
       end
     end
