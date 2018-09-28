@@ -72,7 +72,7 @@ describe Api::V1::ScreeningsController do
     before do
       allow(LUID).to receive(:generate).and_return(['123ABC'])
       expect(ScreeningRepository).to receive(:create)
-        .with(security_token, anything)
+        .with(security_token, anything, anything)
         .and_return(created_screening)
     end
 
@@ -211,7 +211,7 @@ describe Api::V1::ScreeningsController do
         it 'returns the same name if run more than once' do
           # Added second expectation as in the before so both create calls are properly expected
           expect(ScreeningRepository).to receive(:create)
-            .with(security_token, anything)
+            .with(security_token, anything, anything)
             .and_return(created_screening)
           session = {
             'security_token' => security_token,
@@ -314,7 +314,7 @@ describe Api::V1::ScreeningsController do
 
     before do
       expect(ScreeningRepository).to receive(:find)
-        .with(security_token, '1')
+        .with(security_token, anything, '1')
         .and_return(screening)
     end
 
@@ -367,7 +367,7 @@ describe Api::V1::ScreeningsController do
 
     before do
       expect(ScreeningRepository).to receive(:update)
-        .with(security_token, anything)
+        .with(security_token, anything, anything)
         .and_return(updated_screening)
     end
 
@@ -387,7 +387,7 @@ describe Api::V1::ScreeningsController do
       let(:screenings) { double(:screenings, as_json: [{ id: '1' }]) }
       before do
         allow(ScreeningRepository).to receive(:search)
-          .with(security_token)
+          .with(security_token, anything)
           .and_return(screenings)
       end
 
@@ -404,7 +404,7 @@ describe Api::V1::ScreeningsController do
 
     before do
       expect(ScreeningRepository).to receive(:history_of_involvements)
-        .with(security_token, screening_id)
+        .with(security_token, anything, screening_id)
         .and_return(involvements)
     end
 
@@ -423,7 +423,7 @@ describe Api::V1::ScreeningsController do
 
     before do
       expect(ScreeningRepository).to receive(:submit)
-        .with(security_token, screening_id)
+        .with(security_token, anything, screening_id)
         .and_return(submit_response)
     end
 
@@ -441,7 +441,7 @@ describe Api::V1::ScreeningsController do
     end
     before do
       expect(ScreeningRepository).to receive(:contact)
-        .with(security_token, referral_id, id: referral_id)
+        .with(security_token, anything, referral_id, id: referral_id)
         .and_return(contact_response)
     end
     it 'submits screening contact' do

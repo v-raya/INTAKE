@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe RelationshipsRepository do
   let(:security_token) { 'my_security_token' }
+  let(:request_id) { 'my_request_id' }
   let(:empty_response) do
     double(:response, body: [], status: 200, headers: {})
   end
@@ -53,7 +54,7 @@ describe RelationshipsRepository do
       end
 
       it 'should return an empty list when no relationships found' do
-        relationships = described_class.search(security_token, [])
+        relationships = described_class.search(security_token, request_id, [])
 
         expect(relationships).to eq([])
       end
@@ -61,13 +62,14 @@ describe RelationshipsRepository do
       it 'should return all relationships found for a single id' do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token,
-            '/clients/relationships',
-            :get,
-            clientIds: ['EwsPYbG07n']
+            security_token: security_token,
+            request_id: request_id,
+            url: '/clients/relationships',
+            method: :get,
+            payload: { clientIds: ['EwsPYbG07n'] }
           ).and_return(single_response)
 
-        relationships = described_class.search(security_token, ['EwsPYbG07n'])
+        relationships = described_class.search(security_token, request_id, ['EwsPYbG07n'])
 
         expect(relationships).to eq([relationships.first])
       end
@@ -75,13 +77,18 @@ describe RelationshipsRepository do
       it 'should return all relationships for multiple clients' do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token,
-            '/clients/relationships',
-            :get,
-            clientIds: %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ]
+            security_token: security_token,
+            request_id: request_id,
+            url: '/clients/relationships',
+            method: :get,
+            payload: { clientIds: %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ] }
           ).and_return(full_response)
 
-        relationships = described_class.search(security_token, %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ])
+        relationships = described_class.search(
+          security_token,
+          request_id,
+          %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ]
+        )
 
         expect(relationships).to eq(relationships)
       end
@@ -135,7 +142,11 @@ describe RelationshipsRepository do
       end
 
       it 'should return an empty list when no relationships found' do
-        relationships = described_class.get_relationships_for_screening_id(security_token, nil)
+        relationships = described_class.get_relationships_for_screening_id(
+          security_token,
+          request_id,
+          nil
+        )
 
         expect(relationships).to eq([])
       end
@@ -143,12 +154,17 @@ describe RelationshipsRepository do
       it 'should return all relationships for a screening' do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token,
-            '/screenings/1/relationships_with_candidates',
-            :get
+            security_token: security_token,
+            request_id: request_id,
+            url: '/screenings/1/relationships_with_candidates',
+            method: :get
           ).and_return(screening_response)
 
-        relationships = described_class.get_relationships_for_screening_id(security_token, '1')
+        relationships = described_class.get_relationships_for_screening_id(
+          security_token,
+          request_id,
+          '1'
+        )
 
         expect(relationships).to eq(screening_relationships)
       end
@@ -201,22 +217,23 @@ describe RelationshipsRepository do
       before do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token,
-            '/screening_relationships/batch',
-            :post,
-            relationships
+            security_token: security_token,
+            request_id: request_id,
+            url: '/screening_relationships/batch',
+            method: :post,
+            payload: relationships
           ).and_return(relationships_response)
       end
 
       it 'should return a collection of relationships' do
-        created_relationships = described_class.create(security_token, relationships)
+        created_relationships = described_class.create(security_token, request_id, relationships)
         expect(created_relationships.as_json).to eq(relationships.as_json)
       end
     end
 
     context 'when there are no relationships' do
       it 'returns an empty array' do
-        empty = described_class.create(security_token, [])
+        empty = described_class.create(security_token, request_id, [])
         expect(empty.as_json).to eq([])
       end
     end
@@ -246,14 +263,15 @@ describe RelationshipsRepository do
       before do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token,
-            "/screening_relationships/#{id}",
-            :get
+            security_token: security_token,
+            request_id: request_id,
+            url: "/screening_relationships/#{id}",
+            method: :get
           ).and_return(relationship_response)
       end
 
       it 'should return a relationship' do
-        relationship = described_class.find(security_token, id)
+        relationship = described_class.find(security_token, request_id, id)
         expect(relationship.as_json).to eq(relationship.as_json)
       end
     end
@@ -263,7 +281,7 @@ describe RelationshipsRepository do
 
       it 'raises an error' do
         expect do
-          described_class.find(security_token, id)
+          described_class.find(security_token, request_id, id)
         end.to raise_error('Error updating relationship: id is required')
       end
     end
@@ -293,15 +311,16 @@ describe RelationshipsRepository do
       before do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token,
-            "/screening_relationships/#{id}",
-            :put,
-            relationship
+            security_token: security_token,
+            request_id: request_id,
+            url: "/screening_relationships/#{id}",
+            method: :put,
+            payload: relationship
           ).and_return(update_relationship_response)
       end
 
       it 'should update the relationship' do
-        updated_relationship = described_class.update(security_token, id, relationship)
+        updated_relationship = described_class.update(security_token, request_id, id, relationship)
         expect(updated_relationship.as_json).to eq(relationship.as_json)
       end
     end
@@ -311,7 +330,7 @@ describe RelationshipsRepository do
 
       it 'raises an error' do
         expect do
-          described_class.update(security_token, id, relationship)
+          described_class.update(security_token, request_id, id, relationship)
         end.to raise_error('Error updating relationship: id is required')
       end
     end

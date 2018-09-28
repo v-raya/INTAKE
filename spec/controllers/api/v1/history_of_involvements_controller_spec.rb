@@ -21,7 +21,7 @@ describe Api::V1::HistoryOfInvolvementsController do
 
     before do
       expect(HistoryOfInvolvementsRepository).to receive(:search)
-        .with(security_token, client_ids)
+        .with(security_token, anything, client_ids)
         .and_return(expected_json)
     end
 
