@@ -7,9 +7,9 @@ Feature.with(:centralized_sessions) do
     port: ENV.fetch('REDIS_PORT', '6379'),
     db: 0,
     namespace: 'session'
-  }, expires_in: 4.hours
+  }, expire_after: 4.hours
 end
 
 Feature.without(:centralized_sessions) do
-  Rails.application.config.session_store :cookie_store, key: '_ca_intake_session'
+  Rails.application.config.session_store :cookie_store, key: '_ca_intake_session', expire_after: 4.hours
 end
