@@ -180,10 +180,10 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const legacyDescriptor = person.get('legacy_descriptor')
   const approximateAge = personApproximateAge(person)
-  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
-  const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
-  const csecDetails = selectCsec(state).get(personId)
-  const showCSEC = (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec') || (csecDetails && csecDetails.size > 0)
+  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value']) || ''
+  const roles = state.getIn(['peopleForm', personId, 'roles', 'value']) || List()
+  const csecDetails = selectCsec(state).get(personId) || List()
+  const showCSEC = (roles.includes('Victim') && screeningReportType === 'csec') || csecDetails.size > 0
   return fromJS({
     approximateAge: approximateAge,
     CSECTypes: {value: csecTypesSelector(state, personId), errors: []},
