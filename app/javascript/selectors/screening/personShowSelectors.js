@@ -183,9 +183,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
   const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   const csecDetails = selectCsec(state).get(personId)
-  const showCSEC = (
-    roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec') || (csecDetails && csecDetails.size > 0
-    )
+  const showCSEC = (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec') || (csecDetails && csecDetails.size > 0)
   return fromJS({
     approximateAge: approximateAge,
     CSECTypes: {value: csecTypesSelector(state, personId), errors: []},
