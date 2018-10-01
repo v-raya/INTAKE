@@ -45,7 +45,7 @@ export const getModeValueSelector = (state, personId) => {
   return screeningPage.getIn(['peopleCards', personId], SHOW_MODE)
 }
 
-const hasNoCsecEndate = (csecInfo) =>
+const hasNoCsecEndDate = (csecInfo) =>
   csecInfo.some((value) => Maybe.of(value.get('end_date')).isNothing())
 
 export const selectInformationalMessage = (state, personId) => {
@@ -56,7 +56,7 @@ export const selectInformationalMessage = (state, personId) => {
     return 'Deceased'
   } else if (probationYouthInfo) {
     return 'Probation Youth'
-  } else if (csecInfo && csecInfo.size > 0 && hasNoCsecEndate(csecInfo)) {
+  } else if (csecInfo && csecInfo.size > 0 && hasNoCsecEndDate(csecInfo)) {
     return 'CSEC'
   }
   return null
