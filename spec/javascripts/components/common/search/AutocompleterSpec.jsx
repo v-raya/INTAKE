@@ -442,6 +442,39 @@ describe('<Autocompleter />', () => {
     })
   })
 
+  describe('when address search is toggled off', () => {
+    let onSearch
+    const isAddressIncluded = true
+
+    beforeEach(() => {
+      onSearch = jasmine.createSpy('onSearch')
+    })
+
+    it('returns to autocomplete by searching immediately', () => {
+      const autocompleter = renderAutocompleter({
+        onSearch,
+        isAddressIncluded,
+        searchTerm: 'ABC',
+      })
+      autocompleter.find('SearchByAddress').props().toggleAddressSearch({target: {checked: false}})
+
+      expect(onSearch).toHaveBeenCalled()
+      expect(autocompleter.state().menuVisible).toEqual(true)
+    })
+
+    it('does not search when the query not searchable', () => {
+      const autocompleter = renderAutocompleter({
+        onSearch,
+        isAddressIncluded,
+        searchTerm: '',
+      })
+      autocompleter.find('SearchByAddress').props().toggleAddressSearch({target: {checked: false}})
+
+      expect(onSearch).not.toHaveBeenCalled()
+      expect(autocompleter.state().menuVisible).toEqual(false)
+    })
+  })
+
   describe('renderInput', () => {
     it('renders an input element', () => {
       const autocompleter = renderAutocompleter({})

@@ -1,7 +1,7 @@
 import FormField from 'common/FormField'
 import PropTypes from 'prop-types'
 import React from 'react'
-import CardActionRow from 'screenings/CardActionRow'
+import ActionRow from 'screenings/ActionRow'
 
 const NarrativeForm = ({
   isSaving,
@@ -29,7 +29,7 @@ const NarrativeForm = ({
         />
       </FormField>
     </div>
-    <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving}/>
+    <ActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving}/>
   </div>
 )
 

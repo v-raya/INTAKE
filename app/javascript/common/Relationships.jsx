@@ -3,11 +3,13 @@ import React from 'react'
 import AttachLink from 'common/relationship/AttachLink'
 import RelationCard from 'common/relationship/RelationCard'
 import ScreeningCreateRelationshipContainer from 'containers/screenings/ScreeningCreateRelationshipContainer'
+import {CandidatesPropType} from 'data/candidates'
 
 export const Relationships = ({
   editFormRelationship,
   errors,
   isFormChanged,
+  isSaving,
   isScreening,
   onClick,
   onChange,
@@ -31,6 +33,7 @@ export const Relationships = ({
                     editFormRelationship={editFormRelationship}
                     errors={errors}
                     isFormChanged={isFormChanged}
+                    isSaving={isSaving}
                     isScreening={isScreening}
                     onChange={onChange}
                     onClick={onClick}
@@ -92,22 +95,7 @@ export const Relationships = ({
 )
 
 Relationships.propTypes = {
-  candidates: PropTypes.arrayOf(PropTypes.shape({
-    candidate: PropTypes.shape({
-      age: PropTypes.string,
-      candidateId: PropTypes.string,
-      dateOfBirth: PropTypes.string,
-      gender: PropTypes.string,
-      name: PropTypes.string,
-    }),
-    person: PropTypes.shape({
-      age: PropTypes.string,
-      legacyId: PropTypes.string,
-      dateOfBirth: PropTypes.string,
-      gender: PropTypes.string,
-      name: PropTypes.string,
-    }),
-  })),
+  candidates: CandidatesPropType,
   editFormRelationship: PropTypes.shape({
     absent_parent_indicator: PropTypes.bool,
     client_id: PropTypes.string,
@@ -122,6 +110,7 @@ Relationships.propTypes = {
     started_at: PropTypes.array,
   }),
   isFormChanged: PropTypes.bool,
+  isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,

@@ -60,7 +60,7 @@ export default class Autocompleter extends Component {
     const {onClear, searchTerm, onToggleAddressSearch} = this.props
 
     onClear()
-    if (!event.target.checked) { this.searchAndFocus(searchTerm) }
+    if (!event.target.checked && this.isSearchable(this.props.searchTerm)) { this.searchAndFocus(searchTerm) }
     onToggleAddressSearch(event)
   }
 
@@ -69,9 +69,7 @@ export default class Autocompleter extends Component {
   }
 
   hideMenu() {
-    if (this.inputRef) {
-      this.inputRef.setAttribute('aria-activedescendant', '')
-    }
+    if (this.inputRef) { this.inputRef.setAttribute('aria-activedescendant', '') }
     this.setState({menuVisible: false})
   }
 

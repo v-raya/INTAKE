@@ -88,7 +88,7 @@ describe('PersonCard', () => {
 
     it('does not render a card action row', () => {
       const component = renderPersonCard({mode: 'show'})
-      expect(component.find('CardActionRow').exists()).toEqual(false)
+      expect(component.find('ActionRow').exists()).toEqual(false)
       expect(component.find('button.btn-primary').exists()).toEqual(false)
       expect(component.find('button.btn-default').exists()).toEqual(false)
     })
@@ -145,8 +145,8 @@ describe('PersonCard', () => {
 
     it('renders a card action row', () => {
       const component = renderPersonCard({mode: EDIT_MODE})
-      expect(component.find('CardActionRow').exists()).toEqual(true)
-      expect(component.find('CardActionRow').props().isSaving).not.toBeTruthy()
+      expect(component.find('ActionRow').exists()).toEqual(true)
+      expect(component.find('ActionRow').props().isSaving).not.toBeTruthy()
     })
 
     it('renders an anchor to itself', () => {
@@ -161,14 +161,14 @@ describe('PersonCard', () => {
     it('canceling edit calls onCancel', () => {
       const onCancel = jasmine.createSpy('onCancel')
       const component = renderPersonCard({onCancel, mode: EDIT_MODE})
-      component.find('CardActionRow').props().onCancel()
+      component.find('ActionRow').props().onCancel()
       expect(onCancel).toHaveBeenCalled()
     })
 
     it('saving changes calls onSave', () => {
       const onSave = jasmine.createSpy('onSave')
       const component = renderPersonCard({onSave, mode: EDIT_MODE})
-      component.find('CardActionRow').props().onSave()
+      component.find('ActionRow').props().onSave()
       expect(onSave).toHaveBeenCalled()
     })
 
@@ -233,8 +233,8 @@ describe('PersonCard', () => {
 
     it('renders a "saving" card action row', () => {
       const component = renderPersonCard({mode: SAVING_MODE})
-      expect(component.find('CardActionRow').exists()).toEqual(true)
-      expect(component.find('CardActionRow').props().isSaving).toEqual(true)
+      expect(component.find('ActionRow').exists()).toEqual(true)
+      expect(component.find('ActionRow').props().isSaving).toEqual(true)
     })
 
     it('renders an anchor to itself', () => {

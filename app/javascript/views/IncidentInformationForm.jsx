@@ -4,7 +4,7 @@ import DateField from 'common/DateField'
 import InputField from 'common/InputField'
 import SelectField from 'common/SelectField'
 import TextAreaCount from 'common/TextAreaCount'
-import CardActionRow from 'screenings/CardActionRow'
+import ActionRow from 'screenings/ActionRow'
 
 const IncidentInformationForm = ({
   incidentDate,
@@ -125,7 +125,7 @@ const IncidentInformationForm = ({
         />
       </div>
     </div>
-    <CardActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving} />
+    <ActionRow onCancel={onCancel} onSave={onSave} isSaving={isSaving} />
   </div>
 )
 

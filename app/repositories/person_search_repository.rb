@@ -17,6 +17,7 @@ class PersonSearchRepository
 
     def find(id, request_id, security_token: nil)
       raise 'id is required' unless id
+
       response = DoraAPI.make_api_call(
         security_token: security_token,
         request_id: request_id,
@@ -58,7 +59,7 @@ class PersonSearchRepository
     end
 
     def search_query(params)
-      QueryBuilder.new(params).build_query
+      QueryBuilder.build(params).payload
     end
   end
 end

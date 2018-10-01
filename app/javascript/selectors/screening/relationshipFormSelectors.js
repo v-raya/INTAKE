@@ -24,11 +24,15 @@ const isFormNoChange = (relationshipForm) => (relatee) =>
     start_date: relatee.get('start_date') || null,
   }))
 
-export const selectRelationship = (state) => (state.get('relationshipForm', Map()))
+export const selectRelationship = (state) =>
+  state.getIn(['relationshipForm', 'relationship'], Map())
+
+export const selectIsSaving = (state) =>
+  state.getIn(['relationshipForm', 'isSaving'])
 
 export const selectErrors = createSelector(
-  (state) => state.getIn(['relationshipForm', 'end_date']),
-  (state) => state.getIn(['relationshipForm', 'start_date']),
+  (state) => state.getIn(['relationshipForm', 'relationship', 'end_date']),
+  (state) => state.getIn(['relationshipForm', 'relationship', 'start_date']),
   (endDate, startDate) => fromJS({
     started_at: combineCompact(
       isBeforeDatetimeCreate(endDate, startDate, 'The start date must be before the end date.')

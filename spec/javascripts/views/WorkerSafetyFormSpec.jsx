@@ -62,26 +62,26 @@ describe('WorkerSafetyForm', () => {
 
   it('renders a card action row', () => {
     const component = renderWorkerSafety({})
-    expect(component.find('CardActionRow').exists()).toEqual(true)
-    expect(component.find('CardActionRow').props().isSaving).not.toBeTruthy()
+    expect(component.find('ActionRow').exists()).toEqual(true)
+    expect(component.find('ActionRow').props().isSaving).not.toBeTruthy()
   })
 
-  it('passes isSaving through to CardActionRow', () => {
+  it('passes isSaving through to ActionRow', () => {
     const component = renderWorkerSafety({isSaving: true})
-    expect(component.find('CardActionRow').props().isSaving).toEqual(true)
+    expect(component.find('ActionRow').props().isSaving).toEqual(true)
   })
 
   it('canceling edit calls onCancel', () => {
     const onCancel = jasmine.createSpy('onCancel')
     const component = renderWorkerSafety({onCancel})
-    component.find('CardActionRow').props().onCancel()
+    component.find('ActionRow').props().onCancel()
     expect(onCancel).toHaveBeenCalled()
   })
 
   it('saving changes calls onSave', () => {
     const onSave = jasmine.createSpy('onSave')
     const component = renderWorkerSafety({onSave})
-    component.find('CardActionRow').props().onSave()
+    component.find('ActionRow').props().onSave()
     expect(onSave).toHaveBeenCalled()
   })
 })

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import SavingButton from 'common/SavingButton'
 
-const CardActionRow = ({isSaving, onCancel, onSave}) => (
+const ActionRow = ({buttonText, isDisabled, isSaving, onCancel, onSave}) => (
   <div className='row'>
     <div className='col-md-12'>
       <div className='pull-right'>
@@ -10,16 +10,29 @@ const CardActionRow = ({isSaving, onCancel, onSave}) => (
           <button className='btn btn-default' onClick={onCancel}>Cancel</button>}
         {isSaving ?
           <SavingButton text='Saving'/> :
-          <button className='btn btn-primary' onClick={onSave}>Save</button>}
+          <button
+            className='btn btn-primary'
+            disabled={isDisabled}
+            onClick={onSave}
+          >
+            {buttonText}
+          </button>}
       </div>
     </div>
   </div>
 )
 
-CardActionRow.propTypes = {
+ActionRow.defaultProps = {
+  buttonText: 'Save',
+  isDisabled: false,
+}
+
+ActionRow.propTypes = {
+  buttonText: PropTypes.string,
+  isDisabled: PropTypes.bool,
   isSaving: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 }
 
-export default CardActionRow
+export default ActionRow

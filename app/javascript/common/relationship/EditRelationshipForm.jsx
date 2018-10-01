@@ -4,6 +4,7 @@ import CheckboxField from 'common/CheckboxField'
 import DateField from 'common/DateField'
 import {RELATIONSHIP_TYPES} from 'enums/RelationshipTypes'
 import relationshipDropdown from 'common/relationship/relationship_dropdown/relationshipDropdown'
+import {RelationshipPropType} from 'data/relationships'
 
 const isAbsentParentDisabled = (type) => (
   !type.toLowerCase().match(/\bfather\b|\bmother\b|\bparent\b/)
@@ -145,18 +146,6 @@ const personPropType = PropTypes.shape({
   gender: PropTypes.string,
   name: PropTypes.string,
 })
-const relationshipPropType = PropTypes.shape({
-  absent_parent_indicator: PropTypes.string,
-  age: PropTypes.string,
-  dateOfBirth: PropTypes.string,
-  legacy_descriptor: PropTypes.object,
-  gender: PropTypes.string,
-  name: PropTypes.string,
-  person_card_exists: PropTypes.bool,
-  same_home_code: PropTypes.string,
-  type: PropTypes.string,
-  type_code: PropTypes.string,
-})
 
 EditRelationshipForm.propTypes = {
   editFormRelationship: PropTypes.shape({
@@ -174,7 +163,7 @@ EditRelationshipForm.propTypes = {
   }),
   onChange: PropTypes.func,
   person: personPropType,
-  relationship: relationshipPropType,
+  relationship: RelationshipPropType,
 }
 
 export default EditRelationshipForm

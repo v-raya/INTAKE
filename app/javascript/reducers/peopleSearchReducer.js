@@ -25,6 +25,13 @@ const initialState = fromJS({
   searchCounty: '',
   defaultCounty: null,
 })
+
+const resetAddressSearch = (state) => state
+  .set('searchCounty', state.get('defaultCounty') || '')
+  .set('searchCity', '')
+  .set('searchAddress', '')
+  .set('isAddressIncluded', false)
+
 export default createReducer(initialState, {
   [PEOPLE_SEARCH_FETCH](state, {payload: {searchTerm}}) {
     return state.set('searchTerm', searchTerm)
@@ -75,13 +82,9 @@ export default createReducer(initialState, {
     }
   },
   [TOGGLE_ADDRESS_SEARCH](state) {
-    return state.set('isAddressIncluded', !state.get('isAddressIncluded'))
+    return state.get('isAddressIncluded') ?
+      resetAddressSearch(state) :
+      state.set('isAddressIncluded', true)
   },
-  [RESET_ADDRESS_SEARCH](state) {
-    return state
-      .set('searchCounty', state.get('defaultCounty') || '')
-      .set('searchCity', '')
-      .set('searchAddress', '')
-      .set('isAddressIncluded', false)
-  },
+  [RESET_ADDRESS_SEARCH]: resetAddressSearch,
 })
