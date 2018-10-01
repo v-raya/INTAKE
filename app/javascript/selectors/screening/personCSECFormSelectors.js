@@ -18,10 +18,10 @@ export const getPersonCSECDetailsSelector = (state, personId) => {
 }
 
 export const getCSECRequireValidationSelector = (state, personId) => {
-  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
-  const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
-  const csecDetails = selectCsec(state).get(personId)
-  if ((roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec') || (csecDetails && csecDetails.size > 0)) {
+  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value']) || ''
+  const roles = state.getIn(['peopleForm', personId, 'roles', 'value']) || List()
+  const csecDetails = selectCsec(state).get(personId) || List()
+  if ((roles.includes('Victim') && screeningReportType === 'csec') || csecDetails.size > 0) {
     return true
   }
   return false
