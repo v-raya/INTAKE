@@ -36,6 +36,7 @@ class PersonSearchResultBuilder
           id: 999
         }],
         addresses: [],
+        csec: [],
         date_of_birth: '',
         legacy_descriptor: {},
         sensitivity_indicator: ''
