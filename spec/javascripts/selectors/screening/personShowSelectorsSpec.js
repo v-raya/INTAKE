@@ -46,6 +46,27 @@ describe('personShowSelectors', () => {
         .toEqual('Client ID 1-4 in CWS-CMS')
     })
 
+    it('includes the csec details for the given person', () => {
+      const participants = [
+        {id: '1', csec: [{csec_code_id: '14', start_date: '1111-11-11'}]},
+      ]
+      const state = fromJS({participants})
+      expect(getFormattedPersonInformationSelector(state, '1').get('csecStartedAt'))
+        .toEqual(fromJS({
+          value: '11/11/1111',
+          errors: [],
+        }))
+    })
+
+    it('does not include the csec details not  provided for the given person', () => {
+      const participants = [
+        {id: '1', csec: [{csec_code_id: '14'}]},
+      ]
+      const state = fromJS({participants})
+      expect(getFormattedPersonInformationSelector(state, '1').get('csecEndedAt'))
+        .toEqual(undefined)
+    })
+
     it('includes the display name for the given person', () => {
       const participants = [{id: '1', first_name: 'John', middle_name: 'Q', last_name: 'Public'}]
       const state = fromJS({participants})
