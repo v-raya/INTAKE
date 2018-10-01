@@ -24,6 +24,7 @@ feature 'Person Phone Number Validation' do
 
   context 'phone number with leading zero is not valid' do
     let(:valid_phone_number) { '1234567890' }
+    let(:valid_phone_numbers) { [{ id: 1, number: valid_phone_number, type: 'Home' }] }
 
     let(:invalid_phone_numbers) { [{ id: 1, number: '0123456789', type: 'Home' }] }
     let(:person) { FactoryBot.create :participant, phone_numbers: invalid_phone_numbers }
