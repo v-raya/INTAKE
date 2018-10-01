@@ -104,6 +104,24 @@ describe('relationshipFormReducer', () => {
           }})
       )
     })
+    it('sets relationshipType to previous state if empty option selected', () => {
+      const lastState = fromJS(relationshipForm)
+      const actionRelationshipTye = setRelationshipForm('relationship_type', '')
+      expect(relationshipFormReducer(lastState, actionRelationshipTye)).toEqualImmutable(
+        fromJS({
+          relationship: {
+            absent_parent_indicator: true,
+            client_id: 'ZXY123',
+            end_date: '2010-10-01',
+            id: '12345',
+            relationship_type: 190,
+            relative_id: 'ABC987',
+            reversed: false,
+            same_home_status: 'Y',
+            start_date: '1999-10-01',
+          }})
+      )
+    })
   })
 
   describe('on UPDATE_RELATIONSHIP_COMPLETE', () => {

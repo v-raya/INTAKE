@@ -37,8 +37,15 @@ const buildRelationship = (state, {payload: {person, relationship}}) => {
   })
 }
 
-const setRelationshipForm = (state, {payload: {field, value}}) =>
-  state.setIn(['relationship', field], value)
+const setRelationshipForm = (state, {payload: {field, value}}) => {
+  if (field === 'relationship_type') {
+    if (value === '') {
+      return state
+    }
+    return state.setIn(['relationship', field], parseInt(value, 10))
+  }
+  return state.setIn(['relationship', field], value)
+}
 
 const updateRelationship = (state, {payload: {relationship}, error}) => {
   if (error) {
