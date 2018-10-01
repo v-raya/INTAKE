@@ -92,7 +92,7 @@ describe('EditRelationshipForm', () => {
       render({onChange, ...props})
         .find('#edit_relationship')
         .simulate('change', {target: {value: '808'}})
-      expect(onChange).toHaveBeenCalledWith('relationship_type', '808')
+      expect(onChange).toHaveBeenCalledWith('relationship_type', 808)
     })
     it('expects same home status to change', () => {
       render({onChange, ...props})
