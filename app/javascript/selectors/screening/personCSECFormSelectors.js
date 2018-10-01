@@ -6,6 +6,7 @@ import {
   combineCompact,
   hasRequiredValuesCreate,
 } from 'utils/validator'
+import {selectCsec} from 'selectors/screening/personCardSelectors'
 
 export const getPersonCSECDetailsSelector = (state, personId) => {
   const person = state.getIn(['peopleForm', personId], Map())
@@ -17,9 +18,10 @@ export const getPersonCSECDetailsSelector = (state, personId) => {
 }
 
 export const getCSECRequireValidationSelector = (state, personId) => {
-  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
-  const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
-  if (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec') {
+  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value']) || ''
+  const roles = state.getIn(['peopleForm', personId, 'roles', 'value']) || List()
+  const csecDetails = selectCsec(state).get(personId) || List()
+  if ((roles.includes('Victim') && screeningReportType === 'csec') || csecDetails.size > 0) {
     return true
   }
   return false

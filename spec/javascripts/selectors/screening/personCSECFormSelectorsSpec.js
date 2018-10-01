@@ -79,6 +79,31 @@ describe('personCSECFormSelectors', () => {
       const state = fromJS({peopleForm, screeningInformationForm})
       expect(getCSECRequireValidationSelector(state, 'one')).toEqual(true)
     })
+
+    it('returns false if csec details are empty', () => {
+      const participants = [
+        {
+          id: '1',
+          csec: [],
+        },
+      ]
+      const state = fromJS({participants})
+      expect(getCSECRequireValidationSelector(state, '1')).toEqual(false)
+    })
+
+    it('returns true if csec details are not empty', () => {
+      const participants = [
+        {
+          id: '1',
+          csec: [{
+            csec_code_id: '1',
+            start_date: '1/1/1111',
+          }],
+        },
+      ]
+      const state = fromJS({participants})
+      expect(getCSECRequireValidationSelector(state, '1')).toEqual(true)
+    })
   })
 
   describe('getVisibleErrorsSelector', () => {
