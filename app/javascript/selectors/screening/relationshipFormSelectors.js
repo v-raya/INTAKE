@@ -49,3 +49,9 @@ export const selectIsFormNoChangeState = createSelector(
       .map(isFormNoChange(relationshipForm))
       .valueOrElse(false)
 )
+
+export const selectIsInValidForm = createSelector(
+  selectIsFormNoChangeState,
+  selectErrors,
+  (isFormNoChange, errors) => isFormNoChange || errors.get('started_at').size !== 0
+)

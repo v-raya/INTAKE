@@ -20,7 +20,7 @@ const mapStateToProps = (state, _ownProps) => ({
   errors: selectErrors(state).toJS(),
   people: getPeopleSelector(state).toJS(),
   screeningId: getScreeningIdValueSelector(state),
-  isFormChanged: selectIsFormNoChangeState(state),
+  isValidForm: selectIsFormNoChangeState(state),
   isSaving: selectIsSaving(state),
   isScreening: true,
   pendingPeople: state.get('pendingParticipants').toJS(),

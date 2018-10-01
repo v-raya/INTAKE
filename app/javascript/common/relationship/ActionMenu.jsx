@@ -32,7 +32,7 @@ export class ActionMenu extends Component {
     const {
       editFormRelationship,
       errors,
-      isFormChanged,
+      isValidForm,
       isSaving,
       onChange,
       onSave,
@@ -45,7 +45,7 @@ export class ActionMenu extends Component {
         editFormRelationship={editFormRelationship}
         errors={errors}
         closeModal={this.closeModal}
-        isFormChanged={isFormChanged}
+        isValidForm={isValidForm}
         isSaving={isSaving}
         onChange={onChange}
         onSave={onSave}
@@ -100,9 +100,9 @@ ActionMenu.propTypes = {
   errors: PropTypes.shape({
     started_at: PropTypes.array,
   }),
-  isFormChanged: PropTypes.bool,
   isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
+  isValidForm: PropTypes.bool,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   onEdit: PropTypes.func,

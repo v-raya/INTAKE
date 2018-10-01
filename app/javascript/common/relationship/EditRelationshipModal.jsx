@@ -9,7 +9,7 @@ const EditRelationshipModal = ({
   closeModal,
   editFormRelationship,
   errors,
-  isFormChanged,
+  isValidForm,
   isSaving,
   onChange,
   onSave,
@@ -32,7 +32,7 @@ const EditRelationshipModal = ({
     modalFooter={
       <ActionRow
         buttonText={'Save Relationship'}
-        isDisabled={isFormChanged}
+        isDisabled={isValidForm}
         isSaving={isSaving}
         onCancel={closeModal}
         onSave={() => onSave(editFormRelationship.id)}
@@ -66,8 +66,8 @@ EditRelationshipModal.propTypes = {
   errors: PropTypes.shape({
     started_at: PropTypes.array,
   }),
-  isFormChanged: PropTypes.bool,
   isSaving: PropTypes.bool,
+  isValidForm: PropTypes.bool,
   onChange: PropTypes.func,
   onSave: PropTypes.func,
   person: personPropType,

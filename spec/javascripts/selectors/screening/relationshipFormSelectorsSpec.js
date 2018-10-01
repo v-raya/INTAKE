@@ -4,6 +4,7 @@ import {
   selectErrors,
   selectRelationship,
   selectIsFormNoChangeState,
+  selectIsInValidForm,
   selectIsSaving,
 } from 'selectors/screening/relationshipFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
@@ -114,6 +115,59 @@ describe('relationshipSelectors', () => {
       const relationshipForm = {isSaving: true}
       const state = fromJS({relationshipForm})
       expect(selectIsSaving(state)).toBe(true)
+    })
+  })
+
+  describe('selectIsInValidForm', () => {
+    it('returns false if form has changes and no errors', () => {
+      const relationships = [{
+        id: 'ZXY123',
+        relationships: [{
+          absent_parent_code: 'N',
+          end_date: '2010-10-01',
+          indexed_person_relationship: '211',
+          related_person_id: 'ABC987',
+          relationship_id: '12345',
+          reversed: false,
+          same_home_code: 'Y',
+          start_date: '1999-10-01',
+        }],
+      }]
+      const state = fromJS({relationshipForm, relationships})
+      expect(selectIsFormNoChangeState(state)).toBe(false)
+    })
+    it('returns true if form has no change', () => {
+      const relationships = [{
+        id: 'ZXY123',
+        relationships: [{
+          absent_parent_code: 'Y',
+          end_date: '2010-10-01',
+          indexed_person_relationship: '190',
+          related_person_id: 'ABC987',
+          relationship_id: '12345',
+          reversed: false,
+          same_home_code: 'Y',
+          start_date: '1999-10-01',
+        }],
+      }]
+      const state = fromJS({relationshipForm, relationships})
+      expect(selectIsInValidForm(state)).toBe(true)
+    })
+    it('returns true if form has errors such as start date and end date', () => {
+      const relationshipForm = {
+        relationship: {
+          absent_parent_code: 'Y',
+          end_date: '2017-09-04T21:10:00.012',
+          indexed_person_relationship: '190',
+          related_person_id: 'ABC987',
+          relationship_id: '12345',
+          reversed: false,
+          same_home_code: 'Y',
+          start_date: '2017-10-05T21:10:00.000',
+        },
+      }
+      const state = fromJS({relationshipForm})
+      expect(selectIsInValidForm(state)).toBe(true)
     })
   })
 })
