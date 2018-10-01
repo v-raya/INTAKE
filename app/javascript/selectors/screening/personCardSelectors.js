@@ -4,6 +4,7 @@ import {SHOW_MODE} from 'actions/screeningPageActions'
 import {selectParticipants} from 'selectors/participantSelectors'
 import {participantFlag} from 'utils/accessIndicator'
 import nameFormatter from 'utils/nameFormatter'
+import {Maybe} from 'utils/maybe'
 
 export const getPersonNamesSelector = createSelector(
   selectParticipants,
@@ -44,6 +45,9 @@ export const getModeValueSelector = (state, personId) => {
   return screeningPage.getIn(['peopleCards', personId], SHOW_MODE)
 }
 
+const hasNoCsecEndate = (csecInfo) =>
+  csecInfo.some((value) => Maybe.of(value.get('end_date')).isNothing())
+
 export const selectInformationalMessage = (state, personId) => {
   const probationYouthInfo = selectProbationYouth(state).get(personId)
   const deceasedInfo = selectDeceased(state).get(personId)
@@ -52,7 +56,7 @@ export const selectInformationalMessage = (state, personId) => {
     return 'Deceased'
   } else if (probationYouthInfo) {
     return 'Probation Youth'
-  } else if (csecInfo && csecInfo.size > 0) {
+  } else if (csecInfo && csecInfo.size > 0 && hasNoCsecEndate(csecInfo)) {
     return 'CSEC'
   }
   return null
