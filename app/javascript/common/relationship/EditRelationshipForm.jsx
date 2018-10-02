@@ -68,7 +68,6 @@ const EditRelationshipForm = ({
                   }
                 }}
               >
-                <option key=''/>
                 {relationshipTypeList.map((relationship) =>
                   <option key={relationship.value} value={relationship.value}>
                     {relationship.label}

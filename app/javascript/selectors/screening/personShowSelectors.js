@@ -20,6 +20,7 @@ import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
 import moment from 'moment'
 import {systemCodeDisplayValue, selectCsecTypes} from 'selectors/systemCodeSelectors'
+import {selectCsec} from 'selectors/screening/personCardSelectors'
 
 const selectPersonOrEmpty = (state, personId) =>
   selectParticipant(state, personId).valueOrElse(Map())
@@ -176,13 +177,20 @@ const personApproximateAge = (person) => {
   }
 }
 
+const showCSEC = (state, personId) => {
+  const roles = state.getIn(['peopleForm', personId, 'roles', 'value']) || List()
+  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
+  const csecDetails = selectCsec(state).get(personId) || List()
+  if ((roles.includes('Victim') && screeningReportType === 'csec') || csecDetails.size > 0) {
+    return true
+  }
+  return false
+}
+
 export const getFormattedPersonInformationSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const legacyDescriptor = person.get('legacy_descriptor')
   const approximateAge = personApproximateAge(person)
-  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
-  const roles = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
-  const showCSEC = roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'
   return fromJS({
     approximateAge: approximateAge,
     CSECTypes: {value: csecTypesSelector(state, personId), errors: []},
@@ -198,7 +206,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
     roles: {value: person.get('roles', List()), errors: []},
     ssn: {value: ssnFormatter(person.get('ssn')), errors: []},
     alertErrorMessage: getPersonAlertErrorMessageSelector(state, personId),
-    showCSEC: showCSEC,
+    showCSEC: showCSEC(state, personId),
   })
 }
 

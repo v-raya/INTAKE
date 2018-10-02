@@ -158,6 +158,18 @@ describe('personCardSelectors', () => {
           participant_id: undefined,
           csec_code_id: '1',
           start_date: '1/1/1111',
+        }],
+      },
+      {
+        id: '129',
+        first_name: 'Jane',
+        middle_name: '',
+        last_name: 'Public',
+        csec: [{
+          id: undefined,
+          participant_id: undefined,
+          csec_code_id: '1',
+          start_date: '1/1/1111',
           end_date: '1/1/1111',
         }],
       },
@@ -173,9 +185,14 @@ describe('personCardSelectors', () => {
         expect(selectInformationalMessage(state, '127')).toEqual(null)
       })
     })
-    describe('when a person has any csec details ', () => {
+    describe('when a person has csec details but no end date', () => {
       it('returns message: CSEC', () => {
         expect(selectInformationalMessage(state, '128')).toEqual('CSEC')
+      })
+    })
+    describe('when a person has csec details and end date', () => {
+      it('returns no message', () => {
+        expect(selectInformationalMessage(state, '129')).toEqual(null)
       })
     })
     describe('when a person has date_of_death', () => {
