@@ -18,7 +18,7 @@ const propTypes = {
   errors: PropTypes.shape({
     started_at: PropTypes.array,
   }),
-  isFormChanged: PropTypes.bool,
+  isInvalidForm: PropTypes.bool,
   isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
   name: PropTypes.string,
@@ -41,7 +41,7 @@ const textWrap = {whiteSpace: 'normal'}
 const RelationCard = ({
   editFormRelationship,
   errors,
-  isFormChanged,
+  isInvalidForm,
   isSaving,
   isScreening,
   onChange,
@@ -100,7 +100,7 @@ const RelationCard = ({
             <ActionMenu
               editFormRelationship={editFormRelationship}
               errors={errors}
-              isFormChanged={isFormChanged}
+              isInvalidForm={isInvalidForm}
               isSaving={isSaving}
               isScreening={isScreening}
               onChange={onChange}

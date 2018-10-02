@@ -8,7 +8,7 @@ import {CandidatesPropType} from 'data/candidates'
 export const Relationships = ({
   editFormRelationship,
   errors,
-  isFormChanged,
+  isInvalidForm,
   isSaving,
   isScreening,
   onClick,
@@ -32,7 +32,7 @@ export const Relationships = ({
                   <RelationCard
                     editFormRelationship={editFormRelationship}
                     errors={errors}
-                    isFormChanged={isFormChanged}
+                    isInvalidForm={isInvalidForm}
                     isSaving={isSaving}
                     isScreening={isScreening}
                     onChange={onChange}
@@ -111,7 +111,7 @@ Relationships.propTypes = {
   errors: PropTypes.shape({
     started_at: PropTypes.array,
   }),
-  isFormChanged: PropTypes.bool,
+  isInvalidForm: PropTypes.bool,
   isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,

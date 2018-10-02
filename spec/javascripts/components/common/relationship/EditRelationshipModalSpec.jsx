@@ -60,7 +60,7 @@ describe('EditRelationshipModal', () => {
     })
     it('passes the isDisabled props to Action row', () => {
       expect(
-        render({...props, isFormChanged: true})
+        render({...props, isInvalidForm: true})
           .find(ModalComponent)
           .shallow()
           .find(ActionRow)
