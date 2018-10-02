@@ -33,7 +33,7 @@ const CopyableReferralView = ({
           <tr>
             <th className='victim semibold'>Victim</th>
             <th className='perpetrator semibold'>Perpetrator</th>
-            <th className='allegations disposition semibold'>Allegation(s) &amp; Disposition</th>
+            <th className='allegations disposition semibold'>Allegation(s) &amp; Conclusion(s)</th>
           </tr>
         </thead>
         <tbody>
