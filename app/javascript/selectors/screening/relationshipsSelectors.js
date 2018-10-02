@@ -42,6 +42,8 @@ export const getPeopleSelector = createSelector(
         dateOfBirth: dateFormatter(relationship.get('related_person_date_of_birth')),
         gender: genderMap(relationship.get('related_person_gender')),
         gender_code: mapGenderCode(relationship.get('related_person_gender')),
+        isSealed: relationship.get('related_person_sealed'),
+        isSensitive: relationship.get('related_person_sensitive'),
         name: nameFormatter({
           first_name: relationship.get('related_person_first_name'),
           last_name: relationship.get('related_person_last_name'),
