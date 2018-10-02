@@ -4,7 +4,7 @@ import {
   selectErrors,
   selectRelationship,
   selectIsFormNoChangeState,
-  selectIsInValidForm,
+  selectIsInvalidForm,
   selectIsSaving,
 } from 'selectors/screening/relationshipFormSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
@@ -118,8 +118,8 @@ describe('relationshipSelectors', () => {
     })
   })
 
-  describe('selectIsInValidForm', () => {
-    it('returns false if form has changes and no errors', () => {
+  describe('selectIsInvalidForm', () => {
+    it('returns false if form has no changes and no errors', () => {
       const relationships = [{
         id: 'ZXY123',
         relationships: [{
@@ -134,9 +134,9 @@ describe('relationshipSelectors', () => {
         }],
       }]
       const state = fromJS({relationshipForm, relationships})
-      expect(selectIsFormNoChangeState(state)).toBe(false)
+      expect(selectIsInvalidForm(state)).toBe(false)
     })
-    it('returns true if form has no change', () => {
+    it('returns true if form has changes and no errors', () => {
       const relationships = [{
         id: 'ZXY123',
         relationships: [{
@@ -151,7 +151,7 @@ describe('relationshipSelectors', () => {
         }],
       }]
       const state = fromJS({relationshipForm, relationships})
-      expect(selectIsInValidForm(state)).toBe(true)
+      expect(selectIsInvalidForm(state)).toBe(true)
     })
     it('returns true if form has errors such as start date and end date', () => {
       const relationshipForm = {
@@ -167,7 +167,7 @@ describe('relationshipSelectors', () => {
         },
       }
       const state = fromJS({relationshipForm})
-      expect(selectIsInValidForm(state)).toBe(true)
+      expect(selectIsInvalidForm(state)).toBe(true)
     })
   })
 })

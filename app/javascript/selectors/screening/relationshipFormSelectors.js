@@ -50,7 +50,7 @@ export const selectIsFormNoChangeState = createSelector(
       .valueOrElse(false)
 )
 
-export const selectIsInValidForm = createSelector(
+export const selectIsInvalidForm = createSelector(
   selectIsFormNoChangeState,
   selectErrors,
   (isFormNoChange, errors) => isFormNoChange || errors.get('started_at').size !== 0
