@@ -12,41 +12,77 @@ describe('relationshipsSelectors', () => {
   describe('getPeopleSelector', () => {
     it('returns a list of people or an empty list if there are no people', () => {
       const relationships = [
-        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: 'M', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y', id: '805'},
-        {legacy_id: '20', first_name: 'Johny', last_name: 'Robinson', gender: 'M', date_of_birth: '1990-03-15', age: 30, age_unit: 'Y', id: '808'},
-        {legacy_id: '30', first_name: 'Will', last_name: 'Carlson', gender: 'M', date_of_birth: '1991-02-15', age: 40, age_unit: 'Y', id: '405'},
+        {
+          age: 20,
+          age_unit: 'Y',
+          date_of_birth: '1986-01-15',
+          estimated_dob_code: 'N',
+          first_name: 'Ricky',
+          gender: 'M',
+          id: '805',
+          last_name: 'Robinson',
+          legacy_id: '10',
+        },
+        {
+          age: 30,
+          age_unit: 'Y',
+          date_of_birth: '1990-03-15',
+          estimated_dob_code: 'N',
+          first_name: 'Johny',
+          gender: 'M',
+          id: '808',
+          last_name: 'Robinson',
+          legacy_id: '20',
+        },
+        {
+          age: 40,
+          age_unit: 'Y',
+          estimated_date_of_birth: '1982-01-01',
+          estimated_dob_code: 'Y',
+          first_name: 'Will',
+          gender: 'M',
+          id: '405',
+          last_name: 'Carlson',
+          legacy_id: '30',
+        },
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
         {
+          age: '20 yrs',
           dateOfBirth: '01/15/1986',
+          estimated_date_of_birth: '',
+          estimated_dob_code: 'N',
+          gender: 'Male',
+          gender_code: 'M',
           id: '805',
           legacy_id: '10',
           name: 'Ricky Robinson',
           relationships: [],
-          gender: 'Male',
-          gender_code: 'M',
-          age: '20 yrs',
         },
         {
+          age: '30 yrs',
           dateOfBirth: '03/15/1990',
+          estimated_date_of_birth: '',
+          estimated_dob_code: 'N',
+          gender: 'Male',
+          gender_code: 'M',
           id: '808',
           legacy_id: '20',
           name: 'Johny Robinson',
           relationships: [],
-          gender: 'Male',
-          gender_code: 'M',
-          age: '30 yrs',
         },
         {
-          dateOfBirth: '02/15/1991',
+          age: '40 yrs',
+          dateOfBirth: '',
+          estimated_date_of_birth: '01/01/1982',
+          estimated_dob_code: 'Y',
+          gender: 'Male',
+          gender_code: 'M',
           id: '405',
           legacy_id: '30',
           name: 'Will Carlson',
           relationships: [],
-          gender: 'Male',
-          gender_code: 'M',
-          age: '40 yrs',
         },
       ]))
       expect(getPeopleSelector(emptyState)).toEqualImmutable(fromJS([]))
@@ -54,11 +90,32 @@ describe('relationshipsSelectors', () => {
 
     it('returns a list of people with an empty gender', () => {
       const relationships = [
-        {legacy_id: '10', first_name: 'Ricky', last_name: 'Robinson', gender: '', date_of_birth: '1986-01-15', age: 20, age_unit: 'Y', id: '808'},
+        {
+          legacy_id: '10',
+          first_name: 'Ricky',
+          last_name: 'Robinson',
+          gender: '',
+          estimated_dob_code: 'N',
+          date_of_birth: '1986-01-15',
+          age: 20,
+          age_unit: 'Y',
+          id: '808',
+        },
       ]
       const state = fromJS({relationships})
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS(
-        [{id: '808', dateOfBirth: '01/15/1986', legacy_id: '10', name: 'Ricky Robinson', relationships: [], gender: '', gender_code: '', age: '20 yrs'}]
+        [{
+          id: '808',
+          dateOfBirth: '01/15/1986',
+          estimated_date_of_birth: '',
+          estimated_dob_code: 'N',
+          legacy_id: '10',
+          name: 'Ricky Robinson',
+          relationships: [],
+          gender: '',
+          gender_code: '',
+          age: '20 yrs',
+        }]
       ))
     })
 
@@ -78,6 +135,7 @@ describe('relationshipsSelectors', () => {
       const relationships = [
         {
           date_of_birth: '1986-01-15',
+          estimated_dob_code: 'N',
           first_name: 'Ricky',
           gender: 'M',
           id: '23',
@@ -90,7 +148,8 @@ describe('relationshipsSelectors', () => {
               absent_parent_code: 'Y',
               relationship_id: '415',
               related_person_id: '3970',
-              related_person_date_of_birth: '1990-03-15',
+              estimated_date_of_birth: '1990-01-01',
+              estimated_dob_code: 'Y',
               related_person_gender: 'M',
               related_person_sealed: true,
               related_person_sensitive: false,
@@ -110,7 +169,7 @@ describe('relationshipsSelectors', () => {
               absent_parent_code: 'N',
               relationship_id: '808',
               related_person_id: '650',
-              related_person_date_of_birth: '1991-02-15',
+              estimated_dob_code: 'U',
               related_person_gender: 'M',
               related_person_sealed: false,
               related_person_sensitive: false,
@@ -135,6 +194,7 @@ describe('relationshipsSelectors', () => {
           last_name: 'Robinson',
           legacy_id: '2',
           date_of_birth: '1990-03-15',
+          estimated_dob_code: 'N',
           age: 20,
           age_unit: 'Y',
           relationships: [
@@ -142,7 +202,8 @@ describe('relationshipsSelectors', () => {
               absent_parent_code: 'Y',
               relationship_id: '801',
               related_person_id: '910',
-              related_person_date_of_birth: '1986-01-15',
+              estimated_date_of_birth: '1986-01-01',
+              estimated_dob_code: 'Y',
               related_person_gender: 'M',
               related_person_sealed: false,
               related_person_sensitive: false,
@@ -162,7 +223,7 @@ describe('relationshipsSelectors', () => {
               absent_parent_code: 'N',
               relationship_id: '802',
               related_person_id: '650',
-              related_person_date_of_birth: '1991-02-15',
+              estimated_dob_code: 'U',
               related_person_gender: 'M',
               related_person_sealed: false,
               related_person_sensitive: false,
@@ -192,6 +253,8 @@ describe('relationshipsSelectors', () => {
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([
         {
           dateOfBirth: '01/15/1986',
+          estimated_date_of_birth: '',
+          estimated_dob_code: 'N',
           legacy_id: '3',
           name: 'Ricky Robinson',
           gender: 'Male',
@@ -201,7 +264,9 @@ describe('relationshipsSelectors', () => {
           relationships: [
             {
               absent_parent_code: 'Y',
-              dateOfBirth: '03/15/1990',
+              dateOfBirth: '',
+              estimated_date_of_birth: '01/01/1990',
+              estimated_dob_code: 'Y',
               gender: 'Male',
               gender_code: 'M',
               isSealed: true,
@@ -220,7 +285,9 @@ describe('relationshipsSelectors', () => {
             },
             {
               absent_parent_code: 'N',
-              dateOfBirth: '02/15/1991',
+              dateOfBirth: '',
+              estimated_date_of_birth: '',
+              estimated_dob_code: 'U',
               gender: 'Male',
               gender_code: 'M',
               isSealed: false,
@@ -241,6 +308,8 @@ describe('relationshipsSelectors', () => {
         },
         {
           dateOfBirth: '03/15/1990',
+          estimated_date_of_birth: '',
+          estimated_dob_code: 'N',
           legacy_id: '2',
           name: 'Johny Robinson',
           id: '805',
@@ -250,7 +319,9 @@ describe('relationshipsSelectors', () => {
           relationships: [
             {
               absent_parent_code: 'Y',
-              dateOfBirth: '01/15/1986',
+              dateOfBirth: '',
+              estimated_date_of_birth: '01/01/1986',
+              estimated_dob_code: 'Y',
               gender: 'Male',
               isSealed: false,
               isSensitive: false,
@@ -269,7 +340,9 @@ describe('relationshipsSelectors', () => {
             },
             {
               absent_parent_code: 'N',
-              dateOfBirth: '02/15/1991',
+              dateOfBirth: '',
+              estimated_date_of_birth: '',
+              estimated_dob_code: 'U',
               gender: 'Male',
               isSealed: false,
               isSensitive: false,
@@ -301,6 +374,7 @@ describe('relationshipsSelectors', () => {
         last_name: '18',
         gender: 'female',
         date_of_birth: '1986-01-15',
+        estimated_dob_code: 'N',
         age: 18,
         age_unit: 'Y',
       }]
@@ -308,6 +382,8 @@ describe('relationshipsSelectors', () => {
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([{
         id: '808',
         dateOfBirth: '01/15/1986',
+        estimated_date_of_birth: '',
+        estimated_dob_code: 'N',
         legacy_id: '10',
         name: 'Android 18',
         relationships: [],
@@ -326,13 +402,15 @@ describe('relationshipsSelectors', () => {
         gender: 'F',
         gender_code: 'F',
         date_of_birth: '1986-01-15',
+        estimated_dob_code: 'N',
         age: 18,
         age_unit: 'Y',
         relationships: [{
           absent_parent_code: 'Y',
           relationship_id: '415',
           related_person_id: '3970',
-          related_person_date_of_birth: '1990-03-15',
+          estimated_date_of_birth: '1990-01-01',
+          estimated_dob_code: 'Y',
           related_person_gender: 'U',
           related_person_sealed: false,
           related_person_sensitive: true,
@@ -352,6 +430,8 @@ describe('relationshipsSelectors', () => {
       expect(getPeopleSelector(state)).toEqualImmutable(fromJS([{
         id: '808',
         dateOfBirth: '01/15/1986',
+        estimated_date_of_birth: '',
+        estimated_dob_code: 'N',
         legacy_id: '10',
         name: 'Android 18',
         gender: 'Female',
@@ -359,7 +439,9 @@ describe('relationshipsSelectors', () => {
         age: '18 yrs',
         relationships: [{
           absent_parent_code: 'Y',
-          dateOfBirth: '03/15/1990',
+          dateOfBirth: '',
+          estimated_date_of_birth: '01/01/1990',
+          estimated_dob_code: 'Y',
           gender: 'Unknown',
           gender_code: 'U',
           isSealed: false,
