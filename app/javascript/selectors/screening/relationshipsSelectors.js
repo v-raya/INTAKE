@@ -28,7 +28,7 @@ export const getPeopleSelector = createSelector(
   (participants, people, relationshipTypes) => people.map((person) => Map({
     dateOfBirth: dateFormatter(person.get('date_of_birth')),
     estimated_date_of_birth: dateFormatter(person.get('estimated_date_of_birth')),
-    estimatedDobCode: person.get('estimated_dob_code'),
+    estimated_dob_code: person.get('estimated_dob_code'),
     legacy_id: person.get('legacy_id'),
     id: person.get('id'),
     name: nameFormatter({...person.toJS()}),
@@ -43,7 +43,7 @@ export const getPeopleSelector = createSelector(
         absent_parent_code: relationship.get('absent_parent_code'),
         dateOfBirth: dateFormatter(relationship.get('related_person_date_of_birth')),
         estimated_date_of_birth: dateFormatter(relationship.get('estimated_date_of_birth')),
-        estimatedDobCode: relationship.get('estimated_dob_code'),
+        estimated_dob_code: relationship.get('estimated_dob_code'),
         gender: genderMap(relationship.get('related_person_gender')),
         gender_code: mapGenderCode(relationship.get('related_person_gender')),
         isSealed: relationship.get('related_person_sealed'),

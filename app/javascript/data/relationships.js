@@ -5,7 +5,7 @@ export const RelationshipPropType = PropTypes.shape({
   age: PropTypes.string,
   dateOfBirth: PropTypes.string,
   estimated_date_of_birth: PropTypes.string,
-  estimatedDobCode: PropTypes.string,
+  estimated_dob_code: PropTypes.string,
   legacy_descriptor: PropTypes.object,
   gender: PropTypes.string,
   name: PropTypes.string,
