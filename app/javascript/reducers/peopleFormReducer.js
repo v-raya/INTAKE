@@ -6,6 +6,7 @@ import {
   TOUCH_PEOPLE_FORM_FIELD,
   SET_PEOPLE_ADDRESS_FORM_FIELD,
   TOUCH_PEOPLE_ADDRESS_FORM_FIELD,
+  TOUCH_PEOPLE_PHONE_NUMBER_FORM_FIELD,
   ADD_PEOPLE_FORM_ADDRESS,
   DELETE_PEOPLE_FORM_ADDRESS,
   ADD_PEOPLE_FORM_PHONE_NUMBER,
@@ -164,6 +165,8 @@ export default createReducer(Map(), {
     state.setIn([personId, 'addresses', addressIndex, field], value),
   [TOUCH_PEOPLE_ADDRESS_FORM_FIELD]: (state, {payload: {personId, addressIndex, field}}) =>
     state.setIn([personId, 'addresses', addressIndex, 'touched', field], true),
+  [TOUCH_PEOPLE_PHONE_NUMBER_FORM_FIELD]: (state, {payload: {personId, phoneNumberIndex, field}}) =>
+    state.setIn([personId, 'phone_numbers', phoneNumberIndex, 'touched', field], true),
   [TOUCH_ALL_PEOPLE_FORM_FIELDS]: (state, {payload: {personId}}) => {
     const fieldsWithTouch = [
       'roles',
