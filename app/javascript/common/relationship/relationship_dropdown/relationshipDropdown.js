@@ -9,9 +9,12 @@ const SECONDARY = 1
 
 const isCompatible = (index, codes, type) => codes.includes(type.gender_code[index])
 
-const isOlder = (clientA, clientB) =>
-  clientA.dateOfBirth && clientB.dateOfBirth &&
-  moment(clientA.dateOfBirth, 'MM/DD/YYYY') < moment(clientB.dateOfBirth, 'MM/DD/YYYY')
+const isOlder = (clientA, clientB) => {
+  const clientAdateOfBirth = clientA.estimatedDobCode === 'Y' ? clientA.estimated_date_of_birth : clientA.dateOfBirth
+  const clientBdateOfBirth = clientB.estimatedDobCode === 'Y' ? clientB.estimated_date_of_birth : clientB.dateOfBirth
+  return clientAdateOfBirth && clientBdateOfBirth &&
+  moment(clientAdateOfBirth, 'MM/DD/YYYY') < moment(clientBdateOfBirth, 'MM/DD/YYYY')
+}
 
 const areGendersCompatible = (client, index) => (type) =>
   (isCompatible(index, MALE_CODES, type) || client.gender_code !== 'M') &&

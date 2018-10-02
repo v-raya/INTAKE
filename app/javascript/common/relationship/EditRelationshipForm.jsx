@@ -141,6 +141,8 @@ const EditRelationshipForm = ({
 const personPropType = PropTypes.shape({
   age: PropTypes.string,
   dateOfBirth: PropTypes.string,
+  estimated_date_of_birth: PropTypes.string,
+  estimatedDobCode: PropTypes.string,
   legacy_id: PropTypes.string,
   gender: PropTypes.string,
   name: PropTypes.string,
