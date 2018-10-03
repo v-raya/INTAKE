@@ -1,5 +1,5 @@
 import {createReducer} from 'utils/createReducer'
-import {Map, fromJS} from 'immutable'
+import {Map, List, fromJS} from 'immutable'
 import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {
   SET_PEOPLE_FORM_FIELD,
@@ -35,6 +35,14 @@ const buildPhoneNumbers = (phoneNumbers) => {
     return []
   }
 }
+
+const touch = (state, personId, listProp, field) => {
+  let newList = List()
+  const aList = state.getIn([personId, listProp])
+  aList.forEach((pn) => newList = newList.push(pn.setIn(['touched', field], true)))
+  return newList
+}
+
 const buildRaces = (races = []) => races.reduce((racesValue, {race}) => ({
   ...racesValue,
   [race]: {value: true},
@@ -177,7 +185,11 @@ export default createReducer(Map(), {
       'csec_started_at',
       'csec_ended_at',
     ]
-    return fieldsWithTouch.reduce((newState, field) => newState.setIn([personId, field, 'touched'], true), state)
+    let newState = fieldsWithTouch.reduce((newState, field) => newState.setIn([personId, field, 'touched'], true), state)
+
+    return newState
+      .setIn([personId, 'phone_numbers'], touch(newState, personId, 'phone_numbers', 'number'))
+      .setIn([personId, 'addresses'], touch(newState, personId, 'addresses', 'zip'))
   },
   [ADD_PEOPLE_FORM_ADDRESS]: (state, {payload: {personId}}) => {
     const currentAddresses = state.getIn([personId, 'addresses'])

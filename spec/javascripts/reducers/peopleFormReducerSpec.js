@@ -415,6 +415,8 @@ describe('peopleFormReducer', () => {
           csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
+          addresses: [{touched: {zip: false}}],
+          phone_numbers: [{touched: {number: false}}],
         },
         participant_two: {
           roles: {touched: false},
@@ -424,6 +426,8 @@ describe('peopleFormReducer', () => {
           csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
+          addresses: [{touched: {zip: false}}],
+          phone_numbers: [{touched: {number: false}}],
         },
       })
       const action = touchAllFields('participant_one')
@@ -436,6 +440,8 @@ describe('peopleFormReducer', () => {
           csec_types: {touched: true},
           csec_started_at: {touched: true},
           csec_ended_at: {touched: true},
+          addresses: [{touched: {zip: true}}],
+          phone_numbers: [{touched: {number: true}}],
         },
         participant_two: {
           roles: {touched: false},
@@ -445,6 +451,8 @@ describe('peopleFormReducer', () => {
           csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
+          addresses: [{touched: {zip: false}}],
+          phone_numbers: [{touched: {number: false}}],
         },
       }))
     })
