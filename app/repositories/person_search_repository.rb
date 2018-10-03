@@ -55,7 +55,8 @@ class PersonSearchRepository
     def find_fields
       %w[ id legacy_source_table first_name middle_name last_name name_suffix gender
           date_of_birth date_of_death ssn languages addresses phone_numbers legacy_descriptor
-          sensitivity_indicator race_ethnicity open_case_responsible_agency_code]
+          sensitivity_indicator race_ethnicity open_case_responsible_agency_code
+          csec.start_date csec.end_date csec.csec_code_id csec.description]
     end
 
     def search_query(params)

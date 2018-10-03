@@ -76,6 +76,11 @@ describe('createSnapshotPerson', () => {
     id: id,
     first_name: 'Mohammed',
     sensitivity_indicator: 'N',
+    csec: [{
+      description: 'Victim in Open Case not in Foster Care',
+      csec_code_id: '6870',
+      start_date: '2017-08-04',
+    }],
   }
 
   const participant = {
@@ -119,6 +124,11 @@ describe('createSnapshotPerson', () => {
       hispanic_latino_origin: 'no',
       ethnicity_detail: [],
     },
+    csec: [{
+      description: 'Victim in Open Case not in Foster Care',
+      csec_code_id: '6870',
+      start_date: '2017-08-04',
+    }],
   }
   const action = personCardActions.createSnapshotPerson(id)
 
