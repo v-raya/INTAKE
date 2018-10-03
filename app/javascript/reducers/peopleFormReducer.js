@@ -1,5 +1,5 @@
 import {createReducer} from 'utils/createReducer'
-import {Map, List, fromJS} from 'immutable'
+import {Map, fromJS} from 'immutable'
 import {FETCH_SCREENING_COMPLETE} from 'actions/actionTypes'
 import {
   SET_PEOPLE_FORM_FIELD,
@@ -34,13 +34,6 @@ const buildPhoneNumbers = (phoneNumbers) => {
   } else {
     return []
   }
-}
-
-const touch = (state, personId, listProp, field) => {
-  let newList = List()
-  const aList = state.getIn([personId, listProp])
-  aList.forEach((pn) => { newList = newList.push(pn.setIn(['touched', field], true)) })
-  return newList
 }
 
 const buildRaces = (races = []) => races.reduce((racesValue, {race}) => ({
@@ -152,6 +145,12 @@ const updatePeopleFormPerson = (state, {payload: {person}, error}) => {
       .setIn(['first_name', 'touched'], prevPerson.getIn(['first_name', 'touched'], false))
       .setIn(['last_name', 'touched'], prevPerson.getIn(['last_name', 'touched'], false))
       .setIn(['ssn', 'touched'], prevPerson.getIn(['ssn', 'touched'], false))
+      .updateIn(['phone_numbers'], (phoneNumbers) =>
+        phoneNumbers.map((phoneNumber, index) =>
+          phoneNumber.setIn(['touched', 'number'], prevPerson.getIn(['phone_numbers', index, 'touched', 'number'], false))))
+      .updateIn(['addresses'], (addresses) =>
+        addresses.map((address, index) =>
+          address.setIn(['touched', 'zip'], prevPerson.getIn(['addresses', index, 'touched', 'zip'], false))))
   )
 }
 
@@ -185,11 +184,9 @@ export default createReducer(Map(), {
       'csec_started_at',
       'csec_ended_at',
     ]
-    const newState = fieldsWithTouch.reduce((newState, field) => newState.setIn([personId, field, 'touched'], true), state)
-
-    return newState
-      .setIn([personId, 'phone_numbers'], touch(newState, personId, 'phone_numbers', 'number'))
-      .setIn([personId, 'addresses'], touch(newState, personId, 'addresses', 'zip'))
+    return fieldsWithTouch.reduce((newState, field) => newState.setIn([personId, field, 'touched'], true), state)
+      .updateIn([personId, 'phone_numbers'], (phoneNumbers) => phoneNumbers.map((phoneNumber) => phoneNumber.setIn(['touched', 'number'], true)))
+      .updateIn([personId, 'addresses'], (addresses) => addresses.map((address) => address.setIn(['touched', 'zip'], true)))
   },
   [ADD_PEOPLE_FORM_ADDRESS]: (state, {payload: {personId}}) => {
     const currentAddresses = state.getIn([personId, 'addresses'])

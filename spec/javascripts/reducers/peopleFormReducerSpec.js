@@ -696,7 +696,11 @@ describe('peopleFormReducer', () => {
         sensitive: false,
         sealed: false,
         probation_youth: false,
-        phone_numbers: [],
+        phone_numbers: [{
+          id: 'pn1',
+          number: '1231231212',
+          type: 'Home',
+        }],
         addresses: [{
           id: 'ABC123',
           street_address: '1234 Some Lane',
@@ -735,9 +739,13 @@ describe('peopleFormReducer', () => {
           sensitive: {value: false},
           sealed: {value: false},
           probation_youth: {value: false},
-          phone_numbers: [],
+          phone_numbers: [{
+            id: 'pn1',
+            number: {value: '1231231212'},
+            type: {value: 'Home'},
+            touched: {number: false},
+          }],
           addresses: [{
-            touched: {},
             id: 'ABC123',
             street: '1234 Some Lane',
             city: 'Somewhere',
@@ -745,6 +753,7 @@ describe('peopleFormReducer', () => {
             zip: '55555',
             type: 'Home',
             legacy_descriptor: null,
+            touched: {zip: false},
           }],
           races: {},
           race_details: {},
