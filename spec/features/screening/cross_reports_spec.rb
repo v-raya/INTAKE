@@ -221,7 +221,7 @@ feature 'cross reports' do
     communication_method = 'Child Abuse Form'
 
     within '#cross-report-card' do
-      select 'State of California', from: 'County'
+      select 'Fresno', from: 'County'
       find('label', text: /\ACounty Licensing\z/).click
       fill_in_datepicker 'Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p')
       select communication_method, from: 'Communication Method'
@@ -277,7 +277,7 @@ feature 'cross reports' do
       expect(page).to \
         have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
       expect(page).to have_field('Communication Method', with: communication_method)
-      select 'State of California', from: 'County'
+      select 'Fresno', from: 'County'
       find('label', text: /\ALaw Enforcement\z/).click
       expect(page).to_not \
         have_field('Cross Reported on Date', with: reported_on.strftime('%m/%d/%Y %l:%M %p'))
@@ -320,7 +320,7 @@ feature 'cross reports' do
     communication_method = 'Child Abuse Form'
 
     within '#cross-report-card' do
-      select 'State of California', from: 'County'
+      select 'Fresno', from: 'County'
       find('label', text: /\ACounty Licensing\z/).click
       fill_in_datepicker 'Cross Reported on Date', with: reported_on
       select communication_method, from: 'Communication Method'
@@ -331,7 +331,7 @@ feature 'cross reports' do
     click_link 'Edit cross report'
 
     within '#cross-report-card' do
-      select 'State of California', from: 'County'
+      select 'Fresno', from: 'County'
       find('label', text: /\ACounty Licensing\z/).click
       expect(page).to have_field('Cross Reported on Date', with: '')
       expect(page).to have_field('Communication Method', with: '')

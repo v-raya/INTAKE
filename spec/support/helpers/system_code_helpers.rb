@@ -68,7 +68,7 @@ module SystemCodeHelpers
   def county_type_codes
     [
       { code: 'c40', value: 'San Francisco', category: 'county_type', sub_category: nil },
-      { code: 'c41', value: 'State of California', category: 'county_type', sub_category: nil },
+      { code: 'c41', value: 'Fresno', category: 'county_type', sub_category: nil },
       { code: 'c42', value: 'Sacramento', category: 'county_type', sub_category: nil }
     ]
   end

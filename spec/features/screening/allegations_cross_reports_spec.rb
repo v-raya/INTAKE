@@ -162,7 +162,7 @@ feature 'show cross reports' do
 
     within '#cross-report-card.edit' do
       expect(page).to have_content('must be cross-reported to law enforcement')
-      select 'State of California', from: 'County'
+      select 'Fresno', from: 'County'
       find('label', text: /\ADistrict Attorney\z/).click
       expect(page).to have_content('must be cross-reported to law enforcement')
       select 'LA District Attorney - Criminal Division', from: 'District Attorney Agency Name'
