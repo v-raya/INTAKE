@@ -5,7 +5,7 @@ const AgeDisplay = ({row}) => {
   const {age, dateOfBirth, estimated_dob_code} = row
   switch (estimated_dob_code) {
     case 'N':
-      return <div>{dateOfBirth || ''} {age === '' ? '' : `(${age})`}</div>
+      return <div>{dateOfBirth} ({age})</div>
     case 'Y':
       return <div>{age === '' ? '' : `(${age})`}</div>
     case 'U':
