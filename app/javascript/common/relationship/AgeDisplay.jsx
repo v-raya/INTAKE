@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 
 const AgeDisplay = ({row}) => {
   const {age, dateOfBirth, estimated_dob_code} = row
+  const ageDisplay = age === '' ? '' : `(${age})`
   switch (estimated_dob_code) {
     case 'N':
-      return <div>{dateOfBirth} ({age})</div>
+      return <div>{dateOfBirth} {ageDisplay}</div>
     case 'Y':
-      return <div>{age === '' ? '' : `(${age})`}</div>
+      return <div>{ageDisplay}</div>
     case 'U':
       return null
   }
