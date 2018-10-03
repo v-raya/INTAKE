@@ -221,6 +221,74 @@ describe('Relationships for Snapshot', () => {
     expect(component.at(3).prop('relationship')).toEqual({name: 'Sally Jones', type: 'son', person_card_exists: true})
   })
 
+  it('renders relationships with sealed information flag when isSealed is true', () => {
+    const people = [
+      {
+        name: 'Sally Jones',
+        relationships: [
+          {name: 'Jim Johnson', type: 'mother', person_card_exists: true, isSealed: true},
+        ],
+      },
+    ]
+    const component = renderRelationships({people})
+
+    expect(component.find(AttachLink).at(0).prop('relationship'))
+      .toEqual({name: 'Jim Johnson', type: 'mother', person_card_exists: true, isSealed: true})
+    expect(component.at(0).html())
+      .toContain('<span class="information-flag search-result">Sealed</span>')
+  })
+
+  it('does not renders relationships with sealed information flag when isSealed is false', () => {
+    const people = [
+      {
+        name: 'Sally Jones',
+        relationships: [
+          {name: 'Jim Johnson', type: 'mother', person_card_exists: true, isSealed: false},
+        ],
+      },
+    ]
+    const component = renderRelationships({people})
+
+    expect(component.find(AttachLink).at(0).prop('relationship'))
+      .toEqual({name: 'Jim Johnson', type: 'mother', person_card_exists: true, isSealed: false})
+    expect(component.at(0).html())
+      .not.toContain('<span class="information-flag search-result">Sealed</span>')
+  })
+
+  it('renders relationships with sensitive information flag when isSensitive is true', () => {
+    const people = [
+      {
+        name: 'Sally Jones',
+        relationships: [
+          {name: 'Jim Johnson', type: 'mother', person_card_exists: true, isSensitive: true},
+        ],
+      },
+    ]
+    const component = renderRelationships({people})
+
+    expect(component.find(AttachLink).at(0).prop('relationship'))
+      .toEqual({name: 'Jim Johnson', type: 'mother', person_card_exists: true, isSensitive: true})
+    expect(component.at(0).html())
+      .toContain('<span class="information-flag search-result">Sensitive</span>')
+  })
+
+  it('does not renders relationships with sensitive information flag when isSensitive is false', () => {
+    const people = [
+      {
+        name: 'Sally Jones',
+        relationships: [
+          {name: 'Jim Johnson', type: 'mother', person_card_exists: true, isSensitive: false},
+        ],
+      },
+    ]
+    const component = renderRelationships({people})
+
+    expect(component.find(AttachLink).at(0).prop('relationship'))
+      .toEqual({name: 'Jim Johnson', type: 'mother', person_card_exists: true, isSensitive: false})
+    expect(component.at(0).html())
+      .not.toContain('<span class="information-flag search-result">Sealed</span>')
+  })
+
   it('renders Age & Age_Units for each person', () => {
     const people = [
       {

@@ -8,7 +8,7 @@ import {CandidatesPropType} from 'data/candidates'
 export const Relationships = ({
   editFormRelationship,
   errors,
-  isFormChanged,
+  isInvalidForm,
   isSaving,
   isScreening,
   onClick,
@@ -32,7 +32,7 @@ export const Relationships = ({
                   <RelationCard
                     editFormRelationship={editFormRelationship}
                     errors={errors}
-                    isFormChanged={isFormChanged}
+                    isInvalidForm={isInvalidForm}
                     isSaving={isSaving}
                     isScreening={isScreening}
                     onChange={onChange}
@@ -58,7 +58,7 @@ export const Relationships = ({
     {
       !isScreening && people.map((person, index) => (
         <div className='row' key={index}>
-          <div className='col-md-6 gap-top'>
+          <div className='col-md-8 gap-top'>
             <span className='person'>{person.name}</span>
             {
               (person.relationships.length > 0) &&
@@ -67,8 +67,10 @@ export const Relationships = ({
                 <ul className='relationships'>
                   {
                     person.relationships.map((relationship, index) => (
-                      <li key={index}>
+                      <li key={index} className='gap-top'>
                         <strong>{ relationship.type }</strong> &nbsp; of { relationship.name }
+                        {relationship.isSealed && <span className='information-flag search-result'>Sealed</span>}
+                        {relationship.isSensitive && <span className='information-flag search-result'>Sensitive</span>}
                         <AttachLink
                           isScreening={isScreening}
                           onClick={onClick}
@@ -109,7 +111,7 @@ Relationships.propTypes = {
   errors: PropTypes.shape({
     started_at: PropTypes.array,
   }),
-  isFormChanged: PropTypes.bool,
+  isInvalidForm: PropTypes.bool,
   isSaving: PropTypes.bool,
   isScreening: PropTypes.bool,
   onChange: PropTypes.func,

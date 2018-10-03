@@ -10,8 +10,8 @@ import {
 import {getScreeningIdValueSelector} from 'selectors/screeningSelectors'
 import {
   selectErrors,
-  selectIsFormNoChangeState,
   selectIsSaving,
+  selectIsInvalidForm,
   selectRelationship,
 } from 'selectors/screening/relationshipFormSelectors'
 
@@ -20,7 +20,7 @@ const mapStateToProps = (state, _ownProps) => ({
   errors: selectErrors(state).toJS(),
   people: getPeopleSelector(state).toJS(),
   screeningId: getScreeningIdValueSelector(state),
-  isFormChanged: selectIsFormNoChangeState(state),
+  isInvalidForm: selectIsInvalidForm(state),
   isSaving: selectIsSaving(state),
   isScreening: true,
   pendingPeople: state.get('pendingParticipants').toJS(),
