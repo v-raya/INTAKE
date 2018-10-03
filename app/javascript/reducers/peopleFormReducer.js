@@ -39,7 +39,7 @@ const buildPhoneNumbers = (phoneNumbers) => {
 const touch = (state, personId, listProp, field) => {
   let newList = List()
   const aList = state.getIn([personId, listProp])
-  aList.forEach((pn) => newList = newList.push(pn.setIn(['touched', field], true)))
+  aList.forEach((pn) => { newList = newList.push(pn.setIn(['touched', field], true)) })
   return newList
 }
 
@@ -185,7 +185,7 @@ export default createReducer(Map(), {
       'csec_started_at',
       'csec_ended_at',
     ]
-    let newState = fieldsWithTouch.reduce((newState, field) => newState.setIn([personId, field, 'touched'], true), state)
+    const newState = fieldsWithTouch.reduce((newState, field) => newState.setIn([personId, field, 'touched'], true), state)
 
     return newState
       .setIn([personId, 'phone_numbers'], touch(newState, personId, 'phone_numbers', 'number'))
