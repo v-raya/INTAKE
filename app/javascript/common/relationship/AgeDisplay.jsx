@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const AgeDisplay = ({row}) => {
-  const {age, dateOfBirth, estimated_dob_code} = row
+  const {age, dateOfBirth, estimatedDobCode} = row
   const ageDisplay = age === '' ? '' : `(${age})`
-  switch (estimated_dob_code) {
+  switch (estimatedDobCode) {
     case 'N':
       return <div>{dateOfBirth} {ageDisplay}</div>
     case 'Y':
@@ -19,7 +19,7 @@ AgeDisplay.propTypes = {
   row: PropTypes.shape({
     age: PropTypes.string,
     dateOfBirth: PropTypes.string,
-    estimated_dob_code: PropTypes.string,
+    estimatedDobCode: PropTypes.string,
   }),
 }
 export default AgeDisplay
