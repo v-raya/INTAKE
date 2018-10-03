@@ -2,6 +2,7 @@ import {
   selectAddressCounties,
   selectAddressTypes,
   selectCounties,
+  selectCountiesWithoutStateOfCalifornia,
   selectCountyAgencies,
   selectEthnicityTypes,
   selectHispanicOriginCodes,
@@ -65,7 +66,10 @@ describe('systemCodeSelectors', () => {
 
   describe('selectCounties', () => {
     it('returns a list of counties', () => {
-      const counties = [{code: '1', value: 'ABC'}]
+      const counties = [
+        {code: '1', value: 'ABC'},
+        {code: '99', value: 'State of California'},
+      ]
       const otherSystemCodes = [{code: '2', value: 'invalid'}]
       const state = fromJS({systemCodes: {counties, otherSystemCodes}})
       expect(selectCounties(state).toJS()).toEqual(counties)
@@ -196,6 +200,32 @@ describe('systemCodeSelectors', () => {
       const unableToDetermineCodes = []
       const state = fromJS({systemCodes: {unableToDetermineCodes}})
       expect(selectUnableToDetermineCodes(state).toJS()).toEqual([])
+    })
+  })
+
+  describe('selectCountiesWithoutStateOfCalifornia', () => {
+    it('returns a list of counties', () => {
+      const counties = [{code: '1', value: 'ABC'}]
+      const otherSystemCodes = [{code: '2', value: 'invalid'}]
+      const state = fromJS({systemCodes: {counties, otherSystemCodes}})
+      expect(selectCountiesWithoutStateOfCalifornia(state).toJS()).toEqual(counties)
+    })
+
+    it('removes State of California from the list', () => {
+      const counties = [
+        {code: '1', value: 'ABC'},
+        {code: '99', value: 'State of California'},
+      ]
+      const otherSystemCodes = [{code: '2', value: 'invalid'}]
+      const state = fromJS({systemCodes: {counties, otherSystemCodes}})
+      expect(selectCountiesWithoutStateOfCalifornia(state).toJS()).toEqual([counties[0]])
+    })
+
+    it('returns an empty list when counties are empty', () => {
+      const counties = []
+      const otherSystemCodes = [{code: '2', value: 'invalid'}]
+      const state = fromJS({systemCodes: {counties, otherSystemCodes}})
+      expect(selectCountiesWithoutStateOfCalifornia(state).toJS()).toEqual([])
     })
   })
 })

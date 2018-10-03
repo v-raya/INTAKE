@@ -244,6 +244,13 @@ describe('peopleSearchReducer', () => {
       expect(newState.get('searchCounty')).toEqual('Sutter')
       expect(newState.get('defaultCounty')).toEqual('Los Angeles')
     })
+    it('does not set the default if user is State of California', () => {
+      const action = fetchUserInfoSuccess({county: 'State of California'})
+      const initialState = fromJS({searchCounty: '', defaultCounty: null})
+      const newState = peopleSearchReducer(initialState, action)
+      expect(newState.get('searchCounty')).toEqual('')
+      expect(newState.get('defaultCounty')).toEqual(null)
+    })
   })
 
   describe('on RESET_ADDRESS_SEARCH', () => {

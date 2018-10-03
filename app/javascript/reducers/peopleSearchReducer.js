@@ -71,6 +71,7 @@ export default createReducer(initialState, {
     return state.set('searchCounty', county)
   },
   [FETCH_USER_INFO_COMPLETE](state, {payload: {userInfo: {county}}}) {
+    if (county === 'State of California') { return state }
     const newState = state.set('defaultCounty', county)
     return newState.get('searchCounty') === '' ? newState.set('searchCounty', county) : newState
   },

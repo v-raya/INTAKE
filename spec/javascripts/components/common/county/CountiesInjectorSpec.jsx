@@ -20,6 +20,7 @@ describe('CountiesInjector', () => {
       {code: '232', value: 'Alpine'},
       {code: '233', value: 'Amador'},
       {code: '234', value: 'Butte'},
+      {code: '1234', value: 'State of California'},
     ]
     const state = fromJS({systemCodes: {counties}})
 
@@ -28,9 +29,14 @@ describe('CountiesInjector', () => {
       expect(component.find('MyComponent').text()).toEqual('Hello World')
     })
 
-    it('adds list of counties to the child', () => {
+    it('adds list of counties without State of California to the child', () => {
       const component = render(<MyComponent />, state)
-      expect(component.find('MyComponent').props().counties).toEqual(counties)
+      expect(component.find('MyComponent').props().counties).toEqual([
+        {code: '231', value: 'Alameda'},
+        {code: '232', value: 'Alpine'},
+        {code: '233', value: 'Amador'},
+        {code: '234', value: 'Butte'},
+      ])
     })
   })
 
