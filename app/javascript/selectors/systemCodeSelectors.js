@@ -23,3 +23,6 @@ export const selectScreenResponseTimes = selectCodes('screenResponseTimes')
 export const selectUnableToDetermineCodes = selectCodes('unableToDetermineCodes')
 export const selectCsecTypes = selectCodes('csecTypes')
 export const selectCommunicationMethods = selectCodes('communicationMethods')
+
+export const selectCountiesWithoutStateOfCalifornia = (state) =>
+  selectCounties(state).filter((code) => code.get('value') !== 'State of California')

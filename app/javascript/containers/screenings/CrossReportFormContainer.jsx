@@ -37,7 +37,7 @@ import {
   getCommunityCareLicensingFormSelector,
   getUserCountySelector,
 } from 'selectors/screening/crossReportFormSelectors'
-import {selectCounties} from 'selectors/systemCodeSelectors'
+import {selectCountiesWithoutStateOfCalifornia} from 'selectors/systemCodeSelectors'
 
 export const cardName = 'cross-report-card'
 
@@ -46,7 +46,7 @@ const mapStateToProps = (state, {onShow}) => ({
   areCrossReportsRequired: getAllegationsRequireCrossReportsValueSelector(state),
   cardName: cardName,
   communityCareLicensing: getCommunityCareLicensingFormSelector(state).toJS(),
-  counties: selectCounties(state).toJS(),
+  counties: selectCountiesWithoutStateOfCalifornia(state).toJS(),
   county_id: state.getIn(['crossReportForm', 'county_id', 'value']) || '',
   countyAgencies: {
     [DISTRICT_ATTORNEY]: getDistrictAttorneyAgenciesSelector(state).toJS(),

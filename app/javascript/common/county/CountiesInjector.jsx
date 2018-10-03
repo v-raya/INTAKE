@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {selectCounties} from 'selectors/systemCodeSelectors'
+import {selectCountiesWithoutStateOfCalifornia} from 'selectors/systemCodeSelectors'
 
 const mapStateToProps = (state, ownProps) => ({
-  counties: selectCounties(state).toJS(),
+  counties: selectCountiesWithoutStateOfCalifornia(state).toJS(),
   ...ownProps,
 })
 
