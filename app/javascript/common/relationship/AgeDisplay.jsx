@@ -10,9 +10,8 @@ const AgeDisplay = ({row}) => {
       return <div>{age === '' ? '' : `(${age})`}</div>
     case 'U':
       return null
-    default:
-      return null
   }
+  return null
 }
 
 AgeDisplay.propTypes = {
