@@ -28,8 +28,8 @@ export const getCSECRequireValidationSelector = (state, personId) => {
 }
 
 export const getErrorsSelector = (state, personId) => {
-  const csecStartedAt = state.getIn(['peopleForm', personId, 'csec_started_at', 'value'])
-  const csecEndedAt = state.getIn(['peopleForm', personId, 'csec_ended_at', 'value'])
+  const csecStartedAt = state.getIn(['peopleForm', personId, 'csec_started_at', 'value']) || null
+  const csecEndedAt = state.getIn(['peopleForm', personId, 'csec_ended_at', 'value']) || null
   const csecTypes = state.getIn(['peopleForm', personId, 'csec_types', 'value'])
   return fromJS({
     csec_types: combineCompact(

@@ -1,6 +1,7 @@
 import React from 'react'
 import {shallow} from 'enzyme'
 import PersonInformationShow from 'views/people/PersonInformationShow'
+import moment from 'moment'
 
 describe('PersonInformationShow', () => {
   const renderPersonShow = ({
@@ -146,9 +147,21 @@ describe('PersonInformationShow', () => {
     const csecStartField = view.find('ShowField[label="CSEC Start Date"]')
     expect(csecStartField.html()).toContain('Start date must be entered.')
   })
+  it('displays the validation error when csec start date is future date', () => {
+    const futureDate = moment().add(1, 'days').format('MM/DD/YYYY')
+    const view = renderPersonShow({csecStartedAt: {value: futureDate, errors: ['The start date and time cannot be in the future.']}, showCSEC: true})
+    const csecStartField = view.find('ShowField[label="CSEC Start Date"]')
+    expect(csecStartField.html()).toContain('The start date and time cannot be in the future.')
+  })
 
   it('renders the CSEC End Date of the person when provided', () => {
-    const view = renderPersonShow({csecEndedAt: '22/22/2202', showCSEC: true})
+    const view = renderPersonShow({csecEndedAt: {value: '22/22/2202', errors: []}, showCSEC: true})
     expect(view.find('ShowField[label="CSEC End Date"]').html()).toContain('22/22/2202')
+  })
+
+  it('displays the validation error message when end date is future date', () => {
+    const futureDate = moment().add(1, 'days').format('MM/DD/YYYY')
+    const view = renderPersonShow({csecEndedAt: {value: futureDate, errors: ['The end date and time cannot be in the future.']}, showCSEC: true})
+    expect(view.find('ShowField[label="CSEC End Date"]').html()).toContain('The end date and time cannot be in the future.')
   })
 })

@@ -79,7 +79,7 @@ const PersonInformationShow = ({
           {csecStartedAt && <ShowField label='CSEC Start Date' errors={csecStartedAt.errors}>{csecStartedAt.value}</ShowField>}
         </div>
         <div className='col-md-4'>
-          {csecEndedAt && <ShowField label='CSEC End Date'>{csecEndedAt}</ShowField>}
+          {csecEndedAt && <ShowField label='CSEC End Date' errors={csecEndedAt.errors}>{csecEndedAt.value}</ShowField>}
         </div>
       </div>
     </div>}
@@ -93,7 +93,10 @@ PersonInformationShow.propTypes = {
   }),
   alertErrorMessage: PropTypes.string,
   approximateAge: PropTypes.string,
-  csecEndedAt: PropTypes.string,
+  csecEndedAt: PropTypes.shape({
+    errors: PropTypes.array,
+    value: PropTypes.string,
+  }),
   csecStartedAt: PropTypes.shape({
     errors: PropTypes.array,
     value: PropTypes.string,
