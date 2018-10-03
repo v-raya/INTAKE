@@ -178,7 +178,25 @@ input[type='radio']:disabled + label::before {
 }
 
 input.rw-input {
-  height: 2.7em;
+  height: 4.3rem;
+}
+
+input.rw-input::-webkit-input-placeholder {
+  font-size: 1.3rem;
+}
+
+// firefox v18 and below
+input.rw-input:-moz-placeholder {
+  font-size: 1.3rem;
+}
+
+// firefox v19 and above
+input.rw-input::-moz-placeholder {
+  font-size: 1.3rem;
+}
+
+input.rw-input:-ms-input-placeholder {
+  font-size: 1.3rem;
 }
 
 .unstyled-list {
