@@ -178,7 +178,26 @@ input[type='radio']:disabled + label::before {
 }
 
 input.rw-input {
-  height: 2.7em;
+  // the height is now relative to the root element, and not the parent element
+  height: 4.3rem;
+}
+
+// see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
+// for more info about the placeholder pseudo element
+
+// edge (it requries the -webkit-input- prefix)
+input.rw-input::-webkit-input-placeholder {
+  font-size: .8em;
+}
+
+// ie 11
+input.rw-input:-ms-input-placeholder {
+  font-size: .8em;
+}
+
+// chrome v57+ and firefox v51+
+input.rw-input::placeholder {
+  font-size: .8em;
 }
 
 .unstyled-list {
