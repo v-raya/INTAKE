@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import MaskedInputField from 'common/MaskedInputField'
 import SelectField from 'common/SelectField'
 
-const PhoneNumbersForm = ({addPhone, deletePhone, onChange, phoneNumbers, phoneTypes}) => (
+const PhoneNumbersForm = ({addPhone, deletePhone, onBlur, onChange, phoneNumbers, phoneTypes}) => (
   <div>
-    {phoneNumbers.map(({number, type}, index) => (
+    {phoneNumbers.map(({number, type, errors}, index) => (
       <div className='row list-item' key={index}>
         <MaskedInputField
           gridClassName='col-md-6'
@@ -15,8 +15,10 @@ const PhoneNumbersForm = ({addPhone, deletePhone, onChange, phoneNumbers, phoneT
           placeholder='(___)___-____'
           maxLength='13'
           type='tel'
+          onBlur={() => onBlur(index, 'number')}
           onChange={({target: {value}}) => onChange(index, 'number', value)}
           value={number}
+          errors={errors}
         />
         <SelectField
           gridClassName='col-md-6'
@@ -59,10 +61,12 @@ const PhoneNumbersForm = ({addPhone, deletePhone, onChange, phoneNumbers, phoneT
 PhoneNumbersForm.propTypes = {
   addPhone: PropTypes.func,
   deletePhone: PropTypes.func,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
   phoneNumbers: PropTypes.arrayOf(PropTypes.shape({
     number: PropTypes.string,
     type: PropTypes.string,
+    errors: PropTypes.array,
   })),
   phoneTypes: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,

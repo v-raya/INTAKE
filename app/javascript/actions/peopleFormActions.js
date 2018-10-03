@@ -2,6 +2,7 @@ export const SET_PEOPLE_FORM_FIELD = 'SET_PEOPLE_FORM_FIELD'
 export const TOUCH_PEOPLE_FORM_FIELD = 'TOUCH_PEOPLE_FORM_FIELD'
 export const SET_PEOPLE_ADDRESS_FORM_FIELD = 'SET_PEOPLE_ADDRESS_FORM_FIELD'
 export const TOUCH_PEOPLE_ADDRESS_FORM_FIELD = 'TOUCH_PEOPLE_ADDRESS_FORM_FIELD'
+export const TOUCH_PEOPLE_PHONE_NUMBER_FORM_FIELD = 'TOUCH_PEOPLE_PHONE_NUMBER_FORM_FIELD '
 export const TOUCH_ALL_PEOPLE_FORM_FIELDS = 'TOUCH_ALL_PEOPLE_FORM_FIELDS'
 export const ADD_PEOPLE_FORM_ADDRESS = 'ADD_PEOPLE_FORM_ADDRESS'
 export const DELETE_PEOPLE_FORM_ADDRESS = 'DELETE_PEOPLE_FORM_ADDRESS'
@@ -29,6 +30,11 @@ export const setAddressField = (personId, addressIndex, field, value) => ({
 export const touchAddressField = (personId, addressIndex, field) => ({
   type: TOUCH_PEOPLE_ADDRESS_FORM_FIELD,
   payload: {personId, addressIndex, field},
+})
+
+export const touchPhoneNumberField = (personId, phoneNumberIndex, field) => ({
+  type: TOUCH_PEOPLE_PHONE_NUMBER_FORM_FIELD,
+  payload: {personId, phoneNumberIndex, field},
 })
 
 export const addAddress = (personId) => ({type: ADD_PEOPLE_FORM_ADDRESS, payload: {personId}})

@@ -15,6 +15,7 @@ import {
   isBeforeDatetimeCreate,
 } from 'utils/validator'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
+import {getPhoneNumberErrors} from 'utils/phoneNumberValidator'
 import {hasNonReporter} from 'utils/roles'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {getZIPErrors} from 'utils/zipValidator'
@@ -242,6 +243,7 @@ export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
       Map({
         number: phoneNumberFormatter(phoneNumber.get('number')),
         type: phoneNumber.get('type'),
+        errors: getPhoneNumberErrors(phoneNumber.get('number')),
       })
     )
     )

@@ -1,4 +1,4 @@
-import {fromJS} from 'immutable'
+import {fromJS, Map, List} from 'immutable'
 import {
   getPersonPhoneNumbersSelector,
   getPhoneNumberTypeOptions,
@@ -31,9 +31,9 @@ describe('personPhoneNumbersFormSelectors', () => {
         ]},
       }
       const state = fromJS({peopleForm})
-      expect(getPersonPhoneNumbersSelector(state, 'one')).toEqualImmutable(fromJS(
-        [{number: '1234567890', type: 'Home'}]
-      ))
+      expect(getPersonPhoneNumbersSelector(state, 'one')).toEqual(List([Map(
+        {number: '1234567890', type: 'Home', errors: []}
+      )]))
     })
   })
 })

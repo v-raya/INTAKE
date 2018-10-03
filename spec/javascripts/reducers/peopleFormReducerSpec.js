@@ -415,6 +415,8 @@ describe('peopleFormReducer', () => {
           csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
+          addresses: [{touched: {zip: false}}],
+          phone_numbers: [{touched: {number: false}}],
         },
         participant_two: {
           roles: {touched: false},
@@ -424,6 +426,8 @@ describe('peopleFormReducer', () => {
           csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
+          addresses: [{touched: {zip: false}}],
+          phone_numbers: [{touched: {number: false}}],
         },
       })
       const action = touchAllFields('participant_one')
@@ -436,6 +440,8 @@ describe('peopleFormReducer', () => {
           csec_types: {touched: true},
           csec_started_at: {touched: true},
           csec_ended_at: {touched: true},
+          addresses: [{touched: {zip: true}}],
+          phone_numbers: [{touched: {number: true}}],
         },
         participant_two: {
           roles: {touched: false},
@@ -445,6 +451,8 @@ describe('peopleFormReducer', () => {
           csec_types: {touched: false},
           csec_started_at: {touched: false},
           csec_ended_at: {touched: false},
+          addresses: [{touched: {zip: false}}],
+          phone_numbers: [{touched: {number: false}}],
         },
       }))
     })
@@ -688,7 +696,11 @@ describe('peopleFormReducer', () => {
         sensitive: false,
         sealed: false,
         probation_youth: false,
-        phone_numbers: [],
+        phone_numbers: [{
+          id: 'pn1',
+          number: '1231231212',
+          type: 'Home',
+        }],
         addresses: [{
           id: 'ABC123',
           street_address: '1234 Some Lane',
@@ -727,9 +739,13 @@ describe('peopleFormReducer', () => {
           sensitive: {value: false},
           sealed: {value: false},
           probation_youth: {value: false},
-          phone_numbers: [],
+          phone_numbers: [{
+            id: 'pn1',
+            number: {value: '1231231212'},
+            type: {value: 'Home'},
+            touched: {number: false},
+          }],
           addresses: [{
-            touched: {},
             id: 'ABC123',
             street: '1234 Some Lane',
             city: 'Somewhere',
@@ -737,6 +753,7 @@ describe('peopleFormReducer', () => {
             zip: '55555',
             type: 'Home',
             legacy_descriptor: null,
+            touched: {zip: false},
           }],
           races: {},
           race_details: {},

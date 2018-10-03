@@ -6,6 +6,7 @@ import {
   TOUCH_PEOPLE_FORM_FIELD,
   SET_PEOPLE_ADDRESS_FORM_FIELD,
   TOUCH_PEOPLE_ADDRESS_FORM_FIELD,
+  TOUCH_PEOPLE_PHONE_NUMBER_FORM_FIELD,
   ADD_PEOPLE_FORM_ADDRESS,
   DELETE_PEOPLE_FORM_ADDRESS,
   ADD_PEOPLE_FORM_PHONE_NUMBER,
@@ -34,6 +35,7 @@ const buildPhoneNumbers = (phoneNumbers) => {
     return []
   }
 }
+
 const buildRaces = (races = []) => races.reduce((racesValue, {race}) => ({
   ...racesValue,
   [race]: {value: true},
@@ -143,6 +145,12 @@ const updatePeopleFormPerson = (state, {payload: {person}, error}) => {
       .setIn(['first_name', 'touched'], prevPerson.getIn(['first_name', 'touched'], false))
       .setIn(['last_name', 'touched'], prevPerson.getIn(['last_name', 'touched'], false))
       .setIn(['ssn', 'touched'], prevPerson.getIn(['ssn', 'touched'], false))
+      .updateIn(['phone_numbers'], (phoneNumbers) =>
+        phoneNumbers.map((phoneNumber, index) =>
+          phoneNumber.setIn(['touched', 'number'], prevPerson.getIn(['phone_numbers', index, 'touched', 'number'], false))))
+      .updateIn(['addresses'], (addresses) =>
+        addresses.map((address, index) =>
+          address.setIn(['touched', 'zip'], prevPerson.getIn(['addresses', index, 'touched', 'zip'], false))))
   )
 }
 
@@ -164,6 +172,8 @@ export default createReducer(Map(), {
     state.setIn([personId, 'addresses', addressIndex, field], value),
   [TOUCH_PEOPLE_ADDRESS_FORM_FIELD]: (state, {payload: {personId, addressIndex, field}}) =>
     state.setIn([personId, 'addresses', addressIndex, 'touched', field], true),
+  [TOUCH_PEOPLE_PHONE_NUMBER_FORM_FIELD]: (state, {payload: {personId, phoneNumberIndex, field}}) =>
+    state.setIn([personId, 'phone_numbers', phoneNumberIndex, 'touched', field], true),
   [TOUCH_ALL_PEOPLE_FORM_FIELDS]: (state, {payload: {personId}}) => {
     const fieldsWithTouch = [
       'roles',
@@ -175,6 +185,8 @@ export default createReducer(Map(), {
       'csec_ended_at',
     ]
     return fieldsWithTouch.reduce((newState, field) => newState.setIn([personId, field, 'touched'], true), state)
+      .updateIn([personId, 'phone_numbers'], (phoneNumbers) => phoneNumbers.map((phoneNumber) => phoneNumber.setIn(['touched', 'number'], true)))
+      .updateIn([personId, 'addresses'], (addresses) => addresses.map((address) => address.setIn(['touched', 'zip'], true)))
   },
   [ADD_PEOPLE_FORM_ADDRESS]: (state, {payload: {personId}}) => {
     const currentAddresses = state.getIn([personId, 'addresses'])

@@ -26,8 +26,8 @@ export const mapDispatchToProps = (dispatch, {personId}) => ({
   onDelete: () => dispatch(deletePerson(personId)),
   onEdit: () => dispatch(setPersonCardMode(personId, EDIT_MODE)),
   onSave: () => {
-    dispatch(savePerson(personId))
     dispatch(touchAllFields(personId))
+    dispatch(savePerson(personId))
     dispatch(setPersonCardMode(personId, SAVING_MODE))
   },
 })
