@@ -396,7 +396,7 @@ feature 'individual card save' do
     stub_empty_history_for_screening(existing_screening)
 
     within '#cross-report-card' do
-      select 'State of California', from: 'County'
+      select 'Fresno', from: 'County'
       find('label', text: 'District Attorney').click
       select 'LA District Attorney - Criminal Division', from: 'District Attorney Agency Name'
       click_button 'Save'
