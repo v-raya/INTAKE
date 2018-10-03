@@ -96,6 +96,11 @@ module ValidationHelpers
   end
 end
 
+def stub_participant(client)stub_request(:put,
+  ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], victim.id)))
+  .and_return(json_body(client.to_json, status: 200))
+end
+
 RSpec.configure do |config|
   config.include ValidationHelpers, type: :feature
 end

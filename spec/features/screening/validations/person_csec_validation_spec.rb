@@ -23,14 +23,13 @@ feature 'CSEC validation' do
     }
   end
 
-  before do
+  before(:each) do
     stub_system_codes
     stub_and_visit_edit_screening(screening)
   end
   context 'csec start date field' do
     let(:csec_start_date_error_message) { 'Start date must be entered.' }
     scenario 'displays an error if the user does not enter a start date' do
-      stub_and_visit_edit_screening(screening)
       within "#participants-card-#{victim.id}" do
         expect(page).to have_content('CSEC Start Date')
         expect(page).not_to have_content(csec_start_date_error_message)
@@ -63,6 +62,130 @@ feature 'CSEC validation' do
         find_field('CSEC Start Date').set('', clear: :backspace)
         blur_field
         expect(page).to have_content(csec_start_date_error_message)
+      end
+    end
+  end
+
+  context 'csec end date field cannot be in future' do
+    let(:csec_end_date_error_message) { 'The end date and time cannot be in the future.' }
+
+    scenario 'displays an error if the user enters a future start date' do
+      within "#participants-card-#{victim.id}" do
+        updated_participant = victim.as_json.merge(
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            end_date: 2.days.ago.to_date
+          }]
+        )
+        stub_participant(updated_participant)
+        expect(page).to have_content('CSEC End Date')
+        click_button 'Save'
+        click_link 'Edit'
+        fill_in_datepicker 'CSEC End Date', with: 5.years.from_now.to_date, blur: true
+        updated_participant = victim.as_json.merge(
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            end_date: 5.years.from_now.to_date
+          }]
+        )
+        expect(page).to have_content(csec_end_date_error_message)
+        stub_participant(updated_participant)
+        click_button('Save')
+        expect(page).to have_content(csec_end_date_error_message)
+        click_link('Edit')
+        fill_in_datepicker 'CSEC End Date', with: 2.days.ago.to_date, blur: true
+        updated_participant = victim.as_json.merge(
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            end_date: 2.days.ago.to_date
+          }]
+        )
+        expect(page).not_to have_content(csec_end_date_error_message)
+        stub_participant(updated_participant)
+        click_button('Save')
+        expect(page).not_to have_content(csec_end_date_error_message)
+      end
+    end
+  end
+  context 'csec start date field cannot be in future' do
+    let(:csec_start_date_error_message) { 'The start date and time cannot be in the future.' }
+
+    scenario 'displays an error if the user enters a future start date' do
+      within "#participants-card-#{victim.id}" do
+        updated_participant = victim.as_json.merge(
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            start_date: 2.days.ago.to_date
+          }]
+        )
+        stub_participant(updated_participant)
+        expect(page).to have_content('CSEC Start Date')
+        click_button 'Save'
+        click_link 'Edit'
+        fill_in_datepicker 'CSEC Start Date', with: 5.years.from_now.to_date, blur: true
+        updated_participant = victim.as_json.merge(
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            start_date: 5.years.from_now.to_date
+          }]
+        )
+        expect(page).to have_content(csec_start_date_error_message)
+        stub_participant(updated_participant)
+        click_button('Save')
+        expect(page).to have_content(csec_start_date_error_message)
+        click_link('Edit')
+        fill_in_datepicker 'CSEC Start Date', with: 2.days.ago.to_date, blur: true
+        updated_participant = victim.as_json.merge(
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            start_date: 2.days.ago.to_date
+          }]
+        )
+        expect(page).not_to have_content(csec_start_date_error_message)
+        stub_participant(updated_participant)
+        click_button('Save')
+        expect(page).not_to have_content(csec_start_date_error_message)
+      end
+    end
+  end
+  context 'csec start date field cannot be after end date' do
+    let(:csec_start_date_error_message) do
+      'The start date and time must be before the end date and time.'
+    end
+
+    scenario 'displays an error if the user enters a future start date' do
+      within "#participants-card-#{victim.id}" do
+        updated_participant = victim.as_json.merge(
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            end_date: '2016-08-13T10:00:00.000Z',
+            start_date: '2016-08-14T10:00:00.000Z'
+          }]
+        )
+        stub_participant(updated_participant)
+        expect(page).to have_content('CSEC Start Date')
+        click_button 'Save'
+        expect(page).to have_content(csec_start_date_error_message)
+        click_link 'Edit'
+        fill_in_datepicker 'CSEC Start Date', with: '2016-08-13T10:00:00.000Z', blur: true
+        updated_participant = victim.as_json.merge(
+          csec: [{
+            id: '1',
+            participant_id: victim.id,
+            start_date: '2016-08-13T10:00:00.000Z'
+          }]
+        )
+        expect(page).not_to have_content(csec_start_date_error_message)
+        stub_participant(updated_participant)
+        click_button('Save')
+        expect(page).not_to have_content(csec_start_date_error_message)
       end
     end
   end
@@ -103,7 +226,6 @@ feature 'CSEC validation' do
   end
   context 'csec fields' do
     scenario 'show csec type, csec start date and csec end date' do
-      stub_and_visit_edit_screening(screening)
       within "#participants-card-#{victim.id}" do
         expect(page).to have_content('CSEC Start Date')
         expect(page).to have_content('CSEC End Date')

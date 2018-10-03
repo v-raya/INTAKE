@@ -254,6 +254,60 @@ describe('peopleSearchSelectors', () => {
       expect(peopleResults.getIn([0, 'phoneNumber'])).toEqual(null)
     })
 
+    it('flags csec status when the person has an open csec item', () => {
+      const peopleSearch = {
+        results: [{
+          _source: {
+            csec: [
+              {start_date: '2018-01-01', end_date: '2018-02-02'},
+              {start_date: '2018-01-01'},
+            ],
+          },
+        }],
+      }
+      const state = fromJS({
+        peopleSearch,
+        systemCodes,
+      })
+      const peopleResults = selectPeopleResults(state)
+      expect(peopleResults.getIn([0, 'isCsec'])).toEqual(true)
+    })
+
+    it('does not flag csec status when the person has no csec items', () => {
+      const peopleSearch = {
+        results: [{
+          _source: {
+            csec: [],
+          },
+        }],
+      }
+      const state = fromJS({
+        peopleSearch,
+        systemCodes,
+      })
+      const peopleResults = selectPeopleResults(state)
+      expect(peopleResults.getIn([0, 'isCsec'])).toEqual(false)
+    })
+
+    it('does not flag csec status when the person has only ended csec items', () => {
+      const peopleSearch = {
+        results: [{
+          _source: {
+            csec: [
+              {start_date: '2018-01-01', end_date: '2018-02-02'},
+              {start_date: '2018-01-01', end_date: '2018-02-02'},
+            ],
+          },
+        }],
+      }
+      const state = fromJS({
+        peopleSearch,
+        systemCodes,
+      })
+      const peopleResults = selectPeopleResults(state)
+      expect(peopleResults.getIn([0, 'isCsec'])).toEqual(false)
+    })
+
     describe('when highlighting', () => {
       function personWithHighlights(highlight) {
         return {

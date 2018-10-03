@@ -38,9 +38,7 @@ const isBeforeOtherDate = ({value, errorMessage, otherValue}) => {
 export const isBeforeDatetimeCreate = (datetime, beforeTime, message) => () => {
   if (beforeTime && datetime < beforeTime) {
     return message
-  } else {
-    return undefined
-  }
+  } return undefined
 }
 export const combineCompact = (...funcs) => funcs.map((func) => func()).filter((x) => x)
 

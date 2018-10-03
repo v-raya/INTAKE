@@ -12,6 +12,7 @@ import {
   combineCompact,
   hasRequiredValuesIfCreate,
   isFutureDatetimeCreate,
+  isBeforeDatetimeCreate,
 } from 'utils/validator'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import {getPhoneNumberErrors} from 'utils/phoneNumberValidator'
@@ -98,10 +99,33 @@ const selectCSECTypeErrors = (state, csecTypes, roles, screeningReportType) => c
   hasRequiredValuesIfCreate(csecTypes, 'CSEC type must be selected.',
     () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
 )
+const showCSEC = (state, personId) => {
+  const roles = state.getIn(['peopleForm', personId, 'roles', 'value']) || List()
+  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
+  const csecDetails = selectCsec(state).get(personId) || List()
+  if ((roles.includes('Victim') && screeningReportType === 'csec') || csecDetails.size > 0) {
+    return true
+  }
+  return false
+}
 
-const selectCSECStartedAtErrors = (state, csecStartedAt, roles, screeningReportType) => combineCompact(
-  isRequiredIfCreate(csecStartedAt, 'Start date must be entered.',
-    () => (roles && screeningReportType && roles.includes('Victim') && screeningReportType === 'csec'))
+const selectCSECStartedAtErrors = (state, personId, csecStartedAt, csecEndedAt) => {
+  const csec = showCSEC(state, personId)
+  return combineCompact(
+    isRequiredIfCreate(csecStartedAt, 'Start date must be entered.',
+      () => (csec)),
+    isFutureDatetimeCreate(csecStartedAt, 'The start date and time cannot be in the future.',
+      () => (csec)),
+    isBeforeDatetimeCreate(
+      csecEndedAt,
+      csecStartedAt, 'The start date and time must be before the end date and time.',
+      () => (csec))
+  )
+}
+
+const selectCSECEndedAtErrors = (state, personId, csecEndedAt) => combineCompact(
+  isFutureDatetimeCreate(csecEndedAt, 'The end date and time cannot be in the future.',
+    () => (showCSEC(state, personId)))
 )
 
 const selectGenderErrors = (person, roles) => combineCompact(
@@ -128,13 +152,12 @@ export const getErrorsSelector = (state, personId) => {
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   const lastName = person.get('last_name')
   const firstName = person.get('first_name')
-  const addressZip = (person.get('addresses') || List())
-    .filter(isReadWrite)
-    .map((address) => getZIPErrors(address.get('zip')))
-    .flatten()
+  const addressZip = (person.get('addresses') || List()).filter(isReadWrite)
+    .map((address) => getZIPErrors(address.get('zip'))).flatten()
   const roles = person.get('roles', List())
   const csecTypes = csecTypesSelector(state, personId)
   const csecStartedAt = person.getIn(['csec', 0, 'start_date'])
+  const csecEndedAt = person.getIn(['csec', 0, 'end_date'])
   const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
   const rolesTypes = state.getIn(['peopleForm', personId, 'roles', 'value'], List()).toJS()
   return fromJS({
@@ -145,7 +168,8 @@ export const getErrorsSelector = (state, personId) => {
     dateOfBirth: selectDobError(person),
     addressZip,
     csecTypes: selectCSECTypeErrors(state, csecTypes, rolesTypes, screeningReportType),
-    csecStartedAt: selectCSECStartedAtErrors(state, csecStartedAt, rolesTypes, screeningReportType),
+    csecStartedAt: selectCSECStartedAtErrors(state, personId, csecStartedAt, csecEndedAt),
+    csecEndedAt: selectCSECEndedAtErrors(state, personId, csecEndedAt),
   })
 }
 
@@ -177,16 +201,6 @@ const personApproximateAge = (person) => {
   }
 }
 
-const showCSEC = (state, personId) => {
-  const roles = state.getIn(['peopleForm', personId, 'roles', 'value']) || List()
-  const screeningReportType = state.getIn(['screeningInformationForm', 'report_type', 'value'])
-  const csecDetails = selectCsec(state).get(personId) || List()
-  if ((roles.includes('Victim') && screeningReportType === 'csec') || csecDetails.size > 0) {
-    return true
-  }
-  return false
-}
-
 export const getFormattedPersonInformationSelector = (state, personId) => {
   const person = selectPersonOrEmpty(state, personId)
   const legacyDescriptor = person.get('legacy_descriptor')
@@ -195,7 +209,7 @@ export const getFormattedPersonInformationSelector = (state, personId) => {
     approximateAge: approximateAge,
     CSECTypes: {value: csecTypesSelector(state, personId), errors: []},
     csecStartedAt: {value: (person.getIn(['csec', 0, 'start_date']) && dateFormatter(person.getIn(['csec', 0, 'start_date']))), errors: []},
-    csecEndedAt: person.getIn(['csec', 0, 'end_date']) && dateFormatter(person.getIn(['csec', 0, 'end_date'])),
+    csecEndedAt: {value: (person.getIn(['csec', 0, 'end_date']) && dateFormatter(person.getIn(['csec', 0, 'end_date']))), errors: []},
     dateOfBirth: {value: person.get('date_of_birth') && dateFormatter(person.get('date_of_birth'))},
     ethnicity: selectEthnicity(person),
     gender: {value: GENDERS[person.get('gender')]},
@@ -220,6 +234,7 @@ export const getFormattedPersonWithErrorsSelector = (state, personId) => {
     .setIn(['gender', 'errors'], errors.get('gender'))
     .setIn(['CSECTypes', 'errors'], errors.get('csecTypes'))
     .setIn(['csecStartedAt', 'errors'], errors.get('csecStartedAt'))
+    .setIn(['csecEndedAt', 'errors'], errors.get('csecEndedAt'))
     .setIn(['dateOfBirth', 'errors'], errors.get('dateOfBirth'))
 }
 export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (

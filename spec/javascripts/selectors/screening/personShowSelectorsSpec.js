@@ -23,7 +23,7 @@ describe('personShowSelectors', () => {
         name: {value: 'Unknown Person', errors: [], required: false},
         CSECTypes: {value: List(), errors: []},
         csecStartedAt: {value: undefined, errors: []},
-        csecEndedAt: undefined,
+        csecEndedAt: {value: undefined, errors: []},
         gender: {value: undefined},
         roles: {value: [], errors: []},
         languages: undefined,
@@ -58,13 +58,16 @@ describe('personShowSelectors', () => {
         }))
     })
 
-    it('does not include the csec details not  provided for the given person', () => {
+    it('does not include the csec details if not provided for the given person', () => {
       const participants = [
-        {id: '1', csec: [{csec_code_id: '14'}]},
+        {id: '1', csec: []},
       ]
       const state = fromJS({participants})
       expect(getFormattedPersonInformationSelector(state, '1').get('csecEndedAt'))
-        .toEqual(undefined)
+        .toEqual(fromJS({
+          value: undefined,
+          errors: [],
+        }))
     })
 
     it('includes the display name for the given person', () => {
@@ -472,6 +475,76 @@ describe('personShowSelectors', () => {
         const state = fromJS({participants: people})
         expect(getErrorsSelector(state, 'one').get('dateOfBirth'))
           .toEqualImmutable(List(['Date of Birth should not be in the future.']))
+      })
+    })
+    describe('csec types', () => {
+      it('returns no error if there is a csec type', () => {
+        const participant = {id: 'one', csec: [{csec_code_id: '6867'}]}
+        const person = {id: 'one', roles: {value: ['Victim']}}
+        const state = fromJS({screeningInformationForm: {report_type: {value: 'csec'}}, participants: [participant], peopleForm: {one: person}})
+        expect(getErrorsSelector(state, 'one').get('csecTypes'))
+          .toEqualImmutable(List([]))
+      })
+      it('returns error if there is no csec type', () => {
+        const participant = {id: 'one', csec: []}
+        const person = {id: 'one', roles: {value: ['Victim']}}
+        const state = fromJS({screeningInformationForm: {report_type: {value: 'csec'}}, participants: [participant], peopleForm: {one: person}})
+        expect(getErrorsSelector(state, 'one').get('csecTypes'))
+          .toEqualImmutable(List(['CSEC type must be selected.']))
+      })
+    })
+
+    describe('csec started at', () => {
+      it('returns no error if there is a csec start date', () => {
+        const startDate = moment().toISOString()
+        const participant = {id: 'one', csec: [{start_date: startDate}]}
+        const person = {id: 'one', roles: {value: ['Victim']}}
+        const state = fromJS({screeningInformationForm: {report_type: {value: 'csec'}}, participants: [participant], peopleForm: {one: person}})
+        expect(getErrorsSelector(state, 'one').get('csecStartedAt'))
+          .toEqualImmutable(List([]))
+      })
+      it('returns error if there no csec start date', () => {
+        const participant = {id: 'one', csec: [{start_date: undefined}]}
+        const person = {id: 'one', roles: {value: ['Victim']}}
+        const state = fromJS({screeningInformationForm: {report_type: {value: 'csec'}}, participants: [participant], peopleForm: {one: person}})
+        expect(getErrorsSelector(state, 'one').get('csecStartedAt'))
+          .toEqualImmutable(List(['Start date must be entered.']))
+      })
+      it('returns error csec start date is in the future', () => {
+        const futureDate = moment().add(1, 'days').toISOString()
+        const participant = {id: 'one', csec: [{start_date: futureDate}]}
+        const person = {id: 'one', roles: {value: ['Victim']}}
+        const state = fromJS({screeningInformationForm: {report_type: {value: 'csec'}}, participants: [participant], peopleForm: {one: person}})
+        expect(getErrorsSelector(state, 'one').get('csecStartedAt'))
+          .toEqualImmutable(List(['The start date and time cannot be in the future.']))
+      })
+      it('returns error csec start date is after end date', () => {
+        const futureDate = '2018-10-01T21:09:37.104Z'
+        const todayDate = '2018-09-30T21:09:37.104Z'
+        const participant = {id: 'one', csec: [{start_date: futureDate, end_date: todayDate}]}
+        const person = {id: 'one', roles: {value: ['Victim']}}
+        const state = fromJS({screeningInformationForm: {report_type: {value: 'csec'}}, participants: [participant], peopleForm: {one: person}})
+        expect(getErrorsSelector(state, 'one').get('csecStartedAt'))
+          .toEqualImmutable(List(['The start date and time must be before the end date and time.']))
+      })
+    })
+
+    describe('csec ended at', () => {
+      it('returns no error if there no csec start date', () => {
+        const participant = {id: 'one', csec: [{end_date: undefined}]}
+        const person = {id: 'one', roles: {value: ['Victim']}}
+        const state = fromJS({screeningInformationForm: {report_type: {value: 'csec'}}, participants: [participant], peopleForm: {one: person}})
+        expect(getErrorsSelector(state, 'one').get('csecEndedAt'))
+          .toEqualImmutable(List([]))
+      })
+
+      it('end date cannot be in future', () => {
+        const futureDate = moment().add(1, 'days').toISOString()
+        const participant = {id: 'one', csec: [{end_date: futureDate}]}
+        const person = {id: 'one', roles: {value: ['Victim']}}
+        const state = fromJS({screeningInformationForm: {report_type: {value: 'csec'}}, participants: [participant], peopleForm: {one: person}})
+        expect(getErrorsSelector(state, 'one').get('csecEndedAt'))
+          .toEqualImmutable(List(['The end date and time cannot be in the future.']))
       })
     })
 
