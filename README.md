@@ -63,3 +63,8 @@ See https://www.gnu.org/licenses/agpl.html
 Copyright (c) 2016 - 2018 State of California
 
 CWDS Intake is software developed by the State of California and is a work based upon Case Common’s Casebook Intake Accelerator.
+
+# Questions
+
+If you have any questions regarding the contents of this repository, please email the Office of Systems Integration at FOSS@osi.ca.gov.
+
