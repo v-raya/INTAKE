@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ActionMenu from 'common/relationship/ActionMenu'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import {sortDateOfBirth} from 'utils/sortDateOfBirth'
+import AgeDisplay from 'common/relationship/AgeDisplay'
 
 const propTypes = {
   editFormRelationship: PropTypes.shape({
@@ -33,8 +34,6 @@ const propTypes = {
   }),
   screeningId: PropTypes.string,
 }
-
-const ageDisplayFormatter = (cell, row) => <div> {row.dateOfBirth || ''} {row.age === '' ? '' : `(${row.age})`}</div>
 
 const textWrap = {whiteSpace: 'normal'}
 
@@ -86,7 +85,7 @@ const RelationCard = ({
         </TableHeaderColumn>
         <TableHeaderColumn
           headerTitle={false}
-          dataFormat={ageDisplayFormatter}
+          dataFormat={(cell, row) => <AgeDisplay row={row} />}
           dataField='age'
           dataSort={true}
           sortHeaderColumnClassName='sorted-header'

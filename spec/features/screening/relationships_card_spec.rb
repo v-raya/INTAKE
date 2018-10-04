@@ -86,6 +86,7 @@ feature 'Relationship card' do
       relationship_context: 'Half',
       related_person_id: '7',
       related_person_date_of_birth: '1990-05-05',
+      estimated_dob_code: 'N',
       related_person_age: 28,
       related_person_age_unit: 'Y',
       same_home_code: 'Y',
@@ -108,6 +109,7 @@ feature 'Relationship card' do
       indexed_person_relationship: '280',
       relationship_context: 'Half',
       related_person_date_of_birth: '1990-05-05',
+      estimated_dob_code: 'N',
       related_person_age: 28,
       related_person_age_unit: 'Y',
       legacy_descriptor: {
@@ -129,6 +131,7 @@ feature 'Relationship card' do
       relationship_context: 'Half',
       related_person_id: '10',
       related_person_date_of_birth: '1986-05-05',
+      estimated_dob_code: 'N',
       related_person_age: 32,
       related_person_age_unit: 'Y',
       legacy_descriptor: {
