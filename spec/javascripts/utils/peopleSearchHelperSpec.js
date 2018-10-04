@@ -163,6 +163,63 @@ describe('peopleSearchHelper', () => {
       )
       expect(result).toEqualImmutable(fromJS(participant))
     })
+
+    it('defaults csec to an empty list', () => {
+      const doraPerson = {
+        race_ethnicity: {
+          hispanic_origin_code: 'N',
+          unable_to_determine_code: '',
+          race_codes: [{id: '1'}],
+          hispanic_codes: [],
+          hispanic_unable_to_determine_code: '',
+        },
+        addresses: [{
+          zip: '99999',
+          city: 'Al Haad',
+          type: {id: RESIDENCE_TYPE},
+          street_name: 'Canary Alley',
+          state_name: 'California',
+          street_number: '15',
+          effective_start_date: '1997-09-04',
+          id: 'NuzhtHm083',
+          state: {id: '1828'},
+          state_code: 'CA',
+          zip_4: '1111',
+          phone_numbers: [{number: '9660007290'}],
+        }],
+        gender: 'male',
+        languages: [{
+          id: '2',
+          primary: true,
+        }, {
+          id: '1',
+          primary: false,
+        }],
+        date_of_birth: '1994-09-29',
+        date_of_death: '1996-09-21',
+        legacy_descriptor: {
+          legacy_id: 'OkMXEhe083',
+          legacy_ui_id: '1673-3395-1268-0001926',
+          legacy_last_updated: '2004-11-16T17:25:53.407-0800',
+          legacy_table_name: 'PLC_HM_T',
+          legacy_table_description: 'Placement Home',
+        },
+        last_name: 'John',
+        middle_name: '',
+        name_suffix: 'jr',
+        ssn: '996005129',
+        phone_numbers: [{number: '9660007290'}],
+        id: 'OkMXEhe083',
+        first_name: 'Mohammed',
+        sensitivity_indicator: 'N',
+        // No csec data
+      }
+      const state = fromJS({systemCodes})
+
+      const result = mapDoraPersonToParticipant(state, fromJS(doraPerson))
+
+      expect(result.get('csec')).toEqualImmutable(fromJS([]))
+    })
   })
 
   describe('mapLanguages', () => {

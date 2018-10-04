@@ -96,7 +96,7 @@ export const mapPhoneNumber = (result) =>
     .valueOrElse(List())
 
 export const mapDoraPersonToParticipant = (state, person) => Map({
-  csec: person.get('csec'),
+  csec: person.get('csec') || List(),
   date_of_birth: person.get('date_of_birth'),
   date_of_death: person.get('date_of_death'),
   approximate_age: null,
