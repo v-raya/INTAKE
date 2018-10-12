@@ -2,7 +2,7 @@ import LOV from 'data/lov/lov'
 
 describe('LOV', () => {
   it('has a lot of them', () => {
-    expect(LOV.length).toEqual(521)
+    expect(LOV.length).toEqual(522)
   })
 
   it('contains code, value, category, and sub_category', () => {
