@@ -12,7 +12,7 @@ feature 'Cross Reports Validations' do
       safety_alerts: [],
       cross_reports: [{
         id: '1',
-        county_id: 'c41',
+        county_id: '1077',
         agencies: [{
           id: nil,
           type: 'COUNTY_LICENSING'
@@ -24,7 +24,7 @@ feature 'Cross Reports Validations' do
   context 'on the edit page' do
     context 'reported_on field' do
       before do
-        stub_county_agencies('c41')
+        stub_county_agencies('1077')
         stub_and_visit_edit_screening(screening)
       end
 
@@ -42,13 +42,13 @@ feature 'Cross Reports Validations' do
     context 'agency name field' do
       let(:error_message) { 'Please enter an agency name.' }
       before do
-        stub_county_agencies('c41')
+        stub_county_agencies('1077')
         stub_and_visit_edit_screening(screening)
       end
 
       context 'save with an agency' do
         before do
-          stub_county_agencies('c41')
+          stub_county_agencies('1077')
           screening[:cross_reports][0][:agencies][0][:code] = 'EYIS9Nh75C'
           stub_and_visit_edit_screening(screening)
           stub_request(

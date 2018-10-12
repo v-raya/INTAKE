@@ -1,10 +1,10 @@
-import {takeEvery, put, call} from 'redux-saga/effects'
-import {get} from 'utils/http'
+import {takeEvery, put} from 'redux-saga/effects'
 import {fetchSuccess, fetchFailure, FETCH_SYSTEM_CODES} from 'actions/systemCodesActions'
+import LOV from 'data/lov/lov'
 
 export function* fetchSystemCodes() {
   try {
-    const response = yield call(get, '/api/v1/system_codes')
+    const response = LOV
     yield put(fetchSuccess(response))
   } catch (error) {
     yield put(fetchFailure(error))

@@ -5,7 +5,7 @@ require 'feature/testing'
 
 feature 'System codes' do
   it_behaves_like :authenticated do
-    scenario 'system codes are fetch once per page load' do
+    scenario 'system codes are not fetched, but hardcoded' do
       stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
         .and_return(json_body([].to_json, status: 200))
       stub_request(:post, ferb_api_url(FerbRoutes.intake_screenings_path))
@@ -21,7 +21,7 @@ feature 'System codes' do
       within '#screening-information-card' do
         fill_in('Title/Name of Screening', with: 'Need to wait for request to finish')
       end
-      expect(a_request(:get, ferb_api_url(FerbRoutes.lov_path))).to have_been_made.once
+      expect(a_request(:get, ferb_api_url(FerbRoutes.lov_path))).not_to have_been_made
     end
   end
 end
