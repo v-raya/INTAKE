@@ -1,21 +1,21 @@
-import COUNTY_TYPE from 'data/lov/countyType'
+import ADDRESS_COUNTY from 'data/lov/addressCounty'
 
-describe('county_type', () => {
+describe('ADDRESS_COUNTY', () => {
   it('has 59 values', () => {
-    expect(COUNTY_TYPE.length).toEqual(59)
+    expect(ADDRESS_COUNTY.length).toEqual(59)
   })
 
-  it('categorizes them all as county_type', () => {
-    COUNTY_TYPE.forEach((code) => {
-      expect(code.category).toEqual('county_type')
+  it('categorizes them all as address_county', () => {
+    ADDRESS_COUNTY.forEach((code) => {
+      expect(code.category).toEqual('address_county')
     })
   })
 
   it('has State of California', () => {
-    expect(COUNTY_TYPE).toContain({
-      code: '1126',
+    expect(ADDRESS_COUNTY).toContain({
+      code: '99',
       value: 'State of California',
-      category: 'county_type',
+      category: 'address_county',
       sub_category: null,
     })
   })
