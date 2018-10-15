@@ -98,7 +98,8 @@ module SystemCodeHelpers
   def race_codes
     [
       { code: '841', value: 'White', category: 'race_type' },
-      { code: '821', value: 'American Indian or Alaska Native', category: 'race_type' }
+      { code: '821', value: 'American Indian or Alaska Native', category: 'race_type' },
+      { code: '6351', value: 'Unable to Determine', category: 'race_type' }
     ]
   end
 

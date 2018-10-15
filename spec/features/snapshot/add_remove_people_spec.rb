@@ -55,6 +55,15 @@ feature 'Adding and removing a person from a snapshot' do
             builder.with_gender(person.gender)
             builder.with_date_of_birth(person.date_of_birth)
             builder.with_ssn(person.ssn)
+            builder.with_race_and_ethnicity do
+              RaceEthnicitySearchResultBuilder.build do |race_ethnicity|
+                race_ethnicity.with_race_codes do
+                  [
+                    RaceCodesSearchResultBuilder.build('Unable to Determine')
+                  ]
+                end
+              end
+            end
           end
         ]
       end
@@ -96,6 +105,7 @@ feature 'Adding and removing a person from a snapshot' do
         expect(page).to have_content(person.gender.capitalize)
         expect(page).to have_content(Date.parse(person.date_of_birth).strftime('%m/%d/%Y'))
         expect(page).to have_content(person.ssn)
+        expect(page).to have_content('Unknown - Unknown') # 'Unable to Determine' Race
       end
 
       within '.card-header' do
