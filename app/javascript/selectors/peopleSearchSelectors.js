@@ -76,9 +76,7 @@ const mapCounties = (counties, countyCodes) => counties.map((county) =>
   systemCodeDisplayValue(county.get('id'), countyCodes)
 )
 
-const hasActiveCsec = (result) => result
-  .get('csec', List())
-  .some((csec) => !csec.get('end_date'))
+const hasActiveCsec = (_result) => false
 
 export const selectPeopleResults = (state) => selectPeopleSearch(state)
   .get('results')
