@@ -254,7 +254,7 @@ describe('peopleSearchSelectors', () => {
       expect(peopleResults.getIn([0, 'phoneNumber'])).toEqual(null)
     })
 
-    it('flags csec status when the person has an open csec item', () => {
+    it('never shows csec pill in search results', () => {
       const peopleSearch = {
         results: [{
           _source: {
@@ -270,7 +270,7 @@ describe('peopleSearchSelectors', () => {
         systemCodes,
       })
       const peopleResults = selectPeopleResults(state)
-      expect(peopleResults.getIn([0, 'isCsec'])).toEqual(true)
+      expect(peopleResults.getIn([0, 'isCsec'])).toEqual(false)
     })
 
     it('does not flag csec status when the person has no csec items', () => {

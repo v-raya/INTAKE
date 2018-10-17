@@ -76,7 +76,6 @@ const mapCounties = (counties, countyCodes) => counties.map((county) =>
   systemCodeDisplayValue(county.get('id'), countyCodes)
 )
 
-// SNAP-720 - REMOVE CSEC MARKER FROM SEARCH RESULTS
 const hasActiveCsec = (_result) => false
 
 export const selectPeopleResults = (state) => selectPeopleSearch(state)
