@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'dora', '~> 0.1.0', git: 'https://github.com/ca-cwds/dora_api.git'
 gem 'faraday'
 gem 'faraday_middleware'
 gem 'feature'
