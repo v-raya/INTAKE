@@ -16,7 +16,7 @@ describe Api::V1::PeopleController do
   describe '#index' do
     context 'when search_after is not provied as a param' do
       before do
-        allow(PersonSearchRepository).to receive(:search)
+        allow(Dora::PersonSearchRepository).to receive(:search)
           .with(params.as_json, anything, security_token: security_token).and_return(people)
       end
 
@@ -30,7 +30,7 @@ describe Api::V1::PeopleController do
     context 'when search_after is provied as a param' do
       before(:each) do
         params[:search_after] = 'hello world'
-        allow(PersonSearchRepository).to receive(:search)
+        allow(Dora::PersonSearchRepository).to receive(:search)
           .with(params.as_json, anything, security_token: security_token).and_return(people)
       end
 
@@ -62,7 +62,7 @@ describe Api::V1::PeopleController do
       allow(ParticipantRepository).to receive(:authorize)
         .with(security_token, anything, id)
         .and_return(nil)
-      allow(PersonSearchRepository).to receive(:find)
+      allow(Dora::PersonSearchRepository).to receive(:find)
         .with(id, anything, security_token: security_token)
         .and_return(people)
     end

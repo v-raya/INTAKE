@@ -17,8 +17,8 @@ class ApplicationController < ActionController::Base # :nodoc:
   private
 
   def authenticate_user
-    security_token = SecurityRepository.retrieve_security_token(
-      access_code: params[:accessCode], token: params[:token]
+    security_token = Dora::SecurityRepository.retrieve_security_token(
+      access_code: params[:accessCode]
     )
     session.delete(:security_token) if security_token
     return if session[:security_token]
@@ -27,20 +27,20 @@ class ApplicationController < ActionController::Base # :nodoc:
   end
 
   def process_token(security_token)
-    auth_artifact = SecurityRepository.auth_artifact_for_token(security_token)
+    auth_artifact = Dora::SecurityRepository.auth_artifact_for_token(security_token)
     if auth_artifact
       session[:security_token] = security_token
       return unless json?(auth_artifact)
       assign_and_log_user_details(auth_artifact, security_token)
     else
-      redirect_to SecurityRepository.login_url(request.original_url)
+      redirect_to Dora::SecurityRepository.login_url(request.original_url)
     end
   end
 
   def set_user_details_on_session(security_token, staff_id, auth_data)
     return unless staff_id
     begin
-      session[:user_details] = StaffRepository.find(security_token, request.uuid, staff_id)
+      session[:user_details] = Dora::StaffRepository.find(security_token, request.uuid, staff_id)
     rescue StandardError
       session[:user_details] = Staff.new('staffId' => staff_id)
     end

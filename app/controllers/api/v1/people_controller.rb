@@ -6,16 +6,17 @@ module Api
   module V1
     class PeopleController < ApiController # :nodoc:
       def index
-        response = PersonSearchRepository.search(search_params.to_hash,
-          request.uuid,
-          security_token: session[:security_token])
+        response = Dora::PersonSearchRepository
+                   .search(search_params,
+                     request.uuid,
+                     security_token: session[:security_token])
         render json: response
       end
 
       def show
         ParticipantRepository.authorize(session[:security_token], request_id, id)
 
-        search_response = PersonSearchRepository.find(
+        search_response = Dora::PersonSearchRepository.find(
           id,
           request_id,
           security_token: session[:security_token]
