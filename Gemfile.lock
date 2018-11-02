@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/ca-cwds/system_information.git
+  remote: https://github.com/ca-cwds/system_information.git
   revision: 915caa60f2d7f3fdb302a3d3fae6ed98485a70f3
   specs:
     system_information (0.1.0)
