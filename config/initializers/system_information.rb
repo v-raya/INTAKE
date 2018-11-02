@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 SystemInformation.configure do |config|
     config.application = 'Intake App'
     config.version = "#{ENV.fetch('APP_VERSION', 'unknown')}"
