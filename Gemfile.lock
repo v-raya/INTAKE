@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/ca-cwds/system_information.git
+  revision: 915caa60f2d7f3fdb302a3d3fae6ed98485a70f3
+  specs:
+    system_information (0.1.0)
+      faraday (>= 0.9)
+      rack (>= 2)
+      redis (>= 4)
+
+GIT
   remote: https://github.com/ca-cwds/capybara-accessible.git
   revision: f146be5939fca1c14a75edc066d7b1b8497f68c5
   ref: f146be5939fca1c14a75edc066d7b1b8497f68c5
@@ -457,6 +466,7 @@ DEPENDENCIES
   simplecov-parallel
   spring
   sprockets (~> 3.7.2)
+  system_information!
   virtus
   web-console (~> 3.5)
   webmock
@@ -464,4 +474,4 @@ DEPENDENCIES
   yard (~> 0.9.11)
 
 BUNDLED WITH
-   1.16.1
+   1.17.3
