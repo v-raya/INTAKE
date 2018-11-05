@@ -1,5 +1,3 @@
-// eslint-disable-line react/no-unused-state react/no-typos
-
 export const CREATE_SCREENING = 'CREATE_SCREENING'
 export const CREATE_SCREENING_COMPLETE = 'CREATE_SCREENING_COMPLETE'
 export const CLEAR_SCREENING = 'CLEAR_SCREENING'
