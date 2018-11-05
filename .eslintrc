@@ -8,6 +8,7 @@
     "dot-notation": [2],
     "func-names": [2],
     "func-style": [2, "declaration", { "allowArrowFunctions": true }],
+    "import/no-duplicates": 0,
     "jsx-a11y/label-has-for": [
       "error",
       {
