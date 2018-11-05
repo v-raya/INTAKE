@@ -9,6 +9,7 @@
     "func-names": [2],
     "func-style": [2, "declaration", { "allowArrowFunctions": true }],
     "import/no-duplicates": 0,
+    "import/no-named-default": 0,
     "jsx-a11y/label-has-for": [
       "error",
       {
@@ -53,7 +54,6 @@
     "react/no-did-update-set-state": [2],
     "react/no-unused-state": 2,
     "react/no-typos": 2,
-    "react/no-unused-prop-types": 2,
     "react/prefer-es6-class": [2, "always"],
     "react/self-closing-comp": [
       2,
