@@ -36,7 +36,7 @@ describe('AddressForm', () => {
     const addresses = [{}]
     const component = renderAddressesForm({addresses})
     const deleteLink = component.find('a[aria-label="Delete address"]')
-    expect(deleteLink.props().href).toEqual('#')
+    expect(deleteLink.props().href).toEqual('#/')
     expect(deleteLink.props().className).toEqual('list-item__a')
     expect(deleteLink.children('i').props().className).toEqual('fa fa-times')
   })

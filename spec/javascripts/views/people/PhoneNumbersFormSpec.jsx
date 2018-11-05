@@ -32,7 +32,7 @@ describe('PhoneNumbersForm', () => {
     expect(deleteLinks.length).toEqual(2)
     const deleteLink = deleteLinks.at(0)
     expect(deleteLink.children('i').props().className).toEqual('fa fa-times')
-    expect(deleteLink.props().href).toEqual('#')
+    expect(deleteLink.props().href).toEqual('#/')
     expect(deleteLink.props().className).toEqual('list-item__a')
   })
 

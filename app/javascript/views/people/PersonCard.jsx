@@ -61,7 +61,7 @@ class PersonCard extends React.PureComponent {
 
     return (
       <div>
-        <a className='anchor' id={`${id}-anchor`}/>
+        <a className='anchor' href='#/' id={`${id}-anchor`}/>
         <div className={className} id={id}>
           {this.renderHeader()}
           {this.renderBody()}
