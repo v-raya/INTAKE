@@ -18,7 +18,7 @@ class CardView extends React.PureComponent {
     const {edit, editable, id, mode, onEdit, onSave, onShow, show, title} = this.props
     return (
       <div>
-        <a className='anchor' href='#/' id={`${id}-anchor`}/>
+        <a className='anchor' id={`${id}-anchor`}/>
         <div className={ClassNames('card', modeClass(mode), 'double-gap-bottom', 'position-relative')} id={id}>
           <div className='card-header'>
             <h2>{title}</h2>
