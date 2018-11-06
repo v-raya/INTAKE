@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ca-cwds/system_information.git
-  revision: 915caa60f2d7f3fdb302a3d3fae6ed98485a70f3
+  revision: 73d4ab7e7571e2dc8fed649b57fcf50e2b99a414
   specs:
     system_information (0.1.0)
       faraday (>= 0.9)
