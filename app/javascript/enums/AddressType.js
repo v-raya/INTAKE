@@ -10,6 +10,6 @@ const ADDRESS_TYPE = Object.freeze([
   'Work',
 ])
 
-export const RESIDENCE_TYPE = '32'
+export const RESIDENCE_TYPES = ['32', '29', '112', '6273']
 
 export default ADDRESS_TYPE

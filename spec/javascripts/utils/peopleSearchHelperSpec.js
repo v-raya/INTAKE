@@ -10,7 +10,7 @@ import {
   mapPhoneNumber,
   mapAddress,
 } from 'utils/peopleSearchHelper'
-import {RESIDENCE_TYPE} from 'enums/AddressType'
+import {RESIDENCE_TYPES} from 'enums/AddressType'
 
 describe('peopleSearchHelper', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -40,7 +40,11 @@ describe('peopleSearchHelper', () => {
     {code: 'N', value: 'no'},
   ]
 
-  const addressTypes = [{code: RESIDENCE_TYPE, value: 'address type'}]
+  const addressTypes = [
+    {code: RESIDENCE_TYPES[0], value: 'address type'},
+    {code: RESIDENCE_TYPES[1], value: 'address type 2'},
+    {code: '5', value: 'non-residence address type'},
+  ]
 
   const systemCodes = {
     addressTypes,
@@ -64,7 +68,7 @@ describe('peopleSearchHelper', () => {
         addresses: [{
           zip: '99999',
           city: 'Al Haad',
-          type: {id: RESIDENCE_TYPE},
+          type: {id: RESIDENCE_TYPES[0]},
           street_name: 'Canary Alley',
           state_name: 'California',
           street_number: '15',
@@ -176,7 +180,7 @@ describe('peopleSearchHelper', () => {
         addresses: [{
           zip: '99999',
           city: 'Al Haad',
-          type: {id: RESIDENCE_TYPE},
+          type: {id: RESIDENCE_TYPES[0]},
           street_name: 'Canary Alley',
           state_name: 'California',
           street_number: '15',
@@ -336,7 +340,7 @@ describe('peopleSearchHelper', () => {
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: RESIDENCE_TYPE},
+          type: {id: RESIDENCE_TYPES[0]},
           street_number: '123',
           street_name: 'C Street',
 
@@ -353,7 +357,7 @@ describe('peopleSearchHelper', () => {
       }))
     })
 
-    it('returns null list when typeId is not 32', () => {
+    it('returns null list when typeId is not one of whitelisted Residences', () => {
       const result = fromJS({
         addresses: [{
           city: 'city',
@@ -376,14 +380,14 @@ describe('peopleSearchHelper', () => {
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: RESIDENCE_TYPE},
+          type: {id: RESIDENCE_TYPES[0]},
           street_number: '123',
           street_name: 'C Street',
         }, {
           city: 'city2',
           state_code: 'state2',
           zip: 'zip2',
-          type: {id: RESIDENCE_TYPE},
+          type: {id: RESIDENCE_TYPES[0]},
           street_number: '12345',
           street_name: 'K Street',
         }],
@@ -399,13 +403,36 @@ describe('peopleSearchHelper', () => {
       }))
     })
 
+    it('returns the first address if it is another Residence type', () => {
+      const result = fromJS({
+        addresses: [{
+          city: 'city',
+          state_code: 'state',
+          zip: 'zip',
+          type: {id: RESIDENCE_TYPES[1]},
+          street_number: '123',
+          street_name: 'C Street',
+
+        }],
+      })
+      const state = fromJS({systemCodes})
+      const addressResult = mapAddress(state, result)
+      expect(addressResult).toEqualImmutable(fromJS({
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        type: 'address type 2',
+        streetAddress: '123 C Street',
+      }))
+    })
+
     it('returns address type Placement Home if the legacy table name is PLC_HM_T', () => {
       const result = fromJS({
         addresses: [{
           city: 'city',
           state_code: 'state',
           zip: 'zip',
-          type: {id: RESIDENCE_TYPE},
+          type: {id: RESIDENCE_TYPES[0]},
           street_number: '123',
           street_name: 'C Street',
           legacy_descriptor: {

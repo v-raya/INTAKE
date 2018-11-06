@@ -11,7 +11,7 @@ import {
 } from 'selectors/systemCodeSelectors'
 import {zipFormatter} from '../utils/zipFormatter'
 import {isPlacementHome} from './isPlacementHome'
-import {RESIDENCE_TYPE} from 'enums/AddressType'
+import {RESIDENCE_TYPES} from 'enums/AddressType'
 import {Maybe} from 'utils/maybe'
 
 export const mapLanguages = (state, result) => buildSelector(
@@ -71,7 +71,7 @@ const getDisplayType = (address, addressTypes) => {
   }
 }
 
-const isResidence = (address) => address.getIn(['type', 'id']) === RESIDENCE_TYPE
+const isResidence = (address) => RESIDENCE_TYPES.includes(address.getIn(['type', 'id']))
 
 export const mapAddress = (state, result) => {
   const addressTypes = selectAddressTypes(state)

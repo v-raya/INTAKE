@@ -11,7 +11,7 @@ import * as personCardActions from 'actions/personCardActions'
 import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {selectClientIds} from 'selectors/participantSelectors'
-import {RESIDENCE_TYPE} from 'enums/AddressType'
+import {RESIDENCE_TYPES} from 'enums/AddressType'
 
 describe('createSnapshotPersonSaga', () => {
   it('creates participant on CREATE_SNAPSHOT_PERSON', () => {
@@ -40,7 +40,7 @@ describe('createSnapshotPerson', () => {
     addresses: [{
       zip: '99999',
       city: 'Al Haad',
-      type: {id: RESIDENCE_TYPE},
+      type: {id: RESIDENCE_TYPES[0]},
       street_name: 'Canary Alley',
       state_name: 'California',
       street_number: '15',
@@ -158,7 +158,7 @@ describe('createSnapshotPerson', () => {
   ]
 
   const addressTypes = [
-    {code: RESIDENCE_TYPE, value: 'address type'},
+    {code: RESIDENCE_TYPES[0], value: 'address type'},
   ]
 
   const systemCodes = {

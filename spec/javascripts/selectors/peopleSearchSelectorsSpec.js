@@ -1,6 +1,6 @@
 import * as matchers from 'jasmine-immutable-matchers'
 import {fromJS, Map} from 'immutable'
-import {RESIDENCE_TYPE} from 'enums/AddressType'
+import {RESIDENCE_TYPES} from 'enums/AddressType'
 import {
   selectPeopleResults,
   selectLastResultsSortValue,
@@ -40,7 +40,7 @@ describe('peopleSearchSelectors', () => {
     {code: 'N', value: 'no'},
   ]
   const addressTypes = [
-    {code: RESIDENCE_TYPE, value: 'address type'},
+    {code: RESIDENCE_TYPES[0], value: 'address type'},
   ]
 
   const counties = [
@@ -110,7 +110,7 @@ describe('peopleSearchSelectors', () => {
               city: 'Flushing',
               state_code: 'state',
               zip: '11344',
-              type: {id: RESIDENCE_TYPE},
+              type: {id: RESIDENCE_TYPES[0]},
               phone_numbers: [{
                 number: '2126666666',
                 type: 'Home',
@@ -186,7 +186,7 @@ describe('peopleSearchSelectors', () => {
               city: 'Flushing',
               state_code: 'state',
               zip: '11344',
-              type: {id: RESIDENCE_TYPE},
+              type: {id: RESIDENCE_TYPES[0]},
               phone_numbers: [{
                 number: '2125550123',
                 type: 'Home',
@@ -198,7 +198,7 @@ describe('peopleSearchSelectors', () => {
               city: 'Flushing',
               state_code: 'state',
               zip: '11222',
-              type: {id: RESIDENCE_TYPE},
+              type: {id: RESIDENCE_TYPES[0]},
               phone_numbers: [{
                 number: '1231231234',
                 type: 'Home',
