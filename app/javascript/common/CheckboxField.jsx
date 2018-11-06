@@ -20,7 +20,6 @@ const CheckboxField = ({
       checked={checked}
       disabled={disabled}
       required={required}
-      aria-required={required}
       onChange={onChange}
       onBlur={onBlur}
     />

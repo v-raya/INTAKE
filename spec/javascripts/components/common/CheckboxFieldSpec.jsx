@@ -71,7 +71,6 @@ describe('CheckboxField', () => {
       component = shallow(<CheckboxField {...props} required/>, {disableLifecycleMethods: true})
       expect(component.find('label.required').exists()).toEqual(true)
       expect(component.find('input').prop('required')).toEqual(true)
-      expect(component.find('input').prop('aria-required')).toEqual(true)
     })
 
     it('renders with disable prop', () => {
