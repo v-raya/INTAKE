@@ -33,7 +33,7 @@ feature 'Cross Reports Validations' do
           card_name: 'cross-report',
           field: 'Cross Reported on Date',
           error_message: 'Please enter a cross-report date.',
-          invalid_value: '',
+          invalid_value: ' ',
           valid_value: 20.years.ago
         )
       end

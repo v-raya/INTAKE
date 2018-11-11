@@ -37,7 +37,7 @@ feature 'Narrative Card Validations' do
 
     scenario 'displays error on blur' do
       within '#narrative-card.edit' do
-        fill_in 'Report Narrative', with: ''
+        fill_in 'Report Narrative', with: ' '
       end
       blur_field
       should_have_content error_message, inside: '#narrative-card.edit'
@@ -45,7 +45,7 @@ feature 'Narrative Card Validations' do
 
     scenario 'removes error on change' do
       within '#narrative-card.edit' do
-        fill_in 'Report Narrative', with: ''
+        fill_in 'Report Narrative', with: ' '
       end
       blur_field
       should_have_content error_message, inside: '#narrative-card.edit'
@@ -57,7 +57,7 @@ feature 'Narrative Card Validations' do
 
     scenario 'shows error on save page' do
       within '#narrative-card.edit' do
-        fill_in 'Report Narrative', with: ''
+        fill_in 'Report Narrative', with: ' '
       end
       blur_field
       should_have_content error_message, inside: '#narrative-card.edit'

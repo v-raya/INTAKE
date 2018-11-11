@@ -567,7 +567,9 @@ feature 'Edit Person' do
         fill_in_react_select('Role', with: 'Non-mandated Reporter')
         expect(page).to have_react_select_field('Role', with: ['Mandated Reporter'])
 
-        remove_react_select_option('Role', 'Mandated Reporter')
+        find('span.Select-value-label', text: 'Mandated Reporter')
+          .sibling('span.Select-value-icon')
+          .click
         find_field('Role').set('', clear: :backspace)
         fill_in_react_select('Role', with: 'Non-mandated Reporter')
         expect(page).to have_react_select_field('Role', with: ['Non-mandated Reporter'])
