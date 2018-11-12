@@ -76,15 +76,15 @@ feature 'Show Screening' do
     end
 
     within '.col-md-9' do
-      expect(page).to have_css('a.anchor#screening-information-card-anchor', visible: false)
-      expect(page).to have_css('a.anchor#narrative-card-anchor', visible: false)
-      expect(page).to have_css('a.anchor#incident-information-card-anchor', visible: false)
-      expect(page).to have_css('a.anchor#allegations-card-anchor', visible: false)
-      expect(page).to have_css('a.anchor#relationships-card-anchor', visible: false)
-      expect(page).to have_css('a.anchor#worker-safety-card-anchor', visible: false)
-      expect(page).to have_css('a.anchor#history-card-anchor', visible: false)
-      expect(page).to have_css('a.anchor#cross-report-card-anchor', visible: false)
-      expect(page).to have_css('a.anchor#decision-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#screening-information-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#narrative-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#incident-information-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#allegations-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#relationships-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#worker-safety-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#history-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#cross-report-card-anchor', visible: false)
+      expect(page).to have_css('button.anchor#decision-card-anchor', visible: false)
     end
 
     expect(page).to have_selector('#decision-card', visible: false)
