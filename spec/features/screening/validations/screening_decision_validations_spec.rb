@@ -274,60 +274,66 @@ feature 'Screening Decision Validations' do
       let(:screening_decision) { nil }
 
       scenario 'displays no error on initial load' do
-        should_not_have_content error_message, inside: '#decision-card.edit'
+        expect(page).not_to have_content(error_message)
       end
 
       scenario 'displays error on blur' do
         within '#decision-card.edit' do
           select 'Mark as Sensitive', from: 'Access Restrictions'
-          fill_in 'Restrictions Rationale', with: ''
+          fill_in 'Restrictions Rationale', with: ' '
+          blur_field
+          expect(page).to have_content(error_message)
         end
-        blur_field
-        should_have_content error_message, inside: '#decision-card.edit'
       end
 
       scenario 'shows error on page save' do
         within '#decision-card.edit' do
           select 'Mark as Sensitive', from: 'Access Restrictions'
-          fill_in 'Restrictions Rationale', with: ''
+          fill_in 'Restrictions Rationale', with: ' '
+          blur_field
+          expect(page).to have_content(error_message)
         end
-        blur_field
-        should_have_content error_message, inside: '#decision-card.edit'
+
         stub_screening_put_request_with_anything_and_return(
           screening,
           with_updated_attributes: { access_restrictions: 'sensitive' }
         )
+
         save_card('decision')
-        should_have_content error_message, inside: '#decision-card .card-body'
+        within '#decision-card' do
+          expect(page).to have_content(error_message)
+        end
       end
 
       scenario 'removes error on change' do
         within '#decision-card.edit' do
           select 'Mark as Sensitive', from: 'Access Restrictions'
-          fill_in 'Restrictions Rationale', with: ''
-        end
-        blur_field
-        should_have_content error_message, inside: '#decision-card.edit'
-        within '#decision-card.edit' do
+          fill_in 'Restrictions Rationale', with: ' '
+          blur_field
+          expect(page).to have_content(error_message)
           fill_in 'Restrictions Rationale', with: 'a rationale'
+          blur_field
+          expect(page).not_to have_content(error_message)
         end
-        blur_field
-        should_not_have_content error_message, inside: '#decision-card.edit'
       end
 
       scenario 'shows no error when there is content' do
         within '#decision-card.edit' do
           select 'Mark as Sensitive', from: 'Access Restrictions'
           fill_in 'Restrictions Rationale', with: 'a rationale'
+          blur_field
+          expect(page).not_to have_content(error_message)
         end
-        blur_field
-        should_not_have_content error_message, inside: '#decision-card.edit'
+
         stub_screening_put_request_with_anything_and_return(
           screening,
           with_updated_attributes: { restrictions_rationale: 'a rationale' }
         )
+
         save_card('decision')
-        should_not_have_content error_message, inside: '#decision-card .card-body'
+        within '#decision-card' do
+          expect(page).not_to have_content(error_message)
+        end
       end
     end
 
@@ -339,9 +345,9 @@ feature 'Screening Decision Validations' do
         stub_request(:put, ferb_api_url(FerbRoutes.intake_screening_path(screening[:id])))
           .and_return(json_body(screening.to_json, status: 200))
         blur_field
-        should_not_have_content error_message, inside: '#decision-card.edit'
+        expect(page).not_to have_content(error_message)
         save_card('decision')
-        should_not_have_content error_message, inside: '#decision-card .card-body'
+        expect(page).not_to have_content(error_message)
       end
     end
   end

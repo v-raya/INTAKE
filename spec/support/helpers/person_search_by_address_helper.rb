@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metric/ModuleLength
+# rubocop:disable Metrics/ModuleLength
 module PersonSearchByAddressHelper
   def address_only_query
     {

@@ -123,6 +123,7 @@ node('intake-slave') {
     try {
       stage('Clean') {
         withEnv(["GIT_BRANCH=${branch}"]){
+          archiveArtifacts artifacts: 'tmp/*', excludes: '*/.keep', allowEmptyArchive: true
           sh './scripts/ci/clean.rb'
           echo 'Cleaning workspace'
           cleanWs()

@@ -127,7 +127,7 @@ feature 'Screening Information Validations' do
           card_name: 'screening-information',
           field: 'Screening Start Date/Time',
           error_message: 'Please enter a screening start date.',
-          invalid_value: '',
+          invalid_value: ' ',
           valid_value: 20.years.ago
         )
       end

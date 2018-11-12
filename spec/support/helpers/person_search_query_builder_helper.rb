@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metric/ModuleLength
+# rubocop:disable Metrics/ModuleLength
 module PersonSearchQueryBuilderHelper
   def person_and_address
     { "size": '10',
