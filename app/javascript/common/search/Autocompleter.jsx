@@ -91,11 +91,11 @@ export default class Autocompleter extends Component {
 
   onButtonSelect(item) {
     if (item.createNewPerson) {
-      this.onSelect({id: null})
+      return this.onSelect({id: null})
     } else if (item.suggestionHeader) {
-      return
+      return false
     } else {
-      this.loadMoreResults()
+      return this.loadMoreResults()
     }
   }
 

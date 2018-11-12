@@ -66,7 +66,7 @@ export class ActionMenu extends Component {
             <li role='separator' className='divider'/>
             <li role='menuitem'><AttachLink {...this.props}/></li>
             <li role='menuitem'>
-              <a className='edit-relationship' onClick={this.handleShowModal}>
+              <a className='edit-relationship' href='#/' onClick={this.handleShowModal}>
                 Edit Relationship
               </a>
             </li>

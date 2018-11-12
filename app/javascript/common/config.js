@@ -32,5 +32,5 @@ export function isSearchByAddressOn(location) {
     isFeatureActive('address_search_snapshot')
 }
 
-//Triggers page level error message on demand for tester to test error banner
+// Triggers page level error message on demand for tester to test error banner
 window.displayError = () => store.dispatch(fetchFailure({error: true}))

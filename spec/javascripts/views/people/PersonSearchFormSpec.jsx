@@ -54,6 +54,7 @@ describe('PersonSearchForm', () => {
   it('renders a card anchor', () => {
     const component = renderPersonSearchForm({})
     expect(component.find('.anchor').exists()).toBe(true)
+    expect(component.find('button').props()['aria-label']).toEqual('search-card-anchor')
   })
 
   it('renders the autocompleter', () => {

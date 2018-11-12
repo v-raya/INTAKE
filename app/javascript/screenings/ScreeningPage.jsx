@@ -28,10 +28,6 @@ const isDuplicatePerson = (participants, personOnScreening) => (
 )
 
 export class ScreeningPage extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-  }
-
   componentDidMount() {
     const {
       actions: {

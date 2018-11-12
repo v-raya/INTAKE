@@ -135,16 +135,15 @@
   },
   "plugins": [
     "react",
-    "jasmine",
+    "jasmine"
   ],
   "parserOptions": {
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
       "jsx": true,
-      "modules": true,
+      "modules": true
     },
     "ecmaVersion": 6,
-    "sourceType": "module",
+    "sourceType": "module"
   },
   "extends": "eslint:recommended"
 }
