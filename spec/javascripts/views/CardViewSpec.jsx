@@ -11,8 +11,11 @@ describe('Card View', () => {
   }
 
   it('renders a card anchor', () => {
-    const card = renderCardView({})
+    const card = renderCardView({
+      id: 'gokus-card',
+    })
     expect(card.find('.anchor').exists()).toBe(true)
+    expect(card.find('button').props()['aria-label']).toEqual('gokus-card-anchor')
   })
 
   it('renders a card', () => {

@@ -41,7 +41,7 @@ const ScreeningDecisionShow = ({
       <div className='col-md-6'>
         <p className='double-gap-top'><strong>SDM Hotline Tool</strong></p>
         <div>Determine Decision and Response Time by using Structured Decision Making.</div>
-        <a href={sdmPath} target='_blank' id='complete_sdm'>Complete SDM</a>
+        <a href={sdmPath} target='_blank' rel="noopener noreferrer" id='complete_sdm'>Complete SDM</a>
       </div>
     </div>
     <div className='row'>

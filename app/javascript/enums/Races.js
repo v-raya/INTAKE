@@ -1,4 +1,4 @@
-/*eslint quote-props: ["error", "consistent-as-needed"]*/
+/* eslint quote-props: ["error", "consistent-as-needed"] */
 export const RACE_DETAILS = {
   'White': [
     'Armenian',

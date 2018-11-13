@@ -70,7 +70,7 @@ const AddressesForm = ({
         <a
           className='list-item__a'
           aria-label='Delete address'
-          href='#'
+          href='#/'
           onClick={(event) => {
             event.preventDefault()
             deleteAddress(index)

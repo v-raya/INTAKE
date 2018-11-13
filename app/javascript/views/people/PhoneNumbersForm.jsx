@@ -33,7 +33,7 @@ const PhoneNumbersForm = ({addPhone, deletePhone, onBlur, onChange, phoneNumbers
         <a
           className='list-item__a'
           aria-label='Delete phone number'
-          href='#'
+          href='#/'
           onClick={(event) => {
             event.preventDefault()
             deletePhone(index)

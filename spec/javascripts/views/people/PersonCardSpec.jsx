@@ -84,6 +84,7 @@ describe('PersonCard', () => {
       })
       const anchor = component.find('.anchor')
       expect(anchor.props().id).toEqual('participants-card-42-anchor')
+      expect(anchor.props()['aria-label']).toEqual('participants-card-42-anchor')
     })
 
     it('does not render a card action row', () => {
@@ -156,6 +157,7 @@ describe('PersonCard', () => {
       })
       const anchor = component.find('.anchor')
       expect(anchor.props().id).toEqual('participants-card-42-anchor')
+      expect(anchor.props()['aria-label']).toEqual('participants-card-42-anchor')
     })
 
     it('canceling edit calls onCancel', () => {

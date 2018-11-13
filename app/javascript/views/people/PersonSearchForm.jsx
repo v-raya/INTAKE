@@ -23,7 +23,7 @@ class PersonSearchForm extends React.Component {
 
     return (
       <div>
-        <a className='anchor' id='search-card-anchor'/>
+        <button className='anchor' aria-label='search-card-anchor' id='search-card-anchor'/>
         <div className='card double-gap-bottom hidden-print' id='search-card'>
           <div className='card-header'>
             <h2>Search</h2>

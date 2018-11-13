@@ -7,6 +7,7 @@ services:
       dockerfile: docker/test/Dockerfile
     volumes:
       - ../../reports:/reports
+      - ../../tmp:/ca_intake/tmp/capybara
     environment:
       FERB_API_URL: "https://ferbapi.preint.cwds.io"
       DORA_API_URL: "https://doraapi.preint.cwds.io"
