@@ -73,7 +73,7 @@
     "jasmine": true,
     "node": true
   },
-  "plugins": ["react", "jsx-a11y", "jest", "prettier", "standard", "babel"],
+  "plugins": ["react", "jsx-a11y", "prettier", "standard", "babel"],
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
