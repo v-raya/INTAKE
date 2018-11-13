@@ -41,8 +41,9 @@ describe JsonAPI do
                 'Accept' => '*/*',
                 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                 'Authorization' => security_token,
+                'Request-Id': request_id,
                 'Session-Id' => security_token,
-                'User-Agent' => 'Faraday v0.14.0'
+                'User-Agent' => 'Faraday v0.15.3'
               })
       api_class.make_api_call(
         security_token: security_token,
@@ -53,7 +54,9 @@ describe JsonAPI do
       expect(
         a_request(:get, 'http://api_url/api/v1/screening/1')
           .with(headers: {
-                  Authorization: security_token
+                  Authorization: security_token,
+                  'Request-Id': request_id,
+                  'Session-Id' => security_token
                 })
       ).to have_been_made
     end
