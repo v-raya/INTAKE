@@ -25,6 +25,7 @@ module CaIntake # :nodoc:
     config.logger = Logger.new(STDOUT)
     config.log_level = :debug
     config.log_tags = [:uuid]
+    config.middleware.use SystemInformation::SystemInformationMiddleware
 
     authentication_login_url = <<~URL.strip
       #{ENV.fetch('AUTHENTICATION_URL', '').chomp('/')}/authn/login?callback=
