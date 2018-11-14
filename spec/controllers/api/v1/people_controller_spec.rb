@@ -29,7 +29,7 @@ describe Api::V1::PeopleController do
 
     context 'when search_after is provied as a param' do
       before(:each) do
-        params[:search_after] = 'hello world'
+        params[:search_after] = ['hello world']
         allow(PersonSearchRepository).to receive(:search)
           .with(params.as_json, anything, security_token: security_token).and_return(people)
       end
