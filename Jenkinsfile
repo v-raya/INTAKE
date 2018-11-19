@@ -1,5 +1,5 @@
-@Library('jenkins-pipeline-utils') _
 import java.text.SimpleDateFormat
+@Library('jenkins-pipeline-utils') _
 
 node('intake-slave') {
   def scmInfo = checkout scm
