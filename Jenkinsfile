@@ -30,17 +30,17 @@ node('intake-slave') {
       sh './scripts/ci/karma_test.rb'
     }
 
-    stage('Rspec tests') {
-      curStage = 'Rspec tests'
-      sh './scripts/ci/rspec_test.rb'
-    }
-
     stage('Verify SemVer Label') {
       checkForLabel("intake")
     }
 
     stage('Increment Tag') {
       VERSION = newSemVer()
+    }
+
+    stage('Rspec tests') {
+      curStage = 'Rspec tests'
+      sh './scripts/ci/rspec_test.rb'
     }
 
     if (branch == 'origin/master') {
