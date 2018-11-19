@@ -29,6 +29,11 @@ node('intake-slave') {
       checkForLabel("intake")
     }
 
+    stage("Increment Tag") {
+      VERSION = newSemVer()
+      echo VERSION
+    }
+
     stage('Karma tests') {
       curStage = 'Karma tests'
       sh './scripts/ci/karma_test.rb'
