@@ -1,4 +1,5 @@
 import java.text.SimpleDateFormat
+@Library('jenkins-pipeline-utils') _
 
 node('intake-slave') {
   def scmInfo = checkout scm
@@ -32,6 +33,14 @@ node('intake-slave') {
     stage('Rspec tests') {
       curStage = 'Rspec tests'
       sh './scripts/ci/rspec_test.rb'
+    }
+
+    stage('Verify SemVer Label') {
+      checkForLabel("intake")
+    }
+
+    stage('Increment Tag') {
+      VERSION = newSemVer()
     }
 
     if (branch == 'origin/master') {
