@@ -1,4 +1,3 @@
-@Library('jenkins-pipeline-utils') _
 import java.text.SimpleDateFormat
 
 node('intake-slave') {
@@ -23,10 +22,6 @@ node('intake-slave') {
     stage('Lint test') {
       curStage = 'Lint test'
       sh './scripts/ci/lint_test.rb'
-    }
-
-    stage('Verify SemVer Label') {
-      checkForLabel("intake")
     }
 
     stage('Karma tests') {
