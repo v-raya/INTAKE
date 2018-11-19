@@ -1,4 +1,5 @@
 import java.text.SimpleDateFormat
+@Library('jenkins-pipeline-utils') _
 
 node('intake-slave') {
   def scmInfo = checkout scm
@@ -22,6 +23,10 @@ node('intake-slave') {
     stage('Lint test') {
       curStage = 'Lint test'
       sh './scripts/ci/lint_test.rb'
+    }
+
+    stage(Verify SemVer Label) {
+      checkForLabel("intake")
     }
 
     stage('Karma tests') {
