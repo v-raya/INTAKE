@@ -25,7 +25,7 @@ node('intake-slave') {
       sh './scripts/ci/lint_test.rb'
     }
 
-    stage(Verify SemVer Label) {
+    stage('Verify SemVer Label') {
       checkForLabel("intake")
     }
 
