@@ -28,11 +28,6 @@ node('intake-slave') {
       checkForLabel("intake")
     }
 
-    stage("Increment Tag") {
-      VERSION = newSemVer()
-      echo VERSION
-    }
-
     stage('Karma tests') {
       curStage = 'Karma tests'
       sh './scripts/ci/karma_test.rb'
@@ -52,7 +47,6 @@ node('intake-slave') {
 
       stage('Increment Tag') {
         VERSION = newSemVer()
-        echo VERSION
         VCS_REF = sh(
         script: 'git rev-parse --short HEAD',
         returnStdout: true
@@ -73,7 +67,7 @@ node('intake-slave') {
           }
         }
       }
-    /*
+    /* // will be added back once the SemVer Works
       stage('Publish') {
         withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
           curStage = 'Publish'
