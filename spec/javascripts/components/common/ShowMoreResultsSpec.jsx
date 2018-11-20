@@ -3,11 +3,22 @@ import React from 'react'
 import {shallow} from 'enzyme'
 
 describe('ShowMoreResults', () => {
-  const button = shallow(
-    <ShowMoreResults />, {disableLifecycleMethods: true}
-  )
+  let button
+  let onClick
 
+  beforeEach(() => {
+    onClick = jasmine.createSpy('onClick')
+    button = shallow(	
+      <ShowMoreResults onClick={onClick} />, {disableLifecycleMethods: true}	
+    ).find('button')
+  })
+  
   it("renders the 'show more results' button", () => {
     expect(button.text()).toContain('Show more results')
+  })
+
+  it('calls onClick when the button is clicked', () => {	
+    button.simulate('click')	
+    expect(onClick).toHaveBeenCalled()	
   })
 })

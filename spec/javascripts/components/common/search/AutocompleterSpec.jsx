@@ -161,60 +161,7 @@ describe('<Autocompleter />', () => {
       })
     })
 
-    describe('when an item is selectable and is create new person', () => {
-      let autocompleter
-      beforeEach(() => {
-        autocompleter = mountAutocompleter({
-          results, onClear, onChange, onSelect,
-        })
-        autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
-        autocompleter.find('div[id="search-result-create-new-of-the-same"]')
-          .first()
-          .simulate('click', null)
-      })
-
-      it('clears the results', () => {
-        expect(onClear).toHaveBeenCalled()
-      })
-
-      it('clears the search field', () => {
-        expect(onChange).toHaveBeenCalledWith('')
-      })
-
-      it('calls onSelect with the selected result', () => {
-        expect(onSelect).toHaveBeenCalled()
-      })
-
-      it('hides the menu', () => {
-        const header = autocompleter.find('SuggestionHeader')
-        expect(header.length).toBe(0)
-      })
-    })
-
     describe('when an item is selectable and is show more results', () => {
-      describe(', and canCreateNewPerson and canLoadMoreResults is true', () => {
-        let autocompleter
-        total = 11
-        beforeEach(() => {
-          autocompleter = mountAutocompleter({
-            results, onClear, onChange, onSelect, onLoadMoreResults, total,
-          })
-          autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
-          autocompleter.find('div[id="search-result-show-more-of-the-same"]')
-            .first()
-            .simulate('click', null)
-        })
-
-        it('calls loadMoreResults', () => {
-          expect(onLoadMoreResults).toHaveBeenCalled()
-        })
-
-        it('contain className col-md-6', () => {
-          expect(autocompleter.find('div[id="search-result-show-more-of-the-same"]').props().className).toContain('col-md-6')
-          expect(autocompleter.find('div[id="search-result-create-new-of-the-same"]').props().className).toContain('col-md-6')
-        })
-      })
-
       describe(', and canCreateNewPerson and canLoadMoreResults is false', () => {
         let autocompleter
         const canCreateNewPerson = false
@@ -229,23 +176,7 @@ describe('<Autocompleter />', () => {
           expect(autocompleter.find('div[id="search-result-show-more-of-the-same"]').exists()).toBe(false)
         })
       })
-
-      describe(', and canCreateNewPerson is true and canLoadMoreResults is false', () => {
-        let autocompleter
-        const canCreateNewPerson = true
-        beforeEach(() => {
-          autocompleter = mountAutocompleter({
-            results, onClear, onChange, onSelect, onLoadMoreResults, canCreateNewPerson,
-          })
-          autocompleter.find('input').at(0).simulate('change', {target: {value: 'te'}})
-        })
-        it('doesnot contain className col-md-6', () => {
-          expect(autocompleter.find('div[id="search-result-create-new-of-the-same"]').props().className).not.toContain('col-md-6')
-          expect(autocompleter.find('div[id="search-result-show-more-of-the-same"]').exists()).toBe(false)
-        })
-      })
-
-      it('calls loadMoreResults', () => {
+       it('calls loadMoreResults', () => {
         const autocompleter = mountAutocompleter({
           results, onClear, onChange, onSelect, onLoadMoreResults, total,
         })
@@ -631,6 +562,22 @@ describe('<Autocompleter />', () => {
         .simulate('change', {target: {value: 'ab'}})
       const suggestionHeader = autocompleter.find('SuggestionHeader')
       expect(suggestionHeader.html()).toContain('Showing 1-5 of 10 results for "Simpson"')
+    })
+    it('displays the autocompleter footer', () => {	
+      const onLoadMoreResults = jasmine.createSpy('onLoadMoreResults')	
+      const autocompleter = mountAutocompleter({	
+        canCreateNewPerson: true,	
+        results: [],	
+        total: 2,	
+        onLoadMoreResults,	
+      })	
+      autocompleter.find('input')	
+        .simulate('change', {target: {value: 'ab'}})	
+      const footer = autocompleter.find('AutocompleterFooter')	
+      expect(footer.length).toBe(1)	
+      expect(footer.props().canCreateNewPerson).toEqual(true)	
+      expect(footer.props().canLoadMoreResults).toEqual(true)	
+      expect(footer.props().onLoadMoreResults).toEqual(onLoadMoreResults)	
     })
   })
 

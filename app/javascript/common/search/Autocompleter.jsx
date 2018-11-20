@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import Autocomplete from 'react-autocomplete'
 import SuggestionHeader from 'common/SuggestionHeader'
-import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
-import ShowMoreResults from 'common/ShowMoreResults'
+import AutocompleterFooter from 'common/AutocompleterFooter'
 import {logEvent} from 'utils/analytics'
 import moment from 'moment'
 import SearchByAddress from 'common/SearchByAddress'
@@ -89,15 +88,9 @@ export default class Autocompleter extends Component {
     this.hideMenu()
   }
 
-  onButtonSelect(item) {
-    if (item.createNewPerson) {
-      return this.onSelect({id: null})
-    } else if (item.suggestionHeader) {
-      return false
-    } else {
-      return this.loadMoreResults()
+   onButtonSelect(item) {
+   this.loadMoreResults()
     }
-  }
 
   onItemSelect(_value, item) {
     const {isSelectable, staffId, startTime} = this.props
@@ -127,7 +120,25 @@ export default class Autocompleter extends Component {
   }
 
   renderMenu(items, _searchTerm, _style) {
-    return (<div className='autocomplete-menu'>{items}</div>)
+    const {canCreateNewPerson, onLoadMoreResults, onClear, onChange, results,onSelect, total} = this.props
+    return (<div className='autocomplete-menu'>
+    {items}
+      <AutocompleterFooter	
+          canCreateNewPerson={canCreateNewPerson}	
+          canLoadMoreResults={items && total !== null && total > results.length}	
+          onLoadMoreResults={onLoadMoreResults}	
+          onCreateNewPerson={() => {	
+            onClear()	
+            onChange('')	
+            onSelect({id: null})	
+            this.setState({menuVisible: false})	
+            // This is required because react-autcompleter onMouseLeave event is never fired.	
+            // So the autocompleter maintains focus and ignore blur events.	
+            // We are manually forcing a blur event here so we can get out.	
+            this.element_ref._ignoreBlur = false	
+          }}	
+        /> 
+    </div>)
   }
 
   renderEachItem(item, id, isHighlighted) {
@@ -152,23 +163,10 @@ export default class Autocompleter extends Component {
 
   renderItem(item, isHighlighted, _styles) {
     const {canCreateNewPerson, results, total} = this.props
-    const canLoadMoreResults = results && total > results.length
-    const buttonClassName = canLoadMoreResults && canCreateNewPerson ? ' col-md-6' : ''
-    const className = itemClassName(isHighlighted) + buttonClassName
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
     if (isHighlighted && this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', id)
-    }
-    if (item.showMoreResults) {
-      return (<div id={id} key={key} className={className}>
-        {<ShowMoreResults />}
-      </div>)
-    }
-    if (item.createNewPerson) {
-      return (<div id={id} key={key} className={className}>
-        {<CreateUnknownPerson />}
-      </div>)
     }
     return this.renderEachItem(item, id, isHighlighted)
   }
@@ -194,14 +192,10 @@ export default class Autocompleter extends Component {
 
   renderAutocomplete() {
     const {searchTerm, id, results, canCreateNewPerson, total} = this.props
-    const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
-    const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
-    const canLoadMoreResults = results && total > results.length
     addPosAndSetAttr(results) // Sequentually numbering items
-    const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
-
-    return (
+    const newResults = suggestionHeader.concat(results)
+      return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
