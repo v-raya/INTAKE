@@ -4,7 +4,7 @@
 # resource via the API
 class PersonSearchRepository
   class << self
-    def search(params, request_id, security_token: nil)
+    def search(params, request_id, security_token: nil, has_address_privilege: nil)
       response = DoraAPI.make_api_call(
         security_token: security_token,
         request_id: request_id,
@@ -12,7 +12,9 @@ class PersonSearchRepository
         method: :post,
         payload: search_query(params)
       )
-      body(response)
+      response_body = body(response)
+      return response_body if has_address_privilege
+      response_without_street_address(response_body)
     end
 
     def find(id, request_id, security_token: nil)
@@ -35,6 +37,20 @@ class PersonSearchRepository
       raise search_body unless response.status == 200
 
       search_body
+    end
+
+    def response_without_street_address(response)
+      response.dig('hits', 'hits').each do |hash|
+        addresses = hash.dig('_source', 'addresses')
+        next if addresses.nil?
+        addresses.each do |address|
+          address.delete('street_name')
+          address.delete('street_number')
+          # address['street_name'] = ''
+          # address['street_number'] = ''
+        end
+      end
+      response
     end
 
     def find_query(id)

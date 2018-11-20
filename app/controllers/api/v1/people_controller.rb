@@ -6,9 +6,12 @@ module Api
   module V1
     class PeopleController < ApiController # :nodoc:
       def index
+        has_address_privilege = session[:user_details]
+                                .privileges.include?('Snapshot-Street-address')
         response = PersonSearchRepository.search(search_params.to_hash,
           request.uuid,
-          security_token: session[:security_token])
+          security_token: session[:security_token],
+          has_address_privilege: has_address_privilege)
         render json: response
       end
 
