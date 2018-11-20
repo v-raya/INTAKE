@@ -3,18 +3,21 @@
 # PersonSearchRepository is a service class responsible for search of a person
 # resource via the API
 class PersonSearchRepository
+  ADDRESS_PRIVILEGE = 'Snapshot-Street-address'
+
   class << self
-    def search(params, request_id, security_token: nil, has_address_privilege: nil)
+    attr_reader :session
+
+    def search(params, request_id, session: {})
+      @session = session
       response = DoraAPI.make_api_call(
-        security_token: security_token,
+        security_token: session['security_token'],
         request_id: request_id,
         url: ExternalRoutes.dora_people_light_index_path,
         method: :post,
         payload: search_query(params)
       )
-      response_body = body(response)
-      return response_body if has_address_privilege
-      response_without_street_address(response_body)
+      body(response)
     end
 
     def find(id, request_id, security_token: nil)
@@ -32,22 +35,29 @@ class PersonSearchRepository
 
     private
 
+    def address_privilege?
+      session[:user_details]
+        .privileges.include?(ADDRESS_PRIVILEGE)
+    end
+
     def body(response)
       search_body = response.body
       raise search_body unless response.status == 200
 
-      search_body
+      if address_privilege?
+        search_body
+      else
+        filtered_response(search_body)
+      end
     end
 
-    def response_without_street_address(response)
+    def filtered_response(response)
       response.dig('hits', 'hits').each do |hash|
         addresses = hash.dig('_source', 'addresses')
         next if addresses.nil?
         addresses.each do |address|
           address.delete('street_name')
           address.delete('street_number')
-          # address['street_name'] = ''
-          # address['street_number'] = ''
         end
       end
       response
