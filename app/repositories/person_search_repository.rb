@@ -3,7 +3,7 @@
 # PersonSearchRepository is a service class responsible for search of a person
 # resource via the API
 class PersonSearchRepository
-  ADDRESS_PRIVILEGE = 'Snapshot-Street-address'
+  ADDRESS_PRIVILEGE = 'Snapshot-Street-Address'
 
   class << self
     attr_reader :session
@@ -36,8 +36,7 @@ class PersonSearchRepository
     private
 
     def address_privilege?
-      session[:user_details]
-        .privileges.include?(ADDRESS_PRIVILEGE)
+      session[:user_details][:privileges].include?(ADDRESS_PRIVILEGE)
     end
 
     def body(response)
