@@ -14,7 +14,6 @@ node('intake-slave') {
 
   try {
 
-
     stage('Building testing bench') {
       curStage = 'Building testing bench'
       sh './scripts/ci/build_testing_bench.rb'
@@ -29,6 +28,11 @@ node('intake-slave') {
       checkForLabel("intake")
     }
 
+    stage("Increment Tag") {
+      VERSION = newSemVer()
+      echo VERSION
+    }
+
     stage('Karma tests') {
       curStage = 'Karma tests'
       sh './scripts/ci/karma_test.rb'
@@ -40,15 +44,19 @@ node('intake-slave') {
     }
 
     if (branch == 'origin/master') {
-      VERSION = sh(returnStdout: true, script: './scripts/ci/compute_version.rb').trim()
-      VCS_REF = sh(
-        script: 'git rev-parse --short HEAD',
-        returnStdout: true
-      )
 
       stage('Build') {
         curStage = 'Build'
         sh 'make build'
+      }
+
+      stage('Increment Tag') {
+        VERSION = newSemVer()
+        echo VERSION
+        VCS_REF = sh(
+        script: 'git rev-parse --short HEAD',
+        returnStdout: true
+        )
       }
 
       stage('Release') {
@@ -65,7 +73,7 @@ node('intake-slave') {
           }
         }
       }
-
+    /*
       stage('Publish') {
         withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
           curStage = 'Publish'
@@ -86,7 +94,7 @@ node('intake-slave') {
         pipelineStatus = 'SUCCEEDED'
         currentBuild.result = 'SUCCESS'
       }
-
+    */
       stage('Trigger Security scan') {
         build job: 'tenable-scan', parameters: [
           [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'intake'],
