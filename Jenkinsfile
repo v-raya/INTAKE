@@ -24,8 +24,12 @@ node('intake-slave') {
       sh './scripts/ci/lint_test.rb'
     }
 
-    stage('Verify SemVer Label') {
+    if (branch != 'origin/master') {
+
+      stage('Verify SemVer Label') {
       checkForLabel("intake")
+      
+      }
     }
 
     stage('Karma tests') {
