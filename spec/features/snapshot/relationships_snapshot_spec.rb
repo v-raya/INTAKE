@@ -4,7 +4,9 @@ require 'rails_helper'
 require 'feature/testing'
 
 feature 'Snapshot relationship card' do
-  before do
+  before(:each) do
+    allow(PersonSearchRepository).to \
+      receive(:address_privilege?).and_return(true)
     stub_system_codes
   end
 
