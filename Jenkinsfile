@@ -28,7 +28,6 @@ node('intake-slave') {
 
       stage('Verify SemVer Label') {
       checkForLabel("intake")
-      
       }
     }
 
@@ -43,6 +42,11 @@ node('intake-slave') {
     }
 
     if (branch == 'origin/master') {
+      triggerProperties = pullRequestMergedTriggerProperties('EHAqns5oYtCb')
+      properties([
+        pipelineTriggers([triggerProperties])
+      ])
+      
 
       stage('Build') {
         curStage = 'Build'
