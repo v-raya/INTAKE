@@ -20,7 +20,9 @@ feature 'Adding and removing a person from a snapshot' do
     )
   end
 
-  before do
+  before(:each) do
+    allow(PersonSearchRepository).to \
+      receive(:address_privilege?).and_return(true)
     stub_system_codes
     stub_empty_history_for_clients [person.legacy_descriptor.legacy_id]
     stub_request(
