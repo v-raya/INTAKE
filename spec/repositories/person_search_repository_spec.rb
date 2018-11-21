@@ -108,7 +108,7 @@ describe PersonSearchRepository do
                 'type' => {
                   'description' => 'Residence', 'id' => '32'
                 },
-                'state_code' => 'CA',
+                'state_code' => 'CA'
               }]
             }
           }]
