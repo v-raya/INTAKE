@@ -1,4 +1,5 @@
 import java.text.SimpleDateFormat
+@Library('jenkins-pipeline-utils') _
 
 node('intake-slave') {
   def scmInfo = checkout scm
@@ -13,7 +14,6 @@ node('intake-slave') {
 
   try {
 
-
     stage('Building testing bench') {
       curStage = 'Building testing bench'
       sh './scripts/ci/build_testing_bench.rb'
@@ -22,6 +22,10 @@ node('intake-slave') {
     stage('Lint test') {
       curStage = 'Lint test'
       sh './scripts/ci/lint_test.rb'
+    }
+
+    stage('Verify SemVer Label') {
+      checkForLabel("intake")
     }
 
     stage('Karma tests') {
@@ -35,15 +39,18 @@ node('intake-slave') {
     }
 
     if (branch == 'origin/master') {
-      VERSION = sh(returnStdout: true, script: './scripts/ci/compute_version.rb').trim()
-      VCS_REF = sh(
-        script: 'git rev-parse --short HEAD',
-        returnStdout: true
-      )
 
       stage('Build') {
         curStage = 'Build'
         sh 'make build'
+      }
+
+      stage('Increment Tag') {
+        VERSION = newSemVer()
+        VCS_REF = sh(
+        script: 'git rev-parse --short HEAD',
+        returnStdout: true
+        )
       }
 
       stage('Release') {
@@ -60,7 +67,7 @@ node('intake-slave') {
           }
         }
       }
-
+    /* // will be added back once the SemVer Works
       stage('Publish') {
         withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
           curStage = 'Publish'
@@ -81,7 +88,7 @@ node('intake-slave') {
         pipelineStatus = 'SUCCEEDED'
         currentBuild.result = 'SUCCESS'
       }
-
+    */
       stage('Trigger Security scan') {
         build job: 'tenable-scan', parameters: [
           [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'intake'],
