@@ -3,7 +3,12 @@
 require 'rails_helper'
 
 describe PersonSearchRepository do
-  let(:security_token) { 'my_security_token' }
+  let(:security_token) { 'security_token' }
+  let(:privileges) { ['Snapshot-Street-Address'] }
+  let(:session) do
+    { security_token: security_token,
+      user_details: { privileges: privileges } }
+  end
   let(:request_id) { 'my_request_id' }
   let(:params) do
     {
@@ -16,8 +21,7 @@ describe PersonSearchRepository do
       it 'returns status 200' do
         stub_request(:post, dora_api_url(ExternalRoutes.dora_people_light_index_path))
           .and_return(json_body(['hello world'], status: 200))
-
-        result = described_class.search(params, request_id, security_token: security_token)
+        result = described_class.search(params, request_id, session: session)
         expect(result).to eq ['hello world']
       end
     end
@@ -28,7 +32,7 @@ describe PersonSearchRepository do
           .and_return(json_body(['Created'], status: 201))
 
         expect do
-          described_class.search(params, request_id, security_token: security_token)
+          described_class.search(params, request_id, session: session)
         end.to raise_error(TypeError)
       end
     end
@@ -58,6 +62,63 @@ describe PersonSearchRepository do
         result = described_class.find(id, request_id, security_token: security_token)
         expect(result['id']).to eq id
       end
+    end
+  end
+
+  describe '.address_privilege?' do
+    it 'return true when privileges contains Snapshot-Street-Address' do
+      expect(PersonSearchRepository.send(:address_privilege?)).to eq true
+    end
+  end
+
+  describe '.filtered_response' do
+    let(:response) do
+      {
+        'hits' => {
+          'hits' => [{
+            '_source' => {
+              'addresses' => [{
+                'zip' => '92530',
+                'city' => 'Lake Elsinore',
+                'county' => {},
+                'street_number' => '4451',
+                'id' => '8Uywd2T0Ht',
+                'type' => {
+                  'description' => 'Residence', 'id' => '32'
+                },
+                'state_code' => 'CA',
+                'street_name' => 'Anniversary Parkway'
+              }]
+            }
+          }]
+        }
+      }
+    end
+
+    let(:response_without_street_details) do
+      {
+        'hits' => {
+          'hits' => [{
+            '_source' => {
+              'addresses' => [{
+                'zip' => '92530',
+                'city' => 'Lake Elsinore',
+                'county' => {},
+                'id' => '8Uywd2T0Ht',
+                'type' => {
+                  'description' => 'Residence', 'id' => '32'
+                },
+                'state_code' => 'CA'
+              }]
+            }
+          }]
+        }
+      }
+    end
+
+    it 'strip out street_name and street_number' do
+      expect(PersonSearchRepository.send(:filtered_response, response))
+        .to eq response_without_street_details
     end
   end
 end

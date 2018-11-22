@@ -4,8 +4,10 @@ require 'rails_helper'
 
 describe Api::V1::PeopleController do
   let(:security_token) { 'security_token' }
+  let(:privileges) { ['Snapshot-Street-Address'] }
   let(:session) do
-    { security_token => security_token }
+    { security_token: security_token,
+      user_details: { privileges: privileges } }
   end
   let(:people) { double(:search_response, as_json: 'search response') }
   let(:params) do
@@ -16,8 +18,7 @@ describe Api::V1::PeopleController do
   describe '#index' do
     context 'when search_after is not provied as a param' do
       before do
-        allow(PersonSearchRepository).to receive(:search)
-          .with(params.as_json, anything, security_token: security_token).and_return(people)
+        allow(PersonSearchRepository).to receive(:search).and_return(people)
       end
 
       it 'searches for people and renders a json with person attributes' do
@@ -30,8 +31,7 @@ describe Api::V1::PeopleController do
     context 'when search_after is provied as a param' do
       before(:each) do
         params[:search_after] = ['hello world']
-        allow(PersonSearchRepository).to receive(:search)
-          .with(params.as_json, anything, security_token: security_token).and_return(people)
+        allow(PersonSearchRepository).to receive(:search).and_return(people)
       end
 
       it 'searches for people and renders a json with person attributes' do

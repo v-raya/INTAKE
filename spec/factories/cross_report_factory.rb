@@ -18,7 +18,7 @@ FactoryBot.define do
     trait :unpopulated do
       agencies { [] }
       communication_method { nil }
-      reported_on nil
+      reported_on { nil }
     end
   end
 end

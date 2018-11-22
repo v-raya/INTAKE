@@ -7,8 +7,7 @@ module Api
     class PeopleController < ApiController # :nodoc:
       def index
         response = PersonSearchRepository.search(search_params.to_hash,
-          request.uuid,
-          security_token: session[:security_token])
+          request.uuid, session: session)
         render json: response
       end
 

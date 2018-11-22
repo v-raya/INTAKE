@@ -8,7 +8,7 @@ const AddressInfo = (address) => {
     <div>
       <i className='fa fa-map-marker c-gray half-pad-right' />
       {type && <strong className='c-gray half-pad-right'>{type}</strong>}
-      <span>{[streetAddress, city, stateZip].filter(Boolean).join(', ')}</span>
+      <span>{streetAddress === ' ' ? [city, stateZip].filter(Boolean).join(', ') :[streetAddress, city, stateZip].filter(Boolean).join(', ')}</span>
     </div>
   )
 }

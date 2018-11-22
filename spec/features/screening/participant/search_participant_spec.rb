@@ -6,6 +6,8 @@ require 'feature/testing'
 feature 'searching a participant in autocompleter' do
   context 'search for a person' do
     before(:each) do
+      allow(PersonSearchRepository).to \
+        receive(:address_privilege?).and_return(true)
       stub_request(:get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id])))
         .and_return(json_body(existing_screening.to_json, status: 200))
       stub_empty_relationships
