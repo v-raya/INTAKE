@@ -41,7 +41,7 @@ node('intake-slave') {
     }
 
     if (branch == 'origin/master') {
-      triggerProperties = pullRequestMergedTriggerProperties('FFghghtYYunhhKKj')
+      triggerProperties = pullRequestMergedTriggerProperties('intake-master')
       properties([
         pipelineTriggers([triggerProperties])
       ])
