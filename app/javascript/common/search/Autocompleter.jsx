@@ -205,7 +205,7 @@ export default class Autocompleter extends Component {
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, onBlur: this.hideMenu, onFocus: this.onFocus}}
+        inputProps={{id, onFocus: this.onFocus}}
         items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
