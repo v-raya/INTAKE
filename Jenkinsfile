@@ -79,7 +79,7 @@ node('intake-slave') {
           }
         }
       }
-    
+
       stage('Publish') {
         curStage = 'Publish'
         intakeApp = docker.build("${docker_name}:${VCS_REF}")
@@ -99,7 +99,7 @@ node('intake-slave') {
         pipelineStatus = 'SUCCEEDED'
         currentBuild.result = 'SUCCESS'
       }
-      
+
       stage('Trigger Security scan') {
         build job: 'tenable-scan', parameters: [
           [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'intake'],
