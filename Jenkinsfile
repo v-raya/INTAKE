@@ -11,6 +11,7 @@ node('intake-slave') {
   SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
   def buildDate = dateFormatGmt.format(new Date())
   def docker_credentials_id = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+  def github_credentials_id = '433ac100-b3c2-4519-b4d6-207c029a103b'
 
   try {
 
@@ -59,6 +60,10 @@ node('intake-slave') {
         )
       }
 
+      stage('Tag Repo'){
+        tagGithubRepo(VERSION, github_credentials_id)
+      }
+
       stage('Release') {
         curStage = 'Release'
         withEnv(["BUILD_DATE=${buildDate}","VERSION=${VERSION}","VCS_REF=${VCS_REF}"]) {
@@ -73,7 +78,7 @@ node('intake-slave') {
           }
         }
       }
-    /* // will be added back once the SemVer Works
+    
       stage('Publish') {
         withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
           curStage = 'Publish'
@@ -94,7 +99,7 @@ node('intake-slave') {
         pipelineStatus = 'SUCCEEDED'
         currentBuild.result = 'SUCCESS'
       }
-    */
+      
       stage('Trigger Security scan') {
         build job: 'tenable-scan', parameters: [
           [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'intake'],
