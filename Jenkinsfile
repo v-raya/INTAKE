@@ -2,6 +2,7 @@ import java.text.SimpleDateFormat
 @Library('jenkins-pipeline-utils') _
 
 node('intake-slave') {
+  def docker_name = 'cwds/intake'
   def scmInfo = checkout scm
   def branch = scmInfo.GIT_BRANCH ?: env.GIT_BRANCH
   def curStage = 'Start'
@@ -46,7 +47,7 @@ node('intake-slave') {
       properties([
         pipelineTriggers([triggerProperties])
       ])
-      
+
       stage('Build') {
         curStage = 'Build'
         sh 'make build'
@@ -80,16 +81,17 @@ node('intake-slave') {
       }
     
       stage('Publish') {
-        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
+        withDockerRegistry([credentialsId: docker_credentials_id]) {
           curStage = 'Publish'
-          withEnv(["VERSION=${VERSION}"]){
-            sh './scripts/ci/publish.rb'
+          intakeApp = docker.build("${docker_name}:${VCS_REF}")
+          withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS_ID]) {
+            intakeApp.push(VERSION)
+            intakeApp.push('latest')
           }
         }
       }
 
       stage('Deploy Preint') {
-
         withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
           sh "curl -v -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
             "?token=${JENKINS_TRIGGER_TOKEN}" +
@@ -106,7 +108,6 @@ node('intake-slave') {
           [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: VERSION]
         ]
       }
-
     }
 
     stage ('Reports') {
