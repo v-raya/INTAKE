@@ -81,11 +81,10 @@ node('intake-slave') {
       }
 
       stage('Publish') {
-        curStage = 'Publish'
-        intakeApp = docker.build("${docker_name}:${VCS_REF}")
         withDockerRegistry([credentialsId: docker_credentials_id]) {
-          intakeApp.push(VERSION)
-          intakeApp.push('latest')
+          curStage = 'Publish'
+          withEnv(["VERSION=${VERSION}"]){
+            sh './scripts/ci/publish.rb'
         }
       }
 
