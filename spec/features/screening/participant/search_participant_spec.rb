@@ -113,7 +113,7 @@ feature 'searching a participant in autocompleter' do
         page.find('#screening-information-card').click
 
         within '#search-card', text: 'Search' do
-          expect(page).to_not have_button('Create a new person')
+          expect(page).to have_button('Create a new person')
         end
       end
     end
