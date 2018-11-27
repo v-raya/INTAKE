@@ -81,13 +81,11 @@ node('intake-slave') {
       }
     
       stage('Publish') {
+        curStage = 'Publish'
+        intakeApp = docker.build("${docker_name}:${VCS_REF}")
         withDockerRegistry([credentialsId: docker_credentials_id]) {
-          curStage = 'Publish'
-          intakeApp = docker.build("${docker_name}:${VCS_REF}")
-          withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS_ID]) {
-            intakeApp.push(VERSION)
-            intakeApp.push('latest')
-          }
+          intakeApp.push(VERSION)
+          intakeApp.push('latest')
         }
       }
 
