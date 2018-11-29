@@ -2,7 +2,6 @@ import java.text.SimpleDateFormat
 @Library('jenkins-pipeline-utils') _
 
 node('intake-slave') {
-  def docker_name = 'cwds/intake'
   def scmInfo = checkout scm
   def branch = scmInfo.GIT_BRANCH ?: env.GIT_BRANCH
   def curStage = 'Start'
