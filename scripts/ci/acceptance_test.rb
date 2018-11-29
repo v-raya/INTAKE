@@ -7,5 +7,6 @@ Dir.chdir('integrated-test-environment') do
   puts "Using this intake image ==> #{ENV['INTAKE_IMAGE_VERSION'] || 'No image provided ¯\_(ツ)_/¯'}"
   `docker-compose -f docker-compose.bubble.yml up -d nginx intake`
   `docker-compose -f docker-compose.bubble.yml build acceptance_testing`
-  exec('docker-compose -f docker-compose.bubble.yml up acceptance_testing')
+  exec('docker-compose -f docker-compose.bubble.yml up'\
+       ' --exit-code-from acceptance_testing acceptance_testing')
 end
