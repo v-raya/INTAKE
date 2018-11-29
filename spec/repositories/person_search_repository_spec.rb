@@ -44,13 +44,10 @@ describe PersonSearchRepository do
       { 'hits' => { 'hits' => [{ '_source' => { 'id' => id } }] } }
     end
 
-    before(:each) do
-      stub_request(:post, dora_api_url(ExternalRoutes.dora_people_light_index_path))
-        .and_return(json_body(hits.to_json, status: 200))
-    end
-
     context 'searching with no id' do
       it 'raises an error' do
+        stub_request(:get, ferb_api_url(FerbRoutes.attach_client_path(id)))
+          .and_return(json_body(hits.to_json, status: 200))
         expect do
           described_class.find(nil, request_id, security_token: security_token)
         end.to raise_error('id is required')
@@ -59,6 +56,8 @@ describe PersonSearchRepository do
 
     context 'searching with an id' do
       it 'returns the existing person' do
+        stub_request(:get, ferb_api_url(FerbRoutes.attach_client_path(id)))
+          .and_return(json_body(hits.to_json, status: 200))
         result = described_class.find(id, request_id, security_token: security_token)
         expect(result['id']).to eq id
       end
