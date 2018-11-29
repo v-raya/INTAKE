@@ -45,7 +45,7 @@ describe PersonSearchRepository do
     end
 
     before(:each) do
-      stub_request(:post, dora_api_url(ExternalRoutes.dora_people_light_index_path))
+      stub_request(:get, ferb_api_url(FerbRoutes.clients_path(id)))
         .and_return(json_body(hits.to_json, status: 200))
     end
 

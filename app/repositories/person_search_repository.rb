@@ -23,14 +23,13 @@ class PersonSearchRepository
     def find(id, request_id, security_token: nil)
       raise 'id is required' unless id
 
-      response = DoraAPI.make_api_call(
+      response = FerbAPI.make_api_call(
         security_token: security_token,
         request_id: request_id,
-        url: ExternalRoutes.dora_people_light_index_path,
-        method: :post,
-        payload: find_query(id)
+        url: FerbRoutes.clients_path(id),
+        method: :get
       )
-      body(response).dig('hits', 'hits', 0, '_source')
+      response.body.dig('hits', 'hits', 0, '_source')
     end
 
     private

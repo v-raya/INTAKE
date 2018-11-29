@@ -78,5 +78,9 @@ class FerbRoutes
     def screening_relationship_path(id)
       "/screening_relationships/#{id}"
     end
+
+    def clients_path(id)
+      "/clients/#{id}"
+    end
   end
 end

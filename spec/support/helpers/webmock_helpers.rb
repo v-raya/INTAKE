@@ -11,19 +11,9 @@ module WebmockHelpers
   end
 
   def stub_person_find(id:, person_response:)
-    request_path = dora_api_url(ExternalRoutes.dora_people_light_index_path)
-    request_payload = {
-      'body' => {
-        'query' => {
-          'bool' => {
-            'must' => [{ 'match' => { 'id' => id } }]
-          }
-        },
-        '_source' => anything
-      }
-    }
+    request_path = ferb_api_url(FerbRoutes.clients_path(id))
     response_payload = json_body(person_response.to_json, status: 200)
-    stub_request(:post, request_path).with(request_payload).to_return(response_payload)
+    stub_request(:get, request_path).to_return(response_payload)
   end
 
   def stub_person_search(person_response:)
