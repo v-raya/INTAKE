@@ -79,7 +79,7 @@ class FerbRoutes
       "/screening_relationships/#{id}"
     end
 
-    def attach_client_path(id)
+    def clients_path(id)
       "/clients/#{id}"
     end
   end
