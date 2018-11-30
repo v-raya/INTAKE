@@ -254,7 +254,7 @@ describe('<Autocompleter />', () => {
       })
 
       it('calls loadMoreResults with an address', () => {
-        const autocompleter = renderAutocompleter({
+        const autocompleter = mountAutocompleter({
           results, onClear, onChange, onSelect, onLoadMoreResults, total,
           isAddressIncluded: true,
           searchCounty: 'Colusa',

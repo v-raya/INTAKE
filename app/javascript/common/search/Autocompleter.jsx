@@ -80,7 +80,7 @@ export default class Autocompleter extends Component {
     } else {
       onLoadMoreResults()
     }
-    this.element_ref._ignoreBlur = true
+    this.element_ref.setIgnoreBlur(true)
   }
 
   onSelect(item) {
