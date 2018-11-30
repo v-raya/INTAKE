@@ -80,6 +80,7 @@ export default class Autocompleter extends Component {
     } else {
       onLoadMoreResults()
     }
+    this.element_ref._ignoreBlur = true
   }
 
   onSelect(item) {
@@ -205,7 +206,7 @@ export default class Autocompleter extends Component {
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, onFocus: this.onFocus}}
+        inputProps={{id, onBlur: this.hideMenu, onFocus: this.onFocus}}
         items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
