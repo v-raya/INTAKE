@@ -61,10 +61,13 @@
 // Navigation Fix //
 
 .anchor {
-  display: inline-flex;
   height: $banner-height + $page-header-height + $error-banner-height;
   margin-top: 0 - ($banner-height + $page-header-height + $error-banner-height);
   visibility: hidden;
+}
+
+.card-height {
+  display: grid;
 }
 
 .inactive-navlink {

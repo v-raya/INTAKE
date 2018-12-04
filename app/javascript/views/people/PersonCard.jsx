@@ -60,7 +60,7 @@ class PersonCard extends React.PureComponent {
     const id = `participants-card-${personId}`
 
     return (
-      <div>
+      <div className="card-height">
         <button className='anchor' aria-label={`${id}-anchor`} id={`${id}-anchor`}/>
         <div className={className} id={id}>
           {this.renderHeader()}
