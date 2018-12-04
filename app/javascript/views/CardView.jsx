@@ -17,7 +17,7 @@ class CardView extends React.PureComponent {
   render() {
     const {edit, editable, id, mode, onEdit, onSave, onShow, show, title} = this.props
     return (
-      <div>
+      <div className='card-height'>
         <button className='anchor' aria-label={`${id}-anchor`} id={`${id}-anchor`}/>
         <div className={ClassNames('card', modeClass(mode), 'double-gap-bottom', 'position-relative')} id={id}>
           <div className='card-header'>

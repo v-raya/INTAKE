@@ -22,7 +22,7 @@ class PersonSearchForm extends React.Component {
       '' : 'address-search-disabled'
 
     return (
-      <div>
+      <div className="card-height">
         <button className='anchor' aria-label='search-card-anchor' id='search-card-anchor'/>
         <div className='card double-gap-bottom hidden-print' id='search-card'>
           <div className='card-header'>
