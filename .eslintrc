@@ -25,7 +25,6 @@
     "linebreak-style": [2, "unix"],
     "no-alert": [2],
     "no-console": 0,
-    "no-extra-semi": [2],
     "no-implicit-coercion": [2],
     "no-invalid-this": [2],
     "no-lonely-if": [2],
