@@ -8,6 +8,7 @@ services:
     volumes:
       - ../../reports:/reports
       - ../../tmp:/ca_intake/tmp/capybara
+      - .chromedriver-helper:/root/.chromedriver-helper
     environment:
       FERB_API_URL: "https://ferbapi.preint.cwds.io"
       DORA_API_URL: "https://doraapi.preint.cwds.io"
