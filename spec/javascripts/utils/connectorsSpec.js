@@ -2,7 +2,6 @@ import {mapDispatchToPropsFactory} from 'utils/connectors'
 
 describe('mapDispatchToPropsFactory', () => {
   let props
-
   let setField
   let touchAllFields
   let touchField

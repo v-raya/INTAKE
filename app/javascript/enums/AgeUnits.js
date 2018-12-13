@@ -8,4 +8,3 @@ const AGE_UNITS = Object.freeze({
 })
 
 export default AGE_UNITS
-

@@ -132,4 +132,3 @@ export const RELATIONSHIP_TYPES = Object.freeze([
   {value: 6360, logical_code: 'S', gender_code: 'mF', label: 'Son/Mother (Presumed)'},
   {value: 6361, logical_code: 'M', gender_code: 'Fm', label: 'Mother/Son (Presumed)'},
 ])
-

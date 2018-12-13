@@ -23,8 +23,8 @@ export default createReducer(Map(), {
     }
   },
   [RESET_WORKER_SAFETY_FIELD_VALUES](state, {payload: {safety_alerts, safety_information}}) {
-    return state.setIn(['safety_alerts', 'value'], List(safety_alerts)).
-      setIn(['safety_information', 'value'], safety_information)
+    return state.setIn(['safety_alerts', 'value'], List(safety_alerts))
+      .setIn(['safety_information', 'value'], safety_information)
   },
   [SET_WORKER_SAFETY_FIELD](state, {payload: {field, value}}) {
     return state.setIn([field, 'value'], fromJS(value))

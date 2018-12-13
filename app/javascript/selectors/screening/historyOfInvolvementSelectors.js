@@ -14,7 +14,7 @@ const getCasesSelector = createSelector(
 )
 
 const formatDisposition = (disposition) => {
-  const formattedDisposition = disposition ? `(${ disposition })` : ''
+  const formattedDisposition = disposition ? `(${disposition})` : ''
   return formattedDisposition
 }
 

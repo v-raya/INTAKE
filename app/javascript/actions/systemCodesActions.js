@@ -9,4 +9,3 @@ export function fetchSuccess(systemCodes) {
 export function fetchFailure(error) {
   return {type: FETCH_SYSTEM_CODES_COMPLETE, payload: {error}, error: true}
 }
-

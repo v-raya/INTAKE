@@ -9,4 +9,3 @@ export function fetchSuccess(screenings) {
 export function fetchFailure(error) {
   return {type: FETCH_SCREENINGS_COMPLETE, payload: {error}, error: true}
 }
-

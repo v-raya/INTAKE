@@ -38,7 +38,7 @@ export const mapDispatchToProps = (dispatch) => ({
     }
     dispatch(createPerson(relationshipsPerson))
   },
-  onChange: ((field, value) => dispatch(setRelationshipForm(field, value))),
+  onChange: (field, value) => dispatch(setRelationshipForm(field, value)),
   onEdit: (person, relationship) => dispatch(loadRelationship(person, relationship)),
   onSave: (id) => dispatch(updateRelationship(id)),
 })

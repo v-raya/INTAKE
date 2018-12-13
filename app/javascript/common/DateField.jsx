@@ -43,7 +43,7 @@ const parseDate = (date) => (
   moment.tz(date, [...dateFormats, ...dateTimeFormats], 'America/Los_Angeles').local()
 )
 
-const proxyOnChange = (onChange, hasTime) => ((date) => {
+const proxyOnChange = (onChange, hasTime) => (date) => {
   if (date === null) {
     onChange(null)
     return
@@ -51,9 +51,9 @@ const proxyOnChange = (onChange, hasTime) => ((date) => {
   const parsedDate = parseDate(date)
   const dateOrDatetime = hasTime ? parsedDate.toISOString() : parsedDate.format('YYYY-MM-DD')
   onChange(dateOrDatetime)
-})
+}
 
-const proxyOnBlur = (onBlur) => ((event) => {
+const proxyOnBlur = (onBlur) => (event) => {
   if (!onBlur) { return }
 
   const date = event.target.value
@@ -62,7 +62,7 @@ const proxyOnBlur = (onBlur) => ((event) => {
     return
   }
   onBlur(parseDate(date).toISOString())
-})
+}
 
 const DateField = ({
   errors,
