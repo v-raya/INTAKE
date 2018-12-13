@@ -8,4 +8,3 @@ export const getAllegationsWithTypesSelector = createSelector(
     allegation.get('allegationTypes').filterNot((type) => type === '').isEmpty()
   ))
 )
-

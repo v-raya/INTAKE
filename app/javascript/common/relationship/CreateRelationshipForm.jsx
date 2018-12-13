@@ -22,7 +22,7 @@ const PersonInfoList = ({name, age, gender}) => (
   </div>
 )
 
-const SelectRelationshipType = (onChange) => (
+const SelectRelationshipType = (onChange) =>
   function selectFormat(cell, {person, candidate}) {
     return (
       <SelectField
@@ -38,7 +38,6 @@ const SelectRelationshipType = (onChange) => (
       </SelectField>
     )
   }
-)
 
 const CreateRelationshipForm = ({candidates, onChange}) => (
   <BootstrapTable withoutTabIndex className='displayTable' bordered={false} data={candidates}>

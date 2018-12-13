@@ -19,4 +19,3 @@ export default createReducer(initialState, {
     return state.merge({locationBeforeTransitions: payload})
   },
 })
-

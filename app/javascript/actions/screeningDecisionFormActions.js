@@ -31,4 +31,3 @@ export function touchField({field}) {
 export function touchAllFields() {
   return {type: TOUCH_ALL_SCREENING_DECISION_FIELDS}
 }
-

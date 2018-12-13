@@ -24,4 +24,3 @@ export const GENDER_CODES = Object.freeze({
 })
 
 export default GENDERS
-

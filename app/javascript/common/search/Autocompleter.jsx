@@ -186,10 +186,11 @@ export default class Autocompleter extends Component {
   }
 
   renderInput(props) {
-    const newProps = {...props, ref: (el) => {
-      this.inputRef = el
-      props.ref(el)
-    }}
+    const newProps = {...props,
+      ref: (el) => {
+        this.inputRef = el
+        props.ref(el)
+      }}
     return <input {...newProps}/>
   }
 
