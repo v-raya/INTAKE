@@ -228,7 +228,6 @@ export default class Autocompleter extends Component {
     const {
       isAddressIncluded, location, searchAddress, searchCity, searchCounty, searchTerm,
       onChangeAddress, onChangeCity, onChangeCounty} = this.props
-
     return (
       <SearchByAddress
         isAddressIncluded={isAddressIncluded}
