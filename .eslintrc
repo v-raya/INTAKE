@@ -41,7 +41,6 @@
     "no-useless-concat": [2],
     "no-var": [2],
     "no-void": [2],
-    "one-var": [2, "never"],
     "object-curly-spacing": [2, "never"],
     "operator-assignment": [2, "always"],
     "operator-linebreak": [2, "after"],

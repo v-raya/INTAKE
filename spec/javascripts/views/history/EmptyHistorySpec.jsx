@@ -13,4 +13,3 @@ describe('EmptyHistory', () => {
       .toEqual('Search for people and add them to see their child welfare history.')
   })
 })
-

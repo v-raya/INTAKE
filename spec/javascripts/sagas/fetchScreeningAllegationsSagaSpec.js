@@ -28,4 +28,3 @@ describe('fetchScreenings', () => {
     expect(saga.throw(error).value).toEqual(put(fetchFailure('some error')))
   })
 })
-

@@ -78,7 +78,7 @@ describe('EditRelationshipForm', () => {
           ...props,
           editFormRelationship: {
             ...props.editFormRelationship,
-            relationship_type: 285, //Son/Father (Birth)
+            relationship_type: 285, // Son/Father (Birth)
           },
         })
           .find('#absent_parent_indicator')

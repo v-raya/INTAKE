@@ -12,15 +12,15 @@ describe('workerSafetyShowSelectors', () => {
     it('returns a value when one is present', () => {
       const screening = {safety_alerts: ['ABC'], safety_information: 'stuff'}
       const state = fromJS({screening})
-      expect(getAlertValuesSelector(state)).
-        toEqualImmutable(List(['ABC']))
+      expect(getAlertValuesSelector(state))
+        .toEqualImmutable(List(['ABC']))
     })
 
     it('returns empty list when safety_alerts not present', () => {
       const screening = {}
       const state = fromJS({screening})
-      expect(getAlertValuesSelector(state)).
-        toEqualImmutable(List([]))
+      expect(getAlertValuesSelector(state))
+        .toEqualImmutable(List([]))
     })
   })
 
@@ -28,15 +28,15 @@ describe('workerSafetyShowSelectors', () => {
     it('returns a value when one is present', () => {
       const screening = {safety_alerts: ['ABC'], safety_information: 'stuff'}
       const state = fromJS({screening})
-      expect(getInformationValueSelector(state)).
-        toEqual('stuff')
+      expect(getInformationValueSelector(state))
+        .toEqual('stuff')
     })
 
     it('returns undefined when safety_alerts not present', () => {
       const screening = {}
       const state = fromJS({screening})
-      expect(getInformationValueSelector(state)).
-        toEqual(undefined)
+      expect(getInformationValueSelector(state))
+        .toEqual(undefined)
     })
   })
 })

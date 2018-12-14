@@ -18,9 +18,11 @@ describe('allegationsFormSelectors', () => {
       const allegationsForm = [
         {id: '123', victimId: '1', perpetratorId: '2', allegationTypes: ['General neglect']},
       ]
-      const screening = {id: 'ABCDEF', screening_decision: 'promote_to_referral', allegations: [
-        {id: '456', victim_person_id: '3', perpetrator_person_id: '4', types: ['General neglect']},
-      ]}
+      const screening = {id: 'ABCDEF',
+        screening_decision: 'promote_to_referral',
+        allegations: [
+          {id: '456', victim_person_id: '3', perpetrator_person_id: '4', types: ['General neglect']},
+        ]}
       const state = fromJS({allegationsForm, screening})
       expect(getScreeningWithAllegationsEditsSelector(state)).toEqualImmutable(fromJS({
         id: 'ABCDEF',
@@ -124,9 +126,11 @@ describe('allegationsFormSelectors', () => {
         {id: '456', victimId: '3', perpetratorId: '4', allegationTypes: ['']},
         {id: '789', victimId: '3', perpetratorId: '4', allegationTypes: []},
       ]
-      const screening = {id: 'ABCDEF', screening_decision: 'promote_to_referral', allegations: [
-        {id: '012', victim_person_id: '3', perpetrator_person_id: '4', types: ['General neglect']},
-      ]}
+      const screening = {id: 'ABCDEF',
+        screening_decision: 'promote_to_referral',
+        allegations: [
+          {id: '012', victim_person_id: '3', perpetrator_person_id: '4', types: ['General neglect']},
+        ]}
       const state = fromJS({allegationsForm, screening})
       expect(getScreeningWithAllegationsEditsSelector(state)).toEqualImmutable(fromJS({
         id: 'ABCDEF',

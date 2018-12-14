@@ -25,4 +25,3 @@ describe('screenResponseTimesReducer', () => {
     })
   })
 })
-
