@@ -81,9 +81,7 @@ export default class Autocompleter extends Component {
       onLoadMoreResults()
     }
     this.element_ref.setIgnoreBlur(true)
-    if (this.inputRef) {
-      this.inputRef.focus()
-    }
+    if (this.inputRef) { this.inputRef.focus() }
   }
 
   onSelect(item) {
