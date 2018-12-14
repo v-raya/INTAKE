@@ -80,10 +80,6 @@ export default class Autocompleter extends Component {
     } else {
       onLoadMoreResults()
     }
-    this.preventBluring();
-  }
-
-  preventBluring() {
     this.element_ref.setIgnoreBlur(true)
     if (this.inputRef) {
       this.inputRef.focus()
