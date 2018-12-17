@@ -42,4 +42,3 @@ describe('address', () => {
     expect(component.html()).toContain('<div><i class="fa fa-map-marker c-gray half-pad-right"></i><span>NM 11344</span></div>')
   })
 })
-

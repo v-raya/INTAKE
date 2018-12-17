@@ -89,7 +89,7 @@ describe('createSnapshotPerson', () => {
     probation_youth: false,
     approximate_age: null,
     approximate_age_units: null,
-    first_name:	'Mohammed',
+    first_name: 'Mohammed',
     gender: 'male',
     middle_name: '',
     name_suffix: 'jr',

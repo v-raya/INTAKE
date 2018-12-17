@@ -118,7 +118,7 @@ describe('ScreeningDecisionForm', () => {
       const component = renderScreeningDecisionForm({decisionOptions})
       const decisionSelect = component.find('SelectField[label="Screening Decision"]')
       const options = decisionSelect.children()
-      expect(options.at(0).props().value).toEqual(undefined) //empty first option
+      expect(options.at(0).props().value).toEqual(undefined) // empty first option
       expect(options.at(1).props().value).toEqual('promote_to_referral')
       expect(options.at(1).text()).toEqual('Promote to referral')
       expect(options.at(2).props().value).toEqual('screen_out')
@@ -291,7 +291,7 @@ describe('ScreeningDecisionForm', () => {
         const component = renderScreeningDecisionForm({decision, decisionDetail, decisionDetailOptions})
         const decisionDetailSelect = component.find('SelectField[label="My decision detail"]')
         const options = decisionDetailSelect.children()
-        expect(options.at(0).props().value).toEqual(undefined) //empty first option
+        expect(options.at(0).props().value).toEqual(undefined) // empty first option
         expect(options.at(1).props().value).toEqual('3_day')
         expect(options.at(1).text()).toEqual('3 days')
         expect(options.at(2).props().value).toEqual('10_day')

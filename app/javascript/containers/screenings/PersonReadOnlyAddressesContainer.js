@@ -7,4 +7,3 @@ const mapStateToProps = (state, {personId}) => (
 )
 
 export default connect(mapStateToProps)(AddressesShow)
-

@@ -255,7 +255,12 @@ describe('<Autocompleter />', () => {
 
       it('calls loadMoreResults with an address', () => {
         const autocompleter = mountAutocompleter({
-          results, onClear, onChange, onSelect, onLoadMoreResults, total,
+          results,
+          onClear,
+          onChange,
+          onSelect,
+          onLoadMoreResults,
+          total,
           isAddressIncluded: true,
           searchCounty: 'Colusa',
           searchCity: 'Central City',

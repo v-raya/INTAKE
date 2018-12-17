@@ -18,9 +18,9 @@ const mapStateToProps = (state, {personId}) => ({
 })
 
 export const mapDispatchToProps = (dispatch) => ({
-  onChange: ((personId, candidateId, fieldSet, value) =>
-    dispatch(setFieldCandidate(personId, candidateId, fieldSet, value))),
-  onCancel: ((personId) => dispatch(resetFieldCandidate(personId))),
+  onChange: (personId, candidateId, fieldSet, value) =>
+    dispatch(setFieldCandidate(personId, candidateId, fieldSet, value)),
+  onCancel: (personId) => dispatch(resetFieldCandidate(personId)),
   onSave: (personId) => dispatch(batchCreateRelationships(personId)),
 })
 

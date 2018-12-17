@@ -5,4 +5,3 @@ export const getPhoneNumberErrors = (phoneNumber) => {
     return []
   }
 }
-
