@@ -4,7 +4,65 @@ require 'rails_helper'
 require 'feature/testing'
 
 feature 'Snapshot History of Involvement' do
-  let(:person) { FactoryBot.create(:participant, first_name: 'Marge') }
+  let(:person) do
+    {
+      id: '1',
+      first_name: 'Marge',
+      last_name: 'Simpson',
+      gender: 'female',
+      ssn: '',
+      roles: [],
+      addresses: [{
+        messages: [],
+        type: 'Placement Home',
+        street_address: 'P.O. Box 162',
+        city: 'Pala',
+        state: 'CA',
+        zip: '92089',
+        legacy_descriptor: {
+          legacy_id: '7OFBh9m2St',
+          legacy_ui_id: '0419-8132-6960-2009479',
+          legacy_last_updated: '1998-01-02T10:09:29.000-0800',
+          legacy_table_name: 'PLC_HM_T',
+          legacy_table_description: 'Placement Home'
+        }
+      }, {
+        messages: [],
+        type: 'Home',
+        street_address: '6321 Di Loreto Point',
+        city: 'San Diego',
+        state: 'CA',
+        zip: '0',
+        legacy_descriptor: {
+          legacy_id: 'C9dNEEl0AB',
+          legacy_ui_id: '0690-4298-3587-5000631',
+          legacy_last_updated: '1999-11-19T10:24:06.637-0800',
+          legacy_table_name: 'ADDRS_T',
+          legacy_table_description: 'Address'
+        }
+      }],
+      races: [{ race: 'American Indian or Alaska Native', race_detail: 'American Indian' },
+              { race: 'Asian', race_detail: 'Chinese' }],
+      ethnicity: [{ hispanic_latino_origin: 'No', ethnicity_detail: [] }],
+      middle_name: '',
+      name_suffix: '',
+      approximate_age: '30',
+      approximate_age_units: 'years',
+      languages: ['English', 'American Sign Language'],
+      phone_numbers: [{ id: '1', number: '(971) 287-6774' }],
+      sealed: false,
+      sensitive: false,
+      probation_youth: false,
+      legacy_descriptor: {
+        legacy_id: '1234567890',
+        legacy_ui_id: '1621-3598-1936-3000631',
+        legacy_last_updated: '1999-11-23T12:45:34.372-0800',
+        legacy_table_name: 'CLIENT_T',
+        legacy_table_description: 'Client'
+      },
+      csec: []
+    }
+  end
 
   let(:screenings) do
     [
@@ -212,13 +270,12 @@ feature 'Snapshot History of Involvement' do
     before(:each) do
       allow(PersonSearchRepository).to \
         receive(:address_privilege?).and_return(true)
-      visit snapshot_path
 
       stub_request(
         :get,
         ferb_api_url(
           FerbRoutes.relationships_path
-        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
+        ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
       ).and_return(json_body([].to_json, status: 200))
 
       search_response = PersonSearchResponseBuilder.build do |response|
@@ -226,32 +283,40 @@ feature 'Snapshot History of Involvement' do
         response.with_hits do
           [
             PersonSearchResultBuilder.build do |builder|
-              builder.with_first_name('Marge')
-              builder.with_legacy_descriptor(person.legacy_descriptor)
+              builder.with_first_name(person[:first_name])
+              builder.with_legacy_descriptor(person[:legacy_descriptor])
             end
           ]
         end
       end
+
       stub_request(
         :get,
         ferb_api_url(
           FerbRoutes.history_of_involvements_path
-        ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
+        ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
       ).and_return(json_body(history.to_json, status: 200))
 
       stub_person_search(person_response: search_response)
       stub_request(
         :get,
-        ferb_api_url(FerbRoutes.client_authorization_path(person.legacy_descriptor.legacy_id))
+        ferb_api_url(
+          FerbRoutes.client_authorization_path(
+            person.dig(:legacy_descriptor, :legacy_id)
+          )
+        )
       ).and_return(json_body('', status: 200))
-      stub_person_find(id: person.legacy_descriptor.legacy_id, person_response: search_response)
+
+      stub_person_find(
+        id: person.dig(:legacy_descriptor, :legacy_id),
+        person_response: person
+      )
+
+      visit snapshot_path
 
       within '#search-card', text: 'Search' do
-        fill_in 'Search for clients', with: 'Ma'
-      end
-
-      within '#search-card', text: 'Search' do
-        page.find('strong', text: 'Marge').click
+        fill_in 'Search for clients', with: 'Mar'
+        find('strong', text: 'Marge').click
       end
     end
 
@@ -259,6 +324,7 @@ feature 'Snapshot History of Involvement' do
       second_snapshot = FactoryBot.create(:screening)
       stub_request(:post, ferb_api_url(FerbRoutes.intake_screenings_path))
         .and_return(json_body(second_snapshot.to_json, status: 201))
+
       within '#history-card.card.show' do
         expect(page).to have_content('Referral')
       end
@@ -288,8 +354,11 @@ feature 'Snapshot History of Involvement' do
         'document.getElementById("spec_meta").addEventListener("paste",'\
         'function(e) { e.target.value = e.clipboardData.getData("text/html") })'
       ].join(';')
-      page.execute_script js
-      find('#spec_meta').send_keys [:control, 'v']
+
+      page.execute_script(js)
+
+      find('#spec_meta').send_keys([:control, 'v'])
+
       expect(find('#spec_meta').value).not_to be_empty
       expect(find('#spec_meta').value).not_to have_text('Reporter1')
       expect(find('#spec_meta').value).not_to have_text('r1LastName')
@@ -399,7 +468,7 @@ feature 'Snapshot History of Involvement' do
           :get,
           ferb_api_url(
             FerbRoutes.history_of_involvements_path
-          ) + "?clientIds=#{person.legacy_descriptor.legacy_id}"
+          ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
         )
       ).to have_been_made
     end

@@ -20,7 +20,7 @@ import BreadCrumb from 'containers/common/BreadCrumb'
 import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
 
 const isDuplicatePerson = (participants, id) => (
-  participants.some((x) => x.legacy_id === id)
+  participants.some((x) => x.id === id)
 )
 
 export class SnapshotPage extends React.Component {

@@ -26,10 +26,10 @@ class PersonSearchRepository
       response = FerbAPI.make_api_call(
         security_token: security_token,
         request_id: request_id,
-        url: FerbRoutes.clients_path(id),
+        url: FerbRoutes.participants_path(id),
         method: :get
       )
-      response.body.dig('hits', 'hits', 0, '_source')
+      response
     end
 
     private

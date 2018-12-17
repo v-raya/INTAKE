@@ -79,8 +79,8 @@ class FerbRoutes
       "/screening_relationships/#{id}"
     end
 
-    def clients_path(id)
-      "/clients/#{id}"
+    def participants_path(legacy_id)
+      "/participants/#{legacy_id}"
     end
   end
 end

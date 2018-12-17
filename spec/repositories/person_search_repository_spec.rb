@@ -15,6 +15,13 @@ describe PersonSearchRepository do
       search_term: 'hello world'
     }
   end
+  let(:participant) do
+    {
+      first_name: 'hello',
+      last_name: 'world',
+      legacy_descriptor: { legacy_id: id }
+    }
+  end
 
   describe '.search' do
     context 'when response from DORA is successful' do
@@ -44,13 +51,11 @@ describe PersonSearchRepository do
       { 'hits' => { 'hits' => [{ '_source' => { 'id' => id } }] } }
     end
 
-    before(:each) do
-      stub_request(:get, ferb_api_url(FerbRoutes.clients_path(id)))
-        .and_return(json_body(hits.to_json, status: 200))
-    end
-
     context 'searching with no id' do
       it 'raises an error' do
+        stub_request(:post, dora_api_url(ExternalRoutes.dora_people_light_index_path))
+          .and_return(json_body(hits.to_json, status: 200))
+
         expect do
           described_class.find(nil, request_id, security_token: security_token)
         end.to raise_error('id is required')
@@ -59,8 +64,11 @@ describe PersonSearchRepository do
 
     context 'searching with an id' do
       it 'returns the existing person' do
+        stub_request(:get, ferb_api_url(FerbRoutes.participants_path(id)))
+          .and_return(json_body(participant.to_json, status: 200))
+
         result = described_class.find(id, request_id, security_token: security_token)
-        expect(result['id']).to eq id
+        expect(result.body.dig('legacy_descriptor', 'legacy_id')).to eq id
       end
     end
   end

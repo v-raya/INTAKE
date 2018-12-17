@@ -58,13 +58,14 @@ describe Api::V1::PeopleController do
 
   describe '#show' do
     let(:id) { '1' }
-    before do
-      allow(ParticipantRepository).to receive(:authorize)
-        .with(security_token, anything, id)
-        .and_return(nil)
+    before(:each) do
+      person = instance_double('ActionDispatch::Response',
+        body: 'search response')
       allow(PersonSearchRepository).to receive(:find)
         .with(id, anything, security_token: security_token)
-        .and_return(people)
+        .and_return(person)
+      stub_request(:get, ferb_api_url(FerbRoutes.client_authorization_path(id)))
+        .and_return(json_body('', status: 200))
     end
 
     it 'searches for a person and renders a json with person attributes' do

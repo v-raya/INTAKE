@@ -1,4 +1,3 @@
-import {fromJS} from 'immutable'
 import {takeEvery, put, call, select} from 'redux-saga/effects'
 import {STATUS_CODES, get} from 'utils/http'
 import {
@@ -9,13 +8,14 @@ import {
 import {fetchHistoryOfInvolvementsByClientIds} from 'actions/historyOfInvolvementActions'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {selectClientIds} from 'selectors/participantSelectors'
-import {mapDoraPersonToParticipant} from 'utils/peopleSearchHelper'
 
 export function* createSnapshotPerson({payload: {id}}) {
   try {
     const response = yield call(get, `/api/v1/people/${id}`)
-    const state = yield select()
-    const participant = mapDoraPersonToParticipant(state, fromJS(response)).toJS()
+    const participant = {
+      id,
+      ...response,
+    }
     yield put(createPersonSuccess(participant))
     const clientIds = yield select(selectClientIds)
     yield put(fetchRelationships(clientIds))

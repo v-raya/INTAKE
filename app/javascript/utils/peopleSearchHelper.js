@@ -94,30 +94,3 @@ export const mapPhoneNumber = (result) =>
     .filter(isResidence)
     .map((address) => address.get('phone_numbers'))
     .valueOrElse(List())
-
-export const mapDoraPersonToParticipant = (state, person) => Map({
-  csec: person.get('csec') || List(),
-  date_of_birth: person.get('date_of_birth'),
-  date_of_death: person.get('date_of_death'),
-  approximate_age: null,
-  approximate_age_units: null,
-  first_name: person.get('first_name'),
-  middle_name: person.get('middle_name'),
-  last_name: person.get('last_name'),
-  gender: person.get('gender'),
-  ssn: person.get('ssn'),
-  sealed: mapIsSealed(person),
-  sensitive: mapIsSensitive(person),
-  probation_youth: mapIsProbationYouth(person),
-  phone_numbers: mapPhoneNumber(person),
-  name_suffix: person.get('name_suffix'),
-  addresses: List([(mapAddress(state, person) || Map())
-    .mapKeys((k) => (k === 'streetAddress' ? 'street_address' : k))]),
-  legacy_id: person.get('id') || person.getIn(['legacy_descriptor', 'legacy_id']),
-  id: person.get('id') || person.getIn(['legacy_descriptor', 'legacy_id']),
-  legacy_descriptor: person.get('legacy_descriptor'),
-  roles: List(),
-  languages: mapLanguages(state, person),
-  races: mapRaces(state, person),
-  ethnicity: mapEthnicities(state, person),
-})

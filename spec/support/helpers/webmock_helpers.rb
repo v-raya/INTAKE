@@ -11,7 +11,7 @@ module WebmockHelpers
   end
 
   def stub_person_find(id:, person_response:)
-    request_path = ferb_api_url(FerbRoutes.clients_path(id))
+    request_path = ferb_api_url(FerbRoutes.participants_path(id))
     response_payload = json_body(person_response.to_json, status: 200)
     stub_request(:get, request_path).to_return(response_payload)
   end

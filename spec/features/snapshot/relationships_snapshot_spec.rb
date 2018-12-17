@@ -33,13 +33,72 @@ feature 'Snapshot relationship card' do
       end
     end
 
-    let(:participant) { FactoryBot.create(:participant) }
+    let(:participant) do
+      {
+        id: '1',
+        first_name: 'Marge',
+        last_name: 'Simpson',
+        gender: 'female',
+        ssn: '',
+        roles: [],
+        addresses: [{
+          messages: [],
+          type: 'Placement Home',
+          street_address: 'P.O. Box 162',
+          city: 'Pala',
+          state: 'CA',
+          zip: '92089',
+          legacy_descriptor: {
+            legacy_id: '7OFBh9m2St',
+            legacy_ui_id: '0419-8132-6960-2009479',
+            legacy_last_updated: '1998-01-02T10:09:29.000-0800',
+            legacy_table_name: 'PLC_HM_T',
+            legacy_table_description: 'Placement Home'
+          }
+        }, {
+          messages: [],
+          type: 'Home',
+          street_address: '6321 Di Loreto Point',
+          city: 'San Diego',
+          state: 'CA',
+          zip: '0',
+          legacy_descriptor: {
+            legacy_id: 'C9dNEEl0AB',
+            legacy_ui_id: '0690-4298-3587-5000631',
+            legacy_last_updated: '1999-11-19T10:24:06.637-0800',
+            legacy_table_name: 'ADDRS_T',
+            legacy_table_description: 'Address'
+          }
+        }],
+        races: [{ race: 'American Indian or Alaska Native', race_detail: 'American Indian' },
+                { race: 'Asian', race_detail: 'Chinese' }],
+        ethnicity: [{ hispanic_latino_origin: 'No', ethnicity_detail: [] }],
+        middle_name: '',
+        name_suffix: '',
+        approximate_age: '30',
+        approximate_age_units: 'years',
+        languages: ['English', 'American Sign Language'],
+        phone_numbers: [{ id: '1', number: '(971) 287-6774' }],
+        sealed: false,
+        sensitive: false,
+        probation_youth: false,
+        legacy_descriptor: {
+          legacy_id: '1234567890',
+          legacy_ui_id: '1621-3598-1936-3000631',
+          legacy_last_updated: '1999-11-23T12:45:34.372-0800',
+          legacy_table_name: 'CLIENT_T',
+          legacy_table_description: 'Client'
+        },
+        csec: []
+      }
+    end
+
     let(:relationships) do
       [
         {
-          id: participant.id.to_s,
-          first_name: participant.first_name,
-          last_name: participant.last_name,
+          id: participant[:id],
+          first_name: participant[:first_name],
+          last_name: participant[:last_name],
           relationships: [{
             related_person_id: nil,
             related_person_legacy_id: '789',
@@ -73,16 +132,16 @@ feature 'Snapshot relationship card' do
       ]
     end
 
-    before do
-      stub_empty_history_for_clients([participant.legacy_descriptor.legacy_id])
+    before(:each) do
+      stub_empty_history_for_clients([participant.dig(:legacy_descriptor, :legacy_id)])
 
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
         response.with_hits do
           [
             PersonSearchResultBuilder.build do |builder|
-              builder.with_first_name('Marge')
-              builder.with_legacy_descriptor(participant.legacy_descriptor)
+              builder.with_first_name(participant[:first_name])
+              builder.with_legacy_descriptor(participant[:legacy_descriptor])
             end
           ]
         end
@@ -91,27 +150,29 @@ feature 'Snapshot relationship card' do
       stub_person_search(person_response: search_response)
       stub_request(
         :get,
-        ferb_api_url(FerbRoutes.client_authorization_path(participant.legacy_descriptor.legacy_id))
+        ferb_api_url(
+          FerbRoutes.client_authorization_path(
+            participant.dig(:legacy_descriptor, :legacy_id)
+          )
+        )
       ).and_return(json_body('', status: 200))
+
       stub_person_find(
-        id: participant.legacy_descriptor.legacy_id,
-        person_response: search_response
+        id: participant.dig(:legacy_descriptor, :legacy_id),
+        person_response: participant
       )
 
       stub_request(
         :get,
         ferb_api_url(
           FerbRoutes.relationships_path
-        ) + "?clientIds=#{participant.legacy_descriptor.legacy_id}"
+        ) + "?clientIds=#{participant.dig(:legacy_descriptor, :legacy_id)}"
       ).and_return(json_body(relationships.to_json, status: 200))
 
       visit snapshot_path
 
       within '#search-card', text: 'Search' do
         fill_in 'Search for clients', with: 'Ma'
-      end
-
-      within '#search-card', text: 'Search' do
         page.find('strong', text: 'Marge').click
       end
     end
@@ -122,7 +183,7 @@ feature 'Snapshot relationship card' do
           :get,
           ferb_api_url(
             FerbRoutes.relationships_path
-          ) + "?clientIds=#{participant.legacy_descriptor.legacy_id}"
+          ) + "?clientIds=#{participant.dig(:legacy_descriptor, :legacy_id)}"
         )
       ).to have_been_made
 
