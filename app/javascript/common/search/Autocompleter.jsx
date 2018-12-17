@@ -81,6 +81,7 @@ export default class Autocompleter extends Component {
       onLoadMoreResults()
     }
     this.element_ref.setIgnoreBlur(true)
+    if (this.inputRef) { this.inputRef.focus() }
   }
 
   onSelect(item) {
@@ -225,7 +226,6 @@ export default class Autocompleter extends Component {
     const {
       isAddressIncluded, location, searchAddress, searchCity, searchCounty, searchTerm,
       onChangeAddress, onChangeCity, onChangeCounty} = this.props
-
     return (
       <SearchByAddress
         isAddressIncluded={isAddressIncluded}
