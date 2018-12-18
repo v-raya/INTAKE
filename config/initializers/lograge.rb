@@ -9,7 +9,7 @@ Rails.application.configure do
       exceptions = %w[controller action format accessCode search_term]
       options = {
         request_id: event.payload[:headers]['action_dispatch.request_id'],
-        session_id: event.payload[:headers]['rack.session'][:security_token],
+        session_id: event.payload[:headers]['rack.session'][:token],
         rails_session_id: event.payload[:headers]['rack.request.cookie_hash']['_session_id'],
         staff_id: event.payload[:staff_id],
         staff_county: event.payload[:staff_county],

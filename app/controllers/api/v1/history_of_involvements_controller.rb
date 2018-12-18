@@ -7,7 +7,7 @@ module Api
       def by_client_ids
         client_ids = params[:clientIds]&.split ','
         hois = HistoryOfInvolvementsRepository.search(
-          session[:security_token],
+          session[:token],
           request.uuid,
           client_ids
         )

@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 describe Api::V1::SecurityController do
-  let(:security_token) { 'security_token' }
+  let(:token) { 'token' }
 
   describe '#check_permission' do
     context 'with no permission in session' do
       let(:session) do
         {
-          security_token: security_token,
+          token: token,
           user_details: {
           }
         }
@@ -28,7 +28,7 @@ describe Api::V1::SecurityController do
     context 'with permission to add_sensitive_people' do
       let(:session) do
         {
-          security_token: security_token,
+          token: token,
           user_details: {
             'privileges' => ['Sensitive Persons']
           }
@@ -48,7 +48,7 @@ describe Api::V1::SecurityController do
     context 'without permission to add_sensitive_people' do
       let(:session) do
         {
-          security_token: security_token,
+          token: token,
           user_details: {
             'privileges' => []
           }
@@ -69,7 +69,7 @@ describe Api::V1::SecurityController do
   context 'with override authority' do
     let(:session) do
       {
-        security_token: security_token,
+        token: token,
         user_details: {
           'privileges' => ['Sensitive Persons', 'Statewide Read']
         }
@@ -89,7 +89,7 @@ describe Api::V1::SecurityController do
   context 'without override authority' do
     let(:session) do
       {
-        security_token: security_token,
+        token: token,
         user_details: {
           'privileges' => ['Sensitive Persons', 'Sealed']
         }
@@ -109,7 +109,7 @@ describe Api::V1::SecurityController do
   context 'with a county override' do
     let(:session) do
       {
-        security_token: security_token,
+        token: token,
         user_details: {
           'privileges' => ['Sensitive Persons', 'Countywide Read']
         }

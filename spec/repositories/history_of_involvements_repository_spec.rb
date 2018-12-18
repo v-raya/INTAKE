@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe HistoryOfInvolvementsRepository do
-  let(:security_token) { 'my_security_token' }
+  let(:token) { 'my_token' }
   let(:request_id) { 'my_request_id' }
 
   describe '.search' do
@@ -33,7 +33,7 @@ describe HistoryOfInvolvementsRepository do
     end
 
     it 'should return an empty HOI when no relationships found' do
-      hois = described_class.search(security_token, request_id, [])
+      hois = described_class.search(token, request_id, [])
 
       expect(hois).to eq(empty_hoi)
     end
@@ -41,14 +41,14 @@ describe HistoryOfInvolvementsRepository do
     it 'should return an HOI for a single id' do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: request_id,
           url: '/clients/history_of_involvements',
           method: :get,
           payload: { clientIds: ['EwsPYbG07n'] }
         ).and_return(hoi_response)
 
-      relationships = described_class.search(security_token, request_id, ['EwsPYbG07n'])
+      relationships = described_class.search(token, request_id, ['EwsPYbG07n'])
 
       expect(relationships).to eq(hoi)
     end
@@ -56,7 +56,7 @@ describe HistoryOfInvolvementsRepository do
     it 'should return an HOI for multiple clients' do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: request_id,
           url: '/clients/history_of_involvements',
           method: :get,
@@ -64,7 +64,7 @@ describe HistoryOfInvolvementsRepository do
         ).and_return(hoi_response)
 
       relationships = described_class.search(
-        security_token,
+        token,
         request_id,
         %w[EwsPYbG07n ABCDEFGHIJ ZYXWVUTSRQ]
       )

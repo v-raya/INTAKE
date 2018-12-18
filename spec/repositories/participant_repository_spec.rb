@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ParticipantRepository do
-  let(:security_token) { 'my_security_token' }
+  let(:token) { 'my_token' }
   let(:request_id) { 'my_request_id' }
   let(:screening_id) { '1' }
 
@@ -35,7 +35,7 @@ describe ParticipantRepository do
       before do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token: security_token,
+            token: token,
             request_id: request_id,
             url: FerbRoutes.screening_participant_path(screening_id),
             method: :post,
@@ -45,7 +45,7 @@ describe ParticipantRepository do
       end
 
       it 'returns the created participant with an error flag' do
-        created_participant = described_class.create(security_token, request_id, payload)
+        created_participant = described_class.create(token, request_id, payload)
         expect(created_participant['id']).to eq(participant_id)
         expect(created_participant['first_name']).to eq('New Participant')
       end
@@ -81,14 +81,14 @@ describe ParticipantRepository do
       it 'should return a participant when authorization succeeds' do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token: security_token,
+            token: token,
             request_id: request_id,
             url: FerbRoutes.screening_participant_path(screening_id),
             method: :post,
             payload: payload.as_json.deep_symbolize_keys
           ).and_return(response)
 
-        created_participant = described_class.create(security_token, request_id, payload)
+        created_participant = described_class.create(token, request_id, payload)
         expect(created_participant['id']).to eq(participant_id)
         expect(created_participant['first_name']).to eq('New Participant')
       end
@@ -102,12 +102,12 @@ describe ParticipantRepository do
     it 'makes a DELETE API call to participants' do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: request_id,
           url: FerbRoutes.delete_screening_participant_path(screening_id, participant_id),
           method: :delete
         )
-      described_class.delete(security_token, request_id, screening_id, participant_id)
+      described_class.delete(token, request_id, screening_id, participant_id)
     end
   end
 
@@ -129,7 +129,7 @@ describe ParticipantRepository do
       before do
         expect(FerbAPI).to receive(:make_api_call)
           .with(
-            security_token: security_token,
+            token: token,
             request_id: request_id,
             url: "/screenings/#{screening_id}/participants/#{participant_id}",
             method: :put,
@@ -139,7 +139,7 @@ describe ParticipantRepository do
       end
 
       it 'returns the updated participant' do
-        updated_participant = described_class.update(security_token, request_id, participant)
+        updated_participant = described_class.update(token, request_id, participant)
         expect(updated_participant['id']).to eq(participant_id)
         expect(updated_participant['first_name']).to eq('Updated Participant')
       end
@@ -150,7 +150,7 @@ describe ParticipantRepository do
 
       it 'raises an error' do
         expect do
-          described_class.update(security_token, request_id, participant)
+          described_class.update(token, request_id, participant)
         end.to raise_error('Error updating participant: id is required')
       end
     end
@@ -162,7 +162,7 @@ describe ParticipantRepository do
     it 'should return when authorization succeeds' do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: request_id,
           url: "/authorize/client/#{participant_id}",
           method: :get
@@ -170,7 +170,7 @@ describe ParticipantRepository do
         .and_return(status: 200)
 
       expect do
-        described_class.authorize(security_token, request_id, participant_id)
+        described_class.authorize(token, request_id, participant_id)
       end.not_to raise_error
     end
 
@@ -178,7 +178,7 @@ describe ParticipantRepository do
       url = "/authorize/client/#{participant_id}"
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: request_id,
           url: url,
           method: :get
@@ -197,7 +197,7 @@ describe ParticipantRepository do
         )
 
       expect do
-        described_class.authorize(security_token, request_id, participant_id)
+        described_class.authorize(token, request_id, participant_id)
       end.to raise_error(described_class::AuthorizationError)
     end
 
@@ -217,7 +217,7 @@ describe ParticipantRepository do
 
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: request_id,
           url: url,
           method: :get
@@ -225,7 +225,7 @@ describe ParticipantRepository do
         .and_raise(exception)
 
       expect do
-        described_class.authorize(security_token, request_id, participant_id)
+        described_class.authorize(token, request_id, participant_id)
       end.to raise_error(exception)
     end
   end

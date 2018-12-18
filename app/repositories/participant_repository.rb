@@ -5,11 +5,11 @@
 class ParticipantRepository
   class AuthorizationError < StandardError; end
 
-  def self.create(security_token, request_id, participant)
+  def self.create(token, request_id, participant)
     screening_id = participant[:screening_id]
 
     response = FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.screening_participant_path(screening_id),
       method: :post,
@@ -18,20 +18,20 @@ class ParticipantRepository
     response.body.as_json
   end
 
-  def self.delete(security_token, request_id, screening_id, id)
+  def self.delete(token, request_id, screening_id, id)
     FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.delete_screening_participant_path(screening_id, id),
       method: :delete
     )
   end
 
-  def self.update(security_token, request_id, participant)
+  def self.update(token, request_id, participant)
     raise 'Error updating participant: id is required' unless participant[:id]
 
     response = FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.screening_participant_path(participant[:screening_id], participant[:id]),
       method: :put,
@@ -44,10 +44,10 @@ class ParticipantRepository
     participant.as_json.except('id')
   end
 
-  def self.authorize(security_token, request_id, id)
+  def self.authorize(token, request_id, id)
     return if id.blank?
     FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.client_authorization_path(id),
       method: :get

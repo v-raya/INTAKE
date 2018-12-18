@@ -12,12 +12,12 @@ module Api
       end
 
       def show
-        ParticipantRepository.authorize(session[:security_token], request_id, id)
+        ParticipantRepository.authorize(session[:token], request_id, id)
 
         response = PersonSearchRepository.find(
           id,
           request_id,
-          security_token: session[:security_token]
+          token: session[:token]
         )
         render json: response.body.to_json, status: 200
       rescue ParticipantRepository::AuthorizationError

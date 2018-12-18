@@ -14,13 +14,13 @@ describe JsonAPI do
   end
 
   describe '.make_api_call' do
-    let(:security_token) { FFaker::Guid.guid }
+    let(:token) { FFaker::Guid.guid }
     let(:request_id) { FFaker::Guid.guid }
 
     it 'sends get requests to the JSON API' do
       stub_request(:get, 'http://api_url/api/v1/screening/1')
       api_class.make_api_call(
-        security_token: security_token,
+        token: token,
         request_id: request_id,
         url: '/api/v1/screening/1',
         method: :get
@@ -28,9 +28,9 @@ describe JsonAPI do
       expect(
         a_request(:get, 'http://api_url/api/v1/screening/1')
         .with(headers: {
-                Authorization: security_token,
+                Authorization: token,
                 'Request-Id': request_id,
-                'Session-Id': security_token
+                'Session-Id': token
               })
       ).to have_been_made
     end
@@ -40,13 +40,13 @@ describe JsonAPI do
         .with(headers: {
                 'Accept' => '*/*',
                 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-                'Authorization' => security_token,
+                'Authorization' => token,
                 'Request-Id': request_id,
-                'Session-Id' => security_token,
+                'Session-Id' => token,
                 'User-Agent' => 'Faraday v0.15.3'
               })
       api_class.make_api_call(
-        security_token: security_token,
+        token: token,
         request_id: request_id,
         url: '/api/v1/screening/1',
         method: :get
@@ -54,9 +54,9 @@ describe JsonAPI do
       expect(
         a_request(:get, 'http://api_url/api/v1/screening/1')
           .with(headers: {
-                  Authorization: security_token,
+                  Authorization: token,
                   'Request-Id': request_id,
-                  'Session-Id' => security_token
+                  'Session-Id' => token
                 })
       ).to have_been_made
     end
@@ -64,7 +64,7 @@ describe JsonAPI do
     it 'sends get requests with params instead of a body' do
       stub_request(:get, 'http://api_url/api/v1/screening/1?foo=ABC&foo=DEF&bar=BAZ')
       api_class.make_api_call(
-        security_token: security_token,
+        token: token,
         request_id: request_id,
         method: :get,
         url: '/api/v1/screening/1',
@@ -81,7 +81,7 @@ describe JsonAPI do
     it 'sends post requests to the JSON API' do
       stub_request(:post, 'http://api_url/api/v1/screening').and_return(status: 201)
       api_class.make_api_call(
-        security_token: security_token,
+        token: token,
         request_id: request_id,
         method: :post,
         url: '/api/v1/screening',
@@ -93,7 +93,7 @@ describe JsonAPI do
         a_request(:post, 'http://api_url/api/v1/screening')
         .with(
           body: { name: 'my new screening' },
-          headers: { 'Content-Type' => 'application/json', Authorization: security_token }
+          headers: { 'Content-Type' => 'application/json', Authorization: token }
         )
       ).to have_been_made
     end
@@ -101,7 +101,7 @@ describe JsonAPI do
     it 'sends put requests to the JSON API' do
       stub_request(:put, 'http://api_url/api/v1/screening/1').and_return(status: 200)
       api_class.make_api_call(
-        security_token: security_token,
+        token: token,
         request_id: request_id,
         method: :put,
         url: '/api/v1/screening/1',
@@ -113,7 +113,7 @@ describe JsonAPI do
         a_request(:put, 'http://api_url/api/v1/screening/1')
         .with(
           body: { name: 'my new screening' },
-          headers: { 'Content-Type' => 'application/json', Authorization: security_token }
+          headers: { 'Content-Type' => 'application/json', Authorization: token }
         )
       ).to have_been_made
     end
@@ -121,14 +121,14 @@ describe JsonAPI do
     it 'sends delete requests to the JSON API' do
       stub_request(:delete, 'http://api_url/api/v1/screening/1').and_return(status: 204)
       api_class.make_api_call(
-        security_token: security_token,
+        token: token,
         request_id: request_id,
         method: :delete,
         url: '/api/v1/screening/1'
       )
       expect(
         a_request(:delete, 'http://api_url/api/v1/screening/1')
-        .with(headers: { Authorization: security_token })
+        .with(headers: { Authorization: token })
       ).to have_been_made
     end
 
@@ -138,7 +138,7 @@ describe JsonAPI do
 
       expect do
         api_class.make_api_call(
-          security_token: security_token,
+          token: token,
           request_id: request_id,
           method: :get,
           url: '/api/v1/screening/1'
@@ -157,7 +157,7 @@ describe JsonAPI do
 
       expect(
         a_request(:get, 'http://api_url/api/v1/screening/1')
-        .with(headers: { Authorization: security_token })
+        .with(headers: { Authorization: token })
       ).to have_been_made
     end
   end

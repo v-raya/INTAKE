@@ -7,7 +7,7 @@ module Api
     class RelationshipsController < ApiController # :nodoc:
       def create
         created_relationships = RelationshipsRepository.create(
-          session[:security_token],
+          session[:token],
           request.uuid,
           relationships_params
         )
@@ -20,7 +20,7 @@ module Api
 
       def show
         relationship = RelationshipsRepository.find(
-          session[:security_token],
+          session[:token],
           request.uuid,
           params[:id]
         )
@@ -29,7 +29,7 @@ module Api
 
       def update
         update_relationship = RelationshipsRepository.update(
-          session[:security_token],
+          session[:token],
           request.uuid,
           params[:id],
           relationship_params
@@ -41,7 +41,7 @@ module Api
 
       def relationships_by_screening_id
         RelationshipsRepository.get_relationships_for_screening_id(
-          session[:security_token],
+          session[:token],
           request.uuid,
           params[:screeningId]
         )
@@ -49,7 +49,7 @@ module Api
 
       def relationships_by_search
         RelationshipsRepository.search(
-          session[:security_token],
+          session[:token],
           request.uuid,
           client_ids
         )

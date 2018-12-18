@@ -6,7 +6,7 @@ describe ApiController do
   controller do
     def custom
       FerbAPI.make_api_call(
-        security_token: 'my_security_token',
+        token: 'my_token',
         request_id: 'my_request_id',
         url: '/some_test_path',
         method: :get

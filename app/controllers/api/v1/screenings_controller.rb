@@ -12,13 +12,13 @@ module Api
       def create
         has_params = params['screening'].blank?
         screening = has_params ? new_screening : params.require(:screening).as_json.symbolize_keys
-        render json: ScreeningRepository.create(session[:security_token], request.uuid, screening)
+        render json: ScreeningRepository.create(session[:token], request.uuid, screening)
       end
 
       def update
         screening = params.require(:screening).as_json.symbolize_keys
         updated_screening = ScreeningRepository.update(
-          session[:security_token],
+          session[:token],
           request.uuid,
           screening
         )
@@ -26,29 +26,29 @@ module Api
       end
 
       def show
-        screening = ScreeningRepository.find(session[:security_token], request.uuid, params[:id])
+        screening = ScreeningRepository.find(session[:token], request.uuid, params[:id])
         render json: screening
       end
 
       def index
-        render json: ScreeningRepository.search(session[:security_token], request.uuid)
+        render json: ScreeningRepository.search(session[:token], request.uuid)
       end
 
       def history_of_involvements
         involvements = ScreeningRepository.history_of_involvements(
-          session[:security_token], request.uuid, params[:id]
+          session[:token], request.uuid, params[:id]
         )
         render json: involvements
       end
 
       def submit
-        render json: ScreeningRepository.submit(session[:security_token], request.uuid, params[:id])
+        render json: ScreeningRepository.submit(session[:token], request.uuid, params[:id])
       end
 
       def contact
         contact = params.require(:contact).as_json.symbolize_keys
         render json: ScreeningRepository.contact(
-          session[:security_token],
+          session[:token],
           request.uuid,
           params[:id],
           contact

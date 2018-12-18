@@ -9,7 +9,7 @@ module Api
 
       def index
         response = FerbAPI.make_api_call(
-          security_token: session['security_token'],
+          token: session['token'],
           request_id: request.uuid,
           url: FerbRoutes.lov_path,
           method: :get
@@ -19,7 +19,7 @@ module Api
 
       def cross_report_agency
         response = FerbAPI.make_api_call(
-          security_token: session['security_token'],
+          token: session['token'],
           request_id: request.uuid,
           url: "#{FerbRoutes.cross_report_agency}?countyId=#{params[:county_id]}",
           method: :get
