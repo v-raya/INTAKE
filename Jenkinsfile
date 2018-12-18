@@ -42,11 +42,6 @@ node('intake-slave') {
     }
 
     if (branch == 'origin/master') {
-      triggerProperties = pullRequestMergedTriggerProperties('intake-master')
-      properties([
-        pipelineTriggers([triggerProperties])
-      ])
-
       stage('Build') {
         curStage = 'Build'
         sh 'make build'
