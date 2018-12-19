@@ -2,12 +2,11 @@ export const sortAddressType = data => {
   const ordering = {}
   const sortOrder = [
     'Placement Home',
-    'Residence',
+    'Home',
     'Common',
     'Homeless',
     'Penal Institution',
     'Work',
-    'Home',
     'Residence 2',
     'Day Care',
     'Other',
