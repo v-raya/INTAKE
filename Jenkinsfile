@@ -88,7 +88,7 @@ node('intake-slave') {
           sh "curl -v -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
             "?token=${JENKINS_TRIGGER_TOKEN}" +
             "&cause=Caused%20by%20Build%20${env.BUILD_ID}" +
-            "&INTAKE_APP_VERSION=${VERSION}'"
+            "&APP_VERSION=${VERSION}'"
         }
         pipelineStatus = 'SUCCEEDED'
         currentBuild.result = 'SUCCESS'
