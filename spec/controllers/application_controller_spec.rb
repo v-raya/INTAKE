@@ -52,10 +52,38 @@ describe ApplicationController do
 
       context 'when already authenticated' do
         context 'when no new token is provided' do
-          it 'does nothing' do
-            process :custom, method: :get, session: { token: 'my_secure_token' }
+          let(:new_auth_artifact) do
+            { 'user' => 'user1', 'roles' => %w[role3 role4], 'staffId' => 'def' }
+          end
+          
+          it 'when session user_details present, it does nothing ' do
+            process :custom,
+              method: :get,
+              session: {
+                token: 'my_secure_token',
+                user_details: new_auth_artifact
+              }
             expect(response).to be_successful
             expect(session[:token]).to eq('my_secure_token')
+          end
+
+          it 'when session user_details is nil, it saves' do
+            expect(SecurityRepository).to receive(:auth_artifact_for_token)
+              .with('my_secure_token')
+              .and_return(new_auth_artifact.to_json)
+            expect(StaffRepository).to receive(:find)
+              .with('my_secure_token', anything, 'def')
+              .and_return(new_auth_artifact)
+
+            process :custom,
+              method: :get,
+              session: {
+                token: 'my_secure_token',
+                user_details: nil
+              }
+            expect(response).to be_successful
+            expect(session[:token]).to eq('my_secure_token')
+            expect(session[:user_details]).to eq(new_auth_artifact)
           end
         end
 

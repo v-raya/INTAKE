@@ -20,21 +20,28 @@ class ApplicationController < ActionController::Base # :nodoc:
     token = SecurityRepository.retrieve_token(
       access_code: params[:accessCode], token: params[:token]
     )
-    session.delete(:token) if token
-    return if session[:token]
 
-    process_token(token)
+    if token
+      session.delete(:token)
+      process_token(token)
+    elsif session[:user_details].nil?
+      process_token(session[:token])
+    end
   end
 
   def process_token(token)
     auth_artifact = SecurityRepository.auth_artifact_for_token(token)
     if auth_artifact
-      session[:token] = token
-      return unless json?(auth_artifact)
-      assign_and_log_user_details(auth_artifact, token)
+      session[:token] = token if session[:token].nil?
+      process_auth_artifact(auth_artifact, token)
     else
       redirect_to SecurityRepository.login_url(request.original_url)
     end
+  end
+
+  def process_auth_artifact(auth_artifact, token)
+    return unless json?(auth_artifact)
+    assign_and_log_user_details(auth_artifact, token)
   end
 
   def set_user_details_on_session(token, staff_id, auth_data)
