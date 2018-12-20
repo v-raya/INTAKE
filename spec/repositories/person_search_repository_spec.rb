@@ -4,10 +4,8 @@ require 'rails_helper'
 
 describe PersonSearchRepository do
   let(:token) { 'token' }
-  let(:privileges) { ['Snapshot-Street-Address'] }
   let(:session) do
-    { token: token,
-      user_details: { privileges: privileges } }
+    { token: token }
   end
   let(:request_id) { 'my_request_id' }
   let(:params) do
@@ -70,63 +68,6 @@ describe PersonSearchRepository do
         result = described_class.find(id, request_id, token: token)
         expect(result.body.dig('legacy_descriptor', 'legacy_id')).to eq id
       end
-    end
-  end
-
-  describe '.address_privilege?' do
-    it 'return true when privileges contains Snapshot-Street-Address' do
-      expect(PersonSearchRepository.send(:address_privilege?)).to eq true
-    end
-  end
-
-  describe '.filtered_response' do
-    let(:response) do
-      {
-        'hits' => {
-          'hits' => [{
-            '_source' => {
-              'addresses' => [{
-                'zip' => '92530',
-                'city' => 'Lake Elsinore',
-                'county' => {},
-                'street_number' => '4451',
-                'id' => '8Uywd2T0Ht',
-                'type' => {
-                  'description' => 'Residence', 'id' => '32'
-                },
-                'state_code' => 'CA',
-                'street_name' => 'Anniversary Parkway'
-              }]
-            }
-          }]
-        }
-      }
-    end
-
-    let(:response_without_street_details) do
-      {
-        'hits' => {
-          'hits' => [{
-            '_source' => {
-              'addresses' => [{
-                'zip' => '92530',
-                'city' => 'Lake Elsinore',
-                'county' => {},
-                'id' => '8Uywd2T0Ht',
-                'type' => {
-                  'description' => 'Residence', 'id' => '32'
-                },
-                'state_code' => 'CA'
-              }]
-            }
-          }]
-        }
-      }
-    end
-
-    it 'strip out street_name and street_number' do
-      expect(PersonSearchRepository.send(:filtered_response, response))
-        .to eq response_without_street_details
     end
   end
 end

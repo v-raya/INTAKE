@@ -3,8 +3,6 @@
 # PersonSearchRepository is a service class responsible for search of a person
 # resource via the API
 class PersonSearchRepository
-  ADDRESS_PRIVILEGE = 'Snapshot-Street-Address'
-
   class << self
     attr_reader :session
 
@@ -34,31 +32,10 @@ class PersonSearchRepository
 
     private
 
-    def address_privilege?
-      session[:user_details][:privileges].include?(ADDRESS_PRIVILEGE)
-    end
-
     def body(response)
       search_body = response.body
       raise search_body unless response.status == 200
-
-      if address_privilege?
-        search_body
-      else
-        filtered_response(search_body)
-      end
-    end
-
-    def filtered_response(response)
-      response.dig('hits', 'hits').each do |hash|
-        addresses = hash.dig('_source', 'addresses')
-        next if addresses.nil?
-        addresses.each do |address|
-          address.delete('street_name')
-          address.delete('street_number')
-        end
-      end
-      response
+      search_body
     end
 
     def find_query(id)

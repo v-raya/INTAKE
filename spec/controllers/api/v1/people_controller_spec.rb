@@ -4,10 +4,8 @@ require 'rails_helper'
 
 describe Api::V1::PeopleController do
   let(:token) { 'token' }
-  let(:privileges) { ['Snapshot-Street-Address'] }
   let(:session) do
-    { token: token,
-      user_details: { privileges: privileges } }
+    { token: token }
   end
   let(:people) { double(:search_response, as_json: 'search response') }
   let(:params) do

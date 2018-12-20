@@ -5,8 +5,6 @@ require 'feature/testing'
 
 feature 'Snapshot relationship card' do
   before(:each) do
-    allow(PersonSearchRepository).to \
-      receive(:address_privilege?).and_return(true)
     stub_system_codes
   end
 

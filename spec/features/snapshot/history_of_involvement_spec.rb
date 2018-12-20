@@ -239,8 +239,6 @@ feature 'Snapshot History of Involvement' do
   end
 
   before(:each) do
-    allow(PersonSearchRepository).to \
-      receive(:address_privilege?).and_return(true)
     stub_system_codes
   end
 
@@ -268,9 +266,6 @@ feature 'Snapshot History of Involvement' do
     end
 
     before(:each) do
-      allow(PersonSearchRepository).to \
-        receive(:address_privilege?).and_return(true)
-
       stub_request(
         :get,
         ferb_api_url(
