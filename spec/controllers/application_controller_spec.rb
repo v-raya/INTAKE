@@ -55,7 +55,7 @@ describe ApplicationController do
           let(:new_auth_artifact) do
             { 'user' => 'user1', 'roles' => %w[role3 role4], 'staffId' => 'def' }
           end
-          
+
           it 'when session user_details present, it does nothing ' do
             process :custom,
               method: :get,
