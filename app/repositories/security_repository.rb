@@ -4,7 +4,7 @@
 # to the security API
 class SecurityRepository
   class << self
-    def retrieve_security_token(access_code: nil, token: nil)
+    def retrieve_token(access_code: nil, token: nil)
       if Feature.active?(:perry_version_two)
         return unless access_code.present?
         call_api_to_map_token(access_code)

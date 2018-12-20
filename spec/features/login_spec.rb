@@ -120,10 +120,14 @@ feature 'login' do
   end
 
   scenario 'user has already logged in' do
+    staff_url = ferb_api_url(FerbRoutes.staff_path(1234))
     stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       .and_return(json_body(screening_results, status: 200))
     stub_request(:get, auth_access_code_url).and_return(json_body('123', status: 200))
-    stub_request(:get, auth_validation_url).and_return(status: 200)
+    stub_request(:get, auth_validation_url)
+      .and_return(json_body(auth_artifact.to_json, status: 200))
+    stub_request(:get, staff_url)
+      .and_return(json_body(staff_info.to_json, status: 200))
     visit root_path(accessCode: 'tempToken123')
     expect(a_request(:get, auth_access_code_url)).to have_been_made
     expect(a_request(:get, auth_validation_url)).to have_been_made
@@ -284,9 +288,14 @@ feature 'login perry v1' do
   end
 
   scenario 'user has already logged in' do
+    staff_url = ferb_api_url(FerbRoutes.staff_path(1234))
+    stub_request(:get, staff_url)
+      .and_return(json_body(staff_info.to_json, status: 200))
     stub_request(:get, ferb_api_url(FerbRoutes.screenings_path))
       .and_return(json_body(screening_results, status: 200))
-    stub_request(:get, auth_validation_url).and_return(status: 200)
+    stub_request(:get, auth_validation_url)
+      .and_return(json_body(auth_artifact.to_json, status: 200))
+    # .and_return(status: 200)
     visit root_path(token: 123)
     expect(a_request(:get, auth_validation_url)).to have_been_made
     WebMock.reset!

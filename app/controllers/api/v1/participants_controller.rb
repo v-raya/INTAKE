@@ -9,7 +9,7 @@ module Api
 
       def create
         created_participant = ParticipantRepository.create(
-          session[:security_token],
+          session[:token],
           request.uuid,
           participant_params
         )
@@ -20,7 +20,7 @@ module Api
 
       def update
         updated_participant = ParticipantRepository.update(
-          session[:security_token],
+          session[:token],
           request.uuid,
           participant_params
         )
@@ -29,7 +29,7 @@ module Api
 
       def destroy
         ParticipantRepository.delete(
-          session[:security_token],
+          session[:token],
           request.uuid,
           params[:screening_id],
           params[:id]

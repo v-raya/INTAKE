@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe Api::V1::PeopleController do
-  let(:security_token) { 'security_token' }
+  let(:token) { 'token' }
   let(:privileges) { ['Snapshot-Street-Address'] }
   let(:session) do
-    { security_token: security_token,
+    { token: token,
       user_details: { privileges: privileges } }
   end
   let(:people) { double(:search_response, as_json: 'search response') }
@@ -62,7 +62,7 @@ describe Api::V1::PeopleController do
       person = instance_double('ActionDispatch::Response',
         body: 'search response')
       allow(PersonSearchRepository).to receive(:find)
-        .with(id, anything, security_token: security_token)
+        .with(id, anything, token: token)
         .and_return(person)
       stub_request(:get, ferb_api_url(FerbRoutes.client_authorization_path(id)))
         .and_return(json_body('', status: 200))

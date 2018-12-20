@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe Api::V1::HistoryOfInvolvementsController do
-  let(:security_token) { 'blanket' }
-  let(:session) { { security_token: security_token } }
+  let(:token) { 'blanket' }
+  let(:session) { { token: token } }
 
   let(:expected_json) do
     {
@@ -21,7 +21,7 @@ describe Api::V1::HistoryOfInvolvementsController do
 
     before do
       expect(HistoryOfInvolvementsRepository).to receive(:search)
-        .with(security_token, anything, client_ids)
+        .with(token, anything, client_ids)
         .and_return(expected_json)
     end
 

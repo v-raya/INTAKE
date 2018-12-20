@@ -53,7 +53,7 @@ describe SecurityRepository do
     end
   end
 
-  describe '.retrieve_security_token' do
+  describe '.retrieve_token' do
     context 'with perry version two disabled' do
       let(:token) { 't123' }
       before do
@@ -63,7 +63,7 @@ describe SecurityRepository do
 
       it 'returns the access code as it is' do
         expect(a_request(:get, %r{http://www.example.com})).not_to have_been_made
-        expect(described_class.retrieve_security_token(access_code: nil, token: token)).to eq token
+        expect(described_class.retrieve_token(access_code: nil, token: token)).to eq token
       end
     end
     context 'with perry version two enabled' do
@@ -85,7 +85,7 @@ describe SecurityRepository do
 
         it 'returns an authorization artifact' do
           expect(
-            described_class.retrieve_security_token(access_code: access_code, token: nil)
+            described_class.retrieve_token(access_code: access_code, token: nil)
           ).to eq token
           expect(
             a_request(:get, 'http://www.example.com/authn/token?accessCode=ac123')
@@ -101,7 +101,7 @@ describe SecurityRepository do
 
         it 'returns nil if status is not 200' do
           expect(
-            described_class.retrieve_security_token(access_code: access_code, token: nil)
+            described_class.retrieve_token(access_code: access_code, token: nil)
           ).to eq nil
           expect(
             a_request(:get, 'http://www.example.com/authn/token?accessCode=ac123')
@@ -111,7 +111,7 @@ describe SecurityRepository do
 
       context 'when provided with a null access code' do
         it 'returns nil if status is not 200' do
-          expect(described_class.retrieve_security_token(access_code: nil, token: nil)).to eq nil
+          expect(described_class.retrieve_token(access_code: nil, token: nil)).to eq nil
           expect(
             a_request(:get, 'http://www.example.com/authn/token?accessCode=ac123')
           ).not_to have_been_made

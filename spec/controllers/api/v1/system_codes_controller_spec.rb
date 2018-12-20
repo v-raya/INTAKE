@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe Api::V1::SystemCodesController do
   describe '#index' do
-    let(:security_token) { 'security_token' }
+    let(:token) { 'token' }
     let(:session) do
-      { security_token => security_token }
+      { token => token }
     end
     let(:response_object) do
       double(
@@ -18,7 +18,7 @@ describe Api::V1::SystemCodesController do
     before do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: anything,
           url: '/lov',
           method: :get
@@ -36,9 +36,9 @@ describe Api::V1::SystemCodesController do
   end
 
   describe '#cross_report_agency' do
-    let(:security_token) { 'security_token' }
+    let(:token) { 'token' }
     let(:session) do
-      { security_token => security_token }
+      { token => token }
     end
     let(:agency_data) do
       [{
@@ -118,7 +118,7 @@ describe Api::V1::SystemCodesController do
     before do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: anything,
           url: '/cross_report_agency?countyId=1086',
           method: :get
@@ -140,9 +140,9 @@ describe Api::V1::SystemCodesController do
   end
 
   describe '#cross_report_agency' do
-    let(:security_token) { 'security_token' }
+    let(:token) { 'token' }
     let(:session) do
-      { security_token => security_token }
+      { token => token }
     end
     let(:agency_data) do
       [{
@@ -216,7 +216,7 @@ describe Api::V1::SystemCodesController do
     before do
       expect(FerbAPI).to receive(:make_api_call)
         .with(
-          security_token: security_token,
+          token: token,
           request_id: anything,
           url: '/cross_report_agency?countyId=123',
           method: :get

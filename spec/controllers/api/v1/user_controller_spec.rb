@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Api::V1::UserController do
-  let(:security_token) { 'security_token' }
+  let(:token) { 'token' }
   let(:staff) { FactoryBot.build(:staff, staff_id: '123') }
   let(:session) do
     {

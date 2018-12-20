@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe PersonSearchRepository do
-  let(:security_token) { 'security_token' }
+  let(:token) { 'token' }
   let(:privileges) { ['Snapshot-Street-Address'] }
   let(:session) do
-    { security_token: security_token,
+    { token: token,
       user_details: { privileges: privileges } }
   end
   let(:request_id) { 'my_request_id' }
@@ -57,7 +57,7 @@ describe PersonSearchRepository do
           .and_return(json_body(hits.to_json, status: 200))
 
         expect do
-          described_class.find(nil, request_id, security_token: security_token)
+          described_class.find(nil, request_id, token: token)
         end.to raise_error('id is required')
       end
     end
@@ -67,7 +67,7 @@ describe PersonSearchRepository do
         stub_request(:get, ferb_api_url(FerbRoutes.participants_path(id)))
           .and_return(json_body(participant.to_json, status: 200))
 
-        result = described_class.find(id, request_id, security_token: security_token)
+        result = described_class.find(id, request_id, token: token)
         expect(result.body.dig('legacy_descriptor', 'legacy_id')).to eq id
       end
     end

@@ -12,12 +12,12 @@ class JsonAPI # :nodoc:
     end
   end
 
-  def self.make_api_call(security_token:, request_id:, url:, method:, payload: nil)
+  def self.make_api_call(token:, request_id:, url:, method:, payload: nil)
     connection.send(method) do |req|
       req.url url
-      req.headers['Authorization'] = security_token
+      req.headers['Authorization'] = token
       req.headers['REQUEST_ID'] = request_id
-      req.headers['SESSION_ID'] = security_token
+      req.headers['SESSION_ID'] = token
       set_payload(req, method, payload)
     end
   rescue Faraday::Error => e

@@ -17,30 +17,37 @@ class ApplicationController < ActionController::Base # :nodoc:
   private
 
   def authenticate_user
-    security_token = SecurityRepository.retrieve_security_token(
+    token = SecurityRepository.retrieve_token(
       access_code: params[:accessCode], token: params[:token]
     )
-    session.delete(:security_token) if security_token
-    return if session[:security_token]
 
-    process_token(security_token)
+    if token
+      session.delete(:token)
+      process_token(token)
+    elsif session[:user_details].nil?
+      process_token(session[:token])
+    end
   end
 
-  def process_token(security_token)
-    auth_artifact = SecurityRepository.auth_artifact_for_token(security_token)
+  def process_token(token)
+    auth_artifact = SecurityRepository.auth_artifact_for_token(token)
     if auth_artifact
-      session[:security_token] = security_token
-      return unless json?(auth_artifact)
-      assign_and_log_user_details(auth_artifact, security_token)
+      session[:token] = token if session[:token].nil?
+      process_auth_artifact(auth_artifact, token)
     else
       redirect_to SecurityRepository.login_url(request.original_url)
     end
   end
 
-  def set_user_details_on_session(security_token, staff_id, auth_data)
+  def process_auth_artifact(auth_artifact, token)
+    return unless json?(auth_artifact)
+    assign_and_log_user_details(auth_artifact, token)
+  end
+
+  def set_user_details_on_session(token, staff_id, auth_data)
     return unless staff_id
     begin
-      session[:user_details] = StaffRepository.find(security_token, request.uuid, staff_id)
+      session[:user_details] = StaffRepository.find(token, request.uuid, staff_id)
     rescue StandardError
       session[:user_details] = Staff.new('staffId' => staff_id)
     end
@@ -70,10 +77,10 @@ class ApplicationController < ActionController::Base # :nodoc:
     false
   end
 
-  def assign_and_log_user_details(auth_artifact, security_token)
+  def assign_and_log_user_details(auth_artifact, token)
     auth_data = JSON.parse(auth_artifact)
     staff_id = auth_data['staffId']
-    set_user_details_on_session(security_token, staff_id, auth_data)
+    set_user_details_on_session(token, staff_id, auth_data)
     Rails.logger.info("User Authenticated: #{staff_id}")
   end
 end

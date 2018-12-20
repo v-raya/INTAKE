@@ -11,7 +11,7 @@ class PersonSearchRepository
     def search(params, request_id, session: {})
       @session = session
       response = DoraAPI.make_api_call(
-        security_token: session['security_token'],
+        token: session['token'],
         request_id: request_id,
         url: ExternalRoutes.dora_people_light_index_path,
         method: :post,
@@ -20,11 +20,11 @@ class PersonSearchRepository
       body(response)
     end
 
-    def find(id, request_id, security_token: nil)
+    def find(id, request_id, token: nil)
       raise 'id is required' unless id
 
       response = FerbAPI.make_api_call(
-        security_token: security_token,
+        token: token,
         request_id: request_id,
         url: FerbRoutes.participants_path(id),
         method: :get

@@ -3,9 +3,9 @@
 # ScreeningRepository is a service class responsible for creation of a screening
 # resource via the API
 class ScreeningRepository
-  def self.create(security_token, request_id, screening)
+  def self.create(token, request_id, screening)
     response = FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.intake_screenings_path,
       method: :post,
@@ -14,9 +14,9 @@ class ScreeningRepository
     response.body.to_json
   end
 
-  def self.find(security_token, request_id, id)
+  def self.find(token, request_id, id)
     response = FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.intake_screening_path(id),
       method: :get
@@ -24,10 +24,10 @@ class ScreeningRepository
     response.body.as_json
   end
 
-  def self.update(security_token, request_id, screening)
+  def self.update(token, request_id, screening)
     raise 'Error updating screening: id is required' unless screening[:id]
     response = FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.intake_screening_path(screening[:id]),
       method: :put,
@@ -36,9 +36,9 @@ class ScreeningRepository
     response.body.as_json
   end
 
-  def self.search(security_token, request_id)
+  def self.search(token, request_id)
     response = FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.screenings_path,
       method: :get
@@ -46,11 +46,11 @@ class ScreeningRepository
     response.body.to_json
   end
 
-  def self.history_of_involvements(security_token, request_id, id)
+  def self.history_of_involvements(token, request_id, id)
     api = FerbAPI
     path = FerbRoutes.screening_history_of_involvements_path(id)
     response = api.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: path,
       method: :get
@@ -58,9 +58,9 @@ class ScreeningRepository
     response.body
   end
 
-  def self.submit(security_token, request_id, id)
+  def self.submit(token, request_id, id)
     response = FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.screening_submit_path(id),
       method: :post,
@@ -69,9 +69,9 @@ class ScreeningRepository
     response.body.as_json
   end
 
-  def self.contact(security_token, request_id, id, contact)
+  def self.contact(token, request_id, id, contact)
     response = FerbAPI.make_api_call(
-      security_token: security_token,
+      token: token,
       request_id: request_id,
       url: FerbRoutes.contacts_path(id),
       method: :post,

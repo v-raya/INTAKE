@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe Api::V1::ScreeningsController do
-  let(:security_token) { 'security_token' }
+  let(:token) { 'token' }
   let(:staff) { FactoryBot.build(:staff, staff_id: '123') }
   let(:session) do
     {
-      'security_token' => security_token,
+      'token' => token,
       'user_details' => staff
     }
   end
@@ -72,7 +72,7 @@ describe Api::V1::ScreeningsController do
     before do
       allow(LUID).to receive(:generate).and_return(['123ABC'])
       expect(ScreeningRepository).to receive(:create)
-        .with(security_token, anything, anything)
+        .with(token, anything, anything)
         .and_return(created_screening)
     end
 
@@ -105,7 +105,7 @@ describe Api::V1::ScreeningsController do
       end
 
       it 'leaves assignee and assignee_staff_id as nil' do
-        session = { 'security_token' => security_token }
+        session = { 'token' => token }
         process :create, method: :post, params: { screening: created_screening }, session: session
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to eq(created_screening.as_json)
@@ -130,7 +130,7 @@ describe Api::V1::ScreeningsController do
 
       it 'is blank if user_details is empty' do
         staff = FactoryBot.build(:staff, first_name: nil, last_name: nil, county: nil)
-        session = { 'security_token' => security_token, 'user_details' => staff }
+        session = { 'token' => token, 'user_details' => staff }
         process :create, method: :post, params: { screening: created_screening }, session: session
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to eq(created_screening.as_json)
@@ -172,7 +172,7 @@ describe Api::V1::ScreeningsController do
 
         it 'formats assignee as first mi. last - county if all exist' do
           session = {
-            'security_token' => security_token,
+            'token' => token,
             'user_details' => staff
           }
           process :create, method: :post, params: { screening: created_screening }, session: session
@@ -200,7 +200,7 @@ describe Api::V1::ScreeningsController do
 
         it 'formats assignee as first last - county if no middle initial' do
           session = {
-            'security_token' => security_token,
+            'token' => token,
             'user_details' => staff
           }
           process :create, method: :post, params: { screening: created_screening }, session: session
@@ -211,10 +211,10 @@ describe Api::V1::ScreeningsController do
         it 'returns the same name if run more than once' do
           # Added second expectation as in the before so both create calls are properly expected
           expect(ScreeningRepository).to receive(:create)
-            .with(security_token, anything, anything)
+            .with(token, anything, anything)
             .and_return(created_screening)
           session = {
-            'security_token' => security_token,
+            'token' => token,
             'user_details' => staff
           }
           process :create, method: :post, params: { screening: created_screening }, session: session
@@ -240,7 +240,7 @@ describe Api::V1::ScreeningsController do
           }
         end
         let(:session) do
-          { 'security_token' => security_token }
+          { 'token' => token }
         end
 
         it 'leaves incident county as nil if user_details is not set' do
@@ -314,7 +314,7 @@ describe Api::V1::ScreeningsController do
 
     before do
       expect(ScreeningRepository).to receive(:find)
-        .with(security_token, anything, '1')
+        .with(token, anything, '1')
         .and_return(screening)
     end
 
@@ -367,7 +367,7 @@ describe Api::V1::ScreeningsController do
 
     before do
       expect(ScreeningRepository).to receive(:update)
-        .with(security_token, anything, anything)
+        .with(token, anything, anything)
         .and_return(updated_screening)
     end
 
@@ -387,7 +387,7 @@ describe Api::V1::ScreeningsController do
       let(:screenings) { double(:screenings, as_json: [{ id: '1' }]) }
       before do
         allow(ScreeningRepository).to receive(:search)
-          .with(security_token, anything)
+          .with(token, anything)
           .and_return(screenings)
       end
 
@@ -404,7 +404,7 @@ describe Api::V1::ScreeningsController do
 
     before do
       expect(ScreeningRepository).to receive(:history_of_involvements)
-        .with(security_token, anything, screening_id)
+        .with(token, anything, screening_id)
         .and_return(involvements)
     end
 
@@ -423,7 +423,7 @@ describe Api::V1::ScreeningsController do
 
     before do
       expect(ScreeningRepository).to receive(:submit)
-        .with(security_token, anything, screening_id)
+        .with(token, anything, screening_id)
         .and_return(submit_response)
     end
 
@@ -441,7 +441,7 @@ describe Api::V1::ScreeningsController do
     end
     before do
       expect(ScreeningRepository).to receive(:contact)
-        .with(security_token, anything, referral_id, id: referral_id)
+        .with(token, anything, referral_id, id: referral_id)
         .and_return(contact_response)
     end
     it 'submits screening contact' do

@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe Api::V1::RelationshipsController do
-  let(:security_token) { 'my_security_token' }
-  let(:session) { { security_token: security_token } }
+  let(:token) { 'my_token' }
+  let(:session) { { token: token } }
 
   let(:expected_json) do
     [
@@ -153,7 +153,7 @@ describe Api::V1::RelationshipsController do
 
     it 'responds with success and return a collections of relationships' do
       allow(RelationshipsRepository).to receive(:create)
-        .with(security_token, anything, anything)
+        .with(token, anything, anything)
         .and_return(created_relationships)
       process :create,
         method: :post,
@@ -167,7 +167,7 @@ describe Api::V1::RelationshipsController do
   describe '#index' do
     it 'fetches relationships for snapshot' do
       expect(RelationshipsRepository).to receive(:search)
-        .with(security_token, anything, client_ids)
+        .with(token, anything, client_ids)
         .and_return(expected_json)
 
       process :index,
@@ -193,7 +193,7 @@ describe Api::V1::RelationshipsController do
 
     it 'fetches relationships for a screening' do
       expect(RelationshipsRepository).to receive(:get_relationships_for_screening_id)
-        .with(security_token, anything, screening_id)
+        .with(token, anything, screening_id)
         .and_return(expected_json_for_screening_id)
 
       process :index,
@@ -253,7 +253,7 @@ describe Api::V1::RelationshipsController do
 
     it 'responds with success and return a relationship' do
       allow(RelationshipsRepository).to receive(:find)
-        .with(security_token, anything, id)
+        .with(token, anything, id)
         .and_return(relationship)
       process :show, method: :get, params: { id: id }, session: session
       expect(response).to be_successful
@@ -273,7 +273,7 @@ describe Api::V1::RelationshipsController do
 
     it 'responds with success and return a relationship' do
       allow(RelationshipsRepository).to receive(:update)
-        .with(security_token, anything, id, anything)
+        .with(token, anything, id, anything)
         .and_return(relationship)
       process :update,
         method: :put,

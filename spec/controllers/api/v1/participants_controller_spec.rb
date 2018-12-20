@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe Api::V1::ParticipantsController do
-  let(:security_token) { 'security_token' }
+  let(:token) { 'token' }
   let(:session) do
-    { security_token => security_token }
+    { token => token }
   end
 
   describe '#create' do
@@ -64,7 +64,7 @@ describe Api::V1::ParticipantsController do
 
     it 'should render a participant as json' do
       expect(ParticipantRepository).to receive(:create)
-        .with(security_token, anything, participant_params)
+        .with(token, anything, participant_params)
         .and_return(created_participant)
 
       process :create,
@@ -77,7 +77,7 @@ describe Api::V1::ParticipantsController do
 
     it 'should return an error if unauthorized' do
       expect(ParticipantRepository).to receive(:create)
-        .with(security_token, anything, participant_params)
+        .with(token, anything, participant_params)
         .and_raise(ParticipantRepository::AuthorizationError)
 
       post :create, params: { participant: participant_params }, session: session
@@ -113,7 +113,7 @@ describe Api::V1::ParticipantsController do
 
     it 'updates and renders participant as json' do
       expect(ParticipantRepository).to receive(:update)
-        .with(security_token, anything, participant_params)
+        .with(token, anything, participant_params)
         .and_return(updated_participant)
       process :update, method: :put, params: params, session: session
       expect(response).to be_successful
@@ -126,7 +126,7 @@ describe Api::V1::ParticipantsController do
     let(:screening_id) { '1' }
     before do
       expect(ParticipantRepository).to receive(:delete)
-        .with(security_token, anything, participant_id, screening_id)
+        .with(token, anything, participant_id, screening_id)
         .and_return('')
     end
 
