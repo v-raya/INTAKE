@@ -1,4 +1,19 @@
 GIT
+  remote: https://github.com/ca-cwds/capybara-accessible.git
+  revision: f146be5939fca1c14a75edc066d7b1b8497f68c5
+  ref: f146be5939fca1c14a75edc066d7b1b8497f68c5
+  specs:
+    capybara-accessible (0.2.1)
+      capybara (= 3.6.0)
+
+GIT
+  remote: https://github.com/ca-cwds/cwds_store.git
+  revision: e6ded3e89dc82101438b5b1d3eae113bec56231d
+  specs:
+    cwds_store (0.1.5)
+      redis-rails (~> 5.0)
+
+GIT
   remote: https://github.com/ca-cwds/system_information.git
   revision: a0471af10e6ffc3469b07b49d687b261b429ce33
   specs:
@@ -6,14 +21,6 @@ GIT
       faraday (>= 0.9)
       rack (>= 2)
       redis (>= 4)
-
-GIT
-  remote: https://github.com/ca-cwds/capybara-accessible.git
-  revision: f146be5939fca1c14a75edc066d7b1b8497f68c5
-  ref: f146be5939fca1c14a75edc066d7b1b8497f68c5
-  specs:
-    capybara-accessible (0.2.1)
-      capybara (= 3.6.0)
 
 GIT
   remote: https://github.com/jordansissel/fpm.git
@@ -294,7 +301,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    redis (4.0.3)
+    redis (4.1.0)
     redis-actionpack (5.0.2)
       actionpack (>= 4.0, < 6)
       redis-rack (>= 1, < 3)
@@ -302,7 +309,7 @@ GEM
     redis-activesupport (5.0.7)
       activesupport (>= 3, < 6)
       redis-store (>= 1.3, < 2)
-    redis-rack (2.0.4)
+    redis-rack (2.0.5)
       rack (>= 1.5, < 3)
       redis-store (>= 1.2, < 2)
     redis-rails (5.0.2)
@@ -427,6 +434,7 @@ DEPENDENCIES
   capybara-accessible!
   capybara-screenshot
   chromedriver-helper (= 1.2.0)
+  cwds_store!
   factory_bot_rails
   faker
   faraday
@@ -456,7 +464,6 @@ DEPENDENCIES
   puma
   rails (~> 5.2.1.1)
   rails-controller-testing
-  redis-rails (~> 5.0.2)
   responders
   rspec-rails (~> 3.4)
   rspec_junit_formatter
