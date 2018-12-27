@@ -1,4 +1,5 @@
-{
+const pkg = require('./package.json')
+module.exports = {
   "rules": {
     "array-bracket-spacing": [2, "never"],
     "babel/no-invalid-this": 1,
@@ -92,5 +93,10 @@
     "standard",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended"
-  ]
+  ],
+  settings: {
+    react: {
+      version: (pkg.devDependencies && pkg.devDependencies.react) || '^16.4',
+    },
+  },
 }
