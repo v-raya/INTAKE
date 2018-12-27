@@ -28,17 +28,4 @@ describe('address', () => {
     const component = shallow(<AddressInfo {...props} />, {disableLifecycleMethods: true})
     expect(component.html()).toContain('<div><i class="fa fa-map-marker c-gray half-pad-right"></i><span>NM 11344</span></div>')
   })
-
-  it('rendered partial address correctly when streetAddress is empty string with space', () => {
-    const props = {
-      id: '1',
-      streetAddress: ' ',
-      city: null,
-      state: 'NM',
-      zip: '11344',
-      type: null,
-    }
-    const component = shallow(<AddressInfo {...props} />, {disableLifecycleMethods: true})
-    expect(component.html()).toContain('<div><i class="fa fa-map-marker c-gray half-pad-right"></i><span>NM 11344</span></div>')
-  })
 })
