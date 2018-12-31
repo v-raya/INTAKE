@@ -7,7 +7,7 @@ describe Api::V1::UserController do
   let(:staff) { FactoryBot.build(:staff, staff_id: '123') }
   let(:session) do
     {
-      'user_details' => staff
+      'intake_user_details' => staff
     }
   end
 

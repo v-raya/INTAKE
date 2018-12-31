@@ -21,12 +21,12 @@ module Api
       private
 
       def add_sensitive_people?(permission)
-        privileges = session[:user_details]['privileges']
+        privileges = session_user_details['privileges']
         permission == :add_sensitive_people && privileges.include?('Sensitive Persons')
       end
 
       def state_override?(permission)
-        privileges = session[:user_details]['privileges']
+        privileges = session_user_details['privileges']
         permission == :has_state_override && (
           privileges.include?('Statewide Read') ||
           privileges.include?('State Read Assignment')
@@ -35,8 +35,8 @@ module Api
 
       def permissions_set?(permission)
         permission.blank? ||
-          session[:user_details].blank? ||
-          session[:user_details]['privileges'].blank?
+          session_user_details.blank? ||
+          session_user_details['privileges'].blank?
       end
     end
   end

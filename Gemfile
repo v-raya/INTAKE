@@ -2,6 +2,11 @@
 
 source 'https://rubygems.org'
 
+git_source(:github) do |repo_name|
+  "https://github.com/#{repo_name}.git"
+end
+
+gem 'cwds_store', github: 'ca-cwds/cwds_store'
 gem 'faraday'
 gem 'faraday_middleware'
 gem 'feature'
@@ -15,7 +20,6 @@ gem 'newrelic_rpm'
 gem 'nokogiri', '~> 1.8.1'
 gem 'puma'
 gem 'rails', '~> 5.2.1.1'
-gem 'redis-rails', '~> 5.0.2'
 gem 'responders'
 gem 'sprockets', '~>3.7.2'
 gem 'system_information', github: 'ca-cwds/system_information'

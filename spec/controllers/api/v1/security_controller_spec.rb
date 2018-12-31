@@ -10,7 +10,7 @@ describe Api::V1::SecurityController do
       let(:session) do
         {
           token: token,
-          user_details: {
+          intake_user_details: {
           }
         }
       end
@@ -29,7 +29,7 @@ describe Api::V1::SecurityController do
       let(:session) do
         {
           token: token,
-          user_details: {
+          intake_user_details: {
             'privileges' => ['Sensitive Persons']
           }
         }
@@ -49,7 +49,7 @@ describe Api::V1::SecurityController do
       let(:session) do
         {
           token: token,
-          user_details: {
+          intake_user_details: {
             'privileges' => []
           }
         }
@@ -70,7 +70,7 @@ describe Api::V1::SecurityController do
     let(:session) do
       {
         token: token,
-        user_details: {
+        intake_user_details: {
           'privileges' => ['Sensitive Persons', 'Statewide Read']
         }
       }
@@ -90,7 +90,7 @@ describe Api::V1::SecurityController do
     let(:session) do
       {
         token: token,
-        user_details: {
+        intake_user_details: {
           'privileges' => ['Sensitive Persons', 'Sealed']
         }
       }
@@ -110,7 +110,7 @@ describe Api::V1::SecurityController do
     let(:session) do
       {
         token: token,
-        user_details: {
+        intake_user_details: {
           'privileges' => ['Sensitive Persons', 'Countywide Read']
         }
       }

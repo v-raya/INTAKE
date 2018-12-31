@@ -20,13 +20,13 @@ describe HomeController do
     before do
       allow(SecurityRepository).to receive(:logout_url).and_return('http://www.logouturl.com')
       @request.session[:token] = 'my_secure_token'
-      @request.session[:user_details] = { first_name: 'Bob' }
+      @request.session[:intake_user_details] = { first_name: 'Bob' }
     end
 
     it 'clears the session for the current user and returns them to the application' do
       process :logout, method: :get
       expect(session[:token]).to be_nil
-      expect(session[:user_details]).to be_nil
+      expect(session[:intake_user_details]).to be_nil
       expect(response).to render_template('index')
     end
   end

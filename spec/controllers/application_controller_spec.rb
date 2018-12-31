@@ -53,7 +53,8 @@ describe ApplicationController do
       context 'when already authenticated' do
         context 'when no new token is provided' do
           let(:new_auth_artifact) do
-            { 'user' => 'user1', 'roles' => %w[role3 role4], 'staffId' => 'def' }
+            { 'user' => 'user1', 'roles' => %w[role3 role4], 'staffId' => 'def',
+              'privileges' => nil }
           end
 
           it 'when session user_details present, it does nothing ' do
@@ -61,7 +62,7 @@ describe ApplicationController do
               method: :get,
               session: {
                 token: 'my_secure_token',
-                user_details: new_auth_artifact
+                intake_user_details: new_auth_artifact
               }
             expect(response).to be_successful
             expect(session[:token]).to eq('my_secure_token')
@@ -79,11 +80,11 @@ describe ApplicationController do
               method: :get,
               session: {
                 token: 'my_secure_token',
-                user_details: nil
+                intake_user_details: nil
               }
             expect(response).to be_successful
             expect(session[:token]).to eq('my_secure_token')
-            expect(session[:user_details]).to eq(new_auth_artifact)
+            expect(session[:intake_user_details]).to eq(new_auth_artifact)
           end
         end
 
@@ -94,7 +95,7 @@ describe ApplicationController do
             { 'user' => 'user1', 'roles' => %w[role3 role4], 'staffId' => 'def' }
           end
           let(:new_user_details) do
-            { 'first_name' => 'Red', 'last_name' => 'Baron' }
+            { 'first_name' => 'Red', 'last_name' => 'Baron', 'privileges' => nil }
           end
           before do
             expect(SecurityRepository).to receive(:auth_artifact_for_token)
@@ -115,7 +116,7 @@ describe ApplicationController do
               params: { accessCode: new_access_code, token: new_token }
 
             expect(session[:token]).to eq(new_token)
-            expect(session[:user_details]).to eq(new_user_details)
+            expect(session[:intake_user_details]).to eq(new_user_details)
           end
         end
       end
@@ -223,7 +224,7 @@ describe ApplicationController do
               accessCode: access_code, token: token
             }
             expect(session[:token]).to eq token
-            expect(session[:user_details]).to eq user_details
+            expect(session[:intake_user_details]).to eq user_details
           end
 
           context 'when staff repository throws error' do
@@ -237,7 +238,7 @@ describe ApplicationController do
                 accessCode: access_code, token: token
               }
               expect(session[:token]).to eq token
-              expect(session[:user_details]).to eq user_details
+              expect(session[:intake_user_details]).to eq user_details
             end
           end
         end
@@ -246,13 +247,13 @@ describe ApplicationController do
       context 'when a user logs out' do
         before do
           @request.session[:token] = 'my_secure_token'
-          @request.session[:user_details] = { first_name: 'Bob' }
+          @request.session[:intake_user_details] = { first_name: 'Bob' }
         end
 
         it 'clears all information from the session ' do
           process :custom_logout, method: :get
           expect(session[:token]).to be_nil
-          expect(session[:user_details]).to be_nil
+          expect(session[:intake_user_details]).to be_nil
         end
       end
     end

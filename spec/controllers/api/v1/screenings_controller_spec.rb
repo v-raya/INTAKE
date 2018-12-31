@@ -8,7 +8,7 @@ describe Api::V1::ScreeningsController do
   let(:session) do
     {
       'token' => token,
-      'user_details' => staff
+      'intake_user_details' => staff
     }
   end
 
@@ -130,7 +130,7 @@ describe Api::V1::ScreeningsController do
 
       it 'is blank if user_details is empty' do
         staff = FactoryBot.build(:staff, first_name: nil, last_name: nil, county: nil)
-        session = { 'token' => token, 'user_details' => staff }
+        session = { 'token' => token, 'intake_user_details' => staff }
         process :create, method: :post, params: { screening: created_screening }, session: session
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to eq(created_screening.as_json)
@@ -173,7 +173,7 @@ describe Api::V1::ScreeningsController do
         it 'formats assignee as first mi. last - county if all exist' do
           session = {
             'token' => token,
-            'user_details' => staff
+            'intake_user_details' => staff
           }
           process :create, method: :post, params: { screening: created_screening }, session: session
           expect(response).to be_successful
@@ -201,7 +201,7 @@ describe Api::V1::ScreeningsController do
         it 'formats assignee as first last - county if no middle initial' do
           session = {
             'token' => token,
-            'user_details' => staff
+            'intake_user_details' => staff
           }
           process :create, method: :post, params: { screening: created_screening }, session: session
           expect(response).to be_successful
@@ -215,7 +215,7 @@ describe Api::V1::ScreeningsController do
             .and_return(created_screening)
           session = {
             'token' => token,
-            'user_details' => staff
+            'intake_user_details' => staff
           }
           process :create, method: :post, params: { screening: created_screening }, session: session
           process :create, method: :post, params: { screening: created_screening }, session: session
