@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'Person Information Validations' do
+feature 'Person Information Validations', inaccessible: true do
   let(:screening) do
     {
       id: '1',

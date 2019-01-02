@@ -66,4 +66,8 @@ RSpec.configure do |config|
     example.run
     WebMock.allow_net_connect!
   end
+
+  config.around(:each, inaccessible: true) do |example|
+    Capybara::Accessible.skip_audit { example.run }
+  end
 end
