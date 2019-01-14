@@ -94,9 +94,8 @@ node('intake-slave') {
           [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: VERSION]
         ]
       }
-    }
 
-      stage('Trigger Release Pipeline') {
+      stage('Deploy Preint') {
         withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
           sh "curl -v -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
             "?token=${JENKINS_TRIGGER_TOKEN}" +
@@ -106,6 +105,7 @@ node('intake-slave') {
         pipelineStatus = 'SUCCEEDED'
         currentBuild.result = 'SUCCESS'
       }
+    }
 
     stage ('Reports') {
       step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
