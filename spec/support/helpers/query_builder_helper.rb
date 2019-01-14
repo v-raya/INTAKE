@@ -28,6 +28,7 @@ module QueryBuilderHelper
       'last_name',
       'name_suffix',
       'gender',
+      'akas',
       'date_of_birth',
       'date_of_death',
       'ssn',

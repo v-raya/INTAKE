@@ -56,7 +56,7 @@ class QueryBuilder
   end
 
   def fields
-    %w[id legacy_source_table first_name middle_name last_name name_suffix gender
+    %w[id legacy_source_table first_name middle_name last_name name_suffix gender akas
        date_of_birth date_of_death ssn languages races ethnicity client_counties
        addresses.id addresses.effective_start_date addresses.street_name addresses.street_number
        addresses.city addresses.county addresses.state_code addresses.zip addresses.type
