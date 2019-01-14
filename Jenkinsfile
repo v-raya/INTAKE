@@ -88,7 +88,15 @@ node('intake-slave') {
         }
       }
 
-      stage('Deploy Preint') {
+      stage('Trigger Security scan') {
+        build job: 'tenable-scan', parameters: [
+          [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'intake'],
+          [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: VERSION]
+        ]
+      }
+    }
+
+      stage('Trigger Release Pipeline') {
         withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
           sh "curl -v -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/intake-app-pipeline/buildWithParameters" +
             "?token=${JENKINS_TRIGGER_TOKEN}" +
@@ -98,14 +106,6 @@ node('intake-slave') {
         pipelineStatus = 'SUCCEEDED'
         currentBuild.result = 'SUCCESS'
       }
-
-      stage('Trigger Security scan') {
-        build job: 'tenable-scan', parameters: [
-          [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'intake'],
-          [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: VERSION]
-        ]
-      }
-    }
 
     stage ('Reports') {
       step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
